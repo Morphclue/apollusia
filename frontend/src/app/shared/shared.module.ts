@@ -1,9 +1,9 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
+import {RouterModule} from "@angular/router";
+import {NgbCollapseModule} from "@ng-bootstrap/ng-bootstrap";
 
-import {SharedRoutingModule} from './shared-routing.module';
 import {NavbarComponent} from './navbar/navbar.component';
-
 
 @NgModule({
   declarations: [
@@ -11,9 +11,11 @@ import {NavbarComponent} from './navbar/navbar.component';
   ],
   imports: [
     CommonModule,
-    SharedRoutingModule,
+    NgbCollapseModule,
+    RouterModule,
   ],
   exports: [
+    RouterModule,
     NavbarComponent,
   ],
 })

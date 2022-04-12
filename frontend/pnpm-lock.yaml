@@ -28,6 +28,7 @@ specifiers:
   '@typescript-eslint/eslint-plugin': 5.3.0
   '@typescript-eslint/parser': 5.3.0
   bootstrap: ^5.1.3
+  bootstrap-icons: ^1.8.1
   eslint: ^8.13.0
   eslint-plugin-import: 2.25.2
   eslint-plugin-jsdoc: ^39.1.0
@@ -60,6 +61,7 @@ dependencies:
   '@ng-bootstrap/ng-bootstrap': 12.0.2_0bdb6e3dc394991eac1ac21df8c2dc43
   '@popperjs/core': 2.11.5
   bootstrap: 5.1.3_@popperjs+core@2.11.5
+  bootstrap-icons: 1.8.1
   rxjs: 6.6.7
   tslib: 2.3.1
   zone.js: 0.11.5
@@ -3216,6 +3218,11 @@ packages:
   /boolbase/1.0.0:
     resolution: {integrity: sha1-aN/1++YMUes3cl6p4+0xDcwed24=}
     dev: true
+
+  /bootstrap-icons/1.8.1:
+    resolution: {integrity: sha512-IXUqislddPJfwq6H+2nTkHyr9epO9h6u1AG0OZCx616w+TgzeoCjfmI3qJMQqt1J586gN2IxzB4M99Ip4sTZ1w==}
+    engines: {node: '>=10'}
+    dev: false
 
   /bootstrap/5.1.3_@popperjs+core@2.11.5:
     resolution: {integrity: sha512-fcQztozJ8jToQWXxVuEyXWW+dSo8AiXWKwiSSrKWsRB/Qt+Ewwza+JWoLKiTuQLaEPhdNAJ7+Dosc9DOIqNy7Q==}

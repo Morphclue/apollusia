@@ -1,16 +1,25 @@
 <nav class="navbar navbar-dark navbar-expand-lg">
   <div class="container">
-    <div class="navbar-brand">
-      <h1>Apollusia</h1>
-    </div>
+    <div class="navbar-brand" routerLink="/">Apollusia</div>
   </div>
-  <div id="nav-column" class="collapse navbar-collapse">
+
+  <button class="navbar-toggler" type="button" (click)="menuCollapsed = !menuCollapsed">
+    <i class="bi-list icon"></i>
+  </button>
+
+  <div [ngbCollapse]="menuCollapsed" class="collapse navbar-collapse">
     <ul class="navbar-nav mx-auto">
       <li class="nav-item">
-        <a class="nav-link">Dashboard</a>
+        <a class="nav-link" routerLinkActive="active" routerLink="/dashboard">Dashboard</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link">Dummy</a>
+        <!-- TODO add routerLink-->
+        <a class="nav-link">Todo</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="https://github.com/Morphclue/apollusia" target="_blank">
+          <i class="bi-github icon" title="GitHub"></i>
+        </a>
       </li>
     </ul>
   </div>
