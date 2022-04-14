@@ -1,10 +1,10 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 
-import {DashboardComponent} from './dashboard/dashboard.component';
+import {CreatePollComponent} from "./create-poll/create-poll.component";
 
 const routes: Routes = [
-  {path: '', component: DashboardComponent},
+  {path: '', component: CreatePollComponent},
   {path: '**', pathMatch: 'full', redirectTo: ''},
 ];
 
@@ -12,5 +12,5 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class DashboardRoutingModule {
+export class PollRoutingModule {
 }
