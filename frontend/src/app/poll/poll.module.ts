@@ -1,15 +1,15 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { CreatePollComponent } from './create-poll/create-poll.component';
-
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {CreatePollComponent} from './create-poll/create-poll.component';
 
 
 @NgModule({
   declarations: [
-    CreatePollComponent
+    CreatePollComponent,
   ],
   imports: [
-    CommonModule
-  ]
+    CommonModule,
+  ],
 })
-export class PollModule { }
+export class PollModule {
+}
