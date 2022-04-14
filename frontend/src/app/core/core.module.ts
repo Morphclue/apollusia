@@ -19,5 +19,5 @@ import {NavbarComponent} from './navbar/navbar.component';
     NavbarComponent,
   ],
 })
-export class SharedModule {
+export class CoreModule {
 }
