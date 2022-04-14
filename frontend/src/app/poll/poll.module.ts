@@ -1,10 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { CreatePollComponent } from './create-poll/create-poll.component';
 
 
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    CreatePollComponent
+  ],
   imports: [
     CommonModule
   ]
