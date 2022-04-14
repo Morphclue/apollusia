@@ -1,4 +1,4 @@
-<nav class="navbar navbar-dark navbar-expand-lg">
+<nav class="navbar navbar-dark navbar-expand-lg bg-secondary">
   <div class="container">
     <a class="navbar-brand" routerLink="/">Apollusia</a>
   </div>
@@ -9,6 +9,12 @@
 
   <div [ngbCollapse]="menuCollapsed" class="collapse navbar-collapse">
     <ul class="navbar-nav mx-auto">
+      <li>
+        <button class="btn btn-primary" type="button" (click)="createPoll()">
+          <i class="bi-plus icon"></i>
+          Create Poll
+        </button>
+      </li>
       <li class="nav-item">
         <a class="nav-link" routerLinkActive="active" routerLink="/dashboard">Dashboard</a>
       </li>
