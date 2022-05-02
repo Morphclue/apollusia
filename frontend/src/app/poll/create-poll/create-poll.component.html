@@ -10,6 +10,14 @@
         <input class="form-control" type="text" id="description"
                placeholder="You can add additional descriptions about the event here" formControlName="description">
       </div>
+      <div class="form-group mb-3">
+        <label for="deadline">Deadline (optional)</label>
+        <div class="d-flex">
+          <input class="form-control" placeholder="yyyy-mm-dd"
+                 id="deadline" ngbDatepicker #d="ngbDatepicker" [minDate]="minDate">
+          <button class="btn btn-outline-secondary bi-calendar-date" (click)="d.toggle()" type="button"></button>
+        </div>
+      </div>
       <button class="btn btn-primary" type="submit" [disabled]="!pollForm.valid">Create</button>
     </form>
   </div>
