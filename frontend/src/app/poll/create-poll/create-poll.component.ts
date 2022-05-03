@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {NgbDateStruct} from "@ng-bootstrap/ng-bootstrap";
+import {HttpClient} from "@angular/common/http";
+import {environment} from "../../../environments/environment";
 
 @Component({
   selector: 'app-create-poll',
@@ -8,6 +10,11 @@ import {NgbDateStruct} from "@ng-bootstrap/ng-bootstrap";
   styleUrls: ['./create-poll.component.scss'],
 })
 export class CreatePollComponent implements OnInit {
+
+  constructor(
+    private http: HttpClient,
+  ) {
+  }
 
   pollForm = new FormGroup({
     title: new FormControl('', Validators.required),
@@ -21,14 +28,13 @@ export class CreatePollComponent implements OnInit {
     day: new Date().getDate(),
   };
 
-  constructor() {
-  }
 
   ngOnInit(): void {
   }
 
   onFormSubmit(): void {
-    const value = this.pollForm.get('title')!.value;
-    console.log(value);
+    this.http.post(`${environment.backendURL}/poll`, this.pollForm.value).subscribe(() => {
+      // TODO: toast
+    });
   }
 }
