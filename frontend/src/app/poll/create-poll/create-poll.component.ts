@@ -12,7 +12,7 @@ export class CreatePollComponent implements OnInit {
   pollForm = new FormGroup({
     title: new FormControl('', Validators.required),
     description: new FormControl(''),
-    deadline: new FormControl(''),
+    deadline: new FormControl(null),
   });
 
   minDate: NgbDateStruct = {
