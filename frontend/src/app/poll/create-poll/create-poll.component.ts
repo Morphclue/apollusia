@@ -13,13 +13,13 @@ export class CreatePollComponent implements OnInit {
     title: new FormControl('', Validators.required),
     description: new FormControl(''),
     deadline: new FormControl(''),
-  })
+  });
 
   minDate: NgbDateStruct = {
     year: new Date().getFullYear(),
     month: new Date().getMonth() + 1,
     day: new Date().getDate(),
-  }
+  };
 
   constructor() {
   }
@@ -27,7 +27,7 @@ export class CreatePollComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  onFormSubmit() {
+  onFormSubmit(): void {
     const value = this.pollForm.get('title')!.value;
     console.log(value);
   }
