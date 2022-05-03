@@ -13,7 +13,7 @@
       <div class="form-group mb-3">
         <label for="deadline">Deadline (optional)</label>
         <div class="d-flex">
-          <input class="form-control" placeholder="yyyy-mm-dd"
+          <input readonly class="form-control" placeholder="yyyy-mm-dd"
                  id="deadline" ngbDatepicker #d="ngbDatepicker" [minDate]="minDate" formControlName="deadline">
           <button class="btn btn-outline-secondary bi-calendar-date" (click)="d.toggle()" type="button"></button>
         </div>
