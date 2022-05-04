@@ -15,8 +15,6 @@ export class AppController {
 
     @Post('poll')
     async postPoll(@Body() pollDto: PollDto) {
-        // TODO: implement logic
-        console.log(pollDto);
-        return 'this needs to be implemented';
+        return this.appService.postPoll(pollDto);
     }
 }

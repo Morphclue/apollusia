@@ -33,8 +33,9 @@ export class CreatePollComponent implements OnInit {
   }
 
   onFormSubmit(): void {
-    this.http.post(`${environment.backendURL}/poll`, this.pollForm.value).subscribe(() => {
-      // TODO: toast
+    this.http.post(`${environment.backendURL}/poll`, {data: this.pollForm.value}).subscribe(data => {
+      // TODO: add logic
+      console.log(data);
     });
   }
 }
