@@ -1,4 +1,4 @@
-import {Body, Controller, Get, Post} from '@nestjs/common';
+import {Body, Controller, Get, Param, Post} from '@nestjs/common';
 
 import {AppService} from './app.service';
 import {PollDto} from "./dto/poll.dto";
@@ -13,8 +13,18 @@ export class AppController {
         return this.appService.getHello();
     }
 
+    @Get('polls')
+    getPolls(): PollDto[] {
+        return this.appService.getPolls();
+    }
+
+    @Get('polls/:id')
+    getPoll(@Param('id') id: string): PollDto {
+        return this.appService.getPoll(id);
+    }
+
     @Post('poll')
-    async postPoll(@Body() pollDto: PollDto) {
+    postPoll(@Body() pollDto: PollDto) {
         return this.appService.postPoll(pollDto);
     }
 }

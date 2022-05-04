@@ -13,4 +13,12 @@ export class AppService {
         // TODO: implement logic
         return {uuid: uuidv4()};
     }
+
+    getPolls() {
+        return [{title: 'dummy1'}, {title: 'dummy2'}];
+    }
+
+    getPoll(id: string) {
+        return {title: 'dummy'};
+    }
 }

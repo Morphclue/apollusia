@@ -3,6 +3,7 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {NgbDateStruct} from "@ng-bootstrap/ng-bootstrap";
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../environments/environment";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-create-poll',
@@ -13,6 +14,7 @@ export class CreatePollComponent implements OnInit {
 
   constructor(
     private http: HttpClient,
+    private router: Router,
   ) {
   }
 
@@ -28,14 +30,14 @@ export class CreatePollComponent implements OnInit {
     day: new Date().getDate(),
   };
 
-
   ngOnInit(): void {
   }
 
   onFormSubmit(): void {
-    this.http.post(`${environment.backendURL}/poll`, {data: this.pollForm.value}).subscribe(data => {
-      // TODO: add logic
-      console.log(data);
+    this.http.post(`${environment.backendURL}/poll`, {data: this.pollForm.value}).subscribe(() => {
+      this.router.navigate(['dashboard']).then(
+        // TODO: fallback logic
+      );
     });
   }
 }
