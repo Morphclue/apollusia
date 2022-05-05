@@ -1,6 +1,6 @@
 import {Injectable} from '@nestjs/common';
-
 import {v4 as uuidv4} from 'uuid';
+
 import {PollDto} from "./dto/poll.dto";
 
 @Injectable()
@@ -14,11 +14,11 @@ export class AppService {
         return {uuid: uuidv4()};
     }
 
-    getPolls() {
+    getPolls(): PollDto[] {
         return [{title: 'dummy1'}, {title: 'dummy2'}];
     }
 
-    getPoll(id: string) {
+    getPoll(id: string): PollDto {
         return {title: 'dummy'};
     }
 }

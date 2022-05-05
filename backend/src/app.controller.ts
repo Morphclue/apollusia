@@ -13,12 +13,12 @@ export class AppController {
         return this.appService.getHello();
     }
 
-    @Get('polls')
+    @Get('poll')
     getPolls(): PollDto[] {
         return this.appService.getPolls();
     }
 
-    @Get('polls/:id')
+    @Get('poll/:id')
     getPoll(@Param('id') id: string): PollDto {
         return this.appService.getPoll(id);
     }

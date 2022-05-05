@@ -2,8 +2,9 @@ import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {NgbDateStruct} from "@ng-bootstrap/ng-bootstrap";
 import {HttpClient} from "@angular/common/http";
-import {environment} from "../../../environments/environment";
 import {Router} from "@angular/router";
+
+import {environment} from "../../../environments/environment";
 
 @Component({
   selector: 'app-create-poll',
