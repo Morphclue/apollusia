@@ -16,16 +16,24 @@ export class AppService {
         return 'Hello World!';
     }
 
-    async postPoll(pollDto: PollDto): Promise<Poll> {
-        const createdPoll = new this.pollModel(pollDto);
-        return createdPoll.save();
-    }
-
     async getPolls(): Promise<Poll[]> {
         return this.pollModel.find().exec();
     }
 
     async getPoll(id: string): Promise<Poll> {
-        return this.pollModel.findOne({_id: id});
+        return this.pollModel.findById(id).exec();
+    }
+
+    async postPoll(pollDto: PollDto): Promise<Poll> {
+        const createdPoll = new this.pollModel(pollDto);
+        return createdPoll.save();
+    }
+
+    async putPoll(pollDto: PollDto): Promise<Poll> {
+        return this.pollModel.findByIdAndUpdate(pollDto.id, pollDto).exec();
+    }
+
+    async deletePoll(id: string): Promise<Poll | undefined> {
+        return this.pollModel.findByIdAndDelete(id).exec();
     }
 }
