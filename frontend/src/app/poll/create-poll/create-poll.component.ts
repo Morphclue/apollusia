@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {NgbDateStruct} from "@ng-bootstrap/ng-bootstrap";
-import {HttpClient} from "@angular/common/http";
-import {Router} from "@angular/router";
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {NgbDateStruct} from '@ng-bootstrap/ng-bootstrap';
+import {HttpClient} from '@angular/common/http';
+import {Router} from '@angular/router';
 
-import {environment} from "../../../environments/environment";
+import {environment} from '../../../environments/environment';
 
 @Component({
   selector: 'app-create-poll',
@@ -35,7 +35,7 @@ export class CreatePollComponent implements OnInit {
   }
 
   onFormSubmit(): void {
-    this.http.post(`${environment.backendURL}/poll`, {data: this.pollForm.value}).subscribe(() => {
+    this.http.post(`${environment.backendURL}/poll`, this.pollForm.value).subscribe(() => {
       this.router.navigate(['dashboard']).then(
         // TODO: fallback logic
       );

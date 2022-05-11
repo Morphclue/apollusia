@@ -1,24 +1,31 @@
 import {Injectable} from '@nestjs/common';
-import {v4 as uuidv4} from 'uuid';
+import {InjectModel} from '@nestjs/mongoose';
+import {Model} from 'mongoose';
 
-import {PollDto} from "./dto/poll.dto";
+import {PollDto} from './dto/poll.dto';
+import {Poll} from './schema/poll.schema';
 
 @Injectable()
 export class AppService {
+    constructor(
+        @InjectModel(Poll.name) private pollModel: Model<Poll>,
+    ) {
+    }
+
     getHello(): string {
         return 'Hello World!';
     }
 
-    postPoll(pollDto: PollDto) {
-        // TODO: implement logic
-        return {uuid: uuidv4()};
+    async postPoll(pollDto: PollDto): Promise<Poll> {
+        const createdPoll = new this.pollModel(pollDto);
+        return createdPoll.save();
     }
 
-    getPolls(): PollDto[] {
-        return [{title: 'dummy1'}, {title: 'dummy2'}];
+    async getPolls(): Promise<Poll[]> {
+        return this.pollModel.find().exec();
     }
 
-    getPoll(id: string): PollDto {
-        return {title: 'dummy'};
+    async getPoll(id: string): Promise<Poll> {
+        return this.pollModel.findOne({_id: id});
     }
 }

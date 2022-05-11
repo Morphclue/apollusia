@@ -2,6 +2,7 @@ import {Body, Controller, Get, Param, Post} from '@nestjs/common';
 
 import {AppService} from './app.service';
 import {PollDto} from "./dto/poll.dto";
+import {Poll} from './schema/poll.schema';
 
 @Controller()
 export class AppController {
@@ -14,17 +15,17 @@ export class AppController {
     }
 
     @Get('poll')
-    getPolls(): PollDto[] {
+    getPolls(): Promise<Poll[]> {
         return this.appService.getPolls();
     }
 
     @Get('poll/:id')
-    getPoll(@Param('id') id: string): PollDto {
+    getPoll(@Param('id') id: string): Promise<Poll> {
         return this.appService.getPoll(id);
     }
 
     @Post('poll')
-    postPoll(@Body() pollDto: PollDto) {
+    postPoll(@Body() pollDto: PollDto): Promise<Poll> {
         return this.appService.postPoll(pollDto);
     }
 }

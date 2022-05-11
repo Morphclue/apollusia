@@ -1,6 +1,8 @@
+import {NgbDateStruct} from '@ng-bootstrap/ng-bootstrap';
+
 export interface PollDto {
     title: string;
     description?: string;
-    deadline?: any;
+    deadline?: NgbDateStruct;
     id?: string;
 }
