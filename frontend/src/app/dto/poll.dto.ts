@@ -4,5 +4,5 @@ export interface PollDto {
     title: string;
     description?: string;
     deadline?: NgbDateStruct;
-    id?: string;
+    _id?: string;
 }
