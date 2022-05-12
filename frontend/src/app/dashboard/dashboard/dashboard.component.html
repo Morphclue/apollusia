@@ -1,5 +1,8 @@
-<p>dashboard works!</p>
-<h3>My polls</h3>
-<ul>
-  <li *ngFor="let element of (polls || [])">{{element.title}}</li>
-</ul>
+<div class="container">
+  <h3>My polls</h3>
+  <div class="d-flex flex-column">
+    <div *ngFor="let element of (polls || [])">
+      <app-card [pollDto]="element"></app-card>
+    </div>
+  </div>
+</div>

@@ -4,10 +4,14 @@ import {HttpClientModule} from "@angular/common/http";
 
 import {DashboardRoutingModule} from './dashboard-routing.module';
 import {DashboardComponent} from './dashboard/dashboard.component';
+import {CardComponent} from './card/card.component';
 
 
 @NgModule({
-  declarations: [DashboardComponent],
+  declarations: [
+    DashboardComponent,
+    CardComponent,
+  ],
   imports: [
     CommonModule,
     DashboardRoutingModule,

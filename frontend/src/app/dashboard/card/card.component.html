@@ -1,0 +1,28 @@
+<div *ngIf="pollDto !== undefined">
+  <div class="col-lg-6">
+    <div class="card card-margin">
+      <div class="card-header">
+      </div>
+      <div class="card-body pt-0">
+        <div class="title">
+          <div class="date-symbol">
+            <span class="date-day">09</span>
+            <span class="date-month">apr</span>
+          </div>
+          <div class="info">
+            <span class="info-title">{{pollDto.title}}</span>
+            <span class="meeting-date">
+              <div *ngIf="pollDto.deadline !==undefined">
+                {{pollDto.deadline.year}}-{{pollDto.deadline.month}}-{{pollDto.deadline.day}}
+              </div>
+            </span>
+          </div>
+        </div>
+        <span class="description">{{pollDto.description}}</span>
+        <div class="edit-button">
+          <a href="#" class="btn btn-sm btn-flash-border-primary">View All</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
