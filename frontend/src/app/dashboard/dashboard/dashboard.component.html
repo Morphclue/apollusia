@@ -2,7 +2,7 @@
   <h3>My polls</h3>
   <div class="d-flex flex-column">
     <div *ngFor="let element of (polls || [])">
-      <app-card [pollDto]="element"></app-card>
+      <app-card [poll]="element"></app-card>
     </div>
   </div>
 </div>

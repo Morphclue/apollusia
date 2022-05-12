@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
+
 import {environment} from '../../../environments/environment';
-import {PollDto} from '../../dto/poll.dto';
+import {Poll} from '../../model/poll';
 
 @Component({
   selector: 'app-dashboard',
@@ -10,7 +11,7 @@ import {PollDto} from '../../dto/poll.dto';
 })
 export class DashboardComponent implements OnInit {
 
-  polls: PollDto[] = [];
+  polls: Poll[] = [];
 
   constructor(
     private http: HttpClient,
@@ -18,7 +19,7 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.http.get<PollDto[]>(`${environment.backendURL}/poll`).subscribe((data: PollDto[]) => {
+    this.http.get<Poll[]>(`${environment.backendURL}/poll`).subscribe((data: Poll[]) => {
       this.polls = [...this.polls, ...data];
     });
   }

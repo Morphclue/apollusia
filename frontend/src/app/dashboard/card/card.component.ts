@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {PollDto} from '../../dto/poll.dto';
+
+import {Poll} from '../../model/poll';
 
 @Component({
   selector: 'app-card',
@@ -8,7 +9,7 @@ import {PollDto} from '../../dto/poll.dto';
 })
 export class CardComponent implements OnInit {
 
-  @Input() pollDto: PollDto | undefined;
+  @Input() poll: Poll | undefined;
 
   constructor() {
   }
