@@ -1,4 +1,4 @@
-import {Body, Controller, Delete, Get, Param, Post, Put} from '@nestjs/common';
+import {Body, Controller, Delete, Get, NotFoundException, Param, Post, Put} from '@nestjs/common';
 
 import {Poll} from '../../schema/poll.schema';
 import {PollDto} from '../../dto/poll.dto';
@@ -31,6 +31,11 @@ export class PollController {
 
     @Delete(':id')
     async deletePoll(@Param('id') id: string): Promise<Poll | undefined> {
+        const existingPoll = await this.pollService.getPoll(id);
+        if (!existingPoll){
+            throw new NotFoundException(id);
+        }
+
         return this.pollService.deletePoll(id);
     }
 }
