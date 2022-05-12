@@ -10,27 +10,27 @@ export class PollController {
     }
 
     @Get()
-    getPolls(): Promise<Poll[]> {
+    async getPolls(): Promise<Poll[]> {
         return this.pollService.getPolls();
     }
 
     @Get(':id')
-    getPoll(@Param('id') id: string): Promise<Poll> {
+    async getPoll(@Param('id') id: string): Promise<Poll> {
         return this.pollService.getPoll(id);
     }
 
     @Post()
-    postPoll(@Body() pollDto: PollDto): Promise<Poll> {
+    async postPoll(@Body() pollDto: PollDto): Promise<Poll> {
         return this.pollService.postPoll(pollDto);
     }
 
     @Put()
-    putPoll(@Body() pollDto: PollDto): Promise<Poll> {
+    async putPoll(@Body() pollDto: PollDto): Promise<Poll> {
         return this.pollService.putPoll(pollDto);
     }
 
-    @Delete()
-    deletePoll(@Body() id: string): Promise<Poll> {
+    @Delete(':id')
+    async deletePoll(@Param('id') id: string): Promise<Poll | undefined> {
         return this.pollService.deletePoll(id);
     }
 }
