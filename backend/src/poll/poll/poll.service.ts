@@ -21,12 +21,11 @@ export class PollService {
     }
 
     async postPoll(pollDto: PollDto): Promise<Poll> {
-        const createdPoll = new this.pollModel(pollDto);
-        return createdPoll.save();
+        return this.pollModel.create(pollDto);
     }
 
     async putPoll(pollDto: PollDto): Promise<Poll> {
-        return this.pollModel.findByIdAndUpdate(pollDto.id, pollDto).exec();
+        return this.pollModel.findByIdAndUpdate(pollDto.id, pollDto, {new: true}).exec();
     }
 
     async deletePoll(id: string): Promise<Poll | undefined> {
