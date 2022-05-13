@@ -1,8 +1,8 @@
-import {NgbDateStruct} from '@ng-bootstrap/ng-bootstrap';
-
 export interface Poll {
   title: string;
   description?: string;
-  deadline?: NgbDateStruct;
+  deadline?: string;
   _id: string;
 }
+
+export type CreatePollDto = Omit<Poll, '_id'>

@@ -9,8 +9,10 @@ export class PollDto {
     title: string;
 
     @ApiProperty()
+    @IsString()
     description?: string;
 
     @ApiProperty()
-    deadline?: any;
+    @IsString()
+    deadline?: string;
 }

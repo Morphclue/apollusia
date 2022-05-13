@@ -1,4 +1,4 @@
-import {Prop, raw, Schema, SchemaFactory} from '@nestjs/mongoose';
+import {Prop, Schema, SchemaFactory} from '@nestjs/mongoose';
 
 @Schema()
 export class Poll {
@@ -8,12 +8,8 @@ export class Poll {
     @Prop()
     description: string;
 
-    @Prop(raw({
-        year: Number,
-        month: Number,
-        day: Number,
-    }))
-    deadline: any;
+    @Prop()
+    deadline: string;
 }
 
 export const PollSchema = SchemaFactory.createForClass(Poll);
