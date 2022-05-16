@@ -5,7 +5,7 @@ import {AboutComponent} from "./about/about.component";
 
 const routes: Routes = [
   {path: 'dashboard', loadChildren: () => import('./dashboard/dashboard.module').then(p => p.DashboardModule)},
-  {path: 'create', loadChildren: () => import('./poll/poll.module').then(p => p.PollModule)},
+  {path: 'poll', loadChildren: () => import('./poll/poll.module').then(p => p.PollModule)},
   {path: 'about', component: AboutComponent},
   {path: '', pathMatch: 'full', redirectTo: 'dashboard'},
 ];

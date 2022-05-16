@@ -4,7 +4,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {CreatePollComponent} from "./create-poll/create-poll.component";
 
 const routes: Routes = [
-  {path: '', component: CreatePollComponent},
+  {path: 'create', component: CreatePollComponent},
   {path: '**', pathMatch: 'full', redirectTo: ''},
 ];
 
