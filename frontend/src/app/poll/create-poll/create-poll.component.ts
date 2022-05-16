@@ -5,7 +5,7 @@ import {HttpClient} from '@angular/common/http';
 import {Router} from '@angular/router';
 
 import {environment} from '../../../environments/environment';
-import {CreatePollDto} from '../../model/poll';
+import {CreatePollDto, Poll} from '../../model/poll';
 
 @Component({
   selector: 'app-create-poll',
@@ -43,8 +43,8 @@ export class CreatePollComponent implements OnInit {
       deadline: this.ngbDateParserFormatter.format(this.pollForm.value.deadline),
     };
 
-    this.http.post(`${environment.backendURL}/poll`, createPollDto).subscribe(() => {
-      this.router.navigate(['dashboard']).then(
+    this.http.post<Poll>(`${environment.backendURL}/poll`, createPollDto).subscribe((res: Poll) => {
+      this.router.navigate([`poll/edit/${res._id}`]).then(
         // TODO: fallback logic
       );
     });
