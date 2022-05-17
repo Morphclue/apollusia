@@ -44,7 +44,7 @@ export class CreatePollComponent implements OnInit {
     };
 
     this.http.post<Poll>(`${environment.backendURL}/poll`, createPollDto).subscribe((res: Poll) => {
-      this.router.navigate([`poll/edit/${res._id}`]).then(
+      this.router.navigate([`poll/${res._id}`]).then(
         // TODO: fallback logic
       );
     });

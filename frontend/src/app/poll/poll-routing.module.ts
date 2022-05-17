@@ -7,8 +7,8 @@ import {ChooseDateComponent} from './choose-date/choose-date.component';
 
 const routes: Routes = [
   {path: 'create', component: CreatePollComponent},
-  {path: 'edit/:id', component: EditPollComponent},
-  {path: 'edit/:id/date', component: ChooseDateComponent},
+  {path: ':id', component: EditPollComponent},
+  {path: ':id/date', component: ChooseDateComponent},
 ];
 
 @NgModule({
