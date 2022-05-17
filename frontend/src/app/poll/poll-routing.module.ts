@@ -9,7 +9,6 @@ const routes: Routes = [
   {path: 'create', component: CreatePollComponent},
   {path: 'edit/:id', component: EditPollComponent},
   {path: 'edit/:id/date', component: ChooseDateComponent},
-  {path: '**', pathMatch: 'full', redirectTo: ''},
 ];
 
 @NgModule({
