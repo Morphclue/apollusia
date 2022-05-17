@@ -6,13 +6,15 @@ import {HttpClientModule} from "@angular/common/http";
 
 import {CreatePollComponent} from './create-poll/create-poll.component';
 import {PollRoutingModule} from "./poll-routing.module";
-import { EditPollComponent } from './edit-poll/edit-poll.component';
+import {EditPollComponent} from './edit-poll/edit-poll.component';
+import {ChooseDateComponent} from './choose-date/choose-date.component';
 
 
 @NgModule({
   declarations: [
     CreatePollComponent,
     EditPollComponent,
+    ChooseDateComponent,
   ],
   imports: [
     CommonModule,
