@@ -27,12 +27,17 @@ specifiers:
   '@types/node': ^12.20.52
   '@typescript-eslint/eslint-plugin': 5.3.0
   '@typescript-eslint/parser': 5.3.0
+  angular-calendar: ^0.29.0
+  angularx-flatpickr: ^6.6.0
   bootstrap: ^5.1.3
   bootstrap-icons: ^1.8.3
+  calendar-utils: ^0.9.0
+  date-fns: ^2.23.0
   eslint: ^8.16.0
   eslint-plugin-import: 2.25.2
   eslint-plugin-jsdoc: ^39.3.2
   eslint-plugin-prefer-arrow: 1.2.2
+  flatpickr: ^4.6.13
   jasmine-core: ^4.1.1
   jasmine-spec-reporter: ~5.0.2
   karma: ~6.3.20
@@ -60,8 +65,13 @@ dependencies:
   '@angular/router': 13.3.10_nviklp6kr5byilks63yqq3upfy
   '@ng-bootstrap/ng-bootstrap': 12.1.2_karnun7sguicfd2k7bj2zxq2ei
   '@popperjs/core': 2.11.5
+  angular-calendar: 0.29.0_@angular+core@13.3.10
+  angularx-flatpickr: 6.6.0_cdodhcpc24lhyfezpfwjim5fue
   bootstrap: 5.1.3_@popperjs+core@2.11.5
   bootstrap-icons: 1.8.3
+  calendar-utils: 0.9.0
+  date-fns: 2.28.0
+  flatpickr: 4.6.13
   rxjs: 6.6.7
   tslib: 2.4.0
   zone.js: 0.11.5
@@ -1943,6 +1953,10 @@ packages:
       '@jridgewell/resolve-uri': 3.0.7
       '@jridgewell/sourcemap-codec': 1.4.13
 
+  /@mattlewis92/dom-autoscroller/2.4.2:
+    resolution: {integrity: sha512-YbrUWREPGEjE/FU6foXcAT1YbVwqD/jkYnY1dFb0o4AxtP3s4xKBthlELjndZih8uwsDWgQZx1eNskRNe2BgZQ==}
+    dev: false
+
   /@ng-bootstrap/ng-bootstrap/12.1.2_karnun7sguicfd2k7bj2zxq2ei:
     resolution: {integrity: sha512-p27c+mYVdHiJMYrj5hwClVJxLdiZxafAqlbw1sdJh2xJ1rGOe+H/kCf5YDRbhlHqRN+34Gr0RQqIUeD1I2V8hg==}
     peerDependencies:
@@ -2132,6 +2146,11 @@ packages:
 
   /@popperjs/core/2.11.5:
     resolution: {integrity: sha512-9X2obfABZuDVLCgPK9aX0a/x4jaOEweTTWE2+9sr0Qqqevj2Uv5XorvusThmc9XGYpS9yI+fhh8RTafBtGposw==}
+    dev: false
+
+  /@scarf/scarf/1.1.1:
+    resolution: {integrity: sha512-VGbKDbk1RFIaSmdVb0cNjjWJoRWRI/Weo23AjRCC2nryO0iAS8pzsToJfPVPtVs74WHw4L1UTADNdIYRLkirZQ==}
+    requiresBuild: true
     dev: false
 
   /@schematics/angular/13.3.7:
@@ -2919,6 +2938,52 @@ packages:
       require-from-string: 2.0.2
       uri-js: 4.4.1
 
+  /angular-calendar/0.29.0_@angular+core@13.3.10:
+    resolution: {integrity: sha512-TK4yUNsOhCUVrBRTJhGvVgGkQHgR0DTDFnPUTv0YSeDAuq5+irWjH23UrHmrhBCwFPelGLrTHjxsbMwjuzrJjw==}
+    peerDependencies:
+      '@angular/core': '>=10.0.0'
+    dependencies:
+      '@angular/core': 13.3.10_rxjs@6.6.7+zone.js@0.11.5
+      '@scarf/scarf': 1.1.1
+      angular-draggable-droppable: 6.1.0_@angular+core@13.3.10
+      angular-resizable-element: 5.0.0_@angular+core@13.3.10
+      calendar-utils: 0.9.0
+      positioning: 2.0.1
+      tslib: 2.4.0
+    dev: false
+
+  /angular-draggable-droppable/6.1.0_@angular+core@13.3.10:
+    resolution: {integrity: sha512-axf3YMZ1ovhVZXnydP5iatNT5V05uK1wrUIhlJy4XGFVzIfTOGPn6d0E4r43lyDPj1r6daz3ODm8UNXzjWgcCg==}
+    peerDependencies:
+      '@angular/core': '>=12.0.0'
+    dependencies:
+      '@angular/core': 13.3.10_rxjs@6.6.7+zone.js@0.11.5
+      '@mattlewis92/dom-autoscroller': 2.4.2
+      tslib: 2.4.0
+    dev: false
+
+  /angular-resizable-element/5.0.0_@angular+core@13.3.10:
+    resolution: {integrity: sha512-GbV8myA2x8aUU8CK7siTi1QMjtilzQzIgClqUVpE/YM1WAp0/OnioBV12oLcOT24eEwP3zDqPTHL+D1Kv2rNAw==}
+    peerDependencies:
+      '@angular/core': '>=10.0.0'
+    dependencies:
+      '@angular/core': 13.3.10_rxjs@6.6.7+zone.js@0.11.5
+      tslib: 2.4.0
+    dev: false
+
+  /angularx-flatpickr/6.6.0_cdodhcpc24lhyfezpfwjim5fue:
+    resolution: {integrity: sha512-n/csZmAwfL32P7pUv52FXihSbPjVAjiKglbY8WO9hsBKvAk7mw8PKNjiovln4+fuscJwKo0wSsw+s7A+JpetQg==}
+    peerDependencies:
+      '@angular/core': '>=5.0.0'
+      '@angular/forms': '>=5.0.0'
+      flatpickr: ^4.5.0
+    dependencies:
+      '@angular/core': 13.3.10_rxjs@6.6.7+zone.js@0.11.5
+      '@angular/forms': 13.3.10_nviklp6kr5byilks63yqq3upfy
+      flatpickr: 4.6.13
+      tslib: 1.14.1
+    dev: false
+
   /ansi-colors/4.1.1:
     resolution: {integrity: sha512-JoX0apGbHaUJBNl6yF+p6JAFYZ666/hhCGKN5t9QFjbJQKUU/g8MNbFDbvfrgKXvI1QpZplPOnwIo99lX/AAmA==}
     engines: {node: '>=6'}
@@ -3403,6 +3468,10 @@ packages:
       unique-filename: 1.1.1
     dev: false
 
+  /calendar-utils/0.9.0:
+    resolution: {integrity: sha512-QxMf/I+y/it02EoFvla7Fq9n4SIOK9T97wT4W0VfvbFTbhf92AYHm9IBXGWDJiARNM2pvrGCFtI8AFB0D4OuWw==}
+    dev: false
+
   /call-bind/1.0.2:
     resolution: {integrity: sha512-7O+FbCihrB5WGbFYesctwmTKae6rOiIzmz1icreWJ+0aA7LJfuqhEso2T9ncpcFtzMQtzXf2QGGueWJGTYsqrA==}
     dependencies:
@@ -3848,6 +3917,11 @@ packages:
     dependencies:
       assert-plus: 1.0.0
     dev: true
+
+  /date-fns/2.28.0:
+    resolution: {integrity: sha512-8d35hViGYx/QH0icHYCeLmsLmMUheMmTyV9Fcm6gvNwdw31yXXH+O85sOBJ+OLnLQMKZowvpKb6FgMIQjcpvQw==}
+    engines: {node: '>=0.11'}
+    dev: false
 
   /date-format/4.0.10:
     resolution: {integrity: sha512-RuMIHocrVjF84bUSTcd1uokIsLsOsk1Awb7TexNOI3f48ukCu39mjslWquDTA08VaDMF2umr3MB9ow5EyJTWyA==}
@@ -4898,6 +4972,10 @@ packages:
     resolution: {integrity: sha512-b6suED+5/3rTpUBdG1gupIl8MPFCAMA0QXwmljLhvCUKcUvdE4gWky9zpuGCcXHOsz4J9wPGNWq6OKpmIzz3hQ==}
     hasBin: true
     dev: true
+
+  /flatpickr/4.6.13:
+    resolution: {integrity: sha512-97PMG/aywoYpB4IvbvUJi0RQi8vearvU0oov1WW3k0WZPBMrTQVqekSX5CjSG/M4Q3i6A/0FKXC7RyAoAUUSPw==}
+    dev: false
 
   /flatted/3.2.5:
     resolution: {integrity: sha512-WIWGi2L3DyTUvUrwRKgGi9TwxQMUEqPOPQBVi71R96jZXJdFskXEmf54BoZaS1kknGODoIGASGEzBUYdyMCBJg==}
@@ -7075,6 +7153,10 @@ packages:
       debug: 3.2.7
       mkdirp: 0.5.6
     dev: true
+
+  /positioning/2.0.1:
+    resolution: {integrity: sha512-DsAgM42kV/ObuwlRpAzDTjH9E8fGKkMDJHWFX+kfNXSxh7UCCQxEmdjv/Ws5Ft1XDnt3JT8fIDYeKNSE2TbttA==}
+    dev: false
 
   /postcss-attribute-case-insensitive/5.0.0_postcss@8.4.5:
     resolution: {integrity: sha512-b4g9eagFGq9T5SWX4+USfVyjIb3liPnjhHHRMP7FMB2kFVpYyfEscV0wP3eaXhKlcHKUut8lt5BGoeylWA/dBQ==}
