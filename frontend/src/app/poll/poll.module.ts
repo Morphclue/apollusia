@@ -10,6 +10,7 @@ import {CreatePollComponent} from './create-poll/create-poll.component';
 import {PollRoutingModule} from './poll-routing.module';
 import {EditPollComponent} from './edit-poll/edit-poll.component';
 import {ChooseDateComponent} from './choose-date/choose-date.component';
+import {ChooseDateService} from './services/choose-date.service';
 
 
 @NgModule({
@@ -29,6 +30,9 @@ import {ChooseDateComponent} from './choose-date/choose-date.component';
       provide: DateAdapter,
       useFactory: adapterFactory,
     }),
+  ],
+  providers: [
+    ChooseDateService,
   ],
 })
 export class PollModule {
