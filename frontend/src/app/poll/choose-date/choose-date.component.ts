@@ -5,6 +5,7 @@ import {finalize, takeUntil} from 'rxjs/operators';
 import {differenceInMinutes, endOfWeek, startOfDay, startOfHour} from 'date-fns';
 
 import {ChooseDateService} from '../services/choose-date.service';
+import {CalendarEventTimesChangedEvent} from 'angular-calendar';
 
 @Component({
   selector: 'app-choose-date',
@@ -66,6 +67,12 @@ export class ChooseDateComponent implements AfterViewInit {
         }
         this.refresh();
       });
+  }
+
+  eventTimesChanged({event, newStart, newEnd}: CalendarEventTimesChangedEvent): void {
+    event.start = newStart;
+    event.end = newEnd;
+    this.refresh();
   }
 
   refresh() {

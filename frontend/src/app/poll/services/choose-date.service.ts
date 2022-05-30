@@ -34,10 +34,11 @@ export class ChooseDateService {
       id: this.events.length,
       title: 'New event: ' + this.events.length.toString(),
       start: segment.date,
+      actions: this.actions,
+      draggable: true,
       meta: {
         tmpEvent: true,
       },
-      actions: this.actions,
     };
     this.events = [...this.events, dragToSelectEvent];
     return dragToSelectEvent;
