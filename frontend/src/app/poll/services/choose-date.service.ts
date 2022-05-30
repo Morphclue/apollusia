@@ -36,6 +36,10 @@ export class ChooseDateService {
       start: segment.date,
       actions: this.actions,
       draggable: true,
+      resizable: {
+        beforeStart: true,
+        afterEnd: true,
+      },
       meta: {
         tmpEvent: true,
       },
