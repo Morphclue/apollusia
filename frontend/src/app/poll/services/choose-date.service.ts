@@ -21,15 +21,15 @@ export class ChooseDateService {
   constructor() {
   }
 
-  floorToNearest(amount: number, precision: number) {
+  floorToNearest(amount: number, precision: number): number {
     return Math.floor(amount / precision) * precision;
   }
 
-  ceilToNearest(amount: number, precision: number) {
+  ceilToNearest(amount: number, precision: number): number {
     return Math.ceil(amount / precision) * precision;
   }
 
-  createDragSelectEvent(segment: WeekViewHourSegment) {
+  createDragSelectEvent(segment: WeekViewHourSegment): CalendarEvent {
     const dragToSelectEvent: CalendarEvent = {
       id: this.events.length,
       title: 'New event: ' + this.events.length.toString(),
@@ -59,7 +59,7 @@ export class ChooseDateService {
     return addDays(addMinutes(segment.date, minutesDifference), daysDifference);
   }
 
-  deleteEvent(event: CalendarEvent) {
+  deleteEvent(event: CalendarEvent): void {
     this.events = this.events.filter(e => e !== event);
   }
 }
