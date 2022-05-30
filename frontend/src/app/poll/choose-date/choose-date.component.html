@@ -34,11 +34,13 @@
     </div>
   </ng-template>
 
-  <mwl-calendar-week-view
-    [viewDate]="viewDate"
-    [events]="getEvents()"
-    [hourSegmentTemplate]="weekViewHourSegmentTemplate"
-    [weekStartsOn]="weekStartsOn"
-  >
-  </mwl-calendar-week-view>
+  <div class="scroll-container">
+    <mwl-calendar-week-view
+      [viewDate]="viewDate"
+      [events]="getEvents()"
+      [hourSegmentTemplate]="weekViewHourSegmentTemplate"
+      [weekStartsOn]="weekStartsOn"
+    >
+    </mwl-calendar-week-view>
+  </div>
 </div>
