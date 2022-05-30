@@ -3,9 +3,9 @@ import {WeekViewHourSegment} from 'calendar-utils';
 import {fromEvent} from 'rxjs';
 import {finalize, takeUntil} from 'rxjs/operators';
 import {differenceInMinutes, endOfWeek, startOfDay, startOfHour} from 'date-fns';
+import {CalendarEventTimesChangedEvent} from 'angular-calendar';
 
 import {ChooseDateService} from '../services/choose-date.service';
-import {CalendarEventTimesChangedEvent} from 'angular-calendar';
 
 @Component({
   selector: 'app-choose-date',
