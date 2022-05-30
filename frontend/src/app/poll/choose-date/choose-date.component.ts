@@ -40,6 +40,10 @@ export class ChooseDateComponent implements AfterViewInit {
     mouseDownEvent: MouseEvent,
     segmentElement: HTMLElement,
   ) {
+    if (mouseDownEvent.button != 0) {
+      return;
+    }
+
     const dragToSelectEvent = this.chooseDateService.createDragSelectEvent(segment);
     this.dragToCreateActive = true;
     const endOfView = endOfWeek(this.viewDate, {
