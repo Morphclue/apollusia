@@ -1,6 +1,10 @@
 .scroll-container {
   height: calc(100vh - 320px);
   overflow-y: auto;
-  border:1px solid #5a189aff;
+  border: 1px solid #5a189aff;
   box-shadow: 0 0 15px rgba(0, 0, 0, .1);
+}
+
+.btn-group .btn {
+  border: 1px solid black;
 }
