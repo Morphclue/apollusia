@@ -1,8 +1,8 @@
-import {ChangeDetectorRef, Component} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild} from '@angular/core';
 import {WeekViewHourSegment} from 'calendar-utils';
 import {fromEvent} from 'rxjs';
 import {finalize, takeUntil} from 'rxjs/operators';
-import {endOfWeek} from 'date-fns';
+import {differenceInMinutes, endOfWeek, startOfDay, startOfHour} from 'date-fns';
 
 import {ChooseDateService} from '../services/choose-date.service';
 
@@ -11,8 +11,9 @@ import {ChooseDateService} from '../services/choose-date.service';
   templateUrl: './choose-date.component.html',
   styleUrls: ['./choose-date.component.scss'],
 })
-export class ChooseDateComponent {
+export class ChooseDateComponent implements AfterViewInit {
 
+  @ViewChild('scrollContainer') scrollContainer!: ElementRef<HTMLElement>;
   viewDate = new Date();
   dragToCreateActive = true;
   weekStartsOn: 1 = 1;
@@ -21,6 +22,17 @@ export class ChooseDateComponent {
     private changeDetectorRef: ChangeDetectorRef,
     private chooseDateService: ChooseDateService,
   ) {
+  }
+
+  ngAfterViewInit() {
+    this.scrollToCurrentTime();
+  }
+
+  scrollToCurrentTime() {
+    this.scrollContainer.nativeElement.scrollTop = differenceInMinutes(
+      startOfHour(new Date()),
+      startOfDay(new Date()),
+    );
   }
 
   startDragToCreate(
