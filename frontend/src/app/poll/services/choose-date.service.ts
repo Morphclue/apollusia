@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {CalendarEvent} from 'angular-calendar';
+import {CalendarEvent, CalendarEventAction} from 'angular-calendar';
 import {WeekViewHourSegment} from 'calendar-utils';
 import {addDays, addMinutes} from 'date-fns';
 
@@ -9,6 +9,14 @@ import {addDays, addMinutes} from 'date-fns';
 export class ChooseDateService {
 
   events: CalendarEvent[] = [];
+  actions: CalendarEventAction[] = [
+    {
+      label: '<i class="bi bi-x-lg"></i>',
+      onClick: ({event}: { event: CalendarEvent }): void => {
+        this.deleteEvent(event);
+      },
+    },
+  ];
 
   constructor() {
   }
@@ -29,6 +37,7 @@ export class ChooseDateService {
       meta: {
         tmpEvent: true,
       },
+      actions: this.actions,
     };
     this.events = [...this.events, dragToSelectEvent];
     return dragToSelectEvent;
@@ -48,5 +57,9 @@ export class ChooseDateService {
       ) / segmentPosition.width;
 
     return addDays(addMinutes(segment.date, minutesDifference), daysDifference);
+  }
+
+  deleteEvent(event: CalendarEvent) {
+    this.events = this.events.filter(e => e !== event);
   }
 }
