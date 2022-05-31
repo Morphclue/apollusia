@@ -31,7 +31,10 @@ export class ChooseDateComponent implements AfterViewInit {
     route: ActivatedRoute,
   ) {
     const id: Observable<string> = route.params.pipe(map(p => p.id));
-    id.subscribe((id: string) => this.id = id);
+    id.subscribe((id: string) => {
+      this.id = id;
+      this.chooseDateService.updateEvents(id);
+    });
   }
 
   ngAfterViewInit() {

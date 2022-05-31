@@ -2,6 +2,9 @@ import {Injectable} from '@angular/core';
 import {CalendarEvent, CalendarEventAction} from 'angular-calendar';
 import {WeekViewHourSegment} from 'calendar-utils';
 import {addDays, addMinutes} from 'date-fns';
+import {Poll} from '../../model/poll';
+import {environment} from '../../../environments/environment';
+import {HttpClient} from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +21,7 @@ export class ChooseDateService {
     },
   ];
 
-  constructor() {
+  constructor(private http: HttpClient) {
   }
 
   floorToNearest(amount: number, precision: number): number {
@@ -66,5 +69,34 @@ export class ChooseDateService {
 
   deleteEvent(event: CalendarEvent): void {
     this.events = this.events.filter(e => e !== event);
+  }
+
+  updateEvents(id: string) {
+    this.http.get<Poll>(`${environment.backendURL}/poll/${id}`).subscribe((poll: Poll) => {
+      if (!poll.events) {
+        return;
+      }
+
+      this.events = poll.events.map((event: CalendarEvent) => {
+        const startDate: Date = new Date(event.start);
+        const endDate: Date = event.end ? new Date(event.end) : new Date();
+
+        return {
+          id: event.id,
+          title: event.title,
+          actions: this.actions,
+          draggable: true,
+          resizable: {
+            beforeStart: true,
+            afterEnd: true,
+          },
+          meta: {
+            tmpEvent: true,
+          },
+          start: startDate,
+          end: endDate,
+        };
+      });
+    });
   }
 }
