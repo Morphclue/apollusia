@@ -1,10 +1,11 @@
 import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
 import {CalendarEvent, CalendarEventAction} from 'angular-calendar';
 import {WeekViewHourSegment} from 'calendar-utils';
 import {addDays, addMinutes} from 'date-fns';
+
 import {Poll} from '../../model/poll';
 import {environment} from '../../../environments/environment';
-import {HttpClient} from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
