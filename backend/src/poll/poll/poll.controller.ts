@@ -3,6 +3,7 @@ import {Body, Controller, Delete, Get, NotFoundException, Param, Post, Put} from
 import {Poll} from '../../schema/poll.schema';
 import {PollDto} from '../../dto/poll.dto';
 import {PollService} from './poll.service';
+import {PollEvent} from '../../dto/poll-event.dto';
 
 @Controller('poll')
 export class PollController {
@@ -37,5 +38,16 @@ export class PollController {
         }
 
         return this.pollService.deletePoll(id);
+    }
+
+    @Post(':id/events')
+    async postEvents(@Param('id') id: string, @Body() pollEvents: PollEvent[]): Promise<Poll> {
+        const existingPoll = await this.pollService.getPoll(id);
+        if (!existingPoll) {
+            throw new NotFoundException(id);
+        }
+
+        existingPoll.events = pollEvents;
+        return this.pollService.postEvents(id, existingPoll);
     }
 }

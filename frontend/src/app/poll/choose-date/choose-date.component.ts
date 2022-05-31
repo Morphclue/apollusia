@@ -1,11 +1,15 @@
 import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
 import {WeekViewHourSegment} from 'calendar-utils';
-import {fromEvent} from 'rxjs';
-import {finalize, takeUntil} from 'rxjs/operators';
+import {fromEvent, Observable} from 'rxjs';
+import {finalize, map, takeUntil} from 'rxjs/operators';
 import {differenceInMinutes, endOfWeek, startOfDay, startOfHour} from 'date-fns';
-import {CalendarEventTimesChangedEvent} from 'angular-calendar';
+import {CalendarEvent, CalendarEventTimesChangedEvent} from 'angular-calendar';
 
 import {ChooseDateService} from '../services/choose-date.service';
+import {environment} from '../../../environments/environment';
+import {ActivatedRoute} from '@angular/router';
+import {Event} from '../../model/event';
 
 @Component({
   selector: 'app-choose-date',
@@ -18,11 +22,16 @@ export class ChooseDateComponent implements AfterViewInit {
   viewDate = new Date();
   dragToCreateActive = true;
   weekStartsOn: 1 = 1;
+  id: string = '';
 
   constructor(
     private changeDetectorRef: ChangeDetectorRef,
     private chooseDateService: ChooseDateService,
+    private http: HttpClient,
+    route: ActivatedRoute,
   ) {
+    const id: Observable<string> = route.params.pipe(map(p => p.id));
+    id.subscribe((id: string) => this.id = id);
   }
 
   ngAfterViewInit() {
@@ -85,6 +94,12 @@ export class ChooseDateComponent implements AfterViewInit {
   }
 
   createEvents() {
-
+    const events: Event[] = this.chooseDateService.events.map((event: CalendarEvent) => {
+      return {id: event.id, title: event.title, start: event.start, end: event.end};
+    });
+    this.http.post(`${environment.backendURL}/poll/${this.id}/events`, events).subscribe(() => {
+      // TODO: add logic
+      console.log('events successfully updated');
+    });
   }
 }
