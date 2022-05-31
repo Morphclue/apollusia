@@ -83,4 +83,8 @@ export class ChooseDateComponent implements AfterViewInit {
   getEvents() {
     return this.chooseDateService.events;
   }
+
+  createEvents() {
+
+  }
 }
