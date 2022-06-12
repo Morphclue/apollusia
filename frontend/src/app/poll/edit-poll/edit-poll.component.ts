@@ -1,5 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {ActivatedRoute, Router} from '@angular/router';
+import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
+import {environment} from '../../../environments/environment';
+import {HttpClient} from '@angular/common/http';
 
 @Component({
   selector: 'app-edit-poll',
@@ -8,17 +13,31 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 })
 export class EditPollComponent implements OnInit {
 
-  constructor(private modalService: NgbModal) {}
+  id: string = '';
+
+  constructor(
+    private modalService: NgbModal,
+    private http: HttpClient,
+    private router: Router,
+    private route: ActivatedRoute,
+  ) {
+    const id: Observable<string> = route.params.pipe(map(p => p.id));
+    id.subscribe((id: string) => {
+      this.id = id;
+    });
+  }
 
   ngOnInit(): void {
   }
 
   open(content: any) {
-    this.modalService.open(content).result.then((result) => {
-      // TODO: delete poll
+    this.modalService.open(content).result.then(() => {
+      this.http.delete(`${environment.backendURL}/poll/${this.id}`).subscribe(() => {
+        this.router.navigate([`dashboard`]);
+      });
     }, (reason) => {
       // TODO: Logic if poll not deleted
-    })
+    });
   }
 
 }
