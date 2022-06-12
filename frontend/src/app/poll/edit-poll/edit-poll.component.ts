@@ -3,8 +3,9 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {environment} from '../../../environments/environment';
 import {HttpClient} from '@angular/common/http';
+
+import {environment} from '../../../environments/environment';
 
 @Component({
   selector: 'app-edit-poll',
