@@ -8,7 +8,7 @@ import {CalendarEvent, CalendarEventTimesChangedEvent} from 'angular-calendar';
 
 import {ChooseDateService} from '../services/choose-date.service';
 import {environment} from '../../../environments/environment';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {Event} from '../../model/event';
 
 @Component({
@@ -28,6 +28,7 @@ export class ChooseDateComponent implements AfterViewInit {
     private changeDetectorRef: ChangeDetectorRef,
     private chooseDateService: ChooseDateService,
     private http: HttpClient,
+    private router: Router,
     route: ActivatedRoute,
   ) {
     const id: Observable<string> = route.params.pipe(map(p => p.id));
@@ -101,8 +102,9 @@ export class ChooseDateComponent implements AfterViewInit {
       return {eventId: event.id, title: event.title, start: event.start, end: event.end};
     });
     this.http.post(`${environment.backendURL}/poll/${this.id}/events`, events).subscribe(() => {
-      // TODO: add logic
-      console.log('events successfully updated');
+      this.router.navigate([`poll/${this.id}`]).then(
+        // TODO: fallback logic
+      );
     });
   }
 }
