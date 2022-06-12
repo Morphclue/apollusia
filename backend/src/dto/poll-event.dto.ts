@@ -4,7 +4,7 @@ import {IsNotEmpty, IsString} from 'class-validator';
 export class PollEvent {
     @ApiProperty()
     @IsNotEmpty()
-    id: number;
+    eventId: number;
 
     @ApiProperty()
     @IsString()
