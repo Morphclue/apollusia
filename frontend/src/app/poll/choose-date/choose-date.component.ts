@@ -3,7 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {WeekViewHourSegment} from 'calendar-utils';
 import {fromEvent, Observable} from 'rxjs';
 import {finalize, map, takeUntil} from 'rxjs/operators';
-import {differenceInMinutes, endOfWeek, startOfDay, startOfHour} from 'date-fns';
+import {addMinutes, differenceInMinutes, endOfWeek, startOfDay, startOfHour} from 'date-fns';
 import {CalendarEvent, CalendarEventTimesChangedEvent} from 'angular-calendar';
 
 import {ChooseDateService} from '../services/choose-date.service';
@@ -22,6 +22,7 @@ export class ChooseDateComponent implements AfterViewInit {
   viewDate = new Date();
   dragToCreateActive = true;
   weekStartsOn: 1 = 1;
+  previousEventDuration = 30;
   id: string = '';
 
   constructor(
@@ -80,6 +81,10 @@ export class ChooseDateComponent implements AfterViewInit {
         }
         this.refresh();
       });
+
+    if (!dragToSelectEvent.end) {
+      dragToSelectEvent.end = addMinutes(dragToSelectEvent.start, this.previousEventDuration);
+    }
   }
 
   eventTimesChanged({event, newStart, newEnd}: CalendarEventTimesChangedEvent): void {
