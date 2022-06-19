@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {NgbDateParserFormatter, NgbDateStruct} from '@ng-bootstrap/ng-bootstrap';
 import {HttpClient} from '@angular/common/http';
 import {Router} from '@angular/router';
 
@@ -17,21 +16,15 @@ export class CreatePollComponent implements OnInit {
   constructor(
     private http: HttpClient,
     private router: Router,
-    private ngbDateParserFormatter: NgbDateParserFormatter,
   ) {
   }
 
+  minDate = new Date();
   pollForm = new FormGroup({
     title: new FormControl('', Validators.required),
     description: new FormControl(''),
     deadline: new FormControl(null),
   });
-
-  minDate: NgbDateStruct = {
-    year: new Date().getFullYear(),
-    month: new Date().getMonth() + 1,
-    day: new Date().getDate(),
-  };
 
   ngOnInit(): void {
   }
@@ -40,7 +33,7 @@ export class CreatePollComponent implements OnInit {
     const createPollDto: CreatePollDto = {
       title: this.pollForm.value.title,
       description: this.pollForm.value.description,
-      deadline: this.ngbDateParserFormatter.format(this.pollForm.value.deadline),
+      deadline: this.pollForm.value.deadline,
     };
 
     this.http.post<Poll>(`${environment.backendURL}/poll`, createPollDto).subscribe((res: Poll) => {

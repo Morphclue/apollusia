@@ -13,9 +13,18 @@
       <div class="form-group mb-3">
         <label for="deadline">Deadline (optional)</label>
         <div class="d-flex">
-          <input readonly class="form-control" placeholder="yyyy-mm-dd"
-                 id="deadline" ngbDatepicker #d="ngbDatepicker" [minDate]="minDate" formControlName="deadline">
-          <button class="btn btn-outline-secondary bi-calendar-date" (click)="d.toggle()" type="button"></button>
+          <input class="mwlFlatpickr"
+                 mwlFlatpickr
+                 id="deadline"
+                 formControlName="deadline"
+                 type="text"
+                 autocomplete="off"
+                 [enableTime]="true"
+                 [allowInput]="true"
+                 [minDate]="minDate"
+                 [dateFormat]="'Y-m-d H:i'"
+                 [convertModelValue]="true"
+          >
         </div>
       </div>
       <button class="btn btn-primary" type="submit" [disabled]="!pollForm.valid">Create</button>
