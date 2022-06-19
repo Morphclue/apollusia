@@ -5,6 +5,7 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {HttpClientModule} from '@angular/common/http';
 import {CalendarModule, DateAdapter} from 'angular-calendar';
 import {adapterFactory} from 'angular-calendar/date-adapters/date-fns';
+import {FlatpickrModule} from 'angularx-flatpickr';
 
 import {CreatePollComponent} from './create-poll/create-poll.component';
 import {PollRoutingModule} from './poll-routing.module';
@@ -30,6 +31,7 @@ import {ChooseDateService} from './services/choose-date.service';
       provide: DateAdapter,
       useFactory: adapterFactory,
     }),
+    FlatpickrModule.forRoot(),
   ],
   providers: [
     ChooseDateService,
