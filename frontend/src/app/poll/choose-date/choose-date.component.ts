@@ -5,10 +5,10 @@ import {fromEvent, Observable} from 'rxjs';
 import {finalize, map, takeUntil} from 'rxjs/operators';
 import {addMinutes, differenceInMinutes, endOfWeek, startOfDay, startOfHour} from 'date-fns';
 import {CalendarEvent, CalendarEventTimesChangedEvent} from 'angular-calendar';
+import {ActivatedRoute, Router} from '@angular/router';
 
 import {ChooseDateService} from '../services/choose-date.service';
 import {environment} from '../../../environments/environment';
-import {ActivatedRoute, Router} from '@angular/router';
 import {Event} from '../../model/event';
 
 @Component({
