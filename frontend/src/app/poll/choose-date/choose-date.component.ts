@@ -78,6 +78,7 @@ export class ChooseDateComponent implements AfterViewInit {
         const newEnd = this.chooseDateService.calculateNewEnd(segment, segmentElement, mouseMoveEvent);
         if (newEnd > segment.date && newEnd < endOfView) {
           dragToSelectEvent.end = newEnd;
+          this.previousEventDuration = differenceInMinutes(dragToSelectEvent.end, dragToSelectEvent.start);
         }
         this.refresh();
       });
