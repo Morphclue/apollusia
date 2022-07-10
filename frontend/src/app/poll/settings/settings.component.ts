@@ -9,6 +9,7 @@ import {FormControl, FormGroup} from '@angular/forms';
 export class SettingsComponent implements OnInit {
   settingsForm = new FormGroup({
     maxParticipants: new FormControl(false),
+    maxParticipantsInput: new FormControl('1'),
     allowMaybe: new FormControl(false),
   });
 
