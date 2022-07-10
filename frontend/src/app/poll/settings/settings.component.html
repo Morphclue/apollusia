@@ -4,7 +4,7 @@
       <h2>Settings</h2>
       <form class="m-1 pt-2" [formGroup]="settingsForm" (ngSubmit)="onFormSubmit()">
         <div class="form-group form-check">
-          <label class="form-check-label" for="maxParticipants">Maximum number of participants:</label>
+          <label class="form-check-label" for="maxParticipants">Maximum number of participants</label>
           <input class="form-check-input" type="checkbox" id="maxParticipants" formControlName="maxParticipants">
           <div *ngIf="settingsForm.get('maxParticipants')?.value">
             <input class="form-control" type="number" min="1" id="maxParticipantsInput"
@@ -14,6 +14,32 @@
         <div class="form-group form-check">
           <label class="form-check-label" for="allowMaybe">Allow "maybe"-option</label>
           <input class="form-check-input" type="checkbox" id="allowMaybe" formControlName="allowMaybe">
+        </div>
+        <div class="form-group form-check">
+          <label class="form-check-label" for="allowEdit">Allow editing after filling out poll</label>
+          <input class="form-check-input" type="checkbox" id="allowEdit" formControlName="allowEdit">
+        </div>
+        <div class="form-group form-check">
+          <label class="form-check-label" for="allowAnonymous">Allow anonymous participation</label>
+          <input class="form-check-input" type="checkbox" id="allowAnonymous" formControlName="allowAnonymous">
+        </div>
+        <div class="form-group form-check">
+          <label class="form-check-label" for="deadline">Deadline</label>
+          <input class="form-check-input" type="checkbox" id="deadline" formControlName="deadline">
+          <div *ngIf="settingsForm.get('deadline')?.value">
+            <input class="mwlFlatpickr form-control"
+                   mwlFlatpickr
+                   id="deadlineInput"
+                   formControlName="deadlineInput"
+                   type="text"
+                   autocomplete="off"
+                   [enableTime]="true"
+                   [allowInput]="true"
+                   [minDate]="minDate"
+                   [dateFormat]="'Y-m-d H:i'"
+                   [convertModelValue]="true"
+            >
+          </div>
         </div>
         <pre>{{settingsForm?.value|json}}</pre>
         <div class="d-flex justify-content-end">
