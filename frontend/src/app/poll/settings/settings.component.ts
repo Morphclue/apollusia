@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {FormControl, FormGroup} from '@angular/forms';
 
 @Component({
   selector: 'app-settings',
@@ -6,11 +7,21 @@ import {Component, OnInit} from '@angular/core';
   styleUrls: ['./settings.component.scss'],
 })
 export class SettingsComponent implements OnInit {
+  settingsForm = new FormGroup({
+    maxParticipants: new FormControl(false),
+    allowMaybe: new FormControl(false),
+  });
 
   constructor() {
   }
 
   ngOnInit(): void {
+    this.settingsForm.valueChanges.subscribe(data => {
+      console.log(data);
+    });
   }
 
+  onFormSubmit() {
+
+  }
 }
