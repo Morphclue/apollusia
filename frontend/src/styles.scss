@@ -17,3 +17,17 @@ $secondary: $purple;
 @import '~bootstrap-icons/font/bootstrap-icons.css';
 @import '../node_modules/angular-calendar/css/angular-calendar.css';
 @import 'flatpickr/dist/flatpickr.css';
+
+/* Cal-header */
+.cal-week-view .cal-time-events {
+  max-height: calc(100vh - 320px);;
+  overflow-y: auto;
+}
+
+.cal-day-headers {
+  margin-right: 14.5px;
+}
+
+.cal-day-columns {
+  height: 100%;
+}
