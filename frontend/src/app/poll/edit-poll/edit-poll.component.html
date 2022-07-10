@@ -1,5 +1,10 @@
-<button class="btn btn-primary rounded-0" routerLink="date"><i class="bi-pencil-square"></i></button>
-<button class="btn btn-danger rounded-0" (click)="open(content)"><i class="bi-trash"></i></button>
+<div class="container">
+  <div class="d-flex justify-content-end pt-3">
+    <button class="btn btn-primary rounded-0" routerLink="date"><i class="bi-pencil-square"></i></button>
+    <button class="btn btn-danger rounded-0" (click)="open(content)"><i class="bi-trash"></i></button>
+  </div>
+  <app-settings></app-settings>
+</div>
 
 <ng-template #content let-modal>
   <div class="modal-header">
