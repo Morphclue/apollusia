@@ -2,6 +2,7 @@ import {ApiProperty} from '@nestjs/swagger';
 import {IsNotEmpty, IsString, MinLength} from 'class-validator';
 
 import {PollEvent} from './poll-event.dto';
+import {Settings} from './settings';
 
 export class PollDto {
     @ApiProperty()
@@ -15,8 +16,8 @@ export class PollDto {
     description?: string;
 
     @ApiProperty()
-    @IsString()
-    deadline?: string;
+    @IsNotEmpty()
+    settings: Settings;
 
     @ApiProperty()
     events?: PollEvent[];

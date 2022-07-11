@@ -36,10 +36,10 @@ export class SettingsComponent implements OnInit {
   private fetchPoll() {
     this.http.get<Poll>(`${environment.backendURL}/poll/${this.id}`).subscribe((poll: Poll) => {
       this.poll = poll;
-      if (poll.deadline) {
+      if (poll.settings.deadline) {
         this.settingsForm.patchValue({
           deadline: true,
-          deadlineInput: poll.deadline,
+          deadlineInput: poll.settings.deadline,
         });
       }
     });
@@ -53,10 +53,10 @@ export class SettingsComponent implements OnInit {
     };
 
     if (this.settingsForm.value.maxParticipants) {
-      settings.maxParticipantsInput = parseInt(this.settingsForm.value.maxParticipantsInput);
+      settings.maxParticipants = parseInt(this.settingsForm.value.maxParticipantsInput);
     }
     if (this.settingsForm.value.deadline) {
-      settings.deadlineInput = this.settingsForm.value.deadlineInput;
+      settings.deadline = this.settingsForm.value.deadlineInput;
     }
   }
 }

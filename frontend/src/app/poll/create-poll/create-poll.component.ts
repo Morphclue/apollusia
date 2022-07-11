@@ -33,7 +33,12 @@ export class CreatePollComponent implements OnInit {
     const createPollDto: CreatePollDto = {
       title: this.pollForm.value.title,
       description: this.pollForm.value.description,
-      deadline: this.pollForm.value.deadline,
+      settings: {
+        deadline: this.pollForm.value.deadline,
+        allowMaybe: false,
+        allowEdit: false,
+        allowAnonymous: false,
+      },
     };
 
     this.http.post<Poll>(`${environment.backendURL}/poll`, createPollDto).subscribe((res: Poll) => {

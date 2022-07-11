@@ -1,7 +1,7 @@
 export interface Settings {
-  maxParticipantsInput?: number;
+  deadline?: Date;
+  maxParticipants?: number;
   allowMaybe: boolean;
   allowEdit: boolean;
   allowAnonymous: boolean;
-  deadlineInput?: Date;
 }

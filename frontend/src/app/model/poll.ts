@@ -1,9 +1,11 @@
 import {CalendarEvent} from 'angular-calendar';
 
+import {Settings} from './settings';
+
 export interface Poll {
   title: string;
   description?: string;
-  deadline?: string;
+  settings: Settings;
   events?: CalendarEvent[]
   _id: string;
 }

@@ -1,6 +1,7 @@
 import {Prop, Schema, SchemaFactory} from '@nestjs/mongoose';
 
 import {PollEvent} from '../dto/poll-event.dto';
+import {Settings} from '../dto/settings';
 
 @Schema()
 export class Poll {
@@ -10,8 +11,8 @@ export class Poll {
     @Prop()
     description: string;
 
-    @Prop()
-    deadline: string;
+    @Prop({Settings})
+    settings: Settings;
 
     @Prop([PollEvent])
     events: PollEvent[];

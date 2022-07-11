@@ -12,8 +12,8 @@
           <div class="info">
             <span class="info-title">{{poll.title}}</span>
             <span class="meeting-date">
-              <div *ngIf="poll.deadline !==undefined">
-                {{poll.deadline}}
+              <div *ngIf="poll.settings.deadline !==undefined">
+                {{poll.settings.deadline}}
               </div>
             </span>
           </div>
