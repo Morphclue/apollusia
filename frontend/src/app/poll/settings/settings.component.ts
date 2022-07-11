@@ -1,5 +1,10 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
+import {HttpClient} from '@angular/common/http';
+
+import {Poll} from '../../model/poll';
+import {environment} from '../../../environments/environment';
+import {Settings} from '../../model/settings';
 
 @Component({
   selector: 'app-settings',
@@ -7,9 +12,10 @@ import {FormControl, FormGroup} from '@angular/forms';
   styleUrls: ['./settings.component.scss'],
 })
 export class SettingsComponent implements OnInit {
+  private poll?: Poll;
   minDate = new Date();
+  @Input() id: string | undefined;
 
-  // FIXME: fetch from backend and initialize form
   settingsForm = new FormGroup({
     maxParticipants: new FormControl(false),
     maxParticipantsInput: new FormControl('1'),
@@ -17,19 +23,40 @@ export class SettingsComponent implements OnInit {
     allowEdit: new FormControl(false),
     allowAnonymous: new FormControl(false),
     deadline: new FormControl(false),
-    deadlineInput: new FormControl('2022-07-13 00:00'),
+    deadlineInput: new FormControl(''),
   });
 
-  constructor() {
+  constructor(private http: HttpClient) {
   }
 
   ngOnInit(): void {
-    this.settingsForm.valueChanges.subscribe(data => {
-      console.log(data);
+    this.fetchPoll();
+  }
+
+  private fetchPoll() {
+    this.http.get<Poll>(`${environment.backendURL}/poll/${this.id}`).subscribe((poll: Poll) => {
+      this.poll = poll;
+      if (poll.deadline) {
+        this.settingsForm.patchValue({
+          deadline: true,
+          deadlineInput: poll.deadline,
+        });
+      }
     });
   }
 
   onFormSubmit() {
+    let settings: Settings = {
+      allowMaybe: this.settingsForm.value.allowMaybe,
+      allowEdit: this.settingsForm.value.allowEdit,
+      allowAnonymous: this.settingsForm.value.allowAnonymous,
+    };
 
+    if (this.settingsForm.value.maxParticipants) {
+      settings.maxParticipantsInput = parseInt(this.settingsForm.value.maxParticipantsInput);
+    }
+    if (this.settingsForm.value.deadline) {
+      settings.deadlineInput = this.settingsForm.value.deadlineInput;
+    }
   }
 }

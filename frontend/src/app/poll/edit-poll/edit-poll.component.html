@@ -3,7 +3,7 @@
     <button class="btn btn-primary rounded-0" routerLink="date"><i class="bi-pencil-square"></i></button>
     <button class="btn btn-danger rounded-0" (click)="open(content)"><i class="bi-trash"></i></button>
   </div>
-  <app-settings></app-settings>
+  <app-settings [id]="id"></app-settings>
 </div>
 
 <ng-template #content let-modal>

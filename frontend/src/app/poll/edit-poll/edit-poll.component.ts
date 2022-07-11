@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {ActivatedRoute, Router} from '@angular/router';
+import {HttpClient} from '@angular/common/http';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {HttpClient} from '@angular/common/http';
 
 import {environment} from '../../../environments/environment';
 
@@ -40,5 +40,4 @@ export class EditPollComponent implements OnInit {
       // TODO: Logic if poll not deleted
     });
   }
-
 }
