@@ -12,15 +12,12 @@ import {PollRoutingModule} from './poll-routing.module';
 import {EditPollComponent} from './edit-poll/edit-poll.component';
 import {ChooseDateComponent} from './choose-date/choose-date.component';
 import {ChooseDateService} from './services/choose-date.service';
-import {SettingsComponent} from './settings/settings.component';
-
 
 @NgModule({
   declarations: [
     CreateEditPollComponent,
     EditPollComponent,
     ChooseDateComponent,
-    SettingsComponent,
   ],
   imports: [
     CommonModule,
