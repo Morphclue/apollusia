@@ -7,7 +7,7 @@ import {CalendarModule, DateAdapter} from 'angular-calendar';
 import {adapterFactory} from 'angular-calendar/date-adapters/date-fns';
 import {FlatpickrModule} from 'angularx-flatpickr';
 
-import {CreatePollComponent} from './create-poll/create-poll.component';
+import {CreateEditPollComponent} from './create-poll/create-edit-poll.component';
 import {PollRoutingModule} from './poll-routing.module';
 import {EditPollComponent} from './edit-poll/edit-poll.component';
 import {ChooseDateComponent} from './choose-date/choose-date.component';
@@ -17,7 +17,7 @@ import {SettingsComponent} from './settings/settings.component';
 
 @NgModule({
   declarations: [
-    CreatePollComponent,
+    CreateEditPollComponent,
     EditPollComponent,
     ChooseDateComponent,
     SettingsComponent,

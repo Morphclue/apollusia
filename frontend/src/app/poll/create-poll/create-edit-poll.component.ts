@@ -7,12 +7,11 @@ import {environment} from '../../../environments/environment';
 import {CreatePollDto, Poll} from '../../model/poll';
 
 @Component({
-  selector: 'app-create-poll',
-  templateUrl: './create-poll.component.html',
-  styleUrls: ['./create-poll.component.scss'],
+  selector: 'app-create-edit-poll',
+  templateUrl: './create-edit-poll.component.html',
+  styleUrls: ['./create-edit-poll.component.scss'],
 })
-export class CreatePollComponent implements OnInit {
-
+export class CreateEditPollComponent implements OnInit {
   constructor(
     private http: HttpClient,
     private router: Router,

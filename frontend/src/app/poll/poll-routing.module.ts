@@ -1,12 +1,12 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 
-import {CreatePollComponent} from './create-poll/create-poll.component';
+import {CreateEditPollComponent} from './create-poll/create-edit-poll.component';
 import {EditPollComponent} from './edit-poll/edit-poll.component';
 import {ChooseDateComponent} from './choose-date/choose-date.component';
 
 const routes: Routes = [
-  {path: 'create', component: CreatePollComponent},
+  {path: 'create', component: CreateEditPollComponent},
   {path: ':id', component: EditPollComponent},
   {path: ':id/date', component: ChooseDateComponent},
 ];
