@@ -1,6 +1,9 @@
 <div class="d-flex justify-content-center">
   <div class="col-6 justify-content-center">
     <form class="m-5" [formGroup]="pollForm" (ngSubmit)="onFormSubmit()">
+      <div *ngIf="id" class="d-flex justify-content-end pt-3">
+        <button type="button" class="btn btn-danger rounded-0" (click)="open(content)"><i class="bi-trash"></i></button>
+      </div>
       <div class="container settings-box">
         <div class="form-group mb-3">
           <label for="title">Title</label>
@@ -65,3 +68,21 @@
     </form>
   </div>
 </div>
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-title">Profile deletion</h4>
+    <button type="button" class="btn-close" aria-describedby="modal-title"
+            (click)="modal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body">
+    <p><strong>Are you sure you want to delete this poll?</strong></p>
+    <p>All entries associated to this poll profile will be permanently deleted.
+      <span class="text-danger">This operation can not be undone.</span>
+    </p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss('cancel click')">Cancel</button>
+    <button type="button" class="btn btn-danger" (click)="modal.close('Ok click')">Delete</button>
+  </div>
+</ng-template>

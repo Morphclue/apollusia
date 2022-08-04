@@ -2,11 +2,12 @@ import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {HttpClient} from '@angular/common/http';
 import {ActivatedRoute, Router} from '@angular/router';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 
 import {environment} from '../../../environments/environment';
 import {CreatePollDto, Poll} from '../../model/poll';
-import {Observable} from 'rxjs';
-import {map} from 'rxjs/operators';
 
 @Component({
   selector: 'app-create-edit-poll',
@@ -19,6 +20,7 @@ export class CreateEditPollComponent implements OnInit {
   id: string = '';
 
   constructor(
+    private modalService: NgbModal,
     private http: HttpClient,
     private router: Router,
     private route: ActivatedRoute,
@@ -76,6 +78,14 @@ export class CreateEditPollComponent implements OnInit {
         allowMaybe: poll.settings.allowMaybe,
         allowEdit: poll.settings.allowEdit,
         allowAnonymous: poll.settings.allowAnonymous,
+      });
+    });
+  }
+
+  open(content: any) {
+    this.modalService.open(content).result.then(() => {
+      this.http.delete(`${environment.backendURL}/poll/${this.id}`).subscribe(() => {
+        this.router.navigate([`dashboard`]);
       });
     });
   }

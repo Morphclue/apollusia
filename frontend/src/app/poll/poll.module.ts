@@ -9,14 +9,12 @@ import {FlatpickrModule} from 'angularx-flatpickr';
 
 import {CreateEditPollComponent} from './create-poll/create-edit-poll.component';
 import {PollRoutingModule} from './poll-routing.module';
-import {EditPollComponent} from './edit-poll/edit-poll.component';
 import {ChooseDateComponent} from './choose-date/choose-date.component';
 import {ChooseDateService} from './services/choose-date.service';
 
 @NgModule({
   declarations: [
     CreateEditPollComponent,
-    EditPollComponent,
     ChooseDateComponent,
   ],
   imports: [
