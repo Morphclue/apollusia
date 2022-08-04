@@ -7,7 +7,7 @@ import {PollModule} from './poll/poll.module';
 
 @Module({
     imports: [
-        MongooseModule.forRoot(process.env.DB_URL),
+        MongooseModule.forRoot('mongodb://localhost/nest'),
         PollModule,
     ],
     controllers: [AppController],
