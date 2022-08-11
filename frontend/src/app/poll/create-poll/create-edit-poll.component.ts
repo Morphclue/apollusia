@@ -68,6 +68,10 @@ export class CreateEditPollComponent implements OnInit {
   }
 
   private fetchPoll() {
+    if (!this.id) {
+      return;
+    }
+
     this.http.get<Poll>(`${environment.backendURL}/poll/${this.id}`).subscribe((poll: Poll) => {
       this.pollForm.patchValue({
         title: poll.title,
