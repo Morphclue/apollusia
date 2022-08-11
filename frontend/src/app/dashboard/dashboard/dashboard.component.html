@@ -1,5 +1,13 @@
 <div class="container">
-  <h3>My polls</h3>
+  <div *ngIf="polls.length == 0" class="d-flex align-items-center justify-content-center pt-5">
+    <h3>
+      You seem to have no polls created yet. Press:
+    </h3>
+    <button class="btn btn-primary m-2" type="button" routerLink="/poll/create">
+      <i class="bi-plus icon"></i>
+      Create Poll
+    </button>
+  </div>
   <div class="d-flex flex-column">
     <div *ngFor="let element of (polls || [])">
       <app-card [poll]="element"></app-card>
