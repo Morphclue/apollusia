@@ -11,11 +11,13 @@ import {CreateEditPollComponent} from './create-poll/create-edit-poll.component'
 import {PollRoutingModule} from './poll-routing.module';
 import {ChooseDateComponent} from './choose-date/choose-date.component';
 import {ChooseDateService} from './services/choose-date.service';
+import { ChooseEventsComponent } from './choose-events/choose-events.component';
 
 @NgModule({
   declarations: [
     CreateEditPollComponent,
     ChooseDateComponent,
+    ChooseEventsComponent,
   ],
   imports: [
     CommonModule,
