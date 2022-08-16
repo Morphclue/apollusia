@@ -47,8 +47,6 @@ export class ChooseEventsComponent implements OnInit {
           endTime: format(new Date(event.end), 'HH:mm'),
         });
       }
-
-      console.log(this.pollEvents[0]);
     });
   }
 }

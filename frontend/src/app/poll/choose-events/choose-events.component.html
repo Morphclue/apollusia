@@ -19,7 +19,13 @@
         <tr>
           <!--FIXME-->
           <th scope="row">1</th>
-          <td *ngFor="let event of pollEvents">TODO</td>
+          <td *ngFor="let event of pollEvents">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              value="false"
+            >
+          </td>
         </tr>
         </tbody>
       </table>
