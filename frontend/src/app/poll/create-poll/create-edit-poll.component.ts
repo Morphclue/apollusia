@@ -36,7 +36,7 @@ export class CreateEditPollComponent implements OnInit {
     title: new FormControl('', Validators.required),
     description: new FormControl(''),
     deadline: new FormControl(''),
-    maxParticipants: new FormControl(false),
+    maxParticipants: new FormControl(true),
     maxParticipantsInput: new FormControl('1'),
     allowMaybe: new FormControl(false),
     allowEdit: new FormControl(false),
