@@ -35,7 +35,7 @@ export class CreateEditPollComponent implements OnInit {
   pollForm = new FormGroup({
     title: new FormControl('', Validators.required),
     description: new FormControl(''),
-    deadline: new FormControl(''),
+    deadline: new FormControl(),
     maxParticipants: new FormControl(true),
     maxParticipantsInput: new FormControl('1'),
     allowMaybe: new FormControl(false),
@@ -48,15 +48,16 @@ export class CreateEditPollComponent implements OnInit {
   }
 
   onFormSubmit(): void {
+    const poll = this.pollForm.value;
     const createPollDto: CreatePollDto = {
-      title: this.pollForm.value.title,
-      description: this.pollForm.value.description,
+      title: poll.title!,
+      description: poll.description ? poll.description : '',
       settings: {
-        deadline: this.pollForm.value.deadline,
-        allowMaybe: this.pollForm.value.allowMaybe,
-        allowEdit: this.pollForm.value.allowEdit,
-        allowAnonymous: this.pollForm.value.allowAnonymous,
-        maxParticipants: this.pollForm.value.maxParticipants ? parseInt(this.pollForm.value.maxParticipantsInput) : 1,
+        deadline: poll.deadline ? new Date(poll.deadline) : undefined,
+        allowMaybe: !!poll.allowMaybe,
+        allowEdit: !!poll.allowEdit,
+        allowAnonymous: !!poll.allowAnonymous,
+        maxParticipants: poll.maxParticipants ? parseInt(<string>poll.maxParticipantsInput) : 1,
       },
     };
 
