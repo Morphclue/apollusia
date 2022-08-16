@@ -1,11 +1,11 @@
 import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
+import {ActivatedRoute, Router} from '@angular/router';
 import {WeekViewHourSegment} from 'calendar-utils';
 import {fromEvent, Observable} from 'rxjs';
 import {finalize, map, takeUntil} from 'rxjs/operators';
 import {addMinutes, differenceInMinutes, endOfWeek, startOfDay, startOfHour} from 'date-fns';
 import {CalendarEvent, CalendarEventTimesChangedEvent} from 'angular-calendar';
-import {ActivatedRoute, Router} from '@angular/router';
 
 import {ChooseDateService} from '../services/choose-date.service';
 import {environment} from '../../../environments/environment';
@@ -108,7 +108,7 @@ export class ChooseDateComponent implements AfterViewInit {
       return {eventId: event.id, title: event.title, start: event.start, end: event.end};
     });
     this.http.post(`${environment.backendURL}/poll/${this.id}/events`, events).subscribe(() => {
-      this.router.navigate([`poll/${this.id}`]).then(
+      this.router.navigate(['dashboard']).then(
         // TODO: fallback logic
       );
     });
