@@ -1,12 +1,17 @@
 <div class="d-flex justify-content-center">
   <div class="col-6 justify-content-center">
-    <div *ngIf="poll" class="table-responsive">
+    <div *ngIf="poll" class="table-responsive text-center">
       <table class="table">
         <thead>
         <tr>
-          <th scope="col">#</th>
+          <th scope="col"></th>
           <th *ngFor="let event of pollEvents" scope="col">
-            {{event.weekday}}
+            <div class="vote-option">
+              {{event.weekday}} <br>
+              <h3><b>{{event.day}}</b></h3>
+              <div class="month-text">{{event.month}}</div>
+              {{event.startTime}} - {{event.endTime}}
+            </div>
           </th>
         </tr>
         </thead>
@@ -14,10 +19,7 @@
         <tr>
           <!--FIXME-->
           <th scope="row">1</th>
-          <td>EXAMPLE</td>
-          <td>TODO</td>
-          <td>FIXME</td>
-          <td>LAST ENTRY</td>
+          <td *ngFor="let event of pollEvents">TODO</td>
         </tr>
         </tbody>
       </table>

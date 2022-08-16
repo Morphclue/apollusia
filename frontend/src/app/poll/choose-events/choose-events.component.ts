@@ -36,10 +36,19 @@ export class ChooseEventsComponent implements OnInit {
       }
 
       for (const event of poll.events) {
+        if (!event.end) {
+          return;
+        }
         this.pollEvents.push({
           weekday: format(new Date(event.start), 'E'),
+          day: format(new Date(event.start), 'd'),
+          month: format(new Date(event.start), 'MMM'),
+          startTime: format(new Date(event.start), 'HH:mm'),
+          endTime: format(new Date(event.end), 'HH:mm'),
         });
       }
+
+      console.log(this.pollEvents[0]);
     });
   }
 }
