@@ -3,11 +3,13 @@ import {RouterModule, Routes} from '@angular/router';
 
 import {CreateEditPollComponent} from './create-poll/create-edit-poll.component';
 import {ChooseDateComponent} from './choose-date/choose-date.component';
+import {ChooseEventsComponent} from './choose-events/choose-events.component';
 
 const routes: Routes = [
   {path: 'create', component: CreateEditPollComponent},
   {path: ':id', component: CreateEditPollComponent},
   {path: ':id/date', component: ChooseDateComponent},
+  {path: ':id/participate', component: ChooseEventsComponent},
 ];
 
 @NgModule({
