@@ -15,9 +15,19 @@ import {CreatePollDto, Poll} from '../../model/poll';
   styleUrls: ['./create-edit-poll.component.scss'],
 })
 export class CreateEditPollComponent implements OnInit {
-
   isCollapsed: boolean = true;
   id: string = '';
+  minDate = new Date();
+  pollForm = new FormGroup({
+    title: new FormControl('', Validators.required),
+    description: new FormControl(''),
+    deadline: new FormControl(),
+    maxParticipants: new FormControl(true),
+    maxParticipantsInput: new FormControl('1'),
+    allowMaybe: new FormControl(false),
+    allowEdit: new FormControl(false),
+    allowAnonymous: new FormControl(false),
+  });
 
   constructor(
     private modalService: NgbModal,
@@ -30,18 +40,6 @@ export class CreateEditPollComponent implements OnInit {
       this.id = id;
     });
   }
-
-  minDate = new Date();
-  pollForm = new FormGroup({
-    title: new FormControl('', Validators.required),
-    description: new FormControl(''),
-    deadline: new FormControl(),
-    maxParticipants: new FormControl(true),
-    maxParticipantsInput: new FormControl('1'),
-    allowMaybe: new FormControl(false),
-    allowEdit: new FormControl(false),
-    allowAnonymous: new FormControl(false),
-  });
 
   ngOnInit(): void {
     this.fetchPoll();
