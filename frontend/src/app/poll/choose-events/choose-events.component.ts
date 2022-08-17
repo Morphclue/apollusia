@@ -15,7 +15,6 @@ import {environment} from '../../../environments/environment';
 })
 export class ChooseEventsComponent implements OnInit {
   id: string = '';
-  poll?: Poll;
   pollEvents: any[] = [];
 
   constructor(
@@ -29,8 +28,11 @@ export class ChooseEventsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.fetchEvents();
+  }
+
+  private fetchEvents() {
     this.http.get<Poll>(`${environment.backendURL}/poll/${this.id}`).subscribe(poll => {
-      this.poll = poll;
       if (!poll.events) {
         return;
       }

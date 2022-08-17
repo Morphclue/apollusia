@@ -1,4 +1,4 @@
-import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, ElementRef} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {ActivatedRoute, Router} from '@angular/router';
 import {WeekViewHourSegment} from 'calendar-utils';
@@ -17,8 +17,6 @@ import {Event} from '../../model/event';
   styleUrls: ['./choose-date.component.scss'],
 })
 export class ChooseDateComponent implements AfterViewInit {
-
-  @ViewChild('scrollContainer') scrollContainer!: ElementRef<HTMLElement>;
   viewDate = new Date();
   dragToCreateActive = true;
   weekStartsOn: 1 = 1;
