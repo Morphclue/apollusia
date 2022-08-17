@@ -4,7 +4,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {WeekViewHourSegment} from 'calendar-utils';
 import {fromEvent, Observable} from 'rxjs';
 import {finalize, map, takeUntil} from 'rxjs/operators';
-import {addMinutes, differenceInMinutes, endOfWeek, startOfDay, startOfHour} from 'date-fns';
+import {addMinutes, differenceInMinutes, endOfWeek} from 'date-fns';
 import {CalendarEvent, CalendarEventTimesChangedEvent} from 'angular-calendar';
 
 import {ChooseDateService} from '../services/choose-date.service';
@@ -31,6 +31,7 @@ export class ChooseDateComponent implements AfterViewInit {
     private http: HttpClient,
     private router: Router,
     private route: ActivatedRoute,
+    private elementRef: ElementRef,
   ) {
     const id: Observable<string> = route.params.pipe(map(p => p.id));
     id.subscribe((id: string) => {
@@ -44,10 +45,10 @@ export class ChooseDateComponent implements AfterViewInit {
   }
 
   scrollToCurrentTime() {
-    this.scrollContainer.nativeElement.scrollTop = differenceInMinutes(
-      startOfHour(new Date()),
-      startOfDay(new Date()),
-    );
+    const selector = '.cal-current-time-marker';
+    setTimeout(() => {
+      this.elementRef.nativeElement.querySelector(selector).scrollIntoView();
+    });
   }
 
   startDragToCreate(
