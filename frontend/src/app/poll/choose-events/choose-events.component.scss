@@ -6,3 +6,7 @@ h3 {
 .month-text {
   color: gray;
 }
+
+.table-responsive td, .table-responsive th {
+  min-width: 100px;
+}
