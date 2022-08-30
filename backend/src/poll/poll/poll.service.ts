@@ -36,7 +36,7 @@ export class PollService {
         return this.pollModel.findByIdAndDelete(id).exec();
     }
 
-    postEvents(id: string, poll: Poll): Promise<Poll> {
+    async postEvents(id: string, poll: Poll): Promise<Poll> {
         return this.pollModel.findByIdAndUpdate(id, poll, {new: true}).exec();
     }
 
