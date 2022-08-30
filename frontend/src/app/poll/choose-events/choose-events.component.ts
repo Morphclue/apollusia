@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {ActivatedRoute, Router} from '@angular/router';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {CalendarEvent} from 'angular-calendar';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {format} from 'date-fns';
@@ -9,7 +10,6 @@ import {format} from 'date-fns';
 import {Poll} from '../../model/poll';
 import {environment} from '../../../environments/environment';
 import {Participant} from '../../model/participant';
-import {CalendarEvent} from 'angular-calendar';
 
 @Component({
   selector: 'app-choose-events',
