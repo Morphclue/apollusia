@@ -25,6 +25,19 @@
               <input class="form-check-input rounded-circle" type="checkbox" (change)="checked(n)">
             </td>
           </tr>
+          <tr *ngFor="let participant of participants">
+            <th>
+              {{participant.name}}
+            </th>
+            <td *ngFor="let participation of participant.participation">
+              <div *ngIf="participation" class="p-check">
+                <i class="bi-check-lg icon"></i>
+              </div>
+              <div *ngIf="!participation" class="p-unchecked">
+                <i class="bi-x-lg icon"></i>
+              </div>
+            </td>
+          </tr>
           </tbody>
         </table>
         <!-- TODO: align button -->
