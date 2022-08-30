@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
@@ -26,6 +26,7 @@ export class ChooseEventsComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private http: HttpClient,
   ) {
     const id: Observable<string> = route.params.pipe(map(p => p.id));
@@ -45,7 +46,7 @@ export class ChooseEventsComponent implements OnInit {
     };
 
     this.http.post(`${environment.backendURL}/poll/${this.id}/participate`, participant).subscribe(() => {
-      // TODO: redirect
+      window.location.reload();
     });
   }
 
