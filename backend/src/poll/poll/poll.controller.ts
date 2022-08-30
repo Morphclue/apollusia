@@ -4,7 +4,7 @@ import {Poll} from '../../schema/poll.schema';
 import {PollDto} from '../../dto/poll.dto';
 import {PollService} from './poll.service';
 import {PollEvent} from '../../dto/poll-event.dto';
-import {Participant} from '../../dto/participant';
+import {ParticipantDto} from '../../dto/participant.dto';
 
 @Controller('poll')
 export class PollController {
@@ -53,7 +53,7 @@ export class PollController {
     }
 
     @Post(':id/participate')
-    async postParticipation(@Param('id') id: string, @Body() participant: Participant){
+    async postParticipation(@Param('id') id: string, @Body() participant: ParticipantDto){
         console.log(id);
         console.log(participant);
     }
