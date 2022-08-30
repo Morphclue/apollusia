@@ -8,6 +8,7 @@ import {format} from 'date-fns';
 
 import {Poll} from '../../model/poll';
 import {environment} from '../../../environments/environment';
+import {Participant} from '../../model/participant';
 
 @Component({
   selector: 'app-choose-events',
@@ -38,7 +39,14 @@ export class ChooseEventsComponent implements OnInit {
   }
 
   onFormSubmit() {
-    // TODO: add logic for checks and form
+    let participant: Participant = {
+      name: 'example',
+      participation: this.checks,
+    };
+
+    this.http.post(`${environment.backendURL}/poll/${this.id}/participate`, participant).subscribe(() => {
+      // TODO: redirect
+    });
   }
 
   checked(n: number) {
