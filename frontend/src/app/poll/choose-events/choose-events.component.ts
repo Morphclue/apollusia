@@ -20,6 +20,7 @@ export class ChooseEventsComponent implements OnInit {
   id: string = '';
   pollEvents: any[] = [];
   checks: boolean[] = [];
+  participants: Participant[] = [];
   participateForm = new FormGroup({
     name: new FormControl('', Validators.required),
     // TODO: add checks as FormArray
@@ -38,6 +39,7 @@ export class ChooseEventsComponent implements OnInit {
 
   ngOnInit(): void {
     this.fetchEvents();
+    this.fetchParticipants();
   }
 
   onFormSubmit() {
@@ -80,5 +82,11 @@ export class ChooseEventsComponent implements OnInit {
         endTime: format(new Date(event.end), 'HH:mm'),
       });
     }
+  }
+
+  private fetchParticipants() {
+    this.http.get<Participant[]>(`${environment.backendURL}/poll/${this.id}/participate`).subscribe(participants => {
+      this.participants = participants;
+    });
   }
 }

@@ -5,6 +5,7 @@ import {PollDto} from '../../dto/poll.dto';
 import {PollService} from './poll.service';
 import {PollEvent} from '../../dto/poll-event.dto';
 import {ParticipantDto} from '../../dto/participant.dto';
+import {Participant} from '../../schema/participant.schema';
 
 @Controller('poll')
 export class PollController {
@@ -52,8 +53,13 @@ export class PollController {
         return this.pollService.postEvents(id, existingPoll);
     }
 
+    @Get(':id/participate')
+    async getParticipate(@Param('id') id: string): Promise<Participant[]> {
+        return this.pollService.getParticipate(id);
+    }
+
     @Post(':id/participate')
-    async postParticipation(@Param('id') id: string, @Body() participant: ParticipantDto){
+    async postParticipation(@Param('id') id: string, @Body() participant: ParticipantDto): Promise<Participant> {
         return this.pollService.postParticipation(id, participant);
     }
 }
