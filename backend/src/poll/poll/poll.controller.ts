@@ -54,7 +54,6 @@ export class PollController {
 
     @Post(':id/participate')
     async postParticipation(@Param('id') id: string, @Body() participant: ParticipantDto){
-        console.log(id);
-        console.log(participant);
+        return this.pollService.postParticipation(id, participant);
     }
 }

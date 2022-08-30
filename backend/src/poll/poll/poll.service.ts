@@ -4,11 +4,14 @@ import {Model} from 'mongoose';
 
 import {Poll} from '../../schema/poll.schema';
 import {PollDto} from '../../dto/poll.dto';
+import {Participant} from '../../schema/participant.schema';
+import {ParticipantDto} from '../../dto/participant.dto';
 
 @Injectable()
 export class PollService {
     constructor(
         @InjectModel(Poll.name) private pollModel: Model<Poll>,
+        @InjectModel(Participant.name) private participantModel: Model<Participant>,
     ) {
     }
 
@@ -35,5 +38,13 @@ export class PollService {
 
     postEvents(id: string, poll: Poll): Promise<Poll> {
         return this.pollModel.findByIdAndUpdate(id, poll, {new: true}).exec();
+    }
+
+    async postParticipation(id: string, participant: ParticipantDto): Promise<Participant> {
+        return this.participantModel.create({
+            poll: id,
+            name: participant.name,
+            participation: participant.participation,
+        });
     }
 }
