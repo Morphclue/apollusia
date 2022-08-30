@@ -9,6 +9,7 @@ import {format} from 'date-fns';
 import {Poll} from '../../model/poll';
 import {environment} from '../../../environments/environment';
 import {Participant} from '../../model/participant';
+import {CalendarEvent} from 'angular-calendar';
 
 @Component({
   selector: 'app-choose-events',
@@ -61,19 +62,23 @@ export class ChooseEventsComponent implements OnInit {
       }
 
       this.checks = new Array(poll.events.length).fill(false);
-      for (let i = 0; i < poll.events.length; i++) {
-        const event = poll.events[i];
-        if (!event.end) {
-          return;
-        }
-        this.pollEvents.push({
-          weekday: format(new Date(event.start), 'E'),
-          day: format(new Date(event.start), 'd'),
-          month: format(new Date(event.start), 'MMM'),
-          startTime: format(new Date(event.start), 'HH:mm'),
-          endTime: format(new Date(event.end), 'HH:mm'),
-        });
-      }
+      this.fillPollEvents(poll.events);
     });
+  }
+
+  private fillPollEvents(events: CalendarEvent[]) {
+    for (let i = 0; i < events.length; i++) {
+      const event = events[i];
+      if (!event.end) {
+        return;
+      }
+      this.pollEvents.push({
+        weekday: format(new Date(event.start), 'E'),
+        day: format(new Date(event.start), 'd'),
+        month: format(new Date(event.start), 'MMM'),
+        startTime: format(new Date(event.start), 'HH:mm'),
+        endTime: format(new Date(event.end), 'HH:mm'),
+      });
+    }
   }
 }
