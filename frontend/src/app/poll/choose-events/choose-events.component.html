@@ -1,31 +1,35 @@
 <div class="d-flex justify-content-center">
   <div class="col-6 justify-content-center">
     <div *ngIf="pollEvents" class="table-responsive text-center">
-      <table class="table">
-        <thead>
-        <tr>
-          <th scope="col"></th>
-          <th *ngFor="let event of pollEvents" scope="col">
-            <div class="vote-option">
-              {{event.weekday}} <br>
-              <h3><b>{{event.day}}</b></h3>
-              <div class="month-text">{{event.month}}</div>
-              {{event.startTime}} - {{event.endTime}}
-            </div>
-          </th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-          <th style="min-width: 240px" scope="row">
-            <input class="form-control" type="text" id="name" placeholder="Your name">
-          </th>
-          <td *ngFor="let event of pollEvents">
-            <input class="form-check-input rounded-circle" type="checkbox" value="false">
-          </td>
-        </tr>
-        </tbody>
-      </table>
+      <form class="m-5" [formGroup]="participateForm" (ngSubmit)="onFormSubmit()">
+        <table class="table">
+          <thead>
+          <tr>
+            <th scope="col"></th>
+            <th *ngFor="let event of pollEvents" scope="col">
+              <div class="vote-option">
+                {{event.weekday}} <br>
+                <h3><b>{{event.day}}</b></h3>
+                <div class="month-text">{{event.month}}</div>
+                {{event.startTime}} - {{event.endTime}}
+              </div>
+            </th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <th style="min-width: 240px" scope="row">
+              <input class="form-control" type="text" id="name" placeholder="Your name" formControlName="name">
+            </th>
+            <td *ngFor="let poll of pollEvents; let n=index">
+              <input class="form-check-input rounded-circle" type="checkbox" (change)="checked(n)">
+            </td>
+          </tr>
+          </tbody>
+        </table>
+        <!-- TODO: align button -->
+        <button class="btn btn-primary" type="submit">Submit</button>
+      </form>
     </div>
   </div>
 </div>

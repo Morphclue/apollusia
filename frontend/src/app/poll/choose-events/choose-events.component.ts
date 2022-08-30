@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {ActivatedRoute} from '@angular/router';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {format} from 'date-fns';
@@ -16,6 +17,11 @@ import {environment} from '../../../environments/environment';
 export class ChooseEventsComponent implements OnInit {
   id: string = '';
   pollEvents: any[] = [];
+  checks: boolean[] = [];
+  participateForm = new FormGroup({
+    name: new FormControl('', Validators.required),
+    // TODO: add checks as FormArray
+  });
 
   constructor(
     private route: ActivatedRoute,
@@ -31,13 +37,23 @@ export class ChooseEventsComponent implements OnInit {
     this.fetchEvents();
   }
 
+  onFormSubmit() {
+    // TODO: add logic for checks and form
+  }
+
+  checked(n: number) {
+    this.checks[n] = !this.checks[n];
+  }
+
   private fetchEvents() {
     this.http.get<Poll>(`${environment.backendURL}/poll/${this.id}`).subscribe(poll => {
       if (!poll.events) {
         return;
       }
 
-      for (const event of poll.events) {
+      this.checks = new Array(poll.events.length).fill(false);
+      for (let i = 0; i < poll.events.length; i++) {
+        const event = poll.events[i];
         if (!event.end) {
           return;
         }
