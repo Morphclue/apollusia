@@ -38,6 +38,14 @@
               </div>
             </td>
           </tr>
+          <tr>
+            <th>
+              Sum
+            </th>
+            <td *ngFor="let pollEvent of pollEvents">
+              {{pollEvent.participants}}
+            </td>
+          </tr>
           </tbody>
         </table>
         <!-- TODO: align button -->

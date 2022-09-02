@@ -80,6 +80,7 @@ export class ChooseEventsComponent implements OnInit {
         month: format(new Date(event.start), 'MMM'),
         startTime: format(new Date(event.start), 'HH:mm'),
         endTime: format(new Date(event.end), 'HH:mm'),
+        participants: 0,
       });
     }
   }
@@ -87,6 +88,17 @@ export class ChooseEventsComponent implements OnInit {
   private fetchParticipants() {
     this.http.get<Participant[]>(`${environment.backendURL}/poll/${this.id}/participate`).subscribe(participants => {
       this.participants = participants;
+      this.calculateParticipationSum();
     });
+  }
+
+  private calculateParticipationSum() {
+    for (const participant of this.participants) {
+      for (let i = 0; i < participant.participation.length; i++) {
+        if (participant.participation[i]) {
+          this.pollEvents[i].participants++;
+        }
+      }
+    }
   }
 }
