@@ -21,7 +21,7 @@
             <th style="min-width: 240px" scope="row">
               <input class="form-control" type="text" id="name" placeholder="Your name" formControlName="name">
             </th>
-            <td *ngFor="let poll of pollEvents; let n=index">
+            <td *ngFor="let pollEvent of pollEvents; let n=index">
               <input class="form-check-input rounded-circle" type="checkbox" (change)="checked(n)">
             </td>
           </tr>
