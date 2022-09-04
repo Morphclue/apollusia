@@ -45,7 +45,7 @@ export class ChooseEventsComponent implements OnInit {
     const attendedEvents = this.pollEvents.filter((_, i) => this.checks[i]);
 
     let participant: Participant = {
-      name: 'example',
+      name: this.participateForm.value.name ?? '',
       participation: attendedEvents,
     };
 
