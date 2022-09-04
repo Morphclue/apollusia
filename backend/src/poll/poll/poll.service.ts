@@ -29,8 +29,8 @@ export class PollService {
         return this.pollModel.create(pollDto);
     }
 
-    async putPoll(pollDto: PollDto): Promise<Poll> {
-        return this.pollModel.findByIdAndUpdate(pollDto, pollDto, {new: true}).exec();
+    async putPoll(id: string, pollDto: PollDto): Promise<Poll> {
+        return this.pollModel.findByIdAndUpdate(id, pollDto, {new: true}).exec();
     }
 
     async deletePoll(id: string): Promise<Poll | undefined> {

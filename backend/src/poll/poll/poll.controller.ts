@@ -27,9 +27,9 @@ export class PollController {
         return this.pollService.postPoll(pollDto);
     }
 
-    @Put()
-    async putPoll(@Body() pollDto: PollDto): Promise<Poll> {
-        return this.pollService.putPoll(pollDto);
+    @Put(':id')
+    async putPoll(@Param('id') id: string, @Body() pollDto: PollDto): Promise<Poll> {
+        return this.pollService.putPoll(id, pollDto);
     }
 
     @Delete(':id')
