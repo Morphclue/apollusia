@@ -8,9 +8,6 @@ export class PollEvent {
     @Prop({type: mongoose.Schema.Types.ObjectId, ref: 'Poll'})
     poll: Poll;
 
-    @Prop({required: true})
-    eventId: number;
-
     @Prop()
     title: string;
 

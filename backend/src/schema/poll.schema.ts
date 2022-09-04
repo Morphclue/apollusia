@@ -1,7 +1,8 @@
 import {Prop, Schema, SchemaFactory} from '@nestjs/mongoose';
+import mongoose from 'mongoose';
 
-import {PollEvent} from '../dto/poll-event.dto';
 import {Settings} from '../dto/settings';
+import {PollEvent} from './poll-event.schema';
 
 @Schema()
 export class Poll {
@@ -14,7 +15,12 @@ export class Poll {
     @Prop({Settings})
     settings: Settings;
 
-    @Prop([PollEvent])
+    @Prop({
+        type: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'PollEvent',
+        }],
+    })
     events: PollEvent[];
 }
 

@@ -3,8 +3,8 @@ import {IsNotEmpty, IsString} from 'class-validator';
 
 export class PollEvent {
     @ApiProperty()
-    @IsNotEmpty()
-    eventId: number;
+    @IsString()
+    _id: string;
 
     @ApiProperty()
     @IsString()

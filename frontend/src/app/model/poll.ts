@@ -1,12 +1,11 @@
-import {CalendarEvent} from 'angular-calendar';
-
 import {Settings} from './settings';
+import {PollEvent} from './poll-event';
 
 export interface Poll {
   title: string;
   description?: string;
   settings: Settings;
-  events?: CalendarEvent[]
+  events?: PollEvent[]
   _id: string;
 }
 

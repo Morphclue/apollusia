@@ -9,7 +9,7 @@ import {CalendarEvent, CalendarEventTimesChangedEvent} from 'angular-calendar';
 
 import {ChooseDateService} from '../services/choose-date.service';
 import {environment} from '../../../environments/environment';
-import {Event} from '../../model/event';
+import {PollEvent} from '../../model/poll-event';
 
 @Component({
   selector: 'app-choose-date',
@@ -103,8 +103,8 @@ export class ChooseDateComponent implements AfterViewInit {
   }
 
   createEvents() {
-    const events: Event[] = this.chooseDateService.events.map((event: CalendarEvent) => {
-      return {eventId: event.id, title: event.title, start: event.start, end: event.end};
+    const events: PollEvent[] = this.chooseDateService.events.map((event: CalendarEvent) => {
+      return {_id: event.id?.toString(), title: event.title, start: event.start, end: event.end};
     });
     this.http.post(`${environment.backendURL}/poll/${this.id}/events`, events).subscribe(() => {
       this.router.navigate(['dashboard']).then(

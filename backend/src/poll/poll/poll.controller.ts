@@ -49,8 +49,7 @@ export class PollController {
             throw new NotFoundException(id);
         }
 
-        existingPoll.events = pollEvents;
-        return this.pollService.postEvents(id, existingPoll);
+        return this.pollService.postEvents(id, existingPoll, pollEvents);
     }
 
     @Get(':id/participate')

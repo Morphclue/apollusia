@@ -6,12 +6,12 @@ import {addDays, addMinutes} from 'date-fns';
 
 import {Poll} from '../../model/poll';
 import {environment} from '../../../environments/environment';
+import {PollEvent} from '../../model/poll-event';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ChooseDateService {
-
   events: CalendarEvent[] = [];
   actions: CalendarEventAction[] = [
     {
@@ -35,7 +35,6 @@ export class ChooseDateService {
 
   createDragSelectEvent(segment: WeekViewHourSegment): CalendarEvent {
     const dragToSelectEvent: CalendarEvent = {
-      id: this.events.length,
       title: 'New event: ' + this.events.length.toString(),
       start: segment.date,
       actions: this.actions,
@@ -78,12 +77,12 @@ export class ChooseDateService {
         return;
       }
 
-      this.events = poll.events.map((event: CalendarEvent) => {
+      this.events = poll.events.map((event: PollEvent) => {
         const startDate: Date = new Date(event.start);
         const endDate: Date = event.end ? new Date(event.end) : new Date();
 
         return {
-          id: event.id,
+          id: event._id,
           title: event.title,
           actions: this.actions,
           draggable: true,
