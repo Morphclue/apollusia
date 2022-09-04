@@ -53,8 +53,8 @@ export class PollController {
     }
 
     @Get(':id/participate')
-    async getParticipate(@Param('id') id: string): Promise<Participant[]> {
-        return this.pollService.getParticipate(id);
+    async getParticipants(@Param('id') id: string): Promise<Participant[]> {
+        return this.pollService.getParticipants(id);
     }
 
     @Post(':id/participate')

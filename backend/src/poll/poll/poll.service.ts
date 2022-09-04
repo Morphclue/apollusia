@@ -58,8 +58,8 @@ export class PollService {
         return this.pollModel.findByIdAndUpdate(id, poll, {new: true}).exec();
     }
 
-    async getParticipate(id: string) {
-        return this.participantModel.find({poll: id}).exec();
+    async getParticipants(id: string) {
+        return this.participantModel.find({poll: id}).populate('participation').exec();
     }
 
     async postParticipation(id: string, participant: ParticipantDto): Promise<Participant> {

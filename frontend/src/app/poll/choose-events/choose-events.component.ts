@@ -2,14 +2,13 @@ import {Component, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {ActivatedRoute, Router} from '@angular/router';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {CalendarEvent} from 'angular-calendar';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {format} from 'date-fns';
 
 import {Poll} from '../../model/poll';
 import {environment} from '../../../environments/environment';
 import {Participant} from '../../model/participant';
+import {PollEvent} from '../../model/poll-event';
 
 @Component({
   selector: 'app-choose-events',
@@ -18,7 +17,7 @@ import {Participant} from '../../model/participant';
 })
 export class ChooseEventsComponent implements OnInit {
   id: string = '';
-  pollEvents: any[] = [];
+  pollEvents: PollEvent[] = [];
   checks: boolean[] = [];
   participants: Participant[] = [];
   participateForm = new FormGroup({
@@ -43,9 +42,11 @@ export class ChooseEventsComponent implements OnInit {
   }
 
   onFormSubmit() {
+    const attendedEvents = this.pollEvents.filter((_, i) => this.checks[i]);
+
     let participant: Participant = {
       name: 'example',
-      participation: this.checks,
+      participation: attendedEvents,
     };
 
     this.http.post(`${environment.backendURL}/poll/${this.id}/participate`, participant).subscribe(() => {
@@ -63,42 +64,18 @@ export class ChooseEventsComponent implements OnInit {
         return;
       }
 
+      this.pollEvents = poll.events;
       this.checks = new Array(poll.events.length).fill(false);
-      this.fillPollEvents(poll.events);
     });
-  }
-
-  private fillPollEvents(events: CalendarEvent[]) {
-    for (let i = 0; i < events.length; i++) {
-      const event = events[i];
-      if (!event.end) {
-        return;
-      }
-      this.pollEvents.push({
-        weekday: format(new Date(event.start), 'E'),
-        day: format(new Date(event.start), 'd'),
-        month: format(new Date(event.start), 'MMM'),
-        startTime: format(new Date(event.start), 'HH:mm'),
-        endTime: format(new Date(event.end), 'HH:mm'),
-        participants: 0,
-      });
-    }
   }
 
   private fetchParticipants() {
     this.http.get<Participant[]>(`${environment.backendURL}/poll/${this.id}/participate`).subscribe(participants => {
       this.participants = participants;
-      this.calculateParticipationSum();
     });
   }
 
-  private calculateParticipationSum() {
-    for (const participant of this.participants) {
-      for (let i = 0; i < participant.participation.length; i++) {
-        if (participant.participation[i]) {
-          this.pollEvents[i].participants++;
-        }
-      }
-    }
+  countParticipants(pollEvent: PollEvent) {
+    return this.participants.filter(participant => participant.participation.find(event => event._id === pollEvent._id)).length;
   }
 }

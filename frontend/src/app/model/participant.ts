@@ -1,4 +1,6 @@
+import {PollEvent} from './poll-event';
+
 export interface Participant {
   name: string;
-  participation: boolean[];
+  participation: PollEvent[];
 }

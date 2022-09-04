@@ -8,10 +8,10 @@
             <th scope="col"></th>
             <th *ngFor="let event of pollEvents" scope="col">
               <div class="vote-option">
-                {{event.weekday}} <br>
-                <h3><b>{{event.day}}</b></h3>
-                <div class="month-text">{{event.month}}</div>
-                {{event.startTime}} - {{event.endTime}}
+                {{ event.start | date:'E' }} <br>
+                <h3><b>{{ event.start | date:'d' }}</b></h3>
+                <div class="month-text">{{ event.start | date:'MMM' }}</div>
+                {{ event.start | date:'HH:mm' }}- {{ event.end | date:'HH:mm' }}
               </div>
             </th>
           </tr>
@@ -29,11 +29,11 @@
             <th>
               {{participant.name}}
             </th>
-            <td *ngFor="let participation of participant.participation">
-              <div *ngIf="participation" class="p-check">
+            <td *ngFor="let pollEvent of pollEvents">
+              <div *ngIf="(participant.participation | some: pollEvent._id )" class="p-check">
                 <i class="bi-check-lg icon"></i>
               </div>
-              <div *ngIf="!participation" class="p-unchecked">
+              <div *ngIf="!(participant.participation | some: pollEvent._id )" class="p-unchecked">
                 <i class="bi-x-lg icon"></i>
               </div>
             </td>
@@ -43,7 +43,7 @@
               Sum
             </th>
             <td *ngFor="let pollEvent of pollEvents">
-              {{pollEvent.participants}}
+              {{ countParticipants(pollEvent) }}
             </td>
           </tr>
           </tbody>

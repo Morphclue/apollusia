@@ -2,6 +2,7 @@ import {Prop, Schema, SchemaFactory} from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
 
 import {Poll} from './poll.schema';
+import {PollEvent} from './poll-event.schema';
 
 @Schema()
 export class Participant {
@@ -11,8 +12,13 @@ export class Participant {
     @Prop({required: true})
     name: string;
 
-    @Prop()
-    participation: boolean[];
+    @Prop({
+        type: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'PollEvent',
+        }],
+    })
+    participation: PollEvent[];
 }
 
 export const ParticipantSchema = SchemaFactory.createForClass(Participant);
