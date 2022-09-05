@@ -1,5 +1,5 @@
 import {Pipe, PipeTransform} from '@angular/core';
-import {PollEvent} from '../../model/poll-event';
+import {PollEvent} from '../model/poll-event';
 
 @Pipe({
   name: 'some',

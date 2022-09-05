@@ -1,27 +1,22 @@
 <div *ngIf="poll !== undefined">
   <div class="col d-flex justify-content-center">
-    <div class="col-lg-6">
-      <div class="card card-margin">
+    <div class="col-lg-6 mt-3">
+      <div class="card">
         <div class="card-header">
-        </div>
-        <div class="card-body pt-0">
-          <div class="title">
-            <div class="date-symbol">
-              <span class="date-day">09</span>
-              <span class="date-month">apr</span>
-            </div>
-            <div class="info">
-              <span class="info-title">{{poll.title}}</span>
-              <span class="meeting-date">
-              <div *ngIf="poll.settings.deadline !==undefined">
-                {{poll.settings.deadline}}
-              </div>
-            </span>
-            </div>
+          <div class="d-flex justify-content-between">
+            <h5 class="card-title">{{poll.title}}</h5>
+            <a class="btn btn-flash-border-primary" href="poll/{{poll._id}}"><i class="bi-pencil-square"></i> Edit</a>
           </div>
-          <span class="description">{{poll.description}}</span>
-          <div class="edit-button">
-            <a href="poll/{{poll._id}}" class="btn btn-sm btn-flash-border-primary">Edit</a>
+        </div>
+        <div *ngIf="poll.description" class="card-body">
+          <p class="card-text">{{poll.description | truncate:[160, '...']}}</p>
+        </div>
+        <div class="card-footer">
+          <div *ngIf="poll.settings.deadline">
+            <i class="bi-calendar"></i> Deadline: {{poll.settings.deadline | date:'medium'}}
+          </div>
+          <div *ngIf="poll.events" class="card-text">
+            <i class="bi-check"></i> Options: {{poll.events.length}}
           </div>
         </div>
       </div>

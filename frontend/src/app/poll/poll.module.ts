@@ -12,7 +12,7 @@ import {PollRoutingModule} from './poll-routing.module';
 import {ChooseDateComponent} from './choose-date/choose-date.component';
 import {ChooseDateService} from './services/choose-date.service';
 import {ChooseEventsComponent} from './choose-events/choose-events.component';
-import {SomePipe} from './pipes/some.pipe';
+import {SomePipe} from '../pipes/some.pipe';
 
 @NgModule({
   declarations: [
