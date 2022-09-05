@@ -42,7 +42,6 @@ export class PollService {
             await this.pollEventModel.findByIdAndUpdate(
                 pollEvent._id ?? new mongoose.Types.ObjectId(), {
                     poll: id,
-                    title: pollEvent.title,
                     start: pollEvent.start,
                     end: pollEvent.end,
                 }, {upsert: true});

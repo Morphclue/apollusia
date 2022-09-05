@@ -35,7 +35,7 @@ export class ChooseDateService {
 
   createDragSelectEvent(segment: WeekViewHourSegment): CalendarEvent {
     const dragToSelectEvent: CalendarEvent = {
-      title: 'New event: ' + this.events.length.toString(),
+      title: '',
       start: segment.date,
       actions: this.actions,
       draggable: true,
@@ -83,7 +83,7 @@ export class ChooseDateService {
 
         return {
           id: event._id,
-          title: event.title,
+          title: '',
           actions: this.actions,
           draggable: true,
           resizable: {
