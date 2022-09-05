@@ -42,6 +42,11 @@ export class ChooseEventsComponent implements OnInit {
   }
 
   onFormSubmit() {
+    if (!this.participateForm.valid) {
+      this.participateForm.setErrors({...this.participateForm.errors, 'missingName': true});
+      return;
+    }
+
     const attendedEvents = this.pollEvents.filter((_, i) => this.checks[i]);
 
     let participant: Participant = {

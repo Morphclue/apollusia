@@ -20,6 +20,10 @@
           <tr>
             <th style="min-width: 240px" scope="row">
               <input class="form-control" type="text" id="name" placeholder="Your name" formControlName="name">
+              <div
+                *ngIf="participateForm.hasError('missingName')">
+                <div class="text-danger small">Name is required.</div>
+              </div>
             </th>
             <td *ngFor="let pollEvent of pollEvents; let n=index">
               <input class="form-check-input rounded-circle" type="checkbox" (change)="checked(n)">
