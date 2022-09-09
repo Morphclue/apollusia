@@ -2,7 +2,7 @@
   <div class="col-lg-6 mt-3">
     <div class="input-group mb-3">
       <!-- TODO: wrap with card? -->
-      <input class="form-control" type="text" [(ngModel)]="input">
+      <input class="form-control" [class.blurred]="!visible" type="text" [(ngModel)]="input">
       <button
         class="btn btn-outline-secondary"
         type="button"
@@ -19,8 +19,8 @@
         ngbTooltip="Toggle visibility"
         (click)="toggleVisibility()"
       >
-        <i *ngIf=visible class="bi-eye"></i>
-        <i *ngIf=!visible class="bi-eye-slash"></i>
+        <i *ngIf=!visible class="bi-eye"></i>
+        <i *ngIf=visible class="bi-eye-slash"></i>
       </button>
       <button class="btn btn-outline-secondary" type="button" placement="top" ngbTooltip="Re-Generate Token">
         <i class="bi-arrow-repeat"></i>
