@@ -8,6 +8,7 @@
       Create Poll
     </button>
   </div>
+  <app-token></app-token>
   <div class="d-flex flex-column">
     <div *ngFor="let element of (polls || [])">
       <app-card [poll]="element"></app-card>
