@@ -7,6 +7,7 @@ import {Component, OnInit} from '@angular/core';
 })
 export class TokenComponent implements OnInit {
   input: string = '';
+  visible: boolean = false;
 
   constructor() {
   }
@@ -16,5 +17,9 @@ export class TokenComponent implements OnInit {
 
   copyToClipboard() {
     navigator.clipboard.writeText(this.input).then().catch(e => console.log(e));
+  }
+
+  toggleVisibility() {
+    this.visible = !this.visible;
   }
 }

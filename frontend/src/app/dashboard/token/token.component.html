@@ -12,8 +12,15 @@
       >
         <i class="bi bi-clipboard"></i>
       </button>
-      <button class="btn btn-outline-secondary" type="button" placement="top" ngbTooltip="Toggle visibility">
-        <i class="bi bi-eye"></i>
+      <button
+        class="btn btn-outline-secondary"
+        type="button"
+        placement="top"
+        ngbTooltip="Toggle visibility"
+        (click)="toggleVisibility()"
+      >
+        <i *ngIf=visible class="bi bi-eye"></i>
+        <i *ngIf=!visible class="bi bi-eye-slash"></i>
       </button>
       <button class="btn btn-outline-secondary" type="button" placement="top" ngbTooltip="Re-Generate Token">
         <i class="bi bi-arrow-repeat"></i>
