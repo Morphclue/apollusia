@@ -6,10 +6,15 @@ import {Component, OnInit} from '@angular/core';
   styleUrls: ['./token.component.scss'],
 })
 export class TokenComponent implements OnInit {
+  input: string = '';
 
   constructor() {
   }
 
   ngOnInit(): void {
+  }
+
+  copyToClipboard() {
+    navigator.clipboard.writeText(this.input).then().catch(e => console.log(e));
   }
 }

@@ -2,8 +2,14 @@
   <div class="col-lg-6 mt-3">
     <div class="input-group mb-3">
       <!-- TODO: wrap with card? -->
-      <input class="form-control" type="text">
-      <button class="btn btn-outline-secondary" type="button" placement="top" ngbTooltip="Copy to clipboard">
+      <input class="form-control" type="text" [(ngModel)]="input">
+      <button
+        class="btn btn-outline-secondary"
+        type="button"
+        placement="top"
+        ngbTooltip="Copy to clipboard"
+        (click)="copyToClipboard()"
+      >
         <i class="bi bi-clipboard"></i>
       </button>
       <button class="btn btn-outline-secondary" type="button" placement="top" ngbTooltip="Toggle visibility">
