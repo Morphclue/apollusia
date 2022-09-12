@@ -4,9 +4,8 @@ import {CalendarEvent, CalendarEventAction} from 'angular-calendar';
 import {WeekViewHourSegment} from 'calendar-utils';
 import {addDays, addMinutes} from 'date-fns';
 
-import {Poll} from '../../model/poll';
+import {Poll, PollEvent} from '../../model';
 import {environment} from '../../../environments/environment';
-import {PollEvent} from '../../model/poll-event';
 
 @Injectable({
   providedIn: 'root',

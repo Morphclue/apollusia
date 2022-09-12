@@ -2,11 +2,8 @@ import {Injectable} from '@nestjs/common';
 import {InjectModel} from '@nestjs/mongoose';
 import mongoose, {Model} from 'mongoose';
 
-import {Poll} from '../../schema/poll.schema';
-import {PollDto} from '../../dto/poll.dto';
-import {Participant} from '../../schema/participant.schema';
-import {ParticipantDto} from '../../dto/participant.dto';
-import {PollEvent} from '../../dto/poll-event.dto';
+import {ParticipantDto, PollDto, PollEventDto} from '../../dto';
+import {Participant, Poll, PollEvent} from '../../schema';
 
 @Injectable()
 export class PollService {
@@ -39,7 +36,7 @@ export class PollService {
         return this.pollModel.findByIdAndDelete(id).exec();
     }
 
-    async postEvents(id: string, poll: Poll, pollEvents: PollEvent[]): Promise<Poll> {
+    async postEvents(id: string, poll: Poll, pollEvents: PollEventDto[]): Promise<Poll> {
         for (const pollEvent of pollEvents) {
             await this.pollEventModel.findByIdAndUpdate(
                 pollEvent._id ?? new mongoose.Types.ObjectId(), {

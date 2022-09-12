@@ -1,11 +1,8 @@
 import {Body, Controller, Delete, Get, NotFoundException, Param, Post, Put} from '@nestjs/common';
 
 import {PollService} from './poll.service';
-import {PollDto} from '../../dto/poll.dto';
-import {PollEvent} from '../../dto/poll-event.dto';
-import {ParticipantDto} from '../../dto/participant.dto';
-import {Poll} from '../../schema/poll.schema';
-import {Participant} from '../../schema/participant.schema';
+import {PollDto, PollEventDto, ParticipantDto} from '../../dto';
+import {Poll, Participant} from '../../schema';
 
 @Controller('poll')
 export class PollController {
@@ -43,7 +40,7 @@ export class PollController {
     }
 
     @Post(':id/events')
-    async postEvents(@Param('id') id: string, @Body() pollEvents: PollEvent[]): Promise<Poll> {
+    async postEvents(@Param('id') id: string, @Body() pollEvents: PollEventDto[]): Promise<Poll> {
         const existingPoll = await this.pollService.getPoll(id);
         if (!existingPoll) {
             throw new NotFoundException(id);

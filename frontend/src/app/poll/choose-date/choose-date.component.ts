@@ -9,7 +9,7 @@ import {CalendarEvent, CalendarEventTimesChangedEvent} from 'angular-calendar';
 
 import {ChooseDateService} from '../services/choose-date.service';
 import {environment} from '../../../environments/environment';
-import {PollEvent} from '../../model/poll-event';
+import {PollEvent} from '../../model';
 
 @Component({
   selector: 'app-choose-date',

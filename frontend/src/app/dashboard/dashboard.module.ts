@@ -7,7 +7,7 @@ import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {DashboardRoutingModule} from './dashboard-routing.module';
 import {DashboardComponent} from './dashboard/dashboard.component';
 import {CardComponent} from './card/card.component';
-import {TruncatePipe} from '../pipes/truncate.pipe';
+import {TruncatePipe} from '../pipes';
 import {TokenComponent} from './token/token.component';
 import {TokenService} from './token/token.service';
 

@@ -1,7 +1,7 @@
 import {Prop, Schema, SchemaFactory} from '@nestjs/mongoose';
 import mongoose from 'mongoose';
 
-import {Settings} from '../dto/settings';
+import {Settings} from '../dto';
 import {PollEvent} from './poll-event.schema';
 
 @Schema()

@@ -8,7 +8,7 @@ import {map} from 'rxjs/operators';
 
 import {environment} from '../../../environments/environment';
 import {TokenService} from '../../dashboard/token/token.service';
-import {CreatePollDto, Poll} from '../../model/poll';
+import {CreatePollDto, Poll} from '../../model';
 
 @Component({
   selector: 'app-create-edit-poll',

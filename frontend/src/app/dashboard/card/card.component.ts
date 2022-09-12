@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 
-import {Poll} from '../../model/poll';
+import {Poll} from '../../model';
 
 @Component({
   selector: 'app-card',

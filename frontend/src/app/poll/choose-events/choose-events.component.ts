@@ -5,10 +5,8 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 
-import {Poll} from '../../model/poll';
+import {Participant, Poll, PollEvent} from '../../model';
 import {environment} from '../../../environments/environment';
-import {Participant} from '../../model/participant';
-import {PollEvent} from '../../model/poll-event';
 
 @Component({
   selector: 'app-choose-events',
