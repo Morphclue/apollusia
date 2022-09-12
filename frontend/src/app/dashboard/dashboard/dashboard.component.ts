@@ -2,8 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 
 import {environment} from '../../../environments/environment';
+import {TokenService} from '../../core/token/token.service';
 import {Poll} from '../../model';
-import {TokenService} from '../token/token.service';
 
 @Component({
   selector: 'app-dashboard',
