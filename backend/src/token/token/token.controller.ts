@@ -1,4 +1,4 @@
-import {Controller, Get} from '@nestjs/common';
+import {Controller, Get, Param} from '@nestjs/common';
 
 import {TokenService} from './token.service';
 
@@ -10,5 +10,10 @@ export class TokenController {
     @Get()
     generateToken(): any {
         return this.tokenService.generateToken();
+    }
+
+    @Get(':token')
+    async regenerateToken(@Param('token') token: string): Promise<any> {
+        return this.tokenService.regenerateToken(token);
     }
 }

@@ -24,10 +24,20 @@ export class TokenService {
     return this.currentToken;
   }
 
+  regenerateToken() {
+    this.http.get<Token>(`${environment.backendURL}/token/${this.currentToken}`).subscribe((data: Token) => {
+      this.setToken(data.token);
+    });
+  }
+
   private generateToken() {
     this.http.get<Token>(`${environment.backendURL}/token`).subscribe((data: Token) => {
-      localStorage.setItem('token', data.token);
-      this.currentToken = data.token;
+      this.setToken(data.token);
     });
+  }
+
+  private setToken(token: string) {
+    localStorage.setItem('token', token);
+    this.currentToken = token;
   }
 }

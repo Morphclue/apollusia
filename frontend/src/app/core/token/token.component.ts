@@ -27,4 +27,8 @@ export class TokenComponent implements OnInit {
   toggleVisibility() {
     this.visible = !this.visible;
   }
+
+  regenerateToken() {
+    this.tokenService.regenerateToken();
+  }
 }

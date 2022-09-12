@@ -22,7 +22,13 @@
         <i *ngIf=!visible class="bi-eye"></i>
         <i *ngIf=visible class="bi-eye-slash"></i>
       </button>
-      <button class="btn btn-outline-secondary" type="button" placement="top" ngbTooltip="Re-Generate Token">
+      <button
+        class="btn btn-outline-secondary"
+        type="button"
+        placement="top"
+        ngbTooltip="Re-Generate Token"
+        (click)="regenerateToken()"
+      >
         <i class="bi-arrow-repeat"></i>
       </button>
     </div>
