@@ -1,4 +1,4 @@
-export class Settings {
+export interface Settings {
     deadline?: Date;
     maxParticipants?: number;
     allowMaybe: boolean;
