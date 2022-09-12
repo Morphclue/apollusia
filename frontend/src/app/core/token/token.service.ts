@@ -24,8 +24,8 @@ export class TokenService {
     return this.currentToken;
   }
 
-  regenerateToken() {
-    this.http.get<Token>(`${environment.backendURL}/token/${this.currentToken}`).subscribe((data: Token) => {
+  async regenerateToken() {
+    await this.http.get<Token>(`${environment.backendURL}/token/${this.currentToken}`).toPromise().then((data: Token) => {
       this.setToken(data.token);
     });
   }

@@ -28,7 +28,8 @@ export class TokenComponent implements OnInit {
     this.visible = !this.visible;
   }
 
-  regenerateToken() {
-    this.tokenService.regenerateToken();
+  async regenerateToken() {
+    await this.tokenService.regenerateToken();
+    this.input = this.tokenService.getToken();
   }
 }
