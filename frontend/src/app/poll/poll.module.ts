@@ -13,6 +13,7 @@ import {ChooseDateComponent} from './choose-date/choose-date.component';
 import {ChooseDateService} from './services/choose-date.service';
 import {ChooseEventsComponent} from './choose-events/choose-events.component';
 import {SomePipe} from '../pipes/some.pipe';
+import {TokenService} from '../dashboard/token/token.service';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import {SomePipe} from '../pipes/some.pipe';
   ],
   providers: [
     ChooseDateService,
+    TokenService,
   ],
 })
 export class PollModule {
