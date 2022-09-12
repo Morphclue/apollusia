@@ -2,7 +2,7 @@
   <div class="col-lg-6 mt-3">
     <div class="input-group mb-3">
       <!-- TODO: wrap with card? -->
-      <input class="form-control" [class.blurred]="!visible" type="text" [(ngModel)]="input">
+      <input class="form-control" [class.blurred]="!visible" type="text" [(ngModel)]="input" (ngModelChange)="changed()">
       <button
         class="btn btn-outline-secondary"
         type="button"

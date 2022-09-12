@@ -30,14 +30,14 @@ export class TokenService {
     });
   }
 
+  setToken(token: string) {
+    localStorage.setItem('token', token);
+    this.currentToken = token;
+  }
+
   private generateToken() {
     this.http.get<Token>(`${environment.backendURL}/token`).subscribe((data: Token) => {
       this.setToken(data.token);
     });
-  }
-
-  private setToken(token: string) {
-    localStorage.setItem('token', token);
-    this.currentToken = token;
   }
 }
