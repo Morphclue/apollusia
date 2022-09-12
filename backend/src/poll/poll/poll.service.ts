@@ -65,6 +65,7 @@ export class PollService {
             poll: id,
             name: participant.name,
             participation: participant.participation,
+            token: participant.token,
         });
     }
 }

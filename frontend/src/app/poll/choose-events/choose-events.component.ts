@@ -6,6 +6,7 @@ import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 
 import {Participant, Poll, PollEvent} from '../../model';
+import {TokenService} from '../../dashboard/token/token.service';
 import {environment} from '../../../environments/environment';
 
 @Component({
@@ -27,6 +28,7 @@ export class ChooseEventsComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private http: HttpClient,
+    private tokenService: TokenService,
   ) {
     const id: Observable<string> = route.params.pipe(map(p => p.id));
     id.subscribe((id: string) => {
@@ -50,6 +52,7 @@ export class ChooseEventsComponent implements OnInit {
     let participant: Participant = {
       name: this.participateForm.value.name ?? '',
       participation: attendedEvents,
+      token: this.tokenService.getToken(),
     };
 
     this.http.post(`${environment.backendURL}/poll/${this.id}/participate`, participant).subscribe(() => {

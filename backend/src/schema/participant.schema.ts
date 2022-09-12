@@ -19,6 +19,9 @@ export class Participant {
         }],
     })
     participation: PollEvent[];
+
+    @Prop({required: true})
+    token: string;
 }
 
 export const ParticipantSchema = SchemaFactory.createForClass(Participant);

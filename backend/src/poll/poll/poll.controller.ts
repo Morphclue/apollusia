@@ -1,8 +1,8 @@
 import {Body, Controller, Delete, Get, NotFoundException, Param, Post, Put} from '@nestjs/common';
 
 import {PollService} from './poll.service';
-import {PollDto, PollEventDto, ParticipantDto} from '../../dto';
-import {Poll, Participant} from '../../schema';
+import {ParticipantDto, PollDto, PollEventDto} from '../../dto';
+import {Participant, Poll} from '../../schema';
 
 @Controller('poll')
 export class PollController {
@@ -11,7 +11,7 @@ export class PollController {
 
     @Get('all/:token')
     async getPolls(@Param('token') token: string): Promise<Poll[]> {
-        if(!token) {
+        if (!token) {
             return [];
         }
         return this.pollService.getPolls(token);

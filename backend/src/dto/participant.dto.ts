@@ -13,4 +13,9 @@ export class ParticipantDto {
     @ApiProperty()
     @IsNotEmpty()
     participation: PollEventDto[];
+
+    @ApiProperty()
+    @IsString()
+    @IsNotEmpty()
+    token: string;
 }
