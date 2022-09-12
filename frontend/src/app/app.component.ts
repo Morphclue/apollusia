@@ -6,7 +6,7 @@ import {TokenService} from './core/token/token.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements OnInit{
+export class AppComponent implements OnInit {
   title = 'apollusia';
 
   constructor(private tokenService: TokenService) {

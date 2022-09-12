@@ -65,7 +65,9 @@
       </div>
       <div class="d-flex justify-content-end">
         <button *ngIf="!id" class="btn btn-primary" type="submit" [disabled]="!pollForm.valid">Create</button>
-        <button *ngIf="id" class="btn btn-primary" type="submit" [disabled]="!pollForm.valid || !pollForm.dirty">Update</button>
+        <button *ngIf="id" class="btn btn-primary" type="submit" [disabled]="!pollForm.valid || !pollForm.dirty">
+          Update
+        </button>
       </div>
     </form>
   </div>

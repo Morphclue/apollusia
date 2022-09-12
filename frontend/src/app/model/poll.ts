@@ -6,7 +6,7 @@ export interface Poll {
   description?: string;
   adminToken: string;
   settings: Settings;
-  events?: PollEvent[]
+  events?: PollEvent[];
   _id: string;
 }
 
