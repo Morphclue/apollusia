@@ -12,6 +12,9 @@ export class Poll {
     @Prop()
     description: string;
 
+    @Prop({required: true})
+    adminToken: string;
+
     @Prop({Settings})
     settings: Settings;
 

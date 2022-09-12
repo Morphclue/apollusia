@@ -9,6 +9,7 @@ import {DashboardComponent} from './dashboard/dashboard.component';
 import {CardComponent} from './card/card.component';
 import {TruncatePipe} from '../pipes/truncate.pipe';
 import {TokenComponent} from './token/token.component';
+import {TokenService} from './token/token.service';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import {TokenComponent} from './token/token.component';
     NgbTooltipModule,
     FormsModule,
   ],
+  providers: [TokenService],
 })
 export class DashboardModule {
 }

@@ -1,10 +1,10 @@
 import {Body, Controller, Delete, Get, NotFoundException, Param, Post, Put} from '@nestjs/common';
 
-import {Poll} from '../../schema/poll.schema';
-import {PollDto} from '../../dto/poll.dto';
 import {PollService} from './poll.service';
+import {PollDto} from '../../dto/poll.dto';
 import {PollEvent} from '../../dto/poll-event.dto';
 import {ParticipantDto} from '../../dto/participant.dto';
+import {Poll} from '../../schema/poll.schema';
 import {Participant} from '../../schema/participant.schema';
 
 @Controller('poll')

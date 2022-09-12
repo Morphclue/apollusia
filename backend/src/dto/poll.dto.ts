@@ -17,6 +17,11 @@ export class PollDto {
 
     @ApiProperty()
     @IsNotEmpty()
+    @IsString()
+    adminToken: string;
+
+    @ApiProperty()
+    @IsNotEmpty()
     settings: Settings;
 
     @ApiProperty()

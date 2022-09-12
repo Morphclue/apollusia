@@ -7,6 +7,7 @@ import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 
 import {environment} from '../../../environments/environment';
+import {TokenService} from '../../dashboard/token/token.service';
 import {CreatePollDto, Poll} from '../../model/poll';
 
 @Component({
@@ -34,6 +35,7 @@ export class CreateEditPollComponent implements OnInit {
     private http: HttpClient,
     private router: Router,
     private route: ActivatedRoute,
+    private tokenService: TokenService,
   ) {
     const id: Observable<string> = route.params.pipe(map(p => p.id));
     id.subscribe((id: string) => {
@@ -50,6 +52,7 @@ export class CreateEditPollComponent implements OnInit {
     const createPollDto: CreatePollDto = {
       title: poll.title!,
       description: poll.description ? poll.description : '',
+      adminToken: this.tokenService.getToken(),
       settings: {
         deadline: poll.deadline ? new Date(poll.deadline) : undefined,
         allowMaybe: !!poll.allowMaybe,
