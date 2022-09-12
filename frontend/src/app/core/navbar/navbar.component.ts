@@ -13,8 +13,4 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
-  createPoll() {
-    // TODO
-  }
 }
