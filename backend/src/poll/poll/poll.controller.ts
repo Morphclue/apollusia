@@ -9,9 +9,12 @@ export class PollController {
     constructor(private readonly pollService: PollService) {
     }
 
-    @Get()
-    async getPolls(): Promise<Poll[]> {
-        return this.pollService.getPolls();
+    @Get('all/:token')
+    async getPolls(@Param('token') token: string): Promise<Poll[]> {
+        if(!token) {
+            return [];
+        }
+        return this.pollService.getPolls(token);
     }
 
     @Get(':id')

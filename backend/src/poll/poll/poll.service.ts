@@ -14,8 +14,8 @@ export class PollService {
     ) {
     }
 
-    async getPolls(): Promise<Poll[]> {
-        return this.pollModel.find().exec();
+    async getPolls(token: string): Promise<Poll[]> {
+        return this.pollModel.find({adminToken: token}).exec();
     }
 
     async getPoll(id: string): Promise<Poll> {

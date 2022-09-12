@@ -21,8 +21,7 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.tokenService.getToken());
-    this.http.get<Poll[]>(`${environment.backendURL}/poll`).subscribe((data: Poll[]) => {
+    this.http.get<Poll[]>(`${environment.backendURL}/poll/all/${this.tokenService.getToken()}`).subscribe((data: Poll[]) => {
       this.polls = [...this.polls, ...data];
     });
   }
