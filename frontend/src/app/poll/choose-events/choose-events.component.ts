@@ -87,8 +87,8 @@ export class ChooseEventsComponent implements OnInit {
     return this.participants.filter(participant => participant.participation.find(event => event._id === pollEvent._id)).length;
   }
 
-  isAdmin() {
-    return this.tokenService.getToken() === this.poll?.adminToken;
+  getToken() {
+    return this.tokenService.getToken();
   }
 
   deleteParticipation(participantId: string) {
