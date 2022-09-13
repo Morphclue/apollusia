@@ -96,4 +96,8 @@ export class ChooseEventsComponent implements OnInit {
       this.participants = this.participants.filter(p => p._id !== participantId);
     });
   }
+
+  editParticipant(participant: Participant) {
+    // TODO: implement
+  }
 }
