@@ -59,6 +59,8 @@
               <button
                 *ngIf="getToken() === participant.token"
                 class="btn btn-primary btn-sm ms-1"
+                placement="top"
+                ngbTooltip="Edit participation"
                 (click)="editParticipation(participant)"
               >
                 <i class="bi-pencil"></i>
@@ -67,6 +69,8 @@
                 *ngIf="getToken() === poll?.adminToken || getToken() === participant.token"
                 class="btn btn-sm btn-danger ms-1"
                 type="button"
+                placement="top"
+                ngbTooltip="Delete participation"
                 (click)="deleteParticipation(participant._id)"
               >
                 <i class="bi-trash"></i>
