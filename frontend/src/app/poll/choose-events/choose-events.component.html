@@ -44,7 +44,7 @@
             </td>
             <td class="border-0 text-start">
               <div>
-                <button *ngIf="getToken()  === poll?.adminToken"
+                <button *ngIf="getToken() === poll?.adminToken || getToken() === participant.token"
                         class="btn btn-sm btn-danger"
                         type="button"
                         (click)="deleteParticipation(participant._id)"
