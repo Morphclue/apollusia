@@ -43,23 +43,21 @@
               </div>
             </td>
             <td class="border-0 text-start">
-              <div>
-                <button
-                  *ngIf="getToken() === participant.token"
-                  class="btn btn-primary btn-sm ms-1"
-                  (click)="editParticipant(participant)"
-                >
-                  <i class="bi-pencil"></i>
-                </button>
-                <button
-                  *ngIf="getToken() === poll?.adminToken || getToken() === participant.token"
-                  class="btn btn-sm btn-danger ms-1"
-                  type="button"
-                  (click)="deleteParticipation(participant._id)"
-                >
-                  <i class="bi-trash"></i>
-                </button>
-              </div>
+              <button
+                *ngIf="getToken() === participant.token"
+                class="btn btn-primary btn-sm ms-1"
+                (click)="editParticipant(participant)"
+              >
+                <i class="bi-pencil"></i>
+              </button>
+              <button
+                *ngIf="getToken() === poll?.adminToken || getToken() === participant.token"
+                class="btn btn-sm btn-danger ms-1"
+                type="button"
+                (click)="deleteParticipation(participant._id)"
+              >
+                <i class="bi-trash"></i>
+              </button>
             </td>
           </tr>
           <tr>
