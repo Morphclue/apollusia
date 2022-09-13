@@ -112,4 +112,8 @@ export class ChooseDateComponent implements AfterViewInit {
       );
     });
   }
+
+  hasEvents() {
+    return this.chooseDateService.events.length > 0;
+  }
 }
