@@ -97,7 +97,7 @@ export class ChooseEventsComponent implements OnInit {
     });
   }
 
-  editParticipant(participant: Participant) {
+  editParticipation(participant: Participant) {
     // TODO: implement
   }
 }
