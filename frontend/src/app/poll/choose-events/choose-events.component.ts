@@ -19,6 +19,8 @@ export class ChooseEventsComponent implements OnInit {
   poll?: Poll;
   pollEvents: PollEvent[] = [];
   checks: boolean[] = [];
+  editParticipant?: Participant;
+  editChecks: boolean[] = [];
   participants: Participant[] = [];
   participateForm = new FormGroup({
     name: new FormControl('', Validators.required),
@@ -65,6 +67,10 @@ export class ChooseEventsComponent implements OnInit {
     this.checks[n] = !this.checks[n];
   }
 
+  editChecked(n: number) {
+    this.editChecks[n] = !this.editChecks[n];
+  }
+
   private fetchEvents() {
     this.http.get<Poll>(`${environment.backendURL}/poll/${this.id}`).subscribe(poll => {
       if (!poll.events) {
@@ -98,6 +104,23 @@ export class ChooseEventsComponent implements OnInit {
   }
 
   editParticipation(participant: Participant) {
-    // TODO: implement
+    this.editParticipant = participant;
+  }
+
+  cancelEdit() {
+    this.editParticipant = undefined;
+    this.editChecks = [];
+  }
+
+  confirmEdit() {
+    if (!this.editParticipant) {
+      return;
+    }
+
+    this.editParticipant.participation = this.pollEvents.filter((_, i) => this.editChecks[i]);
+    this.http.put(`${environment.backendURL}/poll/${this.id}/participate/${this.editParticipant._id}`, this.editParticipant).subscribe(() => {
+      this.cancelEdit();
+      this.fetchParticipants();
+    });
   }
 }

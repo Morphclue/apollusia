@@ -34,15 +34,28 @@
             <th>
               {{participant.name}}
             </th>
-            <td *ngFor="let pollEvent of pollEvents">
-              <div *ngIf="(participant.participation | some: pollEvent._id )" class="p-check">
+            <td *ngFor="let pollEvent of pollEvents; let n=index">
+              <div *ngIf="(participant.participation | some: pollEvent._id ) && participant !== editParticipant"
+                   class="p-check">
                 <i class="bi-check-lg icon"></i>
               </div>
-              <div *ngIf="!(participant.participation | some: pollEvent._id )" class="p-unchecked">
+              <div *ngIf="!(participant.participation | some: pollEvent._id ) && participant !== editParticipant"
+                   class="p-unchecked">
                 <i class="bi-x-lg icon"></i>
               </div>
+              <div *ngIf="participant === editParticipant">
+                <input class="form-check-input rounded-circle" type="checkbox" (change)="editChecked(n)">
+              </div>
             </td>
-            <td class="border-0 text-start">
+            <td *ngIf="participant === editParticipant" class="border-0 text-start">
+              <button class="btn btn-primary btn-sm ms-1" type="button" (click)="cancelEdit()">
+                <i class="bi-x"></i>
+              </button>
+              <button class="btn btn-secondary btn-sm ms-1" type="button" (click)="confirmEdit()">
+                <i class="bi-check"></i>
+              </button>
+            </td>
+            <td *ngIf="!editParticipant" class="border-0 text-start">
               <button
                 *ngIf="getToken() === participant.token"
                 class="btn btn-primary btn-sm ms-1"

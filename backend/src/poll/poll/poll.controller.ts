@@ -62,10 +62,19 @@ export class PollController {
         return this.pollService.postParticipation(id, participant);
     }
 
+    @Put(':id/participate/:participantId')
+    async editParticipation(
+        @Param('id') id: string,
+        @Param('participantId') participantId: string,
+        @Body() participant: ParticipantDto,
+    ): Promise<Participant> {
+        return this.pollService.editParticipation(id, participantId, participant);
+    }
+
     @Delete(':id/participate/:participantId')
     async deleteParticipation(
         @Param('id') id: string,
-        @Param('participantId') participantId: string
+        @Param('participantId') participantId: string,
     ): Promise<Participant | undefined> {
         return this.pollService.deleteParticipation(id, participantId);
     }

@@ -69,6 +69,10 @@ export class PollService {
         });
     }
 
+    editParticipation(id: string, participantId: string, participant: ParticipantDto) {
+        return this.participantModel.findByIdAndUpdate(participantId, participant, {new: true}).exec();
+    }
+
     deleteParticipation(id: string, participantId: string) {
         return this.participantModel.findByIdAndDelete(participantId).exec();
     }
