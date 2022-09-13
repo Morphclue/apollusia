@@ -5,7 +5,7 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 
-import {Participant, Poll, PollEvent} from '../../model';
+import {CreateParticipantDto, Participant, Poll, PollEvent} from '../../model';
 import {TokenService} from '../../core/token/token.service';
 import {environment} from '../../../environments/environment';
 
@@ -16,6 +16,7 @@ import {environment} from '../../../environments/environment';
 })
 export class ChooseEventsComponent implements OnInit {
   id: string = '';
+  poll?: Poll;
   pollEvents: PollEvent[] = [];
   checks: boolean[] = [];
   participants: Participant[] = [];
@@ -49,7 +50,7 @@ export class ChooseEventsComponent implements OnInit {
 
     const attendedEvents = this.pollEvents.filter((_, i) => this.checks[i]);
 
-    let participant: Participant = {
+    let participant: CreateParticipantDto = {
       name: this.participateForm.value.name ?? '',
       participation: attendedEvents,
       token: this.tokenService.getToken(),
@@ -70,6 +71,7 @@ export class ChooseEventsComponent implements OnInit {
         return;
       }
 
+      this.poll = poll;
       this.pollEvents = poll.events;
       this.checks = new Array(poll.events.length).fill(false);
     });
@@ -83,5 +85,15 @@ export class ChooseEventsComponent implements OnInit {
 
   countParticipants(pollEvent: PollEvent) {
     return this.participants.filter(participant => participant.participation.find(event => event._id === pollEvent._id)).length;
+  }
+
+  isAdmin() {
+    return this.tokenService.getToken() === this.poll?.adminToken;
+  }
+
+  deleteParticipation(participantId: string) {
+    this.http.delete(`${environment.backendURL}/poll/${this.id}/participate/${participantId}`).subscribe(() => {
+      this.participants = this.participants.filter(p => p._id !== participantId);
+    });
   }
 }

@@ -14,6 +14,7 @@
                 {{ event.start | date:'HH:mm' }}- {{ event.end | date:'HH:mm' }}
               </div>
             </th>
+            <th class="border-0" scope="col"></th>
           </tr>
           </thead>
           <tbody>
@@ -39,6 +40,17 @@
               </div>
               <div *ngIf="!(participant.participation | some: pollEvent._id )" class="p-unchecked">
                 <i class="bi-x-lg icon"></i>
+              </div>
+            </td>
+            <td class="border-0 text-start">
+              <div>
+                <button *ngIf="isAdmin()"
+                        class="btn btn-sm btn-danger"
+                        type="button"
+                        (click)="deleteParticipation(participant._id)"
+                >
+                  <i class="bi-trash"></i>
+                </button>
               </div>
             </td>
           </tr>

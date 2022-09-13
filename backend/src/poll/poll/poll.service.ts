@@ -68,4 +68,8 @@ export class PollService {
             token: participant.token,
         });
     }
+
+    deleteParticipation(id: string, participantId: string) {
+        return this.participantModel.findByIdAndDelete(participantId).exec();
+    }
 }
