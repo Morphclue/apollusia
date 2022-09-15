@@ -34,7 +34,7 @@
               <button class="btn btn-primary btn-sm" type="submit" [disabled]="!participateForm.valid">Submit</button>
             </th>
           </tr>
-          <ng-container *ngIf="!poll!.settings.blindParticipation">
+          <ng-container *ngIf="!isBlind() || isAdmin()">
             <tr *ngFor="let participant of participants">
               <th>
                 <div *ngIf="!isAnonymous()">
@@ -73,7 +73,7 @@
                   <i class="bi-pencil"></i>
                 </button>
                 <button
-                  *ngIf="getToken() === poll?.adminToken || getToken() === participant.token"
+                  *ngIf="isAdmin() || getToken() === participant.token"
                   class="btn btn-sm btn-danger ms-1"
                   type="button"
                   placement="top"
