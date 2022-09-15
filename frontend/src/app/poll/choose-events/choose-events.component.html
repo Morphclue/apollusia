@@ -21,16 +21,12 @@
           <tr>
             <th style="min-width: 240px" scope="row">
               <input class="form-control" type="text" id="name" placeholder="Your name" formControlName="name">
-              <div
-                *ngIf="participateForm.hasError('missingName')">
-                <div class="text-danger small">Name is required.</div>
-              </div>
             </th>
             <td *ngFor="let pollEvent of pollEvents; let n=index">
               <input class="form-check-input rounded-circle" type="checkbox" (change)="checked(n)">
             </td>
             <th class="border-0 text-start" scope="col">
-              <button class="btn btn-primary btn-sm" type="submit">Submit</button>
+              <button class="btn btn-primary btn-sm" type="submit" [disabled]="!participateForm.valid">Submit</button>
             </th>
           </tr>
           <ng-container *ngIf="!poll!.settings.blindParticipation">
