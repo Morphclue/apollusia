@@ -40,7 +40,7 @@ export class ChooseEventsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.fetchEvents();
+    this.fetchPoll();
     this.fetchParticipants();
   }
 
@@ -71,7 +71,7 @@ export class ChooseEventsComponent implements OnInit {
     this.editChecks[n] = !this.editChecks[n];
   }
 
-  private fetchEvents() {
+  private fetchPoll() {
     this.http.get<Poll>(`${environment.backendURL}/poll/${this.id}`).subscribe(poll => {
       if (!poll.events) {
         return;
