@@ -123,4 +123,11 @@ export class ChooseEventsComponent implements OnInit {
       this.fetchParticipants();
     });
   }
+
+  isFull() {
+    if (this.poll?.settings.maxParticipants === undefined) {
+      return false;
+    }
+    return this.poll?.settings.maxParticipants && this.participants.length >= this.poll.settings.maxParticipants;
+  }
 }

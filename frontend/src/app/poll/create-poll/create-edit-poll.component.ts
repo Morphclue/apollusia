@@ -59,7 +59,7 @@ export class CreateEditPollComponent implements OnInit {
         allowMaybe: !!pollForm.allowMaybe,
         allowEdit: !!pollForm.allowEdit,
         allowAnonymous: !!pollForm.allowAnonymous,
-        maxParticipants: pollForm.maxParticipants ? parseInt(<string>pollForm.maxParticipantsInput) : 1,
+        maxParticipants: pollForm.maxParticipants ? parseInt(<string>pollForm.maxParticipantsInput) : undefined,
         blindParticipation: !!pollForm.blindParticipation,
       },
     };
@@ -91,7 +91,7 @@ export class CreateEditPollComponent implements OnInit {
         description: poll.description,
         deadline: poll.settings.deadline,
         maxParticipants: poll.settings.maxParticipants !== undefined,
-        maxParticipantsInput: poll.settings.maxParticipants ? poll.settings.maxParticipants.toString() : '1',
+        maxParticipantsInput: poll.settings.maxParticipants ? poll.settings.maxParticipants.toString() : '',
         allowMaybe: poll.settings.allowMaybe,
         allowEdit: poll.settings.allowEdit,
         allowAnonymous: poll.settings.allowAnonymous,
