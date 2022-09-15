@@ -49,18 +49,18 @@ export class CreateEditPollComponent implements OnInit {
   }
 
   onFormSubmit(): void {
-    const poll = this.pollForm.value;
+    const pollForm = this.pollForm.value;
     const createPollDto: CreatePollDto = {
-      title: poll.title!,
-      description: poll.description ? poll.description : '',
+      title: pollForm.title!,
+      description: pollForm.description ? pollForm.description : '',
       adminToken: this.tokenService.getToken(),
       settings: {
-        deadline: poll.deadline ? new Date(poll.deadline) : undefined,
-        allowMaybe: !!poll.allowMaybe,
-        allowEdit: !!poll.allowEdit,
-        allowAnonymous: !!poll.allowAnonymous,
-        maxParticipants: poll.maxParticipants ? parseInt(<string>poll.maxParticipantsInput) : 1,
-        blindParticipation: !!poll.blindParticipation,
+        deadline: pollForm.deadline ? new Date(pollForm.deadline) : undefined,
+        allowMaybe: !!pollForm.allowMaybe,
+        allowEdit: !!pollForm.allowEdit,
+        allowAnonymous: !!pollForm.allowAnonymous,
+        maxParticipants: pollForm.maxParticipants ? parseInt(<string>pollForm.maxParticipantsInput) : 1,
+        blindParticipation: !!pollForm.blindParticipation,
       },
     };
 
