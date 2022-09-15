@@ -29,6 +29,9 @@
             <td *ngFor="let pollEvent of pollEvents; let n=index">
               <input class="form-check-input rounded-circle" type="checkbox" (change)="checked(n)">
             </td>
+            <th class="border-0 text-start" scope="col">
+              <button class="btn btn-primary btn-sm" type="submit">Submit</button>
+            </th>
           </tr>
           <ng-container *ngIf="!poll!.settings.blindParticipation">
             <tr *ngFor="let participant of participants">
@@ -89,8 +92,6 @@
           </tr>
           </tbody>
         </table>
-        <!-- TODO: align button -->
-        <button class="btn btn-primary" type="submit">Submit</button>
       </form>
     </div>
   </div>
