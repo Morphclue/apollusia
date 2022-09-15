@@ -20,7 +20,12 @@
           <tbody>
           <tr *ngIf="!isFull()">
             <th style="min-width: 240px" scope="row">
-              <input class="form-control" type="text" id="name" placeholder="Your name" formControlName="name">
+              <input *ngIf="!isAnonymous()"
+                     class="form-control"
+                     type="text"
+                     id="name"
+                     placeholder="Your name"
+                     formControlName="name">
             </th>
             <td *ngFor="let pollEvent of pollEvents; let n=index">
               <input class="form-check-input rounded-circle" type="checkbox" (change)="checked(n)">
@@ -32,7 +37,9 @@
           <ng-container *ngIf="!poll!.settings.blindParticipation">
             <tr *ngFor="let participant of participants">
               <th>
-                {{participant.name}}
+                <div *ngIf="!isAnonymous()">
+                  {{participant.name}}
+                </div>
               </th>
               <td *ngFor="let pollEvent of pollEvents; let n=index">
                 <div *ngIf="(participant.participation | some: pollEvent._id ) && participant !== editParticipant"

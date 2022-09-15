@@ -45,15 +45,10 @@ export class ChooseEventsComponent implements OnInit {
   }
 
   onFormSubmit() {
-    if (!this.participateForm.valid) {
-      this.participateForm.setErrors({...this.participateForm.errors, 'missingName': true});
-      return;
-    }
-
     const attendedEvents = this.pollEvents.filter((_, i) => this.checks[i]);
 
     let participant: CreateParticipantDto = {
-      name: this.participateForm.value.name ?? '',
+      name: this.participateForm.value.name ? this.participateForm.value.name : 'Anonymous',
       participation: attendedEvents,
       token: this.tokenService.getToken(),
     };
@@ -75,6 +70,11 @@ export class ChooseEventsComponent implements OnInit {
     this.http.get<Poll>(`${environment.backendURL}/poll/${this.id}`).subscribe(poll => {
       if (!poll.events) {
         return;
+      }
+
+      if (poll.settings.allowAnonymous) {
+        this.participateForm.get('name')?.removeValidators(Validators.required);
+        this.participateForm.get('name')?.updateValueAndValidity();
       }
 
       this.poll = poll;
@@ -129,5 +129,9 @@ export class ChooseEventsComponent implements OnInit {
       return false;
     }
     return this.poll?.settings.maxParticipants && this.participants.length >= this.poll.settings.maxParticipants;
+  }
+
+  isAnonymous() {
+    return this.poll?.settings.allowAnonymous;
   }
 }
