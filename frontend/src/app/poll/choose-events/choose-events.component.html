@@ -30,54 +30,56 @@
               <input class="form-check-input rounded-circle" type="checkbox" (change)="checked(n)">
             </td>
           </tr>
-          <tr *ngFor="let participant of participants">
-            <th>
-              {{participant.name}}
-            </th>
-            <td *ngFor="let pollEvent of pollEvents; let n=index">
-              <div *ngIf="(participant.participation | some: pollEvent._id ) && participant !== editParticipant"
-                   class="p-check">
-                <i class="bi-check-lg icon"></i>
-              </div>
-              <div *ngIf="!(participant.participation | some: pollEvent._id ) && participant !== editParticipant"
-                   class="p-unchecked">
-                <i class="bi-x-lg icon"></i>
-              </div>
-              <div *ngIf="participant === editParticipant">
-                <input class="form-check-input rounded-circle" type="checkbox" (change)="editChecked(n)">
-              </div>
-            </td>
-            <td *ngIf="participant === editParticipant" class="border-0 text-start">
-              <button class="btn btn-primary btn-sm ms-1" type="button" (click)="cancelEdit()">
-                <i class="bi-x"></i>
-              </button>
-              <button class="btn btn-secondary btn-sm ms-1" type="button" (click)="confirmEdit()">
-                <i class="bi-check"></i>
-              </button>
-            </td>
-            <td *ngIf="!editParticipant" class="border-0 text-start">
-              <button
-                *ngIf="getToken() === participant.token"
-                class="btn btn-primary btn-sm ms-1"
-                placement="top"
-                ngbTooltip="Edit participation"
-                (click)="editParticipation(participant)"
-              >
-                <i class="bi-pencil"></i>
-              </button>
-              <button
-                *ngIf="getToken() === poll?.adminToken || getToken() === participant.token"
-                class="btn btn-sm btn-danger ms-1"
-                type="button"
-                placement="top"
-                ngbTooltip="Delete participation"
-                (click)="deleteParticipation(participant._id)"
-              >
-                <i class="bi-trash"></i>
-              </button>
-            </td>
-          </tr>
-          <tr>
+          <ng-container *ngIf="!poll!.settings.blindParticipation">
+            <tr *ngFor="let participant of participants">
+              <th>
+                {{participant.name}}
+              </th>
+              <td *ngFor="let pollEvent of pollEvents; let n=index">
+                <div *ngIf="(participant.participation | some: pollEvent._id ) && participant !== editParticipant"
+                     class="p-check">
+                  <i class="bi-check-lg icon"></i>
+                </div>
+                <div *ngIf="!(participant.participation | some: pollEvent._id ) && participant !== editParticipant"
+                     class="p-unchecked">
+                  <i class="bi-x-lg icon"></i>
+                </div>
+                <div *ngIf="participant === editParticipant">
+                  <input class="form-check-input rounded-circle" type="checkbox" (change)="editChecked(n)">
+                </div>
+              </td>
+              <td *ngIf="participant === editParticipant" class="border-0 text-start">
+                <button class="btn btn-primary btn-sm ms-1" type="button" (click)="cancelEdit()">
+                  <i class="bi-x"></i>
+                </button>
+                <button class="btn btn-secondary btn-sm ms-1" type="button" (click)="confirmEdit()">
+                  <i class="bi-check"></i>
+                </button>
+              </td>
+              <td *ngIf="!editParticipant" class="border-0 text-start">
+                <button
+                  *ngIf="getToken() === participant.token"
+                  class="btn btn-primary btn-sm ms-1"
+                  placement="top"
+                  ngbTooltip="Edit participation"
+                  (click)="editParticipation(participant)"
+                >
+                  <i class="bi-pencil"></i>
+                </button>
+                <button
+                  *ngIf="getToken() === poll?.adminToken || getToken() === participant.token"
+                  class="btn btn-sm btn-danger ms-1"
+                  type="button"
+                  placement="top"
+                  ngbTooltip="Delete participation"
+                  (click)="deleteParticipation(participant._id)"
+                >
+                  <i class="bi-trash"></i>
+                </button>
+              </td>
+            </tr>
+          </ng-container>
+          <tr *ngIf="!poll!.settings.blindParticipation">
             <th>
               Sum
             </th>
