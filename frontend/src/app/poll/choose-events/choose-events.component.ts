@@ -131,14 +131,6 @@ export class ChooseEventsComponent implements OnInit {
     return this.poll?.settings.maxParticipants && this.participants.length >= this.poll.settings.maxParticipants;
   }
 
-  isAnonymous() {
-    return this.poll?.settings.allowAnonymous;
-  }
-
-  isBlind() {
-    return this.poll?.settings.blindParticipation;
-  }
-
   isAdmin() {
     return this.poll?.adminToken === this.getToken();
   }

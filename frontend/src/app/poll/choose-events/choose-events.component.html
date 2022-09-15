@@ -20,7 +20,7 @@
           <tbody>
           <tr *ngIf="!isFull()">
             <th style="min-width: 240px" scope="row">
-              <input *ngIf="!isAnonymous()"
+              <input *ngIf="!poll?.settings?.allowAnonymous"
                      class="form-control"
                      type="text"
                      id="name"
@@ -34,10 +34,10 @@
               <button class="btn btn-primary btn-sm" type="submit" [disabled]="!participateForm.valid">Submit</button>
             </th>
           </tr>
-          <ng-container *ngIf="!isBlind() || isAdmin()">
+          <ng-container *ngIf="!poll?.settings?.blindParticipation || isAdmin()">
             <tr *ngFor="let participant of participants">
               <th>
-                <div *ngIf="!isAnonymous()">
+                <div *ngIf="!poll?.settings?.allowAnonymous">
                   {{participant.name}}
                 </div>
               </th>
