@@ -4,4 +4,5 @@ export interface Settings {
   allowMaybe: boolean;
   allowEdit: boolean;
   allowAnonymous: boolean;
+  blindParticipation: boolean;
 }

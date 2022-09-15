@@ -28,6 +28,7 @@ export class CreateEditPollComponent implements OnInit {
     allowMaybe: new FormControl(false),
     allowEdit: new FormControl(false),
     allowAnonymous: new FormControl(false),
+    blindParticipation: new FormControl(false),
   });
 
   constructor(
@@ -59,6 +60,7 @@ export class CreateEditPollComponent implements OnInit {
         allowEdit: !!poll.allowEdit,
         allowAnonymous: !!poll.allowAnonymous,
         maxParticipants: poll.maxParticipants ? parseInt(<string>poll.maxParticipantsInput) : 1,
+        blindParticipation: !!poll.blindParticipation,
       },
     };
 
@@ -93,6 +95,7 @@ export class CreateEditPollComponent implements OnInit {
         allowMaybe: poll.settings.allowMaybe,
         allowEdit: poll.settings.allowEdit,
         allowAnonymous: poll.settings.allowAnonymous,
+        blindParticipation: poll.settings.blindParticipation,
       });
     });
   }

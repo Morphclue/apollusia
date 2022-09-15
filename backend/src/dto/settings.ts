@@ -4,4 +4,5 @@ export class Settings {
     allowMaybe: boolean;
     allowEdit: boolean;
     allowAnonymous: boolean;
+    blindParticipation: boolean;
 }
