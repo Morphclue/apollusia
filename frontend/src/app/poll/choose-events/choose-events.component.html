@@ -85,7 +85,7 @@
               </td>
             </tr>
           </ng-container>
-          <tr *ngIf="!poll!.settings.blindParticipation || isAdmin() || userVoted()">
+          <tr *ngIf="!poll?.settings?.blindParticipation || isAdmin() || userVoted()">
             <th>
               Sum
             </th>
