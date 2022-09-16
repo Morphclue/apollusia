@@ -134,4 +134,8 @@ export class ChooseEventsComponent implements OnInit {
   isAdmin() {
     return this.poll?.adminToken === this.getToken();
   }
+
+  userVoted() {
+    return this.participants.some(participant => participant.token === this.getToken());
+  }
 }

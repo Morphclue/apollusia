@@ -34,7 +34,7 @@
               <button class="btn btn-primary btn-sm" type="submit" [disabled]="!participateForm.valid">Submit</button>
             </th>
           </tr>
-          <ng-container *ngIf="!poll?.settings?.blindParticipation || isAdmin()">
+          <ng-container *ngIf="!poll?.settings?.blindParticipation || isAdmin() || userVoted()">
             <tr *ngFor="let participant of participants">
               <th>
                 <div *ngIf="!poll?.settings?.allowAnonymous">
@@ -85,7 +85,7 @@
               </td>
             </tr>
           </ng-container>
-          <tr *ngIf="!poll!.settings.blindParticipation">
+          <tr *ngIf="!poll!.settings.blindParticipation || isAdmin() || userVoted()">
             <th>
               Sum
             </th>
