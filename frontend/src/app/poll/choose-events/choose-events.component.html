@@ -90,7 +90,13 @@
               Sum
             </th>
             <td *ngFor="let pollEvent of pollEvents">
-              {{ countParticipants(pollEvent) }}
+              <div *ngIf="bestOption === countParticipants(pollEvent)" class="p-unchecked">
+                <i class="bi-award"></i>
+                {{ countParticipants(pollEvent) }}
+              </div>
+              <div *ngIf="bestOption !== countParticipants(pollEvent)">
+                {{ countParticipants(pollEvent) }}
+              </div>
             </td>
           </tr>
           </tbody>

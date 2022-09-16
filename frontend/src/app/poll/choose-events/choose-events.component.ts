@@ -21,6 +21,7 @@ export class ChooseEventsComponent implements OnInit {
   checks: boolean[] = [];
   editParticipant?: Participant;
   editChecks: boolean[] = [];
+  bestOption: number = 1;
   participants: Participant[] = [];
   participateForm = new FormGroup({
     name: new FormControl('', Validators.required),
@@ -86,6 +87,7 @@ export class ChooseEventsComponent implements OnInit {
   private fetchParticipants() {
     this.http.get<Participant[]>(`${environment.backendURL}/poll/${this.id}/participate`).subscribe(participants => {
       this.participants = participants;
+      this.findBestOption();
     });
   }
 
@@ -137,5 +139,11 @@ export class ChooseEventsComponent implements OnInit {
 
   userVoted() {
     return this.participants.some(participant => participant.token === this.getToken());
+  }
+
+  private findBestOption() {
+    if (this.poll?.events) {
+      this.bestOption = Math.max(...this.poll.events.map(event => this.countParticipants(event)));
+    }
   }
 }
