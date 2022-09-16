@@ -19,3 +19,15 @@ h3 {
 .p-unchecked {
   background-color: #e0aaffff;
 }
+
+.button-checked {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #7b2cbf;
+  border-color: #7b2cbf;
+}
+
+.button-icon {
+  color: white;
+}

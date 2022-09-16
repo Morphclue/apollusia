@@ -8,6 +8,7 @@ import {map} from 'rxjs/operators';
 import {CreateParticipantDto, Participant, Poll, PollEvent} from '../../model';
 import {TokenService} from '../../core/token/token.service';
 import {environment} from '../../../environments/environment';
+import {CheckboxState} from '../../model/checkbox-state';
 
 @Component({
   selector: 'app-choose-events',
@@ -18,7 +19,7 @@ export class ChooseEventsComponent implements OnInit {
   id: string = '';
   poll?: Poll;
   pollEvents: PollEvent[] = [];
-  checks: boolean[] = [];
+  checks: CheckboxState[] = [];
   editParticipant?: Participant;
   editChecks: boolean[] = [];
   bestOption: number = 1;
@@ -46,11 +47,13 @@ export class ChooseEventsComponent implements OnInit {
   }
 
   onFormSubmit() {
-    const attendedEvents = this.pollEvents.filter((_, i) => this.checks[i]);
+    const attendedEvents = this.pollEvents.filter((_, i) => this.checks[i] === CheckboxState.TRUE);
+    const indeterminateEvents = this.pollEvents.filter((_, i) => this.checks[i] === CheckboxState.INDETERMINATE);
 
     let participant: CreateParticipantDto = {
       name: this.participateForm.value.name ? this.participateForm.value.name : 'Anonymous',
       participation: attendedEvents,
+      indeterminateParticipation: indeterminateEvents,
       token: this.tokenService.getToken(),
     };
 
@@ -59,8 +62,14 @@ export class ChooseEventsComponent implements OnInit {
     });
   }
 
-  checked(n: number) {
-    this.checks[n] = !this.checks[n];
+  checkBox(n: number) {
+    if (this.checks[n] === CheckboxState.INDETERMINATE) {
+      this.checks[n] = CheckboxState.FALSE;
+    } else if (this.checks[n] === CheckboxState.FALSE) {
+      this.checks[n] = CheckboxState.TRUE;
+    } else if (this.checks[n] === CheckboxState.TRUE) {
+      this.checks[n] = CheckboxState.INDETERMINATE;
+    }
   }
 
   editChecked(n: number) {
@@ -80,7 +89,7 @@ export class ChooseEventsComponent implements OnInit {
 
       this.poll = poll;
       this.pollEvents = poll.events;
-      this.checks = new Array(poll.events.length).fill(false);
+      this.checks = new Array(poll.events.length).fill(CheckboxState.FALSE);
     });
   }
 

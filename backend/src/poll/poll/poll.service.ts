@@ -57,7 +57,7 @@ export class PollService {
     }
 
     async getParticipants(id: string) {
-        return this.participantModel.find({poll: id}).populate('participation').exec();
+        return this.participantModel.find({poll: id}).populate(['participation', 'indeterminateParticipation']).exec();
     }
 
     async postParticipation(id: string, participant: ParticipantDto): Promise<Participant> {
@@ -65,6 +65,7 @@ export class PollService {
             poll: id,
             name: participant.name,
             participation: participant.participation,
+            indeterminateParticipation: participant.indeterminateParticipation,
             token: participant.token,
         });
     }

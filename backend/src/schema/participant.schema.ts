@@ -20,6 +20,14 @@ export class Participant {
     })
     participation: PollEvent[];
 
+    @Prop({
+        type: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'PollEvent',
+        }],
+    })
+    indeterminateParticipation: PollEvent[];
+
     @Prop({required: true})
     token: string;
 }
