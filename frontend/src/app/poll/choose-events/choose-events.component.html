@@ -33,7 +33,7 @@
                   class="form-check-input rounded-circle"
                   type="button"
                   [class.button-checked]="check === 'true' || check === 'indeterminate'"
-                  (click)="checkBox(n)">
+                  (click)="checkBox(checks, n)">
                   <i *ngIf="check === 'true'" class="bi-check button-icon"></i>
                   <i *ngIf="check === 'indeterminate'" class="bi-dash button-icon"></i>
                 </button>
@@ -66,7 +66,7 @@
                   <i class="bi-question icon"></i>
                 </div>
                 <div *ngIf="participant === editParticipant">
-                  <input class="form-check-input rounded-circle" type="checkbox" (change)="editChecked(n)">
+                  <input class="form-check-input rounded-circle" type="checkbox" (click)="checkBox(editChecks, n)">
                 </div>
               </td>
               <td *ngIf="participant === editParticipant" class="border-0 text-start">

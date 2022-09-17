@@ -20,8 +20,8 @@ export class ChooseEventsComponent implements OnInit {
   poll?: Poll;
   pollEvents: PollEvent[] = [];
   checks: CheckboxState[] = [];
+  editChecks: CheckboxState[] = [];
   editParticipant?: Participant;
-  editChecks: boolean[] = [];
   bestOption: number = 1;
   participants: Participant[] = [];
   participateForm = new FormGroup({
@@ -47,13 +47,10 @@ export class ChooseEventsComponent implements OnInit {
   }
 
   onFormSubmit() {
-    const attendedEvents = this.pollEvents.filter((_, i) => this.checks[i] === CheckboxState.TRUE);
-    const indeterminateEvents = this.pollEvents.filter((_, i) => this.checks[i] === CheckboxState.INDETERMINATE);
-
     let participant: CreateParticipantDto = {
       name: this.participateForm.value.name ? this.participateForm.value.name : 'Anonymous',
-      participation: attendedEvents,
-      indeterminateParticipation: indeterminateEvents,
+      participation: this.filterEvents(this.checks, CheckboxState.TRUE),
+      indeterminateParticipation: this.filterEvents(this.checks, CheckboxState.INDETERMINATE),
       token: this.tokenService.getToken(),
     };
 
@@ -62,18 +59,14 @@ export class ChooseEventsComponent implements OnInit {
     });
   }
 
-  checkBox(n: number) {
-    if (this.checks[n] === CheckboxState.INDETERMINATE) {
-      this.checks[n] = CheckboxState.FALSE;
-    } else if (this.checks[n] === CheckboxState.FALSE) {
-      this.checks[n] = CheckboxState.TRUE;
-    } else if (this.checks[n] === CheckboxState.TRUE) {
-      this.checks[n] = CheckboxState.INDETERMINATE;
+  checkBox(checks: CheckboxState[], n: number) {
+    if (checks[n] === CheckboxState.INDETERMINATE) {
+      checks[n] = CheckboxState.FALSE;
+    } else if (checks[n] === CheckboxState.FALSE) {
+      checks[n] = CheckboxState.TRUE;
+    } else if (checks[n] === CheckboxState.TRUE) {
+      checks[n] = CheckboxState.INDETERMINATE;
     }
-  }
-
-  editChecked(n: number) {
-    this.editChecks[n] = !this.editChecks[n];
   }
 
   private fetchPoll() {
@@ -90,6 +83,7 @@ export class ChooseEventsComponent implements OnInit {
       this.poll = poll;
       this.pollEvents = poll.events;
       this.checks = new Array(poll.events.length).fill(CheckboxState.FALSE);
+      this.editChecks = new Array(poll.events.length).fill(CheckboxState.FALSE);
     });
   }
 
@@ -128,7 +122,8 @@ export class ChooseEventsComponent implements OnInit {
       return;
     }
 
-    this.editParticipant.participation = this.pollEvents.filter((_, i) => this.editChecks[i]);
+    this.editParticipant.participation = this.filterEvents(this.editChecks, CheckboxState.TRUE);
+    this.editParticipant.indeterminateParticipation = this.filterEvents(this.editChecks, CheckboxState.INDETERMINATE);
     this.http.put(`${environment.backendURL}/poll/${this.id}/participate/${this.editParticipant._id}`, this.editParticipant).subscribe(() => {
       this.cancelEdit();
       this.fetchParticipants();
@@ -154,5 +149,9 @@ export class ChooseEventsComponent implements OnInit {
     if (this.poll?.events) {
       this.bestOption = Math.max(...this.poll.events.map(event => this.countParticipants(event)));
     }
+  }
+
+  private filterEvents(checks: CheckboxState[], state: CheckboxState) {
+    return this.pollEvents.filter((_, i) => checks[i] === state);
   }
 }
