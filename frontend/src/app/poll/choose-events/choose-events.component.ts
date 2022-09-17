@@ -89,7 +89,7 @@ export class ChooseEventsComponent implements OnInit {
 
   private fetchParticipants() {
     this.http.get<Participant[]>(`${environment.backendURL}/poll/${this.id}/participate`).subscribe(participants => {
-      this.participants = participants;
+      this.participants = participants.reverse();
       this.findBestOption();
     });
   }
