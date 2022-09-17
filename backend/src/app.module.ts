@@ -5,12 +5,14 @@ import {AppController} from './app.controller';
 import {AppService} from './app.service';
 import {PollModule} from './poll/poll.module';
 import {TokenModule} from './token/token.module';
+import {StatisticsModule} from './statistics/statistics.module';
 
 @Module({
     imports: [
         MongooseModule.forRoot('mongodb://localhost/nest'),
         PollModule,
         TokenModule,
+        StatisticsModule,
     ],
     controllers: [AppController],
     providers: [AppService],
