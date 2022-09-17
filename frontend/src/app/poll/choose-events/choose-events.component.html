@@ -50,25 +50,38 @@
                   {{participant.name}}
                 </div>
               </th>
-              <td *ngFor="let pollEvent of pollEvents; let n=index">
-                <div *ngIf="(participant.participation | some: pollEvent._id ) && participant !== editParticipant"
-                     class="p-check">
-                  <i class="bi-check-lg icon"></i>
-                </div>
-                <div *ngIf="!(participant.participation | some: pollEvent._id )
+              <ng-container *ngIf="participant !== editParticipant">
+                <td *ngFor="let pollEvent of pollEvents; let n=index">
+                  <div *ngIf="(participant.participation | some: pollEvent._id ) && participant !== editParticipant"
+                       class="p-check">
+                    <i class="bi-check-lg icon"></i>
+                  </div>
+                  <div *ngIf="!(participant.participation | some: pollEvent._id )
                 && !(participant.indeterminateParticipation | some: pollEvent._id ) && participant !== editParticipant"
-                     class="p-unchecked">
-                  <i class="bi-x-lg icon"></i>
-                </div>
-                <div
-                  *ngIf="(participant.indeterminateParticipation | some: pollEvent._id ) && participant !== editParticipant"
-                  class="p-unchecked">
-                  <i class="bi-question icon"></i>
-                </div>
-                <div *ngIf="participant === editParticipant">
-                  <input class="form-check-input rounded-circle" type="checkbox" (click)="checkBox(editChecks, n)">
-                </div>
-              </td>
+                       class="p-unchecked">
+                    <i class="bi-x-lg icon"></i>
+                  </div>
+                  <div
+                    *ngIf="(participant.indeterminateParticipation | some: pollEvent._id ) && participant !== editParticipant"
+                    class="p-unchecked">
+                    <i class="bi-question icon"></i>
+                  </div>
+                </td>
+              </ng-container>
+              <ng-container *ngIf="participant === editParticipant">
+                <td *ngFor="let check of editChecks; let n=index">
+                  <div class="d-flex justify-content-center">
+                    <button
+                      class="form-check-input rounded-circle"
+                      type="button"
+                      [class.button-checked]="check === 'true' || check === 'indeterminate'"
+                      (click)="checkBox(editChecks, n)">
+                      <i *ngIf="check === 'true'" class="bi-check button-icon"></i>
+                      <i *ngIf="check === 'indeterminate'" class="bi-dash button-icon"></i>
+                    </button>
+                  </div>
+                </td>
+              </ng-container>
               <td *ngIf="participant === editParticipant" class="border-0 text-start">
                 <button class="btn btn-primary btn-sm ms-1" type="button" (click)="cancelEdit()">
                   <i class="bi-x"></i>
