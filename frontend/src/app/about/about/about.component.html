@@ -1,2 +1,5 @@
-<!-- TODO: whole about section -->
-<h1 [countUp]="1337">0</h1>
+<div *ngIf="statistics">
+  <h3 [countUp]="statistics.polls">0</h3>
+  <h3 [countUp]="statistics.participants">0</h3>
+  <h3 [countUp]="statistics.pollEvents">0</h3>
+</div>

@@ -1,4 +1,8 @@
 import {Component, OnInit} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+
+import {Statistics} from '../../model';
+import {environment} from '../../../environments/environment';
 
 @Component({
   selector: 'app-about',
@@ -6,11 +10,18 @@ import {Component, OnInit} from '@angular/core';
   styleUrls: ['./about.component.scss'],
 })
 export class AboutComponent implements OnInit {
+  statistics?: Statistics;
 
-  constructor() {
+  constructor(private http: HttpClient) {
   }
 
   ngOnInit(): void {
+    this.fetchStatistics();
   }
 
+  private fetchStatistics() {
+    this.http.get<Statistics>(`${environment.backendURL}/stats`).subscribe((stats: Statistics) => {
+      this.statistics = stats;
+    });
+  }
 }
