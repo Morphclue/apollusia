@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Statistics} from '../../model';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
@@ -6,7 +6,7 @@ import {environment} from '../../../environments/environment';
 @Component({
   selector: 'app-statistics',
   templateUrl: './statistics.component.html',
-  styleUrls: ['./statistics.component.scss']
+  styleUrls: ['./statistics.component.scss'],
 })
 export class StatisticsComponent implements OnInit {
   statistics?: Statistics;
