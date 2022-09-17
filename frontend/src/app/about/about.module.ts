@@ -4,9 +4,10 @@ import {CountUpModule} from 'ngx-countup';
 
 import {AboutRoutingModule} from './about-routing.module';
 import {AboutComponent} from './about/about.component';
+import {StatisticsComponent} from './statistics/statistics.component';
 
 @NgModule({
-  declarations: [AboutComponent],
+  declarations: [AboutComponent, StatisticsComponent],
   imports: [
     CommonModule,
     AboutRoutingModule,
