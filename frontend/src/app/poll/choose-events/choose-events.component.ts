@@ -105,6 +105,7 @@ export class ChooseEventsComponent implements OnInit {
   deleteParticipation(participantId: string) {
     this.http.delete(`${environment.backendURL}/poll/${this.id}/participate/${participantId}`).subscribe(() => {
       this.participants = this.participants.filter(p => p._id !== participantId);
+      this.findBestOption();
     });
   }
 
@@ -143,7 +144,7 @@ export class ChooseEventsComponent implements OnInit {
 
   private findBestOption() {
     if (this.poll?.events) {
-      this.bestOption = Math.max(...this.poll.events.map(event => this.countParticipants(event)));
+      this.bestOption = Math.max(...this.poll.events.map(event => this.countParticipants(event))) || 1;
     }
   }
 
