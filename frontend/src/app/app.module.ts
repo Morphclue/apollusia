@@ -6,19 +6,19 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {CoreModule} from './core/core.module';
-import {AboutComponent} from './about/about.component';
 import {TokenService} from './core/token/token.service';
+import {AboutModule} from './about/about.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    AboutComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     NgbModule,
     HttpClientModule,
+    AboutModule,
     CoreModule,
   ],
   providers: [TokenService],

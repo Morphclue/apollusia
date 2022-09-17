@@ -45,6 +45,7 @@ specifiers:
   karma-coverage: ~2.0.3
   karma-jasmine: ~4.0.2
   karma-jasmine-html-reporter: ^1.7.0
+  ngx-countup: ^13.1.0
   protractor: ~7.0.0
   rxjs: ~6.6.7
   ts-node: ~8.3.0
@@ -72,6 +73,7 @@ dependencies:
   calendar-utils: 0.9.0
   date-fns: 2.29.3
   flatpickr: 4.6.13
+  ngx-countup: 13.1.0_g5lz55bj2yrbloq2nji6xzbsca
   rxjs: 6.6.7
   tslib: 2.4.0
   zone.js: 0.11.8
@@ -3831,6 +3833,10 @@ packages:
       yaml: 1.10.2
     dev: true
 
+  /countup.js/2.3.2:
+    resolution: {integrity: sha512-dQ7F/CmKGjaO6cDfhtEXwsKVlXIpJ89dFs8PvkaZH9jBVJ2Z8GU4iwG/qP7MgY8qwr+1skbwR6qecWWQLUzB8Q==}
+    dev: false
+
   /critters/0.0.16:
     resolution: {integrity: sha512-JwjgmO6i3y6RWtLYmXwO5jMd+maZt8Tnfu7VVISmEWyQqfLpB8soBswf8/2bu6SBXxtKA68Al3c+qIG1ApT68A==}
     dependencies:
@@ -6543,6 +6549,18 @@ packages:
   /neo-async/2.6.2:
     resolution: {integrity: sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==}
     dev: true
+
+  /ngx-countup/13.1.0_g5lz55bj2yrbloq2nji6xzbsca:
+    resolution: {integrity: sha512-5U1heict3J3F+MTvwhEM3w/j9JuSp4Jqm530yrIzZtQC4huOPCTyZ4ZwBhGk+ZkBkb8HOCcm1xXu90/sydt0Qg==}
+    peerDependencies:
+      '@angular/common': '>=13.0.0'
+      '@angular/core': '>=13.0.0'
+    dependencies:
+      '@angular/common': 14.1.3_pwaj46dbqnsjey6dbov3bcnug4
+      '@angular/core': 14.1.3_rxjs@6.6.7+zone.js@0.11.8
+      countup.js: 2.3.2
+      tslib: 2.4.0
+    dev: false
 
   /nice-napi/1.0.2:
     resolution: {integrity: sha512-px/KnJAJZf5RuBGcfD+Sp2pAKq0ytz8j+1NehvgIGFkvtvFrDM3T8E4x/JJODXK9WZow8RRGrbA9QQ3hs+pDhA==}
