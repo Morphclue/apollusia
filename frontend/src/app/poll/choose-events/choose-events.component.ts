@@ -108,10 +108,6 @@ export class ChooseEventsComponent implements OnInit {
     });
   }
 
-  editParticipation(participant: Participant) {
-    this.editParticipant = participant;
-  }
-
   cancelEdit() {
     this.editParticipant = undefined;
     this.editChecks = new Array(this.checks.length).fill(CheckboxState.FALSE);
