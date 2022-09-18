@@ -1,6 +1,7 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {CountUpModule} from 'ngx-countup';
+import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 
 import {AboutRoutingModule} from './about-routing.module';
 import {AboutComponent} from './about/about.component';
@@ -13,6 +14,7 @@ import {FeaturesComponent} from './features/features.component';
     CommonModule,
     AboutRoutingModule,
     CountUpModule,
+    NgbTooltipModule,
   ],
 })
 export class AboutModule {
