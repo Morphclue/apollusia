@@ -102,6 +102,17 @@ export class ChooseEventsComponent implements OnInit {
     return this.tokenService.getToken();
   }
 
+  setEditParticipant(participant: Participant) {
+    this.editParticipant = participant;
+    this.editChecks = new Array(this.checks.length).fill(CheckboxState.FALSE);
+    participant.participation.forEach(event => {
+      this.editChecks[this.pollEvents.findIndex(e => e._id === event._id)] = CheckboxState.TRUE;
+    });
+    participant.indeterminateParticipation.forEach(event => {
+      this.editChecks[this.pollEvents.findIndex(e => e._id === event._id)] = CheckboxState.INDETERMINATE;
+    });
+  }
+
   deleteParticipation(participantId: string) {
     this.http.delete(`${environment.backendURL}/poll/${this.id}/participate/${participantId}`).subscribe(() => {
       this.participants = this.participants.filter(p => p._id !== participantId);
