@@ -1,4 +1,5 @@
 import {AfterViewInit, ChangeDetectorRef, Component, ElementRef} from '@angular/core';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {HttpClient} from '@angular/common/http';
 import {ActivatedRoute, Router} from '@angular/router';
 import {WeekViewHourSegment} from 'calendar-utils';
@@ -11,7 +12,6 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {ChooseDateService} from '../services/choose-date.service';
 import {environment} from '../../../environments/environment';
 import {PollEvent} from '../../model';
-import {FormControl, FormGroup} from '@angular/forms';
 
 @Component({
   selector: 'app-choose-date',
@@ -25,11 +25,11 @@ export class ChooseDateComponent implements AfterViewInit {
   previousEventDuration = 30;
   id: string = '';
   modalForm = new FormGroup({
-    dates: new FormControl(''),
-    startTime: new FormControl('12:00'),
-    duration: new FormControl('00:30'),
-    pause: new FormControl('00:00'),
-    repeat: new FormControl(1),
+    dates: new FormControl('', Validators.required),
+    startTime: new FormControl('12:00', Validators.required),
+    duration: new FormControl('00:30', Validators.required),
+    pause: new FormControl('00:00', Validators.required),
+    repeat: new FormControl(1, Validators.required),
   });
 
   constructor(
