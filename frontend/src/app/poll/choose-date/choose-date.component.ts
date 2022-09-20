@@ -26,6 +26,10 @@ export class ChooseDateComponent implements AfterViewInit {
   id: string = '';
   modalForm = new FormGroup({
     dates: new FormControl(''),
+    startTime: new FormControl(''),
+    duration: new FormControl('00:30'),
+    pause: new FormControl('00:00'),
+    repeat: new FormControl(1),
   });
 
   constructor(
