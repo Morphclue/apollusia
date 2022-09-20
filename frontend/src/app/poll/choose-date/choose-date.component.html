@@ -8,8 +8,9 @@
         <div class="btn btn-primary" mwlCalendarNextView [view]="'week'" [(viewDate)]="viewDate">Next</div>
       </div>
     </div>
-    <div class="col-md-6 text-end">
-      <h3>{{ viewDate | calendarDate:('weekViewTitle') }}</h3>
+    <div class="col-md-6 d-flex justify-content-end">
+      <button type="button" class="btn btn-primary" (click)="open(content)">Custom definition</button>
+      <h3 class="mx-2">{{ viewDate | calendarDate:('weekViewTitle') }}</h3>
     </div>
   </div>
   <br/>
@@ -50,3 +51,17 @@
     <div *ngIf="hasEvents()" class="btn btn-primary" (click)="createEvents()">Update</div>
   </div>
 </div>
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-title">Custom definition</h4>
+    <button type="button" class="btn-close" aria-describedby="modal-title"
+            (click)="modal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body">
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss('cancel click')">Cancel</button>
+    <button type="button" class="btn btn-primary" (click)="modal.close('Ok click')">Apply</button>
+  </div>
+</ng-template>

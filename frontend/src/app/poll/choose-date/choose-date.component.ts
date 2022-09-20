@@ -6,6 +6,7 @@ import {fromEvent, Observable} from 'rxjs';
 import {finalize, map, takeUntil} from 'rxjs/operators';
 import {addMinutes, differenceInMinutes, endOfWeek} from 'date-fns';
 import {CalendarEvent, CalendarEventTimesChangedEvent} from 'angular-calendar';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 import {ChooseDateService} from '../services/choose-date.service';
 import {environment} from '../../../environments/environment';
@@ -24,6 +25,7 @@ export class ChooseDateComponent implements AfterViewInit {
   id: string = '';
 
   constructor(
+    private modalService: NgbModal,
     private changeDetectorRef: ChangeDetectorRef,
     private chooseDateService: ChooseDateService,
     private http: HttpClient,
@@ -115,5 +117,11 @@ export class ChooseDateComponent implements AfterViewInit {
 
   hasEvents() {
     return this.chooseDateService.events.length > 0;
+  }
+
+  open(content: any) {
+    this.modalService.open(content).result.then(() => {
+      // TODO: logic
+    });
   }
 }
