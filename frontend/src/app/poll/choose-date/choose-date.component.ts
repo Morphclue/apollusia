@@ -130,6 +130,7 @@ export class ChooseDateComponent implements AfterViewInit {
   open(content: any) {
     this.modalService.open(content).result.then(() => {
       this.onFormSubmit();
+    }).catch(() => {
     });
   }
 
