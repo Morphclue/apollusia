@@ -25,7 +25,7 @@ export class ChooseDateComponent implements AfterViewInit {
   previousEventDuration = 30;
   id: string = '';
   modalForm = new FormGroup({
-    dates: new FormControl([]),
+    dates: new FormControl(''),
   });
 
   constructor(
@@ -132,5 +132,6 @@ export class ChooseDateComponent implements AfterViewInit {
   onFormSubmit() {
     // TODO: implement
     console.log(this.modalForm.value);
+    this.modalForm.reset();
   }
 }
