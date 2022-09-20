@@ -11,6 +11,7 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {ChooseDateService} from '../services/choose-date.service';
 import {environment} from '../../../environments/environment';
 import {PollEvent} from '../../model';
+import {FormControl, FormGroup} from '@angular/forms';
 
 @Component({
   selector: 'app-choose-date',
@@ -23,6 +24,9 @@ export class ChooseDateComponent implements AfterViewInit {
   weekStartsOn: 1 = 1;
   previousEventDuration = 30;
   id: string = '';
+  modalForm = new FormGroup({
+    dates: new FormControl([]),
+  });
 
   constructor(
     private modalService: NgbModal,
@@ -121,7 +125,12 @@ export class ChooseDateComponent implements AfterViewInit {
 
   open(content: any) {
     this.modalService.open(content).result.then(() => {
-      // TODO: logic
+      this.onFormSubmit();
     });
+  }
+
+  onFormSubmit() {
+    // TODO: implement
+    console.log(this.modalForm.value);
   }
 }

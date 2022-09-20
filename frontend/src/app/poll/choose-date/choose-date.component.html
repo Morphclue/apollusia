@@ -59,6 +59,21 @@
             (click)="modal.dismiss('Cross click')"></button>
   </div>
   <div class="modal-body">
+    <form [formGroup]="modalForm" (ngSubmit)="onFormSubmit()">
+      <div class="form-group mb-3">
+        <label for="dates">Select multiple dates</label>
+        <input class="mwlFlatpickr"
+               mwlFlatpickr
+               id="dates"
+               formControlName="dates"
+               type="text"
+               autocomplete="off"
+               mode="multiple"
+               [allowInput]="false"
+               [dateFormat]="'Y-m-d'"
+        >
+      </div>
+    </form>
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss('cancel click')">Cancel</button>
