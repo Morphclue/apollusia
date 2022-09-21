@@ -24,6 +24,7 @@ export class ChooseDateComponent implements AfterViewInit {
   weekStartsOn: 1 = 1;
   previousEventDuration = 30;
   id: string = '';
+  initialModalFormValues: any;
   modalForm = new FormGroup({
     dates: new FormControl('', Validators.required),
     startTime: new FormControl('12:00', Validators.required),
@@ -49,6 +50,7 @@ export class ChooseDateComponent implements AfterViewInit {
   }
 
   ngAfterViewInit() {
+    this.initialModalFormValues = this.modalForm.value;
     this.scrollToCurrentTime();
   }
 
@@ -130,7 +132,7 @@ export class ChooseDateComponent implements AfterViewInit {
   open(content: any) {
     this.modalService.open(content).result.then(() => {
       this.onFormSubmit();
-      this.modalForm.reset();
+      this.modalForm.reset(this.initialModalFormValues);
     }).catch(() => {
     });
   }
