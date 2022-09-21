@@ -140,7 +140,28 @@ export class ChooseDateComponent implements AfterViewInit {
       return;
     }
 
-    // TODO: implement
-    console.log(this.modalForm.value);
+    const dateValue = this.modalForm.get('dates')?.value;
+    const startTimeValue = this.modalForm.get('startTime')?.value;
+    const durationValue = this.modalForm.get('duration')?.value;
+    const pauseValue = this.modalForm.get('pause')?.value;
+    const repeat = this.modalForm.get('repeat')?.value;
+
+    if (!dateValue || !repeat || !startTimeValue || !durationValue || !pauseValue) {
+      return;
+    }
+
+    const dates = dateValue.split(',');
+    const startTime = startTimeValue.split(':').map((value: string) => parseInt(value));
+    const duration = durationValue.split(':').map((value: string) => parseInt(value));
+    const pause = pauseValue.split(':').map((value: string) => parseInt(value));
+
+    // TODO: add pause and repeat
+    for (let i = 0; i < dates.length; i++) {
+      const start = new Date(dates[i]);
+      start.setHours(startTime[0], startTime[1], 0, 0);
+      const end = new Date(start);
+      end.setHours(end.getHours() + duration[0], end.getMinutes() + duration[1], 0, 0);
+      this.chooseDateService.addEvent(start, end);
+    }
   }
 }

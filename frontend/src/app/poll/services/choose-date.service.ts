@@ -98,4 +98,21 @@ export class ChooseDateService {
       });
     });
   }
+
+  addEvent(start: Date, end: Date) {
+    this.events = [...this.events, {
+      title: '',
+      start,
+      end,
+      actions: this.actions,
+      draggable: true,
+      resizable: {
+        beforeStart: true,
+        afterEnd: true,
+      },
+      meta: {
+        tmpEvent: true,
+      },
+    }];
+  }
 }
