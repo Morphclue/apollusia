@@ -1,6 +1,6 @@
 import {Injectable} from '@nestjs/common';
 import {InjectModel} from '@nestjs/mongoose';
-import mongoose, {Model} from 'mongoose';
+import {Model} from 'mongoose';
 
 import {ParticipantDto, PollDto, PollEventDto} from '../../dto';
 import {Participant, Poll, PollEvent} from '../../schema';
@@ -37,22 +37,10 @@ export class PollService {
     }
 
     async postEvents(id: string, poll: Poll, pollEvents: PollEventDto[]): Promise<Poll> {
-        for (const pollEvent of pollEvents) {
-            await this.pollEventModel.findByIdAndUpdate(
-                pollEvent._id ?? new mongoose.Types.ObjectId(), {
-                    poll: id,
-                    start: pollEvent.start,
-                    end: pollEvent.end,
-                }, {upsert: true});
-        }
-
-        // FIXME: might be easier than that
-        const pollEventDoc = await this.pollEventModel.find({poll: id}).exec();
-        poll.events = [];
-        pollEventDoc.forEach((pollEvent) => {
-            poll.events.push(pollEvent.id);
+        await poll.events.forEach(event => {
+            this.pollEventModel.deleteMany({poll: event.poll}).exec();
         });
-
+        poll.events = await this.pollEventModel.create(pollEvents);
         return this.pollModel.findByIdAndUpdate(id, poll, {new: true}).exec();
     }
 
