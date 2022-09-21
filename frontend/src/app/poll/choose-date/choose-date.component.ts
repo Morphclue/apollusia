@@ -164,10 +164,10 @@ export class ChooseDateComponent implements AfterViewInit {
       end = addMinutes(end, duration[0] * 60 + duration[1]);
       this.chooseDateService.addEvent(start, end);
       for (let j = 0; j < repeat - 1; j++) {
-        const start = new Date(end);
-        start.setHours(start.getHours() + pause[0], start.getMinutes() + pause[1], 0, 0);
+        start = new Date(end);
+        start = addMinutes(start, pause[0] * 60 + pause[1]);
         end = new Date(start);
-        end.setHours(end.getHours() + duration[0], end.getMinutes() + duration[1], 0, 0);
+        end = addMinutes(end, duration[0] * 60 + duration[1]);
         this.chooseDateService.addEvent(start, end);
       }
     }
