@@ -102,8 +102,8 @@ export class ChooseDateService {
   addEvent(start: Date, end: Date) {
     this.events = [...this.events, {
       title: '',
-      start,
-      end,
+      start: start,
+      end: end,
       actions: this.actions,
       draggable: true,
       resizable: {

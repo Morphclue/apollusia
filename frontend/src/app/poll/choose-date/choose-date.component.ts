@@ -157,13 +157,19 @@ export class ChooseDateComponent implements AfterViewInit {
     const duration = durationValue.split(':').map((value: string) => parseInt(value));
     const pause = pauseValue.split(':').map((value: string) => parseInt(value));
 
-    // TODO: add pause and repeat
     for (let i = 0; i < dates.length; i++) {
-      const start = new Date(dates[i]);
+      let start = new Date(dates[i]);
       start.setHours(startTime[0], startTime[1], 0, 0);
-      const end = new Date(start);
-      end.setHours(end.getHours() + duration[0], end.getMinutes() + duration[1], 0, 0);
+      let end = new Date(start);
+      end = addMinutes(end, duration[0] * 60 + duration[1]);
       this.chooseDateService.addEvent(start, end);
+      for (let j = 0; j < repeat - 1; j++) {
+        const start = new Date(end);
+        start.setHours(start.getHours() + pause[0], start.getMinutes() + pause[1], 0, 0);
+        end = new Date(start);
+        end.setHours(end.getHours() + duration[0], end.getMinutes() + duration[1], 0, 0);
+        this.chooseDateService.addEvent(start, end);
+      }
     }
   }
 }
