@@ -47,7 +47,7 @@
         <div class="pt-3" #collapse="ngbCollapse" [(ngbCollapse)]="isCollapsed">
           <div class="form-group form-check">
             <label class="form-check-label" for="maxParticipants">Maximum number of participants</label>
-            <input class="form-check-input" type="checkbox" id="maxParticipants" formControlName="maxParticipants">
+            <input min="1" class="form-check-input" type="checkbox" id="maxParticipants" formControlName="maxParticipants">
             <div *ngIf="pollForm.get('maxParticipants')?.value">
               <input class="form-control" type="number" min="1" id="maxParticipantsInput"
                      formControlName="maxParticipantsInput">
