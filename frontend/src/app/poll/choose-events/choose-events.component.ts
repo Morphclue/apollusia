@@ -95,7 +95,9 @@ export class ChooseEventsComponent implements OnInit {
   }
 
   countParticipants(pollEvent: PollEvent) {
-    return this.participants.filter(participant => participant.participation.find(event => event._id === pollEvent._id)).length;
+    const participants = this.participants.filter(p => p.participation.some(e => e._id === pollEvent._id));
+    const indeterminateParticipants = this.participants.filter(p => p.indeterminateParticipation.some(e => e._id === pollEvent._id));
+    return participants.length + indeterminateParticipants.length;
   }
 
   getToken() {
