@@ -13,6 +13,9 @@ export class PollEvent {
 
     @Prop({required: true})
     end: string;
+
+    @Prop()
+    maxParticipants: number;
 }
 
 export const PollEventSchema = SchemaFactory.createForClass(PollEvent);
