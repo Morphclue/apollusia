@@ -112,7 +112,7 @@ export class CreateEditPollComponent implements OnInit {
   open(content: any) {
     this.modalService.open(content).result.then(() => {
       this.http.delete(`${environment.backendURL}/poll/${this.id}`).subscribe(() => {
-        this.router.navigate([`dashboard`]);
+        this.router.navigate([`dashboard`]).then();
       });
     }).catch(() => {
     });
