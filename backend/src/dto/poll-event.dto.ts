@@ -1,5 +1,5 @@
 import {ApiProperty} from '@nestjs/swagger';
-import {IsNotEmpty, IsNumber, IsString} from 'class-validator';
+import {IsNotEmpty, IsString} from 'class-validator';
 
 export class PollEventDto {
     @ApiProperty()
@@ -19,8 +19,4 @@ export class PollEventDto {
     @IsString()
     @IsNotEmpty()
     end: string;
-
-    @ApiProperty()
-    @IsNumber()
-    maxParticipants?: number;
 }
