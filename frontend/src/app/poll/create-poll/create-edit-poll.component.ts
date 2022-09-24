@@ -75,14 +75,14 @@ export class CreateEditPollComponent implements OnInit {
     this.updatePoll(createPollDto);
   }
 
-  private updatePoll(createPollDto: CreatePollDto) {
-    this.http.put<Poll>(`${environment.backendURL}/poll/${this.id}`, createPollDto).subscribe(() => {
+  private updatePoll(poll: CreatePollDto) {
+    this.http.put<Poll>(`${environment.backendURL}/poll/${this.id}`, poll).subscribe(() => {
       this.router.navigate(['dashboard']).then();
     });
   }
 
-  private postPoll(createPollDto: CreatePollDto) {
-    this.http.post<Poll>(`${environment.backendURL}/poll`, createPollDto).subscribe((res: Poll) => {
+  private postPoll(poll: CreatePollDto) {
+    this.http.post<Poll>(`${environment.backendURL}/poll`, poll).subscribe((res: Poll) => {
       this.router.navigate([`poll/${res._id}/date`]).then();
     });
   }
