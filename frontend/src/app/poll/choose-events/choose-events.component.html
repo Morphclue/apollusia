@@ -27,15 +27,15 @@
                      placeholder="Your name"
                      formControlName="name">
             </th>
-            <td *ngFor="let check of checks; let n=index">
-              <div class="d-flex justify-content-center">
+            <td *ngFor="let event of pollEvents; let n=index">
+              <div *ngIf="!maxParticipantsReached(event)" class="d-flex justify-content-center">
                 <button
                   class="form-check-input rounded-circle"
                   type="button"
-                  [class.button-checked]="check === 'true' || check === 'indeterminate'"
+                  [class.button-checked]="checks[n] === 'true' || checks[n] === 'indeterminate'"
                   (click)="checkBox(checks, n)">
-                  <i *ngIf="check === 'true'" class="bi-check button-icon"></i>
-                  <i *ngIf="check === 'indeterminate'" class="bi-dash button-icon"></i>
+                  <i *ngIf="checks[n] === 'true'" class="bi-check button-icon"></i>
+                  <i *ngIf="checks[n] === 'indeterminate'" class="bi-dash button-icon"></i>
                 </button>
               </div>
             </td>

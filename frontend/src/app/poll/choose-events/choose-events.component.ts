@@ -164,4 +164,12 @@ export class ChooseEventsComponent implements OnInit {
   private filterEvents(checks: CheckboxState[], state: CheckboxState) {
     return this.pollEvents.filter((_, i) => checks[i] === state);
   }
+
+  maxParticipantsReached(event: PollEvent) {
+    if (!this.poll?.settings.maxEventParticipants) {
+      return false;
+    }
+
+    return this.countParticipants(event) >= this.poll.settings.maxEventParticipants;
+  }
 }
