@@ -136,7 +136,13 @@
               </div>
             </td>
             <td class="border-0 text-start">
-              <button class="btn btn-sm btn-primary" type="button">Book</button>
+              <button
+                class="btn btn-sm btn-primary"
+                type="button"
+                [disabled]="bookedEvents.length === 0"
+                (click)="book()">
+                Book
+              </button>
             </td>
           </tr>
           </tbody>

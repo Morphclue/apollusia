@@ -185,4 +185,8 @@ export class ChooseEventsComponent implements OnInit {
 
     this.bookedEvents.push(id);
   }
+
+  book() {
+    // TODO: implement
+  }
 }
