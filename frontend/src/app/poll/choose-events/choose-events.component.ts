@@ -23,6 +23,7 @@ export class ChooseEventsComponent implements OnInit {
   editChecks: CheckboxState[] = [];
   editParticipant?: Participant;
   bestOption: number = 1;
+  bookedEvents: string[] = [];
   participants: Participant[] = [];
   participateForm = new FormGroup({
     name: new FormControl('', Validators.required),
@@ -171,5 +172,17 @@ export class ChooseEventsComponent implements OnInit {
     }
 
     return this.countParticipants(event) >= this.poll.settings.maxEventParticipants;
+  }
+
+  selectEvent(id: string | undefined) {
+    if (!id) {
+      return;
+    }
+    if (this.bookedEvents.includes(id)) {
+      this.bookedEvents = this.bookedEvents.filter(e => e !== id);
+      return;
+    }
+
+    this.bookedEvents.push(id);
   }
 }
