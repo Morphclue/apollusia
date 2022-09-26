@@ -22,6 +22,7 @@ export class CreateEditPollComponent implements OnInit {
   pollForm = new FormGroup({
     title: new FormControl('', Validators.required),
     description: new FormControl(''),
+    location: new FormControl(''),
     deadline: new FormControl(),
     maxParticipants: new FormControl(false),
     maxParticipantsInput: new FormControl(''),
@@ -55,6 +56,7 @@ export class CreateEditPollComponent implements OnInit {
     const createPollDto: CreatePollDto = {
       title: pollForm.title!,
       description: pollForm.description ? pollForm.description : '',
+      location: pollForm.location ? pollForm.location : '',
       adminToken: this.tokenService.getToken(),
       settings: {
         deadline: pollForm.deadline ? new Date(pollForm.deadline) : undefined,
@@ -96,6 +98,7 @@ export class CreateEditPollComponent implements OnInit {
       this.pollForm.patchValue({
         title: poll.title,
         description: poll.description,
+        location: poll.location,
         deadline: poll.settings.deadline,
         maxParticipants: poll.settings.maxParticipants !== undefined,
         maxParticipantsInput: poll.settings.maxParticipants ? poll.settings.maxParticipants.toString() : '',
