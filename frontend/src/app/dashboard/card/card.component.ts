@@ -8,7 +8,6 @@ import {Poll} from '../../model';
   styleUrls: ['./card.component.scss'],
 })
 export class CardComponent implements OnInit {
-
   @Input() poll: Poll | undefined;
 
   constructor() {
@@ -16,5 +15,4 @@ export class CardComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
 }
