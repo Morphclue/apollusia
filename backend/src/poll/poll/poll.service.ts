@@ -72,6 +72,26 @@ export class PollService {
 
     async bookEvents(id: string, poll: Poll, events: PollEventDto[]): Promise<Poll> {
         poll.bookedEvents = await this.pollEventModel.find({_id: {$in: events.map(event => event._id)}}).exec();
+        this.mailParticipants(id, poll).then();
         return this.pollModel.findByIdAndUpdate(id, poll, {new: true}).exec();
+    }
+
+    private async mailParticipants(id: string, poll: Poll) {
+        const participants = await this.participantModel.find({poll: id}).populate(['participation', 'indeterminateParticipation']).exec();
+        participants.forEach(participant => {
+            const participations = [...participant.participation, ...participant.indeterminateParticipation];
+            let message = 'The following appointments have been booked:\n';
+            poll.bookedEvents.forEach((event: any) => {
+                message = message.concat(event.start + ' ' + event.end);
+                // TODO: use includes and remove any-type (not working currently)
+                if (participations.some((p: any) => p._id.toString() === event._id.toString())) {
+                    message = message.concat(' *');
+                }
+                message = message.concat('\n');
+            });
+            message = message.concat('You have agreed to appointments marked with *.');
+            // TODO: implement mail service
+            console.log(message);
+        });
     }
 }
