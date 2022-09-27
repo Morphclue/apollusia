@@ -62,15 +62,15 @@ export class PollService {
         });
     }
 
-    async editParticipation(id: string, participantId: string, participant: ParticipantDto) {
+    async editParticipation(id: string, participantId: string, participant: ParticipantDto): Promise<Participant> {
         return this.participantModel.findByIdAndUpdate(participantId, participant, {new: true}).exec();
     }
 
-    async deleteParticipation(id: string, participantId: string) {
+    async deleteParticipation(id: string, participantId: string): Promise<Participant> {
         return this.participantModel.findByIdAndDelete(participantId).exec();
     }
 
-    async bookEvents(id: string, poll: Poll, events: PollEventDto[]) {
+    async bookEvents(id: string, poll: Poll, events: PollEventDto[]): Promise<Poll> {
         poll.bookedEvents = await this.pollEventModel.find({_id: {$in: events.map(event => event._id)}}).exec();
         return this.pollModel.findByIdAndUpdate(id, poll, {new: true}).exec();
     }
