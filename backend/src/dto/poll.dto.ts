@@ -32,5 +32,5 @@ export class PollDto {
     events?: PollEventDto[];
 
     @ApiProperty()
-    bookedEvents?: PollEventDto[];
+    bookedEvents?: string[];
 }

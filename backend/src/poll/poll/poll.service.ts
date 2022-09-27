@@ -70,8 +70,8 @@ export class PollService {
         return this.participantModel.findByIdAndDelete(participantId).exec();
     }
 
-    async bookEvents(id: string, poll: Poll, events: PollEventDto[]): Promise<Poll> {
-        poll.bookedEvents = await this.pollEventModel.find({_id: {$in: events.map(event => event._id)}}).exec();
+    async bookEvents(id: string, poll: Poll, events: string[]): Promise<Poll> {
+        poll.bookedEvents = await this.pollEventModel.find({_id: {$in: events}}).exec();
         this.mailParticipants(id, poll).then();
         return this.pollModel.findByIdAndUpdate(id, poll, {new: true}).exec();
     }

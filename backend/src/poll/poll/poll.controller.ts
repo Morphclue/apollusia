@@ -80,7 +80,7 @@ export class PollController {
     }
 
     @Post(':id/book')
-    async bookEvents(@Param('id') id: string, @Body() events: PollEventDto[]): Promise<Poll> {
+    async bookEvents(@Param('id') id: string, @Body() events: string[]): Promise<Poll> {
         const existingPoll = await this.pollService.getPoll(id);
         if (!existingPoll) {
             throw new NotFoundException(id);

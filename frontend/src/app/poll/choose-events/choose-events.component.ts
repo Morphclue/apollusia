@@ -85,6 +85,7 @@ export class ChooseEventsComponent implements OnInit {
       this.pollEvents = poll.events;
       this.checks = new Array(poll.events.length).fill(CheckboxState.FALSE);
       this.editChecks = new Array(poll.events.length).fill(CheckboxState.FALSE);
+      this.bookedEvents = poll.bookedEvents ? poll.bookedEvents : [];
     });
   }
 
@@ -187,8 +188,7 @@ export class ChooseEventsComponent implements OnInit {
   }
 
   book() {
-    const events = this.pollEvents.filter(e => this.bookedEvents.includes(e._id ? e._id : ''));
-    this.http.post(`${environment.backendURL}/poll/${this.id}/book`, events).subscribe(() => {
+    this.http.post(`${environment.backendURL}/poll/${this.id}/book`, this.bookedEvents).subscribe(() => {
       // TODO: success message or something else?
     });
   }
