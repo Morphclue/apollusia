@@ -78,4 +78,14 @@ export class PollController {
     ): Promise<Participant | undefined> {
         return this.pollService.deleteParticipation(id, participantId);
     }
+
+    @Post(':id/book')
+    async bookEvents(@Param('id') id: string, @Body() events: PollEventDto[]): Promise<Poll> {
+        const existingPoll = await this.pollService.getPoll(id);
+        if (!existingPoll) {
+            throw new NotFoundException(id);
+        }
+
+        return this.pollService.bookEvents(id, existingPoll, events);
+    }
 }

@@ -8,6 +8,7 @@ export interface Poll {
   adminToken: string;
   settings: Settings;
   events?: PollEvent[];
+  bookedEvents?: PollEvent[];
   _id: string;
 }
 

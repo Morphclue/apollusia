@@ -62,11 +62,16 @@ export class PollService {
         });
     }
 
-    editParticipation(id: string, participantId: string, participant: ParticipantDto) {
+    async editParticipation(id: string, participantId: string, participant: ParticipantDto) {
         return this.participantModel.findByIdAndUpdate(participantId, participant, {new: true}).exec();
     }
 
-    deleteParticipation(id: string, participantId: string) {
+    async deleteParticipation(id: string, participantId: string) {
         return this.participantModel.findByIdAndDelete(participantId).exec();
+    }
+
+    async bookEvents(id: string, poll: Poll, events: PollEventDto[]) {
+        poll.bookedEvents = await this.pollEventModel.find({_id: {$in: events.map(event => event._id)}}).exec();
+        return this.pollModel.findByIdAndUpdate(id, poll, {new: true}).exec();
     }
 }

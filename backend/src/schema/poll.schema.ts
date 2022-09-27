@@ -28,6 +28,14 @@ export class Poll {
         }],
     })
     events: PollEvent[];
+
+    @Prop({
+        type: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'PollEvent',
+        }],
+    })
+    bookedEvents: PollEvent[];
 }
 
 export const PollSchema = SchemaFactory.createForClass(Poll);

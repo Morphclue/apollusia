@@ -187,6 +187,9 @@ export class ChooseEventsComponent implements OnInit {
   }
 
   book() {
-    // TODO: implement
+    const events = this.pollEvents.filter(e => this.bookedEvents.includes(e._id ? e._id : ''));
+    this.http.post(`${environment.backendURL}/poll/${this.id}/book`, events).subscribe(() => {
+      // TODO: success message or something else?
+    });
   }
 }
