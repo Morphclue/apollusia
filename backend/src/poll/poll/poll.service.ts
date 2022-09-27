@@ -82,7 +82,7 @@ export class PollService {
             const participations = [...participant.participation, ...participant.indeterminateParticipation];
             let message = 'The following appointments have been booked:\n';
             poll.bookedEvents.forEach((event: any) => {
-                message = message.concat(event.start + ' ' + event.end);
+                message = message.concat(`${new Date(event.start).toLocaleString()} - ${new Date(event.end).toLocaleString()}`);
                 // TODO: use includes and remove any-type (not working currently)
                 if (participations.some((p: any) => p._id.toString() === event._id.toString())) {
                     message = message.concat(' *');
