@@ -6,6 +6,7 @@ import {AppService} from './app.service';
 import {PollModule} from './poll/poll.module';
 import {TokenModule} from './token/token.module';
 import {StatisticsModule} from './statistics/statistics.module';
+import { MailModule } from './mail/mail.module';
 
 @Module({
     imports: [
@@ -13,6 +14,7 @@ import {StatisticsModule} from './statistics/statistics.module';
         PollModule,
         TokenModule,
         StatisticsModule,
+        MailModule,
     ],
     controllers: [AppController],
     providers: [AppService],
