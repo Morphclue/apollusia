@@ -12,9 +12,7 @@ import {MailService} from '../services';
 export class NavbarComponent implements OnInit {
   menuCollapsed: boolean = true;
   mailForm = new FormGroup({
-    mail: new FormControl('',
-      Validators.email,
-    ),
+    mail: new FormControl('', Validators.email),
   });
 
   constructor(
@@ -33,14 +31,16 @@ export class NavbarComponent implements OnInit {
     }
 
     if (this.mailForm.controls.mail.value === '') {
+      this.mailService.setMail('');
       this.modalService.dismissAll();
       return;
     }
 
-    if (this.mailForm.controls.mail.value != null) {
-      this.mailService.setMail(this.mailForm.controls.mail.value);
-      this.modalService.dismissAll();
+    if (this.mailForm.controls.mail.value == null) {
+      return;
     }
+    this.mailService.setMail(this.mailForm.controls.mail.value);
+    this.modalService.dismissAll();
   }
 
   open(content: any) {
