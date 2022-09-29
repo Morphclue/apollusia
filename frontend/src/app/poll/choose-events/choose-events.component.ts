@@ -6,7 +6,7 @@ import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 
 import {CreateParticipantDto, Participant, Poll, PollEvent} from '../../model';
-import {TokenService} from '../../core/services';
+import {MailService, TokenService} from '../../core/services';
 import {environment} from '../../../environments/environment';
 import {CheckboxState} from '../../model/checkbox-state';
 
@@ -24,6 +24,7 @@ export class ChooseEventsComponent implements OnInit {
   editParticipant?: Participant;
   bestOption: number = 1;
   bookedEvents: string[] = [];
+  mail: string = '';
   participants: Participant[] = [];
   participateForm = new FormGroup({
     name: new FormControl('', Validators.required),
@@ -35,6 +36,7 @@ export class ChooseEventsComponent implements OnInit {
     private router: Router,
     private http: HttpClient,
     private tokenService: TokenService,
+    private mailService: MailService,
   ) {
     const id: Observable<string> = route.params.pipe(map(p => p.id));
     id.subscribe((id: string) => {
@@ -45,6 +47,7 @@ export class ChooseEventsComponent implements OnInit {
   ngOnInit(): void {
     this.fetchPoll();
     this.fetchParticipants();
+    this.mail = this.mailService.getMail();
   }
 
   onFormSubmit() {

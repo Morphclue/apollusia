@@ -1,5 +1,15 @@
 <div class="d-flex justify-content-center">
   <div class="col-6 justify-content-center">
+    <div *ngIf="mail.length <= 0" class="d-flex align-items-center justify-content-center pt-5">
+      <h3>
+        You seem to have no mail configured. Press:
+      </h3>
+      <button class="btn btn-primary m-2" type="button">
+        <!-- TODO: open modal -->
+        <i class="bi-gear"></i>
+        Configure
+      </button>
+    </div>
     <div *ngIf="pollEvents" class="table-responsive text-center">
       <form class="m-5" [formGroup]="participateForm" (ngSubmit)="onFormSubmit()">
         <table class="table">
