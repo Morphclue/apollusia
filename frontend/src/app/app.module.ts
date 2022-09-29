@@ -6,7 +6,7 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {CoreModule} from './core/core.module';
-import {TokenService} from './core/token/token.service';
+import {TokenService} from './core/services/token.service';
 import {AboutModule} from './about/about.module';
 
 @NgModule({

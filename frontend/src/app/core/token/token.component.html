@@ -1,47 +1,35 @@
-<div class="col d-flex justify-content-center">
-  <div class="col-lg-6 mt-3">
-    <div class="card">
-      <div class="card-header">
-        Token Information
-      </div>
-      <div class="card-body">
-        This token can be copied to view your polls on other devices.
-        The letters should not be typed in individually, but the token should be pasted as a whole.
-      </div>
-      <div class="card-footer p-1">
-        <div class="input-group">
-          <input class="form-control" [class.blurred]="!visible" type="text" [(ngModel)]="input"
-                 (ngModelChange)="changed()">
-          <button
-            class="btn btn-outline-secondary"
-            type="button"
-            placement="top"
-            ngbTooltip="Copy to clipboard"
-            (click)="copyToClipboard()"
-          >
-            <i class="bi-clipboard"></i>
-          </button>
-          <button
-            class="btn btn-outline-secondary"
-            type="button"
-            placement="top"
-            ngbTooltip="Toggle visibility"
-            (click)="toggleVisibility()"
-          >
-            <i *ngIf=!visible class="bi-eye"></i>
-            <i *ngIf=visible class="bi-eye-slash"></i>
-          </button>
-          <button
-            class="btn btn-outline-secondary"
-            type="button"
-            placement="top"
-            ngbTooltip="Re-Generate Token"
-            (click)="regenerateToken()"
-          >
-            <i class="bi-arrow-repeat"></i>
-          </button>
-        </div>
-      </div>
-    </div>
+<div class="form-group">
+  <label for="token">Token</label>
+  <div class="input-group">
+    <input class="form-control" id="token" [class.blurred]="!visible" type="text" [(ngModel)]="input"
+           (ngModelChange)="changed()">
+    <button
+      class="btn btn-outline-secondary"
+      type="button"
+      placement="top"
+      ngbTooltip="Copy to clipboard"
+      (click)="copyToClipboard()"
+    >
+      <i class="bi-clipboard"></i>
+    </button>
+    <button
+      class="btn btn-outline-secondary"
+      type="button"
+      placement="top"
+      ngbTooltip="Toggle visibility"
+      (click)="toggleVisibility()"
+    >
+      <i *ngIf=!visible class="bi-eye"></i>
+      <i *ngIf=visible class="bi-eye-slash"></i>
+    </button>
+    <button
+      class="btn btn-outline-secondary"
+      type="button"
+      placement="top"
+      ngbTooltip="Re-Generate Token"
+      (click)="regenerateToken()"
+    >
+      <i class="bi-arrow-repeat"></i>
+    </button>
   </div>
 </div>

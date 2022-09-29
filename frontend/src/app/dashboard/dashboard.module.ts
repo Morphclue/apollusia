@@ -7,14 +7,12 @@ import {DashboardRoutingModule} from './dashboard-routing.module';
 import {DashboardComponent} from './dashboard/dashboard.component';
 import {CardComponent} from './card/card.component';
 import {TruncatePipe} from '../pipes';
-import {TokenComponent} from '../core/token/token.component';
 
 @NgModule({
   declarations: [
     DashboardComponent,
     CardComponent,
     TruncatePipe,
-    TokenComponent,
   ],
   imports: [
     CommonModule,

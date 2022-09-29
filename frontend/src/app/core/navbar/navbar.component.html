@@ -25,6 +25,9 @@
         <a class="nav-link" routerLinkActive="active" routerLink="about">About</a>
       </li>
       <li class="nav-item">
+        <a class="nav-link pointer-cursor" (click)="open(content)">Settings</a>
+      </li>
+      <li class="nav-item">
         <a class="nav-link" href="https://github.com/Morphclue/apollusia" target="_blank">
           <i class="bi-github icon" title="GitHub"></i>
         </a>
@@ -32,3 +35,25 @@
     </ul>
   </div>
 </nav>
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-title">User Settings</h4>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="mailForm">
+      <label for="mail">E-Mail</label>
+      <input type="email" class="form-control" id="mail" formControlName="mail">
+      <small
+        *ngIf="mailForm.controls.mail.errors?.['email']"
+        class="form-text text-danger">Please enter a valid email (e.g. example@email.com).</small>
+    </form>
+    <app-token></app-token>
+    <small class="form-text text-muted">This token can be copied to view your polls on other devices.
+      The letters should not be typed in individually, but the token should be pasted as a whole.</small>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss('cancel click')">Cancel</button>
+    <button class="btn btn-primary" (click)="save()">Save</button>
+  </div>
+</ng-template>
