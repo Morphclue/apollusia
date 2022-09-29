@@ -6,7 +6,7 @@ import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 
 import {CreateParticipantDto, Participant, Poll, PollEvent} from '../../model';
-import {TokenService} from '../../core/services/token.service';
+import {TokenService} from '../../core/services';
 import {environment} from '../../../environments/environment';
 import {CheckboxState} from '../../model/checkbox-state';
 

@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 
-import {MailService} from '../services/mail.service';
+import {MailService} from '../services';
 
 @Component({
   selector: 'app-navbar',

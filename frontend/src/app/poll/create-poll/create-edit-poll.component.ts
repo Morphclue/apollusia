@@ -7,7 +7,7 @@ import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 
 import {environment} from '../../../environments/environment';
-import {TokenService} from '../../core/services/token.service';
+import {TokenService} from '../../core/services';
 import {CreatePollDto, Poll} from '../../model';
 
 @Component({
