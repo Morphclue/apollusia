@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {CalendarEvent, CalendarEventAction} from 'angular-calendar';
 import {WeekViewHourSegment} from 'calendar-utils';
-import {addDays, addMinutes} from 'date-fns';
+import {addDays, addMinutes, format} from 'date-fns';
 
 import {Poll, PollEvent} from '../../model';
 import {environment} from '../../../environments/environment';
@@ -34,7 +34,7 @@ export class ChooseDateService {
 
   createDragSelectEvent(segment: WeekViewHourSegment): CalendarEvent {
     const dragToSelectEvent: CalendarEvent = {
-      title: '',
+      title: `${format(segment.date, 'HH:mm')}`,
       start: segment.date,
       actions: this.actions,
       draggable: true,
@@ -82,7 +82,7 @@ export class ChooseDateService {
 
         return {
           id: event._id,
-          title: '',
+          title: `${format(startDate, 'HH:mm')} - ${format(endDate, 'HH:mm')}`,
           actions: this.actions,
           draggable: true,
           resizable: {
@@ -101,7 +101,7 @@ export class ChooseDateService {
 
   addEvent(start: Date, end: Date) {
     this.events = [...this.events, {
-      title: '',
+      title: `${format(start, 'HH:mm')} - ${format(end, 'HH:mm')}`,
       start: start,
       end: end,
       actions: this.actions,

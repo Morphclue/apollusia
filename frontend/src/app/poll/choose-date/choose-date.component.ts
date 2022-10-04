@@ -5,7 +5,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {WeekViewHourSegment} from 'calendar-utils';
 import {fromEvent, Observable} from 'rxjs';
 import {finalize, map, takeUntil} from 'rxjs/operators';
-import {addMinutes, differenceInMinutes, endOfWeek} from 'date-fns';
+import {addMinutes, differenceInMinutes, endOfWeek, format} from 'date-fns';
 import {CalendarEvent, CalendarEventTimesChangedEvent} from 'angular-calendar';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
@@ -97,11 +97,17 @@ export class ChooseDateComponent implements AfterViewInit {
     if (!dragToSelectEvent.end) {
       dragToSelectEvent.end = addMinutes(dragToSelectEvent.start, this.previousEventDuration);
     }
+    dragToSelectEvent.title = `${dragToSelectEvent.title} - ${format(dragToSelectEvent.end, 'HH:mm')}`;
   }
 
   eventTimesChanged({event, newStart, newEnd}: CalendarEventTimesChangedEvent): void {
+    if (!newEnd) {
+      return;
+    }
+
     event.start = newStart;
     event.end = newEnd;
+    event.title = `${format(newStart, 'HH:mm')} - ${format(newEnd, 'HH:mm')}`;
     this.refresh();
   }
 
