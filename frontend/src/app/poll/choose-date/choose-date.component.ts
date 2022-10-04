@@ -22,7 +22,7 @@ export class ChooseDateComponent implements AfterViewInit {
   viewDate = new Date();
   dragToCreateActive = true;
   weekStartsOn: 1 = 1;
-  previousEventDuration = 30;
+  previousEventDuration = 15;
   id: string = '';
   initialModalFormValues: any;
   modalForm = new FormGroup({

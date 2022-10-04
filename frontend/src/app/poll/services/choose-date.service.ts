@@ -53,8 +53,8 @@ export class ChooseDateService {
   calculateNewEnd(segment: WeekViewHourSegment, segmentElement: HTMLElement, mouseMoveEvent: any): Date {
     const segmentPosition = segmentElement.getBoundingClientRect();
     let minutesDifference = this.ceilToNearest(
-      mouseMoveEvent.clientY - segmentPosition.top,
-      30,
+      (mouseMoveEvent.clientY - segmentPosition.top) / 2,
+      15,
     );
 
     const daysDifference =
