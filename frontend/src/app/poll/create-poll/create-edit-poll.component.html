@@ -51,7 +51,11 @@
         </button>
         <div class="pt-3" #collapse="ngbCollapse" [(ngbCollapse)]="isCollapsed">
           <div class="form-group form-check">
-            <label class="form-check-label" for="maxParticipants">Maximum number of participants</label>
+            <label class="form-check-label" for="maxParticipants">
+              Maximum number of participants
+              <i class="bi-question-circle text-muted" placement="top"
+                 ngbTooltip="Allows you to customize the maximum number of participants for your poll."></i>
+            </label>
             <input min="1" class="form-check-input" type="checkbox" id="maxParticipants"
                    formControlName="maxParticipants">
             <div *ngIf="pollForm.get('maxParticipants')?.value">
@@ -60,7 +64,11 @@
             </div>
           </div>
           <div class="form-group form-check">
-            <label class="form-check-label" for="maxEventParticipants">Maximum number of participants per event</label>
+            <label class="form-check-label" for="maxEventParticipants">
+              Maximum number of participants per event
+              <i class="bi-question-circle text-muted" placement="top"
+                 ngbTooltip="Allows you to customize the maximum number of participants per event for your poll."></i>
+            </label>
             <input min="1" class="form-check-input" type="checkbox" id="maxEventParticipants"
                    formControlName="maxEventParticipants">
             <div *ngIf="pollForm.get('maxEventParticipants')?.value">
@@ -69,19 +77,35 @@
             </div>
           </div>
           <div class="form-group form-check">
-            <label class="form-check-label" for="allowMaybe">Allow "maybe"-option</label>
+            <label class="form-check-label" for="allowMaybe">
+              Allow "maybe"-option
+              <i class="bi-question-circle text-muted" placement="top"
+                 ngbTooltip="Allows you to set whether participants can answer Maybe in addition to Yes / No."></i>
+            </label>
             <input class="form-check-input" type="checkbox" id="allowMaybe" formControlName="allowMaybe">
           </div>
           <div class="form-group form-check">
-            <label class="form-check-label" for="allowEdit">Allow editing after filling out poll</label>
+            <label class="form-check-label" for="allowEdit">
+              Allow editing after filling out poll
+              <i class="bi-question-circle text-muted" placement="top"
+                 ngbTooltip="Allows you to set whether participants are allowed to make changes after submitting their vote."></i>
+            </label>
             <input class="form-check-input" type="checkbox" id="allowEdit" formControlName="allowEdit">
           </div>
           <div class="form-group form-check">
-            <label class="form-check-label" for="allowAnonymous">Allow anonymous participation</label>
+            <label class="form-check-label" for="allowAnonymous">
+              Allow anonymous participation
+              <i class="bi-question-circle text-muted" placement="top"
+                 ngbTooltip="Allows participants to take part in the poll anonymously (without entering a name)."></i>
+            </label>
             <input class="form-check-input" type="checkbox" id="allowAnonymous" formControlName="allowAnonymous">
           </div>
           <div class="form-group form-check">
-            <label class="form-check-label" for="blindParticipation">Force blind participation</label>
+            <label class="form-check-label" for="blindParticipation">
+              Force blind participation
+              <i class="bi-question-circle text-muted" placement="top"
+                 ngbTooltip="Allows participants to see other participants' answers only after they have voted."></i>
+            </label>
             <input class="form-check-input"
                    type="checkbox"
                    id="blindParticipation"
