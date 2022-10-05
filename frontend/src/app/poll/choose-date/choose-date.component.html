@@ -145,38 +145,9 @@
 <ng-template
   #eventTemplate
   let-weekEvent="weekEvent"
-  let-tooltipPlacement="tooltipPlacement"
-  let-eventClicked="eventClicked"
-  let-tooltipTemplate="tooltipTemplate"
-  let-tooltipAppendToBody="tooltipAppendToBody"
-  let-tooltipDisabled="tooltipDisabled"
-  let-tooltipDelay="tooltipDelay"
   let-daysInWeek="daysInWeek"
 >
-  <div
-    class="cal-event d-flex justify-content-between"
-    [ngStyle]="{
-          backgroundColor: weekEvent.event.color?.secondary,
-          borderColor: weekEvent.event.color?.primary
-        }"
-    [mwlCalendarTooltip]="
-          !tooltipDisabled
-            ? (weekEvent.event.title
-              | calendarEventTitle
-                : (daysInWeek === 1 ? 'dayTooltip' : 'weekTooltip')
-                : weekEvent.tempEvent || weekEvent.event)
-            : ''
-        "
-    [tooltipPlacement]="tooltipPlacement"
-    [tooltipEvent]="weekEvent.tempEvent || weekEvent.event"
-    [tooltipTemplate]="tooltipTemplate"
-    [tooltipAppendToBody]="tooltipAppendToBody"
-    [tooltipDelay]="tooltipDelay"
-    (mwlClick)="eventClicked.emit({ sourceEvent: $event })"
-    (mwlKeydownEnter)="eventClicked.emit({ sourceEvent: $event })"
-    tabindex="0"
-    role="application"
-  >
+  <div class="cal-event d-flex justify-content-between">
     <mwl-calendar-event-title
       [event]="weekEvent.tempEvent || weekEvent.event"
       [view]="daysInWeek === 1 ? 'day' : 'week'"
