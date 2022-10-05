@@ -69,7 +69,11 @@ export class ChooseEventsComponent implements OnInit {
     } else if (checks[n] === CheckboxState.FALSE) {
       checks[n] = CheckboxState.TRUE;
     } else if (checks[n] === CheckboxState.TRUE) {
-      checks[n] = CheckboxState.INDETERMINATE;
+      if (this.poll?.settings.allowMaybe) {
+        checks[n] = CheckboxState.INDETERMINATE;
+        return;
+      }
+      checks[n] = CheckboxState.FALSE;
     }
   }
 
