@@ -14,6 +14,12 @@ export class ChooseDateService {
   events: CalendarEvent[] = [];
   actions: CalendarEventAction[] = [
     {
+      label: '<i class="bi-caret-down"></i>',
+      onClick: ({event}: { event: CalendarEvent }): void => {
+        // TODO: dropdown
+      },
+    },
+    {
       label: '<i class="bi bi-x-lg"></i>',
       onClick: ({event}: { event: CalendarEvent }): void => {
         this.deleteEvent(event);

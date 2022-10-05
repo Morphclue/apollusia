@@ -44,6 +44,7 @@
       [weekStartsOn]="weekStartsOn"
       (eventTimesChanged)="eventTimesChanged($event)"
       [hourSegments]="4"
+      [eventTemplate]="eventTemplate"
     >
     </mwl-calendar-week-view>
   </div>
@@ -138,5 +139,49 @@
   <div class="modal-footer">
     <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss('cancel click')">Cancel</button>
     <button type="button" class="btn btn-primary" (click)="modal.close('Ok click')">Apply</button>
+  </div>
+</ng-template>
+
+<ng-template
+  #eventTemplate
+  let-weekEvent="weekEvent"
+  let-tooltipPlacement="tooltipPlacement"
+  let-eventClicked="eventClicked"
+  let-tooltipTemplate="tooltipTemplate"
+  let-tooltipAppendToBody="tooltipAppendToBody"
+  let-tooltipDisabled="tooltipDisabled"
+  let-tooltipDelay="tooltipDelay"
+  let-daysInWeek="daysInWeek"
+>
+  <div
+    class="cal-event d-flex justify-content-between"
+    [ngStyle]="{
+          backgroundColor: weekEvent.event.color?.secondary,
+          borderColor: weekEvent.event.color?.primary
+        }"
+    [mwlCalendarTooltip]="
+          !tooltipDisabled
+            ? (weekEvent.event.title
+              | calendarEventTitle
+                : (daysInWeek === 1 ? 'dayTooltip' : 'weekTooltip')
+                : weekEvent.tempEvent || weekEvent.event)
+            : ''
+        "
+    [tooltipPlacement]="tooltipPlacement"
+    [tooltipEvent]="weekEvent.tempEvent || weekEvent.event"
+    [tooltipTemplate]="tooltipTemplate"
+    [tooltipAppendToBody]="tooltipAppendToBody"
+    [tooltipDelay]="tooltipDelay"
+    (mwlClick)="eventClicked.emit({ sourceEvent: $event })"
+    (mwlKeydownEnter)="eventClicked.emit({ sourceEvent: $event })"
+    tabindex="0"
+    role="application"
+  >
+    <mwl-calendar-event-title
+      [event]="weekEvent.tempEvent || weekEvent.event"
+      [view]="daysInWeek === 1 ? 'day' : 'week'"
+    ></mwl-calendar-event-title>
+    <mwl-calendar-event-actions [event]="weekEvent.tempEvent || weekEvent.event">
+    </mwl-calendar-event-actions>
   </div>
 </ng-template>
