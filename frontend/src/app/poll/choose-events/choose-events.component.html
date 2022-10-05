@@ -102,7 +102,7 @@
               </td>
               <td *ngIf="!editParticipant" class="border-0 text-start">
                 <button
-                  *ngIf="getToken() === participant.token"
+                  *ngIf="poll?.settings?.allowEdit && getToken() === participant.token"
                   class="btn btn-primary btn-sm ms-1"
                   placement="top"
                   ngbTooltip="Edit participation"
