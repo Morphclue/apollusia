@@ -153,8 +153,14 @@
       [view]="daysInWeek === 1 ? 'day' : 'week'"
     ></mwl-calendar-event-title>
     <div class="click-cursor">
-      <i class="bi-caret-down"></i>
-      <i class="bi bi-x-lg" (click)="deleteEvent(weekEvent.event)"></i>
+      <div ngbDropdown container="body" class="d-flex align-content-center">
+        <button ngbDropdownToggle type="button" class="btn-no-style" id="dropdownButton"></button>
+        <div ngbDropdownMenu>
+          <button ngbDropdownItem>Add Note</button>
+          <button ngbDropdownItem>Custom Definition</button>
+        </div>
+        <button class="btn-no-style" (click)="deleteEvent(weekEvent.event)"><i class="bi bi-x-lg"></i></button>
+      </div>
     </div>
   </div>
 </ng-template>
