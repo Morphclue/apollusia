@@ -176,4 +176,8 @@ export class ChooseDateComponent implements AfterViewInit {
       }
     }
   }
+
+  deleteEvent(event: CalendarEvent) {
+    this.chooseDateService.deleteEvent(event);
+  }
 }

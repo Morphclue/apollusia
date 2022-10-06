@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {CalendarEvent, CalendarEventAction} from 'angular-calendar';
+import {CalendarEvent} from 'angular-calendar';
 import {WeekViewHourSegment} from 'calendar-utils';
 import {addDays, addMinutes, format} from 'date-fns';
 
@@ -12,20 +12,6 @@ import {environment} from '../../../environments/environment';
 })
 export class ChooseDateService {
   events: CalendarEvent[] = [];
-  actions: CalendarEventAction[] = [
-    {
-      label: '<i class="bi-caret-down"></i>',
-      onClick: ({event}: { event: CalendarEvent }): void => {
-        // TODO: dropdown
-      },
-    },
-    {
-      label: '<i class="bi bi-x-lg"></i>',
-      onClick: ({event}: { event: CalendarEvent }): void => {
-        this.deleteEvent(event);
-      },
-    },
-  ];
 
   constructor(private http: HttpClient) {
   }
@@ -42,7 +28,6 @@ export class ChooseDateService {
     const dragToSelectEvent: CalendarEvent = {
       title: `${format(segment.date, 'HH:mm')}`,
       start: segment.date,
-      actions: this.actions,
       draggable: true,
       resizable: {
         beforeStart: true,
@@ -89,7 +74,6 @@ export class ChooseDateService {
         return {
           id: event._id,
           title: `${format(startDate, 'HH:mm')} - ${format(endDate, 'HH:mm')}`,
-          actions: this.actions,
           draggable: true,
           resizable: {
             beforeStart: true,
@@ -110,7 +94,6 @@ export class ChooseDateService {
       title: `${format(start, 'HH:mm')} - ${format(end, 'HH:mm')}`,
       start: start,
       end: end,
-      actions: this.actions,
       draggable: true,
       resizable: {
         beforeStart: true,
