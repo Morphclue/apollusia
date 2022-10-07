@@ -34,8 +34,10 @@ export class PollService {
         return this.pollModel.findByIdAndUpdate(id, pollDto, {new: true}).exec();
     }
 
-    async deletePoll(id: string): Promise<Poll | undefined> {
-        await this.pollEventModel.deleteMany({poll: id}).exec();
+    async deletePoll(id: string, poll: Poll): Promise<Poll | undefined> {
+        await poll.events.forEach(event => {
+            this.pollEventModel.deleteMany({poll: event.poll}).exec();
+        });
         await this.participantModel.deleteMany({poll: id}).exec();
         return this.pollModel.findByIdAndDelete(id).exec();
     }

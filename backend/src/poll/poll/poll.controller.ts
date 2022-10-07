@@ -39,7 +39,7 @@ export class PollController {
             throw new NotFoundException(id);
         }
 
-        return this.pollService.deletePoll(id);
+        return this.pollService.deletePoll(id, existingPoll);
     }
 
     @Post(':id/events')
