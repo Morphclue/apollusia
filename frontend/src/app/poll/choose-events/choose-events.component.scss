@@ -39,3 +39,11 @@ h3 {
 .primary-color {
   color: #7b2cbf;
 }
+
+.scroll-container {
+  box-shadow: 0 0 15px rgba(0, 0, 0, .1);
+  height: 8rem;
+  overflow-y: scroll;
+  border: 1px solid #7b2cbf;
+  white-space: pre-wrap;
+}

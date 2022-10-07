@@ -165,7 +165,8 @@
           <button ngbDropdownItem>Custom Definition</button>
           <button
             *ngIf="weekEvent.event.meta.note != undefined"
-            ngbDropdownItem (click)="deleteNote(weekEvent.event)">Delete Note</button>
+            ngbDropdownItem (click)="deleteNote(weekEvent.event)">Delete Note
+          </button>
         </div>
         <button class="btn-no-style" (click)="deleteEvent(weekEvent.event)"><i class="bi bi-x-lg"></i></button>
       </div>
@@ -187,7 +188,7 @@
     ></textarea>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+    <button type="button" class="btn btn-outline-secondary" (click)="modal.close('Close click')">Close</button>
     <button type="button" class="btn btn-primary" (click)="addNote()">Save</button>
   </div>
 </ng-template>

@@ -10,6 +10,36 @@
         Configure
       </button>
     </div>
+    <div class="d-flex justify-content-center m-3">
+      <h3>{{poll?.title}}</h3>
+      <div *ngIf="poll && poll.location">
+        <h3>
+          <i class="bi-geo primary-color" placement="top" ngbTooltip="Location"></i>
+          {{ poll.location }}
+        </h3>
+      </div>
+    </div>
+    <div class="mb-3">
+      <label for="link" class="small">Share this link with other participants</label>
+      <div class="input-group">
+        <input class="form-control" id="link" readonly="readonly" [(ngModel)]="url">
+        <button
+          class="btn btn-outline-secondary"
+          type="button"
+          placement="top"
+          ngbTooltip="Copy to clipboard"
+          (click)="copyToClipboard()"
+        >
+          <i class="bi-clipboard"></i>
+        </button>
+      </div>
+    </div>
+    <div *ngIf="poll && poll.description">
+      <label for="description" class="small">Description</label>
+      <p class="scroll-container p-2" id="description">
+        {{ poll.description }}
+      </p>
+    </div>
     <div *ngIf="pollEvents" class="table-responsive text-center">
       <form class="m-5" [formGroup]="participateForm" (ngSubmit)="onFormSubmit()">
         <table class="table">

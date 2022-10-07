@@ -17,6 +17,7 @@ import {CheckboxState} from '../../model/checkbox-state';
 })
 export class ChooseEventsComponent implements OnInit {
   id: string = '';
+  url = window.location.href;
   poll?: Poll;
   pollEvents: PollEvent[] = [];
   checks: CheckboxState[] = [];
@@ -198,5 +199,9 @@ export class ChooseEventsComponent implements OnInit {
     this.http.post(`${environment.backendURL}/poll/${this.id}/book`, this.bookedEvents).subscribe(() => {
       // TODO: success message or something else?
     });
+  }
+
+  copyToClipboard() {
+    navigator.clipboard.writeText(this.url).then().catch(e => console.log(e));
   }
 }
