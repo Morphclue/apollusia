@@ -10,6 +10,17 @@
         Configure
       </button>
     </div>
+    <div *ngIf="poll && poll.location" class="text-center m-3">
+      <h3>
+        <i class="bi-geo primary-color" placement="top" ngbTooltip="Location"></i>
+        {{ poll.location }}
+      </h3>
+    </div>
+    <div *ngIf="poll && poll.description">
+      <p class="scroll-container p-2">
+        {{ poll.description }}
+      </p>
+    </div>
     <div *ngIf="pollEvents" class="table-responsive text-center">
       <form class="m-5" [formGroup]="participateForm" (ngSubmit)="onFormSubmit()">
         <table class="table">
