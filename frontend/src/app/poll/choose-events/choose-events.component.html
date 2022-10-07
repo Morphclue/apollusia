@@ -19,8 +19,24 @@
         </h3>
       </div>
     </div>
-    <div *ngIf="poll && poll.description" class="mt-2">
-      <p class="scroll-container p-2">
+    <div class="mb-3">
+      <label for="link" class="small">Share this link with other participants</label>
+      <div class="input-group">
+        <input class="form-control" id="link" readonly="readonly" [(ngModel)]="url">
+        <button
+          class="btn btn-outline-secondary"
+          type="button"
+          placement="top"
+          ngbTooltip="Copy to clipboard"
+          (click)="copyToClipboard()"
+        >
+          <i class="bi-clipboard"></i>
+        </button>
+      </div>
+    </div>
+    <div *ngIf="poll && poll.description">
+      <label for="description" class="small">Description</label>
+      <p class="scroll-container p-2" id="description">
         {{ poll.description }}
       </p>
     </div>
