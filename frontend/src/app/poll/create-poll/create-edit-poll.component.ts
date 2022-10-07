@@ -77,6 +77,10 @@ export class CreateEditPollComponent implements OnInit {
     this.updatePoll(createPollDto);
   }
 
+  onCancel() {
+    this.router.navigate(['dashboard']).then();
+  }
+
   private updatePoll(poll: CreatePollDto) {
     this.http.put<Poll>(`${environment.backendURL}/poll/${this.id}`, poll).subscribe(() => {
       this.router.navigate(['dashboard']).then();
