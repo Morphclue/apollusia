@@ -1,4 +1,4 @@
-import {AfterViewInit, ChangeDetectorRef, Component, ElementRef} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, TemplateRef} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {HttpClient} from '@angular/common/http';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -24,7 +24,9 @@ export class ChooseDateComponent implements AfterViewInit {
   weekStartsOn: 1 = 1;
   previousEventDuration = 15;
   id: string = '';
+  note: string = '';
   initialModalFormValues: any;
+  noteEvent?: CalendarEvent = undefined;
   modalForm = new FormGroup({
     dates: new FormControl('', Validators.required),
     startTime: new FormControl('12:00', Validators.required),
@@ -122,7 +124,7 @@ export class ChooseDateComponent implements AfterViewInit {
 
   createEvents() {
     const events: PollEvent[] = this.chooseDateService.events.map((event: CalendarEvent) => {
-      return {_id: event.id?.toString(), start: event.start, end: event.end};
+      return {_id: event.id?.toString(), start: event.start, end: event.end, note: event.meta.note};
     });
     this.http.post(`${environment.backendURL}/poll/${this.id}/events`, events).subscribe(() => {
       this.router.navigate(['dashboard']).then();
@@ -179,5 +181,21 @@ export class ChooseDateComponent implements AfterViewInit {
 
   deleteEvent(event: CalendarEvent) {
     this.chooseDateService.deleteEvent(event);
+  }
+
+  openNoteModal(content: TemplateRef<any>, event: CalendarEvent) {
+    this.noteEvent = event;
+    this.modalService.open(content, {centered: true, size: 'lg'});
+  }
+
+  addNote() {
+    if (!this.noteEvent) {
+      return;
+    }
+
+    this.noteEvent.meta.note = this.note;
+    this.note = '';
+    this.noteEvent = undefined;
+    this.modalService.dismissAll();
   }
 }

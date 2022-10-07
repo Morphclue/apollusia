@@ -19,4 +19,8 @@ export class PollEventDto {
     @IsString()
     @IsNotEmpty()
     end: string;
+
+    @ApiProperty()
+    @IsString()
+    note: string;
 }

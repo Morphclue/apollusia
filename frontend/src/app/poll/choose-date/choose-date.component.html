@@ -152,15 +152,39 @@
       [event]="weekEvent.tempEvent || weekEvent.event"
       [view]="daysInWeek === 1 ? 'day' : 'week'"
     ></mwl-calendar-event-title>
+    <i *ngIf="weekEvent.event.meta.note != undefined && weekEvent.event.meta.note.length > 0"
+       class="bi-sticky-fill primary-color"
+       placement="top"
+       ngbTooltip="{{weekEvent.event.meta.note}}"
+    ></i>
     <div class="click-cursor">
       <div ngbDropdown container="body" class="d-flex align-content-center">
         <button ngbDropdownToggle type="button" class="btn-no-style" id="dropdownButton"></button>
         <div ngbDropdownMenu>
-          <button ngbDropdownItem>Add Note</button>
+          <button ngbDropdownItem (click)="openNoteModal(noteContent, weekEvent.event)">Add Note</button>
           <button ngbDropdownItem>Custom Definition</button>
         </div>
         <button class="btn-no-style" (click)="deleteEvent(weekEvent.event)"><i class="bi bi-x-lg"></i></button>
       </div>
     </div>
+  </div>
+</ng-template>
+
+<ng-template #noteContent let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Add a note</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body">
+    <textarea class="form-control"
+              type="text"
+              [(ngModel)]="note"
+              placeholder="You can add a note for this specific event here."
+              rows="3"
+    ></textarea>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+    <button type="button" class="btn btn-primary" (click)="addNote()">Save</button>
   </div>
 </ng-template>

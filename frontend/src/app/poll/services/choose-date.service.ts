@@ -81,6 +81,7 @@ export class ChooseDateService {
           },
           meta: {
             tmpEvent: true,
+            note: event.note,
           },
           start: startDate,
           end: endDate,
