@@ -198,4 +198,8 @@ export class ChooseDateComponent implements AfterViewInit {
     this.noteEvent = undefined;
     this.modalService.dismissAll();
   }
+
+  deleteNote(event: CalendarEvent) {
+    event.meta.note = undefined;
+  }
 }

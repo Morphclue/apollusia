@@ -163,6 +163,9 @@
         <div ngbDropdownMenu>
           <button ngbDropdownItem (click)="openNoteModal(noteContent, weekEvent.event)">Add Note</button>
           <button ngbDropdownItem>Custom Definition</button>
+          <button
+            *ngIf="weekEvent.event.meta.note != undefined"
+            ngbDropdownItem (click)="deleteNote(weekEvent.event)">Delete Note</button>
         </div>
         <button class="btn-no-style" (click)="deleteEvent(weekEvent.event)"><i class="bi bi-x-lg"></i></button>
       </div>
