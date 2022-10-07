@@ -10,13 +10,16 @@
         Configure
       </button>
     </div>
-    <div *ngIf="poll && poll.location" class="text-center m-3">
-      <h3>
-        <i class="bi-geo primary-color" placement="top" ngbTooltip="Location"></i>
-        {{ poll.location }}
-      </h3>
+    <div class="d-flex justify-content-center m-3">
+      <h3>{{poll?.title}}</h3>
+      <div *ngIf="poll && poll.location">
+        <h3>
+          <i class="bi-geo primary-color" placement="top" ngbTooltip="Location"></i>
+          {{ poll.location }}
+        </h3>
+      </div>
     </div>
-    <div *ngIf="poll && poll.description">
+    <div *ngIf="poll && poll.description" class="mt-2">
       <p class="scroll-container p-2">
         {{ poll.description }}
       </p>
