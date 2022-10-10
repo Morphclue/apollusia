@@ -42,13 +42,15 @@
     <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
   </div>
   <div class="modal-body">
-    <form [formGroup]="mailForm">
-      <label for="mail">E-Mail</label>
-      <input type="email" class="form-control" id="mail" formControlName="mail">
-      <small
-        *ngIf="mailForm.controls.mail.errors?.['email']"
-        class="form-text text-danger">Please enter a valid email (e.g. example@email.com).</small>
-    </form>
+    <div class="mb-3">
+      <form [formGroup]="mailForm">
+        <label for="mail">E-Mail</label>
+        <input type="email" class="form-control" id="mail" formControlName="mail">
+        <small
+          *ngIf="mailForm.controls.mail.errors?.['email']"
+          class="form-text text-danger">Please enter a valid email (e.g. example@email.com).</small>
+      </form>
+    </div>
     <app-token></app-token>
     <small class="form-text text-muted">This token can be copied to view your polls on other devices.
       The letters should not be typed in individually, but the token should be pasted as a whole.</small>
