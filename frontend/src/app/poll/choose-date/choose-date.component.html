@@ -9,7 +9,7 @@
       </div>
     </div>
     <div class="col-md-6 d-flex justify-content-end">
-      <button type="button" class="btn btn-primary" (click)="open(content)">Custom definition</button>
+      <button type="button" class="btn btn-primary" routerLink="custom-definition">Custom definition</button>
       <h3 class="mx-2">{{ viewDate | calendarDate:('weekViewTitle') }}</h3>
     </div>
   </div>
@@ -53,94 +53,6 @@
     <div *ngIf="hasEvents()" class="btn btn-primary" (click)="createEvents()">Update</div>
   </div>
 </div>
-
-<ng-template #content let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title" id="modal-title">Custom definition</h4>
-    <button type="button" class="btn-close" aria-describedby="modal-title"
-            (click)="modal.dismiss('Cross click')"></button>
-  </div>
-  <div class="modal-body">
-    <form [formGroup]="modalForm" (ngSubmit)="onFormSubmit()">
-      <div class="form-group mb-3">
-        <label for="dates">Select multiple dates</label>
-        <input class="mwlFlatpickr form-control"
-               mwlFlatpickr
-               id="dates"
-               formControlName="dates"
-               type="text"
-               autocomplete="off"
-               mode="multiple"
-               [allowInput]="false"
-               [dateFormat]="'Y-m-d'"
-        >
-      </div>
-      <div class="row">
-        <div class="form-group col">
-          <label for="startTime">Start time</label>
-          <input class="mwlFlatpickr form-control"
-                 mwlFlatpickr
-                 id="startTime"
-                 formControlName="startTime"
-                 type="text"
-                 autocomplete="off"
-                 [time24hr]="true"
-                 [enableTime]="true"
-                 [noCalendar]="true"
-                 [allowInput]="false"
-                 [dateFormat]="'H:i'"
-          >
-        </div>
-        <div class="form-group col">
-          <label for="duration">Duration</label>
-          <input class="mwlFlatpickr form-control"
-                 mwlFlatpickr
-                 id="duration"
-                 formControlName="duration"
-                 type="text"
-                 autocomplete="off"
-                 [time24hr]="true"
-                 [enableTime]="true"
-                 [noCalendar]="true"
-                 [allowInput]="false"
-                 [dateFormat]="'H:i'"
-          >
-        </div>
-      </div>
-      <div class="row">
-        <div class="form-group col">
-          <label for="pause">Break between Events</label>
-          <input class="mwlFlatpickr form-control"
-                 mwlFlatpickr
-                 id="pause"
-                 formControlName="pause"
-                 type="text"
-                 autocomplete="off"
-                 [time24hr]="true"
-                 [enableTime]="true"
-                 [noCalendar]="true"
-                 [allowInput]="false"
-                 [dateFormat]="'H:i'"
-          >
-        </div>
-        <div class="form-group col">
-          <label for="repeat">Repeat x times</label>
-          <input class="mwlFlatpickr form-control"
-                 id="repeat"
-                 formControlName="repeat"
-                 type="number"
-                 autocomplete="off"
-                 min="1"
-          >
-        </div>
-      </div>
-    </form>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss('cancel click')">Cancel</button>
-    <button type="button" class="btn btn-primary" (click)="modal.close('Ok click')">Apply</button>
-  </div>
-</ng-template>
 
 <ng-template
   #eventTemplate
@@ -192,3 +104,4 @@
     <button type="button" class="btn btn-primary" (click)="addNote()">Save</button>
   </div>
 </ng-template>
+<router-outlet></router-outlet>

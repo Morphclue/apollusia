@@ -1,0 +1,85 @@
+<ngbx-modal #modal [back]="['../']">
+  <ng-container modal-title>
+    <h4 class="modal-title" id="modal-title">Custom definition</h4>
+  </ng-container>
+  <ng-container modal-body>
+    <form [formGroup]="modalForm">
+      <div class="form-group mb-3">
+        <label for="dates">Select multiple dates</label>
+        <input class="mwlFlatpickr form-control"
+               mwlFlatpickr
+               id="dates"
+               formControlName="dates"
+               type="text"
+               autocomplete="off"
+               mode="multiple"
+               [allowInput]="false"
+               [dateFormat]="'Y-m-d'"
+        >
+      </div>
+      <div class="row">
+        <div class="form-group col">
+          <label for="startTime">Start time</label>
+          <input class="mwlFlatpickr form-control"
+                 mwlFlatpickr
+                 id="startTime"
+                 formControlName="startTime"
+                 type="text"
+                 autocomplete="off"
+                 [time24hr]="true"
+                 [enableTime]="true"
+                 [noCalendar]="true"
+                 [allowInput]="false"
+                 [dateFormat]="'H:i'"
+          >
+        </div>
+        <div class="form-group col">
+          <label for="duration">Duration</label>
+          <input class="mwlFlatpickr form-control"
+                 mwlFlatpickr
+                 id="duration"
+                 formControlName="duration"
+                 type="text"
+                 autocomplete="off"
+                 [time24hr]="true"
+                 [enableTime]="true"
+                 [noCalendar]="true"
+                 [allowInput]="false"
+                 [dateFormat]="'H:i'"
+          >
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-group col">
+          <label for="pause">Break between Events</label>
+          <input class="mwlFlatpickr form-control"
+                 mwlFlatpickr
+                 id="pause"
+                 formControlName="pause"
+                 type="text"
+                 autocomplete="off"
+                 [time24hr]="true"
+                 [enableTime]="true"
+                 [noCalendar]="true"
+                 [allowInput]="false"
+                 [dateFormat]="'H:i'"
+          >
+        </div>
+        <div class="form-group col">
+          <label for="repeat">Repeat x times</label>
+          <input class="mwlFlatpickr form-control"
+                 id="repeat"
+                 formControlName="repeat"
+                 type="number"
+                 autocomplete="off"
+                 min="1"
+          >
+        </div>
+      </div>
+    </form>
+  </ng-container>
+  <ng-container modal-footer>
+    <button type="button" class="btn btn-outline-secondary" (click)="modal.close()">Cancel</button>
+    <button type="button" class="btn btn-primary" (click)="apply(); modal.close()">Apply</button>
+  </ng-container>
+</ngbx-modal>

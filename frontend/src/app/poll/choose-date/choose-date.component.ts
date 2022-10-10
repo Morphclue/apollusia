@@ -1,5 +1,4 @@
 import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, TemplateRef} from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {HttpClient} from '@angular/common/http';
 import {ActivatedRoute, Router} from '@angular/router';
 import {WeekViewHourSegment} from 'calendar-utils';
@@ -25,15 +24,8 @@ export class ChooseDateComponent implements AfterViewInit {
   previousEventDuration = 15;
   id: string = '';
   note: string = '';
-  initialModalFormValues: any;
+
   noteEvent?: CalendarEvent = undefined;
-  modalForm = new FormGroup({
-    dates: new FormControl('', Validators.required),
-    startTime: new FormControl('12:00', Validators.required),
-    duration: new FormControl('00:30', Validators.required),
-    pause: new FormControl('00:00', Validators.required),
-    repeat: new FormControl(1, Validators.required),
-  });
 
   constructor(
     private modalService: NgbModal,
@@ -52,7 +44,6 @@ export class ChooseDateComponent implements AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.initialModalFormValues = this.modalForm.value;
     this.scrollToCurrentTime();
   }
 
@@ -133,50 +124,6 @@ export class ChooseDateComponent implements AfterViewInit {
 
   hasEvents() {
     return this.chooseDateService.events.length > 0;
-  }
-
-  open(content: any) {
-    this.modalService.open(content).result.then(() => {
-      this.onFormSubmit();
-      this.modalForm.reset(this.initialModalFormValues);
-    }).catch(() => {
-    });
-  }
-
-  onFormSubmit() {
-    if (!this.modalForm.valid) {
-      return;
-    }
-
-    const dateValue = this.modalForm.get('dates')?.value;
-    const startTimeValue = this.modalForm.get('startTime')?.value;
-    const durationValue = this.modalForm.get('duration')?.value;
-    const pauseValue = this.modalForm.get('pause')?.value;
-    const repeat = this.modalForm.get('repeat')?.value;
-
-    if (!dateValue || !repeat || !startTimeValue || !durationValue || !pauseValue) {
-      return;
-    }
-
-    const dates = dateValue.split(',');
-    const startTime = startTimeValue.split(':').map((value: string) => parseInt(value));
-    const duration = durationValue.split(':').map((value: string) => parseInt(value));
-    const pause = pauseValue.split(':').map((value: string) => parseInt(value));
-
-    for (let i = 0; i < dates.length; i++) {
-      let start = new Date(dates[i]);
-      start.setHours(startTime[0], startTime[1], 0, 0);
-      let end = new Date(start);
-      end = addMinutes(end, duration[0] * 60 + duration[1]);
-      this.chooseDateService.addEvent(start, end);
-      for (let j = 0; j < repeat - 1; j++) {
-        start = new Date(end);
-        start = addMinutes(start, pause[0] * 60 + pause[1]);
-        end = new Date(start);
-        end = addMinutes(end, duration[0] * 60 + duration[1]);
-        this.chooseDateService.addEvent(start, end);
-      }
-    }
   }
 
   deleteEvent(event: CalendarEvent) {
