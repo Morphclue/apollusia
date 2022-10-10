@@ -5,11 +5,9 @@
       <a class="navbar-brand" routerLink="/">Apollusia</a>
     </p>
   </div>
-
   <button class="navbar-toggler" type="button" (click)="menuCollapsed = !menuCollapsed">
     <i class="bi-list icon"></i>
   </button>
-
   <div [ngbCollapse]="menuCollapsed" class="collapse navbar-collapse">
     <ul class="navbar-nav mx-auto">
       <li>
