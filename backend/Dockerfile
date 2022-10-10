@@ -1,12 +1,17 @@
-FROM node:18-alpine3.14 AS development
-
-WORKDIR /usr/src/app
-COPY package*.json ./
-
-RUN npm install
-
+FROM node:18-slim as builder
+RUN npm install -g pnpm
+WORKDIR /app
+COPY package.json pnpm-lock.yaml ./
+RUN pnpm install
 COPY . .
+RUN pnpm run build
 
+FROM node:18-slim
+RUN npm install -g pnpm
+WORKDIR /app
+ENV NODE_ENV=production
+COPY package.json pnpm-lock.yaml ./
+RUN pnpm install
+COPY --from=builder /app/dist ./dist
 EXPOSE 3000
-CMD ["npm", "run", "start:dev"]
-
+CMD pnpm run start:prod
