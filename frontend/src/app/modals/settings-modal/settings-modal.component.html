@@ -1,1 +1,23 @@
-<p>settings-modal works!</p>
+<ngbx-modal #modal [back]="['../..']">
+  <ng-container modal-title>
+    <h4 class="modal-title" id="modal-title">User Settings</h4>
+  </ng-container>
+  <ng-container modal-body>
+    <div class="mb-3">
+      <form [formGroup]="mailForm">
+        <label for="mail">E-Mail</label>
+        <input type="email" class="form-control" id="mail" formControlName="mail">
+        <small
+          *ngIf="mailForm.controls.mail.errors?.['email']"
+          class="form-text text-danger">Please enter a valid email (e.g. example@email.com).</small>
+      </form>
+    </div>
+    <app-token></app-token>
+    <small class="form-text text-muted">This token can be copied to view your polls on other devices.
+      The letters should not be typed in individually, but the token should be pasted as a whole.</small>
+  </ng-container>
+  <ng-container modal-footer>
+    <button type="button" class="btn btn-outline-secondary" (click)="modal.close()">Cancel</button>
+    <button class="btn btn-primary" (click)="save()">Save</button>
+  </ng-container>
+</ngbx-modal>

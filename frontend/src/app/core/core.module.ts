@@ -23,6 +23,7 @@ import {TokenComponent} from './token/token.component';
   exports: [
     RouterModule,
     NavbarComponent,
+    TokenComponent,
   ],
 })
 export class CoreModule {

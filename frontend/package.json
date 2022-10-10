@@ -30,6 +30,7 @@
     "calendar-utils": "^0.9.0",
     "date-fns": "^2.29.3",
     "flatpickr": "^4.6.13",
+    "ng-bootstrap-ext": "^0.4.1",
     "ngx-countup": "^13.1.0",
     "rxjs": "~6.6.7",
     "tslib": "^2.4.0",
