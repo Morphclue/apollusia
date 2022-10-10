@@ -39,7 +39,7 @@ jobs:
       - name: Install packages
         run: pnpm install
       - name: Build Angular
-        run: pnpm build
+        run: pnpm build --configuration production
       - name: Build the Docker Image
         uses: whoan/docker-build-with-cache-action@v5
         with:
