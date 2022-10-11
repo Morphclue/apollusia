@@ -5,7 +5,10 @@
         <div class="card-header">
           <div class="d-flex justify-content-between">
             <h5 class="card-title">{{poll.title}}</h5>
-            <a class="btn btn-flash-border-primary" href="poll/{{poll._id}}"><i class="bi-pencil-square"></i> Edit</a>
+            <div class="d-flex">
+              <a class="btn btn-flash-border-primary bi-person" href="poll/{{poll._id}}/participate"> View</a>
+              <a class="btn btn-flash-border-primary bi-pencil-square" href="poll/{{poll._id}}"> Edit</a>
+            </div>
           </div>
         </div>
         <div *ngIf="poll.description" class="card-body">
