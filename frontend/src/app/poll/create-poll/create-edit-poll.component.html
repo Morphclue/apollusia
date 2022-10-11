@@ -3,6 +3,7 @@
     <form class="m-5" [formGroup]="pollForm" (ngSubmit)="onFormSubmit()">
       <div *ngIf="id" class="d-flex justify-content-end pt-3">
         <button
+          type="button"
           class="btn btn-primary rounded-0 bi-pencil-square"
           routerLink="date"
           placement="top"
