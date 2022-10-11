@@ -4,10 +4,17 @@
       <div *ngIf="id" class="d-flex justify-content-end pt-3">
         <button
           type="button"
-          class="btn btn-primary rounded-0 bi-pencil-square"
+          class="btn btn-primary rounded-0 bi-pencil-square btn-mini"
           routerLink="date"
           placement="top"
           ngbTooltip="Customize events"
+        ></button>
+        <button
+          type="button"
+          class="btn btn-secondary rounded-0 bi-layers"
+          (click)="clonePoll()"
+          placement="top"
+          ngbTooltip="Clone"
         ></button>
         <button
           type="button"

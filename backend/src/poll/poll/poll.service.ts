@@ -30,6 +30,17 @@ export class PollService {
         return this.pollModel.create(pollDto);
     }
 
+    async clonePoll(poll: Poll) {
+        return await this.pollModel.create({
+            title: poll.title,
+            description: poll.description,
+            location: poll.location,
+            adminToken: poll.adminToken,
+            settings: poll.settings,
+            events: await this.pollEventModel.create(poll.events),
+        });
+    }
+
     async putPoll(id: string, pollDto: PollDto): Promise<Poll> {
         return this.pollModel.findByIdAndUpdate(id, pollDto, {new: true}).exec();
     }

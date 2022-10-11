@@ -124,4 +124,10 @@ export class CreateEditPollComponent implements OnInit {
     }).catch(() => {
     });
   }
+
+  clonePoll() {
+    this.http.post(`${environment.backendURL}/poll/${this.id}/clone`, {}).subscribe(() => {
+      this.router.navigate(['dashboard']).then();
+    });
+  }
 }
