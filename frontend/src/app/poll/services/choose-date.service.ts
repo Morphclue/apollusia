@@ -12,6 +12,7 @@ import {environment} from '../../../environments/environment';
 })
 export class ChooseDateService {
   events: CalendarEvent[] = [];
+  customDefinitionEvent?: CalendarEvent = undefined;
 
   constructor(private http: HttpClient) {
   }

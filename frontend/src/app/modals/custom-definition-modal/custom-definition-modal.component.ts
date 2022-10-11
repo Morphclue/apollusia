@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {addMinutes} from 'date-fns';
+import {addMinutes, format} from 'date-fns';
 
 import {ChooseDateService} from '../../poll/services/choose-date.service';
 
@@ -24,6 +24,14 @@ export class CustomDefinitionModalComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    const event = this.chooseDateService.customDefinitionEvent;
+    if (!event || !event.end) {
+      return;
+    }
+
+    const day = format(event.start, 'yyyy-MM-dd');
+    this.modalForm.get('dates')?.setValue(day);
+    this.chooseDateService.customDefinitionEvent = undefined;
   }
 
   apply() {

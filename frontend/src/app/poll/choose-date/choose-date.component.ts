@@ -24,7 +24,6 @@ export class ChooseDateComponent implements AfterViewInit {
   previousEventDuration = 15;
   id: string = '';
   note: string = '';
-
   noteEvent?: CalendarEvent = undefined;
 
   constructor(
@@ -34,6 +33,7 @@ export class ChooseDateComponent implements AfterViewInit {
     private http: HttpClient,
     private router: Router,
     private route: ActivatedRoute,
+    private activatedRoute: ActivatedRoute,
     private elementRef: ElementRef,
   ) {
     const id: Observable<string> = route.params.pipe(map(p => p.id));
@@ -148,5 +148,10 @@ export class ChooseDateComponent implements AfterViewInit {
 
   deleteNote(event: CalendarEvent) {
     event.meta.note = undefined;
+  }
+
+  customDefinition(event: CalendarEvent) {
+    this.chooseDateService.customDefinitionEvent = event;
+    this.router.navigate(['custom-definition'], {relativeTo: this.activatedRoute}).then();
   }
 }
