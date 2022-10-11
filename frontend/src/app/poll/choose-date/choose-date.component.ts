@@ -84,13 +84,14 @@ export class ChooseDateComponent implements AfterViewInit {
           dragToSelectEvent.end = newEnd;
           this.previousEventDuration = differenceInMinutes(dragToSelectEvent.end, dragToSelectEvent.start);
         }
+        this.updateTime(dragToSelectEvent);
         this.refresh();
       });
 
     if (!dragToSelectEvent.end) {
       dragToSelectEvent.end = addMinutes(dragToSelectEvent.start, this.previousEventDuration);
     }
-    dragToSelectEvent.title = `${dragToSelectEvent.title} - ${format(dragToSelectEvent.end, 'HH:mm')}`;
+    this.updateTime(dragToSelectEvent);
   }
 
   eventTimesChanged({event, newStart, newEnd}: CalendarEventTimesChangedEvent): void {
@@ -153,5 +154,9 @@ export class ChooseDateComponent implements AfterViewInit {
   customDefinition(event: CalendarEvent) {
     this.chooseDateService.customDefinitionEvent = event;
     this.router.navigate(['custom-definition'], {relativeTo: this.activatedRoute}).then();
+  }
+
+  private updateTime(event: CalendarEvent) {
+    event.title = `${format(event.start, 'HH:mm')} - ${format(event.end!, 'HH:mm')}`;
   }
 }
