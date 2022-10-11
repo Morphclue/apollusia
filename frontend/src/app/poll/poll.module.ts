@@ -13,7 +13,7 @@ import {ChooseDateComponent} from './choose-date/choose-date.component';
 import {ChooseDateService} from './services/choose-date.service';
 import {ChooseEventsComponent} from './choose-events/choose-events.component';
 import {SomePipe} from '../pipes';
-import {CustomDefinitionModalComponent} from '../modals';
+import {CustomDefinitionModalComponent, PostponeModalComponent} from '../modals';
 
 @NgModule({
   declarations: [
@@ -21,6 +21,7 @@ import {CustomDefinitionModalComponent} from '../modals';
     ChooseDateComponent,
     ChooseEventsComponent,
     CustomDefinitionModalComponent,
+    PostponeModalComponent,
     SomePipe,
   ],
   imports: [

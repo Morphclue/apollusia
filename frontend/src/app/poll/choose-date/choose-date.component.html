@@ -9,7 +9,10 @@
       </div>
     </div>
     <div class="col-md-6 d-flex justify-content-end">
-      <button type="button" class="btn btn-primary" routerLink="custom-definition">Custom definition</button>
+      <div class="btn-group">
+        <button type="button" class="btn btn-primary" routerLink="postpone">Postpone</button>
+        <button type="button" class="btn btn-primary" routerLink="custom-definition">Custom definition</button>
+      </div>
       <h3 class="mx-2">{{ viewDate | calendarDate:('weekViewTitle') }}</h3>
     </div>
   </div>

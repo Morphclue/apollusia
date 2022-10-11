@@ -106,4 +106,14 @@ export class ChooseDateService {
       },
     }];
   }
+
+  postpone(postponeDays: number) {
+    this.events = this.events.map(event => {
+      return {
+        ...event,
+        start: addDays(event.start, postponeDays),
+        end: addDays(event.end!, postponeDays),
+      };
+    });
+  }
 }
