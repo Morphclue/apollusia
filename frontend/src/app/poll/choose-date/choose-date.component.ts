@@ -119,7 +119,7 @@ export class ChooseDateComponent implements AfterViewInit {
       return {_id: event.id?.toString(), start: event.start, end: event.end, note: event.meta.note};
     });
     this.http.post(`${environment.backendURL}/poll/${this.id}/events`, events).subscribe(() => {
-      this.router.navigate(['dashboard']).then();
+      this.router.navigate([`poll/${this.id}/participate`]).then();
     });
   }
 
