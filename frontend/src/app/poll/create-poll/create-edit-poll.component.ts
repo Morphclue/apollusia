@@ -9,6 +9,7 @@ import {map} from 'rxjs/operators';
 import {environment} from '../../../environments/environment';
 import {TokenService} from '../../core/services';
 import {CreatePollDto, Poll} from '../../model';
+import {format} from 'date-fns';
 
 @Component({
   selector: 'app-create-edit-poll',
@@ -23,7 +24,8 @@ export class CreateEditPollComponent implements OnInit {
     title: new FormControl('', Validators.required),
     description: new FormControl(''),
     location: new FormControl(''),
-    deadline: new FormControl(),
+    deadlineDate: new FormControl(),
+    deadlineTime: new FormControl(),
     maxParticipants: new FormControl(false),
     maxParticipantsInput: new FormControl(''),
     maxEventParticipants: new FormControl(false),
@@ -53,13 +55,14 @@ export class CreateEditPollComponent implements OnInit {
 
   onFormSubmit(): void {
     const pollForm = this.pollForm.value;
+    const deadline = pollForm.deadlineDate ? new Date(pollForm.deadlineDate + ' ' + (pollForm.deadlineTime || '00:00')) : undefined;
     const createPollDto: CreatePollDto = {
       title: pollForm.title!,
       description: pollForm.description ? pollForm.description : '',
       location: pollForm.location ? pollForm.location : '',
       adminToken: this.tokenService.getToken(),
       settings: {
-        deadline: pollForm.deadline ? new Date(pollForm.deadline) : undefined,
+        deadline: deadline,
         allowMaybe: !!pollForm.allowMaybe,
         allowEdit: !!pollForm.allowEdit,
         allowAnonymous: !!pollForm.allowAnonymous,
@@ -103,7 +106,8 @@ export class CreateEditPollComponent implements OnInit {
         title: poll.title,
         description: poll.description,
         location: poll.location,
-        deadline: poll.settings.deadline,
+        deadlineDate: poll.settings.deadline ? format(new Date(poll.settings.deadline), 'yyyy-MM-dd') : '',
+        deadlineTime: poll.settings.deadline ? format(new Date(poll.settings.deadline), 'HH:mm') : '',
         maxParticipants: poll.settings.maxParticipants !== undefined,
         maxParticipantsInput: poll.settings.maxParticipants ? poll.settings.maxParticipants.toString() : '',
         maxEventParticipants: poll.settings.maxEventParticipants !== undefined,

@@ -47,18 +47,8 @@
         <div class="form-group mb-3">
           <label for="deadline">Deadline (optional)</label>
           <div class="d-flex">
-            <input class="mwlFlatpickr form-control"
-                   mwlFlatpickr
-                   id="deadline"
-                   formControlName="deadline"
-                   type="text"
-                   autocomplete="off"
-                   [enableTime]="true"
-                   [allowInput]="true"
-                   [minDate]="minDate"
-                   [dateFormat]="'Y-m-d H:i'"
-                   [convertModelValue]="true"
-            >
+            <input type="date" id="deadline" class="form-control" formControlName="deadlineDate">
+            <input type="time" class="form-control" formControlName="deadlineTime">
           </div>
         </div>
         <button type="button"
