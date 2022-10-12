@@ -54,10 +54,22 @@ export class PollService {
     }
 
     async postEvents(id: string, poll: Poll, pollEvents: PollEventDto[]): Promise<Poll> {
-        await poll.events.forEach(event => {
-            this.pollEventModel.deleteMany({poll: event.poll}).exec();
+        const newEvents = await this.pollEventModel.create(pollEvents.filter(event => !event._id));
+        const updatedEvents = pollEvents.filter(event => event._id);
+        const changedEvents = updatedEvents.filter(event => {
+            const oldEvent = poll.events.find((e: any) => e._id.toString() === event._id);
+            return oldEvent.start !== event.start || oldEvent.end !== event.end;
         });
-        poll.events = await this.pollEventModel.create(pollEvents);
+
+        await this.removeParticipations(id, changedEvents);
+
+        const deletedEvents = poll.events.filter((event: any) => !updatedEvents.some(e => e._id.toString() === event._id.toString()));
+        await this.pollEventModel.deleteMany({_id: {$in: deletedEvents}}).exec();
+        // TODO: use updateMany
+        for (const event of changedEvents) {
+            await this.pollEventModel.findByIdAndUpdate(event._id, event, {new: true}).exec();
+        }
+        poll.events = [...poll.events, ...newEvents];
         return this.pollModel.findByIdAndUpdate(id, poll, {new: true}).exec();
     }
 
@@ -105,6 +117,29 @@ export class PollService {
             message = message.concat('You have agreed to appointments marked with *.');
             // TODO: implement mail service
             console.log(message);
+        });
+    }
+
+    private async removeParticipations(id: string, events: PollEventDto[]) {
+        const changedParticipants = await this.participantModel.find({
+            poll: id,
+            participation: {$in: events.map(event => event._id)},
+        }).exec();
+        const indeterminateParticipants = await this.participantModel.find({
+            poll: id,
+            indeterminateParticipation: {$in: events.map(event => event._id)},
+        });
+
+        changedParticipants.forEach(participant => {
+            participant.participation = participant.participation.filter((event: any) =>
+                !events.some(e => e._id.toString() === event._id.toString()));
+            this.participantModel.findByIdAndUpdate(participant._id, participant).exec();
+        });
+
+        indeterminateParticipants.forEach(participant => {
+            participant.indeterminateParticipation = participant.indeterminateParticipation.filter((event: any) =>
+                !events.some(e => e._id.toString() === event._id.toString()));
+            this.participantModel.findByIdAndUpdate(participant._id, participant).exec();
         });
     }
 }
