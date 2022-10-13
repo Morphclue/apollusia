@@ -1,6 +1,6 @@
-<ngbx-modal #modal [back]="['../..']">
+<ngbx-modal #modal [back]="[{outlets: {modal: null}}]" [backOptions]="{relativeTo: route.parent}">
   <ng-container modal-title>
-    <h4 class="modal-title" id="modal-title">User Settings</h4>
+    User Settings
   </ng-container>
   <ng-container modal-body>
     <div class="mb-3">
@@ -18,6 +18,6 @@
   </ng-container>
   <ng-container modal-footer>
     <button type="button" class="btn btn-outline-secondary" (click)="modal.close()">Cancel</button>
-    <button class="btn btn-primary" (click)="save()">Save</button>
+    <button class="btn btn-primary" (click)="save(modal)">Save</button>
   </ng-container>
 </ngbx-modal>

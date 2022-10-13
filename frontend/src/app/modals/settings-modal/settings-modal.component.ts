@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {ActivatedRoute} from '@angular/router';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {ModalComponent} from 'ng-bootstrap-ext';
 import {MailService} from '../../core/services';
 
 @Component({
@@ -14,7 +16,7 @@ export class SettingsModalComponent implements OnInit {
   });
 
   constructor(
-    private modalService: NgbModal,
+    public route: ActivatedRoute,
     private mailService: MailService,
   ) {
   }
@@ -23,14 +25,14 @@ export class SettingsModalComponent implements OnInit {
     this.mailForm.controls.mail.setValue(this.mailService.getMail());
   }
 
-  save() {
+  save(modal: ModalComponent) {
     if (!this.mailForm.valid) {
       return;
     }
 
     if (this.mailForm.controls.mail.value === '') {
       this.mailService.setMail('');
-      this.modalService.dismissAll();
+      modal.close();
       return;
     }
 
@@ -38,7 +40,7 @@ export class SettingsModalComponent implements OnInit {
       return;
     }
     this.mailService.setMail(this.mailForm.controls.mail.value);
-    this.modalService.dismissAll();
+    modal.close();
   }
 }
 
