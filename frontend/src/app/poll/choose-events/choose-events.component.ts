@@ -84,7 +84,7 @@ export class ChooseEventsComponent implements OnInit {
         return;
       }
 
-      if (poll.settings.allowAnonymous) {
+      if (poll.settings.anonymous) {
         this.participateForm.get('name')?.removeValidators(Validators.required);
         this.participateForm.get('name')?.updateValueAndValidity();
       }

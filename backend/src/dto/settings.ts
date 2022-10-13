@@ -4,6 +4,6 @@ export class Settings {
     maxEventParticipants?: number;
     allowMaybe: boolean;
     allowEdit: boolean;
-    allowAnonymous: boolean;
+    anonymous: boolean;
     blindParticipation: boolean;
 }

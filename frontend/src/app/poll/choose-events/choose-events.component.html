@@ -62,13 +62,13 @@
           <tbody>
           <tr *ngIf="!isFull()">
             <th style="min-width: 240px" scope="row">
-              <input *ngIf="!poll?.settings?.allowAnonymous"
+              <input *ngIf="!poll?.settings?.anonymous"
                      class="form-control"
                      type="text"
                      id="name"
                      placeholder="Your name"
                      formControlName="name">
-              <input *ngIf="poll?.settings?.allowAnonymous"
+              <input *ngIf="poll?.settings?.anonymous"
                      class="form-control"
                      type="text"
                      value="Anonymous"
@@ -93,10 +93,10 @@
           <ng-container *ngIf="!poll?.settings?.blindParticipation || isAdmin() || userVoted()">
             <tr *ngFor="let participant of participants">
               <th>
-                <div *ngIf="poll?.settings?.allowAnonymous">
+                <div *ngIf="poll?.settings?.anonymous">
                   Anonymous
                 </div>
-                <div *ngIf="!poll?.settings?.allowAnonymous">
+                <div *ngIf="!poll?.settings?.anonymous">
                   {{participant.name}}
                 </div>
               </th>

@@ -32,7 +32,7 @@ export class CreateEditPollComponent implements OnInit {
     maxEventParticipantsInput: new FormControl(''),
     allowMaybe: new FormControl(false),
     allowEdit: new FormControl(false),
-    allowAnonymous: new FormControl(false),
+    anonymous: new FormControl(false),
     blindParticipation: new FormControl(false),
   });
 
@@ -65,7 +65,7 @@ export class CreateEditPollComponent implements OnInit {
         deadline: deadline,
         allowMaybe: !!pollForm.allowMaybe,
         allowEdit: !!pollForm.allowEdit,
-        allowAnonymous: !!pollForm.allowAnonymous,
+        anonymous: !!pollForm.anonymous,
         maxParticipants: pollForm.maxParticipants ? parseInt(<string>pollForm.maxParticipantsInput) : undefined,
         maxEventParticipants: pollForm.maxEventParticipants ? parseInt(<string>pollForm.maxEventParticipantsInput) : undefined,
         blindParticipation: !!pollForm.blindParticipation,
@@ -114,7 +114,7 @@ export class CreateEditPollComponent implements OnInit {
         maxEventParticipantsInput: poll.settings.maxEventParticipants ? poll.settings.maxEventParticipants.toString() : '',
         allowMaybe: poll.settings.allowMaybe,
         allowEdit: poll.settings.allowEdit,
-        allowAnonymous: poll.settings.allowAnonymous,
+        anonymous: poll.settings.anonymous,
         blindParticipation: poll.settings.blindParticipation,
       });
     });
