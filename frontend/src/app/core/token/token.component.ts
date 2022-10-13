@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {debounceTime, distinctUntilChanged} from 'rxjs/operators';
+import {distinctUntilChanged} from 'rxjs/operators';
 import {Subject} from 'rxjs';
 
 import {TokenService} from '../services';
@@ -18,11 +18,9 @@ export class TokenComponent implements OnInit {
     private tokenService: TokenService,
   ) {
     this.inputChanged.pipe(
-      debounceTime(1000),
       distinctUntilChanged())
       .subscribe(() => {
         this.tokenService.setToken(this.input);
-        window.location.reload();
       });
   }
 

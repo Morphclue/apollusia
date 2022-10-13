@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute} from '@angular/router';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {ModalComponent} from 'ng-bootstrap-ext';
 import {MailService} from '../../core/services';
 
@@ -41,6 +40,7 @@ export class SettingsModalComponent implements OnInit {
     }
     this.mailService.setMail(this.mailForm.controls.mail.value);
     modal.close();
+    window.location.reload();
   }
 }
 
