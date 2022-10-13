@@ -68,6 +68,11 @@
                      id="name"
                      placeholder="Your name"
                      formControlName="name">
+              <input *ngIf="poll?.settings?.allowAnonymous"
+                     class="form-control"
+                     type="text"
+                     value="Anonymous"
+                     [disabled]="true">
             </th>
             <td *ngFor="let event of pollEvents; let n=index">
               <div *ngIf="!maxParticipantsReached(event)" class="d-flex justify-content-center">
@@ -88,6 +93,9 @@
           <ng-container *ngIf="!poll?.settings?.blindParticipation || isAdmin() || userVoted()">
             <tr *ngFor="let participant of participants">
               <th>
+                <div *ngIf="poll?.settings?.allowAnonymous">
+                  Anonymous
+                </div>
                 <div *ngIf="!poll?.settings?.allowAnonymous">
                   {{participant.name}}
                 </div>
