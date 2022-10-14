@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {NgbDate} from '@ng-bootstrap/ng-bootstrap';
 import {addMinutes, format} from 'date-fns';
 
 import {ChooseDateService} from '../../poll/services/choose-date.service';
@@ -10,6 +11,8 @@ import {ChooseDateService} from '../../poll/services/choose-date.service';
   styleUrls: ['./custom-definition-modal.component.scss'],
 })
 export class CustomDefinitionModalComponent implements OnInit {
+  hoveredDate: any;
+  selectedDates: NgbDate[] = [];
   modalForm = new FormGroup({
     dates: new FormControl('', Validators.required),
     startTime: new FormControl('12:00', Validators.required),
@@ -68,5 +71,26 @@ export class CustomDefinitionModalComponent implements OnInit {
         this.chooseDateService.addEvent(start, end);
       }
     }
+  }
+
+  onDateSelect(date: NgbDate) {
+    if (this.isSelected(date)) {
+      this.selectedDates = this.selectedDates.filter((d: NgbDate) => !d.equals(date));
+      return;
+    }
+
+    this.selectedDates.push(date);
+    this.fillDates();
+  }
+
+  isSelected(date: NgbDate) {
+    return this.selectedDates.some((d: NgbDate) => d.equals(date));
+  }
+
+  private fillDates() {
+    const dates: Date[] = this.selectedDates.map((date: NgbDate) => {
+      return new Date(date.year, date.month - 1, date.day);
+    });
+    this.modalForm.get('dates')?.setValue(dates.map((date: Date) => format(date, 'yyyy-MM-dd')).join(','));
   }
 }

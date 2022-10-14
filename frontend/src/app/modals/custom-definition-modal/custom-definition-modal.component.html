@@ -6,16 +6,13 @@
     <form [formGroup]="modalForm">
       <div class="form-group mb-3">
         <label for="dates">Select multiple dates</label>
-        <input class="mwlFlatpickr form-control"
-               mwlFlatpickr
-               id="dates"
-               formControlName="dates"
-               type="text"
-               autocomplete="off"
-               mode="multiple"
-               [allowInput]="false"
-               [dateFormat]="'Y-m-d'"
-        >
+        <ngb-datepicker
+          class="form-control"
+          id="dates"
+          (dateSelect)="onDateSelect($event)"
+          [dayTemplate]="dayTemplate"
+          [displayMonths]="1">
+        </ngb-datepicker>
       </div>
       <div class="row">
         <div class="form-group col">
@@ -67,3 +64,12 @@
     </button>
   </ng-container>
 </ngbx-modal>
+
+<ng-template #dayTemplate let-date>
+  <span class="custom-day"
+        [class.selected]="isSelected(date)"
+        (mouseenter)="hoveredDate = date"
+        (mouseleave)="hoveredDate = null">
+    {{ date.day }}
+  </span>
+</ng-template>
