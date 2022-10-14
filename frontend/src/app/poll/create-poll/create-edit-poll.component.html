@@ -1,5 +1,5 @@
 <div class="d-flex justify-content-center">
-  <div class="col-6 justify-content-center">
+  <div *ngIf="isAdmin()" class="col-6 justify-content-center">
     <form class="m-5" [formGroup]="pollForm" (ngSubmit)="onFormSubmit()">
       <div *ngIf="id" class="d-flex justify-content-end pt-3">
         <button

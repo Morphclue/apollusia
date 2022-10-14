@@ -18,7 +18,6 @@ export class TokenService {
   getToken(): string {
     this.currentToken = localStorage.getItem('token') || '';
     if (this.currentToken.length === 0) {
-      // FIXME: add await - otherwise the token is not set in time
       this.generateToken();
     }
     return this.currentToken;

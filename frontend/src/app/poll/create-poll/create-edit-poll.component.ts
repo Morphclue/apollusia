@@ -19,6 +19,7 @@ import {format} from 'date-fns';
 export class CreateEditPollComponent implements OnInit {
   isCollapsed: boolean = true;
   id: string = '';
+  poll?: Poll;
   minDate = new Date();
   pollForm = new FormGroup({
     title: new FormControl('', Validators.required),
@@ -102,6 +103,7 @@ export class CreateEditPollComponent implements OnInit {
     }
 
     this.http.get<Poll>(`${environment.backendURL}/poll/${this.id}`).subscribe((poll: Poll) => {
+      this.poll = poll;
       this.pollForm.patchValue({
         title: poll.title,
         description: poll.description,
@@ -133,5 +135,9 @@ export class CreateEditPollComponent implements OnInit {
     this.http.post(`${environment.backendURL}/poll/${this.id}/clone`, {}).subscribe(() => {
       this.router.navigate(['dashboard']).then();
     });
+  }
+
+  isAdmin() {
+    return this.poll?.adminToken === this.tokenService.getToken();
   }
 }
