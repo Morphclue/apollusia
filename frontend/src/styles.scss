@@ -33,6 +33,27 @@ $secondary: $purple;
 }
 
 .card-header {
-  background-color: #5a189aff;
+  background-color: $purple;
   color: white;
+}
+
+
+/* Ngb-Datepicker */
+.ngb-dp-day {
+  width: 4rem !important;
+  height: 4rem !important;
+}
+
+.ngb-dp-day > div {
+  width: 4rem !important;
+  height: 4rem !important;
+  line-height: 4rem !important;
+}
+
+.ngb-dp-weekday {
+  width: 4rem !important;
+}
+
+.ngb-dp-weekday {
+  color: $amethyst !important;
 }

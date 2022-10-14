@@ -66,10 +66,10 @@
 </ngbx-modal>
 
 <ng-template #dayTemplate let-date>
-  <span class="custom-day"
-        [class.selected]="isSelected(date)"
-        (mouseenter)="hoveredDate = date"
-        (mouseleave)="hoveredDate = null">
+  <div class="custom-day d-flex justify-content-center align-items-center"
+       [class.selected]="isSelected(date)"
+       (mouseenter)="hoveredDate = date"
+       (mouseleave)="hoveredDate = null">
     {{ date.day }}
-  </span>
+  </div>
 </ng-template>
