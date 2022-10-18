@@ -5,6 +5,7 @@ export interface Participant {
   participation: PollEvent[];
   indeterminateParticipation: PollEvent[];
   token: string;
+  mail?: string;
   _id: string;
 }
 

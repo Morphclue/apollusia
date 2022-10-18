@@ -30,6 +30,9 @@ export class Participant {
 
     @Prop({required: true})
     token: string;
+
+    @Prop()
+    mail: string;
 }
 
 export const ParticipantSchema = SchemaFactory.createForClass(Participant);

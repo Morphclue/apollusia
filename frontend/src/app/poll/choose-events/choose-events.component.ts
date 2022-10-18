@@ -57,6 +57,7 @@ export class ChooseEventsComponent implements OnInit {
       participation: this.filterEvents(this.checks, CheckboxState.TRUE),
       indeterminateParticipation: this.filterEvents(this.checks, CheckboxState.INDETERMINATE),
       token: this.tokenService.getToken(),
+      mail: this.mailService.getMail(),
     };
 
     this.http.post(`${environment.backendURL}/poll/${this.id}/participate`, participant).subscribe(() => {

@@ -4,6 +4,7 @@ import {Model} from 'mongoose';
 
 import {ParticipantDto, PollDto, PollEventDto} from '../../dto';
 import {Participant, Poll, PollEvent} from '../../schema';
+import {MailDto} from '../../dto';
 
 @Injectable()
 export class PollService {
@@ -84,6 +85,7 @@ export class PollService {
             participation: participant.participation,
             indeterminateParticipation: participant.indeterminateParticipation,
             token: participant.token,
+            mail: participant.mail,
         });
     }
 
@@ -116,6 +118,7 @@ export class PollService {
             });
             message = message.concat('You have agreed to appointments marked with *.');
             // TODO: implement mail service
+            console.log(participant.mail);
             console.log(message);
         });
     }
@@ -141,5 +144,17 @@ export class PollService {
                 !events.some(e => e._id.toString() === event._id.toString()));
             this.participantModel.findByIdAndUpdate(participant._id, participant).exec();
         });
+    }
+
+    async setMail(mailDto: MailDto) {
+        const participants = await this.participantModel.find({token: mailDto.token}).exec();
+        participants.forEach(participant => {
+            participant.mail = mailDto.mail;
+            participant.token = mailDto.token;
+        });
+        await this.participantModel.updateMany({token: mailDto.token}, {
+            mail: mailDto.mail,
+            token: mailDto.token,
+        }).exec();
     }
 }

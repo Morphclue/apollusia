@@ -4,3 +4,4 @@ export * from './poll-event';
 export * from './settings';
 export * from './token';
 export * from './statistics';
+export * from './mail';

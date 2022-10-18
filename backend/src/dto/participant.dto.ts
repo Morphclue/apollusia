@@ -22,4 +22,8 @@ export class ParticipantDto {
     @IsString()
     @IsNotEmpty()
     token: string;
+
+    @ApiProperty()
+    @IsString()
+    mail?: string;
 }

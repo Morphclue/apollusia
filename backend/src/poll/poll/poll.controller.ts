@@ -3,6 +3,7 @@ import {Body, Controller, Delete, Get, NotFoundException, Param, Post, Put} from
 import {PollService} from './poll.service';
 import {ParticipantDto, PollDto, PollEventDto} from '../../dto';
 import {Participant, Poll} from '../../schema';
+import {MailDto} from '../../dto/mail.dto';
 
 @Controller('poll')
 export class PollController {
@@ -70,6 +71,11 @@ export class PollController {
     @Post(':id/participate')
     async postParticipation(@Param('id') id: string, @Body() participant: ParticipantDto): Promise<Participant> {
         return this.pollService.postParticipation(id, participant);
+    }
+
+    @Put('mail/participate')
+    async setMail(@Body() mailDto: MailDto): Promise<void> {
+        return this.pollService.setMail(mailDto);
     }
 
     @Put(':id/participate/:participantId')
