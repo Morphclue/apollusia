@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {ActivatedRoute, Router} from '@angular/router';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {ToastService} from 'ng-bootstrap-ext';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 
@@ -38,6 +39,7 @@ export class ChooseEventsComponent implements OnInit {
     private http: HttpClient,
     private tokenService: TokenService,
     private mailService: MailService,
+    private toastService: ToastService,
   ) {
     const id: Observable<string> = route.params.pipe(map(p => p.id));
     id.subscribe((id: string) => {
@@ -198,7 +200,7 @@ export class ChooseEventsComponent implements OnInit {
 
   book() {
     this.http.post(`${environment.backendURL}/poll/${this.id}/book`, this.bookedEvents).subscribe(() => {
-      // TODO: success message or something else?
+      this.toastService.success('Booking', 'Booked events successfully');
     });
   }
 
