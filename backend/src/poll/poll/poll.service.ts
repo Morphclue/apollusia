@@ -5,6 +5,7 @@ import {Model} from 'mongoose';
 import {ParticipantDto, PollDto, PollEventDto} from '../../dto';
 import {Participant, Poll, PollEvent} from '../../schema';
 import {MailDto} from '../../dto';
+import {MailService} from '../../mail/mail/mail.service';
 
 @Injectable()
 export class PollService {
@@ -12,6 +13,7 @@ export class PollService {
         @InjectModel(Poll.name) private pollModel: Model<Poll>,
         @InjectModel(PollEvent.name) private pollEventModel: Model<PollEvent>,
         @InjectModel(Participant.name) private participantModel: Model<Participant>,
+        private mailService: MailService,
     ) {
     }
 
@@ -117,9 +119,7 @@ export class PollService {
                 message = message.concat('\n');
             });
             message = message.concat('You have agreed to appointments marked with *.');
-            // TODO: implement mail service
-            console.log(participant.mail);
-            console.log(message);
+            this.mailService.sendMail(participant.mail, message);
         });
     }
 

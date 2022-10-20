@@ -27,4 +27,5 @@ Create an `.env` file in the backend directory and add the following environment
 EMAIL_HOST=smtp.sendgrid.net
 EMAIL_USER=apikey
 EMAIL_PASSWORD=<YOUR_SENDGRID_API_KEY>
+EMAIL_FROM=<SENDGRID_FROM_EMAIL_ADDRESS>
 ```

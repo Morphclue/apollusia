@@ -19,7 +19,7 @@ import {MailService} from './mail/mail.service';
                 },
             },
             defaults: {
-                from: '<sendgrid_from_email_address>',
+                from: config.get('EMAIL_FROM'),
             },
             template: {
                 dir: join(__dirname, './templates'),
