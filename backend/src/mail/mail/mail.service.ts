@@ -6,13 +6,13 @@ export class MailService {
     constructor(private mailerService: MailerService) {
     }
 
-    async sendMail(email: string, message: string) {
+    async sendMail(email: string, appointments: string[]) {
         await this.mailerService.sendMail({
             to: email,
             subject: 'Appointments booked',
             template: 'email',
             context: {
-                message: message,
+                appointments: appointments,
             },
         });
     }

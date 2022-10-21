@@ -2,9 +2,8 @@ import {Injectable} from '@nestjs/common';
 import {InjectModel} from '@nestjs/mongoose';
 import {Model} from 'mongoose';
 
-import {ParticipantDto, PollDto, PollEventDto} from '../../dto';
+import {MailDto, ParticipantDto, PollDto, PollEventDto} from '../../dto';
 import {Participant, Poll, PollEvent} from '../../schema';
-import {MailDto} from '../../dto';
 import {MailService} from '../../mail/mail/mail.service';
 
 @Injectable()
@@ -109,17 +108,16 @@ export class PollService {
         const participants = await this.participantModel.find({poll: id}).populate(['participation', 'indeterminateParticipation']).exec();
         participants.forEach(participant => {
             const participations = [...participant.participation, ...participant.indeterminateParticipation];
-            let message = 'The following appointments have been booked:\n';
+            const appointments = [];
             poll.bookedEvents.forEach((event: any) => {
-                message = message.concat(`${new Date(event.start).toLocaleString()} - ${new Date(event.end).toLocaleString()}`);
-                // TODO: use includes and remove any-type (not working currently)
-                if (participations.some((p: any) => p._id.toString() === event._id.toString())) {
-                    message = message.concat(' *');
+                if (participations.some((participation: any) => participation._id.toString() === event._id.toString())) {
+                    appointments.push(`${new Date(event.start).toLocaleString()} - ${new Date(event.end).toLocaleString()} *`);
+                } else {
+                    appointments.push(`${new Date(event.start).toLocaleString()} - ${new Date(event.end).toLocaleString()}`);
                 }
-                message = message.concat('\n');
+                // TODO: use includes and remove any-type (not working currently)
             });
-            message = message.concat('You have agreed to appointments marked with *.');
-            this.mailService.sendMail(participant.mail, message);
+            this.mailService.sendMail(participant.mail, appointments);
         });
     }
 
