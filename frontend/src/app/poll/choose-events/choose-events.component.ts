@@ -93,7 +93,10 @@ export class ChooseEventsComponent implements OnInit {
       }
 
       this.poll = poll;
-      this.pollEvents = poll.events;
+      this.pollEvents = poll.events.sort((a, b) => {
+        return new Date(a.start).getTime() - new Date(b.start).getTime();
+      });
+
       this.checks = new Array(poll.events.length).fill(CheckboxState.FALSE);
       this.editChecks = new Array(poll.events.length).fill(CheckboxState.FALSE);
       this.bookedEvents = poll.bookedEvents ? poll.bookedEvents : [];
