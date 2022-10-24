@@ -47,3 +47,15 @@ h3 {
   border: 1px solid #7b2cbf;
   white-space: pre-wrap;
 }
+
+th:first-child, td:first-child {
+  position: sticky;
+  left: 0;
+  background-color: white;
+}
+
+th:last-child, td:last-child {
+  position: sticky;
+  right: 0;
+  background-color: white;
+}
