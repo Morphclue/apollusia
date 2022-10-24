@@ -1,6 +1,6 @@
 import {Injectable} from '@nestjs/common';
 import {InjectModel} from '@nestjs/mongoose';
-import {Model} from 'mongoose';
+import {Model, Types} from 'mongoose';
 
 import {MailDto, ParticipantDto, PollDto, PollEventDto} from '../../dto';
 import {Participant, Poll, PollEvent} from '../../schema';
@@ -47,12 +47,15 @@ export class PollService {
         return this.pollModel.findByIdAndUpdate(id, pollDto, {new: true}).exec();
     }
 
-    async deletePoll(id: string, poll: Poll): Promise<Poll | undefined> {
-        await poll.events.forEach(event => {
-            this.pollEventModel.deleteMany({poll: event.poll}).exec();
-        });
-        await this.participantModel.deleteMany({poll: id}).exec();
-        return this.pollModel.findByIdAndDelete(id).exec();
+    async deletePoll(id: string): Promise<Poll | undefined> {
+        const poll = await this.pollModel.findByIdAndDelete(id).exec();
+        if (!poll) {
+            return;
+        }
+
+        await this.pollEventModel.deleteMany({_id: {$in: poll.events}}).exec();
+        await this.participantModel.deleteMany({poll: new Types.ObjectId(id)}).exec();
+        return poll;
     }
 
     async postEvents(id: string, poll: Poll, pollEvents: PollEventDto[]): Promise<Poll> {
