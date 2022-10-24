@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
+import {Title} from '@angular/platform-browser';
 import {ActivatedRoute, Router} from '@angular/router';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {ToastService} from 'ng-bootstrap-ext';
@@ -40,6 +41,7 @@ export class ChooseEventsComponent implements OnInit {
     private tokenService: TokenService,
     private mailService: MailService,
     private toastService: ToastService,
+    private title: Title,
   ) {
     const id: Observable<string> = route.params.pipe(map(p => p.id));
     id.subscribe((id: string) => {
@@ -83,6 +85,8 @@ export class ChooseEventsComponent implements OnInit {
 
   private fetchPoll() {
     this.http.get<Poll>(`${environment.backendURL}/poll/${this.id}`).subscribe(poll => {
+      this.title.setTitle(poll.title);
+
       if (!poll.events) {
         return;
       }
