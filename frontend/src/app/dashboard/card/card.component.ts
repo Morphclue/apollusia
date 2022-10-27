@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 
-import {Poll} from '../../model';
+import {ReadPoll} from '../../model';
 import {TokenService} from '../../core/services';
 
 @Component({
@@ -9,7 +9,7 @@ import {TokenService} from '../../core/services';
   styleUrls: ['./card.component.scss'],
 })
 export class CardComponent implements OnInit {
-  @Input() poll: Poll | undefined;
+  @Input() poll: ReadPoll | undefined;
 
   constructor(private tokenService: TokenService) {
   }

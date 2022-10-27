@@ -19,11 +19,17 @@
           <p class="card-text">{{poll.description | truncate:[160, '...']}}</p>
         </div>
         <div class="card-footer">
-          <div *ngIf="poll.settings.deadline">
-            <i class="bi-calendar"></i> Deadline: {{poll.settings.deadline | date:'medium'}}
+          <div *ngIf="poll.settings.deadline" class="bi-calendar">
+            Deadline: {{poll.settings.deadline | date:'medium'}}
           </div>
-          <div *ngIf="poll.events" class="card-text">
-            <i class="bi-check"></i> Options: {{poll.events.length}}
+          <div *ngIf="poll.location" class="bi-geo">
+            Location: {{poll.location}}
+          </div>
+          <div class="bi-check">
+            Options: {{poll.events}}
+          </div>
+          <div class="bi-person">
+            Participants: {{poll.participants}}
           </div>
         </div>
       </div>

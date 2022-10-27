@@ -3,7 +3,7 @@ import {HttpClient} from '@angular/common/http';
 
 import {environment} from '../../../environments/environment';
 import {TokenService} from '../../core/services';
-import {Poll} from '../../model';
+import {ReadPoll} from '../../model';
 
 @Component({
   selector: 'app-dashboard',
@@ -11,7 +11,7 @@ import {Poll} from '../../model';
   styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit {
-  polls: Poll[] = [];
+  polls: ReadPoll[] = [];
 
   constructor(
     private http: HttpClient,
@@ -20,7 +20,7 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.http.get<Poll[]>(`${environment.backendURL}/poll/all/${this.tokenService.getToken()}`).subscribe((data: Poll[]) => {
+    this.http.get<ReadPoll[]>(`${environment.backendURL}/poll/all/${this.tokenService.getToken()}`).subscribe((data: ReadPoll[]) => {
       this.polls = [...this.polls, ...data];
     });
   }

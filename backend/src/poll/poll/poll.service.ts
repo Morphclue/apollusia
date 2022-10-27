@@ -5,6 +5,7 @@ import {Model, Types} from 'mongoose';
 import {MailDto, ParticipantDto, PollDto, PollEventDto} from '../../dto';
 import {Participant, Poll, PollEvent} from '../../schema';
 import {MailService} from '../../mail/mail/mail.service';
+import {ReadPollDto} from '../../dto/read-poll.dto';
 
 @Injectable()
 export class PollService {
@@ -16,13 +17,26 @@ export class PollService {
     ) {
     }
 
-    async getPolls(token: string): Promise<Poll[]> {
+    async getPolls(token: string): Promise<ReadPollDto[]> {
         const adminPolls = await this.pollModel.find({adminToken: token}).exec();
         const participants = await this.participantModel.find({token}, null, {populate: 'poll'}).exec();
         const participantPolls = participants.map(participant => participant.poll);
         let polls = [...adminPolls, ...participantPolls];
-        return polls.filter((poll: any, index) => polls.findIndex((p: any) => p._id.toString() === poll._id.toString()) === index);
-    }
+        const filteredPolls = polls.filter((poll: Poll, index) => polls.findIndex((p: any) => p._id.toString() === poll._id.toString()) === index);
+        const readPolls = filteredPolls.map(async (poll: Poll): Promise<ReadPollDto> => ({
+            _id: poll._id,
+            title: poll.title,
+            description: poll.description,
+            location: poll.location,
+            adminToken: poll.adminToken,
+            settings: poll.settings,
+            bookedEvents: poll.bookedEvents,
+            events: await this.pollEventModel.count({poll: poll._id}).exec(),
+            participants: await this.participantModel.count({poll: poll._id}).exec(),
+        }));
+
+        return Promise.all(readPolls);
+    };
 
     async getPoll(id: string): Promise<Poll> {
         return this.pollModel.findById(id).exec();

@@ -1,11 +1,13 @@
 import {Prop, Schema, SchemaFactory} from '@nestjs/mongoose';
-import mongoose from 'mongoose';
+import mongoose, {Types} from 'mongoose';
 
 import {Settings} from '../dto';
 import {PollEvent} from './poll-event.schema';
 
 @Schema()
 export class Poll {
+    _id: Types.ObjectId;
+
     @Prop({required: true})
     title: string;
 
