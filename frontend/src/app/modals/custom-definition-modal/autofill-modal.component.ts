@@ -33,7 +33,13 @@ export class AutofillModalComponent implements OnInit {
     }
 
     const day = format(event.start, 'yyyy-MM-dd');
-    this.modalForm.get('dates')?.setValue(day);
+    const ngbDate = new NgbDate(
+      parseInt(day.split('-')[0]),
+      parseInt(day.split('-')[1]),
+      parseInt(day.split('-')[2]),
+    );
+
+    this.onDateSelect(ngbDate);
     this.chooseDateService.autofillEvent = undefined;
   }
 
