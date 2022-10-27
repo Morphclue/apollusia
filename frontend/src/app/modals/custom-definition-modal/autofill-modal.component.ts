@@ -6,11 +6,11 @@ import {addMinutes, format} from 'date-fns';
 import {ChooseDateService} from '../../poll/services/choose-date.service';
 
 @Component({
-  selector: 'app-custom-definition-modal',
-  templateUrl: './custom-definition-modal.component.html',
-  styleUrls: ['./custom-definition-modal.component.scss'],
+  selector: 'app-autofill-modal',
+  templateUrl: './autofill-modal.component.html',
+  styleUrls: ['./autofill-modal.component.scss'],
 })
-export class CustomDefinitionModalComponent implements OnInit {
+export class AutofillModalComponent implements OnInit {
   hoveredDate: any;
   selectedDates: NgbDate[] = [];
   modalForm = new FormGroup({
@@ -27,14 +27,14 @@ export class CustomDefinitionModalComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const event = this.chooseDateService.customDefinitionEvent;
+    const event = this.chooseDateService.autofillEvent;
     if (!event || !event.end) {
       return;
     }
 
     const day = format(event.start, 'yyyy-MM-dd');
     this.modalForm.get('dates')?.setValue(day);
-    this.chooseDateService.customDefinitionEvent = undefined;
+    this.chooseDateService.autofillEvent = undefined;
   }
 
   apply() {

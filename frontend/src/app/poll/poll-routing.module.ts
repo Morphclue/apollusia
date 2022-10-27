@@ -4,14 +4,14 @@ import {RouterModule, Routes} from '@angular/router';
 import {CreateEditPollComponent} from './create-poll/create-edit-poll.component';
 import {ChooseDateComponent} from './choose-date/choose-date.component';
 import {ChooseEventsComponent} from './choose-events/choose-events.component';
-import {CustomDefinitionModalComponent, PostponeModalComponent} from '../modals';
+import {AutofillModalComponent, PostponeModalComponent} from '../modals';
 
 const routes: Routes = [
   {path: 'create', component: CreateEditPollComponent},
   {path: ':id', component: CreateEditPollComponent},
   {
     path: ':id/date', component: ChooseDateComponent, children: [
-      {path: 'custom-definition', component: CustomDefinitionModalComponent},
+      {path: 'autofill', component: AutofillModalComponent},
       {path: 'postpone', component: PostponeModalComponent},
     ],
   },

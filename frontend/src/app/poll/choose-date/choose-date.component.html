@@ -7,7 +7,7 @@
     </div>
     <div class="btn-group me-2">
       <button type="button" class="btn btn-primary" routerLink="postpone">Postpone</button>
-      <button type="button" class="btn btn-primary" routerLink="custom-definition">Custom definition</button>
+      <button type="button" class="btn btn-primary" routerLink="autofill">Autofill</button>
     </div>
     <h3 class="mb-0">{{ viewDate | calendarDate:('weekViewTitle') }}</h3>
   </div>
@@ -69,7 +69,7 @@
         <button ngbDropdownToggle type="button" class="btn-no-style" id="dropdownButton"></button>
         <div ngbDropdownMenu>
           <button ngbDropdownItem (click)="openNoteModal(noteContent, weekEvent.event)">Add Note</button>
-          <button ngbDropdownItem (click)="customDefinition(weekEvent.event)">Custom Definition</button>
+          <button ngbDropdownItem (click)="autofill(weekEvent.event)">Autofill</button>
           <button
             *ngIf="weekEvent.event.meta.note != undefined"
             ngbDropdownItem (click)="deleteNote(weekEvent.event)">Delete Note
