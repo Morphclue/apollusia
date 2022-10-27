@@ -1,5 +1,5 @@
 export enum CheckboxState {
-  TRUE= 'true',
+  TRUE = 'true',
   FALSE = 'false',
   INDETERMINATE = 'indeterminate',
 }
