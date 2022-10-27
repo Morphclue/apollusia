@@ -11,7 +11,6 @@ import {Poll} from '../../model';
   styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit {
-
   polls: Poll[] = [];
 
   constructor(

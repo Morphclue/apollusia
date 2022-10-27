@@ -1,5 +1,4 @@
 import {Settings} from './settings';
-import {PollEvent} from './poll-event';
 
 export interface Poll {
   title: string;
@@ -7,7 +6,6 @@ export interface Poll {
   location?: string;
   adminToken: string;
   settings: Settings;
-  events?: PollEvent[];
   bookedEvents?: string[];
   _id: string;
 }

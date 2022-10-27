@@ -27,14 +27,6 @@ export class Poll {
             ref: 'PollEvent',
         }],
     })
-    events: PollEvent[];
-
-    @Prop({
-        type: [{
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'PollEvent',
-        }],
-    })
     bookedEvents: PollEvent[];
 }
 

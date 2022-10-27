@@ -25,22 +25,30 @@ export class PollService {
     }
 
     async getPoll(id: string): Promise<Poll> {
-        return this.pollModel.findById(id, null, {populate: 'events'}).exec();
+        return this.pollModel.findById(id).exec();
     }
 
     async postPoll(pollDto: PollDto): Promise<Poll> {
         return this.pollModel.create(pollDto);
     }
 
-    async clonePoll(poll: Poll) {
-        return await this.pollModel.create({
+    async clonePoll(id: string, poll: Poll) {
+        const pollEvents = await this.pollEventModel.find({poll: new Types.ObjectId(id)}).exec();
+        const clonedPoll = await this.pollModel.create({
             title: poll.title,
             description: poll.description,
             location: poll.location,
             adminToken: poll.adminToken,
             settings: poll.settings,
-            events: await this.pollEventModel.create(poll.events),
         });
+        const clonedPollEvents = pollEvents.map(event => ({
+            poll: clonedPoll._id,
+            start: event.start,
+            end: event.end,
+            note: event.note,
+        }));
+        await this.pollEventModel.create(clonedPollEvents);
+        return clonedPoll;
     }
 
     async putPoll(id: string, pollDto: PollDto): Promise<Poll> {
@@ -53,29 +61,40 @@ export class PollService {
             return;
         }
 
-        await this.pollEventModel.deleteMany({_id: {$in: poll.events}}).exec();
+        await this.pollEventModel.deleteMany({poll: new Types.ObjectId(id)}).exec();
         await this.participantModel.deleteMany({poll: new Types.ObjectId(id)}).exec();
         return poll;
     }
 
-    async postEvents(id: string, poll: Poll, pollEvents: PollEventDto[]): Promise<Poll> {
-        const newEvents = await this.pollEventModel.create(pollEvents.filter(event => !event._id));
-        const updatedEvents = pollEvents.filter(event => event._id);
-        const changedEvents = updatedEvents.filter(event => {
-            const oldEvent = poll.events.find((e: any) => e._id.toString() === event._id);
+    async getEvents(id: string): Promise<PollEvent[]> {
+        return await this.pollEventModel.find({poll: new Types.ObjectId(id)}).exec();
+    }
+
+    async postEvents(id: string, poll: Poll, pollEvents: PollEventDto[]): Promise<PollEvent[]> {
+        const oldEvents = await this.pollEventModel.find({poll: new Types.ObjectId(id)}).exec();
+        const newEvents = pollEvents.filter(event => !oldEvents.some(oldEvent => oldEvent._id.toString() === event._id));
+        await this.pollEventModel.create(newEvents.map(event => ({...event, poll: new Types.ObjectId(id)})));
+
+        const updatedEvents = pollEvents.filter(event => {
+            const oldEvent = oldEvents.find(e => e._id.toString() === event._id);
+            if (!oldEvent) {
+                return false;
+            }
             return oldEvent.start !== event.start || oldEvent.end !== event.end;
         });
-
-        await this.removeParticipations(id, changedEvents);
-
-        const deletedEvents = poll.events.filter((event: any) => !updatedEvents.some(e => e._id.toString() === event._id.toString()));
-        await this.pollEventModel.deleteMany({_id: {$in: deletedEvents}}).exec();
-        // TODO: use updateMany
-        for (const event of changedEvents) {
-            await this.pollEventModel.findByIdAndUpdate(event._id, event, {new: true}).exec();
+        if (updatedEvents.length > 0) {
+            await this.pollEventModel.updateMany({_id: {$in: updatedEvents.map(event => event._id)}}, {
+                $set: {
+                    start: pollEvents.find(event => event._id === event._id.toString()).start,
+                    end: pollEvents.find(event => event._id === event._id.toString()).end,
+                },
+            });
         }
-        poll.events = [...poll.events, ...newEvents];
-        return this.pollModel.findByIdAndUpdate(id, poll, {new: true}).exec();
+
+        const deletedEvents = oldEvents.filter(event => !pollEvents.some(e => e._id === event._id.toString()));
+        await this.pollEventModel.deleteMany({_id: {$in: deletedEvents.map(event => event._id)}}).exec();
+        await this.removeParticipations(id, updatedEvents);
+        return await this.pollEventModel.find({poll: new Types.ObjectId(id)}).exec();
     }
 
     async getParticipants(id: string) {

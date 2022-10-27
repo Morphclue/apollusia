@@ -2,7 +2,7 @@ import {Body, Controller, Delete, Get, NotFoundException, Param, Post, Put} from
 
 import {PollService} from './poll.service';
 import {MailDto, ParticipantDto, PollDto, PollEventDto} from '../../dto';
-import {Participant, Poll} from '../../schema';
+import {Participant, Poll, PollEvent} from '../../schema';
 
 @Controller('poll')
 export class PollController {
@@ -29,12 +29,12 @@ export class PollController {
 
     @Post(':id/clone')
     async clonePoll(@Param('id') id: string): Promise<Poll> {
-        const existingPoll = await this.pollService.getPoll(id);
-        if (!existingPoll) {
+        const poll = await this.pollService.getPoll(id);
+        if (!poll) {
             throw new NotFoundException(id);
         }
 
-        return this.pollService.clonePoll(existingPoll);
+        return this.pollService.clonePoll(id, poll);
     }
 
     @Put(':id')
@@ -48,17 +48,28 @@ export class PollController {
         if (!poll) {
             throw new NotFoundException(id);
         }
+
         return poll;
     }
 
-    @Post(':id/events')
-    async postEvents(@Param('id') id: string, @Body() pollEvents: PollEventDto[]): Promise<Poll> {
-        const existingPoll = await this.pollService.getPoll(id);
-        if (!existingPoll) {
+    @Get(':id/events')
+    async getEvents(@Param('id') id: string): Promise<PollEvent[]> {
+        const poll = await this.pollService.getPoll(id);
+        if (!poll) {
             throw new NotFoundException(id);
         }
 
-        return this.pollService.postEvents(id, existingPoll, pollEvents);
+        return this.pollService.getEvents(id);
+    }
+
+    @Post(':id/events')
+    async postEvents(@Param('id') id: string, @Body() pollEvents: PollEventDto[]): Promise<PollEvent[]> {
+        const poll = await this.pollService.getPoll(id);
+        if (!poll) {
+            throw new NotFoundException(id);
+        }
+
+        return this.pollService.postEvents(id, poll, pollEvents);
     }
 
     @Get(':id/participate')

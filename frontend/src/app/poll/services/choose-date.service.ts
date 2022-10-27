@@ -4,7 +4,7 @@ import {CalendarEvent} from 'angular-calendar';
 import {WeekViewHourSegment} from 'calendar-utils';
 import {addDays, addMinutes, format} from 'date-fns';
 
-import {Poll, PollEvent} from '../../model';
+import {PollEvent} from '../../model';
 import {environment} from '../../../environments/environment';
 
 @Injectable({
@@ -63,12 +63,12 @@ export class ChooseDateService {
   }
 
   updateEvents(id: string) {
-    this.http.get<Poll>(`${environment.backendURL}/poll/${id}`).subscribe((poll: Poll) => {
-      if (!poll.events) {
+    this.http.get<PollEvent[]>(`${environment.backendURL}/poll/${id}/events`).subscribe(events => {
+      if (!events) {
         return;
       }
 
-      this.events = poll.events.map((event: PollEvent) => {
+      this.events = events.map((event: PollEvent) => {
         const startDate: Date = new Date(event.start);
         const endDate: Date = event.end ? new Date(event.end) : new Date();
 

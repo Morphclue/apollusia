@@ -82,24 +82,25 @@ export class ChooseEventsComponent implements OnInit {
   }
 
   private fetchPoll() {
-    this.http.get<Poll>(`${environment.backendURL}/poll/${this.id}`).subscribe(poll => {
-      if (!poll.events) {
-        return;
-      }
+    this.http.get<Poll>(`${environment.backendURL}/poll/${this.id}`).subscribe(async poll => {
+      this.poll = poll;
+      await this.fetchPollEvents();
 
       if (poll.settings.anonymous) {
         this.participateForm.get('name')?.removeValidators(Validators.required);
         this.participateForm.get('name')?.updateValueAndValidity();
       }
+    });
+  }
 
-      this.poll = poll;
-      this.pollEvents = poll.events.sort((a, b) => {
+  private async fetchPollEvents() {
+    await this.http.get<PollEvent[]>(`${environment.backendURL}/poll/${this.id}/events`).subscribe(events => {
+      this.pollEvents = events.sort((a, b) => {
         return new Date(a.start).getTime() - new Date(b.start).getTime();
       });
-
-      this.checks = new Array(poll.events.length).fill(CheckboxState.FALSE);
-      this.editChecks = new Array(poll.events.length).fill(CheckboxState.FALSE);
-      this.bookedEvents = poll.bookedEvents ? poll.bookedEvents : [];
+      this.checks = new Array(this.pollEvents.length).fill(CheckboxState.FALSE);
+      this.editChecks = new Array(this.pollEvents.length).fill(CheckboxState.FALSE);
+      this.bookedEvents = this.poll?.bookedEvents ? this.poll?.bookedEvents : [];
     });
   }
 
@@ -172,8 +173,8 @@ export class ChooseEventsComponent implements OnInit {
   }
 
   private findBestOption() {
-    if (this.poll?.events) {
-      this.bestOption = Math.max(...this.poll.events.map(event => this.countParticipants(event))) || 1;
+    if (this.pollEvents) {
+      this.bestOption = Math.max(...this.pollEvents.map(event => this.countParticipants(event))) || 1;
     }
   }
 
