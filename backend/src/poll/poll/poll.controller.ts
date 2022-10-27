@@ -1,9 +1,8 @@
 import {Body, Controller, Delete, Get, NotFoundException, Param, Post, Put} from '@nestjs/common';
 
 import {PollService} from './poll.service';
-import {ParticipantDto, PollDto, PollEventDto} from '../../dto';
+import {MailDto, ParticipantDto, PollDto, PollEventDto} from '../../dto';
 import {Participant, Poll} from '../../schema';
-import {MailDto} from '../../dto/mail.dto';
 
 @Controller('poll')
 export class PollController {
