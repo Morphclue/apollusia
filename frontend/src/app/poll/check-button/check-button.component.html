@@ -1,0 +1,8 @@
+<button
+  class="form-check-input rounded-circle"
+  type="button"
+  [class.button-checked]="check === 'true' || check === 'indeterminate'"
+  (click)="toggle()">
+  <i *ngIf="check === 'true'" class="bi-check text-white"></i>
+  <i *ngIf="check === 'indeterminate'" class="bi-dash text-white"></i>
+</button>

@@ -49,7 +49,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr *ngIf="!isFull()">
+        <tr *ngIf="!isFull()" class="align-middle">
           <th style="min-width: 240px" scope="row">
             <input *ngIf="!poll?.settings?.anonymous"
                    class="form-control"
@@ -64,23 +64,18 @@
                    [disabled]="true">
           </th>
           <td *ngFor="let event of pollEvents; let n=index">
-            <div *ngIf="!maxParticipantsReached(event)" class="d-flex justify-content-center">
-              <button
-                class="form-check-input rounded-circle"
-                type="button"
-                [class.button-checked]="checks[n] === 'true' || checks[n] === 'indeterminate'"
-                (click)="checkBox(checks, n)">
-                <i *ngIf="checks[n] === 'true'" class="bi-check button-icon"></i>
-                <i *ngIf="checks[n] === 'indeterminate'" class="bi-dash button-icon"></i>
-              </button>
-            </div>
+            <app-check-button
+              *ngIf="!maxParticipantsReached(event)"
+              [check]="checks[n]"
+              (checkChanged)="checks[n] = $event"
+            ></app-check-button>
           </td>
           <th class="border-0 text-start" scope="col">
             <button class="btn btn-primary btn-sm" type="submit" [disabled]="!participateForm.valid">Submit</button>
           </th>
         </tr>
         <ng-container *ngIf="!poll?.settings?.blindParticipation || isAdmin() || userVoted()">
-          <tr *ngFor="let participant of participants">
+          <tr *ngFor="let participant of participants" class="align-middle">
             <th>
               <div *ngIf="poll?.settings?.anonymous">
                 Anonymous
@@ -109,16 +104,7 @@
             </ng-container>
             <ng-container *ngIf="participant === editParticipant">
               <td *ngFor="let check of editChecks; let n=index">
-                <div class="d-flex justify-content-center">
-                  <button
-                    class="form-check-input rounded-circle"
-                    type="button"
-                    [class.button-checked]="check === 'true' || check === 'indeterminate'"
-                    (click)="checkBox(editChecks, n)">
-                    <i *ngIf="check === 'true'" class="bi-check button-icon"></i>
-                    <i *ngIf="check === 'indeterminate'" class="bi-dash button-icon"></i>
-                  </button>
-                </div>
+                <app-check-button [check]="check" (checkChanged)="editChecks[n] = $event"></app-check-button>
               </td>
             </ng-container>
             <td *ngIf="participant === editParticipant" class="border-0 text-start">

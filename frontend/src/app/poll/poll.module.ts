@@ -15,6 +15,7 @@ import {ChooseEventsComponent} from './choose-events/choose-events.component';
 import {SomePipe} from '../pipes';
 import {AutofillModalComponent, PostponeModalComponent} from '../modals';
 import { EventHeadComponent } from './event-head/event-head.component';
+import { CheckButtonComponent } from './check-button/check-button.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { EventHeadComponent } from './event-head/event-head.component';
     PostponeModalComponent,
     SomePipe,
     EventHeadComponent,
+    CheckButtonComponent,
   ],
   imports: [
     CommonModule,
