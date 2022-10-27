@@ -97,12 +97,9 @@ export class PollService {
             return oldEvent.start !== event.start || oldEvent.end !== event.end;
         });
         if (updatedEvents.length > 0) {
-            await this.pollEventModel.updateMany({_id: {$in: updatedEvents.map(event => event._id)}}, {
-                $set: {
-                    start: pollEvents.find(event => event._id === event._id.toString()).start,
-                    end: pollEvents.find(event => event._id === event._id.toString()).end,
-                },
-            });
+            for (const event of updatedEvents) {
+                await this.pollEventModel.findByIdAndUpdate(event._id, event).exec();
+            }
         }
 
         const deletedEvents = oldEvents.filter(event => !pollEvents.some(e => e._id === event._id.toString()));
