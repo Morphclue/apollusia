@@ -14,6 +14,7 @@ import {ChooseDateService} from './services/choose-date.service';
 import {ChooseEventsComponent} from './choose-events/choose-events.component';
 import {SomePipe} from '../pipes';
 import {AutofillModalComponent, PostponeModalComponent} from '../modals';
+import { EventHeadComponent } from './event-head/event-head.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import {AutofillModalComponent, PostponeModalComponent} from '../modals';
     AutofillModalComponent,
     PostponeModalComponent,
     SomePipe,
+    EventHeadComponent,
   ],
   imports: [
     CommonModule,

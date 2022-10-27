@@ -38,22 +38,12 @@
   </div>
   <div *ngIf="pollEvents" class="table-responsive text-center">
     <form class="m-5" [formGroup]="participateForm" (ngSubmit)="onFormSubmit()">
-      <table class="table">
+      <table class="table table-transpose">
         <thead>
         <tr>
           <th scope="col"></th>
           <th *ngFor="let event of pollEvents" scope="col">
-            <div class="vote-option">
-              {{ event.start | date:'E' }}
-              <i *ngIf="event.note != undefined && event.note.length > 0"
-                 class="bi-sticky-fill primary-color"
-                 placement="top"
-                 ngbTooltip="{{event.note}}"
-              ></i><br>
-              <h3><b>{{ event.start | date:'d' }}</b></h3>
-              <div class="month-text">{{ event.start | date:'MMM' }}</div>
-              {{ event.start | date:'HH:mm' }}- {{ event.end | date:'HH:mm' }}
-            </div>
+            <app-event-head [event]="event"></app-event-head>
           </th>
           <th class="border-0" scope="col"></th>
         </tr>
