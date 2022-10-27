@@ -45,12 +45,11 @@ export class PollController {
 
     @Delete(':id')
     async deletePoll(@Param('id') id: string): Promise<Poll | undefined> {
-        const existingPoll = await this.pollService.getPoll(id);
-        if (!existingPoll) {
+        const poll = await this.pollService.deletePoll(id);
+        if (!poll) {
             throw new NotFoundException(id);
         }
-
-        return this.pollService.deletePoll(id, existingPoll);
+        return poll;
     }
 
     @Post(':id/events')
