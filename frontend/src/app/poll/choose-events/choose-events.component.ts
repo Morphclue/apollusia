@@ -103,13 +103,13 @@ export class ChooseEventsComponent implements OnInit {
       this.checks = new Array(this.pollEvents.length).fill(CheckboxState.FALSE);
       this.editChecks = new Array(this.pollEvents.length).fill(CheckboxState.FALSE);
       this.bookedEvents = this.poll?.bookedEvents ? this.poll?.bookedEvents : [];
+      this.findBestOption();
     });
   }
 
   private fetchParticipants() {
     this.http.get<Participant[]>(`${environment.backendURL}/poll/${this.id}/participate`).subscribe(participants => {
       this.participants = participants.reverse();
-      this.findBestOption();
     });
   }
 
