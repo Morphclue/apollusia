@@ -188,4 +188,8 @@ export class PollService {
             token: mailDto.token,
         }).exec();
     }
+
+    async isAdmin(id: string, token: string) {
+        return this.pollModel.findById(id).exec().then(poll => poll.adminToken === token);
+    }
 }

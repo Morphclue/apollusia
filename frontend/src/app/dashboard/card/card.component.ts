@@ -1,7 +1,9 @@
 import {Component, Input, OnInit} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
 
 import {ReadPoll} from '../../model';
 import {TokenService} from '../../core/services';
+import {environment} from '../../../environments/environment';
 
 @Component({
   selector: 'app-card',
@@ -10,14 +12,25 @@ import {TokenService} from '../../core/services';
 })
 export class CardComponent implements OnInit {
   @Input() poll: ReadPoll | undefined;
+  isAdmin: boolean = false;
 
-  constructor(private tokenService: TokenService) {
+  constructor(
+    private http: HttpClient,
+    private tokenService: TokenService,
+  ) {
   }
 
   ngOnInit(): void {
+    this.checkAdmin();
   }
 
-  isAdmin() {
-    return this.poll?.adminToken === this.tokenService.getToken();
+  private checkAdmin() {
+    if (!this.poll) {
+      return;
+    }
+    const adminToken = this.tokenService.getToken();
+    this.http.get<boolean>(`${environment.backendURL}/poll/${this.poll._id}/admin/${adminToken}`).subscribe(isAdmin => {
+      this.isAdmin = isAdmin;
+    });
   }
 }

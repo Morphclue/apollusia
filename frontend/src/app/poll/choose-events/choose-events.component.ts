@@ -27,6 +27,7 @@ export class ChooseEventsComponent implements OnInit {
   bestOption: number = 1;
   bookedEvents: string[] = [];
   mail: string = '';
+  isAdmin: boolean = false;
   participants: Participant[] = [];
   participateForm = new FormGroup({
     name: new FormControl('', Validators.required),
@@ -50,6 +51,7 @@ export class ChooseEventsComponent implements OnInit {
   ngOnInit(): void {
     this.fetchPoll();
     this.fetchParticipants();
+    this.checkAdmin();
     this.mail = this.mailService.getMail();
   }
 
@@ -164,10 +166,6 @@ export class ChooseEventsComponent implements OnInit {
     return this.poll?.settings.maxParticipants && this.participants.length >= this.poll.settings.maxParticipants;
   }
 
-  isAdmin() {
-    return this.poll?.adminToken === this.getToken();
-  }
-
   userVoted() {
     return this.participants.some(participant => participant.token === this.getToken());
   }
@@ -210,5 +208,12 @@ export class ChooseEventsComponent implements OnInit {
 
   copyToClipboard() {
     navigator.clipboard.writeText(this.url).then().catch(e => console.log(e));
+  }
+
+  private checkAdmin() {
+    const adminToken = this.getToken();
+    this.http.get<boolean>(`${environment.backendURL}/poll/${this.id}/admin/${adminToken}`).subscribe(isAdmin => {
+      this.isAdmin = isAdmin;
+    });
   }
 }

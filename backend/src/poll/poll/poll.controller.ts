@@ -18,6 +18,11 @@ export class PollController {
         return this.pollService.getPolls(token);
     }
 
+    @Get(':id/admin/:token')
+    async isAdmin(@Param('id') id: string, @Param('token') token: string): Promise<boolean> {
+        return this.pollService.isAdmin(id, token);
+    }
+
     @Get(':id')
     async getPoll(@Param('id') id: string): Promise<Poll> {
         return this.pollService.getPoll(id);

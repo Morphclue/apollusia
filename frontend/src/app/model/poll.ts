@@ -4,7 +4,6 @@ export interface Poll {
   title: string;
   description?: string;
   location?: string;
-  adminToken: string;
   settings: Settings;
   bookedEvents?: string[];
   _id: string;

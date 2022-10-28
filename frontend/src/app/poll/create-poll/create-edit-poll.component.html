@@ -1,4 +1,4 @@
-<div *ngIf="!id || isAdmin()" class="container mt-3">
+<div *ngIf="!id || isAdmin" class="container mt-3">
   <form [formGroup]="pollForm" (ngSubmit)="onFormSubmit()">
     <div *ngIf="id" class="mb-3 d-flex justify-content-end">
       <button
