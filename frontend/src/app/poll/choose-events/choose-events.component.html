@@ -66,6 +66,7 @@
           <td *ngFor="let event of pollEvents; let n=index">
             <app-check-button
               *ngIf="!maxParticipantsReached(event)"
+              [poll]="poll"
               [check]="checks[n]"
               (checkChanged)="checks[n] = $event"
             ></app-check-button>
@@ -104,7 +105,7 @@
             </ng-container>
             <ng-container *ngIf="participant === editParticipant">
               <td *ngFor="let check of editChecks; let n=index">
-                <app-check-button [check]="check" (checkChanged)="editChecks[n] = $event"></app-check-button>
+                <app-check-button [poll]="poll" [check]="check" (checkChanged)="editChecks[n] = $event"></app-check-button>
               </td>
             </ng-container>
             <td *ngIf="participant === editParticipant" class="border-0 text-start">
