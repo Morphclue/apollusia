@@ -54,7 +54,7 @@ export class PollService {
         const poll = await this.pollModel.findById(id).exec();
         const pollEvents = await this.pollEventModel.find({poll: new Types.ObjectId(id)}).exec();
         const clonedPoll = await this.pollModel.create({
-            title: poll.title,
+            title: `${poll.title} (clone)`,
             description: poll.description,
             location: poll.location,
             adminToken: poll.adminToken,
