@@ -1,15 +1,15 @@
 <div class="container mt-3">
   <div class="d-flex align-items-center mb-3">
-      <div class="btn-group me-auto">
-        <div class="btn btn-primary" mwlCalendarPreviousView [view]="'week'" [(viewDate)]="viewDate">Previous</div>
-        <div class="btn btn-primary" mwlCalendarToday [(viewDate)]="viewDate" (click)="scrollToCurrentTime()">Today</div>
-        <div class="btn btn-primary" mwlCalendarNextView [view]="'week'" [(viewDate)]="viewDate">Next</div>
-      </div>
-      <div class="btn-group me-2">
-        <button type="button" class="btn btn-primary" routerLink="postpone">Postpone</button>
-        <button type="button" class="btn btn-primary" routerLink="custom-definition">Custom definition</button>
-      </div>
-      <h3 class="mb-0">{{ viewDate | calendarDate:('weekViewTitle') }}</h3>
+    <div class="btn-group me-auto">
+      <div class="btn btn-primary" mwlCalendarPreviousView [view]="'week'" [(viewDate)]="viewDate">Previous</div>
+      <div class="btn btn-primary" mwlCalendarToday [(viewDate)]="viewDate" (click)="scrollToCurrentTime()">Today</div>
+      <div class="btn btn-primary" mwlCalendarNextView [view]="'week'" [(viewDate)]="viewDate">Next</div>
+    </div>
+    <div class="btn-group me-2">
+      <button type="button" class="btn btn-primary" routerLink="postpone">Postpone</button>
+      <button type="button" class="btn btn-primary" routerLink="autofill">Autofill</button>
+    </div>
+    <h3 class="mb-0">{{ viewDate | calendarDate:('weekViewTitle') }}</h3>
   </div>
   <ng-template
     #weekViewHourSegmentTemplate
@@ -69,7 +69,7 @@
         <button ngbDropdownToggle type="button" class="btn-no-style" id="dropdownButton"></button>
         <div ngbDropdownMenu>
           <button ngbDropdownItem (click)="openNoteModal(noteContent, weekEvent.event)">Add Note</button>
-          <button ngbDropdownItem (click)="customDefinition(weekEvent.event)">Custom Definition</button>
+          <button ngbDropdownItem (click)="autofill(weekEvent.event)">Autofill</button>
           <button
             *ngIf="weekEvent.event.meta.note != undefined"
             ngbDropdownItem (click)="deleteNote(weekEvent.event)">Delete Note

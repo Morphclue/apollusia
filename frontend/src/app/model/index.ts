@@ -5,3 +5,4 @@ export * from './settings';
 export * from './token';
 export * from './statistics';
 export * from './mail';
+export * from './read-poll';

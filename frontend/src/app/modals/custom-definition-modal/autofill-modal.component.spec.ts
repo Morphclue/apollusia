@@ -1,18 +1,18 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import {CustomDefinitionModalComponent} from './custom-definition-modal.component';
+import {AutofillModalComponent} from './autofill-modal.component';
 
 describe('CustomDefinitionModalComponent', () => {
-  let component: CustomDefinitionModalComponent;
-  let fixture: ComponentFixture<CustomDefinitionModalComponent>;
+  let component: AutofillModalComponent;
+  let fixture: ComponentFixture<AutofillModalComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [CustomDefinitionModalComponent],
+      declarations: [AutofillModalComponent],
     })
       .compileComponents();
 
-    fixture = TestBed.createComponent(CustomDefinitionModalComponent);
+    fixture = TestBed.createComponent(AutofillModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

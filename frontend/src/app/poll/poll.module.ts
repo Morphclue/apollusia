@@ -13,14 +13,14 @@ import {ChooseDateComponent} from './choose-date/choose-date.component';
 import {ChooseDateService} from './services/choose-date.service';
 import {ChooseEventsComponent} from './choose-events/choose-events.component';
 import {SomePipe} from '../pipes';
-import {CustomDefinitionModalComponent, PostponeModalComponent} from '../modals';
+import {AutofillModalComponent, PostponeModalComponent} from '../modals';
 
 @NgModule({
   declarations: [
     CreateEditPollComponent,
     ChooseDateComponent,
     ChooseEventsComponent,
-    CustomDefinitionModalComponent,
+    AutofillModalComponent,
     PostponeModalComponent,
     SomePipe,
   ],

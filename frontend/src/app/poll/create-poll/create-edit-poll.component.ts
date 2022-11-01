@@ -21,6 +21,7 @@ export class CreateEditPollComponent implements OnInit {
   id: string = '';
   poll?: Poll;
   minDate = new Date();
+  isAdmin: boolean = false;
   pollForm = new FormGroup({
     title: new FormControl('', Validators.required),
     description: new FormControl(''),
@@ -52,12 +53,13 @@ export class CreateEditPollComponent implements OnInit {
 
   ngOnInit(): void {
     this.fetchPoll();
+    this.checkAdmin();
   }
 
   onFormSubmit(): void {
     const pollForm = this.pollForm.value;
     const deadline = pollForm.deadlineDate ? new Date(pollForm.deadlineDate + ' ' + (pollForm.deadlineTime || '00:00')) : undefined;
-    const createPollDto: CreatePollDto = {
+    const createPollDto: CreatePollDto & { adminToken: string } = {
       title: pollForm.title!,
       description: pollForm.description ? pollForm.description : '',
       location: pollForm.location ? pollForm.location : '',
@@ -137,7 +139,14 @@ export class CreateEditPollComponent implements OnInit {
     });
   }
 
-  isAdmin() {
-    return this.poll?.adminToken === this.tokenService.getToken();
+  private checkAdmin() {
+    if (!this.id) {
+      return;
+    }
+
+    const adminToken = this.tokenService.getToken();
+    this.http.get<boolean>(`${environment.backendURL}/poll/${this.id}/admin/${adminToken}`).subscribe(isAdmin => {
+      this.isAdmin = isAdmin;
+    });
   }
 }

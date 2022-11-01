@@ -5,11 +5,11 @@
   <ng-container modal-body>
     <div class="mb-3">
       <label for="days">Days</label>
-      <input type="number" class="form-control" id="days" [(ngModel)]="postponeDays" min="0">
+      <input type="number" class="form-control" id="days" [(ngModel)]="postponeDays">
     </div>
   </ng-container>
   <ng-container modal-footer>
     <button type="button" class="btn btn-outline-secondary" (click)="modal.close()">Cancel</button>
-    <button class="btn btn-primary" (click)="apply()">Apply</button>
+    <button class="btn btn-primary" (click)="apply(); modal.close()">Apply</button>
   </ng-container>
 </ngbx-modal>

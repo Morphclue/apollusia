@@ -28,6 +28,7 @@ export class ChooseEventsComponent implements OnInit {
   bestOption: number = 1;
   bookedEvents: string[] = [];
   mail: string = '';
+  isAdmin: boolean = false;
   participants: Participant[] = [];
   participateForm = new FormGroup({
     name: new FormControl('', Validators.required),
@@ -52,6 +53,7 @@ export class ChooseEventsComponent implements OnInit {
   ngOnInit(): void {
     this.fetchPoll();
     this.fetchParticipants();
+    this.checkAdmin();
     this.mail = this.mailService.getMail();
   }
 
@@ -84,33 +86,33 @@ export class ChooseEventsComponent implements OnInit {
   }
 
   private fetchPoll() {
-    this.http.get<Poll>(`${environment.backendURL}/poll/${this.id}`).subscribe(poll => {
+    this.http.get<Poll>(`${environment.backendURL}/poll/${this.id}`).subscribe(async poll => {
+      this.poll = poll;
       this.title.setTitle(poll.title);
-
-      if (!poll.events) {
-        return;
-      }
+      await this.fetchPollEvents();
 
       if (poll.settings.anonymous) {
         this.participateForm.get('name')?.removeValidators(Validators.required);
         this.participateForm.get('name')?.updateValueAndValidity();
       }
+    });
+  }
 
-      this.poll = poll;
-      this.pollEvents = poll.events.sort((a, b) => {
+  private async fetchPollEvents() {
+    await this.http.get<PollEvent[]>(`${environment.backendURL}/poll/${this.id}/events`).subscribe(events => {
+      this.pollEvents = events.sort((a, b) => {
         return new Date(a.start).getTime() - new Date(b.start).getTime();
       });
-
-      this.checks = new Array(poll.events.length).fill(CheckboxState.FALSE);
-      this.editChecks = new Array(poll.events.length).fill(CheckboxState.FALSE);
-      this.bookedEvents = poll.bookedEvents ? poll.bookedEvents : [];
+      this.checks = new Array(this.pollEvents.length).fill(CheckboxState.FALSE);
+      this.editChecks = new Array(this.pollEvents.length).fill(CheckboxState.FALSE);
+      this.bookedEvents = this.poll?.bookedEvents ? this.poll?.bookedEvents : [];
+      this.findBestOption();
     });
   }
 
   private fetchParticipants() {
     this.http.get<Participant[]>(`${environment.backendURL}/poll/${this.id}/participate`).subscribe(participants => {
       this.participants = participants.reverse();
-      this.findBestOption();
     });
   }
 
@@ -167,17 +169,13 @@ export class ChooseEventsComponent implements OnInit {
     return this.poll?.settings.maxParticipants && this.participants.length >= this.poll.settings.maxParticipants;
   }
 
-  isAdmin() {
-    return this.poll?.adminToken === this.getToken();
-  }
-
   userVoted() {
     return this.participants.some(participant => participant.token === this.getToken());
   }
 
   private findBestOption() {
-    if (this.poll?.events) {
-      this.bestOption = Math.max(...this.poll.events.map(event => this.countParticipants(event))) || 1;
+    if (this.pollEvents) {
+      this.bestOption = Math.max(...this.pollEvents.map(event => this.countParticipants(event))) || 1;
     }
   }
 
@@ -213,5 +211,12 @@ export class ChooseEventsComponent implements OnInit {
 
   copyToClipboard() {
     navigator.clipboard.writeText(this.url).then().catch(e => console.log(e));
+  }
+
+  private checkAdmin() {
+    const adminToken = this.getToken();
+    this.http.get<boolean>(`${environment.backendURL}/poll/${this.id}/admin/${adminToken}`).subscribe(isAdmin => {
+      this.isAdmin = isAdmin;
+    });
   }
 }

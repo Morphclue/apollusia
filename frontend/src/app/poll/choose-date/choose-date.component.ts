@@ -151,9 +151,9 @@ export class ChooseDateComponent implements AfterViewInit {
     event.meta.note = undefined;
   }
 
-  customDefinition(event: CalendarEvent) {
-    this.chooseDateService.customDefinitionEvent = event;
-    this.router.navigate(['custom-definition'], {relativeTo: this.activatedRoute}).then();
+  autofill(event: CalendarEvent) {
+    this.chooseDateService.autofillEvent = event;
+    this.router.navigate(['autofill'], {relativeTo: this.activatedRoute}).then();
   }
 
   private updateTime(event: CalendarEvent) {

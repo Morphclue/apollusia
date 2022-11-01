@@ -7,7 +7,7 @@
             <h5 class="card-title">{{poll.title}}</h5>
             <div class="d-flex">
               <a class="btn btn-flash-border-primary bi-person" href="poll/{{poll._id}}/participate"> View</a>
-              <a *ngIf="isAdmin()"
+              <a *ngIf="isAdmin"
                  class="btn btn-flash-border-primary bi-pencil-square"
                  href="poll/{{poll._id}}">
                 Edit
@@ -19,11 +19,17 @@
           <p class="card-text">{{poll.description | truncate:[160, '...']}}</p>
         </div>
         <div class="card-footer">
-          <div *ngIf="poll.settings.deadline">
-            <i class="bi-calendar"></i> Deadline: {{poll.settings.deadline | date:'medium'}}
+          <div *ngIf="poll.settings.deadline" class="bi-calendar">
+            Deadline: {{poll.settings.deadline | date:'medium'}}
           </div>
-          <div *ngIf="poll.events" class="card-text">
-            <i class="bi-check"></i> Options: {{poll.events.length}}
+          <div *ngIf="poll.location" class="bi-geo">
+            Location: {{poll.location}}
+          </div>
+          <div class="bi-check">
+            Options: {{poll.events}}
+          </div>
+          <div class="bi-person">
+            Participants: {{poll.participants}}
           </div>
         </div>
       </div>
