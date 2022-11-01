@@ -1,21 +1,21 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 
-import {CreateEditPollComponent} from './create-poll/create-edit-poll.component';
+import {AutofillModalComponent, PostponeModalComponent} from '../modals';
 import {ChooseDateComponent} from './choose-date/choose-date.component';
 import {ChooseEventsComponent} from './choose-events/choose-events.component';
-import {AutofillModalComponent, PostponeModalComponent} from '../modals';
+import {CreateEditPollComponent} from './create-poll/create-edit-poll.component';
 
 const routes: Routes = [
-  {path: 'create', component: CreateEditPollComponent},
-  {path: ':id', component: CreateEditPollComponent},
+  {path: 'create', component: CreateEditPollComponent, title: 'Create Poll | Apollusia'},
+  {path: ':id', component: CreateEditPollComponent, title: 'Edit Poll | Apollusia'},
   {
-    path: ':id/date', component: ChooseDateComponent, children: [
-      {path: 'autofill', component: AutofillModalComponent},
-      {path: 'postpone', component: PostponeModalComponent},
+    path: ':id/date', component: ChooseDateComponent, title: 'Choose Dates | Apollusia', children: [
+      {path: 'autofill', component: AutofillModalComponent, title: 'Autofill | Apollusia'},
+      {path: 'postpone', component: PostponeModalComponent, title: 'Postpone | Apollusia'},
     ],
   },
-  {path: ':id/participate', component: ChooseEventsComponent},
+  {path: ':id/participate', component: ChooseEventsComponent, title: 'Poll | Apollusia'},
 ];
 
 @NgModule({
