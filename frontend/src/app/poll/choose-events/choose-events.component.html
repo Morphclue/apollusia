@@ -154,13 +154,13 @@
         <tr *ngIf="isAdmin()">
           <th>Select Events</th>
           <td *ngFor="let pollEvent of pollEvents">
-            <div class="d-flex justify-content-center">
-              <button class="btn" type="button" (click)="selectEvent(pollEvent._id)">
-                <i *ngIf="pollEvent._id && !bookedEvents.includes(pollEvent._id)" class="bi-star primary-color"></i>
-                <i *ngIf="pollEvent._id && bookedEvents.includes(pollEvent._id)"
-                   class="bi-star-fill primary-color"></i>
-              </button>
-            </div>
+            <button
+              type="button"
+              class="btn text-primary"
+              [class.bi-star-fill]="pollEvent._id && bookedEvents.includes(pollEvent._id)"
+              [class.bi-star]="pollEvent._id && !bookedEvents.includes(pollEvent._id)"
+              (click)="selectEvent(pollEvent._id)"
+            ></button>
           </td>
           <td class="border-0 text-start">
             <button
