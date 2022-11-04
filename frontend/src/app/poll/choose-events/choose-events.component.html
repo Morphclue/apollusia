@@ -10,7 +10,7 @@
     <h3>{{poll?.title}}</h3>
     <div *ngIf="poll && poll.location">
       <h3>
-        <i class="bi-geo primary-color" placement="top" ngbTooltip="Location"></i>
+        <i class="bi-geo text-primary" placement="top" ngbTooltip="Location"></i>
         {{ poll.location }}
       </h3>
     </div>
@@ -37,7 +37,7 @@
     </p>
   </div>
   <div *ngIf="pollEvents" class="table-responsive text-center">
-    <form class="m-5" [formGroup]="participateForm" (ngSubmit)="onFormSubmit()">
+    <form [formGroup]="participateForm" (ngSubmit)="onFormSubmit()">
       <table class="table table-transpose">
         <thead>
         <tr>

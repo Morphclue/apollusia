@@ -1,5 +1,5 @@
 .table-responsive td, .table-responsive th {
-  width: 100px;
+  min-width: 100px;
 }
 
 .p-check {
@@ -13,10 +13,6 @@
 
 .p-unchecked {
   background-color: #e0aaffff;
-}
-
-.primary-color {
-  color: #7b2cbf;
 }
 
 .scroll-container {

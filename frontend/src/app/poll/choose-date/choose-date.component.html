@@ -60,7 +60,7 @@
       [view]="daysInWeek === 1 ? 'day' : 'week'"
     ></mwl-calendar-event-title>
     <i *ngIf="weekEvent.event.meta.note != undefined && weekEvent.event.meta.note.length > 0"
-       class="bi-sticky-fill primary-color"
+       class="bi-sticky-fill text-primary"
        placement="top"
        ngbTooltip="{{weekEvent.event.meta.note}}"
     ></i>
