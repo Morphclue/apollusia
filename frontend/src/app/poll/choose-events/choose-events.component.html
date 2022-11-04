@@ -59,7 +59,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr *ngIf="!isFull()">
+        <tr *ngIf="!isFull(); else fullAlert">
           <th style="min-width: 240px" scope="row">
             <input *ngIf="!poll?.settings?.anonymous"
                    class="form-control"
@@ -89,6 +89,16 @@
             <button class="btn btn-primary btn-sm" type="submit" [disabled]="!participateForm.valid">Submit</button>
           </th>
         </tr>
+        <ng-template #fullAlert>
+          <tr>
+            <td [colSpan]="2 + pollEvents.length">
+              <div class="alert alert-info">
+                This poll has reached it's maximum number of participants.
+                You can no longer submit your vote.
+              </div>
+            </td>
+          </tr>
+        </ng-template>
         <ng-container *ngIf="!poll?.settings?.blindParticipation || isAdmin || userVoted(); else blindAlert">
           <tr *ngFor="let participant of participants">
             <th>
