@@ -8,10 +8,10 @@
   <h1 class="text-center">
     {{poll?.title}}
   </h1>
-  <table>
+  <table class="mb-3">
     <tr *ngIf="poll?.location as location">
       <th>
-        <i class="bi-geo text-primary fs-3 me-2" ngbTooltip="Location"></i>
+        <i class="bi-geo text-primary fs-4 me-2" ngbTooltip="Location"></i>
       </th>
       <td>
         {{ location }}
@@ -19,7 +19,7 @@
     </tr>
     <tr *ngIf="poll?.settings?.deadline as deadline">
       <th>
-        <i class="bi-calendar text-primary fs-3 me-2" ngbTooltip="Deadline"></i>
+        <i class="bi-calendar text-primary fs-4 me-2" ngbTooltip="Deadline"></i>
       </th>
       <td>
         {{ deadline | date: 'medium' }}
@@ -27,7 +27,7 @@
     </tr>
     <tr *ngIf="poll?.description as description">
       <th>
-        <i class="bi-file-text text-primary fs-3 me-2" ngbTooltip="Description"></i>
+        <i class="bi-file-text text-primary fs-4 me-2" ngbTooltip="Description"></i>
       </th>
       <td>
         {{ description }}
@@ -35,12 +35,10 @@
     </tr>
     <tr>
       <th>
-        <i class="bi-link text-primary fs-3 me-2" ngbTooltip="Link"></i>
+        <i class="bi-link text-primary fs-4 me-2" ngbTooltip="Link"></i>
       </th>
       <td>
-        <a [href]="url">
-          {{ url }}
-        </a>
+        <a [href]="url">{{ url }}</a>
         <button class="btn btn-link bi-clipboard" ngbTooltip="Copy to clipboard" (click)="copyToClipboard()"></button>
       </td>
     </tr>

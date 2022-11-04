@@ -15,14 +15,6 @@
   background-color: #e0aaffff;
 }
 
-.scroll-container {
-  box-shadow: 0 0 15px rgba(0, 0, 0, .1);
-  height: 8rem;
-  overflow-y: scroll;
-  border: 1px solid #7b2cbf;
-  white-space: pre-wrap;
-}
-
 @media (min-width: 768px) {
   th:first-child, th:last-child,
   td:first-child, td:last-child {
