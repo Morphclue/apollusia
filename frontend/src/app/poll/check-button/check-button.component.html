@@ -1,7 +1,14 @@
-<input
-  type="checkbox"
-  [checked]="check !== 'false'"
-  [indeterminate]="check === 'indeterminate'"
-  class="form-check-input"
-  (change)="toggle()"
+<span
+  class="d-inline-block"
+  tabindex="0"
+  [ngbTooltip]="isFull ? 'This option has reached it\'s maximum number of participants' : null"
 >
+  <input
+    type="checkbox"
+    [disabled]="isFull"
+    [checked]="check !== 'false'"
+    [indeterminate]="check === 'indeterminate'"
+    class="form-check-input"
+    (change)="toggle()"
+  >
+</span>

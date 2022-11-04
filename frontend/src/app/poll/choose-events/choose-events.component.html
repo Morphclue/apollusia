@@ -58,9 +58,9 @@
           </th>
           <td *ngFor="let event of pollEvents; let n=index">
             <app-check-button
-              *ngIf="!maxParticipantsReached(event)"
               [poll]="poll"
               [check]="checks[n]"
+              [isFull]="maxParticipantsReached(event)"
               (checkChanged)="checks[n] = $event"
             ></app-check-button>
           </td>
