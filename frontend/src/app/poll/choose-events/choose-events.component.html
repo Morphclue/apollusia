@@ -89,7 +89,7 @@
             <button class="btn btn-primary btn-sm" type="submit" [disabled]="!participateForm.valid">Submit</button>
           </th>
         </tr>
-        <ng-container *ngIf="!poll?.settings?.blindParticipation || isAdmin || userVoted()">
+        <ng-container *ngIf="!poll?.settings?.blindParticipation || isAdmin || userVoted(); else blindAlert">
           <tr *ngFor="let participant of participants">
             <th>
               <div *ngIf="poll?.settings?.anonymous">
@@ -160,20 +160,29 @@
               </button>
             </td>
           </tr>
+          <tr>
+            <th>Sum</th>
+            <td *ngFor="let pollEvent of pollEvents">
+              <div *ngIf="bestOption === countParticipants(pollEvent)" class="p-unchecked">
+                <i class="bi-award"></i>
+                {{ countParticipants(pollEvent) }}
+              </div>
+              <div *ngIf="bestOption !== countParticipants(pollEvent)">
+                {{ countParticipants(pollEvent) }}
+              </div>
+            </td>
+            <td class="border-0"></td>
+          </tr>
         </ng-container>
-        <tr *ngIf="!poll?.settings?.blindParticipation || isAdmin || userVoted()">
-          <th>Sum</th>
-          <td *ngFor="let pollEvent of pollEvents">
-            <div *ngIf="bestOption === countParticipants(pollEvent)" class="p-unchecked">
-              <i class="bi-award"></i>
-              {{ countParticipants(pollEvent) }}
-            </div>
-            <div *ngIf="bestOption !== countParticipants(pollEvent)">
-              {{ countParticipants(pollEvent) }}
-            </div>
-          </td>
-          <td class="border-0"></td>
-        </tr>
+        <ng-template #blindAlert>
+          <tr>
+            <td [colSpan]="2 + pollEvents.length">
+              <div class="alert alert-info">
+                This is a blind poll. You can't see results or other user's votes until you participate yourself.
+              </div>
+            </td>
+          </tr>
+        </ng-template>
         <tr *ngIf="isAdmin">
           <th>Select Events</th>
           <td *ngFor="let pollEvent of pollEvents">
