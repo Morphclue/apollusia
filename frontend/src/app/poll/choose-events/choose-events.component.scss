@@ -1,5 +1,5 @@
 .table-responsive td, .table-responsive th {
-  min-width: 100px;
+  width: 100px;
 }
 
 .p-check {
@@ -27,14 +27,20 @@
   white-space: pre-wrap;
 }
 
-th:first-child, td:first-child {
-  position: sticky;
-  left: 0;
-  background-color: white;
-}
+@media (min-width: 768px) {
+  th:first-child, th:last-child,
+  td:first-child, td:last-child {
+    position: sticky;
+    backdrop-filter: blur(5px);
+  }
 
-th:last-child, td:last-child {
-  position: sticky;
-  right: 0;
-  background-color: white;
+  th:first-child, td:first-child {
+    background: linear-gradient(90deg, white, rgba(white, 0.75));
+    left: 0;
+  }
+
+  th:last-child, td:last-child {
+    background: linear-gradient(90deg, rgba(white, 0.75), white);
+    right: 0;
+  }
 }
