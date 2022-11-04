@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
+import {Title} from '@angular/platform-browser';
 import {ActivatedRoute, Router} from '@angular/router';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {ToastService} from 'ng-bootstrap-ext';
@@ -27,6 +28,7 @@ export class ChooseEventsComponent implements OnInit {
   bestOption: number = 1;
   bookedEvents: string[] = [];
   mail: string = '';
+  isAdmin: boolean = false;
   participants: Participant[] = [];
   participateForm = new FormGroup({
     name: new FormControl('', Validators.required),
@@ -40,6 +42,7 @@ export class ChooseEventsComponent implements OnInit {
     private tokenService: TokenService,
     private mailService: MailService,
     private toastService: ToastService,
+    private title: Title,
   ) {
     const id: Observable<string> = route.params.pipe(map(p => p.id));
     id.subscribe((id: string) => {
@@ -50,6 +53,7 @@ export class ChooseEventsComponent implements OnInit {
   ngOnInit(): void {
     this.fetchPoll();
     this.fetchParticipants();
+    this.checkAdmin();
     this.mail = this.mailService.getMail();
   }
 
@@ -72,6 +76,7 @@ export class ChooseEventsComponent implements OnInit {
   private fetchPoll() {
     this.http.get<Poll>(`${environment.backendURL}/poll/${this.id}`).subscribe(async poll => {
       this.poll = poll;
+      this.title.setTitle(poll.title);
       await this.fetchPollEvents();
 
       if (poll.settings.anonymous) {
@@ -89,13 +94,13 @@ export class ChooseEventsComponent implements OnInit {
       this.checks = new Array(this.pollEvents.length).fill(CheckboxState.FALSE);
       this.editChecks = new Array(this.pollEvents.length).fill(CheckboxState.FALSE);
       this.bookedEvents = this.poll?.bookedEvents ? this.poll?.bookedEvents : [];
+      this.findBestOption();
     });
   }
 
   private fetchParticipants() {
     this.http.get<Participant[]>(`${environment.backendURL}/poll/${this.id}/participate`).subscribe(participants => {
       this.participants = participants.reverse();
-      this.findBestOption();
     });
   }
 
@@ -152,10 +157,6 @@ export class ChooseEventsComponent implements OnInit {
     return this.poll?.settings.maxParticipants && this.participants.length >= this.poll.settings.maxParticipants;
   }
 
-  isAdmin() {
-    return this.poll?.adminToken === this.getToken();
-  }
-
   userVoted() {
     return this.participants.some(participant => participant.token === this.getToken());
   }
@@ -198,5 +199,12 @@ export class ChooseEventsComponent implements OnInit {
 
   copyToClipboard() {
     navigator.clipboard.writeText(this.url).then().catch(e => console.log(e));
+  }
+
+  private checkAdmin() {
+    const adminToken = this.getToken();
+    this.http.get<boolean>(`${environment.backendURL}/poll/${this.id}/admin/${adminToken}`).subscribe(isAdmin => {
+      this.isAdmin = isAdmin;
+    });
   }
 }

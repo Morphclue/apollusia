@@ -1,7 +1,7 @@
 <div class="form-group">
   <label for="token">Token</label>
   <div class="input-group">
-    <input class="form-control" id="token" [class.blurred]="!visible" type="text" [(ngModel)]="input"
+    <input class="form-control" id="token" autocomplete="off" [class.blurred]="!visible" type="text" [(ngModel)]="input"
            (ngModelChange)="changed()">
     <button
       class="btn btn-outline-secondary"

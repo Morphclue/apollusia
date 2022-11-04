@@ -3,7 +3,7 @@ import {Body, Controller, Delete, Get, NotFoundException, Param, Post, Put} from
 import {PollService} from './poll.service';
 import {MailDto, ParticipantDto, PollDto, PollEventDto} from '../../dto';
 import {Participant, Poll, PollEvent} from '../../schema';
-import {ReadPollDto} from '../../dto/read-poll.dto';
+import {ReadPollDto, ReadStatsPollDto} from '../../dto/read-poll.dto';
 
 @Controller('poll')
 export class PollController {
@@ -11,40 +11,46 @@ export class PollController {
     }
 
     @Get('all/:token')
-    async getPolls(@Param('token') token: string): Promise<ReadPollDto[]> {
+    async getPolls(@Param('token') token: string): Promise<ReadStatsPollDto[]> {
         if (!token) {
             return [];
         }
+
         return this.pollService.getPolls(token);
     }
 
+    @Get(':id/admin/:token')
+    async isAdmin(@Param('id') id: string, @Param('token') token: string): Promise<boolean> {
+        return this.pollService.isAdmin(id, token);
+    }
+
     @Get(':id')
-    async getPoll(@Param('id') id: string): Promise<Poll> {
+    async getPoll(@Param('id') id: string): Promise<ReadPollDto> {
         return this.pollService.getPoll(id);
     }
 
     @Post()
-    async postPoll(@Body() pollDto: PollDto): Promise<Poll> {
+    async postPoll(@Body() pollDto: PollDto): Promise<ReadPollDto> {
         return this.pollService.postPoll(pollDto);
     }
 
+    @Put(':id')
+    async putPoll(@Param('id') id: string, @Body() pollDto: PollDto): Promise<ReadPollDto> {
+        return this.pollService.putPoll(id, pollDto);
+    }
+
     @Post(':id/clone')
-    async clonePoll(@Param('id') id: string): Promise<Poll> {
+    async clonePoll(@Param('id') id: string): Promise<ReadPollDto> {
         const poll = await this.pollService.getPoll(id);
         if (!poll) {
             throw new NotFoundException(id);
         }
 
-        return this.pollService.clonePoll(id, poll);
-    }
-
-    @Put(':id')
-    async putPoll(@Param('id') id: string, @Body() pollDto: PollDto): Promise<Poll> {
-        return this.pollService.putPoll(id, pollDto);
+        return this.pollService.clonePoll(id);
     }
 
     @Delete(':id')
-    async deletePoll(@Param('id') id: string): Promise<Poll | undefined> {
+    async deletePoll(@Param('id') id: string): Promise<ReadPollDto | undefined> {
         const poll = await this.pollService.deletePoll(id);
         if (!poll) {
             throw new NotFoundException(id);
@@ -70,7 +76,7 @@ export class PollController {
             throw new NotFoundException(id);
         }
 
-        return this.pollService.postEvents(id, poll, pollEvents);
+        return this.pollService.postEvents(id, pollEvents);
     }
 
     @Get(':id/participate')
@@ -106,12 +112,12 @@ export class PollController {
     }
 
     @Post(':id/book')
-    async bookEvents(@Param('id') id: string, @Body() events: string[]): Promise<Poll> {
-        const existingPoll = await this.pollService.getPoll(id);
-        if (!existingPoll) {
+    async bookEvents(@Param('id') id: string, @Body() events: string[]): Promise<ReadPollDto> {
+        const poll = await this.pollService.getPoll(id);
+        if (!poll) {
             throw new NotFoundException(id);
         }
 
-        return this.pollService.bookEvents(id, existingPoll, events);
+        return this.pollService.bookEvents(id, events);
     }
 }

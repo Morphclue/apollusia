@@ -7,7 +7,7 @@
             <h5 class="card-title">{{poll.title}}</h5>
             <div class="d-flex">
               <a class="btn btn-flash-border-primary bi-person" href="poll/{{poll._id}}/participate"> View</a>
-              <a *ngIf="isAdmin()"
+              <a *ngIf="isAdmin"
                  class="btn btn-flash-border-primary bi-pencil-square"
                  href="poll/{{poll._id}}">
                 Edit

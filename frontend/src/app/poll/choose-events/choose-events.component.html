@@ -75,7 +75,7 @@
             <button class="btn btn-primary btn-sm" type="submit" [disabled]="!participateForm.valid">Submit</button>
           </th>
         </tr>
-        <ng-container *ngIf="!poll?.settings?.blindParticipation || isAdmin() || userVoted()">
+        <ng-container *ngIf="!poll?.settings?.blindParticipation || isAdmin || userVoted()">
           <tr *ngFor="let participant of participants">
             <th>
               <div *ngIf="poll?.settings?.anonymous">
@@ -126,7 +126,7 @@
                 <i class="bi-pencil"></i>
               </button>
               <button
-                *ngIf="isAdmin() || getToken() === participant.token"
+                *ngIf="isAdmin || getToken() === participant.token"
                 class="btn btn-sm btn-danger ms-1"
                 type="button"
                 placement="top"
@@ -138,7 +138,7 @@
             </td>
           </tr>
         </ng-container>
-        <tr *ngIf="!poll?.settings?.blindParticipation || isAdmin() || userVoted()">
+        <tr *ngIf="!poll?.settings?.blindParticipation || isAdmin || userVoted()">
           <th>Sum</th>
           <td *ngFor="let pollEvent of pollEvents">
             <div *ngIf="bestOption === countParticipants(pollEvent)" class="p-unchecked">
@@ -151,7 +151,7 @@
           </td>
           <td class="border-0"></td>
         </tr>
-        <tr *ngIf="isAdmin()">
+        <tr *ngIf="isAdmin">
           <th>Select Events</th>
           <td *ngFor="let pollEvent of pollEvents">
             <button
