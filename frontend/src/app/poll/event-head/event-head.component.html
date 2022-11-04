@@ -1,0 +1,19 @@
+<span class="d-md-block">
+  {{ event.start | date:'E' }}
+</span>
+<i *ngIf="event.note"
+   class="d-md-block bi-sticky-fill text-primary"
+   placement="top"
+   ngbTooltip="{{event.note}}"></i>
+<span class="d-md-block md-h3 fw-bold">
+  {{ event.start | date:'d' }}
+</span>
+<span class="d-md-block text-muted ">
+  {{ event.start | date:'MMM' }}
+</span>
+<span class="d-md-block">
+  {{ event.start | date:'HH:mm' }}-
+</span>
+<span class="d-md-block">
+  {{ event.end | date:'HH:mm' }}
+</span>

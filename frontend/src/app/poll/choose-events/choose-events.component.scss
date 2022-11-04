@@ -1,12 +1,3 @@
-h3 {
-  padding: 0;
-  margin: 0;
-}
-
-.month-text {
-  color: gray;
-}
-
 .table-responsive td, .table-responsive th {
   min-width: 100px;
 }
@@ -24,38 +15,20 @@ h3 {
   background-color: #e0aaffff;
 }
 
-.button-checked {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #7b2cbf;
-  border-color: #7b2cbf;
-}
+@media (min-width: 768px) {
+  th:first-child, th:last-child,
+  td:first-child, td:last-child {
+    position: sticky;
+    backdrop-filter: blur(5px);
+  }
 
-.button-icon {
-  color: white;
-}
+  th:first-child, td:first-child {
+    background: linear-gradient(90deg, white, rgba(white, 0.75));
+    left: 0;
+  }
 
-.primary-color {
-  color: #7b2cbf;
-}
-
-.scroll-container {
-  box-shadow: 0 0 15px rgba(0, 0, 0, .1);
-  height: 8rem;
-  overflow-y: scroll;
-  border: 1px solid #7b2cbf;
-  white-space: pre-wrap;
-}
-
-th:first-child, td:first-child {
-  position: sticky;
-  left: 0;
-  background-color: white;
-}
-
-th:last-child, td:last-child {
-  position: sticky;
-  right: 0;
-  background-color: white;
+  th:last-child, td:last-child {
+    background: linear-gradient(90deg, rgba(white, 0.75), white);
+    right: 0;
+  }
 }

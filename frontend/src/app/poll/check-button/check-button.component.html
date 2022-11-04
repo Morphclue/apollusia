@@ -1,0 +1,7 @@
+<input
+  type="checkbox"
+  [checked]="check !== 'false'"
+  [indeterminate]="check === 'indeterminate'"
+  class="form-check-input"
+  (change)="toggle()"
+>
