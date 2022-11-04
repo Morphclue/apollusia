@@ -38,7 +38,7 @@
   </div>
   <div *ngIf="pollEvents" class="table-responsive text-center">
     <form [formGroup]="participateForm" (ngSubmit)="onFormSubmit()">
-      <table class="table table-transpose">
+      <table class="table align-middle">
         <thead>
         <tr>
           <th scope="col"></th>
@@ -49,7 +49,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr *ngIf="!isFull()" class="align-middle">
+        <tr *ngIf="!isFull()">
           <th style="min-width: 240px" scope="row">
             <input *ngIf="!poll?.settings?.anonymous"
                    class="form-control"
@@ -76,7 +76,7 @@
           </th>
         </tr>
         <ng-container *ngIf="!poll?.settings?.blindParticipation || isAdmin() || userVoted()">
-          <tr *ngFor="let participant of participants" class="align-middle">
+          <tr *ngFor="let participant of participants">
             <th>
               <div *ngIf="poll?.settings?.anonymous">
                 Anonymous
