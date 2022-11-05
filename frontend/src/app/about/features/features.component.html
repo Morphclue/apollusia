@@ -3,154 +3,25 @@
     <thead class="bg-primary text-light">
     <tr>
       <th scope="col">Feature</th>
-      <th scope="col">Doodle</th>
-      <th scope="col">Apollusia</th>
+      <th scope="col" *ngFor="let app of apps">{{ app }}</th>
     </tr>
     </thead>
     <tbody>
-    <tr>
-      <th scope="row">Anonymous participation</th>
-      <th scope="row" class="p-0">
-        <div class="bg-success text-light">
-          <i class="bi-check-lg icon"></i>
-        </div>
-      </th>
-      <th scope="row" class="p-0">
-        <div class="bg-success text-light">
-          <i class="bi-check-lg icon"></i>
-        </div>
-      </th>
-    </tr>
-    <tr>
-      <th scope="row">Participation limit</th>
-      <th scope="row" class="p-0">
-        <div class="bg-success text-light">
-          <i class="bi-check-lg icon"></i>
-        </div>
-      </th>
-      <th scope="row" class="p-0">
-        <div class="bg-success text-light">
-          <i class="bi-check-lg icon"></i>
-        </div>
-      </th>
-    </tr>
-    <tr>
-      <th scope="row">Editing participation</th>
-      <th scope="row" class="p-0">
-        <div class="bg-success text-light">
-          <i class="bi-check-lg icon"></i>
-        </div>
-      </th>
-      <th scope="row" class="p-0">
-        <div class="bg-success text-light">
-          <i class="bi-check-lg icon"></i>
-        </div>
-      </th>
-    </tr>
-    <tr>
-      <th scope="row">Deadline</th>
-      <th scope="row" class="p-0">
-        <div class="bg-warning" placement="left" ngbTooltip="Paid option">
-          <i class="bi-flag icon"></i>
-        </div>
-      </th>
-      <th scope="row" class="p-0">
-        <div class="bg-success text-light">
-          <i class="bi-check-lg icon"></i>
-        </div>
-      </th>
-    </tr>
-    <tr>
-      <th scope="row">Maybe-option</th>
-      <th scope="row" class="p-0">
-        <div class="bg-warning" placement="left" ngbTooltip="Not adjustable">
-          <i class="bi-flag icon"></i>
-        </div>
-      </th>
-      <th scope="row" class="p-0">
-        <div class="bg-success text-light">
-          <i class="bi-check-lg icon"></i>
-        </div>
-      </th>
-    </tr>
-    <tr>
-      <th scope="row">Events of varying length</th>
-      <th scope="row" class="p-0">
-        <div class="bg-danger">
-          <i class="bi-x-lg icon"></i>
-        </div>
-      </th>
-      <th scope="row" class="p-0">
-        <div class="bg-success text-light">
-          <i class="bi-check-lg icon"></i>
-        </div>
-      </th>
-    </tr>
-    <tr>
-      <th scope="row">Blind participation</th>
-      <th scope="row" class="p-0">
-        <div class="bg-danger">
-          <i class="bi-x-lg icon"></i>
-        </div>
-      </th>
-      <th scope="row" class="p-0">
-        <div class="bg-success text-light">
-          <i class="bi-check-lg icon"></i>
-        </div>
-      </th>
-    </tr>
-    <tr>
-      <th scope="row">Autofill</th>
-      <th scope="row" class="p-0">
-        <div class="bg-danger">
-          <i class="bi-x-lg icon"></i>
-        </div>
-      </th>
-      <th scope="row" class="p-0">
-        <div class="bg-success text-light">
-          <i class="bi-check-lg icon"></i>
-        </div>
-      </th>
-    </tr>
-    <tr>
-      <th scope="row">Event Notes</th>
-      <th scope="row" class="p-0">
-        <div class="bg-danger">
-          <i class="bi-x-lg icon"></i>
-        </div>
-      </th>
-      <th scope="row" class="p-0">
-        <div class="bg-success text-light">
-          <i class="bi-check-lg icon"></i>
-        </div>
-      </th>
-    </tr>
-    <tr>
-      <th scope="row">Cloning polls</th>
-      <th scope="row" class="p-0">
-        <div class="bg-danger">
-          <i class="bi-x-lg icon"></i>
-        </div>
-      </th>
-      <th scope="row" class="p-0">
-        <div class="bg-success text-light">
-          <i class="bi-check-lg icon"></i>
-        </div>
-      </th>
-    </tr>
-    <tr>
-      <th scope="row">Postponing events</th>
-      <th scope="row" class="p-0">
-        <div class="bg-danger">
-          <i class="bi-x-lg icon"></i>
-        </div>
-      </th>
-      <th scope="row" class="p-0">
-        <div class="bg-success text-light">
-          <i class="bi-check-lg icon"></i>
-        </div>
-      </th>
-    </tr>
+    <tr *ngFor="let feature of features">
+      <th scope="row">{{ feature[0] }}</th>
+      <ng-container *ngFor="let alternative of feature[1]">
+        <ng-container [ngSwitch]="alternative">
+          <td *ngSwitchCase="true" class="bg-success text-light">
+            <i class="bi-check-lg icon"></i>
+          </td>
+          <td *ngSwitchCase="false" class="bg-danger">
+            <i class="bi-x-lg icon"></i>
+          </td>
+          <td *ngSwitchDefault class="bg-warning" placement="left" [ngbTooltip]="''+alternative" container="body">
+            <i class="bi-flag icon"></i>
+          </td>
+        </ng-container>
+      </ng-container>
     </tbody>
   </table>
 </div>
