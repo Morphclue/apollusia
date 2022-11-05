@@ -11,6 +11,12 @@ $mauve: #e0aaffff;
 /* Overrides */
 $primary: $french-violet;
 $secondary: $purple;
+$dark: $persian-indigo;
+
+$success: $french-violet;
+$info: $amethyst;
+$warning: $heliotrope;
+$danger: $mauve;
 
 /* Imports */
 @import 'bootstrap/scss/bootstrap';

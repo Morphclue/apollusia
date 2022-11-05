@@ -10,6 +10,7 @@ import {CheckboxState} from '../../model/checkbox-state';
 })
 export class CheckButtonComponent {
   @Input() poll?: Poll;
+  @Input() isFull = false;
   @Input() check!: CheckboxState;
   @Output() checkChanged = new EventEmitter<CheckboxState>();
 
