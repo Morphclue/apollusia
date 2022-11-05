@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { EventHeadComponent } from './event-head.component';
+import {EventHeadComponent} from './event-head.component';
 
 describe('EventHeadComponent', () => {
   let component: EventHeadComponent;
@@ -8,9 +8,9 @@ describe('EventHeadComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ EventHeadComponent ]
+      declarations: [EventHeadComponent],
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(EventHeadComponent);
     component = fixture.componentInstance;

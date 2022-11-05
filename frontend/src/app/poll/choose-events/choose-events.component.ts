@@ -71,8 +71,6 @@ export class ChooseEventsComponent implements OnInit {
     });
   }
 
-
-
   private fetchPoll() {
     this.http.get<Poll>(`${environment.backendURL}/poll/${this.id}`).subscribe(async poll => {
       this.poll = poll;
