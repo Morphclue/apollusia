@@ -91,17 +91,17 @@
             <ng-container *ngIf="participant !== editParticipant">
               <td *ngFor="let pollEvent of pollEvents; let n=index">
                 <div *ngIf="(participant.participation | some: pollEvent._id ) && participant !== editParticipant"
-                     class="p-check">
+                     class="bg-success text-light">
                   <i class="bi-check-lg icon"></i>
                 </div>
                 <div *ngIf="!(participant.participation | some: pollEvent._id )
                 && !(participant.indeterminateParticipation | some: pollEvent._id ) && participant !== editParticipant"
-                     class="p-unchecked">
+                     class="bg-danger">
                   <i class="bi-x-lg icon"></i>
                 </div>
                 <div
                   *ngIf="(participant.indeterminateParticipation | some: pollEvent._id ) && participant !== editParticipant"
-                  class="p-indeterminate">
+                  class="bg-warning">
                   <i class="bi-question icon"></i>
                 </div>
               </td>

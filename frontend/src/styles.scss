@@ -12,6 +12,11 @@ $mauve: #e0aaffff;
 $primary: $french-violet;
 $secondary: $purple;
 
+$success: $french-violet;
+$info: $amethyst;
+$warning: $heliotrope;
+$danger: $mauve;
+
 /* Imports */
 @import 'bootstrap/scss/bootstrap';
 @import 'bootstrap-icons/font/bootstrap-icons.css';
