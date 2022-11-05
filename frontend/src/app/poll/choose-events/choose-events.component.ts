@@ -71,20 +71,6 @@ export class ChooseEventsComponent implements OnInit {
     });
   }
 
-  checkBox(checks: CheckboxState[], n: number) {
-    if (checks[n] === CheckboxState.INDETERMINATE) {
-      checks[n] = CheckboxState.FALSE;
-    } else if (checks[n] === CheckboxState.FALSE) {
-      checks[n] = CheckboxState.TRUE;
-    } else if (checks[n] === CheckboxState.TRUE) {
-      if (this.poll?.settings.allowMaybe) {
-        checks[n] = CheckboxState.INDETERMINATE;
-        return;
-      }
-      checks[n] = CheckboxState.FALSE;
-    }
-  }
-
   private fetchPoll() {
     this.http.get<Poll>(`${environment.backendURL}/poll/${this.id}`).subscribe(async poll => {
       this.poll = poll;

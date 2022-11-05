@@ -1,5 +1,5 @@
 <div class="container mt-3">
-  <div class="d-flex align-items-center mb-3">
+  <div class="d-flex align-items-center flex-wrap mb-3">
     <div class="btn-group me-auto">
       <div class="btn btn-primary" mwlCalendarPreviousView [view]="'week'" [(viewDate)]="viewDate">Previous</div>
       <div class="btn btn-primary" mwlCalendarToday [(viewDate)]="viewDate" (click)="scrollToCurrentTime()">Today</div>
@@ -60,7 +60,7 @@
       [view]="daysInWeek === 1 ? 'day' : 'week'"
     ></mwl-calendar-event-title>
     <i *ngIf="weekEvent.event.meta.note != undefined && weekEvent.event.meta.note.length > 0"
-       class="bi-sticky-fill primary-color"
+       class="bi-sticky-fill text-primary"
        placement="top"
        ngbTooltip="{{weekEvent.event.meta.note}}"
     ></i>
