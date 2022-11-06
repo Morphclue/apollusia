@@ -90,25 +90,26 @@
             </th>
             <ng-container *ngIf="participant !== editParticipant">
               <td *ngFor="let pollEvent of pollEvents; let n=index">
-                <div *ngIf="(participant.participation | some: pollEvent._id ) && participant !== editParticipant"
-                     class="bg-success text-light">
-                  <i class="bi-check-lg icon"></i>
-                </div>
-                <div *ngIf="!(participant.participation | some: pollEvent._id )
+                <h5 *ngIf="(participant.participation | some: pollEvent._id ) && participant !== editParticipant"
+                    class="text-green bi-check-lg">
+                </h5>
+                <h5 *ngIf="!(participant.participation | some: pollEvent._id )
                 && !(participant.indeterminateParticipation | some: pollEvent._id ) && participant !== editParticipant"
-                     class="bg-danger">
-                  <i class="bi-x-lg icon"></i>
-                </div>
-                <div
+                    class="text-red bi-x-lg">
+                </h5>
+                <h5
                   *ngIf="(participant.indeterminateParticipation | some: pollEvent._id ) && participant !== editParticipant"
-                  class="bg-warning">
-                  <i class="bi-question icon"></i>
-                </div>
+                  class="text-orange bi-question">
+                </h5>
               </td>
             </ng-container>
             <ng-container *ngIf="participant === editParticipant">
               <td *ngFor="let check of editChecks; let n=index">
-                <app-check-button [poll]="poll" [check]="check" (checkChanged)="editChecks[n] = $event"></app-check-button>
+                <app-check-button
+                  [poll]="poll"
+                  [check]="check"
+                  (checkChanged)="editChecks[n] = $event">
+                </app-check-button>
               </td>
             </ng-container>
             <td *ngIf="participant === editParticipant" class="border-0 text-start">
@@ -143,10 +144,9 @@
           <tr>
             <th>Sum</th>
             <td *ngFor="let pollEvent of pollEvents">
-              <div *ngIf="bestOption === countParticipants(pollEvent)" class="bg-success text-light">
-                <i class="bi-award"></i>
+              <h5 *ngIf="bestOption === countParticipants(pollEvent)" class="bi-award text-purple">
                 {{ countParticipants(pollEvent) }}
-              </div>
+              </h5>
               <div *ngIf="bestOption !== countParticipants(pollEvent)">
                 {{ countParticipants(pollEvent) }}
               </div>
