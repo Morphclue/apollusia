@@ -1,20 +1,10 @@
 <div *ngIf="statistics">
   <div class="bg-secondary text-light text-center p-3">
     <div class="row">
-      <div class="col-12 col-lg-4">
-        <i class="bi-calendar"></i>
-        <h3 class="mt-2" [countUp]="statistics.polls">0</h3>
-        <span>Polls created</span>
-      </div>
-      <div class="col-12 col-lg-4">
-        <i class="bi-calendar-week"></i>
-        <h3 class="mt-2" [countUp]="statistics.pollEvents">0</h3>
-        <span>Events created</span>
-      </div>
-      <div class="col-12 col-lg-4">
-        <i class="bi-person"></i>
-        <h3 class="mt-2" [countUp]="statistics.participants">0</h3>
-        <span>Persons participated</span>
+      <div *ngFor="let column of columns" class="col-12 col-lg">
+        <i [class]="column[1]"></i>
+        <h3 class="mt-2" [countUp]="statistics[column[0]]">0</h3>
+        <span>{{ column[2] }}</span>
       </div>
     </div>
   </div>

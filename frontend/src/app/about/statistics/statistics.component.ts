@@ -11,6 +11,13 @@ import {environment} from '../../../environments/environment';
 export class StatisticsComponent implements OnInit {
   statistics?: Statistics;
 
+  columns: [keyof Statistics, string, string][] = [
+    ['polls', 'bi-calendar', 'Polls created'],
+    ['pollEvents', 'bi-calendar-week', 'Events created'],
+    ['participants', 'bi-person-check', 'Persons participated'],
+    ['users', 'bi-person-badge', 'Unique Users'],
+  ];
+
   constructor(private http: HttpClient) {
   }
 
