@@ -15,7 +15,7 @@ export class StatisticsComponent implements OnInit {
     ['polls', 'bi-calendar', 'Polls created'],
     ['pollEvents', 'bi-calendar-week', 'Events created'],
     ['participants', 'bi-person-check', 'Persons participated'],
-    ['users', 'bi-person-badge', 'Unique Users'],
+    ['users', 'bi-person', 'Unique Users'],
   ];
 
   constructor(private http: HttpClient) {
