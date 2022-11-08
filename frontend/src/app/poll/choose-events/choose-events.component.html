@@ -113,31 +113,24 @@
               </td>
             </ng-container>
             <td *ngIf="participant === editParticipant" class="border-0 text-start">
-              <button class="btn btn-primary btn-sm ms-1" type="button" (click)="cancelEdit()">
-                <i class="bi-x"></i>
-              </button>
-              <button class="btn btn-secondary btn-sm ms-1" type="button" (click)="confirmEdit()">
-                <i class="bi-check"></i>
-              </button>
+              <button class="btn btn-primary btn-sm ms-1 bi-x" type="button" (click)="cancelEdit()"></button>
+              <button class="btn btn-secondary btn-sm ms-1 bi-check" type="button" (click)="confirmEdit()"></button>
             </td>
             <td *ngIf="!editParticipant" class="border-0 text-start">
               <button
                 *ngIf="poll?.settings?.allowEdit && getToken() === participant.token"
-                class="btn btn-primary btn-sm ms-1"
+                class="btn btn-primary btn-sm ms-1 bi-pencil"
                 placement="top"
                 ngbTooltip="Edit participation"
                 (click)="setEditParticipant(participant)">
-                <i class="bi-pencil"></i>
               </button>
               <button
                 *ngIf="isAdmin || getToken() === participant.token"
-                class="btn btn-sm btn-danger ms-1"
+                class="btn btn-sm btn-danger ms-1 bi-trash"
                 type="button"
                 placement="top"
                 ngbTooltip="Delete participation"
-                (click)="deleteParticipation(participant._id)"
-              >
-                <i class="bi-trash"></i>
+                (click)="deleteParticipation(participant._id)">
               </button>
             </td>
           </tr>

@@ -11,15 +11,12 @@
       <th scope="row">{{ feature[0] }}</th>
       <ng-container *ngFor="let alternative of feature[1]">
         <ng-container [ngSwitch]="alternative">
-          <td *ngSwitchCase="true" class="bg-success text-light">
-            <i class="bi-check-lg icon"></i>
-          </td>
-          <td *ngSwitchCase="false" class="bg-danger">
-            <i class="bi-x-lg icon"></i>
-          </td>
-          <td *ngSwitchDefault class="bg-warning" placement="left" [ngbTooltip]="''+alternative" container="body">
-            <i class="bi-flag icon"></i>
-          </td>
+          <td *ngSwitchCase="true" class="bg-success text-light bi-check-lg"></td>
+          <td *ngSwitchCase="false" class="bg-danger bi-x-lg"></td>
+          <td *ngSwitchDefault
+              class="bg-warning bi-flag"
+              placement="left" [ngbTooltip]="''+alternative"
+              container="body"></td>
         </ng-container>
       </ng-container>
     </tbody>
