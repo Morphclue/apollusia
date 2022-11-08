@@ -104,10 +104,10 @@
               </td>
             </ng-container>
             <ng-container *ngIf="participant === editParticipant">
-              <td *ngFor="let check of editChecks; let n=index">
+              <td *ngFor="let event of pollEvents; let n=index">
                 <app-check-button
                   [poll]="poll"
-                  [check]="check"
+                  [check]="editChecks[n]"
                   (checkChanged)="editChecks[n] = $event">
                 </app-check-button>
               </td>
