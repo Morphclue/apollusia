@@ -13,6 +13,7 @@ export class FeaturesComponent {
     ['Editing participation', [true, true]],
     ['Deadline', ['Paid option', true]],
     ['Maybe-option', ['Not adjustable', true]],
+    ['Rich Text and Links in Description', [false, true]],
     ['Events of varying length', [false, true]],
     ['Blind participation', [false, true]],
     ['Autofill', [false, true]],
