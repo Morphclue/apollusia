@@ -168,7 +168,7 @@
           <td *ngFor="let pollEvent of pollEvents">
             <button
               type="button"
-              class="btn text-primary"
+              class="btn btn-link"
               [class.bi-star-fill]="pollEvent._id && bookedEvents.includes(pollEvent._id)"
               [class.bi-star]="pollEvent._id && !bookedEvents.includes(pollEvent._id)"
               (click)="selectEvent(pollEvent._id)"
