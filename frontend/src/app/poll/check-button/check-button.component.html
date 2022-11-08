@@ -1,14 +1,13 @@
 <span
   class="d-inline-block"
-  tabindex="0"
   [ngbTooltip]="isFull ? 'This option has reached it\'s maximum number of participants' : null"
 >
   <input
     type="checkbox"
     [disabled]="isFull"
-    [checked]="check !== 'false'"
+    [ngModel]="check !== 'false'"
     [indeterminate]="check === 'indeterminate'"
     class="form-check-input"
-    (change)="toggle()"
+    (ngModelChange)="toggle()"
   >
 </span>

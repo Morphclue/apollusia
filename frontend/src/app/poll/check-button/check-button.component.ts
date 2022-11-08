@@ -15,7 +15,9 @@ export class CheckButtonComponent {
   @Output() checkChanged = new EventEmitter<CheckboxState>();
 
   toggle(): void {
-    this.checkChanged.next(this.check = this.nextState(this.check));
+    this.check = this.nextState(this.check);
+    console.log(this.check);
+    this.checkChanged.next(this.check);
   }
 
   private nextState(state: CheckboxState): CheckboxState {
