@@ -2,7 +2,7 @@ import {Body, Controller, Delete, Get, NotFoundException, Param, Post, Put} from
 
 import {PollService} from './poll.service';
 import {MailDto, ParticipantDto, PollDto, PollEventDto} from '../../dto';
-import {Participant, Poll, PollEvent} from '../../schema';
+import {Participant, PollEvent} from '../../schema';
 import {ReadPollDto, ReadStatsPollDto} from '../../dto/read-poll.dto';
 
 @Controller('poll')
