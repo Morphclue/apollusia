@@ -60,3 +60,7 @@ $danger: $mauve;
   width: 3.86rem !important;
   color: $amethyst !important;
 }
+
+.markdown img {
+  max-width: 100%;
+}
