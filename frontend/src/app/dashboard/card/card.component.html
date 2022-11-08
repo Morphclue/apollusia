@@ -16,7 +16,7 @@
           </div>
         </div>
         <div *ngIf="poll.description" class="card-body">
-          <p class="card-text">{{poll.description | truncate:[160, '...']}}</p>
+          <app-markdown [text]="poll.description"></app-markdown>
         </div>
         <div class="card-footer">
           <div *ngIf="poll.settings.deadline" class="bi-calendar">

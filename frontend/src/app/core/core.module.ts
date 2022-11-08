@@ -3,6 +3,7 @@ import {CommonModule} from '@angular/common';
 import {RouterModule} from "@angular/router";
 import {NgbCollapseModule, NgbTooltipModule} from "@ng-bootstrap/ng-bootstrap";
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {MarkdownComponent} from './markdown/markdown.component';
 
 import {NavbarComponent} from './navbar/navbar.component';
 import {TokenComponent} from './token/token.component';
@@ -11,6 +12,7 @@ import {TokenComponent} from './token/token.component';
   declarations: [
     NavbarComponent,
     TokenComponent,
+    MarkdownComponent,
   ],
   imports: [
     CommonModule,
@@ -24,6 +26,7 @@ import {TokenComponent} from './token/token.component';
     RouterModule,
     NavbarComponent,
     TokenComponent,
+    MarkdownComponent,
   ],
 })
 export class CoreModule {
