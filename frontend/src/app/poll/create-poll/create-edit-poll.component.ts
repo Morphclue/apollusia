@@ -40,6 +40,45 @@ export class CreateEditPollComponent implements OnInit {
     blindParticipation: new FormControl(false),
   });
 
+  presets = [
+    {
+      title: 'Group',
+      description: 'Pick the best time for a group of people to do something together.',
+      settings: {
+        maxParticipantEvents: false,
+        maxEventParticipants: false,
+        allowMaybe: true,
+        allowEdit: true,
+        blindParticipation: false,
+      },
+    },
+    {
+      title: '1:1 Availability',
+      description: 'Let participants tell you their availability for a 1:1 meeting with you.',
+      settings: {
+        maxParticipantEvents: false,
+        maxEventParticipants: false,
+        allowMaybe: true,
+        allowEdit: false,
+        blindParticipation: true, // TODO participants should not see other participants' votes
+      },
+    },
+    {
+      title: '1:1 Slots',
+      description: 'Let participants pick a single slot for a 1:1 meeting with you.',
+      settings: {
+        maxParticipantEvents: true,
+        maxParticipantEventsInput: 1,
+        maxEventParticipants: true,
+        maxEventParticipantsInput: 1,
+        allowMaybe: false,
+        allowEdit: false,
+        blindParticipation: true, // TODO participants should not see other participants' votes
+      },
+    },
+  ];
+  selectedPreset?: any;
+
   constructor(
     private modalService: NgbModal,
     private http: HttpClient,
@@ -56,6 +95,17 @@ export class CreateEditPollComponent implements OnInit {
   ngOnInit(): void {
     this.fetchPoll();
     this.checkAdmin();
+
+    this.pollForm.valueChanges.subscribe(value => {
+      this.selectedPreset = this.presets.find(preset => {
+        for (const [k, v] of Object.entries(preset.settings)) {
+          if ((value as any)[k] !== v) {
+            return false;
+          }
+        }
+        return true;
+      });
+    });
   }
 
   onFormSubmit(): void {
@@ -142,6 +192,11 @@ export class CreateEditPollComponent implements OnInit {
     this.http.post(`${environment.backendURL}/poll/${this.id}/clone`, {}).subscribe(() => {
       this.router.navigate(['dashboard']).then();
     });
+  }
+
+  applyPreset(preset: any): void {
+    this.selectedPreset = preset;
+    this.pollForm.patchValue(preset.settings);
   }
 
   private checkAdmin() {

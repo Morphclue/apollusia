@@ -50,6 +50,14 @@
           <input type="time" class="form-control" formControlName="deadlineTime">
         </div>
       </div>
+      <div class="row mb-3">
+        <div *ngFor="let preset of presets" class="col-12 col-lg-4">
+          <button type="button" class="btn btn-outline-primary" (click)="applyPreset(preset)" [class.active]="preset === selectedPreset">
+            <h3>{{ preset.title }}</h3>
+            <p>{{ preset.description }}</p>
+          </button>
+        </div>
+      </div>
       <button type="button"
               class="btn btn-outline-primary"
               [class.bi-chevron-right]="isCollapsed"
