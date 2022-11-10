@@ -36,7 +36,7 @@ export class ChooseEventsComponent implements OnInit {
   });
 
   constructor(
-    private route: ActivatedRoute,
+    public route: ActivatedRoute,
     private router: Router,
     private http: HttpClient,
     private tokenService: TokenService,

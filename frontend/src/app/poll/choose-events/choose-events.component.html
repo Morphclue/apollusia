@@ -1,7 +1,7 @@
 <div class="container">
   <div *ngIf="!mail" class="alert alert-warning">
     You seem to have no mail configured.
-    <a class="bi-gear" [routerLink]="[{outlets: {modal: 'settings'}}]">
+    <a class="bi-gear" [routerLink]="[{outlets: {modal: 'settings'}}]" [relativeTo]="route.root">
       Configure
     </a>
   </div>
