@@ -1,4 +1,4 @@
-import {Injectable} from '@nestjs/common';
+import {Injectable, NotFoundException} from '@nestjs/common';
 import {InjectModel} from '@nestjs/mongoose';
 import {Model, Types} from 'mongoose';
 
@@ -114,15 +114,20 @@ export class PollService {
         return this.participantModel.find({poll: id}).populate(['participation', 'indeterminateParticipation']).exec();
     }
 
-    async postParticipation(id: string, participant: ParticipantDto): Promise<Participant> {
-        return this.participantModel.create({
+    async postParticipation(id: string, dto: ParticipantDto): Promise<Participant> {
+        const poll = await this.pollModel.findById(id).exec();
+        if (!poll) {
+            throw new NotFoundException(id);
+        }
+        const participant = await this.participantModel.create({
+            ...dto,
             poll: id,
-            name: participant.name,
-            participation: participant.participation,
-            indeterminateParticipation: participant.indeterminateParticipation,
-            token: participant.token,
-            mail: participant.mail,
         });
+        participant.mail && this.mailService.sendMail(participant.name, participant.mail, 'Participated in Poll', 'participated', {
+            poll: poll.toObject(),
+            participant: participant.toObject(),
+        }).then();
+        return participant;
     }
 
     async editParticipation(id: string, participantId: string, participant: ParticipantDto): Promise<Participant> {
