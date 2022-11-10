@@ -7,12 +7,14 @@ import {MarkdownComponent} from './markdown/markdown.component';
 
 import {NavbarComponent} from './navbar/navbar.component';
 import {TokenComponent} from './token/token.component';
+import { LocationLinkComponent } from './location-link/location-link.component';
 
 @NgModule({
   declarations: [
     NavbarComponent,
     TokenComponent,
     MarkdownComponent,
+    LocationLinkComponent,
   ],
   imports: [
     CommonModule,
@@ -27,6 +29,7 @@ import {TokenComponent} from './token/token.component';
     NavbarComponent,
     TokenComponent,
     MarkdownComponent,
+    LocationLinkComponent,
   ],
 })
 export class CoreModule {

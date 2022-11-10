@@ -11,12 +11,7 @@
   <div class="mb-3">
     <div *ngIf="poll?.location as location" class="d-flex align-items-center">
       <i class="bi-geo text-primary fs-4 me-2" ngbTooltip="Location"></i>
-      <a *ngIf="location.startsWith('http') else locationText" [href]="location" target="_blank">
-        {{location}}
-      </a>
-      <ng-template #locationText>
-        {{ location }}
-      </ng-template>
+      <app-location-link [location]="location"></app-location-link>
     </div>
     <div *ngIf="poll?.settings?.deadline as deadline" class="d-flex align-items-center">
       <i class="bi-calendar text-primary fs-4 me-2" ngbTooltip="Deadline"></i>

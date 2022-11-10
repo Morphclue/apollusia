@@ -23,7 +23,8 @@
             Deadline: {{poll.settings.deadline | date:'medium'}}
           </div>
           <div *ngIf="poll.location" class="bi-geo">
-            Location: {{poll.location}}
+            Location:
+            <app-location-link [location]="poll.location"></app-location-link>
           </div>
           <div class="bi-check">
             Options: {{poll.events}}
