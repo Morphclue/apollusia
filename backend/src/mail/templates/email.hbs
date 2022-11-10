@@ -11,7 +11,7 @@
     {{/if}}
     {{#if poll.description}}
         <h4>Description:</h4>
-        <p>{{ poll.description }}</p>
+        {{markdown poll.description}}
     {{/if}}
 </div>
 
