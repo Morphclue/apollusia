@@ -6,6 +6,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MarkdownComponent} from './markdown/markdown.component';
 
 import {NavbarComponent} from './navbar/navbar.component';
+import {LocationIconPipe} from './pipes/location-icon.pipe';
 import {TokenComponent} from './token/token.component';
 import { LocationLinkComponent } from './location-link/location-link.component';
 
@@ -15,6 +16,7 @@ import { LocationLinkComponent } from './location-link/location-link.component';
     TokenComponent,
     MarkdownComponent,
     LocationLinkComponent,
+    LocationIconPipe,
   ],
   imports: [
     CommonModule,
@@ -30,6 +32,7 @@ import { LocationLinkComponent } from './location-link/location-link.component';
     TokenComponent,
     MarkdownComponent,
     LocationLinkComponent,
+    LocationIconPipe,
   ],
 })
 export class CoreModule {

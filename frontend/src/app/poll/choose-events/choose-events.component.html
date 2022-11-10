@@ -10,7 +10,7 @@
   </h1>
   <div class="mb-3">
     <div *ngIf="poll?.location as location" class="d-flex align-items-center">
-      <i class="bi-geo text-primary fs-4 me-2" ngbTooltip="Location"></i>
+      <i class="text-primary fs-4 me-2 {{location | locationIcon}}" ngbTooltip="Location"></i>
       <app-location-link [location]="location"></app-location-link>
     </div>
     <div *ngIf="poll?.settings?.deadline as deadline" class="d-flex align-items-center">
