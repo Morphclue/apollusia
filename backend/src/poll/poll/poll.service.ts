@@ -136,25 +136,18 @@ export class PollService {
     async bookEvents(id: string, events: string[]): Promise<ReadPollDto> {
         const poll = await this.pollModel.findById(id).exec();
         poll.bookedEvents = await this.pollEventModel.find({_id: {$in: events}}).exec();
-        this.mailParticipants(id, poll).then();
-        return this.pollModel.findByIdAndUpdate(id, poll, {new: true}).select('-adminToken').exec();
-    }
-
-    private async mailParticipants(id: string, poll: Poll) {
-        const participants = await this.participantModel.find({poll: id}).populate(['participation', 'indeterminateParticipation']).exec();
-        participants.forEach(participant => {
+        for await (const participant of this.participantModel.find({poll: id}).populate(['participation', 'indeterminateParticipation'])) {
             const participations = [...participant.participation, ...participant.indeterminateParticipation];
-            const appointments = [];
-            poll.bookedEvents.forEach((event: any) => {
-                if (participations.some((participation: any) => participation._id.toString() === event._id.toString())) {
-                    appointments.push(`${new Date(event.start).toLocaleString()} - ${new Date(event.end).toLocaleString()} *`);
-                } else {
-                    appointments.push(`${new Date(event.start).toLocaleString()} - ${new Date(event.end).toLocaleString()}`);
+            const appointments = poll.bookedEvents.map(event => {
+                let eventLine = `${new Date(event.start).toLocaleString()} - ${new Date(event.end).toLocaleString()}`;
+                if (participations.some(p => p._id.toString() === event._id.toString())) {
+                    eventLine += ' *';
                 }
-                // TODO: use includes and remove any-type (not working currently)
+                return eventLine;
             });
-            this.mailService.sendMail(participant.mail, appointments);
-        });
+            this.mailService.sendMail(poll.toObject(), participant.toObject(), appointments).then();
+        }
+        return this.pollModel.findByIdAndUpdate(id, poll, {new: true}).select('-adminToken').exec();
     }
 
     private async removeParticipations(id: string, events: PollEventDto[]) {
