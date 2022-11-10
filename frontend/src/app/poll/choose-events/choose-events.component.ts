@@ -57,6 +57,18 @@ export class ChooseEventsComponent implements OnInit {
     this.mail = this.mailService.getMail();
   }
 
+  canSubmitChecks(checks: CheckboxState[]) {
+    const maxParticipantEvents = this.poll?.settings?.maxParticipantEvents;
+    if (maxParticipantEvents) {
+      const selected = checks.filter(c => c === CheckboxState.TRUE).length;
+      if (selected > maxParticipantEvents) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
   onFormSubmit() {
     let participant: CreateParticipantDto = {
       name: this.participateForm.value.name ? this.participateForm.value.name : 'Anonymous',
