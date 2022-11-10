@@ -1,0 +1,13 @@
+.btn {
+    background-color: #7b2cbf;
+    padding: 10px;
+    border-radius: 5px;
+    color: white;
+    text-decoration: none;
+}
+
+.card {
+    border: 1px solid gray;
+    border-radius: 5px;
+    padding: 5px;
+}

@@ -1,5 +1,6 @@
 import {MailerService} from '@nestjs-modules/mailer';
 import {Injectable} from '@nestjs/common';
+import * as fs from 'fs';
 import * as Handlebars from 'handlebars';
 import * as MarkdownIt from 'markdown-it';
 import {environment} from '../../environment';
@@ -14,6 +15,12 @@ export class MailService {
         Handlebars.registerHelper('markdown', function (context) {
             return new Handlebars.SafeString(markdown.render(context));
         });
+
+        let styles: Handlebars.SafeString;
+        fs.promises.readFile(__dirname + '/../templates/styles.css', 'utf8').then(data => {
+            styles = new Handlebars.SafeString(`<style>${data}</style>`);
+        });
+        Handlebars.registerHelper('style', () => styles);
     }
 
     async sendMail(name: string, address: string, subject: string, template: string, context?: any) {

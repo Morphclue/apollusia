@@ -1,10 +1,11 @@
+{{ style }}
 <p>Hello {{ participant.name }}!</p>
 
 <p>You have received a new message from Apollusia.</p>
 
 <p>The poll has concluded:</p>
 
-<div style="border: 1px solid gray; border-radius: 5px; padding: 5px">
+<div class="card">
     <h3>{{ poll.title }}</h3>
     {{#if poll.location}}
         <h4>Location: {{ poll.location }}</h4>
@@ -13,6 +14,9 @@
         <h4>Description:</h4>
         {{markdown poll.description}}
     {{/if}}
+    <a class="btn" href="{{ origin }}/poll/{{ poll._id }}/participate">
+        View Poll
+    </a>
 </div>
 
 <p>The following appointments have been booked:</p>

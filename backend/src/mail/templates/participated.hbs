@@ -1,7 +1,8 @@
+{{ style }}
 <p>Hello {{ participant.name }}!</p>
 
 <p>You just participated in the poll <b>{{ poll.title }}</b>!</p>
 
-<a href="{{ origin }}/poll/{{ poll._id }}/participate" style="background-color: #7b2cbf; padding: 10px; border-radius: 5px; color: white; text-decoration: none">
+<a class="btn" href="{{ origin }}/poll/{{ poll._id }}/participate">
     View Poll
 </a>
