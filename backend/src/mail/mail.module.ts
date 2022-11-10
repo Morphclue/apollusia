@@ -12,14 +12,19 @@ import {MailService} from './mail/mail.service';
         useFactory: async (config: ConfigService) => ({
             transport: {
                 host: config.get('EMAIL_HOST'),
-                secure: false,
+                port: config.get('EMAIL_PORT'),
+                secure: config.get('EMAIL_SSL'),
+                opportunisticTLS: config.get('EMAIL_STARTTLS'),
                 auth: {
                     user: config.get('EMAIL_USER'),
                     pass: config.get('EMAIL_PASSWORD'),
                 },
             },
             defaults: {
-                from: config.get('EMAIL_FROM'),
+                from: {
+                    name: config.get('EMAIL_NAME', 'Apollusia'),
+                    address: config.get('EMAIL_FROM'),
+                },
             },
             template: {
                 dir: join(__dirname, './templates'),
