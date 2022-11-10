@@ -145,7 +145,11 @@ export class PollService {
                 }
                 return eventLine;
             });
-            this.mailService.sendMail(poll.toObject(), participant.toObject(), appointments).then();
+            this.mailService.sendMail(participant.name, participant.mail, 'Poll booked', 'book', {
+                appointments,
+                poll: poll.toObject(),
+                participant: participant.toObject(),
+            }).then();
         }
         return this.pollModel.findByIdAndUpdate(id, poll, {new: true}).select('-adminToken').exec();
     }

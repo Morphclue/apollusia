@@ -1,8 +1,8 @@
 import {MailerService} from '@nestjs-modules/mailer';
 import {Injectable} from '@nestjs/common';
-import * as MarkdownIt from 'markdown-it';
 import * as Handlebars from 'handlebars';
-import {Participant, Poll} from '../../schema';
+import * as MarkdownIt from 'markdown-it';
+import {environment} from '../../environment';
 
 @Injectable()
 export class MailService {
@@ -16,18 +16,17 @@ export class MailService {
         });
     }
 
-    async sendMail(poll: Poll, participant: Participant, appointments: string[]) {
+    async sendMail(name: string, address: string, subject: string, template: string, context?: any) {
         await this.mailerService.sendMail({
             to: {
-                name: participant.name,
-                address: participant.mail,
+                name,
+                address,
             },
-            subject: `${poll.title} - Appointments booked`,
-            template: 'email',
+            subject,
+            template,
             context: {
-                poll,
-                participant,
-                appointments,
+                ...context,
+                origin: environment.origin,
             },
         });
     }
