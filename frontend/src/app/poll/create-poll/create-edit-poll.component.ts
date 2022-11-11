@@ -197,6 +197,7 @@ export class CreateEditPollComponent implements OnInit {
   applyPreset(preset: any): void {
     this.selectedPreset = preset;
     this.pollForm.patchValue(preset.settings);
+    this.pollForm.markAsDirty();
   }
 
   private checkAdmin() {
