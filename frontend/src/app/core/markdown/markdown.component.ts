@@ -1,4 +1,4 @@
-import {Component, Directive, ElementRef, Input, OnInit, SecurityContext} from '@angular/core';
+import {Component, ElementRef, Input, OnInit, SecurityContext} from '@angular/core';
 import {DomSanitizer, SafeHtml} from '@angular/platform-browser';
 import * as MarkdownIt from 'markdown-it';
 

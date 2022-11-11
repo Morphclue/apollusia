@@ -1,4 +1,4 @@
-import { LocationIconPipe } from './location-icon.pipe';
+import {LocationIconPipe} from './location-icon.pipe';
 
 describe('LocationIconPipe', () => {
   it('create an instance', () => {

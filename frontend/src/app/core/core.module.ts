@@ -8,7 +8,7 @@ import {MarkdownComponent} from './markdown/markdown.component';
 import {NavbarComponent} from './navbar/navbar.component';
 import {LocationIconPipe} from './pipes/location-icon.pipe';
 import {TokenComponent} from './token/token.component';
-import { LocationLinkComponent } from './location-link/location-link.component';
+import {LocationLinkComponent} from './location-link/location-link.component';
 
 @NgModule({
   declarations: [
