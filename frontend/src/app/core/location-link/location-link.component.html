@@ -1,0 +1,6 @@
+<a *ngIf="location.startsWith('http') else text" [href]="location" target="_blank">
+  {{location}}
+</a>
+<ng-template #text>
+  {{ location }}
+</ng-template>

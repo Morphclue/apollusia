@@ -37,11 +37,19 @@
                   formControlName="description"
                   rows="3"
         ></textarea>
+        <div class="form-text">
+          <a href="https://commonmark.org/help/" target="_blank">
+            Markdown Syntax</a> can be used to add styled text, links and images.
+        </div>
       </div>
       <div class="form-group mb-3">
         <label for="location">Location (optional)</label>
-        <input class="form-control" type="text" id="location" placeholder="Location of the event"
-               formControlName="location">
+        <div class="input-group">
+          <div class="input-group-text {{(pollForm.value.location || '') | locationIcon}}">
+          </div>
+          <input class="form-control" type="text" id="location" placeholder="Location of the event or online link"
+                 formControlName="location">
+        </div>
       </div>
       <div class="form-group mb-3">
         <label for="deadline">Deadline (optional)</label>

@@ -6,6 +6,7 @@ import {CalendarModule, DateAdapter} from 'angular-calendar';
 import {adapterFactory} from 'angular-calendar/date-adapters/date-fns';
 import {FlatpickrModule} from 'angularx-flatpickr';
 import {ModalModule, ToastModule} from 'ng-bootstrap-ext';
+import {CoreModule} from '../core/core.module';
 
 import {PollRoutingModule} from './poll-routing.module';
 import {CreateEditPollComponent} from './create-poll/create-edit-poll.component';
@@ -36,6 +37,7 @@ import {SomePipe} from '../pipes';
     NgbModule,
     ModalModule,
     ToastModule,
+    CoreModule,
     CalendarModule.forRoot({
       provide: DateAdapter,
       useFactory: adapterFactory,
