@@ -58,6 +58,14 @@
           <input type="time" class="form-control" formControlName="deadlineTime">
         </div>
       </div>
+      <div class="row mb-3">
+        <div *ngFor="let preset of presets" class="col-12 col-lg-4">
+          <button type="button" class="btn btn-outline-primary" (click)="applyPreset(preset)" [class.active]="preset === selectedPreset">
+            <h3>{{ preset.title }}</h3>
+            <p>{{ preset.description }}</p>
+          </button>
+        </div>
+      </div>
       <button type="button"
               class="btn btn-outline-primary"
               [class.bi-chevron-right]="isCollapsed"
@@ -74,11 +82,24 @@
             <i class="bi-question-circle text-muted" placement="top"
                ngbTooltip="Allows you to customize the maximum number of participants for your poll."></i>
           </label>
-          <input min="1" class="form-check-input" type="checkbox" id="maxParticipants"
+          <input class="form-check-input" type="checkbox" id="maxParticipants"
                  formControlName="maxParticipants">
-          <div *ngIf="pollForm.get('maxParticipants')?.value">
+          <div *ngIf="pollForm.value.maxParticipants">
             <input class="form-control" type="number" min="1" id="maxParticipantsInput"
                    formControlName="maxParticipantsInput">
+          </div>
+        </div>
+        <div class="form-group form-check">
+          <label class="form-check-label" for="maxParticipantEvents">
+            Maximum number of choices per participant
+            <i class="bi-question-circle text-muted" placement="top"
+               ngbTooltip="Allows you to limit how many 'yes' votes can be selected by participants."></i>
+          </label>
+          <input class="form-check-input" type="checkbox" id="maxParticipantEvents"
+                 formControlName="maxParticipantEvents">
+          <div *ngIf="pollForm.value.maxParticipantEvents">
+            <input class="form-control" type="number" id="maxParticipantEventsInput" min="1"
+                   formControlName="maxParticipantEventsInput">
           </div>
         </div>
         <div class="form-group form-check">
@@ -87,9 +108,9 @@
             <i class="bi-question-circle text-muted" placement="top"
                ngbTooltip="Allows you to customize the maximum number of participants per event for your poll."></i>
           </label>
-          <input min="1" class="form-check-input" type="checkbox" id="maxEventParticipants"
+          <input class="form-check-input" type="checkbox" id="maxEventParticipants"
                  formControlName="maxEventParticipants">
-          <div *ngIf="pollForm.get('maxEventParticipants')?.value">
+          <div *ngIf="pollForm.value.maxEventParticipants">
             <input class="form-control" type="number" min="1" id="maxEventParticipantsInput"
                    formControlName="maxEventParticipantsInput">
           </div>

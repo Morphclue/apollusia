@@ -40,6 +40,14 @@
         </tr>
         </thead>
         <tbody>
+        <tr *ngIf="poll?.settings?.maxParticipantEvents as limit" >
+          <td [colSpan]="2 + pollEvents.length">
+            <div class="alert alert-info mb-0">
+              This poll is limited.
+              You can select up to {{ limit }} choices.
+            </div>
+          </td>
+        </tr>
         <tr *ngIf="!isFull(); else fullAlert">
           <th style="min-width: 240px" scope="row">
             <input *ngIf="!poll?.settings?.anonymous"
@@ -63,7 +71,9 @@
             ></app-check-button>
           </td>
           <th class="border-0 text-start" scope="col">
-            <button class="btn btn-primary btn-sm" type="submit" [disabled]="!participateForm.valid">Submit</button>
+            <button class="btn btn-primary btn-sm" type="submit" [disabled]="!participateForm.valid || !canSubmitChecks(checks)">
+              Submit
+            </button>
           </th>
         </tr>
         <ng-template #fullAlert>
@@ -112,7 +122,7 @@
             </ng-container>
             <td *ngIf="participant === editParticipant" class="border-0 text-start">
               <button class="btn btn-primary btn-sm ms-1 bi-x" type="button" (click)="cancelEdit()"></button>
-              <button class="btn btn-secondary btn-sm ms-1 bi-check" type="button" (click)="confirmEdit()"></button>
+              <button class="btn btn-secondary btn-sm ms-1 bi-check" type="button" [disabled]="!canSubmitChecks(editChecks)" (click)="confirmEdit()"></button>
             </td>
             <td *ngIf="!editParticipant" class="border-0 text-start">
               <button
