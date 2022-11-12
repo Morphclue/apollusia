@@ -123,6 +123,10 @@ export class PollService {
             ...dto,
             poll: id,
         });
+        poll.adminMail && this.mailService.sendMail('Poll Admin', poll.adminMail, 'Updates in Poll', 'participant', {
+            poll: poll.toObject(),
+            participant: participant.toObject(),
+        }).then();
         participant.mail && this.mailService.sendMail(participant.name, participant.mail, 'Participated in Poll', 'participated', {
             poll: poll.toObject(),
             participant: participant.toObject(),

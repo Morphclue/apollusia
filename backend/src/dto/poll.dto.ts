@@ -1,5 +1,5 @@
-import {ApiProperty} from '@nestjs/swagger';
-import {IsNotEmpty, IsString, MinLength} from 'class-validator';
+import {ApiProperty, ApiPropertyOptional} from '@nestjs/swagger';
+import {IsEmail, IsNotEmpty, IsOptional, IsString, MinLength} from 'class-validator';
 
 import {Settings} from './settings';
 
@@ -22,6 +22,11 @@ export class PollDto {
     @IsNotEmpty()
     @IsString()
     adminToken: string;
+
+    @ApiPropertyOptional()
+    @IsOptional()
+    @IsEmail()
+    adminMail?: string;
 
     @ApiProperty()
     @IsNotEmpty()
