@@ -1,4 +1,5 @@
 import {Component} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-mail-alert',
@@ -6,4 +7,8 @@ import {Component} from '@angular/core';
   styleUrls: ['./mail-alert.component.scss'],
 })
 export class MailAlertComponent {
+  constructor(
+    public route: ActivatedRoute,
+  ) {
+  }
 }
