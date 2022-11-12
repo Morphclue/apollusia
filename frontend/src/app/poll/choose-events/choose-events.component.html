@@ -1,10 +1,5 @@
 <div class="container">
-  <div *ngIf="!mail" class="alert alert-warning">
-    You seem to have no mail configured.
-    <a class="bi-gear" [routerLink]="[{outlets: {modal: 'settings'}}]">
-      Configure
-    </a>
-  </div>
+  <app-mail-alert *ngIf="!mail"></app-mail-alert>
   <h1 class="text-center">
     {{poll?.title}}
   </h1>

@@ -27,7 +27,7 @@ export class ChooseEventsComponent implements OnInit {
   editParticipant?: Participant;
   bestOption: number = 1;
   bookedEvents: string[] = [];
-  mail: string = '';
+  mail?: string;
   isAdmin: boolean = false;
   participants: Participant[] = [];
   participateForm = new FormGroup({
@@ -63,7 +63,7 @@ export class ChooseEventsComponent implements OnInit {
       participation: this.filterEvents(this.checks, CheckboxState.TRUE),
       indeterminateParticipation: this.filterEvents(this.checks, CheckboxState.INDETERMINATE),
       token: this.tokenService.getToken(),
-      mail: this.mailService.getMail(),
+      mail: this.mail,
     };
 
     this.http.post(`${environment.backendURL}/poll/${this.id}/participate`, participant).subscribe(() => {
