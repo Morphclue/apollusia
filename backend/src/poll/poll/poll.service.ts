@@ -5,7 +5,7 @@ import {Model, Types} from 'mongoose';
 import {MailDto, ParticipantDto, PollDto, PollEventDto} from '../../dto';
 import {Participant, Poll, PollEvent} from '../../schema';
 import {MailService} from '../../mail/mail/mail.service';
-import {ReadPollDto, ReadStatsPollDto} from '../../dto/read-poll.dto';
+import {ReadPollDto, readPollSelect, ReadStatsPollDto} from '../../dto/read-poll.dto';
 
 @Injectable()
 export class PollService {
@@ -18,7 +18,7 @@ export class PollService {
     }
 
     async getPolls(token: string): Promise<ReadStatsPollDto[]> {
-        const adminPolls = await this.pollModel.find({adminToken: token}).select('-adminToken').exec();
+        const adminPolls = await this.pollModel.find({adminToken: token}).select(readPollSelect).exec();
         const participants = await this.participantModel.find({token}, null, {populate: 'poll'}).exec();
         const participantPolls = participants.map(participant => participant.poll);
         let polls = [...adminPolls, ...participantPolls];
@@ -38,16 +38,16 @@ export class PollService {
     };
 
     async getPoll(id: string): Promise<ReadPollDto> {
-        return this.pollModel.findById(id).select('-adminToken').exec();
+        return this.pollModel.findById(id).select(readPollSelect).exec();
     }
 
     async postPoll(pollDto: PollDto): Promise<ReadPollDto> {
-        const poll = await this.pollModel.create(pollDto);
-        return this.pollModel.findById(poll._id).select('-adminToken').exec();
+        const {adminToken, adminMail, ...rest} = await this.pollModel.create(pollDto);
+        return rest;
     }
 
     async putPoll(id: string, pollDto: PollDto): Promise<ReadPollDto> {
-        return this.pollModel.findByIdAndUpdate(id, pollDto, {new: true}).select('-adminToken').exec();
+        return this.pollModel.findByIdAndUpdate(id, pollDto, {new: true}).select(readPollSelect).exec();
     }
 
     async clonePoll(id: string): Promise<ReadPollDto> {
@@ -67,7 +67,8 @@ export class PollService {
             note: event.note,
         }));
         await this.pollEventModel.create(clonedPollEvents);
-        return this.pollModel.findById(clonedPoll._id).select('-adminToken').exec();
+        const {adminToken, adminMail, ...rest} = clonedPoll;
+        return rest;
     }
 
     async deletePoll(id: string): Promise<ReadPollDto | undefined> {
@@ -160,7 +161,7 @@ export class PollService {
                 participant: participant.toObject(),
             }).then();
         }
-        return this.pollModel.findByIdAndUpdate(id, poll, {new: true}).select('-adminToken').exec();
+        return this.pollModel.findByIdAndUpdate(id, poll, {new: true}).select(readPollSelect).exec();
     }
 
     private async removeParticipations(id: string, events: PollEventDto[]) {
