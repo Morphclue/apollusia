@@ -3,9 +3,9 @@ import {InjectModel} from '@nestjs/mongoose';
 import {Model, Types} from 'mongoose';
 
 import {MailDto, ParticipantDto, PollDto, PollEventDto} from '../../dto';
-import {Participant, Poll, PollEvent} from '../../schema';
-import {MailService} from '../../mail/mail/mail.service';
 import {ReadPollDto, readPollSelect, ReadStatsPollDto} from '../../dto/read-poll.dto';
+import {MailService} from '../../mail/mail/mail.service';
+import {Participant, Poll, PollEvent} from '../../schema';
 
 @Injectable()
 export class PollService {
@@ -51,24 +51,19 @@ export class PollService {
     }
 
     async clonePoll(id: string): Promise<ReadPollDto> {
-        const poll = await this.pollModel.findById(id).exec();
+        const {_id, bookedEvents, title, ...rest} = await this.pollModel.findById(id).exec();
         const pollEvents = await this.pollEventModel.find({poll: new Types.ObjectId(id)}).exec();
-        const clonedPoll = await this.pollModel.create({
-            title: `${poll.title} (clone)`,
-            description: poll.description,
-            location: poll.location,
-            adminToken: poll.adminToken,
-            settings: poll.settings,
+        const clonedPoll = await this.postPoll({
+            ...rest,
+            title: `${title} (clone)`,
         });
-        const clonedPollEvents = pollEvents.map(event => ({
+        await this.pollEventModel.create(pollEvents.map(({start, end, note}) => ({
             poll: clonedPoll._id,
-            start: event.start,
-            end: event.end,
-            note: event.note,
-        }));
-        await this.pollEventModel.create(clonedPollEvents);
-        const {adminToken, adminMail, ...rest} = clonedPoll;
-        return rest;
+            start,
+            end,
+            note,
+        })));
+        return clonedPoll;
     }
 
     async deletePoll(id: string): Promise<ReadPollDto | undefined> {
