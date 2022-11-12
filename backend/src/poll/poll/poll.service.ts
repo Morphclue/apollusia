@@ -19,9 +19,9 @@ export class PollService {
 
     async getPolls(token: string): Promise<ReadStatsPollDto[]> {
         const adminPolls = await this.pollModel.find({adminToken: token}).select('-adminToken').exec();
-        const participants = await this.participantModel.find({token}, null, {populate: 'poll'}).exec();
+        const participants = await this.participantModel.find({token}).populate<{poll: Poll}>('poll').exec();
         const participantPolls = participants.map(participant => participant.poll);
-        let polls = [...adminPolls, ...participantPolls];
+        const polls = [...adminPolls, ...participantPolls];
         const filteredPolls = polls.filter((poll: Poll, index) => polls.findIndex((p: any) => p._id.toString() === poll._id.toString()) === index);
         const readPolls = filteredPolls.map(async (poll: Poll): Promise<ReadStatsPollDto> => ({
             _id: poll._id,
@@ -35,7 +35,7 @@ export class PollService {
         }));
 
         return Promise.all(readPolls);
-    };
+    }
 
     async getPoll(id: string): Promise<ReadPollDto> {
         return this.pollModel.findById(id).select('-adminToken').exec();
@@ -111,17 +111,13 @@ export class PollService {
     }
 
     async getParticipants(id: string) {
-        return this.participantModel.find({poll: id}).populate(['participation', 'indeterminateParticipation']).exec();
+        return this.participantModel.find({poll: id}).exec();
     }
 
-    async postParticipation(id: string, participant: ParticipantDto): Promise<Participant> {
+    async postParticipation(id: string, dto: ParticipantDto): Promise<Participant> {
         return this.participantModel.create({
+            ...dto,
             poll: id,
-            name: participant.name,
-            participation: participant.participation,
-            indeterminateParticipation: participant.indeterminateParticipation,
-            token: participant.token,
-            mail: participant.mail,
         });
     }
 
