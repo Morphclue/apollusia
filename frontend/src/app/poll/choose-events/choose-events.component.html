@@ -5,8 +5,8 @@
   </h1>
   <div class="mb-3">
     <div *ngIf="poll?.location as location" class="d-flex align-items-center">
-      <i class="bi-geo text-primary fs-4 me-2" ngbTooltip="Location"></i>
-      {{ location }}
+      <i class="text-primary fs-4 me-2 {{location | locationIcon}}" ngbTooltip="Location"></i>
+      <app-location-link [location]="location"></app-location-link>
     </div>
     <div *ngIf="poll?.settings?.deadline as deadline" class="d-flex align-items-center">
       <i class="bi-calendar text-primary fs-4 me-2" ngbTooltip="Deadline"></i>
@@ -14,9 +14,7 @@
     </div>
     <div *ngIf="poll?.description as description" class="d-flex align-items-center">
       <i class="bi-file-text text-primary fs-4 me-2" ngbTooltip="Description"></i>
-      <div style="white-space: pre-line">
-        {{ description }}
-      </div>
+      <app-markdown [text]="description"></app-markdown>
     </div>
     <div class="d-flex align-items-center">
       <i class="bi-link text-primary fs-4 me-2" ngbTooltip="Link"></i>
@@ -37,6 +35,14 @@
         </tr>
         </thead>
         <tbody>
+        <tr *ngIf="poll?.settings?.maxParticipantEvents as limit" >
+          <td [colSpan]="2 + pollEvents.length">
+            <div class="alert alert-info mb-0">
+              This poll is limited.
+              You can select up to {{ limit }} choices.
+            </div>
+          </td>
+        </tr>
         <tr *ngIf="!isFull(); else fullAlert">
           <th style="min-width: 240px" scope="row">
             <input *ngIf="!poll?.settings?.anonymous"
@@ -60,7 +66,9 @@
             ></app-check-button>
           </td>
           <th class="border-0 text-start" scope="col">
-            <button class="btn btn-primary btn-sm" type="submit" [disabled]="!participateForm.valid">Submit</button>
+            <button class="btn btn-primary btn-sm" type="submit" [disabled]="!participateForm.valid || !canSubmitChecks(checks)">
+              Submit
+            </button>
           </th>
         </tr>
         <ng-template #fullAlert>
@@ -109,7 +117,7 @@
             </ng-container>
             <td *ngIf="participant === editParticipant" class="border-0 text-start">
               <button class="btn btn-primary btn-sm ms-1 bi-x" type="button" (click)="cancelEdit()"></button>
-              <button class="btn btn-secondary btn-sm ms-1 bi-check" type="button" (click)="confirmEdit()"></button>
+              <button class="btn btn-secondary btn-sm ms-1 bi-check" type="button" [disabled]="!canSubmitChecks(editChecks)" (click)="confirmEdit()"></button>
             </td>
             <td *ngIf="!editParticipant" class="border-0 text-start">
               <button

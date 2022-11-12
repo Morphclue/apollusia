@@ -31,14 +31,55 @@ export class CreateEditPollComponent implements OnInit {
     deadlineTime: new FormControl(),
     emailUpdates: new FormControl(false),
     maxParticipants: new FormControl(false),
-    maxParticipantsInput: new FormControl(''),
+    maxParticipantsInput: new FormControl(0),
+    maxParticipantEvents: new FormControl(false),
+    maxParticipantEventsInput: new FormControl(0),
     maxEventParticipants: new FormControl(false),
-    maxEventParticipantsInput: new FormControl(''),
+    maxEventParticipantsInput: new FormControl(0),
     allowMaybe: new FormControl(false),
     allowEdit: new FormControl(false),
     anonymous: new FormControl(false),
     blindParticipation: new FormControl(false),
   });
+
+  presets = [
+    {
+      title: 'Group',
+      description: 'Pick the best time for a group of people to do something together.',
+      settings: {
+        maxParticipantEvents: false,
+        maxEventParticipants: false,
+        allowMaybe: true,
+        allowEdit: true,
+        blindParticipation: false,
+      },
+    },
+    {
+      title: '1:1 Availability',
+      description: 'Let participants tell you their availability for a 1:1 meeting with you.',
+      settings: {
+        maxParticipantEvents: false,
+        maxEventParticipants: false,
+        allowMaybe: true,
+        allowEdit: false,
+        blindParticipation: true, // TODO participants should not see other participants' votes
+      },
+    },
+    {
+      title: '1:1 Slots',
+      description: 'Let participants pick a single slot for a 1:1 meeting with you.',
+      settings: {
+        maxParticipantEvents: true,
+        maxParticipantEventsInput: 1,
+        maxEventParticipants: true,
+        maxEventParticipantsInput: 1,
+        allowMaybe: false,
+        allowEdit: false,
+        blindParticipation: true, // TODO participants should not see other participants' votes
+      },
+    },
+  ];
+  selectedPreset?: any;
 
   constructor(
     private modalService: NgbModal,
@@ -58,6 +99,17 @@ export class CreateEditPollComponent implements OnInit {
     this.mail = this.mailService.getMail();
     this.fetchPoll();
     this.checkAdmin();
+
+    this.pollForm.valueChanges.subscribe(value => {
+      this.selectedPreset = this.presets.find(preset => {
+        for (const [k, v] of Object.entries(preset.settings)) {
+          if ((value as any)[k] !== v) {
+            return false;
+          }
+        }
+        return true;
+      });
+    });
   }
 
   onFormSubmit(): void {
@@ -74,8 +126,9 @@ export class CreateEditPollComponent implements OnInit {
         allowMaybe: !!pollForm.allowMaybe,
         allowEdit: !!pollForm.allowEdit,
         anonymous: !!pollForm.anonymous,
-        maxParticipants: pollForm.maxParticipants ? parseInt(<string>pollForm.maxParticipantsInput) : undefined,
-        maxEventParticipants: pollForm.maxEventParticipants ? parseInt(<string>pollForm.maxEventParticipantsInput) : undefined,
+        maxParticipants: pollForm.maxParticipants && pollForm.maxParticipantsInput || undefined,
+        maxParticipantEvents: pollForm.maxParticipantEvents && pollForm.maxParticipantEventsInput || undefined,
+        maxEventParticipants: pollForm.maxEventParticipants && pollForm.maxEventParticipantsInput || undefined,
         blindParticipation: !!pollForm.blindParticipation,
       },
     };
@@ -118,10 +171,12 @@ export class CreateEditPollComponent implements OnInit {
         deadlineDate: poll.settings.deadline ? format(new Date(poll.settings.deadline), 'yyyy-MM-dd') : '',
         deadlineTime: poll.settings.deadline ? format(new Date(poll.settings.deadline), 'HH:mm') : '',
         emailUpdates: !!poll.adminMail,
-        maxParticipants: poll.settings.maxParticipants !== undefined,
-        maxParticipantsInput: poll.settings.maxParticipants ? poll.settings.maxParticipants.toString() : '',
-        maxEventParticipants: poll.settings.maxEventParticipants !== undefined,
-        maxEventParticipantsInput: poll.settings.maxEventParticipants ? poll.settings.maxEventParticipants.toString() : '',
+        maxParticipants: !!poll.settings.maxParticipants,
+        maxParticipantsInput: poll.settings.maxParticipants,
+        maxParticipantEvents: !!poll.settings.maxParticipantEvents,
+        maxParticipantEventsInput: poll.settings.maxParticipantEvents,
+        maxEventParticipants: !!poll.settings.maxEventParticipants,
+        maxEventParticipantsInput: poll.settings.maxEventParticipants,
         allowMaybe: poll.settings.allowMaybe,
         allowEdit: poll.settings.allowEdit,
         anonymous: poll.settings.anonymous,
@@ -143,6 +198,12 @@ export class CreateEditPollComponent implements OnInit {
     this.http.post(`${environment.backendURL}/poll/${this.id}/clone`, {}).subscribe(() => {
       this.router.navigate(['dashboard']).then();
     });
+  }
+
+  applyPreset(preset: any): void {
+    this.selectedPreset = preset;
+    this.pollForm.patchValue(preset.settings);
+    this.pollForm.markAsDirty();
   }
 
   private checkAdmin() {

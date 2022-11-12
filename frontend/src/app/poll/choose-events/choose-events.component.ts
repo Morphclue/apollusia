@@ -36,7 +36,7 @@ export class ChooseEventsComponent implements OnInit {
   });
 
   constructor(
-    private route: ActivatedRoute,
+    public route: ActivatedRoute,
     private router: Router,
     private http: HttpClient,
     private tokenService: TokenService,
@@ -55,6 +55,18 @@ export class ChooseEventsComponent implements OnInit {
     this.fetchParticipants();
     this.checkAdmin();
     this.mail = this.mailService.getMail();
+  }
+
+  canSubmitChecks(checks: CheckboxState[]) {
+    const maxParticipantEvents = this.poll?.settings?.maxParticipantEvents;
+    if (maxParticipantEvents) {
+      const selected = checks.filter(c => c === CheckboxState.TRUE).length;
+      if (selected > maxParticipantEvents) {
+        return false;
+      }
+    }
+
+    return true;
   }
 
   onFormSubmit() {

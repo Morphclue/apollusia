@@ -16,14 +16,15 @@
           </div>
         </div>
         <div *ngIf="poll.description" class="card-body">
-          <p class="card-text">{{poll.description | truncate:[160, '...']}}</p>
+          <app-markdown [text]="poll.description"></app-markdown>
         </div>
         <div class="card-footer">
           <div *ngIf="poll.settings.deadline" class="bi-calendar">
             Deadline: {{poll.settings.deadline | date:'medium'}}
           </div>
-          <div *ngIf="poll.location" class="bi-geo">
-            Location: {{poll.location}}
+          <div *ngIf="poll.location" [class]="poll.location | locationIcon">
+            Location:
+            <app-location-link [location]="poll.location"></app-location-link>
           </div>
           <div class="bi-check">
             Options: {{poll.events}}
