@@ -7,7 +7,7 @@ import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 
 import {environment} from '../../../environments/environment';
-import {TokenService} from '../../core/services';
+import {MailService, TokenService} from '../../core/services';
 import {CreatePollDto, Poll} from '../../model';
 import {format} from 'date-fns';
 
@@ -21,6 +21,7 @@ export class CreateEditPollComponent implements OnInit {
   id: string = '';
   poll?: Poll;
   minDate = new Date();
+  mail?: string;
   isAdmin: boolean = false;
   pollForm = new FormGroup({
     title: new FormControl('', Validators.required),
@@ -28,6 +29,7 @@ export class CreateEditPollComponent implements OnInit {
     location: new FormControl(''),
     deadlineDate: new FormControl(),
     deadlineTime: new FormControl(),
+    emailUpdates: new FormControl(false),
     maxParticipants: new FormControl(false),
     maxParticipantsInput: new FormControl(''),
     maxEventParticipants: new FormControl(false),
@@ -44,6 +46,7 @@ export class CreateEditPollComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private tokenService: TokenService,
+    private mailService: MailService,
   ) {
     const id: Observable<string> = route.params.pipe(map(p => p.id));
     id.subscribe((id: string) => {
@@ -52,6 +55,7 @@ export class CreateEditPollComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.mail = this.mailService.getMail();
     this.fetchPoll();
     this.checkAdmin();
   }
@@ -64,6 +68,7 @@ export class CreateEditPollComponent implements OnInit {
       description: pollForm.description ? pollForm.description : '',
       location: pollForm.location ? pollForm.location : '',
       adminToken: this.tokenService.getToken(),
+      adminMail: pollForm.emailUpdates ? this.poll?.adminMail || this.mail : undefined,
       settings: {
         deadline: deadline,
         allowMaybe: !!pollForm.allowMaybe,
@@ -112,6 +117,7 @@ export class CreateEditPollComponent implements OnInit {
         location: poll.location,
         deadlineDate: poll.settings.deadline ? format(new Date(poll.settings.deadline), 'yyyy-MM-dd') : '',
         deadlineTime: poll.settings.deadline ? format(new Date(poll.settings.deadline), 'HH:mm') : '',
+        emailUpdates: !!poll.adminMail,
         maxParticipants: poll.settings.maxParticipants !== undefined,
         maxParticipantsInput: poll.settings.maxParticipants ? poll.settings.maxParticipants.toString() : '',
         maxEventParticipants: poll.settings.maxEventParticipants !== undefined,
