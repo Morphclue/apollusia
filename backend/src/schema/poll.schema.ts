@@ -1,4 +1,7 @@
 import {Prop, Schema, SchemaFactory} from '@nestjs/mongoose';
+import {ApiProperty, ApiPropertyOptional} from '@nestjs/swagger';
+import {Type} from 'class-transformer';
+import {IsNotEmpty, IsOptional, IsString, MinLength, ValidateNested} from 'class-validator';
 import mongoose, {Types} from 'mongoose';
 
 import {Settings} from '../dto';
@@ -9,18 +12,34 @@ export class Poll {
     _id: Types.ObjectId;
 
     @Prop({required: true})
+    @ApiProperty()
+    @IsString()
+    @IsNotEmpty()
+    @MinLength(1)
     title: string;
 
     @Prop()
-    description: string;
+    @ApiPropertyOptional()
+    @IsOptional()
+    @IsString()
+    description?: string;
 
     @Prop()
-    location: string;
+    @ApiPropertyOptional()
+    @IsOptional()
+    @IsString()
+    location?: string;
 
     @Prop({required: true})
+    @ApiProperty()
+    @IsNotEmpty()
+    @IsString()
     adminToken: string;
 
-    @Prop({Settings})
+    @Prop()
+    @ApiProperty()
+    @Type(() => Settings)
+    @ValidateNested()
     settings: Settings;
 
     @Prop({
@@ -29,6 +48,7 @@ export class Poll {
             ref: 'PollEvent',
         }],
     })
+    @ApiProperty()
     bookedEvents: PollEvent[];
 }
 

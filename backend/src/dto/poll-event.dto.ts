@@ -1,26 +1,9 @@
-import {ApiProperty} from '@nestjs/swagger';
-import {IsNotEmpty, IsString} from 'class-validator';
+import {ApiProperty, OmitType} from '@nestjs/swagger';
+import {IsMongoId} from 'class-validator';
+import {PollEvent} from '../schema';
 
-export class PollEventDto {
+export class PollEventDto extends OmitType(PollEvent, ['_id', 'poll'] as const) {
     @ApiProperty()
-    @IsString()
+    @IsMongoId()
     _id: string;
-
-    @ApiProperty()
-    @IsString()
-    title: string;
-
-    @ApiProperty()
-    @IsString()
-    @IsNotEmpty()
-    start: string;
-
-    @ApiProperty()
-    @IsString()
-    @IsNotEmpty()
-    end: string;
-
-    @ApiProperty()
-    @IsString()
-    note: string;
 }

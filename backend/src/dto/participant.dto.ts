@@ -1,29 +1,5 @@
-import {ApiProperty} from '@nestjs/swagger';
-import {IsNotEmpty, IsString, MinLength} from 'class-validator';
+import {OmitType} from '@nestjs/swagger';
+import {Participant} from '../schema';
 
-import {PollEventDto} from './poll-event.dto';
-
-export class ParticipantDto {
-    @ApiProperty()
-    @IsString()
-    @IsNotEmpty()
-    @MinLength(1)
-    name: string;
-
-    @ApiProperty()
-    @IsNotEmpty()
-    participation: PollEventDto[];
-
-    @ApiProperty()
-    @IsNotEmpty()
-    indeterminateParticipation: PollEventDto[];
-
-    @ApiProperty()
-    @IsString()
-    @IsNotEmpty()
-    token: string;
-
-    @ApiProperty()
-    @IsString()
-    mail?: string;
+export class ParticipantDto extends OmitType(Participant, ['_id', 'poll'] as const) {
 }
