@@ -67,14 +67,13 @@ export class PollService {
     }
 
     async deletePoll(id: string): Promise<ReadPollDto | undefined> {
-        const poll = await this.pollModel.findByIdAndDelete(id).exec();
+        const poll = await this.pollModel.findByIdAndDelete(id).select(readPollSelect).exec();
         if (!poll) {
             return;
         }
 
         await this.pollEventModel.deleteMany({poll: new Types.ObjectId(id)}).exec();
         await this.participantModel.deleteMany({poll: new Types.ObjectId(id)}).exec();
-        poll.adminToken = undefined;
         return poll;
     }
 
