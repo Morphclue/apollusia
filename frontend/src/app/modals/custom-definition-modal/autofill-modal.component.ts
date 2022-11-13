@@ -34,9 +34,9 @@ export class AutofillModalComponent implements OnInit {
 
     const day = format(event.start, 'yyyy-MM-dd');
     const ngbDate = new NgbDate(
-      parseInt(day.split('-')[0]),
-      parseInt(day.split('-')[1]),
-      parseInt(day.split('-')[2]),
+      parseInt(day.split('-')[0], 10),
+      parseInt(day.split('-')[1], 10),
+      parseInt(day.split('-')[2], 10),
     );
 
     this.onDateSelect(ngbDate);
@@ -59,9 +59,9 @@ export class AutofillModalComponent implements OnInit {
     }
 
     const dates = dateValue.split(',');
-    const startTime = startTimeValue.split(':').map((value: string) => parseInt(value));
-    const duration = durationValue.split(':').map((value: string) => parseInt(value));
-    const pause = pauseValue.split(':').map((value: string) => parseInt(value));
+    const startTime = startTimeValue.split(':').map((value: string) => parseInt(value, 10));
+    const duration = durationValue.split(':').map((value: string) => parseInt(value, 10));
+    const pause = pauseValue.split(':').map((value: string) => parseInt(value, 10));
 
     for (let i = 0; i < dates.length; i++) {
       let start = new Date(dates[i]);
