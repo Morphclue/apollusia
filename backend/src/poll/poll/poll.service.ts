@@ -162,16 +162,17 @@ export class PollService {
             poll: id,
             participation: {$in: events.map(event => event._id)},
         }).exec();
-        const indeterminateParticipants = await this.participantModel.find({
-            poll: id,
-            indeterminateParticipation: {$in: events.map(event => event._id)},
-        });
 
         for (const participant of changedParticipants) {
             participant.participation = participant.participation.filter((event: any) =>
                 !events.some(e => e._id.toString() === event._id.toString()));
             await this.participantModel.findByIdAndUpdate(participant._id, participant).exec();
         }
+
+        const indeterminateParticipants = await this.participantModel.find({
+            poll: id,
+            indeterminateParticipation: {$in: events.map(event => event._id)},
+        });
 
         for (const participant of indeterminateParticipants) {
             participant.indeterminateParticipation = participant.indeterminateParticipation.filter((event: any) =>
