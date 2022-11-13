@@ -86,8 +86,8 @@ export class CreateEditPollComponent implements OnInit {
     private route: ActivatedRoute,
     private tokenService: TokenService,
   ) {
-    const id: Observable<string> = route.params.pipe(map(p => p.id));
-    id.subscribe((id: string) => {
+    const routeId: Observable<string> = route.params.pipe(map(p => p.id));
+    routeId.subscribe((id: string) => {
       this.id = id;
     });
   }
