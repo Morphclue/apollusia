@@ -167,17 +167,17 @@ export class PollService {
             indeterminateParticipation: {$in: events.map(event => event._id)},
         });
 
-        changedParticipants.forEach(participant => {
+        for (const participant of changedParticipants) {
             participant.participation = participant.participation.filter((event: any) =>
                 !events.some(e => e._id.toString() === event._id.toString()));
-            this.participantModel.findByIdAndUpdate(participant._id, participant).exec();
-        });
+            await this.participantModel.findByIdAndUpdate(participant._id, participant).exec();
+        }
 
-        indeterminateParticipants.forEach(participant => {
+        for (const participant of indeterminateParticipants) {
             participant.indeterminateParticipation = participant.indeterminateParticipation.filter((event: any) =>
                 !events.some(e => e._id.toString() === event._id.toString()));
-            this.participantModel.findByIdAndUpdate(participant._id, participant).exec();
-        });
+            await this.participantModel.findByIdAndUpdate(participant._id, participant).exec();
+        }
     }
 
     async setMail(mailDto: MailDto) {
