@@ -3,9 +3,9 @@ import {InjectModel} from '@nestjs/mongoose';
 import {Model, Types} from 'mongoose';
 
 import {MailDto, ParticipantDto, PollDto, PollEventDto} from '../../dto';
-import {Participant, Poll, PollEvent} from '../../schema';
-import {MailService} from '../../mail/mail/mail.service';
 import {ReadPollDto, ReadStatsPollDto} from '../../dto/read-poll.dto';
+import {MailService} from '../../mail/mail/mail.service';
+import {Participant, Poll, PollEvent} from '../../schema';
 
 @Injectable()
 export class PollService {
@@ -21,7 +21,7 @@ export class PollService {
         const adminPolls = await this.pollModel.find({adminToken: token}).select('-adminToken').exec();
         const participants = await this.participantModel.find({token}, null, {populate: 'poll'}).exec();
         const participantPolls = participants.map(participant => participant.poll);
-        let polls = [...adminPolls, ...participantPolls];
+        const polls = [...adminPolls, ...participantPolls];
         const filteredPolls = polls.filter((poll: Poll, index) => polls.findIndex((p: any) => p._id.toString() === poll._id.toString()) === index);
         const readPolls = filteredPolls.map(async (poll: Poll): Promise<ReadStatsPollDto> => ({
             _id: poll._id,
@@ -35,7 +35,7 @@ export class PollService {
         }));
 
         return Promise.all(readPolls);
-    };
+    }
 
     async getPoll(id: string): Promise<ReadPollDto> {
         return this.pollModel.findById(id).select('-adminToken').exec();

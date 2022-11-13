@@ -1,9 +1,9 @@
 import {Module} from '@nestjs/common';
 import {MongooseModule} from '@nestjs/mongoose';
 
-import {TokenService} from './token/token.service';
-import {TokenController} from './token/token.controller';
 import {Poll, PollSchema} from '../schema';
+import {TokenController} from './token/token.controller';
+import {TokenService} from './token/token.service';
 
 @Module({
     imports: [MongooseModule.forFeature([
