@@ -36,7 +36,17 @@
             "prefix": "app",
             "style": "camelCase"
           }
-        ]
+        ],
+        "no-underscore-dangle": [
+          "error",
+          {
+            "allow": [
+              "_id"
+            ]
+          }
+        ],
+        "object-shorthand": 0,
+        "@typescript-eslint/no-inferrable-types": 0
       }
     },
     {
