@@ -9,4 +9,4 @@ export interface Participant {
   _id: string;
 }
 
-export type CreateParticipantDto = Omit<Participant, '_id'>
+export type CreateParticipantDto = Omit<Participant, '_id'>;
