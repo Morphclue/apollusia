@@ -22,6 +22,10 @@
         "plugin:@angular-eslint/template/process-inline-templates"
       ],
       "rules": {
+        "object-shorthand": 0,
+        "max-len": 0,
+        "@typescript-eslint/no-inferrable-types": 0,
+        "@typescript-eslint/no-non-null-assertion": 0,
         "@angular-eslint/component-selector": [
           "error",
           {
@@ -46,9 +50,6 @@
             ]
           }
         ],
-        "object-shorthand": 0,
-        "@typescript-eslint/no-inferrable-types": 0,
-        "@typescript-eslint/no-non-null-assertion": 0,
         "@typescript-eslint/naming-convention": [
           "error",
           {

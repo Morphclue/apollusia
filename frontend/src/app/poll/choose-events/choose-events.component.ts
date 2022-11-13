@@ -123,10 +123,11 @@ export class ChooseEventsComponent implements OnInit {
 
     this.editParticipant.participation = this.filterEvents(this.editChecks, CheckboxState.TRUE);
     this.editParticipant.indeterminateParticipation = this.filterEvents(this.editChecks, CheckboxState.INDETERMINATE);
-    this.http.put(`${environment.backendURL}/poll/${this.id}/participate/${this.editParticipant._id}`, this.editParticipant).subscribe(() => {
-      this.cancelEdit();
-      this.fetchParticipants();
-    });
+    this.http.put(`${environment.backendURL}/poll/${this.id}/participate/${this.editParticipant._id}`, this.editParticipant)
+      .subscribe(() => {
+        this.cancelEdit();
+        this.fetchParticipants();
+      });
   }
 
   isFull() {
