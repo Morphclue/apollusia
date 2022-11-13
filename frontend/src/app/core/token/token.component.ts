@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {distinctUntilChanged} from 'rxjs/operators';
 import {Subject} from 'rxjs';
+import {distinctUntilChanged} from 'rxjs/operators';
 
 import {TokenService} from '../services';
 

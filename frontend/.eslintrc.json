@@ -58,7 +58,46 @@
               "UPPER_CASE"
             ]
           }
+        ],
+        "import/order": [
+          "error",
+          {
+            "newlines-between": "always",
+            "groups": [
+              [
+                "external",
+                "internal",
+                "builtin"
+              ],
+              [
+                "parent",
+                "sibling",
+                "index"
+              ]
+            ],
+            "alphabetize": {
+              "order": "asc",
+              "caseInsensitive": true
+            }
+          }
         ]
+      },
+      "settings": {
+        "import/internal-regex": "@angular",
+        "import/external-module-folders": [
+          "node_modules"
+        ],
+        "import/parsers": {
+          "@typescript-eslint/parser": [
+            ".ts"
+          ]
+        },
+        "import/resolver": {
+          "alias": true,
+          "typescript": {
+            "alwaysTryTypes": true
+          }
+        }
       }
     },
     {

@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+
 import {TokenService} from './core/services';
 
 @Component({

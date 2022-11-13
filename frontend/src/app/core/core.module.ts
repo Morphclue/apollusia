@@ -1,14 +1,14 @@
-import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
+import {NgModule} from '@angular/core';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {RouterModule} from '@angular/router';
 import {NgbCollapseModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {MarkdownComponent} from './markdown/markdown.component';
 
+import {LocationLinkComponent} from './location-link/location-link.component';
+import {MarkdownComponent} from './markdown/markdown.component';
 import {NavbarComponent} from './navbar/navbar.component';
 import {LocationIconPipe} from './pipes/location-icon.pipe';
 import {TokenComponent} from './token/token.component';
-import {LocationLinkComponent} from './location-link/location-link.component';
 
 @NgModule({
   declarations: [

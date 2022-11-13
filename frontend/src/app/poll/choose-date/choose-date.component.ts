@@ -1,16 +1,16 @@
-import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, TemplateRef} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
+import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, TemplateRef} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {CalendarEvent, CalendarEventTimesChangedEvent} from 'angular-calendar';
 import {WeekViewHourSegment} from 'calendar-utils';
+import {addMinutes, differenceInMinutes, endOfWeek, format} from 'date-fns';
 import {fromEvent, Observable} from 'rxjs';
 import {finalize, map, takeUntil} from 'rxjs/operators';
-import {addMinutes, differenceInMinutes, endOfWeek, format} from 'date-fns';
-import {CalendarEvent, CalendarEventTimesChangedEvent} from 'angular-calendar';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
-import {ChooseDateService} from '../services/choose-date.service';
 import {environment} from '../../../environments/environment';
 import {PollEvent} from '../../model';
+import {ChooseDateService} from '../services/choose-date.service';
 
 @Component({
   selector: 'app-choose-date',

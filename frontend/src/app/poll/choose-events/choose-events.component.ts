@@ -1,15 +1,15 @@
-import {Component, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
+import {Component, OnInit} from '@angular/core';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Title} from '@angular/platform-browser';
 import {ActivatedRoute, Router} from '@angular/router';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {ToastService} from 'ng-bootstrap-ext';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 
-import {CreateParticipantDto, Participant, Poll, PollEvent} from '../../model';
-import {MailService, TokenService} from '../../core/services';
 import {environment} from '../../../environments/environment';
+import {MailService, TokenService} from '../../core/services';
+import {CreateParticipantDto, Participant, Poll, PollEvent} from '../../model';
 import {CheckboxState} from '../../model/checkbox-state';
 
 @Component({

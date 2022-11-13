@@ -1,7 +1,8 @@
-import {Component, OnInit} from '@angular/core';
-import {Statistics} from '../../model';
 import {HttpClient} from '@angular/common/http';
+import {Component, OnInit} from '@angular/core';
+
 import {environment} from '../../../environments/environment';
+import {Statistics} from '../../model';
 
 @Component({
   selector: 'app-statistics',

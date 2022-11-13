@@ -1,15 +1,15 @@
+import {HttpClient} from '@angular/common/http';
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {HttpClient} from '@angular/common/http';
 import {ActivatedRoute, Router} from '@angular/router';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {format} from 'date-fns';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 
 import {environment} from '../../../environments/environment';
 import {TokenService} from '../../core/services';
 import {CreatePollDto, Poll} from '../../model';
-import {format} from 'date-fns';
 
 @Component({
   selector: 'app-create-edit-poll',
