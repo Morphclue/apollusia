@@ -59,7 +59,7 @@ export class ChooseDateComponent implements AfterViewInit {
     mouseDownEvent: MouseEvent,
     segmentElement: HTMLElement,
   ) {
-    if (mouseDownEvent.button != 0) {
+    if (mouseDownEvent.button !== 0) {
       return;
     }
 
@@ -115,9 +115,7 @@ export class ChooseDateComponent implements AfterViewInit {
   }
 
   createEvents() {
-    const events: PollEvent[] = this.chooseDateService.events.map((event: CalendarEvent) => {
-      return {_id: event.id?.toString(), start: event.start, end: event.end, note: event.meta.note};
-    });
+    const events: PollEvent[] = this.chooseDateService.events.map((event: CalendarEvent) => ({_id: event.id?.toString(), start: event.start, end: event.end, note: event.meta.note}));
     this.http.post(`${environment.backendURL}/poll/${this.id}/events`, events).subscribe(() => {
       this.router.navigate([`poll/${this.id}/participate`]).then();
     });

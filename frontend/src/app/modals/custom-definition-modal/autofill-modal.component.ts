@@ -63,8 +63,8 @@ export class AutofillModalComponent implements OnInit {
     const duration = durationValue.split(':').map((value: string) => parseInt(value, 10));
     const pause = pauseValue.split(':').map((value: string) => parseInt(value, 10));
 
-    for (let i = 0; i < dates.length; i++) {
-      let start = new Date(dates[i]);
+    for (const item of dates) {
+      let start = new Date(item);
       start.setHours(startTime[0], startTime[1], 0, 0);
       let end = new Date(start);
       end = addMinutes(end, duration[0] * 60 + duration[1]);
@@ -94,9 +94,7 @@ export class AutofillModalComponent implements OnInit {
   }
 
   private fillDates() {
-    const dates: Date[] = this.selectedDates.map((date: NgbDate) => {
-      return new Date(date.year, date.month - 1, date.day);
-    });
+    const dates: Date[] = this.selectedDates.map((date: NgbDate) => new Date(date.year, date.month - 1, date.day));
     this.modalForm.get('dates')?.setValue(dates.map((date: Date) => format(date, 'yyyy-MM-dd')).join(','));
   }
 }

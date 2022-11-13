@@ -44,7 +44,7 @@ export class ChooseDateService {
 
   calculateNewEnd(segment: WeekViewHourSegment, segmentElement: HTMLElement, mouseMoveEvent: any): Date {
     const segmentPosition = segmentElement.getBoundingClientRect();
-    let minutesDifference = this.ceilToNearest(
+    const minutesDifference = this.ceilToNearest(
       (mouseMoveEvent.clientY - segmentPosition.top) / 2,
       15,
     );
@@ -108,12 +108,10 @@ export class ChooseDateService {
   }
 
   postpone(postponeDays: number) {
-    this.events = this.events.map(event => {
-      return {
+    this.events = this.events.map(event => ({
         ...event,
         start: addDays(event.start, postponeDays),
         end: addDays(event.end!, postponeDays),
-      };
-    });
+      }));
   }
 }

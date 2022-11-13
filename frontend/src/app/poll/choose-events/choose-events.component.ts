@@ -70,7 +70,7 @@ export class ChooseEventsComponent implements OnInit {
   }
 
   onFormSubmit() {
-    let participant: CreateParticipantDto = {
+    const participant: CreateParticipantDto = {
       name: this.participateForm.value.name ? this.participateForm.value.name : 'Anonymous',
       participation: this.filterEvents(this.checks, CheckboxState.TRUE),
       indeterminateParticipation: this.filterEvents(this.checks, CheckboxState.INDETERMINATE),
@@ -186,9 +186,7 @@ export class ChooseEventsComponent implements OnInit {
 
   private async fetchPollEvents() {
     await this.http.get<PollEvent[]>(`${environment.backendURL}/poll/${this.id}/events`).subscribe(events => {
-      this.pollEvents = events.sort((a, b) => {
-        return new Date(a.start).getTime() - new Date(b.start).getTime();
-      });
+      this.pollEvents = events.sort((a, b) => new Date(a.start).getTime() - new Date(b.start).getTime());
       this.checks = new Array(this.pollEvents.length).fill(CheckboxState.FALSE);
       this.editChecks = new Array(this.pollEvents.length).fill(CheckboxState.FALSE);
       this.bookedEvents = this.poll?.bookedEvents ? this.poll?.bookedEvents : [];
