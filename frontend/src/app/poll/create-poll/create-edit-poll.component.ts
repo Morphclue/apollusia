@@ -140,6 +140,27 @@ export class CreateEditPollComponent implements OnInit {
     this.router.navigate(['dashboard']).then();
   }
 
+  open(content: any) {
+    this.modalService.open(content).result.then(() => {
+      this.http.delete(`${environment.backendURL}/poll/${this.id}`).subscribe(() => {
+        this.router.navigate([`dashboard`]).then();
+      });
+    }).catch(() => {
+    });
+  }
+
+  clonePoll() {
+    this.http.post(`${environment.backendURL}/poll/${this.id}/clone`, {}).subscribe(() => {
+      this.router.navigate(['dashboard']).then();
+    });
+  }
+
+  applyPreset(preset: any): void {
+    this.selectedPreset = preset;
+    this.pollForm.patchValue(preset.settings);
+    this.pollForm.markAsDirty();
+  }
+
   private updatePoll(poll: CreatePollDto) {
     this.http.put<Poll>(`${environment.backendURL}/poll/${this.id}`, poll).subscribe(() => {
       this.router.navigate(['dashboard']).then();
@@ -177,27 +198,6 @@ export class CreateEditPollComponent implements OnInit {
         blindParticipation: poll.settings.blindParticipation,
       });
     });
-  }
-
-  open(content: any) {
-    this.modalService.open(content).result.then(() => {
-      this.http.delete(`${environment.backendURL}/poll/${this.id}`).subscribe(() => {
-        this.router.navigate([`dashboard`]).then();
-      });
-    }).catch(() => {
-    });
-  }
-
-  clonePoll() {
-    this.http.post(`${environment.backendURL}/poll/${this.id}/clone`, {}).subscribe(() => {
-      this.router.navigate(['dashboard']).then();
-    });
-  }
-
-  applyPreset(preset: any): void {
-    this.selectedPreset = preset;
-    this.pollForm.patchValue(preset.settings);
-    this.pollForm.markAsDirty();
   }
 
   private checkAdmin() {
