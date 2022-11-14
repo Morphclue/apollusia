@@ -2,7 +2,10 @@
 <p>Hello {{ participant.name }}!</p>
 
 <p>You just participated in the poll <b>{{ poll.title }}</b>!</p>
+<p>To edit or delete your choices, you can view the poll online.</p>
 
-<a class="btn" href="{{ origin }}/poll/{{ poll._id }}/participate">
-    View Poll
-</a>
+<p>
+    <a class="btn" href="{{ origin }}/poll/{{ poll._id }}/participate">
+        View Poll
+    </a>
+</p>
