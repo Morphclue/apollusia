@@ -24,8 +24,12 @@ TODO: Add screenshots of the application
 Create an `.env` file in the backend directory and add the following environment variables:
 
 ```bash
-EMAIL_HOST=smtp.sendgrid.net
-EMAIL_USER=apikey
-EMAIL_PASSWORD=<YOUR_SENDGRID_API_KEY>
-EMAIL_FROM=<SENDGRID_FROM_EMAIL_ADDRESS>
+EMAIL_HOST=<smtp host>
+EMAIL_PORT=25 # optional, alternatively 587, or 465 for SSL
+EMAIL_SSL=false # optional
+EMAIL_STARTTLS=false # optional
+EMAIL_USER=<username>
+EMAIL_PASSWORD=<password>
+EMAIL_FROM=<sender email>
+EMAIL_NAME=Apollusia # optional sender display name
 ```
