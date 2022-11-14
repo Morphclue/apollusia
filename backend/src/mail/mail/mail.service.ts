@@ -15,6 +15,9 @@ export class MailService {
         Handlebars.registerHelper('markdown', function (context) {
             return new Handlebars.SafeString(markdown.render(context));
         });
+        Handlebars.registerHelper('date', function (date) {
+            return new Date(date).toLocaleString();
+        });
 
         let styles: Handlebars.SafeString;
         fs.promises.readFile(__dirname + '/../templates/styles.css', 'utf8').then(data => {

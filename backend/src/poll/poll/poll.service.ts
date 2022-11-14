@@ -1,6 +1,6 @@
 import {Injectable, NotFoundException} from '@nestjs/common';
 import {InjectModel} from '@nestjs/mongoose';
-import {Model, Types} from 'mongoose';
+import {Document, Model, Types} from 'mongoose';
 
 import {MailDto, ParticipantDto, PollDto, PollEventDto} from '../../dto';
 import {ReadPollDto, readPollSelect, ReadStatsPollDto} from '../../dto/read-poll.dto';
@@ -118,15 +118,35 @@ export class PollService {
             ...dto,
             poll: id,
         });
-        poll.adminMail && this.mailService.sendMail('Poll Admin', poll.adminMail, 'Updates in Poll', 'participant', {
-            poll: poll.toObject(),
-            participant: participant.toObject(),
-        }).then();
+
+        poll.adminMail && this.sendAdminInfo(poll, participant);
         participant.mail && this.mailService.sendMail(participant.name, participant.mail, 'Participated in Poll', 'participated', {
             poll: poll.toObject(),
             participant: participant.toObject(),
         }).then();
         return participant;
+    }
+
+    private async sendAdminInfo(poll: Poll & Document, participant: Participant & Document) {
+        const events = await this.getEvents(poll._id.toString());
+        const participation = Array(events.length).fill({});
+
+        for (let i = 0; i < events.length; i++){
+            const event = events[i];
+            const yes = participant.participation.some(e => e._id.toString() === event._id.toString());
+            const maybe = participant.indeterminateParticipation.some(e => e._id.toString() === event._id.toString());
+            participation[i] = {
+                class: yes ? 'p-yes' : maybe ? 'p-maybe' : 'p-no',
+                icon: yes ? '✓' : maybe ? '?' : 'X',
+            };
+        }
+
+        return this.mailService.sendMail('Poll Admin', poll.adminMail, 'Updates in Poll', 'participant', {
+            poll: poll.toObject(),
+            participant: participant.toObject(),
+            events: events.map(({start, end}) => ({start, end})),
+            participants: [{name: participant.name, participation}],
+        });
     }
 
     async editParticipation(id: string, participantId: string, participant: ParticipantDto): Promise<Participant> {
@@ -143,7 +163,7 @@ export class PollService {
         for await (const participant of this.participantModel.find({poll: id}).populate(['participation', 'indeterminateParticipation'])) {
             const participations = [...participant.participation, ...participant.indeterminateParticipation];
             const appointments = poll.bookedEvents.map(event => {
-                let eventLine = `${new Date(event.start).toLocaleString()} - ${new Date(event.end).toLocaleString()}`;
+                let eventLine = this.renderEvent(event);
                 if (participations.some(p => p._id.toString() === event._id.toString())) {
                     eventLine += ' *';
                 }
@@ -156,6 +176,10 @@ export class PollService {
             }).then();
         }
         return this.pollModel.findByIdAndUpdate(id, poll, {new: true}).select(readPollSelect).exec();
+    }
+
+    private renderEvent(event: PollEvent) {
+        return `${new Date(event.start).toLocaleString()} - ${new Date(event.end).toLocaleString()}`;
     }
 
     private async removeParticipations(id: string, events: PollEventDto[]) {
