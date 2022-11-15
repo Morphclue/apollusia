@@ -1,0 +1,27 @@
+{{ style }}
+<p>Hello!</p>
+
+<p>{{ participant.name }} just participated in your poll <b>{{ poll.title }}</b>!</p>
+
+<table style="text-align: center">
+    <tr>
+        <th>Name</th>
+        {{# each events }}
+            <th>{{ date this.start }}<br/>{{ date this.end }}</th>
+        {{/each}}
+    </tr>
+    {{#each participants}}
+        <tr>
+            <th>{{ this.name }}</th>
+            {{#each this.participation}}
+                <td class="{{ this.class }}">{{ this.icon }}</td>
+            {{/each}}
+        </tr>
+    {{/each}}
+</table>
+
+<p>
+    <a class="btn" href="{{ origin }}/poll/{{ poll._id }}/participate">
+        View Poll
+    </a>
+</p>

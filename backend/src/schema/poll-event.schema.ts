@@ -1,10 +1,12 @@
 import {Prop, Schema, SchemaFactory} from '@nestjs/mongoose';
-import mongoose from 'mongoose';
+import mongoose, {Types} from 'mongoose';
 
 import {Poll} from './poll.schema';
 
 @Schema()
 export class PollEvent {
+    _id: Types.ObjectId;
+
     @Prop({type: mongoose.Schema.Types.ObjectId, ref: 'Poll'})
     poll: Poll;
 

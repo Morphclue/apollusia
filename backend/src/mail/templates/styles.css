@@ -1,0 +1,28 @@
+.btn {
+    background-color: #7b2cbf;
+    padding: 10px;
+    border-radius: 5px;
+    color: white;
+    text-decoration: none;
+}
+
+.card {
+    border: 1px solid gray;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+.p-yes {
+    color: #28a745;
+    background-color: #d4edda;
+}
+
+.p-no {
+    color: #dc3545;
+    background-color: #f8d7da;
+}
+
+.p-maybe {
+    color: #ffc107;
+    background-color: #fff3cd;
+}
