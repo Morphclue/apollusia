@@ -20,6 +20,9 @@ export class Poll {
     @Prop({required: true})
     adminToken: string;
 
+    @Prop({required: true})
+    adminMail?: string;
+
     @Prop({Settings})
     settings: Settings;
 

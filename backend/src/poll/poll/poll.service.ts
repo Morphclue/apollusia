@@ -1,11 +1,11 @@
-import {Injectable} from '@nestjs/common';
+import {Injectable, NotFoundException} from '@nestjs/common';
 import {InjectModel} from '@nestjs/mongoose';
-import {Model, Types} from 'mongoose';
+import {Document, Model, Types} from 'mongoose';
 
 import {MailDto, ParticipantDto, PollDto, PollEventDto} from '../../dto';
-import {Participant, Poll, PollEvent} from '../../schema';
+import {ReadPollDto, readPollSelect, ReadStatsPollDto} from '../../dto/read-poll.dto';
 import {MailService} from '../../mail/mail/mail.service';
-import {ReadPollDto, ReadStatsPollDto} from '../../dto/read-poll.dto';
+import {Participant, Poll, PollEvent} from '../../schema';
 
 @Injectable()
 export class PollService {
@@ -18,7 +18,7 @@ export class PollService {
     }
 
     async getPolls(token: string): Promise<ReadStatsPollDto[]> {
-        const adminPolls = await this.pollModel.find({adminToken: token}).select('-adminToken').exec();
+        const adminPolls = await this.pollModel.find({adminToken: token}).select(readPollSelect).exec();
         const participants = await this.participantModel.find({token}, null, {populate: 'poll'}).exec();
         const participantPolls = participants.map(participant => participant.poll);
         let polls = [...adminPolls, ...participantPolls];
@@ -38,47 +38,42 @@ export class PollService {
     };
 
     async getPoll(id: string): Promise<ReadPollDto> {
-        return this.pollModel.findById(id).select('-adminToken').exec();
+        return this.pollModel.findById(id).select(readPollSelect).exec();
     }
 
     async postPoll(pollDto: PollDto): Promise<ReadPollDto> {
-        const poll = await this.pollModel.create(pollDto);
-        return this.pollModel.findById(poll._id).select('-adminToken').exec();
+        const {adminToken, adminMail, ...rest} = await this.pollModel.create(pollDto);
+        return rest;
     }
 
     async putPoll(id: string, pollDto: PollDto): Promise<ReadPollDto> {
-        return this.pollModel.findByIdAndUpdate(id, pollDto, {new: true}).select('-adminToken').exec();
+        return this.pollModel.findByIdAndUpdate(id, pollDto, {new: true}).select(readPollSelect).exec();
     }
 
     async clonePoll(id: string): Promise<ReadPollDto> {
-        const poll = await this.pollModel.findById(id).exec();
+        const {_id, bookedEvents, title, ...rest} = await this.pollModel.findById(id).exec();
         const pollEvents = await this.pollEventModel.find({poll: new Types.ObjectId(id)}).exec();
-        const clonedPoll = await this.pollModel.create({
-            title: `${poll.title} (clone)`,
-            description: poll.description,
-            location: poll.location,
-            adminToken: poll.adminToken,
-            settings: poll.settings,
+        const clonedPoll = await this.postPoll({
+            ...rest,
+            title: `${title} (clone)`,
         });
-        const clonedPollEvents = pollEvents.map(event => ({
+        await this.pollEventModel.create(pollEvents.map(({start, end, note}) => ({
             poll: clonedPoll._id,
-            start: event.start,
-            end: event.end,
-            note: event.note,
-        }));
-        await this.pollEventModel.create(clonedPollEvents);
-        return this.pollModel.findById(clonedPoll._id).select('-adminToken').exec();
+            start,
+            end,
+            note,
+        })));
+        return clonedPoll;
     }
 
     async deletePoll(id: string): Promise<ReadPollDto | undefined> {
-        const poll = await this.pollModel.findByIdAndDelete(id).exec();
+        const poll = await this.pollModel.findByIdAndDelete(id).select(readPollSelect).exec();
         if (!poll) {
             return;
         }
 
         await this.pollEventModel.deleteMany({poll: new Types.ObjectId(id)}).exec();
         await this.participantModel.deleteMany({poll: new Types.ObjectId(id)}).exec();
-        poll.adminToken = undefined;
         return poll;
     }
 
@@ -114,14 +109,43 @@ export class PollService {
         return this.participantModel.find({poll: id}).populate(['participation', 'indeterminateParticipation']).exec();
     }
 
-    async postParticipation(id: string, participant: ParticipantDto): Promise<Participant> {
-        return this.participantModel.create({
+    async postParticipation(id: string, dto: ParticipantDto): Promise<Participant> {
+        const poll = await this.pollModel.findById(id).exec();
+        if (!poll) {
+            throw new NotFoundException(id);
+        }
+        const participant = await this.participantModel.create({
+            ...dto,
             poll: id,
-            name: participant.name,
-            participation: participant.participation,
-            indeterminateParticipation: participant.indeterminateParticipation,
-            token: participant.token,
-            mail: participant.mail,
+        });
+
+        poll.adminMail && this.sendAdminInfo(poll, participant);
+        participant.mail && this.mailService.sendMail(participant.name, participant.mail, 'Participated in Poll', 'participated', {
+            poll: poll.toObject(),
+            participant: participant.toObject(),
+        }).then();
+        return participant;
+    }
+
+    private async sendAdminInfo(poll: Poll & Document, participant: Participant & Document) {
+        const events = await this.getEvents(poll._id.toString());
+        const participation = Array(events.length).fill({});
+
+        for (let i = 0; i < events.length; i++){
+            const event = events[i];
+            const yes = participant.participation.some(e => e._id.toString() === event._id.toString());
+            const maybe = participant.indeterminateParticipation.some(e => e._id.toString() === event._id.toString());
+            participation[i] = {
+                class: yes ? 'p-yes' : maybe ? 'p-maybe' : 'p-no',
+                icon: yes ? '✓' : maybe ? '?' : 'X',
+            };
+        }
+
+        return this.mailService.sendMail('Poll Admin', poll.adminMail, 'Updates in Poll', 'participant', {
+            poll: poll.toObject(),
+            participant: participant.toObject(),
+            events: events.map(({start, end}) => ({start, end})),
+            participants: [{name: participant.name, participation}],
         });
     }
 
@@ -136,25 +160,26 @@ export class PollService {
     async bookEvents(id: string, events: string[]): Promise<ReadPollDto> {
         const poll = await this.pollModel.findById(id).exec();
         poll.bookedEvents = await this.pollEventModel.find({_id: {$in: events}}).exec();
-        this.mailParticipants(id, poll).then();
-        return this.pollModel.findByIdAndUpdate(id, poll, {new: true}).select('-adminToken').exec();
+        for await (const participant of this.participantModel.find({poll: id}).populate(['participation', 'indeterminateParticipation'])) {
+            const participations = [...participant.participation, ...participant.indeterminateParticipation];
+            const appointments = poll.bookedEvents.map(event => {
+                let eventLine = this.renderEvent(event);
+                if (participations.some(p => p._id.toString() === event._id.toString())) {
+                    eventLine += ' *';
+                }
+                return eventLine;
+            });
+            this.mailService.sendMail(participant.name, participant.mail, 'Poll booked', 'book', {
+                appointments,
+                poll: poll.toObject(),
+                participant: participant.toObject(),
+            }).then();
+        }
+        return this.pollModel.findByIdAndUpdate(id, poll, {new: true}).select(readPollSelect).exec();
     }
 
-    private async mailParticipants(id: string, poll: Poll) {
-        const participants = await this.participantModel.find({poll: id}).populate(['participation', 'indeterminateParticipation']).exec();
-        participants.forEach(participant => {
-            const participations = [...participant.participation, ...participant.indeterminateParticipation];
-            const appointments = [];
-            poll.bookedEvents.forEach((event: any) => {
-                if (participations.some((participation: any) => participation._id.toString() === event._id.toString())) {
-                    appointments.push(`${new Date(event.start).toLocaleString()} - ${new Date(event.end).toLocaleString()} *`);
-                } else {
-                    appointments.push(`${new Date(event.start).toLocaleString()} - ${new Date(event.end).toLocaleString()}`);
-                }
-                // TODO: use includes and remove any-type (not working currently)
-            });
-            this.mailService.sendMail(participant.mail, appointments);
-        });
+    private renderEvent(event: PollEvent) {
+        return `${new Date(event.start).toLocaleString()} - ${new Date(event.end).toLocaleString()}`;
     }
 
     private async removeParticipations(id: string, events: PollEventDto[]) {
