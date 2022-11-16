@@ -1,6 +1,6 @@
 import {Prop, Schema, SchemaFactory} from '@nestjs/mongoose';
 import {ApiProperty} from '@nestjs/swagger';
-import {IsEmail, IsNotEmpty, IsString, MinLength} from 'class-validator';
+import {IsEmail, IsNotEmpty, IsOptional, IsString, MinLength} from 'class-validator';
 import {Types} from 'mongoose';
 import {PollEvent} from './poll-event.schema';
 
@@ -36,8 +36,9 @@ export class Participant {
 
     @Prop()
     @ApiProperty()
+    @IsOptional()
     @IsEmail()
-    mail: string;
+    mail?: string;
 }
 
 export const ParticipantSchema = SchemaFactory.createForClass(Participant);
