@@ -4,7 +4,7 @@ import {Pipe, PipeTransform} from '@angular/core';
   name: 'some',
 })
 export class SomePipe implements PipeTransform {
-  transform(participations: string[], pollEventId: string | undefined): boolean {
-    return pollEventId ? participations.includes(pollEventId) : false;
+  transform<T>(array: T[], search: T): boolean {
+    return array.includes(search);
   }
 }
