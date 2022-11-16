@@ -6,6 +6,7 @@ import {CalendarModule, DateAdapter} from 'angular-calendar';
 import {adapterFactory} from 'angular-calendar/date-adapters/date-fns';
 import {FlatpickrModule} from 'angularx-flatpickr';
 import {ModalModule, ToastModule} from 'ng-bootstrap-ext';
+
 import {CoreModule} from '../core/core.module';
 import {AutofillModalComponent, PostponeModalComponent} from '../modals';
 import {SomePipe} from '../pipes';

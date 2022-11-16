@@ -1,15 +1,15 @@
+import {HttpClient} from '@angular/common/http';
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {HttpClient} from '@angular/common/http';
 import {ActivatedRoute, Router} from '@angular/router';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {format} from 'date-fns';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 
 import {environment} from '../../../environments/environment';
 import {MailService, TokenService} from '../../core/services';
 import {CreatePollDto, Poll} from '../../model';
-import {format} from 'date-fns';
 
 @Component({
   selector: 'app-create-edit-poll',
@@ -89,8 +89,8 @@ export class CreateEditPollComponent implements OnInit {
     private tokenService: TokenService,
     private mailService: MailService,
   ) {
-    const id: Observable<string> = route.params.pipe(map(p => p.id));
-    id.subscribe((id: string) => {
+    const routeId: Observable<string> = route.params.pipe(map(p => p.id));
+    routeId.subscribe((id: string) => {
       this.id = id;
     });
   }
@@ -145,6 +145,27 @@ export class CreateEditPollComponent implements OnInit {
     this.router.navigate(['dashboard']).then();
   }
 
+  open(content: any) {
+    this.modalService.open(content).result.then(() => {
+      this.http.delete(`${environment.backendURL}/poll/${this.id}`).subscribe(() => {
+        this.router.navigate([`dashboard`]).then();
+      });
+    }).catch(() => {
+    });
+  }
+
+  clonePoll() {
+    this.http.post(`${environment.backendURL}/poll/${this.id}/clone`, {}).subscribe(() => {
+      this.router.navigate(['dashboard']).then();
+    });
+  }
+
+  applyPreset(preset: any): void {
+    this.selectedPreset = preset;
+    this.pollForm.patchValue(preset.settings);
+    this.pollForm.markAsDirty();
+  }
+
   private updatePoll(poll: CreatePollDto) {
     this.http.put<Poll>(`${environment.backendURL}/poll/${this.id}`, poll).subscribe(() => {
       this.router.navigate(['dashboard']).then();
@@ -183,27 +204,6 @@ export class CreateEditPollComponent implements OnInit {
         blindParticipation: poll.settings.blindParticipation,
       });
     });
-  }
-
-  open(content: any) {
-    this.modalService.open(content).result.then(() => {
-      this.http.delete(`${environment.backendURL}/poll/${this.id}`).subscribe(() => {
-        this.router.navigate([`dashboard`]).then();
-      });
-    }).catch(() => {
-    });
-  }
-
-  clonePoll() {
-    this.http.post(`${environment.backendURL}/poll/${this.id}/clone`, {}).subscribe(() => {
-      this.router.navigate(['dashboard']).then();
-    });
-  }
-
-  applyPreset(preset: any): void {
-    this.selectedPreset = preset;
-    this.pollForm.patchValue(preset.settings);
-    this.pollForm.markAsDirty();
   }
 
   private checkAdmin() {

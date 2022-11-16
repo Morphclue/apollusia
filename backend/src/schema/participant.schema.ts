@@ -1,8 +1,8 @@
 import {Prop, Schema, SchemaFactory} from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
 
-import {Poll} from './poll.schema';
 import {PollEvent} from './poll-event.schema';
+import {Poll} from './poll.schema';
 
 @Schema()
 export class Participant {

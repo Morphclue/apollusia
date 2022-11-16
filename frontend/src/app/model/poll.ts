@@ -10,4 +10,4 @@ export interface Poll {
   _id: string;
 }
 
-export type CreatePollDto = Omit<Poll, '_id'>
+export type CreatePollDto = Omit<Poll, '_id'>;

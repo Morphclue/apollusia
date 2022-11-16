@@ -59,7 +59,7 @@
       [event]="weekEvent.tempEvent || weekEvent.event"
       [view]="daysInWeek === 1 ? 'day' : 'week'"
     ></mwl-calendar-event-title>
-    <i *ngIf="weekEvent.event.meta.note != undefined && weekEvent.event.meta.note.length > 0"
+    <i *ngIf="weekEvent.event.meta.note !== undefined && weekEvent.event.meta.note.length > 0"
        class="bi-sticky-fill text-light"
        placement="top"
        ngbTooltip="{{weekEvent.event.meta.note}}"
@@ -71,7 +71,7 @@
           <button ngbDropdownItem (click)="openNoteModal(noteContent, weekEvent.event)">Add Note</button>
           <button ngbDropdownItem (click)="autofill(weekEvent.event)">Autofill</button>
           <button
-            *ngIf="weekEvent.event.meta.note != undefined"
+            *ngIf="weekEvent.event.meta.note !== undefined"
             ngbDropdownItem (click)="deleteNote(weekEvent.event)">Delete Note
           </button>
         </div>

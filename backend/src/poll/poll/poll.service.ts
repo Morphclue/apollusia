@@ -21,7 +21,7 @@ export class PollService {
         const adminPolls = await this.pollModel.find({adminToken: token}).select(readPollSelect).exec();
         const participants = await this.participantModel.find({token}, null, {populate: 'poll'}).exec();
         const participantPolls = participants.map(participant => participant.poll);
-        let polls = [...adminPolls, ...participantPolls];
+        const polls = [...adminPolls, ...participantPolls];
         const filteredPolls = polls.filter((poll: Poll, index) => polls.findIndex((p: any) => p._id.toString() === poll._id.toString()) === index);
         const readPolls = filteredPolls.map(async (poll: Poll): Promise<ReadStatsPollDto> => ({
             _id: poll._id,
@@ -35,7 +35,7 @@ export class PollService {
         }));
 
         return Promise.all(readPolls);
-    };
+    }
 
     async getPoll(id: string): Promise<ReadPollDto> {
         return this.pollModel.findById(id).select(readPollSelect).exec();

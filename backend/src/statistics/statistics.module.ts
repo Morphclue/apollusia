@@ -2,8 +2,8 @@ import {Module} from '@nestjs/common';
 import {MongooseModule} from '@nestjs/mongoose';
 
 import {Participant, ParticipantSchema, Poll, PollEvent, PollEventSchema, PollSchema} from '../schema';
-import {StatisticsService} from './statistics/statistics.service';
 import {StatisticsController} from './statistics/statistics.controller';
+import {StatisticsService} from './statistics/statistics.service';
 
 @Module({
     imports: [MongooseModule.forFeature([
