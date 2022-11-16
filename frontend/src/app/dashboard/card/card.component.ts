@@ -1,9 +1,9 @@
-import {Component, Input, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
+import {Component, Input, OnInit} from '@angular/core';
 
-import {ReadPoll} from '../../model';
-import {TokenService} from '../../core/services';
 import {environment} from '../../../environments/environment';
+import {TokenService} from '../../core/services';
+import {ReadPoll} from '../../model';
 
 @Component({
   selector: 'app-card',

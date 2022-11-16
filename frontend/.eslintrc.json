@@ -1,7 +1,8 @@
 {
   "root": true,
   "ignorePatterns": [
-    "projects/**/*"
+    "projects/**/*",
+    "test.ts"
   ],
   "overrides": [
     {
@@ -21,6 +22,10 @@
         "plugin:@angular-eslint/template/process-inline-templates"
       ],
       "rules": {
+        "object-shorthand": 0,
+        "max-len": 0,
+        "@typescript-eslint/no-inferrable-types": 0,
+        "@typescript-eslint/no-non-null-assertion": 0,
         "@angular-eslint/component-selector": [
           "error",
           {
@@ -36,7 +41,63 @@
             "prefix": "app",
             "style": "camelCase"
           }
+        ],
+        "no-underscore-dangle": [
+          "error",
+          {
+            "allow": [
+              "_id"
+            ]
+          }
+        ],
+        "@typescript-eslint/naming-convention": [
+          "error",
+          {
+            "selector": "enumMember",
+            "format": [
+              "UPPER_CASE"
+            ]
+          }
+        ],
+        "import/order": [
+          "error",
+          {
+            "newlines-between": "always",
+            "groups": [
+              [
+                "external",
+                "internal",
+                "builtin"
+              ],
+              [
+                "parent",
+                "sibling",
+                "index"
+              ]
+            ],
+            "alphabetize": {
+              "order": "asc",
+              "caseInsensitive": true
+            }
+          }
         ]
+      },
+      "settings": {
+        "import/internal-regex": "@angular",
+        "import/external-module-folders": [
+          "node_modules"
+        ],
+        "import/parsers": {
+          "@typescript-eslint/parser": [
+            ".ts"
+          ]
+        },
+        "import/resolver": {
+          "alias": true,
+          "typescript": {
+            "alwaysTryTypes": true
+          }
+        }
       }
     },
     {

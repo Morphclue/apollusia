@@ -1,9 +1,9 @@
 import {Prop, Schema, SchemaFactory} from '@nestjs/mongoose';
+
 import {ApiProperty} from '@nestjs/swagger';
 import {IsEmail, IsNotEmpty, IsOptional, IsString, MinLength} from 'class-validator';
 import {Types} from 'mongoose';
 import {PollEvent} from './poll-event.schema';
-
 import {Poll} from './poll.schema';
 import {Ref, RefArray} from './ref.decorator';
 

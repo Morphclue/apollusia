@@ -1,10 +1,10 @@
 import {Module} from '@nestjs/common';
 import {MongooseModule} from '@nestjs/mongoose';
 
-import {PollService} from './poll/poll.service';
-import {PollController} from './poll/poll.controller';
-import {Participant, ParticipantSchema, Poll, PollEvent, PollEventSchema, PollSchema} from '../schema';
 import {MailModule} from '../mail/mail.module';
+import {Participant, ParticipantSchema, Poll, PollEvent, PollEventSchema, PollSchema} from '../schema';
+import {PollController} from './poll/poll.controller';
+import {PollService} from './poll/poll.service';
 
 @Module({
     imports: [

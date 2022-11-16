@@ -1,15 +1,15 @@
-import {Component, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
+import {Component, OnInit} from '@angular/core';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Title} from '@angular/platform-browser';
 import {ActivatedRoute, Router} from '@angular/router';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {ToastService} from 'ng-bootstrap-ext';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 
-import {CreateParticipantDto, Participant, Poll, PollEvent} from '../../model';
-import {MailService, TokenService} from '../../core/services';
 import {environment} from '../../../environments/environment';
+import {MailService, TokenService} from '../../core/services';
+import {CreateParticipantDto, Participant, Poll, PollEvent} from '../../model';
 import {CheckboxState} from '../../model/checkbox-state';
 
 @Component({
@@ -44,8 +44,8 @@ export class ChooseEventsComponent implements OnInit {
     private toastService: ToastService,
     private title: Title,
   ) {
-    const id: Observable<string> = route.params.pipe(map(p => p.id));
-    id.subscribe((id: string) => {
+    const routeId: Observable<string> = route.params.pipe(map(p => p.id));
+    routeId.subscribe((id: string) => {
       this.id = id;
     });
   }
@@ -70,7 +70,7 @@ export class ChooseEventsComponent implements OnInit {
   }
 
   onFormSubmit() {
-    let participant: CreateParticipantDto = {
+    const participant: CreateParticipantDto = {
       name: this.participateForm.value.name ? this.participateForm.value.name : 'Anonymous',
       participation: this.filterEvents(this.checks, CheckboxState.TRUE),
       indeterminateParticipation: this.filterEvents(this.checks, CheckboxState.INDETERMINATE),
@@ -80,37 +80,6 @@ export class ChooseEventsComponent implements OnInit {
 
     this.http.post(`${environment.backendURL}/poll/${this.id}/participate`, participant).subscribe(() => {
       window.location.reload();
-    });
-  }
-
-  private fetchPoll() {
-    this.http.get<Poll>(`${environment.backendURL}/poll/${this.id}`).subscribe(async poll => {
-      this.poll = poll;
-      this.title.setTitle(poll.title);
-      await this.fetchPollEvents();
-
-      if (poll.settings.anonymous) {
-        this.participateForm.get('name')?.removeValidators(Validators.required);
-        this.participateForm.get('name')?.updateValueAndValidity();
-      }
-    });
-  }
-
-  private async fetchPollEvents() {
-    await this.http.get<PollEvent[]>(`${environment.backendURL}/poll/${this.id}/events`).subscribe(events => {
-      this.pollEvents = events.sort((a, b) => {
-        return new Date(a.start).getTime() - new Date(b.start).getTime();
-      });
-      this.checks = new Array(this.pollEvents.length).fill(CheckboxState.FALSE);
-      this.editChecks = new Array(this.pollEvents.length).fill(CheckboxState.FALSE);
-      this.bookedEvents = this.poll?.bookedEvents ? this.poll?.bookedEvents : [];
-      this.findBestOption();
-    });
-  }
-
-  private fetchParticipants() {
-    this.http.get<Participant[]>(`${environment.backendURL}/poll/${this.id}/participate`).subscribe(participants => {
-      this.participants = participants.reverse();
     });
   }
 
@@ -154,10 +123,11 @@ export class ChooseEventsComponent implements OnInit {
 
     this.editParticipant.participation = this.filterEvents(this.editChecks, CheckboxState.TRUE);
     this.editParticipant.indeterminateParticipation = this.filterEvents(this.editChecks, CheckboxState.INDETERMINATE);
-    this.http.put(`${environment.backendURL}/poll/${this.id}/participate/${this.editParticipant._id}`, this.editParticipant).subscribe(() => {
-      this.cancelEdit();
-      this.fetchParticipants();
-    });
+    this.http.put(`${environment.backendURL}/poll/${this.id}/participate/${this.editParticipant._id}`, this.editParticipant)
+      .subscribe(() => {
+        this.cancelEdit();
+        this.fetchParticipants();
+      });
   }
 
   isFull() {
@@ -171,15 +141,6 @@ export class ChooseEventsComponent implements OnInit {
     return this.participants.some(participant => participant.token === this.getToken());
   }
 
-  private findBestOption() {
-    if (this.pollEvents) {
-      this.bestOption = Math.max(...this.pollEvents.map(event => this.countParticipants(event))) || 1;
-    }
-  }
-
-  private filterEvents(checks: CheckboxState[], state: CheckboxState) {
-    return this.pollEvents.filter((_, i) => checks[i] === state).map(e => e._id);
-  }
 
   maxParticipantsReached(event: PollEvent) {
     if (!this.poll?.settings.maxEventParticipants) {
@@ -209,6 +170,45 @@ export class ChooseEventsComponent implements OnInit {
 
   copyToClipboard() {
     navigator.clipboard.writeText(this.url).then().catch(e => console.log(e));
+  }
+
+  private fetchPoll() {
+    this.http.get<Poll>(`${environment.backendURL}/poll/${this.id}`).subscribe(async poll => {
+      this.poll = poll;
+      this.title.setTitle(poll.title);
+      await this.fetchPollEvents();
+
+      if (poll.settings.anonymous) {
+        this.participateForm.get('name')?.removeValidators(Validators.required);
+        this.participateForm.get('name')?.updateValueAndValidity();
+      }
+    });
+  }
+
+  private async fetchPollEvents() {
+    await this.http.get<PollEvent[]>(`${environment.backendURL}/poll/${this.id}/events`).subscribe(events => {
+      this.pollEvents = events.sort((a, b) => new Date(a.start).getTime() - new Date(b.start).getTime());
+      this.checks = new Array(this.pollEvents.length).fill(CheckboxState.FALSE);
+      this.editChecks = new Array(this.pollEvents.length).fill(CheckboxState.FALSE);
+      this.bookedEvents = this.poll?.bookedEvents ? this.poll?.bookedEvents : [];
+      this.findBestOption();
+    });
+  }
+
+  private fetchParticipants() {
+    this.http.get<Participant[]>(`${environment.backendURL}/poll/${this.id}/participate`).subscribe(participants => {
+      this.participants = participants.reverse();
+    });
+  }
+
+  private findBestOption() {
+    if (this.pollEvents) {
+      this.bestOption = Math.max(...this.pollEvents.map(event => this.countParticipants(event))) || 1;
+    }
+  }
+
+  private filterEvents(checks: CheckboxState[], state: CheckboxState) {
+    return this.pollEvents.filter((_, i) => checks[i] === state).map(e => e._id);
   }
 
   private checkAdmin() {

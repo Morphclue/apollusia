@@ -1,10 +1,10 @@
 import {Body, Controller, Delete, Get, NotFoundException, Param, Post, Put} from '@nestjs/common';
 import {Types} from 'mongoose';
 
-import {PollService} from './poll.service';
 import {MailDto, ParticipantDto, PollDto, PollEventDto} from '../../dto';
-import {Participant, PollEvent} from '../../schema';
 import {ReadPollDto, ReadStatsPollDto} from '../../dto/read-poll.dto';
+import {Participant, PollEvent} from '../../schema';
+import {PollService} from './poll.service';
 
 @Controller('poll')
 export class PollController {
