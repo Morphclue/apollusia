@@ -7,9 +7,9 @@ import {WeekViewHourSegment} from 'calendar-utils';
 import {addMinutes, differenceInMinutes, endOfWeek, format} from 'date-fns';
 import {fromEvent, Observable} from 'rxjs';
 import {finalize, map, takeUntil} from 'rxjs/operators';
+
 import {environment} from '../../../environments/environment';
 import {CreatePollEventDto} from '../../model';
-
 import {ChooseDateService} from '../services/choose-date.service';
 
 @Component({
