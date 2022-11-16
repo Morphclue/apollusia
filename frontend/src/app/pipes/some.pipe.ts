@@ -1,11 +1,10 @@
 import {Pipe, PipeTransform} from '@angular/core';
-import {PollEvent} from '../model';
 
 @Pipe({
   name: 'some',
 })
 export class SomePipe implements PipeTransform {
-  transform(participations: PollEvent[], pollEventId: string | undefined): boolean {
-    return participations.some(participation => participation._id === pollEventId);
+  transform(participations: string[], pollEventId: string | undefined): boolean {
+    return pollEventId ? participations.includes(pollEventId) : false;
   }
 }

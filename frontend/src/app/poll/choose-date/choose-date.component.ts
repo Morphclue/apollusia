@@ -1,16 +1,16 @@
-import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, TemplateRef} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
+import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, TemplateRef} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {CalendarEvent, CalendarEventTimesChangedEvent} from 'angular-calendar';
 import {WeekViewHourSegment} from 'calendar-utils';
+import {addMinutes, differenceInMinutes, endOfWeek, format} from 'date-fns';
 import {fromEvent, Observable} from 'rxjs';
 import {finalize, map, takeUntil} from 'rxjs/operators';
-import {addMinutes, differenceInMinutes, endOfWeek, format} from 'date-fns';
-import {CalendarEvent, CalendarEventTimesChangedEvent} from 'angular-calendar';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {environment} from '../../../environments/environment';
+import {CreatePollEventDto} from '../../model';
 
 import {ChooseDateService} from '../services/choose-date.service';
-import {environment} from '../../../environments/environment';
-import {PollEvent} from '../../model';
 
 @Component({
   selector: 'app-choose-date',
@@ -115,7 +115,7 @@ export class ChooseDateComponent implements AfterViewInit {
   }
 
   createEvents() {
-    const events: PollEvent[] = this.chooseDateService.events.map((event: CalendarEvent) => {
+    const events: CreatePollEventDto[] = this.chooseDateService.events.map((event: CalendarEvent) => {
       return {_id: event.id?.toString(), start: event.start, end: event.end, note: event.meta.note};
     });
     this.http.post(`${environment.backendURL}/poll/${this.id}/events`, events).subscribe(() => {

@@ -1,9 +1,7 @@
-import {PollEvent} from './poll-event';
-
 export interface Participant {
   name: string;
-  participation: PollEvent[];
-  indeterminateParticipation: PollEvent[];
+  participation: string[];
+  indeterminateParticipation: string[];
   token: string;
   mail?: string;
   _id: string;
