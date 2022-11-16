@@ -1,20 +1,18 @@
 import {Prop, Schema, SchemaFactory} from '@nestjs/mongoose';
 import {ApiProperty} from '@nestjs/swagger';
-import {Transform} from 'class-transformer';
-import {IsEmail, IsMongoId, IsNotEmpty, IsString, MinLength} from 'class-validator';
-import * as mongoose from 'mongoose';
+import {IsEmail, IsNotEmpty, IsString, MinLength} from 'class-validator';
 import {Types} from 'mongoose';
 import {PollEvent} from './poll-event.schema';
 
 import {Poll} from './poll.schema';
+import {Ref, RefArray} from './ref.decorator';
 
 @Schema()
 export class Participant {
     @ApiProperty()
     _id: Types.ObjectId;
 
-    @Prop({type: mongoose.Schema.Types.ObjectId, ref: 'Poll'})
-    @ApiProperty()
+    @Ref(Poll.name)
     poll: Types.ObjectId;
 
     @Prop({required: true})
@@ -24,26 +22,10 @@ export class Participant {
     @MinLength(1)
     name: string;
 
-    @Prop({
-        type: [{
-            type: mongoose.Schema.Types.ObjectId,
-            ref: PollEvent.name,
-        }],
-    })
-    @ApiProperty()
-    @IsMongoId({each: true})
-    @Transform(({value}) => value.map(s => new Types.ObjectId(s)))
+    @RefArray(PollEvent.name)
     participation: Types.ObjectId[];
 
-    @Prop({
-        type: [{
-            type: mongoose.Schema.Types.ObjectId,
-            ref: PollEvent.name,
-        }],
-    })
-    @ApiProperty()
-    @IsMongoId({each: true})
-    @Transform(({value}) => value.map(s => new Types.ObjectId(s)))
+    @RefArray(PollEvent.name)
     indeterminateParticipation: Types.ObjectId[];
 
     @Prop({required: true})

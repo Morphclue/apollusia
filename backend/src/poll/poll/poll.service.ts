@@ -129,20 +129,21 @@ export class PollService {
         return this.participantModel.findByIdAndDelete(participantId).exec();
     }
 
-    async bookEvents(id: string, events: string[]): Promise<ReadPollDto> {
-        const poll = await this.pollModel.findById(id).exec();
-        poll.bookedEvents = await this.pollEventModel.find({_id: {$in: events}}).exec();
-        this.mailParticipants(id, poll).then();
-        return this.pollModel.findByIdAndUpdate(id, poll, {new: true}).select('-adminToken').exec();
+    async bookEvents(id: string, events: Types.ObjectId[]): Promise<ReadPollDto> {
+        this.mailParticipants(id, events).then();
+        return this.pollModel.findByIdAndUpdate(id, {
+            bookedEvents: events,
+        }, {new: true}).select('-adminToken').exec();
     }
 
-    private async mailParticipants(id: string, poll: Poll) {
-        const participants = await this.participantModel.find({poll: id}).populate(['participation', 'indeterminateParticipation']).exec();
+    private async mailParticipants(id: string, events: Types.ObjectId[]) {
+        const bookedEvents = await this.pollEventModel.find({_id: {$in: events}}).exec();
+        const participants = await this.participantModel.find({poll: id}).exec();
         participants.forEach(participant => {
             const participations = [...participant.participation, ...participant.indeterminateParticipation];
             const appointments = [];
-            poll.bookedEvents.forEach((event: any) => {
-                if (participations.some((participation: any) => participation._id.toString() === event._id.toString())) {
+            bookedEvents.forEach(event => {
+                if (participations.some(participation => participation.toString() === event._id.toString())) {
                     appointments.push(`${new Date(event.start).toLocaleString()} - ${new Date(event.end).toLocaleString()} *`);
                 } else {
                     appointments.push(`${new Date(event.start).toLocaleString()} - ${new Date(event.end).toLocaleString()}`);

@@ -2,13 +2,14 @@ import {Prop, Schema, SchemaFactory} from '@nestjs/mongoose';
 import {ApiProperty, ApiPropertyOptional} from '@nestjs/swagger';
 import {Type} from 'class-transformer';
 import {IsNotEmpty, IsOptional, IsString, MinLength, ValidateNested} from 'class-validator';
-import mongoose, {Types} from 'mongoose';
+import {Types} from 'mongoose';
 
-import {Settings} from '../dto';
-import {PollEvent} from './poll-event.schema';
+import {RefArray} from './ref.decorator';
+import {Settings} from './settings';
 
 @Schema()
 export class Poll {
+    @ApiProperty()
     _id: Types.ObjectId;
 
     @Prop({required: true})
@@ -42,14 +43,8 @@ export class Poll {
     @ValidateNested()
     settings: Settings;
 
-    @Prop({
-        type: [{
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'PollEvent',
-        }],
-    })
-    @ApiProperty()
-    bookedEvents: PollEvent[];
+    @RefArray('PollEvent')
+    bookedEvents: Types.ObjectId[];
 }
 
 export const PollSchema = SchemaFactory.createForClass(Poll);
