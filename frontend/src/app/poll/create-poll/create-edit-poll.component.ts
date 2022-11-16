@@ -116,6 +116,7 @@ export class CreateEditPollComponent implements OnInit {
       description: pollForm.description ? pollForm.description : '',
       location: pollForm.location ? pollForm.location : '',
       adminToken: this.tokenService.getToken(),
+      bookedEvents: [],
       settings: {
         deadline: deadline,
         allowMaybe: !!pollForm.allowMaybe,

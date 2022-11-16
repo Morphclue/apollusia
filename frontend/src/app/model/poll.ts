@@ -5,7 +5,7 @@ export interface Poll {
   description?: string;
   location?: string;
   settings: Settings;
-  bookedEvents?: string[];
+  bookedEvents: string[];
   _id: string;
 }
 
