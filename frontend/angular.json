@@ -149,15 +149,14 @@
               "sourceMap": false,
               "extractLicenses": true
             }
-          },
-          "defaultConfiguration": "production"
+          }
         },
         "serve-ssr": {
           "builder": "@nguniversal/builders:ssr-dev-server",
           "configurations": {
             "development": {
-              "browserTarget": "apollusia:build:development",
-              "serverTarget": "apollusia:server:development"
+              "browserTarget": "apollusia:build",
+              "serverTarget": "apollusia:server"
             },
             "production": {
               "browserTarget": "apollusia:build:production",
