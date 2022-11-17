@@ -39,6 +39,7 @@
     "flatpickr": "^4.6.13",
     "markdown-it": "^13.0.1",
     "ng-bootstrap-ext": "^0.4.2",
+    "ngx-cookie-service-ssr": "^14.0.1",
     "ngx-countup": "^13.1.0",
     "rxjs": "~6.6.7",
     "tslib": "^2.4.1",

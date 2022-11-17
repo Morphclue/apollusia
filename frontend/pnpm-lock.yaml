@@ -55,6 +55,7 @@ specifiers:
   karma-jasmine-html-reporter: ^1.7.0
   markdown-it: ^13.0.1
   ng-bootstrap-ext: ^0.4.2
+  ngx-cookie-service-ssr: ^14.0.1
   ngx-countup: ^13.1.0
   protractor: ~7.0.0
   rxjs: ~6.6.7
@@ -88,6 +89,7 @@ dependencies:
   flatpickr: 4.6.13
   markdown-it: 13.0.1
   ng-bootstrap-ext: 0.4.2_f4jd37drocbcpvrsz4us56jgki
+  ngx-cookie-service-ssr: 14.0.1_vpskhsrchgtjph7gga435almuq
   ngx-countup: 13.1.0_g5lz55bj2yrbloq2nji6xzbsca
   rxjs: 6.6.7
   tslib: 2.4.1
@@ -7374,6 +7376,19 @@ packages:
       '@angular/common': 14.1.3_pwaj46dbqnsjey6dbov3bcnug4
       '@angular/core': 14.1.3_rxjs@6.6.7+zone.js@0.11.8
       '@ng-bootstrap/ng-bootstrap': 13.1.1_zrepkq7llderkfbdwisfzhql5m
+      tslib: 2.4.1
+    dev: false
+
+  /ngx-cookie-service-ssr/14.0.1_vpskhsrchgtjph7gga435almuq:
+    resolution: {integrity: sha512-reJkHvnj8RQChF4rSgfLJeDfhhAptOxf/jrmvCkz1Lb7/y0ifrR7RqwKSQx5pFaArLIhuf2wk9luWEBAvdgWww==}
+    peerDependencies:
+      '@angular/common': ^14.0.0
+      '@angular/core': ^14.0.0
+      '@nguniversal/express-engine': ^14.0.0
+    dependencies:
+      '@angular/common': 14.1.3_pwaj46dbqnsjey6dbov3bcnug4
+      '@angular/core': 14.1.3_rxjs@6.6.7+zone.js@0.11.8
+      '@nguniversal/express-engine': 14.2.2_y4od3hopcddtn557kv37ngewxm
       tslib: 2.4.1
     dev: false
 
