@@ -19,7 +19,7 @@ import {CheckboxState} from '../../model/checkbox-state';
 })
 export class ChooseEventsComponent implements OnInit {
   id: string = '';
-  url = window.location.href;
+  url = globalThis.location?.href;
   poll?: Poll;
   pollEvents: PollEvent[] = [];
   checks: CheckboxState[] = [];

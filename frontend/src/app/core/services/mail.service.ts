@@ -15,11 +15,11 @@ export class MailService {
   }
 
   getMail(): string {
-    return localStorage.getItem('mail') || '';
+    return globalThis.localStorage?.getItem('mail') || '';
   }
 
   setMail(mail: string) {
-    localStorage.setItem('mail', mail);
+    globalThis.localStorage?.setItem('mail', mail);
     this.http.put(`${environment.backendURL}/poll/mail/participate`, {
       mail: mail,
       token: this.tokenService.getToken(),

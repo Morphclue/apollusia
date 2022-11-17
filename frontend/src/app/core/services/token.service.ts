@@ -16,7 +16,7 @@ export class TokenService {
   }
 
   getToken(): string {
-    this.currentToken = localStorage.getItem('token') || '';
+    this.currentToken = globalThis.localStorage?.getItem('token') || '';
     if (this.currentToken.length === 0) {
       this.generateToken();
     }
@@ -30,7 +30,7 @@ export class TokenService {
   }
 
   setToken(token: string) {
-    localStorage.setItem('token', token);
+    globalThis.localStorage?.setItem('token', token);
     this.currentToken = token;
   }
 
