@@ -1,4 +1,5 @@
 import {Body, Controller, Delete, Get, NotFoundException, Param, Post, Put} from '@nestjs/common';
+import {Types} from 'mongoose';
 
 import {MailDto, ParticipantDto, PollDto, PollEventDto} from '../../dto';
 import {ReadPollDto, ReadStatsPollDto} from '../../dto/read-poll.dto';
@@ -118,6 +119,6 @@ export class PollController {
             throw new NotFoundException(id);
         }
 
-        return this.pollService.bookEvents(id, events);
+        return this.pollService.bookEvents(id, events.map(e => new Types.ObjectId(e)));
     }
 }

@@ -85,8 +85,8 @@ export class ChooseEventsComponent implements OnInit {
   }
 
   countParticipants(pollEvent: PollEvent) {
-    const participants = this.participants.filter(p => p.participation.some(e => e._id === pollEvent._id));
-    const indeterminateParticipants = this.participants.filter(p => p.indeterminateParticipation.some(e => e._id === pollEvent._id));
+    const participants = this.participants.filter(p => p.participation.includes(pollEvent._id));
+    const indeterminateParticipants = this.participants.filter(p => p.indeterminateParticipation.includes(pollEvent._id));
     return participants.length + indeterminateParticipants.length;
   }
 
@@ -98,10 +98,10 @@ export class ChooseEventsComponent implements OnInit {
     this.editParticipant = participant;
     this.editChecks = new Array(this.checks.length).fill(CheckboxState.FALSE);
     participant.participation.forEach(event => {
-      this.editChecks[this.pollEvents.findIndex(e => e._id === event._id)] = CheckboxState.TRUE;
+      this.editChecks[this.pollEvents.findIndex(e => e._id === event)] = CheckboxState.TRUE;
     });
     participant.indeterminateParticipation.forEach(event => {
-      this.editChecks[this.pollEvents.findIndex(e => e._id === event._id)] = CheckboxState.INDETERMINATE;
+      this.editChecks[this.pollEvents.findIndex(e => e._id === event)] = CheckboxState.INDETERMINATE;
     });
   }
 
@@ -212,7 +212,7 @@ export class ChooseEventsComponent implements OnInit {
   }
 
   private filterEvents(checks: CheckboxState[], state: CheckboxState) {
-    return this.pollEvents.filter((_, i) => checks[i] === state);
+    return this.pollEvents.filter((_, i) => checks[i] === state).map(e => e._id);
   }
 
   private checkAdmin() {

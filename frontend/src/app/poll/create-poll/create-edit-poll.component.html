@@ -25,11 +25,11 @@
     </div>
     <div class="mb-3 p-3 border border-primary shadow">
       <div class="form-group mb-3">
-        <label for="title">Title</label>
+        <label class="form-label" for="title">Title</label>
         <input class="form-control" type="text" id="title" placeholder="Name of the event" formControlName="title">
       </div>
       <div class="form-group mb-3">
-        <label for="description">Description (optional)</label>
+        <label class="form-label" for="description">Description (optional)</label>
         <textarea class="form-control"
                   type="text"
                   id="description"
@@ -43,7 +43,7 @@
         </div>
       </div>
       <div class="form-group mb-3">
-        <label for="location">Location (optional)</label>
+        <label class="form-label" for="location">Location (optional)</label>
         <div class="input-group">
           <div class="input-group-text {{(pollForm.value.location || '') | locationIcon}}">
           </div>
@@ -52,20 +52,24 @@
         </div>
       </div>
       <div class="form-group mb-3">
-        <label for="deadline">Deadline (optional)</label>
+        <label class="form-label" for="deadline">Deadline (optional)</label>
         <div class="input-group">
           <input type="date" id="deadline" class="form-control" formControlName="deadlineDate">
           <input type="time" class="form-control" formControlName="deadlineTime">
         </div>
       </div>
-      <div class="row mb-3">
-        <div *ngFor="let preset of presets" class="col-12 col-lg-4">
-          <button type="button" class="btn btn-outline-primary" (click)="applyPreset(preset)" [class.active]="preset === selectedPreset">
-            <h3>{{ preset.title }}</h3>
-            <p>{{ preset.description }}</p>
-          </button>
+      <fieldset>
+        <legend>Presets</legend>
+        <div class="row mb-3">
+          <div *ngFor="let preset of presets" class="col-12 col-lg-4">
+            <button type="button" class="btn btn-outline-primary" (click)="applyPreset(preset)"
+                    [class.active]="preset === selectedPreset">
+              <h3>{{ preset.title }}</h3>
+              <p>{{ preset.description }}</p>
+            </button>
+          </div>
         </div>
-      </div>
+      </fieldset>
       <button type="button"
               class="btn btn-outline-primary"
               [class.bi-chevron-right]="isCollapsed"
@@ -75,89 +79,100 @@
               aria-controls="collapseExample">
         Additional Options
       </button>
-      <div class="pt-3" #collapse="ngbCollapse" [(ngbCollapse)]="isCollapsed">
-        <div class="form-group form-check">
-          <label class="form-check-label" for="emailUpdates">
-            Receive Updates via E-Mail
-            <i class="bi-question-circle text-muted" placement="top" ngbTooltip="Stay informed about new participations via email."></i>
-          </label>
-          <input class="form-check-input" type="checkbox" id="emailUpdates" formControlName="emailUpdates" [disabled]="!mail">
-        </div>
-        <app-mail-alert *ngIf="!mail"></app-mail-alert>
-        <div class="form-group form-check">
-          <label class="form-check-label" for="maxParticipants">
-            Maximum number of participants
-            <i class="bi-question-circle text-muted" placement="top"
-               ngbTooltip="Allows you to customize the maximum number of participants for your poll."></i>
-          </label>
-          <input class="form-check-input" type="checkbox" id="maxParticipants"
-                 formControlName="maxParticipants">
-          <div *ngIf="pollForm.value.maxParticipants">
-            <input class="form-control" type="number" min="1" id="maxParticipantsInput"
-                   formControlName="maxParticipantsInput">
+      <div class="row" #collapse="ngbCollapse" [(ngbCollapse)]="isCollapsed">
+        <fieldset class="col-12 col-lg-4">
+          <legend>Limits</legend>
+          <div class="form-group form-check">
+            <label class="form-check-label" for="maxParticipants">
+              Maximum number of participants
+              <i class="bi-question-circle text-muted" placement="top"
+                 ngbTooltip="Allows you to customize the maximum number of participants for your poll."></i>
+            </label>
+            <input class="form-check-input" type="checkbox" id="maxParticipants"
+                   formControlName="maxParticipants">
+            <div *ngIf="pollForm.value.maxParticipants">
+              <input class="form-control" type="number" min="1" id="maxParticipantsInput"
+                     formControlName="maxParticipantsInput">
+            </div>
           </div>
-        </div>
-        <div class="form-group form-check">
-          <label class="form-check-label" for="maxParticipantEvents">
-            Maximum number of choices per participant
-            <i class="bi-question-circle text-muted" placement="top"
-               ngbTooltip="Allows you to limit how many 'yes' votes can be selected by participants."></i>
-          </label>
-          <input class="form-check-input" type="checkbox" id="maxParticipantEvents"
-                 formControlName="maxParticipantEvents">
-          <div *ngIf="pollForm.value.maxParticipantEvents">
-            <input class="form-control" type="number" id="maxParticipantEventsInput" min="1"
-                   formControlName="maxParticipantEventsInput">
+          <div class="form-group form-check">
+            <label class="form-check-label" for="maxParticipantEvents">
+              Maximum number of choices per participant
+              <i class="bi-question-circle text-muted" placement="top"
+                 ngbTooltip="Allows you to limit how many 'yes' votes can be selected by participants."></i>
+            </label>
+            <input class="form-check-input" type="checkbox" id="maxParticipantEvents"
+                   formControlName="maxParticipantEvents">
+            <div *ngIf="pollForm.value.maxParticipantEvents">
+              <input class="form-control" type="number" id="maxParticipantEventsInput" min="1"
+                     formControlName="maxParticipantEventsInput">
+            </div>
           </div>
-        </div>
-        <div class="form-group form-check">
-          <label class="form-check-label" for="maxEventParticipants">
-            Maximum number of participants per event
-            <i class="bi-question-circle text-muted" placement="top"
-               ngbTooltip="Allows you to customize the maximum number of participants per event for your poll."></i>
-          </label>
-          <input class="form-check-input" type="checkbox" id="maxEventParticipants"
-                 formControlName="maxEventParticipants">
-          <div *ngIf="pollForm.value.maxEventParticipants">
-            <input class="form-control" type="number" min="1" id="maxEventParticipantsInput"
-                   formControlName="maxEventParticipantsInput">
+          <div class="form-group form-check">
+            <label class="form-check-label" for="maxEventParticipants">
+              Maximum number of participants per event
+              <i class="bi-question-circle text-muted" placement="top"
+                 ngbTooltip="Allows you to customize the maximum number of participants per event for your poll."></i>
+            </label>
+            <input class="form-check-input" type="checkbox" id="maxEventParticipants"
+                   formControlName="maxEventParticipants">
+            <div *ngIf="pollForm.value.maxEventParticipants">
+              <input class="form-control" type="number" min="1" id="maxEventParticipantsInput"
+                     formControlName="maxEventParticipantsInput">
+            </div>
           </div>
-        </div>
-        <div class="form-group form-check">
-          <label class="form-check-label" for="allowMaybe">
-            Allow "maybe"-option
-            <i class="bi-question-circle text-muted" placement="top"
-               ngbTooltip="Allows participants to answer Maybe in addition to Yes / No."></i>
-          </label>
-          <input class="form-check-input" type="checkbox" id="allowMaybe" formControlName="allowMaybe">
-        </div>
-        <div class="form-group form-check">
-          <label class="form-check-label" for="allowEdit">
-            Allow editing
-            <i class="bi-question-circle text-muted" placement="top"
-               ngbTooltip="Allows participants to make changes after submitting their vote."></i>
-          </label>
-          <input class="form-check-input" type="checkbox" id="allowEdit" formControlName="allowEdit">
-        </div>
-        <div class="form-group form-check">
-          <label class="form-check-label" for="anonymous">
-            Anonymous participation
-            <i class="bi-question-circle text-muted" placement="top"
-               ngbTooltip="Forces participants to take part in the poll anonymously (without entering a name)."></i>
-          </label>
-          <input class="form-check-input" type="checkbox" id="anonymous" formControlName="anonymous">
-        </div>
-        <div class="form-group form-check">
-          <label class="form-check-label" for="blindParticipation">
-            Force blind participation
-            <i class="bi-question-circle text-muted" placement="top"
-               ngbTooltip="Allows participants to see other participants' answers only after they have voted."></i>
-          </label>
-          <input class="form-check-input"
-                 type="checkbox"
-                 id="blindParticipation"
-                 formControlName="blindParticipation">
-        </div>
+        </fieldset>
+        <fieldset class="col-12 col-lg-4">
+          <legend>Participant Options</legend>
+          <div class="form-group form-check">
+            <label class="form-check-label" for="allowMaybe">
+              Allow "maybe"-option
+              <i class="bi-question-circle text-muted" placement="top"
+                 ngbTooltip="Allows participants to answer Maybe in addition to Yes / No."></i>
+            </label>
+            <input class="form-check-input" type="checkbox" id="allowMaybe" formControlName="allowMaybe">
+          </div>
+          <div class="form-group form-check">
+            <label class="form-check-label" for="allowEdit">
+              Allow editing
+              <i class="bi-question-circle text-muted" placement="top"
+                 ngbTooltip="Allows participants to make changes after submitting their vote."></i>
+            </label>
+            <input class="form-check-input" type="checkbox" id="allowEdit" formControlName="allowEdit">
+          </div>
+          <div class="form-group form-check">
+            <label class="form-check-label" for="anonymous">
+              Anonymous participation
+              <i class="bi-question-circle text-muted" placement="top"
+                 ngbTooltip="Forces participants to take part in the poll anonymously (without entering a name)."></i>
+            </label>
+            <input class="form-check-input" type="checkbox" id="anonymous" formControlName="anonymous">
+          </div>
+          <div class="form-group form-check">
+            <label class="form-check-label" for="blindParticipation">
+              Force blind participation
+              <i class="bi-question-circle text-muted" placement="top"
+                 ngbTooltip="Allows participants to see other participants' answers only after they have voted."></i>
+            </label>
+            <input class="form-check-input"
+                   type="checkbox"
+                   id="blindParticipation"
+                   formControlName="blindParticipation">
+          </div>
+        </fieldset>
+        <fieldset class="col-12 col-lg-4">
+          <legend>Admin Options</legend>
+          <div class="form-group form-check">
+            <label class="form-check-label" for="emailUpdates">
+              Receive Updates via E-Mail
+              <i class="bi-question-circle text-muted" placement="top"
+                 ngbTooltip="Stay informed about new participations via email."></i>
+            </label>
+            <input class="form-check-input" type="checkbox" id="emailUpdates" formControlName="emailUpdates"
+                   [disabled]="!mail">
+          </div>
+          <app-mail-alert *ngIf="!mail"></app-mail-alert>
+        </fieldset>
       </div>
     </div>
     <div class="d-flex justify-content-end">

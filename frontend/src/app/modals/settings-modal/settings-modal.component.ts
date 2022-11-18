@@ -22,7 +22,7 @@ export class SettingsModalComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.mailForm.controls.mail.setValue(this.mailService.getMail());
+    this.mailForm.controls.mail.setValue(this.mailService.getMail() || '');
   }
 
   save(modal: ModalComponent) {

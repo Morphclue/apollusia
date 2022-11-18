@@ -1,4 +1,4 @@
-import {OmitType} from '@nestjs/swagger';
+import {ApiProperty, OmitType} from '@nestjs/swagger';
 
 import {Poll} from '../schema';
 
@@ -9,7 +9,9 @@ export class ReadPollDto extends OmitType(Poll, excludedProperties) {
 }
 
 export class ReadStatsPollDto extends ReadPollDto {
+    @ApiProperty()
     events: number;
+
+    @ApiProperty()
     participants: number;
 }
-

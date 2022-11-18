@@ -1,38 +1,44 @@
 import {Prop, Schema, SchemaFactory} from '@nestjs/mongoose';
-import * as mongoose from 'mongoose';
+import {ApiProperty} from '@nestjs/swagger';
+import {IsEmail, IsNotEmpty, IsOptional, IsString, MinLength} from 'class-validator';
+import {Types} from 'mongoose';
 
 import {PollEvent} from './poll-event.schema';
 import {Poll} from './poll.schema';
+import {Ref, RefArray} from './ref.decorator';
 
 @Schema()
 export class Participant {
-    @Prop({type: mongoose.Schema.Types.ObjectId, ref: 'Poll'})
-    poll: Poll;
+    @ApiProperty()
+    _id: Types.ObjectId;
+
+    @Ref(Poll.name)
+    poll: Types.ObjectId;
 
     @Prop({required: true})
+    @ApiProperty()
+    @IsString()
+    @IsNotEmpty()
+    @MinLength(1)
     name: string;
 
-    @Prop({
-        type: [{
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'PollEvent',
-        }],
-    })
-    participation: PollEvent[];
+    @RefArray(PollEvent.name)
+    participation: Types.ObjectId[];
 
-    @Prop({
-        type: [{
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'PollEvent',
-        }],
-    })
-    indeterminateParticipation: PollEvent[];
+    @RefArray(PollEvent.name)
+    indeterminateParticipation: Types.ObjectId[];
 
     @Prop({required: true})
+    @ApiProperty()
+    @IsString()
+    @IsNotEmpty()
     token: string;
 
     @Prop()
-    mail: string;
+    @ApiProperty()
+    @IsOptional()
+    @IsEmail()
+    mail?: string;
 }
 
 export const ParticipantSchema = SchemaFactory.createForClass(Participant);
