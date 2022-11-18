@@ -108,7 +108,7 @@ export class PollService {
     }
 
     async getParticipants(id: string) {
-        return this.participantModel.find({poll: id}).exec();
+        return this.participantModel.find({poll: new Types.ObjectId(id)}).exec();
     }
 
     async postParticipation(id: string, dto: ParticipantDto): Promise<Participant> {
@@ -166,7 +166,7 @@ export class PollService {
             .populate<{ bookedEvents: PollEvent[] }>('bookedEvents')
             .select(readPollSelect)
             .exec();
-        for await (const participant of this.participantModel.find({poll: id}).populate(['participation', 'indeterminateParticipation'])) {
+        for await (const participant of this.participantModel.find({poll: new Types.ObjectId(id)}).populate(['participation', 'indeterminateParticipation'])) {
             const participations = [...participant.participation, ...participant.indeterminateParticipation];
             const appointments = poll.bookedEvents.map(event => {
                 let eventLine = this.renderEvent(event);
