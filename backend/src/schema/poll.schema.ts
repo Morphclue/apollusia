@@ -37,7 +37,10 @@ export class Poll {
     @IsString()
     adminToken: string;
 
-    @Prop({required: true})
+    @Prop()
+    @ApiPropertyOptional()
+    @IsOptional()
+    @IsString()
     adminMail?: string;
 
     @Prop()
