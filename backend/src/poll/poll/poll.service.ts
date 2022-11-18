@@ -190,7 +190,7 @@ export class PollService {
 
     private async removeParticipations(id: string, events: PollEventDto[]) {
         const changedParticipants = await this.participantModel.find({
-            poll: id,
+            poll: new Types.ObjectId(id),
             participation: {$in: events.map(event => event._id)},
         }).exec();
 
@@ -201,7 +201,7 @@ export class PollService {
         }
 
         const indeterminateParticipants = await this.participantModel.find({
-            poll: id,
+            poll: new Types.ObjectId(id),
             indeterminateParticipation: {$in: events.map(event => event._id)},
         });
 
