@@ -118,7 +118,7 @@ export class PollService {
         }
         const participant = await this.participantModel.create({
             ...dto,
-            poll: id,
+            poll: new Types.ObjectId(id),
         });
 
         poll.adminMail && this.sendAdminInfo(poll, participant);
