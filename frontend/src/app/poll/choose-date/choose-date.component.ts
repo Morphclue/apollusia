@@ -9,7 +9,7 @@ import {fromEvent, Observable} from 'rxjs';
 import {finalize, map, takeUntil} from 'rxjs/operators';
 
 import {environment} from '../../../environments/environment';
-import {PollEvent} from '../../model';
+import {CreatePollEventDto} from '../../model';
 import {ChooseDateService} from '../services/choose-date.service';
 
 @Component({
@@ -115,7 +115,12 @@ export class ChooseDateComponent implements AfterViewInit {
   }
 
   createEvents() {
-    const events: PollEvent[] = this.chooseDateService.events.map((event: CalendarEvent) => ({_id: event.id?.toString(), start: event.start, end: event.end, note: event.meta.note}));
+    const events: CreatePollEventDto[] = this.chooseDateService.events.map((event: CalendarEvent) => ({
+      _id: event.id?.toString(),
+      start: event.start,
+      end: event.end,
+      note: event.meta.note,
+    }));
     this.http.post(`${environment.backendURL}/poll/${this.id}/events`, events).subscribe(() => {
       this.router.navigate([`poll/${this.id}/participate`]).then();
     });

@@ -6,7 +6,7 @@ export interface Poll {
   location?: string;
   adminMail?: string;
   settings: Settings;
-  bookedEvents?: string[];
+  bookedEvents: string[];
   _id: string;
 }
 

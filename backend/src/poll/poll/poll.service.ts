@@ -19,7 +19,7 @@ export class PollService {
 
     async getPolls(token: string): Promise<ReadStatsPollDto[]> {
         const adminPolls = await this.pollModel.find({adminToken: token}).select(readPollSelect).exec();
-        const participants = await this.participantModel.find({token}, null, {populate: 'poll'}).exec();
+        const participants = await this.participantModel.find({token}).populate<{ poll: Poll }>('poll').exec();
         const participantPolls = participants.map(participant => participant.poll);
         const polls = [...adminPolls, ...participantPolls];
         const filteredPolls = polls.filter((poll: Poll, index) => polls.findIndex((p: any) => p._id.toString() === poll._id.toString()) === index);
@@ -51,7 +51,8 @@ export class PollService {
     }
 
     async clonePoll(id: string): Promise<ReadPollDto> {
-        const {_id, bookedEvents, title, ...rest} = await this.pollModel.findById(id).exec();
+        const poll = await this.pollModel.findById(id).exec();
+        const {_id, title, ...rest} = poll.toObject();
         const pollEvents = await this.pollEventModel.find({poll: new Types.ObjectId(id)}).exec();
         const clonedPoll = await this.postPoll({
             ...rest,
@@ -106,7 +107,7 @@ export class PollService {
     }
 
     async getParticipants(id: string) {
-        return this.participantModel.find({poll: id}).populate(['participation', 'indeterminateParticipation']).exec();
+        return this.participantModel.find({poll: id}).exec();
     }
 
     async postParticipation(id: string, dto: ParticipantDto): Promise<Participant> {
@@ -131,7 +132,7 @@ export class PollService {
         const events = await this.getEvents(poll._id.toString());
         const participation = Array(events.length).fill({});
 
-        for (let i = 0; i < events.length; i++){
+        for (let i = 0; i < events.length; i++) {
             const event = events[i];
             const yes = participant.participation.some(e => e._id.toString() === event._id.toString());
             const maybe = participant.indeterminateParticipation.some(e => e._id.toString() === event._id.toString());
@@ -157,9 +158,13 @@ export class PollService {
         return this.participantModel.findByIdAndDelete(participantId).exec();
     }
 
-    async bookEvents(id: string, events: string[]): Promise<ReadPollDto> {
-        const poll = await this.pollModel.findById(id).exec();
-        poll.bookedEvents = await this.pollEventModel.find({_id: {$in: events}}).exec();
+    async bookEvents(id: string, events: Types.ObjectId[]): Promise<ReadPollDto> {
+        const poll = await this.pollModel.findByIdAndUpdate(id, {
+            bookedEvents: events,
+        })
+            .populate<{ bookedEvents: PollEvent[] }>('bookedEvents')
+            .select(readPollSelect)
+            .exec();
         for await (const participant of this.participantModel.find({poll: id}).populate(['participation', 'indeterminateParticipation'])) {
             const participations = [...participant.participation, ...participant.indeterminateParticipation];
             const appointments = poll.bookedEvents.map(event => {
@@ -175,7 +180,7 @@ export class PollService {
                 participant: participant.toObject(),
             }).then();
         }
-        return this.pollModel.findByIdAndUpdate(id, poll, {new: true}).select(readPollSelect).exec();
+        return {...poll.toObject(), bookedEvents: events};
     }
 
     private renderEvent(event: PollEvent) {

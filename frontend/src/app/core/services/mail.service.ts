@@ -14,8 +14,8 @@ export class MailService {
   ) {
   }
 
-  getMail(): string {
-    return localStorage.getItem('mail') || '';
+  getMail(): string | undefined {
+    return localStorage.getItem('mail') || undefined;
   }
 
   setMail(mail: string) {
