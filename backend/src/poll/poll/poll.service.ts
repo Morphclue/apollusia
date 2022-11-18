@@ -42,7 +42,8 @@ export class PollService {
     }
 
     async postPoll(pollDto: PollDto): Promise<ReadPollDto> {
-        const {adminToken, adminMail, ...rest} = await this.pollModel.create(pollDto);
+        const poll = await this.pollModel.create(pollDto);
+        const {adminToken, adminMail, ...rest} = poll.toObject();
         return rest;
     }
 
