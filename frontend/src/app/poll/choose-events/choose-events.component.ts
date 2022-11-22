@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Title} from '@angular/platform-browser';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ToastService} from 'ng-bootstrap-ext';
 import {forkJoin} from 'rxjs';
 import {map, switchMap, tap} from 'rxjs/operators';
+
 import {MailService, TokenService} from '../../core/services';
 import {Participant, Poll, PollEvent} from '../../model';
 import {CheckboxState} from '../../model/checkbox-state';
@@ -25,15 +25,13 @@ export class ChooseEventsComponent implements OnInit {
   // aux
   checks: CheckboxState[] = [];
   editChecks: CheckboxState[] = [];
+  bookedEvents: boolean[] = [];
   bestOption: number = 1;
   closedReason?: string;
 
   // view state
+  name: string = '';
   editParticipant?: Participant;
-  participateForm = new FormGroup({
-    name: new FormControl('', Validators.required),
-    // TODO: add checks as FormArray
-  });
 
   // helpers
   id: string = '';
@@ -56,27 +54,23 @@ export class ChooseEventsComponent implements OnInit {
     const id$ = this.route.params.pipe(map(params => this.id = params.id));
 
     id$.pipe(
-      switchMap(id => this.pollService.get(id)),
-    ).subscribe(poll => {
-      this.poll = poll;
-      this.title.setTitle(poll.title);
-
-      if (poll.settings.anonymous) {
-        this.participateForm.get('name')?.removeValidators(Validators.required);
-        this.participateForm.get('name')?.updateValueAndValidity();
-      }
-    });
-
-    id$.pipe(
       switchMap(id => forkJoin([
+        this.pollService.get(id).pipe(tap(poll => {
+          this.poll = poll;
+          this.title.setTitle(poll.title);
+        })),
         this.pollService.getEvents(id).pipe(tap(events => {
           this.pollEvents = events.sort((a, b) => new Date(a.start).getTime() - new Date(b.start).getTime());
           this.checks = new Array(this.pollEvents.length).fill(CheckboxState.FALSE);
           this.editChecks = new Array(this.pollEvents.length).fill(CheckboxState.FALSE);
+          this.bookedEvents = new Array(this.pollEvents.length).fill(false);
         })),
         this.pollService.getParticipants(id).pipe(tap(participants => this.participants = participants)),
       ])),
-    ).subscribe(() => this.findBestOption());
+    ).subscribe(([poll, events]) => {
+      this.bookedEvents = events.map(e => poll.bookedEvents.includes(e._id));
+      this.findBestOption();
+    });
 
     id$.pipe(
       switchMap(id => this.pollService.isAdmin(id, this.token)),
@@ -91,9 +85,9 @@ export class ChooseEventsComponent implements OnInit {
     navigator.clipboard.writeText(this.url).then().catch(e => console.log(e));
   }
 
-  onFormSubmit() {
+  submit() {
     this.pollService.participate(this.id, {
-      name: this.participateForm.value.name || 'Anonymous',
+      name: this.name || 'Anonymous',
       participation: this.filterEvents(this.checks, CheckboxState.TRUE),
       indeterminateParticipation: this.filterEvents(this.checks, CheckboxState.INDETERMINATE),
       token: this.token,
@@ -142,23 +136,9 @@ export class ChooseEventsComponent implements OnInit {
     });
   }
 
-  selectEvent(id: string | undefined) {
-    if (!id || !this.poll) {
-      return;
-    }
-    if (this.poll.bookedEvents.includes(id)) {
-      this.poll.bookedEvents = this.poll.bookedEvents.filter(e => e !== id);
-      return;
-    }
-
-    this.poll.bookedEvents.push(id);
-  }
-
   book() {
-    if (!this.poll) {
-      return;
-    }
-    this.pollService.book(this.id, this.poll.bookedEvents).subscribe(() => {
+    const events = this.pollEvents.filter((e, i) => this.bookedEvents[i]).map(e => e._id);
+    this.pollService.book(this.id, events).subscribe(() => {
       this.toastService.success('Booking', 'Booked events successfully');
     });
   }

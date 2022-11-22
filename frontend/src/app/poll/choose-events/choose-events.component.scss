@@ -2,6 +2,11 @@
   min-width: 100px;
 }
 
+.form-check-hidden {
+  appearance: none;
+  cursor: pointer;
+}
+
 @media (min-width: 768px) {
   th:first-child, th:last-child,
   td:first-child, td:last-child {
