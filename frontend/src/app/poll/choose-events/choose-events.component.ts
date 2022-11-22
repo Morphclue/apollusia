@@ -59,6 +59,11 @@ export class ChooseEventsComponent implements OnInit {
         this.pollService.get(id).pipe(tap(poll => {
           this.poll = poll;
           this.title.setTitle(poll.title);
+          this.meta.addTag({property: 'og:title', content: poll.title});
+          if (poll.description) {
+            this.meta.addTag({name: 'description', content: poll.description});
+            this.meta.addTag({property: 'og:description', content: poll.description});
+          }
         })),
         this.pollService.getEvents(id).pipe(tap(events => {
           this.pollEvents = events.sort((a, b) => new Date(a.start).getTime() - new Date(b.start).getTime());
