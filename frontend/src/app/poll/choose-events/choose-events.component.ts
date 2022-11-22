@@ -3,12 +3,10 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Title} from '@angular/platform-browser';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ToastService} from 'ng-bootstrap-ext';
-import {Observable} from 'rxjs';
-import {map} from 'rxjs/operators';
-
-import {environment} from '../../../environments/environment';
+import {forkJoin, Observable} from 'rxjs';
+import {map, tap} from 'rxjs/operators';
 import {MailService, TokenService} from '../../core/services';
-import {CreateParticipantDto, Participant, Poll, PollEvent} from '../../model';
+import {Participant, Poll, PollEvent} from '../../model';
 import {CheckboxState} from '../../model/checkbox-state';
 import {PollService} from '../services/poll.service';
 
@@ -60,15 +58,14 @@ export class ChooseEventsComponent implements OnInit {
         this.participateForm.get('name')?.updateValueAndValidity();
       }
     });
-    this.pollService.getEvents(this.id).subscribe(events => {
-      this.pollEvents = events.sort((a, b) => new Date(a.start).getTime() - new Date(b.start).getTime());
-      this.checks = new Array(this.pollEvents.length).fill(CheckboxState.FALSE);
-      this.editChecks = new Array(this.pollEvents.length).fill(CheckboxState.FALSE);
-      this.findBestOption();
-    });
-    this.pollService.getParticipants(this.id).subscribe(participants => {
-      this.participants = participants.reverse();
-    });
+    forkJoin([
+      this.pollService.getEvents(this.id).pipe(tap(events => {
+        this.pollEvents = events.sort((a, b) => new Date(a.start).getTime() - new Date(b.start).getTime());
+        this.checks = new Array(this.pollEvents.length).fill(CheckboxState.FALSE);
+        this.editChecks = new Array(this.pollEvents.length).fill(CheckboxState.FALSE);
+      })),
+      this.pollService.getParticipants(this.id).pipe(tap(participants => this.participants = participants)),
+    ]).subscribe(() => this.findBestOption());
     this.checkAdmin();
     this.mail = this.mailService.getMail();
   }
@@ -86,17 +83,15 @@ export class ChooseEventsComponent implements OnInit {
   }
 
   onFormSubmit() {
-    const participant: CreateParticipantDto = {
-      name: this.participateForm.value.name ? this.participateForm.value.name : 'Anonymous',
+    this.pollService.participate(this.id, {
+      name: this.participateForm.value.name || 'Anonymous',
       participation: this.filterEvents(this.checks, CheckboxState.TRUE),
       indeterminateParticipation: this.filterEvents(this.checks, CheckboxState.INDETERMINATE),
-      token: this.tokenService.getToken(),
+      token: this.token,
       mail: this.mail,
-    };
-
-    this.pollService.participate(this.id, participant).subscribe(() => {
-      // FIXME
-      window.location.reload();
+    }).subscribe(participant => {
+      this.participants.unshift(participant);
+      this.findBestOption();
     });
   }
 
@@ -140,6 +135,7 @@ export class ChooseEventsComponent implements OnInit {
     this.pollService.editParticipant(this.id, this.editParticipant).subscribe(participant => {
       this.cancelEdit();
       this.participants = this.participants.map(p => p._id === participant._id ? participant : p);
+      this.findBestOption();
     });
   }
 

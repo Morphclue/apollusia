@@ -34,8 +34,8 @@ export class PollService {
     return this.http.post(`${environment.backendURL}/poll/${id}/book`, events);
   }
 
-  participate(id: string, participant: CreateParticipantDto) {
-    return this.http.post(`${environment.backendURL}/poll/${id}/participate`, participant);
+  participate(id: string, participant: CreateParticipantDto): Observable<Participant> {
+    return this.http.post<Participant>(`${environment.backendURL}/poll/${id}/participate`, participant);
   }
 
   editParticipant(id: string, participant: Participant) {
