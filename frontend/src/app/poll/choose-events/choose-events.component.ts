@@ -84,16 +84,10 @@ export class ChooseEventsComponent implements OnInit {
     });
   }
 
-  canSubmitChecks(checks: CheckboxState[]) {
-    const maxParticipantEvents = this.poll?.settings?.maxParticipantEvents;
-    if (maxParticipantEvents) {
-      const selected = checks.filter(c => c === CheckboxState.TRUE).length;
-      if (selected > maxParticipantEvents) {
-        return false;
-      }
-    }
+  // Primary Actions
 
-    return true;
+  copyToClipboard() {
+    navigator.clipboard.writeText(this.url).then().catch(e => console.log(e));
   }
 
   onFormSubmit() {
@@ -109,12 +103,6 @@ export class ChooseEventsComponent implements OnInit {
     });
   }
 
-  countParticipants(pollEvent: PollEvent) {
-    const participants = this.participants.filter(p => p.participation.includes(pollEvent._id));
-    const indeterminateParticipants = this.participants.filter(p => p.indeterminateParticipation.includes(pollEvent._id));
-    return participants.length + indeterminateParticipants.length;
-  }
-
   setEditParticipant(participant: Participant) {
     this.editParticipant = participant;
     this.editChecks = new Array(this.checks.length).fill(CheckboxState.FALSE);
@@ -123,13 +111,6 @@ export class ChooseEventsComponent implements OnInit {
     });
     participant.indeterminateParticipation.forEach(event => {
       this.editChecks[this.pollEvents.findIndex(e => e._id === event)] = CheckboxState.INDETERMINATE;
-    });
-  }
-
-  deleteParticipation(participantId: string) {
-    this.pollService.deleteParticipant(this.id, participantId).subscribe(() => {
-      this.participants = this.participants.filter(p => p._id !== participantId);
-      this.findBestOption();
     });
   }
 
@@ -153,24 +134,11 @@ export class ChooseEventsComponent implements OnInit {
     });
   }
 
-  isFull() {
-    if (this.poll?.settings.maxParticipants === undefined) {
-      return false;
-    }
-    return this.poll?.settings.maxParticipants && this.participants.length >= this.poll.settings.maxParticipants;
-  }
-
-  userVoted() {
-    return this.participants.some(participant => participant.token === this.token);
-  }
-
-
-  maxParticipantsReached(event: PollEvent) {
-    if (!this.poll?.settings.maxEventParticipants) {
-      return false;
-    }
-
-    return this.countParticipants(event) >= this.poll.settings.maxEventParticipants;
+  deleteParticipation(participantId: string) {
+    this.pollService.deleteParticipant(this.id, participantId).subscribe(() => {
+      this.participants = this.participants.filter(p => p._id !== participantId);
+      this.findBestOption();
+    });
   }
 
   selectEvent(id: string | undefined) {
@@ -194,9 +162,47 @@ export class ChooseEventsComponent implements OnInit {
     });
   }
 
-  copyToClipboard() {
-    navigator.clipboard.writeText(this.url).then().catch(e => console.log(e));
+  // View Helpers
+  // TODO called from template, bad practice
+
+  canSubmitChecks(checks: CheckboxState[]) {
+    const maxParticipantEvents = this.poll?.settings?.maxParticipantEvents;
+    if (maxParticipantEvents) {
+      const selected = checks.filter(c => c === CheckboxState.TRUE).length;
+      if (selected > maxParticipantEvents) {
+        return false;
+      }
+    }
+
+    return true;
   }
+
+  countParticipants(pollEvent: PollEvent) {
+    const participants = this.participants.filter(p => p.participation.includes(pollEvent._id));
+    const indeterminateParticipants = this.participants.filter(p => p.indeterminateParticipation.includes(pollEvent._id));
+    return participants.length + indeterminateParticipants.length;
+  }
+
+  isFull() {
+    if (this.poll?.settings.maxParticipants === undefined) {
+      return false;
+    }
+    return this.poll?.settings.maxParticipants && this.participants.length >= this.poll.settings.maxParticipants;
+  }
+
+  userVoted() {
+    return this.participants.some(participant => participant.token === this.token);
+  }
+
+  maxParticipantsReached(event: PollEvent) {
+    if (!this.poll?.settings.maxEventParticipants) {
+      return false;
+    }
+
+    return this.countParticipants(event) >= this.poll.settings.maxEventParticipants;
+  }
+
+  // Helpers
 
   private findBestOption() {
     if (this.pollEvents) {
