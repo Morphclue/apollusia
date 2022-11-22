@@ -1,8 +1,10 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
+import {SsrCookieService} from 'ngx-cookie-service-ssr';
 
 import {environment} from '../../../environments/environment';
 import {Token} from '../../model';
+import {StorageService} from './storage.service';
 
 @Injectable({
   providedIn: 'root',
@@ -12,11 +14,12 @@ export class TokenService {
 
   constructor(
     private http: HttpClient,
+    private storageService: StorageService,
   ) {
   }
 
   getToken(): string {
-    this.currentToken = localStorage.getItem('token') || '';
+    this.currentToken = this.storageService.get('token') || '';
     if (this.currentToken.length === 0) {
       this.generateToken();
     }
@@ -30,7 +33,7 @@ export class TokenService {
   }
 
   setToken(token: string) {
-    localStorage.setItem('token', token);
+    this.storageService.set('token', token);
     this.currentToken = token;
   }
 

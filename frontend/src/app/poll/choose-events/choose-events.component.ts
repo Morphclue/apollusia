@@ -1,7 +1,7 @@
 import {HttpClient} from '@angular/common/http';
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {Title} from '@angular/platform-browser';
+import {Meta, Title} from '@angular/platform-browser';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ToastService} from 'ng-bootstrap-ext';
 import {Observable} from 'rxjs';
@@ -19,7 +19,7 @@ import {CheckboxState} from '../../model/checkbox-state';
 })
 export class ChooseEventsComponent implements OnInit {
   id: string = '';
-  url = window.location.href;
+  url = globalThis.location?.href;
   poll?: Poll;
   pollEvents: PollEvent[] = [];
   checks: CheckboxState[] = [];
@@ -43,6 +43,7 @@ export class ChooseEventsComponent implements OnInit {
     private mailService: MailService,
     private toastService: ToastService,
     private title: Title,
+    private meta: Meta,
   ) {
     const routeId: Observable<string> = route.params.pipe(map(p => p.id));
     routeId.subscribe((id: string) => {
@@ -175,7 +176,10 @@ export class ChooseEventsComponent implements OnInit {
   private fetchPoll() {
     this.http.get<Poll>(`${environment.backendURL}/poll/${this.id}`).subscribe(async poll => {
       this.poll = poll;
-      this.title.setTitle(poll.title);
+      this.title.setTitle(poll.title + ' | Apollusia');
+      if (poll.description) {
+        this.meta.addTag({name: 'description', content: poll.description});
+      }
       await this.fetchPollEvents();
 
       if (poll.settings.anonymous) {

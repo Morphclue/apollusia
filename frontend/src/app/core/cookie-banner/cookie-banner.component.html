@@ -1,0 +1,12 @@
+<div *ngIf="!dismissed" class="container">
+  <ngb-alert type="primary">
+    <p>
+      Apollusia uses cookies and other storage technologies to provide a persistent user experience.
+      Don't worry, we don't collect any personal information and we do not share data with third parties.
+    </p>
+    <button class="btn btn-link" (click)="dismiss()">
+      Got it!
+      Don't show this message again.
+    </button>
+  </ngb-alert>
+</div>

@@ -18,7 +18,7 @@ import {SettingsModalComponent} from './modals';
     SettingsModalComponent,
   ],
   imports: [
-    BrowserModule,
+    BrowserModule.withServerTransition({ appId: 'serverApp' }),
     AppRoutingModule,
     NgbModule,
     ModalModule,
