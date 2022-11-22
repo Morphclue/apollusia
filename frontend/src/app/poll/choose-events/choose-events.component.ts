@@ -3,8 +3,8 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Title} from '@angular/platform-browser';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ToastService} from 'ng-bootstrap-ext';
-import {forkJoin, Observable} from 'rxjs';
-import {map, tap} from 'rxjs/operators';
+import {forkJoin} from 'rxjs';
+import {map, switchMap, tap} from 'rxjs/operators';
 import {MailService, TokenService} from '../../core/services';
 import {Participant, Poll, PollEvent} from '../../model';
 import {CheckboxState} from '../../model/checkbox-state';
@@ -42,14 +42,14 @@ export class ChooseEventsComponent implements OnInit {
     private toastService: ToastService,
     private title: Title,
   ) {
-    const routeId: Observable<string> = route.params.pipe(map(p => p.id));
-    routeId.subscribe((id: string) => {
-      this.id = id;
-    });
   }
 
   ngOnInit(): void {
-    this.pollService.get(this.id).subscribe(poll => {
+    const id$ = this.route.params.pipe(map(params => this.id = params.id));
+
+    id$.pipe(
+      switchMap(id => this.pollService.get(id)),
+    ).subscribe(poll => {
       this.poll = poll;
       this.title.setTitle(poll.title);
 
@@ -58,15 +58,23 @@ export class ChooseEventsComponent implements OnInit {
         this.participateForm.get('name')?.updateValueAndValidity();
       }
     });
-    forkJoin([
-      this.pollService.getEvents(this.id).pipe(tap(events => {
-        this.pollEvents = events.sort((a, b) => new Date(a.start).getTime() - new Date(b.start).getTime());
-        this.checks = new Array(this.pollEvents.length).fill(CheckboxState.FALSE);
-        this.editChecks = new Array(this.pollEvents.length).fill(CheckboxState.FALSE);
-      })),
-      this.pollService.getParticipants(this.id).pipe(tap(participants => this.participants = participants)),
-    ]).subscribe(() => this.findBestOption());
-    this.checkAdmin();
+
+    id$.pipe(
+      switchMap(id => forkJoin([
+        this.pollService.getEvents(id).pipe(tap(events => {
+          this.pollEvents = events.sort((a, b) => new Date(a.start).getTime() - new Date(b.start).getTime());
+          this.checks = new Array(this.pollEvents.length).fill(CheckboxState.FALSE);
+          this.editChecks = new Array(this.pollEvents.length).fill(CheckboxState.FALSE);
+        })),
+        this.pollService.getParticipants(id).pipe(tap(participants => this.participants = participants)),
+      ])),
+    ).subscribe(() => this.findBestOption());
+
+    id$.pipe(
+      switchMap(id => this.pollService.isAdmin(id, this.token)),
+    ).subscribe(isAdmin => {
+      this.isAdmin = isAdmin;
+    });
     this.mail = this.mailService.getMail();
   }
 
@@ -192,11 +200,5 @@ export class ChooseEventsComponent implements OnInit {
 
   private filterEvents(checks: CheckboxState[], state: CheckboxState) {
     return this.pollEvents.filter((_, i) => checks[i] === state).map(e => e._id);
-  }
-
-  private checkAdmin() {
-    this.pollService.isAdmin(this.id, this.token).subscribe(isAdmin => {
-      this.isAdmin = isAdmin;
-    });
   }
 }
