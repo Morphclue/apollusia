@@ -60,10 +60,6 @@ export class ChooseEventsComponent implements OnInit {
           this.poll = poll;
           this.title.setTitle(`${poll.title} - Apollusia`);
           this.meta.updateTag({property: 'og:title', content: poll.title});
-          if (poll.description) {
-            this.meta.updateTag({name: 'description', content: poll.description});
-            this.meta.updateTag({property: 'og:description', content: poll.description});
-          }
         })),
         this.pollService.getEvents(id).pipe(tap(events => {
           this.pollEvents = events.sort((a, b) => new Date(a.start).getTime() - new Date(b.start).getTime());
@@ -73,7 +69,21 @@ export class ChooseEventsComponent implements OnInit {
         })),
         this.pollService.getParticipants(id).pipe(tap(participants => this.participants = participants)),
       ])),
-    ).subscribe(([poll, events]) => {
+    ).subscribe(([poll, events, participants]) => {
+      let description = '';
+      if (poll.description) {
+        description += poll.description + '\n\n';
+      }
+      if (poll.location) {
+        description += `🌐 Location: ${poll.location}\n`;
+      }
+      if (poll.settings.deadline) {
+        description += `📅 Deadline: ${new Date(poll.settings.deadline).toLocaleString()}\n`;
+      }
+      description += `✅ ${events.length} Options - 👤 ${participants.length} Participants`;
+      this.meta.updateTag({name: 'description', content: description});
+      this.meta.updateTag({property: 'og:description', content: description});
+
       this.bookedEvents = events.map(e => poll.bookedEvents.includes(e._id));
       this.findBestOption();
     });
