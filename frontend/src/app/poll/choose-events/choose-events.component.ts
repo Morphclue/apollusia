@@ -58,11 +58,11 @@ export class ChooseEventsComponent implements OnInit {
       switchMap(id => forkJoin([
         this.pollService.get(id).pipe(tap(poll => {
           this.poll = poll;
-          this.title.setTitle(poll.title);
-          this.meta.addTag({property: 'og:title', content: poll.title});
+          this.title.setTitle(`${poll.title} - Apollusia`);
+          this.meta.updateTag({property: 'og:title', content: poll.title});
           if (poll.description) {
-            this.meta.addTag({name: 'description', content: poll.description});
-            this.meta.addTag({property: 'og:description', content: poll.description});
+            this.meta.updateTag({name: 'description', content: poll.description});
+            this.meta.updateTag({property: 'og:description', content: poll.description});
           }
         })),
         this.pollService.getEvents(id).pipe(tap(events => {
