@@ -16,7 +16,6 @@ export class CheckButtonComponent {
 
   toggle(): void {
     this.check = this.nextState(this.check);
-    console.log(this.check);
     this.checkChanged.next(this.check);
   }
 
