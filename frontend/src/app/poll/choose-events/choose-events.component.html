@@ -159,14 +159,14 @@
             </td>
           </tr>
         </ng-template>
-        <tr *ngIf="isAdmin">
+        <tr *ngIf="poll && isAdmin">
           <th>Select Events</th>
           <td *ngFor="let pollEvent of pollEvents">
             <button
               type="button"
               class="btn btn-link"
-              [class.bi-star-fill]="pollEvent._id && (poll.bookedEvents|some:pollEvent._id)"
-              [class.bi-star]="pollEvent._id && !(poll.bookedEvents|some:pollEvent._id)"
+              [class.bi-star-fill]="poll.bookedEvents|some:pollEvent._id"
+              [class.bi-star]="!(poll.bookedEvents|some:pollEvent._id)"
               (click)="selectEvent(pollEvent._id)"
             ></button>
           </td>
