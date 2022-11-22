@@ -43,7 +43,7 @@
             </div>
           </td>
         </tr>
-        <tr *ngIf="!isFull(); else fullAlert">
+        <tr *ngIf="!closedReason else closedAlert">
           <th style="min-width: 240px" scope="row">
             <input *ngIf="!poll?.settings?.anonymous"
                    class="form-control"
@@ -71,12 +71,11 @@
             </button>
           </th>
         </tr>
-        <ng-template #fullAlert>
+        <ng-template #closedAlert>
           <tr>
             <td [colSpan]="2 + pollEvents.length">
               <div class="alert alert-info">
-                This poll has reached it's maximum number of participants.
-                You can no longer submit your vote.
+                {{ closedReason }}
               </div>
             </td>
           </tr>

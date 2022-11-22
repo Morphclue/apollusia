@@ -26,6 +26,7 @@ export class ChooseEventsComponent implements OnInit {
   checks: CheckboxState[] = [];
   editChecks: CheckboxState[] = [];
   bestOption: number = 1;
+  closedReason?: string;
 
   // view state
   editParticipant?: Participant;
@@ -183,13 +184,6 @@ export class ChooseEventsComponent implements OnInit {
     return participants.length + indeterminateParticipants.length;
   }
 
-  isFull() {
-    if (this.poll?.settings.maxParticipants === undefined) {
-      return false;
-    }
-    return this.poll?.settings.maxParticipants && this.participants.length >= this.poll.settings.maxParticipants;
-  }
-
   userVoted() {
     return this.participants.some(participant => participant.token === this.token);
   }
@@ -205,8 +199,16 @@ export class ChooseEventsComponent implements OnInit {
   // Helpers
 
   private findBestOption() {
-    if (this.pollEvents) {
-      this.bestOption = Math.max(...this.pollEvents.map(event => this.countParticipants(event))) || 1;
+    this.bestOption = Math.max(...this.pollEvents.map(event => this.countParticipants(event))) || 1;
+
+    const deadline = this.poll?.settings.deadline;
+    const maxParticipants = this.poll?.settings.maxParticipants;
+    if (deadline && new Date(deadline) < new Date()) {
+      this.closedReason = 'This poll is over because the deadline has passed. You can no longer submit your vote.';
+    } else if (maxParticipants && this.participants.length >= maxParticipants) {
+      this.closedReason = 'This poll has reached it\'s maximum number of participants. You can no longer submit your vote.';
+    } else {
+      this.closedReason = undefined;
     }
   }
 
