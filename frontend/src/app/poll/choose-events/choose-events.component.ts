@@ -80,7 +80,7 @@ export class ChooseEventsComponent implements OnInit {
       if (poll.settings.deadline) {
         description += `📅 Deadline: ${new Date(poll.settings.deadline).toLocaleString()}\n`;
       }
-      description += `✅ ${events.length} Options - 👤 ${participants.length} Participants`;
+      description += `✅ ${events.length} Option${events.length !== 1 ? 's' : ''} - 👤 ${participants.length} Participant${participants.length !== 1 ? 's' : ''}`;
       this.meta.updateTag({name: 'description', content: description});
       this.meta.updateTag({property: 'og:description', content: description});
 
