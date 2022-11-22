@@ -23,7 +23,6 @@
     </div>
   </div>
   <div *ngIf="pollEvents" class="table-responsive text-center">
-    <form [formGroup]="participateForm" (ngSubmit)="onFormSubmit()">
       <table class="table align-middle">
         <thead>
         <tr>
@@ -43,14 +42,14 @@
             </div>
           </td>
         </tr>
-        <tr *ngIf="!isFull(); else fullAlert">
+        <tr *ngIf="!closedReason else closedAlert">
           <th style="min-width: 240px" scope="row">
             <input *ngIf="!poll?.settings?.anonymous"
                    class="form-control"
                    type="text"
                    id="name"
                    placeholder="Your name"
-                   formControlName="name">
+                   [(ngModel)]="name">
             <input *ngIf="poll?.settings?.anonymous"
                    class="form-control"
                    type="text"
@@ -66,17 +65,16 @@
             ></app-check-button>
           </td>
           <th class="border-0 text-start" scope="col">
-            <button class="btn btn-primary btn-sm" type="submit" [disabled]="!participateForm.valid || !canSubmitChecks(checks)">
+            <button class="btn btn-primary btn-sm" [disabled]="!(name || poll?.settings?.anonymous) || !canSubmitChecks(checks)" (click)="submit()">
               Submit
             </button>
           </th>
         </tr>
-        <ng-template #fullAlert>
+        <ng-template #closedAlert>
           <tr>
             <td [colSpan]="2 + pollEvents.length">
               <div class="alert alert-info">
-                This poll has reached it's maximum number of participants.
-                You can no longer submit your vote.
+                {{ closedReason }}
               </div>
             </td>
           </tr>
@@ -121,14 +119,14 @@
             </td>
             <td *ngIf="!editParticipant" class="border-0 text-start">
               <button
-                *ngIf="poll?.settings?.allowEdit && getToken() === participant.token"
+                *ngIf="poll?.settings?.allowEdit && token === participant.token"
                 class="btn btn-primary btn-sm ms-1 bi-pencil"
                 placement="top"
                 ngbTooltip="Edit participation"
                 (click)="setEditParticipant(participant)">
               </button>
               <button
-                *ngIf="isAdmin || getToken() === participant.token"
+                *ngIf="isAdmin || token === participant.token"
                 class="btn btn-sm btn-danger ms-1 bi-trash"
                 type="button"
                 placement="top"
@@ -159,22 +157,22 @@
             </td>
           </tr>
         </ng-template>
-        <tr *ngIf="isAdmin">
+        <tr *ngIf="poll && isAdmin">
           <th>Select Events</th>
-          <td *ngFor="let pollEvent of pollEvents">
-            <button
-              type="button"
-              class="btn btn-link"
-              [class.bi-star-fill]="pollEvent._id && bookedEvents.includes(pollEvent._id)"
-              [class.bi-star]="pollEvent._id && !bookedEvents.includes(pollEvent._id)"
-              (click)="selectEvent(pollEvent._id)"
-            ></button>
+          <td *ngFor="let pollEvent of pollEvents; let i = index">
+            <input
+              type="checkbox"
+              class="text-primary form-check-hidden"
+              [class.bi-star-fill]="bookedEvents[i]"
+              [class.bi-star]="!bookedEvents[i]"
+              [(ngModel)]="bookedEvents[i]"
+            >
           </td>
           <td class="border-0 text-start">
             <button
               class="btn btn-sm btn-primary"
               type="button"
-              [disabled]="bookedEvents.length === 0"
+              [disabled]="poll.bookedEvents.length === 0"
               (click)="book()">
               Book
             </button>
@@ -182,7 +180,6 @@
         </tr>
         </tbody>
       </table>
-    </form>
   </div>
 </div>
 <ngbx-toast-list></ngbx-toast-list>
