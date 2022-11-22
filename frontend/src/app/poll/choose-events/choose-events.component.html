@@ -121,14 +121,14 @@
             </td>
             <td *ngIf="!editParticipant" class="border-0 text-start">
               <button
-                *ngIf="poll?.settings?.allowEdit && getToken() === participant.token"
+                *ngIf="poll?.settings?.allowEdit && token === participant.token"
                 class="btn btn-primary btn-sm ms-1 bi-pencil"
                 placement="top"
                 ngbTooltip="Edit participation"
                 (click)="setEditParticipant(participant)">
               </button>
               <button
-                *ngIf="isAdmin || getToken() === participant.token"
+                *ngIf="isAdmin || token === participant.token"
                 class="btn btn-sm btn-danger ms-1 bi-trash"
                 type="button"
                 placement="top"
@@ -165,8 +165,8 @@
             <button
               type="button"
               class="btn btn-link"
-              [class.bi-star-fill]="pollEvent._id && bookedEvents.includes(pollEvent._id)"
-              [class.bi-star]="pollEvent._id && !bookedEvents.includes(pollEvent._id)"
+              [class.bi-star-fill]="pollEvent._id && (poll.bookedEvents|some:pollEvent._id)"
+              [class.bi-star]="pollEvent._id && !(poll.bookedEvents|some:pollEvent._id)"
               (click)="selectEvent(pollEvent._id)"
             ></button>
           </td>
@@ -174,7 +174,7 @@
             <button
               class="btn btn-sm btn-primary"
               type="button"
-              [disabled]="bookedEvents.length === 0"
+              [disabled]="poll.bookedEvents.length === 0"
               (click)="book()">
               Book
             </button>
