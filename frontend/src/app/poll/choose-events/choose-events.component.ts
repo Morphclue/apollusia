@@ -16,22 +16,29 @@ import {PollService} from '../services/poll.service';
   styleUrls: ['./choose-events.component.scss'],
 })
 export class ChooseEventsComponent implements OnInit {
-  id: string = '';
-  url = window.location.href;
+  // initial state
   poll?: Poll;
   pollEvents: PollEvent[] = [];
+  participants: Participant[] = [];
+  isAdmin: boolean = false;
+
+  // aux
   checks: CheckboxState[] = [];
   editChecks: CheckboxState[] = [];
-  editParticipant?: Participant;
   bestOption: number = 1;
-  mail?: string;
-  token = this.tokenService.getToken();
-  isAdmin: boolean = false;
-  participants: Participant[] = [];
+
+  // view state
+  editParticipant?: Participant;
   participateForm = new FormGroup({
     name: new FormControl('', Validators.required),
     // TODO: add checks as FormArray
   });
+
+  // helpers
+  id: string = '';
+  url = window.location.href;
+  mail = this.mailService.getMail();
+  token = this.tokenService.getToken();
 
   constructor(
     public route: ActivatedRoute,
@@ -75,7 +82,6 @@ export class ChooseEventsComponent implements OnInit {
     ).subscribe(isAdmin => {
       this.isAdmin = isAdmin;
     });
-    this.mail = this.mailService.getMail();
   }
 
   canSubmitChecks(checks: CheckboxState[]) {
