@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Title} from '@angular/platform-browser';
+import {Meta, Title} from '@angular/platform-browser';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ToastService} from 'ng-bootstrap-ext';
 import {forkJoin} from 'rxjs';
@@ -35,7 +35,7 @@ export class ChooseEventsComponent implements OnInit {
 
   // helpers
   id: string = '';
-  url = window.location.href;
+  url = globalThis.location?.href;
   mail = this.mailService.getMail();
   token = this.tokenService.getToken();
 
@@ -47,6 +47,7 @@ export class ChooseEventsComponent implements OnInit {
     private mailService: MailService,
     private toastService: ToastService,
     private title: Title,
+    private meta: Meta,
   ) {
   }
 

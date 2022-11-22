@@ -2,13 +2,14 @@ import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {RouterModule} from '@angular/router';
-import {NgbCollapseModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
+import {NgbAlertModule, NgbCollapseModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 
 import {LocationLinkComponent} from './location-link/location-link.component';
 import {MarkdownComponent} from './markdown/markdown.component';
 import {NavbarComponent} from './navbar/navbar.component';
 import {LocationIconPipe} from './pipes/location-icon.pipe';
 import {TokenComponent} from './token/token.component';
+import { CookieBannerComponent } from './cookie-banner/cookie-banner.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import {TokenComponent} from './token/token.component';
     MarkdownComponent,
     LocationLinkComponent,
     LocationIconPipe,
+    CookieBannerComponent,
   ],
   imports: [
     CommonModule,
@@ -25,6 +27,7 @@ import {TokenComponent} from './token/token.component';
     FormsModule,
     NgbTooltipModule,
     ReactiveFormsModule,
+    NgbAlertModule,
   ],
   exports: [
     RouterModule,
@@ -33,6 +36,7 @@ import {TokenComponent} from './token/token.component';
     MarkdownComponent,
     LocationLinkComponent,
     LocationIconPipe,
+    CookieBannerComponent,
   ],
 })
 export class CoreModule {
