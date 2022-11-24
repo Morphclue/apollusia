@@ -1,4 +1,4 @@
-FROM node:18-slim as builder
+FROM node:lts-slim as builder
 RUN npm install -g pnpm
 WORKDIR /app
 COPY package.json pnpm-lock.yaml ./
@@ -6,7 +6,7 @@ RUN pnpm install
 COPY . .
 RUN pnpm run build
 
-FROM node:18-slim
+FROM node:lts-slim
 RUN npm install -g pnpm
 WORKDIR /app
 ENV NODE_ENV=production
