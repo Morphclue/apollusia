@@ -162,7 +162,7 @@ export class PollService {
     async bookEvents(id: string, events: Types.ObjectId[]): Promise<ReadPollDto> {
         const poll = await this.pollModel.findByIdAndUpdate(id, {
             bookedEvents: events,
-        })
+        }, {new: true})
             .populate<{ bookedEvents: PollEvent[] }>('bookedEvents')
             .select(readPollSelect)
             .exec();
