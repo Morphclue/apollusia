@@ -5,6 +5,7 @@ import * as Handlebars from 'handlebars';
 import * as MarkdownIt from 'markdown-it';
 
 import {environment} from '../../environment';
+import {renderDate} from '../helpers';
 
 @Injectable()
 export class MailService {
@@ -16,9 +17,7 @@ export class MailService {
         Handlebars.registerHelper('markdown', function (context) {
             return new Handlebars.SafeString(markdown.render(context));
         });
-        Handlebars.registerHelper('date', function (date) {
-            return new Date(date).toLocaleString();
-        });
+        Handlebars.registerHelper('date', renderDate);
 
         let styles: Handlebars.SafeString;
         fs.promises.readFile(__dirname + '/../templates/styles.css', 'utf8').then(data => {
