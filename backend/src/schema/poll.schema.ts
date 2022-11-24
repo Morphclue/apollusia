@@ -31,7 +31,7 @@ export class Poll {
     @IsString()
     location?: string;
 
-    @Prop({default: Intl.DateTimeFormat().resolvedOptions().timeZone})
+    @Prop()
     @ApiProperty()
     @IsOptional()
     @IsString() // TODO IsTimeZone will be added to class-validator soon
