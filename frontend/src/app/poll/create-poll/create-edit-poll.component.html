@@ -172,6 +172,12 @@
                    [disabled]="!mail">
           </div>
           <app-mail-alert *ngIf="!mail"></app-mail-alert>
+          <div class="form-group mb-3">
+            <label class="form-label" for="timeZone">
+              Timezone
+            </label>
+            <input type="text" class="form-control" id="timeZone" formControlName="timeZone">
+          </div>
         </fieldset>
       </div>
     </div>

@@ -29,6 +29,7 @@ export class CreateEditPollComponent implements OnInit {
     location: new FormControl(''),
     deadlineDate: new FormControl(),
     deadlineTime: new FormControl(),
+    timeZone: new FormControl(Intl.DateTimeFormat().resolvedOptions().timeZone),
     emailUpdates: new FormControl(false),
     maxParticipants: new FormControl(false),
     maxParticipantsInput: new FormControl(0),
@@ -121,6 +122,7 @@ export class CreateEditPollComponent implements OnInit {
       location: pollForm.location ? pollForm.location : '',
       adminToken: this.tokenService.getToken(),
       adminMail: pollForm.emailUpdates ? this.poll?.adminMail || this.mail : undefined,
+      timeZone: pollForm.timeZone || undefined,
       bookedEvents: [],
       settings: {
         deadline: deadline,
@@ -193,6 +195,7 @@ export class CreateEditPollComponent implements OnInit {
         deadlineDate: poll.settings.deadline ? format(new Date(poll.settings.deadline), 'yyyy-MM-dd') : '',
         deadlineTime: poll.settings.deadline ? format(new Date(poll.settings.deadline), 'HH:mm') : '',
         emailUpdates: !!poll.adminMail,
+        timeZone: poll.timeZone,
         maxParticipants: !!poll.settings.maxParticipants,
         maxParticipantsInput: poll.settings.maxParticipants,
         maxParticipantEvents: !!poll.settings.maxParticipantEvents,
