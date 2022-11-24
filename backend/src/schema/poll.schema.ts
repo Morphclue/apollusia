@@ -1,7 +1,7 @@
 import {Prop, Schema, SchemaFactory} from '@nestjs/mongoose';
 import {ApiProperty, ApiPropertyOptional} from '@nestjs/swagger';
 import {Type} from 'class-transformer';
-import {IsNotEmpty, IsOptional, IsString, MinLength, ValidateNested} from 'class-validator';
+import {IsNotEmpty, IsOptional, IsString, MinLength, Validate, ValidateNested} from 'class-validator';
 import {Types} from 'mongoose';
 
 import {RefArray} from './ref.decorator';
@@ -30,6 +30,12 @@ export class Poll {
     @IsOptional()
     @IsString()
     location?: string;
+
+    @Prop({default: Intl.DateTimeFormat().resolvedOptions().timeZone})
+    @ApiProperty()
+    @IsOptional()
+    @IsString() // TODO IsTimeZone will be added to class-validator soon
+    timeZone?: string;
 
     @Prop({required: true})
     @ApiProperty()
