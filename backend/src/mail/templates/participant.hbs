@@ -7,7 +7,7 @@
     <tr>
         <th>Name</th>
         {{# each events }}
-            <th>{{ date this.start undefined poll.timeZone }}<br/>{{ date this.end undefined poll.timeZone }}</th>
+            <th>{{ date this.start undefined ../poll.timeZone }}<br/>{{ date this.end undefined ../poll.timeZone }}</th>
         {{/each}}
     </tr>
     {{#each participants}}
