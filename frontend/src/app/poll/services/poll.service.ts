@@ -1,6 +1,7 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
+
 import {environment} from '../../../environments/environment';
 import {CreateParticipantDto, Participant, Poll, PollEvent} from '../../model';
 
@@ -39,7 +40,7 @@ export class PollService {
   }
 
   editParticipant(id: string, participant: Participant) {
-    return this.http.put<Participant>(`${environment.backendURL}/poll/${id}/participate/${participant._id}`, this.editParticipant)
+    return this.http.put<Participant>(`${environment.backendURL}/poll/${id}/participate/${participant._id}`, this.editParticipant);
   }
 
   deleteParticipant(id: string, participant: string) {
