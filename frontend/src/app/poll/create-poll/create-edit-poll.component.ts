@@ -121,6 +121,7 @@ export class CreateEditPollComponent implements OnInit {
       location: pollForm.location ? pollForm.location : '',
       adminToken: this.tokenService.getToken(),
       adminMail: pollForm.emailUpdates ? this.poll?.adminMail || this.mail : undefined,
+      timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
       bookedEvents: [],
       settings: {
         deadline: deadline,

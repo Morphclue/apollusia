@@ -4,6 +4,7 @@ import {Document, Model, Types} from 'mongoose';
 
 import {MailDto, ParticipantDto, PollDto, PollEventDto} from '../../dto';
 import {ReadPollDto, readPollSelect, ReadStatsPollDto} from '../../dto/read-poll.dto';
+import {renderDate} from '../../mail/helpers';
 import {MailService} from '../../mail/mail/mail.service';
 import {Participant, Poll, PollEvent} from '../../schema';
 
@@ -162,14 +163,14 @@ export class PollService {
     async bookEvents(id: string, events: Types.ObjectId[]): Promise<ReadPollDto> {
         const poll = await this.pollModel.findByIdAndUpdate(id, {
             bookedEvents: events,
-        })
+        }, {new: true})
             .populate<{ bookedEvents: PollEvent[] }>('bookedEvents')
             .select(readPollSelect)
             .exec();
         for await (const participant of this.participantModel.find({poll: new Types.ObjectId(id)}).populate(['participation', 'indeterminateParticipation'])) {
             const participations = [...participant.participation, ...participant.indeterminateParticipation];
             const appointments = poll.bookedEvents.map(event => {
-                let eventLine = this.renderEvent(event);
+                let eventLine = this.renderEvent(event, undefined, poll.timeZone);
                 if (participations.some(p => p._id.toString() === event._id.toString())) {
                     eventLine += ' *';
                 }
@@ -184,8 +185,8 @@ export class PollService {
         return {...poll.toObject(), bookedEvents: events};
     }
 
-    private renderEvent(event: PollEvent) {
-        return `${new Date(event.start).toLocaleString()} - ${new Date(event.end).toLocaleString()}`;
+    private renderEvent(event: PollEvent, locale?: string, timeZone?: string) {
+        return `${renderDate(event.start, locale, timeZone)} - ${renderDate(event.end, locale, timeZone)}`;
     }
 
     private async removeParticipations(id: string, events: PollEventDto[]) {

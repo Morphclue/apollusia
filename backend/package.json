@@ -50,7 +50,7 @@
         "@types/express": "^4.17.14",
         "@types/jest": "27.4.1",
         "@types/markdown-it": "^12.2.3",
-        "@types/node": "^16.11.59",
+        "@types/node": "^18.11.9",
         "@types/nodemailer": "^6.4.6",
         "@types/supertest": "^2.0.12",
         "@typescript-eslint/eslint-plugin": "^5.37.0",

@@ -7,7 +7,7 @@
     <tr>
         <th>Name</th>
         {{# each events }}
-            <th>{{ date this.start }}<br/>{{ date this.end }}</th>
+            <th>{{ date this.start undefined ../poll.timeZone }}<br/>{{ date this.end undefined ../poll.timeZone }}</th>
         {{/each}}
     </tr>
     {{#each participants}}
@@ -19,6 +19,10 @@
         </tr>
     {{/each}}
 </table>
+
+{{#if poll.timeZone}}
+    <p>All times are displayed in the timezone <b>{{ poll.timeZone }}</b>.</p>
+{{/if}}
 
 <p>
     <a class="btn" href="{{ origin }}/poll/{{ poll._id }}/participate">

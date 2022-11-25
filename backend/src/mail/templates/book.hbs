@@ -28,3 +28,7 @@
     {{/each}}
 </ul>
 <p>You have agreed to appointments marked with *.</p>
+
+{{#if poll.timeZone}}
+    <p>All times are displayed in the timezone <b>{{ poll.timeZone }}</b>.</p>
+{{/if}}
