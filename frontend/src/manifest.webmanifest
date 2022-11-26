@@ -1,8 +1,8 @@
 {
-  "name": "apollusia",
-  "short_name": "apollusia",
-  "theme_color": "#1976d2",
-  "background_color": "#fafafa",
+  "name": "Apollusia",
+  "short_name": "Apollusia",
+  "theme_color": "#7b2cbf",
+  "background_color": "#ffffff",
   "display": "standalone",
   "scope": "./",
   "start_url": "./",
