@@ -21,7 +21,7 @@ jobs:
           node-version: 18
       - name: Install pnpm
         id: pnpm-install
-        uses: pnpm/action-setup@v2.0.1
+        uses: pnpm/action-setup@v2.2.4
         with:
           version: 7
           run_install: false
