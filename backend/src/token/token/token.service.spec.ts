@@ -1,9 +1,9 @@
-import {Test, TestingModule} from '@nestjs/testing';
 import {MongooseModule} from '@nestjs/mongoose';
+import {Test, TestingModule} from '@nestjs/testing';
 
-import {TokenService} from './token.service';
-import {closeMongoConnection, rootMongooseTestModule} from '../../utils/mongo-util';
 import {Poll, PollSchema} from '../../schema';
+import {closeMongoConnection, rootMongooseTestModule} from '../../utils/mongo-util';
+import {TokenService} from './token.service';
 
 describe('TokenService', () => {
     let service: TokenService;

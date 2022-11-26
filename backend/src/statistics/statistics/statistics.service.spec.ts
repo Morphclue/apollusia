@@ -1,5 +1,8 @@
+import {MongooseModule} from '@nestjs/mongoose';
 import {Test, TestingModule} from '@nestjs/testing';
 
+import {Participant, ParticipantSchema, Poll, PollEvent, PollEventSchema, PollSchema} from '../../schema';
+import {closeMongoConnection, rootMongooseTestModule} from '../../utils/mongo-util';
 import {StatisticsService} from './statistics.service';
 
 describe('StatisticsService', () => {
@@ -7,6 +10,14 @@ describe('StatisticsService', () => {
 
     beforeEach(async () => {
         const module: TestingModule = await Test.createTestingModule({
+            imports: [
+                rootMongooseTestModule(),
+                MongooseModule.forFeature([
+                    {name: Poll.name, schema: PollSchema},
+                    {name: PollEvent.name, schema: PollEventSchema},
+                    {name: Participant.name, schema: ParticipantSchema},
+                ]),
+            ],
             providers: [StatisticsService],
         }).compile();
 
@@ -15,5 +26,9 @@ describe('StatisticsService', () => {
 
     it('should be defined', () => {
         expect(service).toBeDefined();
+    });
+
+    afterAll(async () => {
+        await closeMongoConnection();
     });
 });

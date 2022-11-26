@@ -1,5 +1,5 @@
-import {MongoMemoryServer} from 'mongodb-memory-server';
 import {MongooseModule, MongooseModuleOptions} from '@nestjs/mongoose';
+import {MongoMemoryServer} from 'mongodb-memory-server';
 
 
 let mongoMemoryServer: MongoMemoryServer;
