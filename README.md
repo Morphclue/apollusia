@@ -2,6 +2,8 @@
 
 Apollusia is a calendar tool for coordinating events with multiple people.
 It is a web application written in Angular with NestJS as the backend.
+A running instance of the application can be found under https://apollusia.uniks.de/.
+Feel free to check it out!
 
 :star: Star this project on GitHub — it motivates me a lot!
 
