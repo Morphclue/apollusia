@@ -13,13 +13,7 @@ TODO: Add Logo Banner
 TODO: Add screenshots of the application
 -->
 
-## Table of Contents
-
-- [Setup](#setup)
-
 ## Setup
-
-<sup>[(Back to top)](#table-of-contents)</sup>
 
 Create an `.env` file in the backend directory and add the following environment variables:
 
