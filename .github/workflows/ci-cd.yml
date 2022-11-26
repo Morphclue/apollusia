@@ -50,7 +50,7 @@ jobs:
           image_tag: latest
           context: frontend/
       - name: Deploy to Rancher
-        uses: sekassel-research/actions-rancher-update@2.0.2
+        uses: sekassel-research/actions-rancher-update@v3.0.0
         with:
           rancher_url: ${{ secrets.RANCHER_URL }}
           rancher_token: ${{ secrets.RANCHER_TOKEN }}
@@ -75,7 +75,7 @@ jobs:
           image_tag: latest
           context: backend/
       - name: Deploy to Rancher
-        uses: sekassel-research/actions-rancher-update@2.0.2
+        uses: sekassel-research/actions-rancher-update@v3.0.0
         with:
           rancher_url: ${{ secrets.RANCHER_URL }}
           rancher_token: ${{ secrets.RANCHER_TOKEN }}
