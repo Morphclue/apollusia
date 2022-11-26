@@ -11,6 +11,8 @@ import {AppComponent} from './app.component';
 import {CoreModule} from './core/core.module';
 import {TokenService} from './core/services';
 import {SettingsModalComponent} from './modals';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -26,6 +28,12 @@ import {SettingsModalComponent} from './modals';
     ReactiveFormsModule,
     AboutModule,
     CoreModule,
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production,
+      // Register the ServiceWorker as soon as the application is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000'
+    }),
   ],
   providers: [TokenService],
   bootstrap: [AppComponent],
