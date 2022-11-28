@@ -24,6 +24,17 @@ describe('TokenService', () => {
         expect(service).toBeDefined();
     });
 
+    it('should generate a token', async () => {
+        const token = await service.generateToken();
+        expect(token).toBeDefined();
+    });
+
+    it('should regenerate a token', async () => {
+        const token = await service.generateToken();
+        const newToken = await service.regenerateToken(token.token);
+        expect(newToken).toBeDefined();
+    });
+
     afterAll(async () => {
         await closeMongoConnection();
     });
