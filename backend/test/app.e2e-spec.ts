@@ -2,14 +2,20 @@ import {INestApplication} from '@nestjs/common';
 import {Test, TestingModule} from '@nestjs/testing';
 import * as request from 'supertest';
 
-import {AppModule} from '../src/app.module';
+import {closeMongoConnection, rootMongooseTestModule} from '../src/utils/mongo-util';
+import {AppController} from '../src/app.controller';
+import {AppService} from '../src/app.service';
 
 describe('AppController (e2e)', () => {
     let app: INestApplication;
 
     beforeEach(async () => {
         const moduleFixture: TestingModule = await Test.createTestingModule({
-            imports: [AppModule],
+            imports: [
+                rootMongooseTestModule(),
+            ],
+            controllers: [AppController],
+            providers: [AppService],
         }).compile();
 
         app = moduleFixture.createNestApplication();
@@ -21,5 +27,9 @@ describe('AppController (e2e)', () => {
             .get('/')
             .expect(200)
             .expect('Hello World!');
+    });
+
+    afterAll(async () => {
+        await closeMongoConnection();
     });
 });
