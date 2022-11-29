@@ -2,9 +2,9 @@ import {INestApplication} from '@nestjs/common';
 import {Test, TestingModule} from '@nestjs/testing';
 import * as request from 'supertest';
 
-import {closeMongoConnection, rootMongooseTestModule} from '../src/utils/mongo-util';
 import {AppController} from '../src/app.controller';
 import {AppService} from '../src/app.service';
+import {closeMongoConnection, rootMongooseTestModule} from '../src/utils/mongo-util';
 
 describe('AppController (e2e)', () => {
     let app: INestApplication;
