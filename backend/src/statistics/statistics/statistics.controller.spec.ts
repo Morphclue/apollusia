@@ -1,10 +1,7 @@
-import {MongooseModule} from '@nestjs/mongoose';
 import {Test, TestingModule} from '@nestjs/testing';
-
-import {Participant, ParticipantSchema, Poll, PollEvent, PollEventSchema, PollSchema} from '../../schema';
 import {closeMongoConnection, rootMongooseTestModule} from '../../utils/mongo-util';
 import {StatisticsController} from './statistics.controller';
-import {StatisticsService} from './statistics.service';
+import {StatisticsModule} from '../statistics.module';
 
 describe('StatisticsController', () => {
     let controller: StatisticsController;
@@ -13,14 +10,8 @@ describe('StatisticsController', () => {
         const module: TestingModule = await Test.createTestingModule({
             imports: [
                 rootMongooseTestModule(),
-                MongooseModule.forFeature([
-                    {name: Poll.name, schema: PollSchema},
-                    {name: PollEvent.name, schema: PollEventSchema},
-                    {name: Participant.name, schema: ParticipantSchema},
-                ]),
+                StatisticsModule,
             ],
-            controllers: [StatisticsController],
-            providers: [StatisticsService],
         }).compile();
 
         controller = module.get<StatisticsController>(StatisticsController);

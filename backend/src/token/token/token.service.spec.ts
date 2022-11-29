@@ -1,11 +1,11 @@
-import {MongooseModule} from '@nestjs/mongoose';
 import {Test, TestingModule} from '@nestjs/testing';
 import {Model} from 'mongoose';
 
 import {PollStub} from '../../../test/stubs/PollStub';
-import {Poll, PollSchema} from '../../schema';
+import {Poll} from '../../schema';
 import {closeMongoConnection, rootMongooseTestModule} from '../../utils/mongo-util';
 import {TokenService} from './token.service';
+import {TokenModule} from '../token.module';
 
 describe('TokenService', () => {
     let service: TokenService;
@@ -15,9 +15,8 @@ describe('TokenService', () => {
         const module: TestingModule = await Test.createTestingModule({
             imports: [
                 rootMongooseTestModule(),
-                MongooseModule.forFeature([{name: Poll.name, schema: PollSchema}]),
+                TokenModule,
             ],
-            providers: [TokenService],
         }).compile();
 
         pollModel = module.get('PollModel');

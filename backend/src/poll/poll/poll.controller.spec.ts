@@ -6,6 +6,7 @@ import {Participant, ParticipantSchema, Poll, PollEvent, PollEventSchema, PollSc
 import {rootMongooseTestModule} from '../../utils/mongo-util';
 import {PollController} from './poll.controller';
 import {PollService} from './poll.service';
+import {PollModule} from '../poll.module';
 
 describe('PollController', () => {
     let controller: PollController;
@@ -14,15 +15,8 @@ describe('PollController', () => {
         const module: TestingModule = await Test.createTestingModule({
             imports: [
                 rootMongooseTestModule(),
-                MongooseModule.forFeature([
-                    {name: Poll.name, schema: PollSchema},
-                    {name: PollEvent.name, schema: PollEventSchema},
-                    {name: Participant.name, schema: ParticipantSchema},
-                ]),
-                MailModule,
+                PollModule,
             ],
-            controllers: [PollController],
-            providers: [PollService],
         }).compile();
 
         controller = module.get<PollController>(PollController);

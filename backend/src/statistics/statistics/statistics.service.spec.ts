@@ -1,13 +1,13 @@
-import {MongooseModule} from '@nestjs/mongoose';
 import {Test, TestingModule} from '@nestjs/testing';
 import {Model} from 'mongoose';
 
 import {ParticipantStub} from '../../../test/stubs/ParticipantStub';
 import {PollEventStub} from '../../../test/stubs/PollEventStub';
 import {PollStub} from '../../../test/stubs/PollStub';
-import {Participant, ParticipantSchema, Poll, PollEvent, PollEventSchema, PollSchema} from '../../schema';
+import {Participant, Poll, PollEvent} from '../../schema';
 import {closeMongoConnection, rootMongooseTestModule} from '../../utils/mongo-util';
 import {StatisticsService} from './statistics.service';
+import {StatisticsModule} from '../statistics.module';
 
 describe('StatisticsService', () => {
     let service: StatisticsService;
@@ -19,13 +19,8 @@ describe('StatisticsService', () => {
         const module: TestingModule = await Test.createTestingModule({
             imports: [
                 rootMongooseTestModule(),
-                MongooseModule.forFeature([
-                    {name: Poll.name, schema: PollSchema},
-                    {name: PollEvent.name, schema: PollEventSchema},
-                    {name: Participant.name, schema: ParticipantSchema},
-                ]),
+                StatisticsModule,
             ],
-            providers: [StatisticsService],
         }).compile();
 
         pollModel = module.get('PollModel');
