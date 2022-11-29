@@ -1,7 +1,8 @@
 import {Test, TestingModule} from '@nestjs/testing';
+
 import {rootMongooseTestModule} from '../../utils/mongo-util';
-import {PollService} from './poll.service';
 import {PollModule} from '../poll.module';
+import {PollService} from './poll.service';
 
 describe('PollService', () => {
     let service: PollService;

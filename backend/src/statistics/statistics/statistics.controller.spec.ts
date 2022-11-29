@@ -1,7 +1,8 @@
 import {Test, TestingModule} from '@nestjs/testing';
+
 import {closeMongoConnection, rootMongooseTestModule} from '../../utils/mongo-util';
-import {StatisticsController} from './statistics.controller';
 import {StatisticsModule} from '../statistics.module';
+import {StatisticsController} from './statistics.controller';
 
 describe('StatisticsController', () => {
     let controller: StatisticsController;

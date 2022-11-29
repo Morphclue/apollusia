@@ -1,7 +1,8 @@
 import {Test, TestingModule} from '@nestjs/testing';
+
 import {closeMongoConnection, rootMongooseTestModule} from '../../utils/mongo-util';
-import {TokenController} from './token.controller';
 import {TokenModule} from '../token.module';
+import {TokenController} from './token.controller';
 
 describe('TokenController', () => {
     let controller: TokenController;

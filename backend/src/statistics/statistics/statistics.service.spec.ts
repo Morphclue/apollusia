@@ -6,8 +6,8 @@ import {PollEventStub} from '../../../test/stubs/PollEventStub';
 import {PollStub} from '../../../test/stubs/PollStub';
 import {Participant, Poll, PollEvent} from '../../schema';
 import {closeMongoConnection, rootMongooseTestModule} from '../../utils/mongo-util';
-import {StatisticsService} from './statistics.service';
 import {StatisticsModule} from '../statistics.module';
+import {StatisticsService} from './statistics.service';
 
 describe('StatisticsService', () => {
     let service: StatisticsService;

@@ -4,8 +4,8 @@ import {Model} from 'mongoose';
 import {PollStub} from '../../../test/stubs/PollStub';
 import {Poll} from '../../schema';
 import {closeMongoConnection, rootMongooseTestModule} from '../../utils/mongo-util';
-import {TokenService} from './token.service';
 import {TokenModule} from '../token.module';
+import {TokenService} from './token.service';
 
 describe('TokenService', () => {
     let service: TokenService;
