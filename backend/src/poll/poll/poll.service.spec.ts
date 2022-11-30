@@ -86,6 +86,16 @@ describe('PollService', () => {
         expect(pollCounts).toEqual(2);
     });
 
+    it('should delete poll', async () => {
+        let pollCounts = await pollModel.countDocuments().exec();
+        expect(pollCounts).toEqual(2);
+
+        await service.deletePoll(PollStub()._id.toString());
+        pollCounts = await pollModel.countDocuments().exec();
+
+        expect(pollCounts).toEqual(1);
+    });
+
     afterAll(async () => {
         await closeMongoConnection();
     });
