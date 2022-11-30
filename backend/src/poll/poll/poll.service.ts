@@ -73,10 +73,10 @@ export class PollService {
         return clonedPoll;
     }
 
-    async deletePoll(id: string): Promise<ReadPollDto | undefined> {
+    async deletePoll(id: string): Promise<ReadPollDto> {
         const poll = await this.pollModel.findByIdAndDelete(id).select(readPollSelect).exec();
         if (!poll) {
-            return;
+            throw new NotFoundException(id);
         }
 
         await this.pollEventModel.deleteMany({poll: new Types.ObjectId(id)}).exec();
