@@ -74,6 +74,18 @@ describe('PollService', () => {
         expect(pollCounts).toEqual(1);
     });
 
+    it('should clone poll', async () => {
+        let pollCounts = await pollModel.countDocuments().exec();
+        expect(pollCounts).toEqual(1);
+
+        const clonedPoll = await service.clonePoll(PollStub()._id.toString());
+        pollCounts = await pollModel.countDocuments().exec();
+
+        expect(clonedPoll).toBeDefined();
+        expect(clonedPoll._id).not.toEqual(PollStub()._id);
+        expect(pollCounts).toEqual(2);
+    });
+
     afterAll(async () => {
         await closeMongoConnection();
     });
