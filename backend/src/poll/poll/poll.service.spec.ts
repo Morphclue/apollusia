@@ -1,8 +1,7 @@
 import {Test, TestingModule} from '@nestjs/testing';
 import {Model} from 'mongoose';
 
-import {ParticipantStub} from '../../../test/stubs/ParticipantStub';
-import {PollStub} from '../../../test/stubs/PollStub';
+import {ParticipantStub, PollStub} from '../../../test/stubs';
 import {Poll} from '../../schema';
 import {closeMongoConnection, rootMongooseTestModule} from '../../utils/mongo-util';
 import {PollModule} from '../poll.module';
