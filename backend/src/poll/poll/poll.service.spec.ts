@@ -96,6 +96,16 @@ describe('PollService', () => {
         expect(pollCounts).toEqual(1);
     });
 
+    it('should not delete poll', async () => {
+        let pollCounts = await pollModel.countDocuments().exec();
+        expect(pollCounts).toEqual(1);
+
+        await expect(service.deletePoll(PollStub()._id.toString())).rejects.toThrow(NotFoundException);
+        pollCounts = await pollModel.countDocuments().exec();
+
+        expect(pollCounts).toEqual(1);
+    });
+
     afterAll(async () => {
         await closeMongoConnection();
     });
