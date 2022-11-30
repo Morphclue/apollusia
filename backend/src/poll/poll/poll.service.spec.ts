@@ -1,6 +1,7 @@
 import {Test, TestingModule} from '@nestjs/testing';
 import {Model} from 'mongoose';
 
+import {ParticipantStub} from '../../../test/stubs/ParticipantStub';
 import {PollStub} from '../../../test/stubs/PollStub';
 import {Poll} from '../../schema';
 import {closeMongoConnection, rootMongooseTestModule} from '../../utils/mongo-util';
@@ -32,6 +33,17 @@ describe('PollService', () => {
         const pollCounts = await pollModel.countDocuments().exec();
         expect(poll).toBeDefined();
         expect(pollCounts).toEqual(1);
+    });
+
+    it('should get poll', async () => {
+        const poll = await service.getPoll(PollStub()._id.toString());
+        expect(poll).toBeDefined();
+    });
+
+    it('should get all polls', async () => {
+        const polls = await service.getPolls(ParticipantStub().token);
+        expect(polls).toBeDefined();
+        expect(polls.length).toEqual(1);
     });
 
     it('should update poll', async () => {
