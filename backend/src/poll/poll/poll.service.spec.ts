@@ -1,5 +1,6 @@
+import {NotFoundException} from '@nestjs/common';
 import {Test, TestingModule} from '@nestjs/testing';
-import {Model} from 'mongoose';
+import {Model, Types} from 'mongoose';
 
 import {ParticipantStub, PollStub} from '../../../test/stubs';
 import {Poll} from '../../schema';
@@ -48,6 +49,7 @@ describe('PollService', () => {
     it('should update poll', async () => {
         const modifiedPoll = PollStub();
         modifiedPoll.title = 'Party';
+
         const oldPoll = await pollModel.findOne({_id: PollStub()._id}).exec();
         await service.putPoll(modifiedPoll._id.toString(), modifiedPoll);
         const updatedPoll = await pollModel.findOne({_id: PollStub()._id}).exec();
@@ -55,6 +57,21 @@ describe('PollService', () => {
         expect(oldPoll._id).toEqual(updatedPoll._id);
         expect(oldPoll.title).not.toEqual(updatedPoll.title);
         expect(updatedPoll.title).toEqual('Party');
+    });
+
+    it('should not update poll', async () => {
+        const modifiedPoll = PollStub();
+        modifiedPoll._id = new Types.ObjectId('9e9e9e9e9e9e9e9e9e9e9e9e');
+        modifiedPoll.title = 'Meeting';
+
+        const oldPoll = await pollModel.findOne({_id: PollStub()._id}).exec();
+        await expect(service.putPoll(modifiedPoll._id.toString(), modifiedPoll)).rejects.toThrow(NotFoundException);
+        const updatedPoll = await pollModel.findOne({_id: PollStub()._id}).exec();
+        const pollCounts = await pollModel.countDocuments().exec();
+
+        expect(oldPoll.title).toEqual(updatedPoll.title);
+        expect(updatedPoll.title).not.toEqual('Meeting');
+        expect(pollCounts).toEqual(1);
     });
 
     afterAll(async () => {
