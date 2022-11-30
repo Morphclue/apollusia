@@ -49,7 +49,11 @@ export class PollService {
     }
 
     async putPoll(id: string, pollDto: PollDto): Promise<ReadPollDto> {
-        return this.pollModel.findByIdAndUpdate(id, pollDto, {new: true}).select(readPollSelect).exec();
+        const poll = await this.pollModel.findByIdAndUpdate(id, pollDto, {new: true}).select(readPollSelect).exec();
+        if (!poll) {
+            throw new NotFoundException(id);
+        }
+        return poll;
     }
 
     async clonePoll(id: string): Promise<ReadPollDto> {
