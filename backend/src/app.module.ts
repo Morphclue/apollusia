@@ -6,6 +6,7 @@ import {AppService} from './app.service';
 import {environment} from './environment';
 import {MailModule} from './mail/mail.module';
 import {PollModule} from './poll/poll.module';
+import {PushModule} from './push/push.module';
 import {StatisticsModule} from './statistics/statistics.module';
 import {TokenModule} from './token/token.module';
 
@@ -16,6 +17,7 @@ import {TokenModule} from './token/token.module';
         TokenModule,
         StatisticsModule,
         MailModule,
+        PushModule,
     ],
     controllers: [AppController],
     providers: [AppService],
