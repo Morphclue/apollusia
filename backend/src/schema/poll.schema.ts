@@ -1,8 +1,9 @@
 import {Prop, Schema, SchemaFactory} from '@nestjs/mongoose';
 import {ApiProperty, ApiPropertyOptional} from '@nestjs/swagger';
 import {Type} from 'class-transformer';
-import {IsNotEmpty, IsOptional, IsString, MinLength, Validate, ValidateNested} from 'class-validator';
+import {IsNotEmpty, IsObject, IsOptional, IsString, MinLength, ValidateNested} from 'class-validator';
 import {Types} from 'mongoose';
+import {PushSubscription} from 'web-push';
 
 import {RefArray} from './ref.decorator';
 import {Settings} from './settings';
@@ -48,6 +49,12 @@ export class Poll {
     @IsOptional()
     @IsString()
     adminMail?: string;
+
+    @Prop({type: Object})
+    @ApiPropertyOptional()
+    @IsOptional()
+    @IsObject()
+    adminPush?: PushSubscription;
 
     @Prop()
     @ApiProperty()

@@ -2,7 +2,7 @@ import {ApiProperty, OmitType} from '@nestjs/swagger';
 
 import {Poll} from '../schema';
 
-const excludedProperties = ['adminToken', 'adminMail'] as const;
+export const excludedProperties = ['adminToken', 'adminMail', 'adminPush'] as const;
 export const readPollSelect = excludedProperties.map(s => '-' + s).join(' ');
 
 export class ReadPollDto extends OmitType(Poll, excludedProperties) {
