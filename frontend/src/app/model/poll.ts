@@ -6,6 +6,7 @@ export interface Poll {
   location?: string;
   timeZone?: string;
   adminMail?: string;
+  adminPush?: PushSubscriptionJSON;
   settings: Settings;
   bookedEvents: string[];
   _id: string;
