@@ -13,10 +13,16 @@
       </div>
     </div>
   </div>
-  <div *ngIf="poll.description" class="card-body">
+  <div *ngIf="poll.description && !small" class="card-body">
     <app-markdown [text]="poll.description"></app-markdown>
   </div>
   <div class="card-footer">
+    <div *ngIf="poll.description && small" class="bi-file-text text-truncate" [ngbTooltip]="description">
+      Description: {{ poll.description }}
+      <ng-template #description>
+        <app-markdown [text]="poll.description"></app-markdown>
+      </ng-template>
+    </div>
     <div *ngIf="poll.settings.deadline" class="bi-calendar">
       Deadline: {{poll.settings.deadline | date:'medium'}}
     </div>
