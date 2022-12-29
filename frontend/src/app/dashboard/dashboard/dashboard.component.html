@@ -8,8 +8,8 @@
     </button>
   </div>
   <div class="d-flex flex-column">
-    <div *ngFor="let element of (polls || [])">
-      <app-card [poll]="element"></app-card>
+    <div *ngFor="let poll of polls">
+      <app-card [poll]="poll"></app-card>
     </div>
   </div>
 </div>
