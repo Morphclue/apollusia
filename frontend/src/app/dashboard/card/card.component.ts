@@ -7,5 +7,5 @@ import {ReadPoll} from '../../model';
   styleUrls: ['./card.component.scss'],
 })
 export class CardComponent {
-  @Input() poll?: ReadPoll;
+  @Input() poll!: ReadPoll;
 }
