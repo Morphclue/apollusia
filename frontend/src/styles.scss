@@ -24,6 +24,10 @@ $danger: $mauve;
 @import '../node_modules/angular-calendar/css/angular-calendar.css';
 @import 'flatpickr/dist/flatpickr.css';
 
+.logo-glow {
+  filter: drop-shadow(0 0 10px $primary);
+}
+
 /* Cal-header */
 .cal-week-view .cal-time-events {
   max-height: calc(100vh - 320px);;
