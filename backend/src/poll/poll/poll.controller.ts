@@ -1,7 +1,7 @@
 import {Body, Controller, Delete, Get, NotFoundException, Param, Post, Put} from '@nestjs/common';
 import {Types} from 'mongoose';
 
-import {MailDto, ParticipantDto, PollDto, PollEventDto} from '../../dto';
+import {MailDto, ParticipantDto, PollDto, PollEventDto, ReadParticipantDto} from '../../dto';
 import {ReadPollDto, ReadStatsPollDto} from '../../dto/read-poll.dto';
 import {Participant, PollEvent} from '../../schema';
 import {PollService} from './poll.service';
@@ -81,7 +81,7 @@ export class PollController {
     }
 
     @Get(':id/participate')
-    async getParticipants(@Param('id') id: string): Promise<Participant[]> {
+    async getParticipants(@Param('id') id: string): Promise<ReadParticipantDto[]> {
         return this.pollService.getParticipants(id);
     }
 
@@ -100,7 +100,7 @@ export class PollController {
         @Param('id') id: string,
         @Param('participantId') participantId: string,
         @Body() participant: ParticipantDto,
-    ): Promise<Participant> {
+    ): Promise<ReadParticipantDto | null> {
         return this.pollService.editParticipation(id, participantId, participant);
     }
 
@@ -108,7 +108,7 @@ export class PollController {
     async deleteParticipation(
         @Param('id') id: string,
         @Param('participantId') participantId: string,
-    ): Promise<Participant | undefined> {
+    ): Promise<ReadParticipantDto | null> {
         return this.pollService.deleteParticipation(id, participantId);
     }
 

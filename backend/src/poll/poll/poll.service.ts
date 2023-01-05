@@ -2,7 +2,7 @@ import {Injectable, NotFoundException} from '@nestjs/common';
 import {InjectModel} from '@nestjs/mongoose';
 import {Document, Model, Types} from 'mongoose';
 
-import {MailDto, ParticipantDto, PollDto, PollEventDto} from '../../dto';
+import {MailDto, ParticipantDto, PollDto, PollEventDto, ReadParticipantDto, readParticipantSelect} from '../../dto';
 import {ReadPollDto, readPollExcluded, readPollSelect, ReadStatsPollDto} from '../../dto/read-poll.dto';
 import {renderDate} from '../../mail/helpers';
 import {MailService} from '../../mail/mail/mail.service';
@@ -113,8 +113,8 @@ export class PollService {
         return await this.pollEventModel.find({poll: new Types.ObjectId(id)}).exec();
     }
 
-    async getParticipants(id: string) {
-        return this.participantModel.find({poll: new Types.ObjectId(id)}).exec();
+    async getParticipants(id: string): Promise<ReadParticipantDto[]> {
+        return this.participantModel.find({poll: new Types.ObjectId(id)}).select(readParticipantSelect).exec();
     }
 
     async postParticipation(id: string, dto: ParticipantDto): Promise<Participant> {
@@ -157,12 +157,12 @@ export class PollService {
         });
     }
 
-    async editParticipation(id: string, participantId: string, participant: ParticipantDto): Promise<Participant> {
-        return this.participantModel.findByIdAndUpdate(participantId, participant, {new: true}).exec();
+    async editParticipation(id: string, participantId: string, participant: ParticipantDto): Promise<ReadParticipantDto | null> {
+        return this.participantModel.findByIdAndUpdate(participantId, participant, {new: true}).select(readParticipantSelect).exec();
     }
 
-    async deleteParticipation(id: string, participantId: string): Promise<Participant> {
-        return this.participantModel.findByIdAndDelete(participantId).exec();
+    async deleteParticipation(id: string, participantId: string): Promise<ReadParticipantDto | null> {
+        return this.participantModel.findByIdAndDelete(participantId).select(readParticipantSelect).exec();
     }
 
     async bookEvents(id: string, events: Types.ObjectId[]): Promise<ReadPollDto> {
