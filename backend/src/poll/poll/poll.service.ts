@@ -22,7 +22,7 @@ export class PollService {
         const adminPolls = await this.pollModel.find({adminToken: token}).select(readPollSelect).exec();
         const participants = await this.participantModel.find({
             token,
-            _id: {$nin: adminPolls.map(p => p._id)},
+            poll: {$nin: adminPolls.map(p => p._id)},
         }).populate<{ poll: Poll & Document }>('poll').exec();
         const polls = [
             ...adminPolls.map(p => p.toObject<Poll>()),
