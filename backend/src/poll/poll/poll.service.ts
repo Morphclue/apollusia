@@ -2,8 +2,8 @@ import {Injectable, NotFoundException} from '@nestjs/common';
 import {InjectModel} from '@nestjs/mongoose';
 import {Document, Model, Types} from 'mongoose';
 
-import {MailDto, ParticipantDto, PollDto, PollEventDto} from '../../dto';
-import {ReadPollDto, readPollSelect, ReadStatsPollDto} from '../../dto/read-poll.dto';
+import {MailDto, ParticipantDto, PollDto, PollEventDto, ReadParticipantDto, readParticipantSelect} from '../../dto';
+import {ReadPollDto, readPollExcluded, readPollSelect, ReadStatsPollDto} from '../../dto/read-poll.dto';
 import {renderDate} from '../../mail/helpers';
 import {MailService} from '../../mail/mail/mail.service';
 import {Participant, Poll, PollEvent} from '../../schema';
@@ -20,22 +20,20 @@ export class PollService {
 
     async getPolls(token: string): Promise<ReadStatsPollDto[]> {
         const adminPolls = await this.pollModel.find({adminToken: token}).select(readPollSelect).exec();
-        const participants = await this.participantModel.find({token}).populate<{ poll: Poll }>('poll').exec();
-        const participantPolls = participants.map(participant => participant.poll);
-        const polls = [...adminPolls, ...participantPolls];
-        const filteredPolls = polls.filter((poll: Poll, index) => polls.findIndex((p: any) => p._id.toString() === poll._id.toString()) === index);
-        const readPolls = filteredPolls.map(async (poll: Poll): Promise<ReadStatsPollDto> => ({
-            _id: poll._id,
-            title: poll.title,
-            description: poll.description,
-            location: poll.location,
-            settings: poll.settings,
-            bookedEvents: poll.bookedEvents,
+        const participants = await this.participantModel.find({
+            token,
+            poll: {$nin: adminPolls.map(p => p._id)},
+        }).populate<{ poll: Poll & Document }>('poll').exec();
+        const polls = [
+            ...adminPolls.map(p => p.toObject<Poll>()),
+            ...participants.map(participant => participant.poll.toObject<Poll>()),
+        ];
+        return Promise.all(polls.map(async (poll): Promise<ReadStatsPollDto> => ({
+            ...this.mask(poll),
+            isAdmin: adminPolls.some(p => p._id.toString() === poll._id.toString()),
             events: await this.pollEventModel.count({poll: poll._id}).exec(),
             participants: await this.participantModel.count({poll: poll._id}).exec(),
-        }));
-
-        return Promise.all(readPolls);
+        })));
     }
 
     async getPoll(id: string): Promise<ReadPollDto> {
@@ -44,7 +42,14 @@ export class PollService {
 
     async postPoll(pollDto: PollDto): Promise<ReadPollDto> {
         const poll = await this.pollModel.create(pollDto);
-        const {adminToken, adminMail, ...rest} = poll.toObject();
+        return this.mask(poll.toObject());
+    }
+
+    mask(poll: Poll): ReadPollDto {
+        const {...rest} = poll;
+        for (const key of readPollExcluded) {
+            delete rest[key];
+        }
         return rest;
     }
 
@@ -112,8 +117,8 @@ export class PollService {
         return await this.pollEventModel.find({poll: new Types.ObjectId(id)}).exec();
     }
 
-    async getParticipants(id: string) {
-        return this.participantModel.find({poll: new Types.ObjectId(id)}).exec();
+    async getParticipants(id: string): Promise<ReadParticipantDto[]> {
+        return this.participantModel.find({poll: new Types.ObjectId(id)}).select(readParticipantSelect).exec();
     }
 
     async postParticipation(id: string, dto: ParticipantDto): Promise<Participant> {
@@ -156,12 +161,12 @@ export class PollService {
         });
     }
 
-    async editParticipation(id: string, participantId: string, participant: ParticipantDto): Promise<Participant> {
-        return this.participantModel.findByIdAndUpdate(participantId, participant, {new: true}).exec();
+    async editParticipation(id: string, participantId: string, participant: ParticipantDto): Promise<ReadParticipantDto | null> {
+        return this.participantModel.findByIdAndUpdate(participantId, participant, {new: true}).select(readParticipantSelect).exec();
     }
 
-    async deleteParticipation(id: string, participantId: string): Promise<Participant> {
-        return this.participantModel.findByIdAndDelete(participantId).exec();
+    async deleteParticipation(id: string, participantId: string): Promise<ReadParticipantDto | null> {
+        return this.participantModel.findByIdAndDelete(participantId).select(readParticipantSelect).exec();
     }
 
     async bookEvents(id: string, events: Types.ObjectId[]): Promise<ReadPollDto> {
