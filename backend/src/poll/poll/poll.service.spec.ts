@@ -2,15 +2,17 @@ import {NotFoundException} from '@nestjs/common';
 import {Test, TestingModule} from '@nestjs/testing';
 import {Model, Types} from 'mongoose';
 
-import {ParticipantStub, PollStub} from '../../../test/stubs';
+import {ParticipantStub, PollEventStub, PollStub} from '../../../test/stubs';
 import {Poll} from '../../schema';
 import {closeMongoConnection, rootMongooseTestModule} from '../../utils/mongo-util';
 import {PollModule} from '../poll.module';
 import {PollService} from './poll.service';
+import {PollEventDto} from '../../dto';
 
 describe('PollService', () => {
     let service: PollService;
     let pollModel: Model<Poll>;
+    let pollEventModel: Model<PollEventDto>;
 
     beforeAll(async () => {
         const module: TestingModule = await Test.createTestingModule({
@@ -21,6 +23,7 @@ describe('PollService', () => {
         }).compile();
 
         pollModel = module.get('PollModel');
+        pollEventModel = module.get('PollEventModel');
         service = module.get<PollService>(PollService);
     });
 
@@ -104,6 +107,29 @@ describe('PollService', () => {
         pollCounts = await pollModel.countDocuments().exec();
 
         expect(pollCounts).toEqual(1);
+    });
+
+    it('should add events to poll', async () => {
+        const poll = await pollModel.findOne({title: 'Party (clone)'}).exec();
+        let pollEventCount = await pollEventModel.countDocuments().exec();
+        expect(pollEventCount).toEqual(0);
+        const event = await service.postEvents(poll._id.toString(), [PollEventStub()] as any);
+
+        pollEventCount = await pollEventModel.countDocuments().exec();
+        expect(event[0].poll).toEqual(poll._id);
+        expect(pollEventCount).toEqual(1);
+    });
+
+    it('should get events from poll', async () => {
+        const poll = await pollModel.findOne({title: 'Party (clone)'}).exec();
+        const events = await service.getEvents(poll._id.toString());
+        expect(events.length).toEqual(1);
+    });
+
+    it('should delete events from poll', async () => {
+        const poll = await pollModel.findOne({title: 'Party (clone)'}).exec();
+        const events = await service.postEvents(poll._id.toString(), []);
+        expect(events.length).toEqual(0);
     });
 
     afterAll(async () => {
