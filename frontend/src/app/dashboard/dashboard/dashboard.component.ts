@@ -11,7 +11,9 @@ import {ReadPoll} from '../../model';
   styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit {
-  polls: ReadPoll[] = [];
+  currentAdminPolls: ReadPoll[] = [];
+  oldAdminPolls: ReadPoll[] = [];
+  participantPolls: ReadPoll[] = [];
 
   constructor(
     private http: HttpClient,
@@ -21,7 +23,11 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.http.get<ReadPoll[]>(`${environment.backendURL}/poll/all/${this.tokenService.getToken()}`).subscribe((data: ReadPoll[]) => {
-      this.polls = [...this.polls, ...data];
+      const now = new Date();
+      const adminPolls = data.filter(p => p.isAdmin);
+      this.currentAdminPolls = adminPolls.filter(p => !p.settings.deadline || now < new Date(p.settings.deadline));
+      this.oldAdminPolls = adminPolls.filter(p => p.settings.deadline && now >= new Date(p.settings.deadline));
+      this.participantPolls = data.filter(p => !p.isAdmin);
     });
   }
 }
