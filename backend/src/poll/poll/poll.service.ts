@@ -4,8 +4,10 @@ import {Document, Model, Types} from 'mongoose';
 
 import {MailDto, ParticipantDto, PollDto, PollEventDto, ReadParticipantDto, readParticipantSelect} from '../../dto';
 import {ReadPollDto, readPollExcluded, readPollSelect, ReadStatsPollDto} from '../../dto/read-poll.dto';
+import {environment} from '../../environment';
 import {renderDate} from '../../mail/helpers';
 import {MailService} from '../../mail/mail/mail.service';
+import {PushService} from '../../push/push.service';
 import {Participant, Poll, PollEvent} from '../../schema';
 
 @Injectable()
@@ -15,6 +17,7 @@ export class PollService {
         @InjectModel(PollEvent.name) private pollEventModel: Model<PollEvent>,
         @InjectModel(Participant.name) private participantModel: Model<Participant>,
         private mailService: MailService,
+        private pushService: PushService,
     ) {
     }
 
@@ -128,6 +131,7 @@ export class PollService {
         });
 
         poll.adminMail && this.sendAdminInfo(poll, participant);
+        poll.adminPush && this.sendAdminPush(poll, participant);
         participant.mail && this.mailService.sendMail(participant.name, participant.mail, 'Participated in Poll', 'participated', {
             poll: poll.toObject(),
             participant: participant.toObject(),
@@ -155,6 +159,10 @@ export class PollService {
             events: events.map(({start, end}) => ({start, end})),
             participants: [{name: participant.name, participation}],
         });
+    }
+
+    private async sendAdminPush(poll: Poll & Document, participant: Participant & Document) {
+        await this.pushService.send(poll.adminPush, 'Updates in Poll | Apollusia', `${participant.name} participated in your poll ${poll.title}`, `${environment.origin}/poll/${poll._id}/participate`);
     }
 
     async editParticipation(id: string, participantId: string, participant: ParticipantDto): Promise<ReadParticipantDto | null> {

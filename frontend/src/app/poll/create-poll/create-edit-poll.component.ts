@@ -2,6 +2,7 @@ import {HttpClient} from '@angular/common/http';
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
+import {SwPush} from '@angular/service-worker';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {format} from 'date-fns';
 import {Observable} from 'rxjs';
@@ -30,6 +31,7 @@ export class CreateEditPollComponent implements OnInit {
     deadlineDate: new FormControl(),
     deadlineTime: new FormControl(),
     emailUpdates: new FormControl(false),
+    pushUpdates: new FormControl(false),
     maxParticipants: new FormControl(false),
     maxParticipantsInput: new FormControl(0),
     maxParticipantEvents: new FormControl(false),
@@ -88,6 +90,7 @@ export class CreateEditPollComponent implements OnInit {
     private route: ActivatedRoute,
     private tokenService: TokenService,
     private mailService: MailService,
+    private swPush: SwPush,
   ) {
     const routeId: Observable<string> = route.params.pipe(map(p => p.id));
     routeId.subscribe((id: string) => {
@@ -112,15 +115,19 @@ export class CreateEditPollComponent implements OnInit {
     });
   }
 
-  onFormSubmit(): void {
+  async onFormSubmit() {
     const pollForm = this.pollForm.value;
     const deadline = pollForm.deadlineDate ? new Date(pollForm.deadlineDate + ' ' + (pollForm.deadlineTime || '00:00')) : undefined;
+    const pushToken = pollForm.pushUpdates ? await this.swPush.requestSubscription({
+      serverPublicKey: environment.vapidPublicKey,
+    }) : undefined;
     const createPollDto: CreatePollDto & { adminToken: string } = {
       title: pollForm.title!,
       description: pollForm.description ? pollForm.description : '',
       location: pollForm.location ? pollForm.location : '',
       adminToken: this.tokenService.getToken(),
       adminMail: pollForm.emailUpdates ? this.poll?.adminMail || this.mail : undefined,
+      adminPush: pollForm.pushUpdates && (this.poll?.adminPush || pushToken?.toJSON()) || undefined,
       timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
       bookedEvents: [],
       settings: {
@@ -194,6 +201,7 @@ export class CreateEditPollComponent implements OnInit {
         deadlineDate: poll.settings.deadline ? format(new Date(poll.settings.deadline), 'yyyy-MM-dd') : '',
         deadlineTime: poll.settings.deadline ? format(new Date(poll.settings.deadline), 'HH:mm') : '',
         emailUpdates: !!poll.adminMail,
+        pushUpdates: !!poll.adminPush,
         maxParticipants: !!poll.settings.maxParticipants,
         maxParticipantsInput: poll.settings.maxParticipants,
         maxParticipantEvents: !!poll.settings.maxParticipantEvents,

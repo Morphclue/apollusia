@@ -172,6 +172,14 @@
                    [disabled]="!mail">
           </div>
           <app-mail-alert *ngIf="!mail"></app-mail-alert>
+          <div class="form-group form-check">
+            <label class="form-check-label" for="pushUpdates">
+              Receive Updates via Push Notification
+              <i class="bi-question-circle text-muted" placement="top"
+                 ngbTooltip="Stay informed about new participations via push notifications."></i>
+            </label>
+            <input class="form-check-input" type="checkbox" id="pushUpdates" formControlName="pushUpdates">
+          </div>
         </fieldset>
       </div>
     </div>
