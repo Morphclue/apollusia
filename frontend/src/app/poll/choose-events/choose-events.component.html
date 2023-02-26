@@ -22,15 +22,15 @@
       <button class="btn btn-link bi-clipboard" ngbTooltip="Copy to clipboard" (click)="copyToClipboard()"></button>
     </div>
   </div>
-  <div *ngIf="poll?.settings?.maxParticipantEvents as limit" class="alert alert-info mb-0">
-    This poll is limited.
-    You can select up to {{ limit }} choices.
-  </div>
   <div *ngIf="closedReason" class="alert alert-info">
     {{ closedReason }}
   </div>
-  <div *ngIf="poll?.settings?.blindParticipation && !isAdmin && !userVoted()" class="alert alert-info">
+  <div *ngIf="poll?.settings?.blindParticipation && !showResults" class="alert alert-info">
     This is a blind poll. You can't see results or other user's votes until you participate yourself.
+  </div>
+  <div *ngIf="!closedReason && poll?.settings?.maxParticipantEvents as limit" class="alert alert-info mb-0">
+    This poll is limited.
+    You can select up to {{ limit }} choices.
   </div>
   <div *ngIf="pollEvents" class="table-responsive text-center">
       <table class="table align-middle">
@@ -72,7 +72,7 @@
             </button>
           </th>
         </tr>
-        <ng-container *ngIf="!poll?.settings?.blindParticipation || isAdmin || userVoted()">
+        <ng-container *ngIf="showResults">
           <tr *ngFor="let participant of participants">
             <th>
               <div *ngIf="poll?.settings?.anonymous">
