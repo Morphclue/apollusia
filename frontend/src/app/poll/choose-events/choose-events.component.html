@@ -22,6 +22,16 @@
       <button class="btn btn-link bi-clipboard" ngbTooltip="Copy to clipboard" (click)="copyToClipboard()"></button>
     </div>
   </div>
+  <div *ngIf="poll?.settings?.maxParticipantEvents as limit" class="alert alert-info mb-0">
+    This poll is limited.
+    You can select up to {{ limit }} choices.
+  </div>
+  <div *ngIf="closedReason" class="alert alert-info">
+    {{ closedReason }}
+  </div>
+  <div *ngIf="poll?.settings?.blindParticipation && !isAdmin && !userVoted()" class="alert alert-info">
+    This is a blind poll. You can't see results or other user's votes until you participate yourself.
+  </div>
   <div *ngIf="pollEvents" class="table-responsive text-center">
       <table class="table align-middle">
         <thead>
@@ -34,15 +44,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr *ngIf="poll?.settings?.maxParticipantEvents as limit" >
-          <td [colSpan]="2 + pollEvents.length">
-            <div class="alert alert-info mb-0">
-              This poll is limited.
-              You can select up to {{ limit }} choices.
-            </div>
-          </td>
-        </tr>
-        <tr *ngIf="!closedReason else closedAlert">
+        <tr *ngIf="!closedReason">
           <th style="min-width: 240px" scope="row">
             <input *ngIf="!poll?.settings?.anonymous"
                    class="form-control"
@@ -70,16 +72,7 @@
             </button>
           </th>
         </tr>
-        <ng-template #closedAlert>
-          <tr>
-            <td [colSpan]="2 + pollEvents.length">
-              <div class="alert alert-info">
-                {{ closedReason }}
-              </div>
-            </td>
-          </tr>
-        </ng-template>
-        <ng-container *ngIf="!poll?.settings?.blindParticipation || isAdmin || userVoted(); else blindAlert">
+        <ng-container *ngIf="!poll?.settings?.blindParticipation || isAdmin || userVoted()">
           <tr *ngFor="let participant of participants">
             <th>
               <div *ngIf="poll?.settings?.anonymous">
@@ -148,15 +141,6 @@
             <td class="border-0"></td>
           </tr>
         </ng-container>
-        <ng-template #blindAlert>
-          <tr>
-            <td [colSpan]="2 + pollEvents.length">
-              <div class="alert alert-info">
-                This is a blind poll. You can't see results or other user's votes until you participate yourself.
-              </div>
-            </td>
-          </tr>
-        </ng-template>
         <tr *ngIf="poll && isAdmin">
           <th>Select Events</th>
           <td *ngFor="let pollEvent of pollEvents; let i = index">
