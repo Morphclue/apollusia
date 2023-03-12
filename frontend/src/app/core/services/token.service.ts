@@ -1,6 +1,8 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import {SsrCookieService} from 'ngx-cookie-service-ssr';
+import {Observable} from 'rxjs';
+import {map, tap} from 'rxjs/operators';
+import * as uuid from 'uuid';
 
 import {environment} from '../../../environments/environment';
 import {Token} from '../../model';
@@ -19,27 +21,28 @@ export class TokenService {
   }
 
   getToken(): string {
-    this.currentToken = this.storageService.get('token') || '';
-    if (this.currentToken.length === 0) {
-      this.generateToken();
+    if (this.currentToken) {
+      return this.currentToken;
     }
-    return this.currentToken;
+    const stored = this.storageService.get('token');
+    if (stored) {
+      this.currentToken = stored;
+      return stored;
+    }
+    const newToken = uuid.v4();
+    this.setToken(newToken);
+    return newToken;
   }
 
-  async regenerateToken() {
-    await this.http.get<Token>(`${environment.backendURL}/token/${this.currentToken}`).toPromise().then((data: Token) => {
-      this.setToken(data.token);
-    });
+  regenerateToken(): Observable<string> {
+    return this.http.get<Token>(`${environment.backendURL}/token/${this.currentToken}`).pipe(
+      map(data => data.token),
+      tap(token => this.setToken(token)),
+    );
   }
 
   setToken(token: string) {
     this.storageService.set('token', token);
     this.currentToken = token;
-  }
-
-  private generateToken() {
-    this.http.get<Token>(`${environment.backendURL}/token`).subscribe((data: Token) => {
-      this.setToken(data.token);
-    });
   }
 }

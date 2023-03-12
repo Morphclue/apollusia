@@ -31,6 +31,7 @@ specifiers:
   '@types/jasmine': ~3.6.11
   '@types/markdown-it': ^12.2.3
   '@types/node': ^18.11.9
+  '@types/uuid': ^9.0.1
   '@typescript-eslint/eslint-plugin': 5.3.0
   '@typescript-eslint/parser': 5.3.0
   angular-calendar: ^0.29.0
@@ -63,6 +64,7 @@ specifiers:
   ts-node: ~8.3.0
   tslib: ^2.4.1
   typescript: ~4.6.4
+  uuid: ^9.0.0
   zone.js: ~0.11.8
 
 dependencies:
@@ -95,6 +97,7 @@ dependencies:
   ngx-countup: 13.1.0_g5lz55bj2yrbloq2nji6xzbsca
   rxjs: 6.6.7
   tslib: 2.4.1
+  uuid: 9.0.0
   zone.js: 0.11.8
 
 devDependencies:
@@ -113,6 +116,7 @@ devDependencies:
   '@types/jasmine': 3.6.11
   '@types/markdown-it': 12.2.3
   '@types/node': 18.11.9
+  '@types/uuid': 9.0.1
   '@typescript-eslint/eslint-plugin': 5.3.0_boyj5wba2yxf6pe7cbsfkuiexy
   '@typescript-eslint/parser': 5.3.0_hsmo2rtalirsvadpuxki35bq2i
   eslint: 8.27.0
@@ -2655,6 +2659,10 @@ packages:
     resolution: {integrity: sha512-f0KEEe05NvUnat+boPTZ0dgaLZ4SfSouXUgv5noUiefG2ajgKjmETo9ZJyuqsl7dfl2aHlLJUiki6B4ZYldiiw==}
     dependencies:
       '@types/node': 18.11.9
+    dev: true
+
+  /@types/uuid/9.0.1:
+    resolution: {integrity: sha512-rFT3ak0/2trgvp4yYZo5iKFEPsET7vKydKF+VRCxlQ9bpheehyAJH89dAkaLEq/j/RZXJIqcgsmPJKUP1Z28HA==}
     dev: true
 
   /@types/ws/8.5.3:
@@ -9891,6 +9899,11 @@ packages:
   /uuid/8.3.2:
     resolution: {integrity: sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==}
     hasBin: true
+
+  /uuid/9.0.0:
+    resolution: {integrity: sha512-MXcSTerfPa4uqyzStbRoTgt5XIe3x5+42+q1sDuy3R5MDk66URdLMOZe5aPX/SQd+kuYAh0FdP/pO28IkQyTeg==}
+    hasBin: true
+    dev: false
 
   /v8-compile-cache/2.3.0:
     resolution: {integrity: sha512-l8lCEmLcLYZh4nbunNZvQCJc5pv7+RCwa8q/LdUx8u7lsWvPDKmpodJAJNwkAhJC//dFY48KuIEmjtd4RViDrA==}
