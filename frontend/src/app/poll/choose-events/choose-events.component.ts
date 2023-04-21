@@ -149,8 +149,6 @@ export class ChooseEventsComponent implements OnInit {
       this.cancelEdit();
       this.participants = this.participants.map(p => p._id === participant._id ? participant : p);
       this.updateHelpers();
-      console.log(participant.token);
-      console.log(this.token);
     });
   }
 
