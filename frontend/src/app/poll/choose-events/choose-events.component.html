@@ -32,15 +32,25 @@
     This poll is limited.
     You can select up to {{ limit }} choices.
   </div>
-  <div *ngIf="pollEvents" class="table-responsive text-center">
+  <div *ngIf="pollEvents" class="table-responsive text-center" #scrollContainer>
       <table class="table align-middle">
         <thead>
         <tr>
-          <th scope="col"></th>
+          <th scope="col" #leftHead>
+            <button
+              class="btn btn-outline-primary"
+              (click)="scrollContainer.scrollLeft = scrollContainer.scrollLeft- scrollContainer.clientWidth + leftHead.clientWidth + rightHead.clientWidth"
+            >&lt;</button>
+          </th>
           <th *ngFor="let event of pollEvents" scope="col">
             <app-event-head [event]="event"></app-event-head>
           </th>
-          <th class="border-0" scope="col"></th>
+          <th class="border-0" scope="col" #rightHead>
+            <button
+              class="btn btn-outline-primary"
+              (click)="scrollContainer.scrollLeft = scrollContainer.scrollLeft + scrollContainer.clientWidth - leftHead.clientWidth - rightHead.clientWidth"
+            >&gt;</button>
+          </th>
         </tr>
         </thead>
         <tbody>
