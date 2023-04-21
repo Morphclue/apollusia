@@ -2,6 +2,7 @@ import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/com
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 
+import {environment} from '../../../environments/environment';
 import {TokenService} from '../services';
 
 @Injectable()
@@ -11,8 +12,11 @@ export class ParticipantTokenInterceptor implements HttpInterceptor {
   }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    if (!request.url.startsWith(`${environment.backendURL}/poll`)) {
+      return next.handle(request);
+    }
+
     const token = this.tokenService.getToken();
-    console.log('Participant-Token', token);
     const tokenRequest = request.clone({
       headers: request.headers.set('Participant-Token', token),
     });
