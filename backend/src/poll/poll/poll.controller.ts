@@ -102,9 +102,10 @@ export class PollController {
     async editParticipation(
         @Param('id') id: string,
         @Param('participantId') participantId: string,
+        @Headers('Participant-Token') token: string,
         @Body() participant: ParticipantDto,
     ): Promise<ReadParticipantDto | null> {
-        return this.pollService.editParticipation(id, participantId, participant);
+        return this.pollService.editParticipation(id, participantId, token, participant);
     }
 
     @Delete(':id/participate/:participantId')

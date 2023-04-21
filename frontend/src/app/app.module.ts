@@ -1,4 +1,4 @@
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {NgModule} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 import {BrowserModule} from '@angular/platform-browser';
@@ -6,13 +6,13 @@ import {ServiceWorkerModule} from '@angular/service-worker';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {ModalModule} from 'ng-bootstrap-ext';
 
-import {environment} from '../environments/environment';
 import {AboutModule} from './about/about.module';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {CoreModule} from './core/core.module';
 import {TokenService} from './core/services';
 import {SettingsModalComponent} from './modals';
+import {ParticipantTokenInterceptor} from './core/interceptors/participant-token.interceptor';
 
 @NgModule({
   declarations: [
@@ -35,7 +35,10 @@ import {SettingsModalComponent} from './modals';
       registrationStrategy: 'registerWhenStable:30000',
     }),
   ],
-  providers: [TokenService],
+  providers: [
+    TokenService,
+    {provide: HTTP_INTERCEPTORS, useClass: ParticipantTokenInterceptor, multi: true},
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {
