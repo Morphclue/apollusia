@@ -1,4 +1,4 @@
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 
@@ -23,8 +23,14 @@ export class PollService {
     return this.http.get<PollEvent[]>(`${environment.backendURL}/poll/${id}/events`);
   }
 
-  getParticipants(id: string): Observable<Participant[]> {
-    return this.http.get<Participant[]>(`${environment.backendURL}/poll/${id}/participate`);
+  getParticipants(id: string, token: string): Observable<Participant[]> {
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Participant-Token': token,
+      }),
+    };
+    return this.http.get<Participant[]>(`${environment.backendURL}/poll/${id}/participate`, options);
   }
 
   isAdmin(id: string, adminToken: string) {

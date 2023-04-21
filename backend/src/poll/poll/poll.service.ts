@@ -116,8 +116,16 @@ export class PollService {
         return await this.pollEventModel.find({poll: new Types.ObjectId(id)}).exec();
     }
 
-    async getParticipants(id: string): Promise<ReadParticipantDto[]> {
-        return this.participantModel.find({poll: new Types.ObjectId(id)}).select(readParticipantSelect).exec();
+    async getParticipants(id: string, token: string): Promise<ReadParticipantDto[]> {
+        const participants = await this.participantModel.find({
+            poll: new Types.ObjectId(id),
+            token: {$ne: token},
+        }).select(readParticipantSelect).exec();
+        const currentParticipant = await this.participantModel.find({
+            poll: new Types.ObjectId(id),
+            token,
+        }).exec();
+        return [...participants, ...currentParticipant];
     }
 
     async postParticipation(id: string, dto: ParticipantDto): Promise<Participant> {
