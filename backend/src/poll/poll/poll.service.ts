@@ -173,8 +173,11 @@ export class PollService {
         await this.pushService.send(poll.adminPush, 'Updates in Poll | Apollusia', `${participant.name} participated in your poll ${poll.title}`, `${environment.origin}/poll/${poll._id}/participate`);
     }
 
-    async editParticipation(id: string, participantId: string, participant: ParticipantDto): Promise<ReadParticipantDto | null> {
-        return this.participantModel.findByIdAndUpdate(participantId, participant, {new: true}).select(readParticipantSelect).exec();
+    async editParticipation(id: string, participantId: string, token: string, participant: ParticipantDto): Promise<ReadParticipantDto | null> {
+        return await this.participantModel.findOneAndUpdate({
+            _id: participantId,
+            token,
+        }, participant, {new: true}).exec();
     }
 
     async deleteParticipation(id: string, participantId: string): Promise<ReadParticipantDto | null> {

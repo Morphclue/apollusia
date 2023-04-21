@@ -68,7 +68,7 @@ export class ChooseEventsComponent implements OnInit {
           this.editChecks = new Array(this.pollEvents.length).fill(CheckboxState.FALSE);
           this.bookedEvents = new Array(this.pollEvents.length).fill(false);
         })),
-        this.pollService.getParticipants(id, this.token).pipe(tap(participants => this.participants = participants)),
+        this.pollService.getParticipants(id).pipe(tap(participants => this.participants = participants)),
       ])),
     ).subscribe(([poll, events, participants]) => {
       let description = '';
