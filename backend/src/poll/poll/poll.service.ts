@@ -174,12 +174,10 @@ export class PollService {
     }
 
     async editParticipation(id: string, participantId: string, token: string, participant: ParticipantDto): Promise<ReadParticipantDto | null> {
-        const updatedParticipant = await this.participantModel.findOneAndUpdate({
+        return await this.participantModel.findOneAndUpdate({
             _id: participantId,
             token,
         }, participant, {new: true}).exec();
-
-        return updatedParticipant || null;
     }
 
     async deleteParticipation(id: string, participantId: string): Promise<ReadParticipantDto | null> {
