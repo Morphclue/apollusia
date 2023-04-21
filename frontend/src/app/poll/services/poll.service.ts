@@ -46,7 +46,7 @@ export class PollService {
   }
 
   editParticipant(id: string, participant: Participant) {
-    return this.http.put<Participant>(`${environment.backendURL}/poll/${id}/participate/${participant._id}`, this.editParticipant);
+    return this.http.put<Participant>(`${environment.backendURL}/poll/${id}/participate/${participant._id}`, participant);
   }
 
   deleteParticipant(id: string, participant: string) {
