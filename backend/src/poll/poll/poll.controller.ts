@@ -1,4 +1,4 @@
-import {Body, Controller, Delete, Get, NotFoundException, Param, Post, Put} from '@nestjs/common';
+import {Body, Controller, Delete, Get, Headers, NotFoundException, Param, Post, Put} from '@nestjs/common';
 import {Types} from 'mongoose';
 
 import {MailDto, ParticipantDto, PollDto, PollEventDto, ReadParticipantDto} from '../../dto';
@@ -81,8 +81,11 @@ export class PollController {
     }
 
     @Get(':id/participate')
-    async getParticipants(@Param('id') id: string): Promise<ReadParticipantDto[]> {
-        return this.pollService.getParticipants(id);
+    async getParticipants(
+        @Param('id') id: string,
+        @Headers('Participant-Token') token: string,
+    ): Promise<ReadParticipantDto[]> {
+        return this.pollService.getParticipants(id, token);
     }
 
     @Post(':id/participate')
