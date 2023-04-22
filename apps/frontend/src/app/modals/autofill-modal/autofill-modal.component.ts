@@ -11,7 +11,6 @@ import {ChooseDateService} from '../../poll/services/choose-date.service';
   styleUrls: ['./autofill-modal.component.scss'],
 })
 export class AutofillModalComponent implements OnInit {
-  hoveredDate: any;
   selectedDates: NgbDate[] = [];
   modalForm = new FormGroup({
     dates: new FormControl('', Validators.required),
@@ -20,6 +19,7 @@ export class AutofillModalComponent implements OnInit {
     pause: new FormControl('00:00', Validators.required),
     repeat: new FormControl(1, Validators.required),
   });
+  endTime: string = '';
 
   constructor(
     private chooseDateService: ChooseDateService,
@@ -27,6 +27,9 @@ export class AutofillModalComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.updateEnd();
+    this.modalForm.valueChanges.subscribe(() => this.updateEnd());
+
     const event = this.chooseDateService.autofillEvent;
     if (!event || !event.end) {
       return;
@@ -41,6 +44,26 @@ export class AutofillModalComponent implements OnInit {
 
     this.onDateSelect(ngbDate);
     this.chooseDateService.autofillEvent = undefined;
+  }
+
+  updateEnd() {
+    const startTimeValue = this.modalForm.get('startTime')?.value;
+    const durationValue = this.modalForm.get('duration')?.value;
+    const pauseValue = this.modalForm.get('pause')?.value;
+    const repeat = this.modalForm.get('repeat')?.value;
+
+    if (!startTimeValue || !durationValue || !pauseValue || !repeat) {
+      this.endTime = '';
+      return;
+    }
+
+    const startTime = startTimeValue.split(':').map((value: string) => parseInt(value, 10));
+
+    const start = new Date().setHours(startTime[0], startTime[1], 0, 0);
+    const duration = this.parseMinutes(durationValue);
+    const pause = this.parseMinutes(pauseValue);
+
+    this.endTime = format(addMinutes(start, duration + (duration + pause) * (repeat - 1)), 'HH:mm');
   }
 
   apply() {
@@ -60,23 +83,28 @@ export class AutofillModalComponent implements OnInit {
 
     const dates = dateValue.split(',');
     const startTime = startTimeValue.split(':').map((value: string) => parseInt(value, 10));
-    const duration = durationValue.split(':').map((value: string) => parseInt(value, 10));
-    const pause = pauseValue.split(':').map((value: string) => parseInt(value, 10));
+    const duration = this.parseMinutes(durationValue);
+    const pause = this.parseMinutes(pauseValue);
 
     for (const item of dates) {
       let start = new Date(item);
       start.setHours(startTime[0], startTime[1], 0, 0);
       let end = new Date(start);
-      end = addMinutes(end, duration[0] * 60 + duration[1]);
+      end = addMinutes(end, duration);
       this.chooseDateService.addEvent(start, end);
       for (let j = 0; j < repeat - 1; j++) {
         start = new Date(end);
-        start = addMinutes(start, pause[0] * 60 + pause[1]);
+        start = addMinutes(start, pause);
         end = new Date(start);
-        end = addMinutes(end, duration[0] * 60 + duration[1]);
+        end = addMinutes(end, duration);
         this.chooseDateService.addEvent(start, end);
       }
     }
+  }
+
+  private parseMinutes(value: string): number {
+    const values = value.split(':');
+    return parseInt(values[0], 10) * 60 + parseInt(values[1], 10);
   }
 
   onDateSelect(date: NgbDate) {

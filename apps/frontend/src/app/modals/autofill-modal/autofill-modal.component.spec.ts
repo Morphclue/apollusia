@@ -2,7 +2,7 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {AutofillModalComponent} from './autofill-modal.component';
 
-describe('CustomDefinitionModalComponent', () => {
+describe('AutofillModalComponent', () => {
   let component: AutofillModalComponent;
   let fixture: ComponentFixture<AutofillModalComponent>;
 
