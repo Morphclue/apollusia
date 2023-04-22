@@ -11,7 +11,6 @@ import {ChooseDateService} from '../../poll/services/choose-date.service';
   styleUrls: ['./autofill-modal.component.scss'],
 })
 export class AutofillModalComponent implements OnInit {
-  hoveredDate: any;
   selectedDates: NgbDate[] = [];
   modalForm = new FormGroup({
     dates: new FormControl('', Validators.required),

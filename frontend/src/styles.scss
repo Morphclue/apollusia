@@ -70,6 +70,16 @@ $danger: $mauve;
   font-weight: $font-weight-bold;
 }
 
+.ngb-dp-day:hover {
+  background-color: $amethyst;
+  color: white;
+}
+
+.ngb-dp-selected {
+  background-color: $primary;
+  color: white;
+}
+
 .markdown img {
   max-width: 100%;
 }

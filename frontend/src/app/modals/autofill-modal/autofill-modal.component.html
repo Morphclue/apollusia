@@ -72,10 +72,7 @@
 </ngbx-modal>
 
 <ng-template #dayTemplate let-date>
-  <div class="custom-day d-flex justify-content-center align-items-center"
-       [class.selected]="isSelected(date)"
-       (mouseenter)="hoveredDate = date"
-       (mouseleave)="hoveredDate = null">
+  <div class="d-flex justify-content-center align-items-center" [class.ngb-dp-selected]="isSelected(date)">
     {{ date.day }}
   </div>
 </ng-template>
