@@ -2,7 +2,7 @@ import {MailerService} from '@nestjs-modules/mailer';
 import {Injectable} from '@nestjs/common';
 import * as fs from 'fs';
 import * as Handlebars from 'handlebars';
-import * as MarkdownIt from 'markdown-it';
+import MarkdownIt from 'markdown-it';
 
 import {environment} from '../../environment';
 import {renderDate} from '../helpers';
@@ -20,7 +20,7 @@ export class MailService {
         Handlebars.registerHelper('date', renderDate);
 
         let styles: Handlebars.SafeString;
-        fs.promises.readFile(__dirname + '/../templates/styles.css', 'utf8').then(data => {
+        fs.promises.readFile(__dirname + '/assets/templates/styles.css', 'utf8').then(data => {
             styles = new Handlebars.SafeString(`<style>${data}</style>`);
         });
         Handlebars.registerHelper('style', () => styles);
