@@ -28,6 +28,7 @@ export class AutofillModalComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.updateEnd();
     this.modalForm.valueChanges.subscribe(() => this.updateEnd());
 
     const event = this.chooseDateService.autofillEvent;
@@ -63,7 +64,7 @@ export class AutofillModalComponent implements OnInit {
     const duration = this.parseMinutes(durationValue);
     const pause = this.parseMinutes(pauseValue);
 
-    this.endTime = addMinutes(start, duration + (duration + pause) * (repeat - 1)).toLocaleTimeString();
+    this.endTime = format(addMinutes(start, duration + (duration + pause) * (repeat - 1)), 'HH:mm');
   }
 
   apply() {

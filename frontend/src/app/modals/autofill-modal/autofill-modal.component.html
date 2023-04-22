@@ -50,14 +50,14 @@
                    min="1"
             >
           </div>
-          <div class="form-text" *ngIf="endTime">
-            End time: {{ endTime }}
-          </div>
         </div>
       </div>
     </form>
   </ng-container>
   <ng-container modal-footer>
+    <div class="text-muted bi-info-circle">
+      End time: {{ endTime }}
+    </div>
     <button type="button" class="btn btn-outline-secondary" (click)="modal.close()">Cancel</button>
     <button
       type="button"
