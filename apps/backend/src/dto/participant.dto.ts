@@ -1,6 +1,6 @@
 import {OmitType} from '@nestjs/swagger';
 
-import {Participant} from '../schema';
+import {Participant} from '@apollusia/types';
 
 export class ParticipantDto extends OmitType(Participant, ['_id', 'poll'] as const) {
 }

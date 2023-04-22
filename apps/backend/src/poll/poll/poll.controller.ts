@@ -3,7 +3,7 @@ import {Types} from 'mongoose';
 
 import {MailDto, ParticipantDto, PollDto, PollEventDto, ReadParticipantDto} from '../../dto';
 import {ReadPollDto, ReadStatsPollDto} from '../../dto/read-poll.dto';
-import {Participant, PollEvent} from '../../schema';
+import {Participant, PollEvent} from '@apollusia/types';
 import {PollService} from './poll.service';
 
 @Controller('poll')

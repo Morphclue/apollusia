@@ -3,7 +3,7 @@ import {InjectModel} from '@nestjs/mongoose';
 import {Model} from 'mongoose';
 
 import {StatisticsDto} from '../../dto';
-import {Participant, Poll, PollEvent} from '../../schema';
+import {Participant, Poll, PollEvent} from '@apollusia/types';
 
 @Injectable()
 export class StatisticsService {

@@ -1,7 +1,7 @@
 import {Module} from '@nestjs/common';
 import {MongooseModule} from '@nestjs/mongoose';
 
-import {Participant, ParticipantSchema, Poll, PollEvent, PollEventSchema, PollSchema} from '../schema';
+import {Participant, ParticipantSchema, Poll, PollEvent, PollEventSchema, PollSchema} from '@apollusia/types';
 import {StatisticsController} from './statistics/statistics.controller';
 import {StatisticsService} from './statistics/statistics.service';
 

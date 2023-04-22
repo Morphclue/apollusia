@@ -1,6 +1,6 @@
 import {ApiProperty, OmitType} from '@nestjs/swagger';
 
-import {Poll} from '../schema';
+import {Poll} from '@apollusia/types';
 
 export const readPollExcluded = ['adminToken', 'adminMail', 'adminPush'] as const;
 export const readPollSelect = readPollExcluded.map(s => '-' + s).join(' ');

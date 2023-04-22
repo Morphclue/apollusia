@@ -8,7 +8,7 @@ import {environment} from '../../environment';
 import {renderDate} from '../../mail/helpers';
 import {MailService} from '../../mail/mail/mail.service';
 import {PushService} from '../../push/push.service';
-import {Participant, Poll, PollEvent} from '../../schema';
+import {Participant, Poll, PollEvent} from '@apollusia/types';
 
 @Injectable()
 export class PollService {
