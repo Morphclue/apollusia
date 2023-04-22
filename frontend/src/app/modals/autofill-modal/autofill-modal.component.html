@@ -55,7 +55,10 @@
     </form>
   </ng-container>
   <ng-container modal-footer>
-    <div class="text-muted bi-info-circle">
+    <div
+      class="text-muted bi-info-circle"
+      ngbTooltip="The end time is calculated from the start time, the duration of the events, the pauses between events, and the number of repetitions."
+    >
       End time: {{ endTime }}
     </div>
     <button type="button" class="btn btn-outline-secondary" (click)="modal.close()">Cancel</button>
