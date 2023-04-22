@@ -65,6 +65,11 @@ $danger: $mauve;
   color: $amethyst !important;
 }
 
+.ngb-dp-today {
+  color: $primary;
+  font-weight: $font-weight-bold;
+}
+
 .markdown img {
   max-width: 100%;
 }
