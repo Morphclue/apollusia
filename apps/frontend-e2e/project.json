@@ -1,22 +1,22 @@
 {
-  "name": "web-e2e",
+  "name": "frontend-e2e",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "apps/web-e2e/src",
+  "sourceRoot": "apps/frontend-e2e/src",
   "projectType": "application",
   "targets": {
     "e2e": {
       "executor": "@nrwl/cypress:cypress",
       "options": {
-        "cypressConfig": "apps/web-e2e/cypress.config.ts",
-        "devServerTarget": "web:serve:development",
+        "cypressConfig": "apps/frontend-e2e/cypress.config.ts",
+        "devServerTarget": "frontend:serve:development",
         "testingType": "e2e"
       },
       "configurations": {
         "production": {
-          "devServerTarget": "web:serve:production"
+          "devServerTarget": "frontend:serve:production"
         },
         "ci": {
-          "devServerTarget": "web:serve-static"
+          "devServerTarget": "frontend:serve-static"
         }
       }
     },
@@ -24,10 +24,10 @@
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["apps/web-e2e/**/*.{js,ts}"]
+        "lintFilePatterns": ["apps/frontend-e2e/**/*.{js,ts}"]
       }
     }
   },
   "tags": [],
-  "implicitDependencies": ["web"]
+  "implicitDependencies": ["frontend"]
 }

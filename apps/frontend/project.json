@@ -1,22 +1,22 @@
 {
-  "name": "web",
+  "name": "frontend",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
   "prefix": "apollusia",
-  "sourceRoot": "apps/web/src",
+  "sourceRoot": "apps/frontend/src",
   "tags": [],
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:browser",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/apps/web/browser",
-        "index": "apps/web/src/index.html",
-        "main": "apps/web/src/main.ts",
+        "outputPath": "dist/apps/frontend/browser",
+        "index": "apps/frontend/src/index.html",
+        "main": "apps/frontend/src/main.ts",
         "polyfills": ["zone.js"],
-        "tsConfig": "apps/web/tsconfig.app.json",
-        "assets": ["apps/web/src/favicon.ico", "apps/web/src/assets"],
-        "styles": ["apps/web/src/styles.scss"],
+        "tsConfig": "apps/frontend/tsconfig.app.json",
+        "assets": ["apps/frontend/src/favicon.ico", "apps/frontend/src/assets"],
+        "styles": ["apps/frontend/src/styles.scss"],
         "scripts": []
       },
       "configurations": {
@@ -50,35 +50,35 @@
       "executor": "@angular-devkit/build-angular:dev-server",
       "configurations": {
         "production": {
-          "browserTarget": "web:build:production"
+          "browserTarget": "frontend:build:production"
         },
         "development": {
-          "browserTarget": "web:build:development"
+          "browserTarget": "frontend:build:development"
         }
       },
       "defaultConfiguration": "development",
       "options": {
-        "proxyConfig": "apps/web/proxy.conf.json"
+        "proxyConfig": "apps/frontend/proxy.conf.json"
       }
     },
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
       "options": {
-        "browserTarget": "web:build"
+        "browserTarget": "frontend:build"
       }
     },
     "lint": {
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["apps/web/**/*.ts", "apps/web/**/*.html"]
+        "lintFilePatterns": ["apps/frontend/**/*.ts", "apps/frontend/**/*.html"]
       }
     },
     "test": {
       "executor": "@nrwl/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "apps/web/jest.config.ts",
+        "jestConfig": "apps/frontend/jest.config.ts",
         "passWithNoTests": true
       },
       "configurations": {
@@ -91,16 +91,16 @@
     "serve-static": {
       "executor": "@nrwl/web:file-server",
       "options": {
-        "buildTarget": "web:build"
+        "buildTarget": "frontend:build"
       }
     },
     "server": {
       "dependsOn": ["build"],
       "executor": "@angular-devkit/build-angular:server",
       "options": {
-        "outputPath": "dist/apps/web/server",
-        "main": "apps/web/server.ts",
-        "tsConfig": "apps/web/tsconfig.server.json"
+        "outputPath": "dist/apps/frontend/server",
+        "main": "apps/frontend/server.ts",
+        "tsConfig": "apps/frontend/tsconfig.server.json"
       },
       "configurations": {
         "production": {
@@ -118,12 +118,12 @@
       "executor": "@nguniversal/builders:ssr-dev-server",
       "configurations": {
         "development": {
-          "browserTarget": "web:build:development",
-          "serverTarget": "web:server:development"
+          "browserTarget": "frontend:build:development",
+          "serverTarget": "frontend:server:development"
         },
         "production": {
-          "browserTarget": "web:build:production",
-          "serverTarget": "web:server:production"
+          "browserTarget": "frontend:build:production",
+          "serverTarget": "frontend:server:production"
         }
       },
       "defaultConfiguration": "development"
@@ -135,12 +135,12 @@
       },
       "configurations": {
         "development": {
-          "browserTarget": "web:build:development",
-          "serverTarget": "web:server:development"
+          "browserTarget": "frontend:build:development",
+          "serverTarget": "frontend:server:development"
         },
         "production": {
-          "browserTarget": "web:build:production",
-          "serverTarget": "web:server:production"
+          "browserTarget": "frontend:build:production",
+          "serverTarget": "frontend:server:production"
         }
       },
       "defaultConfiguration": "production"
