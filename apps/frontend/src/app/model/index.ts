@@ -6,7 +6,7 @@ export type Poll = types.DTO<types.Poll>;
 export type CreatePollDto = types.DTOValue<types.PollDto>;
 export type ReadPoll = types.DTO<types.ReadStatsPollDto>;
 
-export type PollEvent = types.DTO<types.PollEvent> & { participants?: Participant[]; };
+export type PollEvent = types.DTO<types.PollEvent>;
 export type CreatePollEventDto = types.DTOValue<types.PollEventDto>;
 
 export type Participant = types.DTO<types.Participant>;
