@@ -3,7 +3,6 @@ import {ApiProperty, ApiPropertyOptional} from '@nestjs/swagger';
 import {Type} from 'class-transformer';
 import {IsNotEmpty, IsObject, IsOptional, IsString, MinLength, ValidateNested} from 'class-validator';
 import {Types} from 'mongoose';
-import {PushSubscription} from 'web-push';
 
 import {RefArray} from './ref.decorator';
 import {Settings} from './settings';
@@ -54,7 +53,7 @@ export class Poll {
     @ApiPropertyOptional()
     @IsOptional()
     @IsObject()
-    adminPush?: PushSubscription;
+    adminPush?: PushSubscriptionJSON;
 
     @Prop()
     @ApiProperty()

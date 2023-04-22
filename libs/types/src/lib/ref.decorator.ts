@@ -5,7 +5,7 @@ import {Transform} from 'class-transformer';
 import {IsInstance} from 'class-validator';
 import {Types} from 'mongoose';
 
-function objectId(value): Types.ObjectId | undefined {
+function objectId(value: string | number | Types.ObjectId | Uint8Array): Types.ObjectId | undefined {
     try {
         return new Types.ObjectId(value);
     } catch (e) {
