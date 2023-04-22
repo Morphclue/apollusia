@@ -6,7 +6,7 @@ type Expand<T> = T extends (...args: infer A) => infer R
     ? { [K in keyof O]: O[K] }
     : never;
 
-type DTOValue<T> =
+export type DTOValue<T> =
   T extends Types.ObjectId ? string :
     T extends Date ? string :
       T extends Array<infer U> ? Array<DTOValue<U>> :
