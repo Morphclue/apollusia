@@ -29,11 +29,11 @@
     "@ng-bootstrap/ng-bootstrap": "^14.1.0",
     "@nguniversal/express-engine": "^15.2.1",
     "@popperjs/core": "^2.11.7",
-    "angular-calendar": "^0.29.0",
-    "angularx-flatpickr": "^6.6.0",
+    "angular-calendar": "^0.31.0",
+    "angularx-flatpickr": "^7.2.0",
     "bootstrap": "^5.2.3",
     "bootstrap-icons": "^1.10.4",
-    "calendar-utils": "^0.9.0",
+    "calendar-utils": "^0.10.4",
     "date-fns": "^2.29.3",
     "express": "^4.18.2",
     "flatpickr": "^4.6.13",
@@ -41,10 +41,10 @@
     "ng-bootstrap-ext": "^0.6.1",
     "ngx-cookie-service-ssr": "^15.0.0",
     "ngx-countup": "^13.1.0",
-    "rxjs": "^6.6.7",
+    "rxjs": "^7.8.0",
     "tslib": "^2.5.0",
     "uuid": "^9.0.0",
-    "zone.js": "~0.11.8"
+    "zone.js": "^0.13.0"
   },
   "devDependencies": {
     "@angular-devkit/architect": "^0.1502.6",
