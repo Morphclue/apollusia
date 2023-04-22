@@ -16,6 +16,9 @@ dependencies:
   '@angular/forms':
     specifier: ~15.2.8
     version: 15.2.8(@angular/common@15.2.8)(@angular/core@15.2.8)(@angular/platform-browser@15.2.8)(rxjs@7.8.0)
+  '@angular/localize':
+    specifier: ^15.2.8
+    version: 15.2.8(@angular/compiler-cli@15.2.8)(@angular/compiler@15.2.8)
   '@angular/platform-browser':
     specifier: ~15.2.8
     version: 15.2.8(@angular/animations@15.2.8)(@angular/common@15.2.8)(@angular/core@15.2.8)
@@ -4303,7 +4306,7 @@ packages:
     engines: {node: ^12.13.0 || ^14.15.0 || >=16.0.0}
     dependencies:
       '@gar/promisify': 1.1.3
-      semver: 7.3.8
+      semver: 7.5.0
     dev: true
 
   /@npmcli/fs@3.1.0:
@@ -9057,7 +9060,7 @@ packages:
       fs.realpath: 1.0.0
       inflight: 1.0.6
       inherits: 2.0.4
-      minimatch: 3.0.5
+      minimatch: 3.1.2
       once: 1.4.0
       path-is-absolute: 1.0.1
     dev: true
@@ -9949,7 +9952,7 @@ packages:
     resolution: {integrity: sha512-pzqtp31nLv/XFOzXGuvhCb8qhjmTVo5vjVk19XE4CRlSWz0KoeJ3bw9XsA7nOp9YBf4qHjwBxkDzKcME/J29Yg==}
     engines: {node: '>=8'}
     dependencies:
-      '@babel/core': 7.20.12
+      '@babel/core': 7.21.4
       '@babel/parser': 7.21.4
       '@istanbuljs/schema': 0.1.3
       istanbul-lib-coverage: 3.2.0
