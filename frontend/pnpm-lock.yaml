@@ -23,7 +23,7 @@ specifiers:
   '@angular/platform-server': ~15.2.8
   '@angular/router': ~15.2.8
   '@angular/service-worker': ~15.2.8
-  '@ng-bootstrap/ng-bootstrap': ^13.1.1
+  '@ng-bootstrap/ng-bootstrap': ^14.1.0
   '@nguniversal/builders': ^14.2.3
   '@nguniversal/express-engine': ^14.2.3
   '@popperjs/core': ^2.11.7
@@ -56,8 +56,8 @@ specifiers:
   karma-jasmine: ~4.0.2
   karma-jasmine-html-reporter: ^1.7.0
   markdown-it: ^13.0.1
-  ng-bootstrap-ext: ^0.4.2
-  ngx-cookie-service-ssr: ^14.0.1
+  ng-bootstrap-ext: ^0.6.1
+  ngx-cookie-service-ssr: ^15.0.0
   ngx-countup: ^13.1.0
   protractor: ~7.0.0
   rxjs: ~6.6.7
@@ -80,7 +80,7 @@ dependencies:
   '@angular/platform-server': 15.2.8_ixgniwhjtubogrvfnrzc7jrbwy
   '@angular/router': 15.2.8_em4xxarrcrzoxqb4hw4pc6rj6u
   '@angular/service-worker': 15.2.8_mrsitkbyy66wtoiqfazjz36l6q
-  '@ng-bootstrap/ng-bootstrap': 13.1.1_klxe3l7tdxasifooycdefuenpq
+  '@ng-bootstrap/ng-bootstrap': 14.1.0_klxe3l7tdxasifooycdefuenpq
   '@nguniversal/express-engine': 14.2.3_fdcc34cgtdf5me7wmdiztsbgwm
   '@popperjs/core': 2.11.7
   angular-calendar: 0.29.0_@angular+core@15.2.8
@@ -92,8 +92,8 @@ dependencies:
   express: 4.18.2
   flatpickr: 4.6.13
   markdown-it: 13.0.1
-  ng-bootstrap-ext: 0.4.2_5t4oxlqbzo6ddxwpby5gojyvnm
-  ngx-cookie-service-ssr: 14.0.1_m3jzxjsrtfru6e257iooeqicji
+  ng-bootstrap-ext: 0.6.1_pznmki4hv6szbgcfguy56jg7li
+  ngx-cookie-service-ssr: 15.0.0_m3jzxjsrtfru6e257iooeqicji
   ngx-countup: 13.1.0_mrsitkbyy66wtoiqfazjz36l6q
   rxjs: 6.6.7
   tslib: 2.5.0
@@ -2238,14 +2238,14 @@ packages:
     resolution: {integrity: sha512-YbrUWREPGEjE/FU6foXcAT1YbVwqD/jkYnY1dFb0o4AxtP3s4xKBthlELjndZih8uwsDWgQZx1eNskRNe2BgZQ==}
     dev: false
 
-  /@ng-bootstrap/ng-bootstrap/13.1.1_klxe3l7tdxasifooycdefuenpq:
-    resolution: {integrity: sha512-R6qnmFKT2EwwijBHw7rUXqyo5W90OImHOv7BlsxMNnZLIksWIhqwU00k4UBTfRTnd6JsTPuj/co3MaP61ajILA==}
+  /@ng-bootstrap/ng-bootstrap/14.1.0_klxe3l7tdxasifooycdefuenpq:
+    resolution: {integrity: sha512-vFJ9SLpALrkUjnhdOONrABojmPFZDkP5DYVZbuel4ug045DKi7bBNvSfBOEG1tvpxP1mPmbKg5REPAMsxHmShQ==}
     peerDependencies:
-      '@angular/common': ^14.1.0
-      '@angular/core': ^14.1.0
-      '@angular/forms': ^14.1.0
-      '@angular/localize': ^14.1.0
-      '@popperjs/core': ^2.10.2
+      '@angular/common': ^15.0.0
+      '@angular/core': ^15.0.0
+      '@angular/forms': ^15.0.0
+      '@angular/localize': ^15.0.0
+      '@popperjs/core': ^2.11.6
       rxjs: ^6.5.3 || ^7.4.0
     dependencies:
       '@angular/common': 15.2.8_oynxhhztzb2ffnxyln6m2qtqoa
@@ -7128,26 +7128,26 @@ packages:
     resolution: {integrity: sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==}
     dev: true
 
-  /ng-bootstrap-ext/0.4.2_5t4oxlqbzo6ddxwpby5gojyvnm:
-    resolution: {integrity: sha512-acAAwR8I7fhlVe5iJ/SG2s2YJppD0Kjyh4dtT+WmuqL+IwUaVQOFYwwc2aaAKoORK98BLwVbi6Bv1UIEtz/6gw==}
+  /ng-bootstrap-ext/0.6.1_pznmki4hv6szbgcfguy56jg7li:
+    resolution: {integrity: sha512-MjG1aMv58WQIjtl25XWE85OqBZ1O1yIwpafESkAfXJMi+iLx7ZM8TP70RmcQigHeX2XwpetQsZdFUkb8kuxkXw==}
     deprecated: Use @mean-stream/ngbx instead
     peerDependencies:
-      '@angular/common': ^13.0.0
-      '@angular/core': ^13.0.0
-      '@ng-bootstrap/ng-bootstrap': ^12.0.0
+      '@angular/common': ^15.0.0
+      '@angular/core': ^15.0.0
+      '@ng-bootstrap/ng-bootstrap': ^14.0.0
     dependencies:
       '@angular/common': 15.2.8_oynxhhztzb2ffnxyln6m2qtqoa
       '@angular/core': 15.2.8_rxjs@6.6.7+zone.js@0.11.8
-      '@ng-bootstrap/ng-bootstrap': 13.1.1_klxe3l7tdxasifooycdefuenpq
+      '@ng-bootstrap/ng-bootstrap': 14.1.0_klxe3l7tdxasifooycdefuenpq
       tslib: 2.5.0
     dev: false
 
-  /ngx-cookie-service-ssr/14.0.1_m3jzxjsrtfru6e257iooeqicji:
-    resolution: {integrity: sha512-reJkHvnj8RQChF4rSgfLJeDfhhAptOxf/jrmvCkz1Lb7/y0ifrR7RqwKSQx5pFaArLIhuf2wk9luWEBAvdgWww==}
+  /ngx-cookie-service-ssr/15.0.0_m3jzxjsrtfru6e257iooeqicji:
+    resolution: {integrity: sha512-zgeNOg+31nhZ7Z63dOC+oLnSHLsnX8ws+mLz6zFl4N3/jf3c9ELKgDAZReEvO2eQi88YXTZz2069/Q0LQo4G8g==}
     peerDependencies:
-      '@angular/common': ^14.0.0
-      '@angular/core': ^14.0.0
-      '@nguniversal/express-engine': ^14.0.0
+      '@angular/common': ^15.0.0
+      '@angular/core': ^15.0.0
+      '@nguniversal/express-engine': ^15.0.0
     dependencies:
       '@angular/common': 15.2.8_oynxhhztzb2ffnxyln6m2qtqoa
       '@angular/core': 15.2.8_rxjs@6.6.7+zone.js@0.11.8
