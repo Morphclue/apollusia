@@ -91,6 +91,9 @@ dependencies:
   date-fns:
     specifier: ^2.29.3
     version: 2.29.3
+  express:
+    specifier: ^4.18.2
+    version: 4.18.2
   flatpickr:
     specifier: ^4.6.13
     version: 4.6.13
@@ -167,7 +170,7 @@ devDependencies:
     version: 9.4.0(@nestjs/common@9.4.0)(@nestjs/core@9.4.0)(@nestjs/platform-express@9.4.0)
   '@nguniversal/builders':
     specifier: ~15.1.0
-    version: 15.1.0(@angular-devkit/build-angular@15.2.6)(@angular/common@15.2.8)(@angular/core@15.2.8)(typescript@4.9.5)
+    version: 15.1.0(@angular-devkit/build-angular@15.2.6)(@angular/common@15.2.8)(@angular/core@15.2.8)(@types/express@4.17.17)(typescript@4.9.5)
   '@nrwl/angular':
     specifier: ^15.9.2
     version: 15.9.2(@angular-devkit/build-angular@15.2.6)(@angular-devkit/core@15.2.6)(@angular-devkit/schematics@15.2.6)(@babel/core@7.21.4)(@nguniversal/builders@15.1.0)(@schematics/angular@15.2.6)(@types/node@18.7.23)(cypress@12.10.0)(eslint@8.15.0)(nx@15.9.2)(rxjs@7.8.0)(typescript@4.9.5)
@@ -204,6 +207,9 @@ devDependencies:
   '@schematics/angular':
     specifier: ~15.2.6
     version: 15.2.6
+  '@types/express':
+    specifier: ^4.17.17
+    version: 4.17.17
   '@types/jest':
     specifier: ^29.5.1
     version: 29.5.1
@@ -4224,7 +4230,7 @@ packages:
       webpack: 5.76.1(esbuild@0.17.8)
     dev: true
 
-  /@nguniversal/builders@15.1.0(@angular-devkit/build-angular@15.2.6)(@angular/common@15.2.8)(@angular/core@15.2.8)(typescript@4.9.5):
+  /@nguniversal/builders@15.1.0(@angular-devkit/build-angular@15.2.6)(@angular/common@15.2.8)(@angular/core@15.2.8)(@types/express@4.17.17)(typescript@4.9.5):
     resolution: {integrity: sha512-AM+n6yAWXDKP3G4+LdvXLLJWAcSy76RuR7rswVoJ8SQdrqB3Vf/tUc/UVCohp/UZjuQBEGUE0kXWBQH4cdRmmQ==}
     engines: {node: ^14.20.0 || ^16.13.0 || >=18.10.0}
     peerDependencies:
@@ -4399,7 +4405,7 @@ packages:
       '@angular-devkit/build-angular': 15.2.6(@angular/compiler-cli@15.2.8)(@angular/localize@15.2.8)(@angular/platform-server@15.2.8)(@angular/service-worker@15.2.8)(typescript@4.9.5)
       '@angular-devkit/core': 15.2.6(chokidar@3.5.3)
       '@angular-devkit/schematics': 15.2.6
-      '@nguniversal/builders': 15.1.0(@angular-devkit/build-angular@15.2.6)(@angular/common@15.2.8)(@angular/core@15.2.8)(typescript@4.9.5)
+      '@nguniversal/builders': 15.1.0(@angular-devkit/build-angular@15.2.6)(@angular/common@15.2.8)(@angular/core@15.2.8)(@types/express@4.17.17)(typescript@4.9.5)
       '@nrwl/cypress': 15.9.2(cypress@12.10.0)(eslint@8.15.0)(nx@15.9.2)(typescript@4.9.5)
       '@nrwl/devkit': 15.9.2(nx@15.9.2)
       '@nrwl/jest': 15.9.2(@types/node@18.7.23)(nx@15.9.2)(ts-node@10.9.1)(typescript@4.9.5)
