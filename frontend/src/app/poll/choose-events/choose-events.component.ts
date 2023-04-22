@@ -37,19 +37,21 @@ export class ChooseEventsComponent implements OnInit {
   // helpers
   id: string = '';
   url = globalThis.location?.href;
-  mail = this.mailService.getMail();
-  token = this.tokenService.getToken();
+  mail: string | undefined;
+  token: string;
 
   constructor(
     public route: ActivatedRoute,
     private router: Router,
     private pollService: PollService,
-    private tokenService: TokenService,
-    private mailService: MailService,
     private toastService: ToastService,
     private title: Title,
     private meta: Meta,
+    tokenService: TokenService,
+    mailService: MailService,
   ) {
+    this.mail = mailService.getMail()
+    this.token = tokenService.getToken();
   }
 
   ngOnInit(): void {
