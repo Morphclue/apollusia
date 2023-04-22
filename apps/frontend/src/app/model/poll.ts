@@ -1,15 +1,5 @@
-import {Settings} from './settings';
+import * as types from '@apollusia/types';
 
-export interface Poll {
-  title: string;
-  description?: string;
-  location?: string;
-  timeZone?: string;
-  adminMail?: string;
-  adminPush?: PushSubscriptionJSON;
-  settings: Settings;
-  bookedEvents: string[];
-  _id: string;
-}
+export type Poll = types.DTO<types.Poll>;
 
 export type CreatePollDto = Omit<Poll, '_id'>;

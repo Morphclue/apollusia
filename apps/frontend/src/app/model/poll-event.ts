@@ -1,13 +1,11 @@
+import * as types from '@apollusia/types';
+
 import {Participant} from './participant';
 
-export interface PollEvent {
-  start: Date;
-  end?: Date;
-  note?: string;
+export type PollEvent = types.DTO<types.PollEvent> & {
   participants?: Participant[];
-  _id: string;
-}
+};
 
-export interface CreatePollEventDto extends Omit<PollEvent, '_id'> {
+export interface CreatePollEventDto extends Omit<PollEvent, '_id' | 'poll'> {
   _id?: string;
 }

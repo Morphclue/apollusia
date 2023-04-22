@@ -1,10 +1,4 @@
-export interface Settings {
-  deadline?: Date;
-  maxParticipants?: number;
-  maxParticipantEvents?: number;
-  maxEventParticipants?: number;
-  allowMaybe: boolean;
-  allowEdit: boolean;
-  anonymous: boolean;
-  blindParticipation: boolean;
-}
+import * as types from '@apollusia/types';
+
+
+export type Settings = types.DTO<types.Settings>;

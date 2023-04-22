@@ -1,10 +1,5 @@
-export interface Participant {
-  name: string;
-  participation: string[];
-  indeterminateParticipation: string[];
-  token: string;
-  mail?: string;
-  _id: string;
-}
+import * as types from '@apollusia/types';
 
-export type CreateParticipantDto = Omit<Participant, '_id'>;
+export type Participant = types.DTO<types.Participant>;
+
+export type CreateParticipantDto = Omit<Participant, '_id' | 'poll'>;

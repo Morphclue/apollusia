@@ -131,7 +131,7 @@ export class CreateEditPollComponent implements OnInit {
       timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
       bookedEvents: [],
       settings: {
-        deadline: deadline,
+        deadline: deadline?.toString(),
         allowMaybe: !!pollForm.allowMaybe,
         allowEdit: !!pollForm.allowEdit,
         anonymous: !!pollForm.anonymous,
