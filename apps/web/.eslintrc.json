@@ -17,7 +17,7 @@
           "error",
           {
             "type": "element",
-            "prefix": "apollusia-nx",
+            "prefix": "apollusia",
             "style": "kebab-case"
           }
         ]

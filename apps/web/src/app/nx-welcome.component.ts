@@ -1,7 +1,7 @@
 import { Component, ViewEncapsulation } from "@angular/core";
 
 @Component({
-  selector: "apollusia-nx-nx-welcome",
+  selector: "apollusia-nx-welcome",
   template: `
     <!--
      * * * * * * * * * * * * * * * * * * * * * * * * * * * *

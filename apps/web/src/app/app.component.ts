@@ -1,7 +1,7 @@
 import { Component } from "@angular/core";
 
 @Component({
-  selector: "apollusia-nx-root",
+  selector: "apollusia-root",
   templateUrl: "./app.component.html",
   styleUrls: ["./app.component.scss"],
 })
