@@ -9,37 +9,9 @@ jobs:
   frontend:
     name: Frontend
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: frontend
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Install Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
-      - name: Install pnpm
-        id: pnpm-install
-        uses: pnpm/action-setup@v2.2.4
-        with:
-          version: 7
-          run_install: false
-      - name: Get pnpm store directory
-        id: pnpm-cache
-        run: |
-          echo "pnpm_cache_dir=$(pnpm store path)" >> $GITHUB_OUTPUT
-      - name: Setup pnpm cache
-        uses: actions/cache@v3
-        with:
-          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
-      - name: Install packages
-        run: pnpm install
-      - name: Build Angular
-        run: pnpm build --configuration production
       - name: Build the Docker Image
         uses: whoan/docker-build-with-cache-action@v6
         with:
@@ -48,7 +20,7 @@ jobs:
           registry: ${{ secrets.DOCKER_REGISTRY }}
           image_name: apollusia/frontend
           image_tag: latest
-          context: frontend/
+          dockerfile: apps/frontend/Dockerfile
       - name: Deploy to Rancher
         uses: sekassel-research/actions-rancher-update@v3.0.0
         with:
@@ -73,7 +45,7 @@ jobs:
           registry: ${{ secrets.DOCKER_REGISTRY }}
           image_name: apollusia/backend
           image_tag: latest
-          context: backend/
+          dockerfile: apps/backend/Dockerfile
       - name: Deploy to Rancher
         uses: sekassel-research/actions-rancher-update@v3.0.0
         with:
