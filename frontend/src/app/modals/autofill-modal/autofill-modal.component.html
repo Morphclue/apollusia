@@ -1,59 +1,59 @@
-<ngbx-modal #modal [back]="['../']">
+<ngbx-modal #modal [back]="['../']" size="lg">
   <ng-container modal-title>
     <h4 class="modal-title" id="modal-title">Autofill</h4>
   </ng-container>
   <ng-container modal-body>
     <form [formGroup]="modalForm">
-      <div class="form-group mb-3">
-        <label for="dates">Select multiple dates</label>
-        <ngb-datepicker
-          class="form-control"
-          id="dates"
-          (dateSelect)="onDateSelect($event)"
-          [dayTemplate]="dayTemplate"
-          [displayMonths]="1">
-        </ngb-datepicker>
-      </div>
       <div class="row">
-        <div class="form-group col">
-          <label for="startTime">Start time</label>
-          <input class="form-control"
-                 id="startTime"
-                 formControlName="startTime"
-                 type="time"
-          >
+        <div class="col-md">
+          <label for="dates">Select multiple dates</label>
+          <ngb-datepicker
+            class="form-control"
+            id="dates"
+            (dateSelect)="onDateSelect($event)"
+            [dayTemplate]="dayTemplate"
+            [displayMonths]="1"
+          ></ngb-datepicker>
         </div>
-        <div class="form-group col">
-          <label for="duration">Duration</label>
-          <input class="form-control"
-                 id="duration"
-                 formControlName="duration"
-                 type="time"
-          >
+        <div class="col-md">
+          <div class="mb-3 ">
+            <label for="startTime">Start time</label>
+            <input class="form-control"
+                   id="startTime"
+                   formControlName="startTime"
+                   type="time"
+            >
+          </div>
+          <div class="mb-3 ">
+            <label for="duration">Duration</label>
+            <input class="form-control"
+                   id="duration"
+                   formControlName="duration"
+                   type="time"
+            >
+          </div>
+          <div class="mb-3 ">
+            <label for="pause">Break between Events</label>
+            <input class="form-control"
+                   id="pause"
+                   formControlName="pause"
+                   type="time"
+            >
+          </div>
+          <div class="mb-3">
+            <label for="repeat">Repeat x times</label>
+            <input class="form-control"
+                   id="repeat"
+                   formControlName="repeat"
+                   type="number"
+                   autocomplete="off"
+                   min="1"
+            >
+          </div>
+          <div class="form-text" *ngIf="endTime">
+            End time: {{ endTime }}
+          </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="form-group col">
-          <label for="pause">Break between Events</label>
-          <input class="form-control"
-                 id="pause"
-                 formControlName="pause"
-                 type="time"
-          >
-        </div>
-        <div class="form-group col">
-          <label for="repeat">Repeat x times</label>
-          <input class="form-control"
-                 id="repeat"
-                 formControlName="repeat"
-                 type="number"
-                 autocomplete="off"
-                 min="1"
-          >
-        </div>
-      </div>
-      <div class="form-text" *ngIf="endTime">
-        End time: {{ endTime }}
       </div>
     </form>
   </ng-container>
