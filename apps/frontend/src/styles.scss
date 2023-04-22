@@ -19,10 +19,10 @@ $warning: $heliotrope;
 $danger: $mauve;
 
 /* Imports */
-@import 'bootstrap/scss/bootstrap';
-@import 'bootstrap-icons/font/bootstrap-icons.css';
-@import '../node_modules/angular-calendar/css/angular-calendar.css';
-@import 'flatpickr/dist/flatpickr.css';
+@import 'node_modules/bootstrap/scss/bootstrap';
+@import 'node_modules/bootstrap-icons/font/bootstrap-icons.css';
+@import 'node_modules/angular-calendar/css/angular-calendar.css';
+@import 'node_modules/flatpickr/dist/flatpickr.css';
 
 .logo-glow {
   filter: drop-shadow(0 0 10px $primary);

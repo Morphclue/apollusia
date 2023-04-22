@@ -36,7 +36,7 @@ export class ChooseDateComponent implements AfterViewInit {
     private activatedRoute: ActivatedRoute,
     private elementRef: ElementRef,
   ) {
-    const routeId: Observable<string> = route.params.pipe(map(p => p.id));
+    const routeId: Observable<string> = route.params.pipe(map(({id}) => id));
     routeId.subscribe((id: string) => {
       this.id = id;
       this.chooseDateService.updateEvents(id);

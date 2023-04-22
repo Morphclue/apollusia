@@ -92,7 +92,7 @@ export class CreateEditPollComponent implements OnInit {
     private mailService: MailService,
     private swPush: SwPush,
   ) {
-    const routeId: Observable<string> = route.params.pipe(map(p => p.id));
+    const routeId: Observable<string> = route.params.pipe(map(({id}) => id));
     routeId.subscribe((id: string) => {
       this.id = id;
     });

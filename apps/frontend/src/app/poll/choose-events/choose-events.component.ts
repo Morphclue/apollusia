@@ -55,7 +55,7 @@ export class ChooseEventsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const id$ = this.route.params.pipe(map(params => this.id = params.id));
+    const id$ = this.route.params.pipe(map(({id}) => this.id = id));
 
     id$.pipe(
       switchMap(id => forkJoin([
