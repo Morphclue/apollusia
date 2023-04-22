@@ -5,7 +5,7 @@ import {Types} from 'mongoose';
 
 import {PollEvent} from './poll-event.schema';
 import {Poll} from './poll.schema';
-import {Ref, RefArray} from './ref.decorator';
+import {Ref, RefArray} from '../ref.decorator';
 
 @Schema()
 export class Participant {

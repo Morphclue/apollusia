@@ -4,7 +4,7 @@ import {IsNotEmpty, IsString} from 'class-validator';
 import {Types} from 'mongoose';
 
 import {Poll} from './poll.schema';
-import {Ref} from './ref.decorator';
+import {Ref} from '../ref.decorator';
 
 @Schema()
 export class PollEvent {

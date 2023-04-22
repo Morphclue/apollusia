@@ -4,7 +4,7 @@ import {Type} from 'class-transformer';
 import {IsNotEmpty, IsObject, IsOptional, IsString, MinLength, ValidateNested} from 'class-validator';
 import {Types} from 'mongoose';
 
-import {RefArray} from './ref.decorator';
+import {RefArray} from '../ref.decorator';
 import {Settings} from './settings';
 
 @Schema()
