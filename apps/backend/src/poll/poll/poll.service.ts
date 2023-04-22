@@ -1,14 +1,25 @@
+import {
+  MailDto,
+  Participant,
+  ParticipantDto,
+  Poll,
+  PollDto,
+  PollEvent,
+  PollEventDto,
+  ReadParticipantDto,
+  readParticipantSelect,
+  ReadPollDto,
+  readPollExcluded,
+  readPollSelect,
+  ReadStatsPollDto,
+} from '@apollusia/types';
 import {Injectable, NotFoundException} from '@nestjs/common';
 import {InjectModel} from '@nestjs/mongoose';
 import {Document, Model, Types} from 'mongoose';
-
-import {MailDto, ParticipantDto, PollDto, PollEventDto, ReadParticipantDto, readParticipantSelect} from '../../dto';
-import {ReadPollDto, readPollExcluded, readPollSelect, ReadStatsPollDto} from '../../dto/read-poll.dto';
 import {environment} from '../../environment';
 import {renderDate} from '../../mail/helpers';
 import {MailService} from '../../mail/mail/mail.service';
 import {PushService} from '../../push/push.service';
-import {Participant, Poll, PollEvent} from '@apollusia/types';
 
 @Injectable()
 export class PollService {

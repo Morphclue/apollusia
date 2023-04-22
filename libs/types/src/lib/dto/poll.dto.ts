@@ -1,6 +1,8 @@
 import {ApiProperty, OmitType} from '@nestjs/swagger';
+import {Poll} from '../schema';
 
-import {Poll} from '@apollusia/types';
+export class PollDto extends OmitType(Poll, ['_id'] as const) {
+}
 
 export const readPollExcluded = ['adminToken', 'adminMail', 'adminPush'] as const;
 export const readPollSelect = readPollExcluded.map(s => '-' + s).join(' ');
@@ -9,12 +11,12 @@ export class ReadPollDto extends OmitType(Poll, readPollExcluded) {
 }
 
 export class ReadStatsPollDto extends ReadPollDto {
-    @ApiProperty()
-    isAdmin: boolean;
+  @ApiProperty()
+  isAdmin: boolean;
 
-    @ApiProperty()
-    events: number;
+  @ApiProperty()
+  events: number;
 
-    @ApiProperty()
-    participants: number;
+  @ApiProperty()
+  participants: number;
 }
