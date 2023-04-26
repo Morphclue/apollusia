@@ -4,8 +4,7 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {BrowserModule} from '@angular/platform-browser';
 import {ServiceWorkerModule} from '@angular/service-worker';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import {ModalModule} from 'ng-bootstrap-ext';
-import {environment} from '../environments/environment';
+import {ModalModule} from '@mean-stream/ngbx';
 
 import {AboutModule} from './about/about.module';
 import {AppRoutingModule} from './app-routing.module';
