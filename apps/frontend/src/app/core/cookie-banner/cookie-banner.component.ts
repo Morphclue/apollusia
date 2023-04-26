@@ -21,6 +21,10 @@ export class CookieBannerComponent implements OnInit {
 
   dismiss() {
     this.dismissed = true;
+  }
+
+  allow() {
+    this.dismiss();
     this.storageService.set('cookiesAllowed', 'true');
   }
 }
