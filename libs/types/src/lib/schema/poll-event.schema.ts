@@ -1,10 +1,10 @@
+import {Ref} from '@mean-stream/nestx';
 import {Prop, Schema, SchemaFactory} from '@nestjs/mongoose';
 import {ApiProperty} from '@nestjs/swagger';
 import {IsNotEmpty, IsString} from 'class-validator';
 import {Types} from 'mongoose';
 
 import {Poll} from './poll.schema';
-import {Ref} from '../ref.decorator';
 
 @Schema()
 export class PollEvent {

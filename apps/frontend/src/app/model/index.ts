@@ -1,15 +1,16 @@
 export * from './token';
 
 import * as types from '@apollusia/types';
+import {DTO} from '@mean-stream/nestx';
 
-export type Poll = types.DTO<types.Poll>;
-export type CreatePollDto = types.DTOValue<types.PollDto>;
-export type ReadPoll = types.DTO<types.ReadStatsPollDto>;
+export type Poll = DTO<types.Poll>;
+export type CreatePollDto = DTO<types.PollDto>;
+export type ReadPoll = DTO<types.ReadStatsPollDto>;
 
-export type PollEvent = types.DTO<types.PollEvent>;
-export type CreatePollEventDto = types.DTOValue<types.PollEventDto>;
+export type PollEvent = DTO<types.PollEvent>;
+export type CreatePollEventDto = DTO<types.PollEventDto>;
 
-export type Participant = types.DTO<types.Participant>;
-export type CreateParticipantDto = types.DTOValue<types.ParticipantDto>;
+export type Participant = DTO<types.Participant>;
+export type CreateParticipantDto = DTO<types.ParticipantDto>;
 
-export type Statistics = types.DTOValue<types.StatisticsDto>;
+export type Statistics = DTO<types.StatisticsDto>;
