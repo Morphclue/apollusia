@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute} from '@angular/router';
-import {ModalComponent} from 'ng-bootstrap-ext';
+import {ModalComponent} from '@mean-stream/ngbx';
 
 import {MailService} from '../../core/services';
 

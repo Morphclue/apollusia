@@ -3,7 +3,7 @@ import {MongooseModule} from '@nestjs/mongoose';
 
 import {MailModule} from '../mail/mail.module';
 import {PushModule} from '../push/push.module';
-import {Participant, ParticipantSchema, Poll, PollEvent, PollEventSchema, PollSchema} from '../schema';
+import {Participant, ParticipantSchema, Poll, PollEvent, PollEventSchema, PollSchema} from '@apollusia/types';
 import {PollController} from './poll/poll.controller';
 import {PollService} from './poll/poll.service';
 

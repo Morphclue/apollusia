@@ -1,9 +1,16 @@
+import {
+  MailDto,
+  Participant,
+  ParticipantDto,
+  PollDto,
+  PollEvent,
+  PollEventDto,
+  ReadParticipantDto,
+  ReadPollDto,
+  ReadStatsPollDto,
+} from '@apollusia/types';
 import {Body, Controller, Delete, Get, Headers, NotFoundException, Param, Post, Put} from '@nestjs/common';
 import {Types} from 'mongoose';
-
-import {MailDto, ParticipantDto, PollDto, PollEventDto, ReadParticipantDto} from '../../dto';
-import {ReadPollDto, ReadStatsPollDto} from '../../dto/read-poll.dto';
-import {Participant, PollEvent} from '../../schema';
 import {PollService} from './poll.service';
 
 @Controller('poll')

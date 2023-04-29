@@ -1,6 +1,6 @@
 import {Controller, Get} from '@nestjs/common';
 
-import {StatisticsDto} from '../../dto';
+import {StatisticsDto} from '@apollusia/types';
 import {StatisticsService} from './statistics.service';
 
 @Controller('stats')

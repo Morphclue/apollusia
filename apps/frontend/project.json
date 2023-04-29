@@ -27,6 +27,9 @@
         "styles": [
           "apps/frontend/src/styles.scss"
         ],
+        "allowedCommonJsDependencies": [
+          "validator"
+        ],
         "scripts": [],
         "serviceWorker": true,
         "ngswConfigPath": "apps/frontend/ngsw-config.json"
