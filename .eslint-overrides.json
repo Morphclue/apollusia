@@ -32,7 +32,7 @@
         ]
       },
       "settings": {
-        "import/internal-regex": "@(angular|nestjs)",
+        "import/internal-regex": "@(angular|nestjs|apollusia)",
         "import/external-module-folders": [
           "node_modules"
         ],
