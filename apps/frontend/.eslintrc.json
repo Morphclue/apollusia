@@ -14,14 +14,12 @@
           }
         ],
         "@typescript-eslint/no-empty-function": "off",
-        "@typescript-eslint/no-explicit-any": "off",
-        "@typescript-eslint/no-inferrable-types": "off",
-        "@typescript-eslint/no-non-null-assertion": "off",
         "@angular-eslint/no-empty-lifecycle-method": "off"
       },
       "extends": [
         "plugin:@nrwl/nx/angular",
-        "plugin:@angular-eslint/template/process-inline-templates"
+        "plugin:@angular-eslint/template/process-inline-templates",
+        "../../.eslint-overrides.json"
       ]
     },
     {
