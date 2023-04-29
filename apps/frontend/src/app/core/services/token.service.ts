@@ -4,9 +4,9 @@ import {Observable} from 'rxjs';
 import {map, tap} from 'rxjs/operators';
 import * as uuid from 'uuid';
 
+import {StorageService} from './storage.service';
 import {environment} from '../../../environments/environment';
 import {Token} from '../../model';
-import {StorageService} from './storage.service';
 
 @Injectable({
   providedIn: 'root',

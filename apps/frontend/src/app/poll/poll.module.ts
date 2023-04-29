@@ -1,15 +1,12 @@
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {ModalModule, ToastModule} from '@mean-stream/ngbx';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {CalendarModule, DateAdapter} from 'angular-calendar';
 import {adapterFactory} from 'angular-calendar/date-adapters/date-fns';
 import {FlatpickrModule} from 'angularx-flatpickr';
-import {ModalModule, ToastModule} from '@mean-stream/ngbx';
 
-import {CoreModule} from '../core/core.module';
-import {AutofillModalComponent, PostponeModalComponent} from '../modals';
-import {SomePipe} from '../pipes';
 import {CheckButtonComponent} from './check-button/check-button.component';
 import {ChooseDateComponent} from './choose-date/choose-date.component';
 import {ChooseEventsComponent} from './choose-events/choose-events.component';
@@ -18,6 +15,9 @@ import {EventHeadComponent} from './event-head/event-head.component';
 import {MailAlertComponent} from './mail-alert/mail-alert.component';
 import {PollRoutingModule} from './poll-routing.module';
 import {ChooseDateService} from './services/choose-date.service';
+import {CoreModule} from '../core/core.module';
+import {AutofillModalComponent, PostponeModalComponent} from '../modals';
+import {SomePipe} from '../pipes';
 
 @NgModule({
   declarations: [

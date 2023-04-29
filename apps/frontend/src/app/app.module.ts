@@ -3,8 +3,8 @@ import {NgModule, isDevMode} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 import {BrowserModule} from '@angular/platform-browser';
 import {ServiceWorkerModule} from '@angular/service-worker';
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {ModalModule} from '@mean-stream/ngbx';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 import {AboutModule} from './about/about.module';
 import {AppRoutingModule} from './app-routing.module';
