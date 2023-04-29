@@ -20,7 +20,7 @@ import {ChooseDateService} from '../services/choose-date.service';
 export class ChooseDateComponent implements AfterViewInit {
   viewDate = new Date();
   dragToCreateActive = true;
-  weekStartsOn: 1 = 1;
+  weekStartsOn: 1 = 1 as const;
   previousEventDuration = 15;
   id: string = '';
   note: string = '';
