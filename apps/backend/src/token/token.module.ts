@@ -1,7 +1,7 @@
+import {Participant, ParticipantSchema, Poll, PollSchema} from '@apollusia/types';
 import {Module} from '@nestjs/common';
 import {MongooseModule} from '@nestjs/mongoose';
 
-import {Participant, ParticipantSchema, Poll, PollSchema} from '@apollusia/types';
 import {TokenController} from './token/token.controller';
 import {TokenService} from './token/token.service';
 

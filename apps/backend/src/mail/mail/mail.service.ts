@@ -1,5 +1,5 @@
-import {MailerService} from '@nestjs-modules/mailer';
 import {Injectable} from '@nestjs/common';
+import {MailerService} from '@nestjs-modules/mailer';
 import * as fs from 'fs';
 import * as Handlebars from 'handlebars';
 import MarkdownIt from 'markdown-it';
