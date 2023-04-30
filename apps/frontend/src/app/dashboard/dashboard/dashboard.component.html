@@ -10,9 +10,9 @@
           <p class="card-text">
             You can create polls and share them with your friends.
           </p>
-          <button class="btn btn-primary bi-calendar-plus icon" type="button" routerLink="/poll/create">
+          <a class="btn btn-primary bi-calendar-plus icon" type="button" routerLink="/poll/create">
             Create Poll
-          </button>
+          </a>
         </div>
       </div>
     </div>
@@ -47,8 +47,12 @@
           <input class="form-control" type="search" placeholder="Type to search..." aria-label="Search" [(ngModel)]="searchText">
         </li>
       </ul>
-      <div *ngFor="let poll of polls|search:searchText" class="mb-3">
-        <app-card [poll]="poll" [admin]="admin"></app-card>
+      <div >
+        <app-card *ngFor="let poll of polls|search:searchText" class="mb-3" [poll]="poll" [admin]="admin"></app-card>
+        <div class="text-center text-muted if-empty">
+          There is nothing here.
+          Maybe you {{searchText ? 'can try another search' : 'should create a poll'}}?
+        </div>
       </div>
     </div>
   </div>

@@ -1,3 +1,7 @@
 .nav-link.active > .text-muted {
   color: inherit !important;
 }
+
+.if-empty:not(:first-child) {
+  display: none;
+}
