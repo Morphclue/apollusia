@@ -47,13 +47,15 @@
           <input class="form-control" type="search" placeholder="Type to search..." aria-label="Search" [(ngModel)]="searchText">
         </li>
       </ul>
-      <div >
-        <app-card *ngFor="let poll of polls|search:searchText" class="mb-3" [poll]="poll" [admin]="admin"></app-card>
-        <div class="text-center text-muted if-empty">
+      <ul class="list-unstyled">
+        <li *ngFor="let poll of polls|search:searchText" class="mb-3">
+          <app-card [poll]="poll" [admin]="admin"></app-card>
+        </li>
+        <li class="text-center text-muted if-empty">
           There is nothing here.
           Maybe you {{searchText ? 'can try another search' : 'should create a poll'}}?
-        </div>
-      </div>
+        </li>
+      </ul>
     </div>
   </div>
 </div>
