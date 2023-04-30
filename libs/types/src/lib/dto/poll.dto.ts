@@ -12,9 +12,6 @@ export class ReadPollDto extends OmitType(Poll, readPollExcluded) {
 
 export class ReadStatsPollDto extends ReadPollDto {
   @ApiProperty()
-  isAdmin: boolean;
-
-  @ApiProperty()
   events: number;
 
   @ApiProperty()

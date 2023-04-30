@@ -15,7 +15,7 @@ import {
 } from '@apollusia/types';
 import {Injectable, NotFoundException} from '@nestjs/common';
 import {InjectModel} from '@nestjs/mongoose';
-import {Document, Model, Types} from 'mongoose';
+import {Document, FilterQuery, Model, Types} from 'mongoose';
 
 import {environment} from '../../environment';
 import {renderDate} from '../../mail/helpers';
@@ -33,23 +33,44 @@ export class PollService {
     ) {
     }
 
-    async getPolls(token: string): Promise<ReadStatsPollDto[]> {
-        const adminPolls = await this.pollModel.find({adminToken: token}).select(readPollSelect).exec();
-        const participants = await this.participantModel.find({
-            token,
-            poll: {$nin: adminPolls.map(p => p._id)},
-        }).populate<{ poll: Poll & Document }>('poll').exec();
-        const polls = [
-            ...adminPolls.map(p => p.toObject<Poll>()),
-            ...participants.map(participant => participant.poll.toObject<Poll>()),
-        ];
-        return Promise.all(polls.map(async (poll): Promise<ReadStatsPollDto> => ({
-            ...this.mask(poll),
-            isAdmin: adminPolls.some(p => p._id.toString() === poll._id.toString()),
-            events: await this.pollEventModel.count({poll: poll._id}).exec(),
-            participants: await this.participantModel.count({poll: poll._id}).exec(),
-        })));
+  private activeFilter(active: boolean | undefined): FilterQuery<Poll> {
+    if (active === undefined) {
+      return {};
     }
+    return active ? {
+      $or: [
+        {'settings.deadline': {$gt: new Date()}},
+        {'settings.deadline': {$exists: false}},
+        {'settings.deadline': null},
+      ],
+    } : {
+      'settings.deadline': {$ne: null, $lte: new Date()},
+    };
+  }
+
+  async getPolls(token: string, active: boolean | undefined): Promise<ReadStatsPollDto[]> {
+    const adminPolls = await this.pollModel.find({
+      adminToken: token,
+      ...this.activeFilter(active),
+    }).select(readPollSelect).exec();
+    return this.readPolls(adminPolls.map(poll => poll.toObject<Poll>()));
+  }
+
+  async getParticipatedPolls(token: string): Promise<ReadStatsPollDto[]> {
+    const pollIds = await this.participantModel.distinct('poll', {token}).exec();
+    const polls = await this.pollModel.find({
+      _id: {$in: pollIds},
+    }).select(readPollSelect).exec();
+    return this.readPolls(polls.map(poll => poll.toObject<Poll>()));
+  }
+
+  private readPolls(polls: Poll[]): Promise<ReadStatsPollDto[]> {
+    return Promise.all(polls.map(async (poll): Promise<ReadStatsPollDto> => ({
+      ...this.mask(poll),
+      events: await this.pollEventModel.count({poll: poll._id}).exec(),
+      participants: await this.participantModel.count({poll: poll._id}).exec(),
+    })));
+  }
 
     async getPoll(id: string): Promise<ReadPollDto> {
         return this.pollModel.findById(id).select(readPollSelect).exec();
