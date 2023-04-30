@@ -8,12 +8,14 @@ import {DashboardComponent} from './dashboard/dashboard.component';
 import {DashboardRoutingModule} from './dashboard-routing.module';
 import {CoreModule} from '../core/core.module';
 import {TruncatePipe} from '../pipes';
+import { SearchPipe } from './pipes/search.pipe';
 
 @NgModule({
   declarations: [
     DashboardComponent,
     CardComponent,
     TruncatePipe,
+    SearchPipe,
   ],
   imports: [
     CommonModule,

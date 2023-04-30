@@ -13,6 +13,7 @@ import {PollService} from '../../poll/services/poll.service';
 export class DashboardComponent implements OnInit {
   polls: ReadPoll[] = [];
   admin = true;
+  searchText = '';
 
   constructor(
     private pollService: PollService,

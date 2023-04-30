@@ -28,9 +28,13 @@
             <!--<span class="text-muted">({{participantPolls.length}})</span>-->
           </a>
         </li>
+        <li class="me-auto"></li>
+        <li class="nav-item">
+          <input class="form-control" type="search" placeholder="Type to search..." aria-label="Search" [(ngModel)]="searchText">
+        </li>
       </ul>
-      <div *ngFor="let poll of polls" class="mb-3">
-        <app-card  [poll]="poll" [admin]="admin"></app-card>
+      <div *ngFor="let poll of polls|search:searchText" class="mb-3">
+        <app-card [poll]="poll" [admin]="admin"></app-card>
       </div>
     </div>
     <div class="col-md-3">
