@@ -1,4 +1,4 @@
-import {CommonModule} from '@angular/common';
+import {CommonModule, NgOptimizedImage} from '@angular/common';
 import {NgModule} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {NgbNavModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
@@ -24,6 +24,7 @@ import { SearchPipe } from './pipes/search.pipe';
     FormsModule,
     CoreModule,
     NgbNavModule,
+    NgOptimizedImage,
   ],
 })
 export class DashboardModule {
