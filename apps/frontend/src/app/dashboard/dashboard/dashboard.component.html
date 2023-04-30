@@ -7,7 +7,7 @@
     </div>
     <div class="col-md-6">
       <div *ngFor="let poll of currentAdminPolls">
-        <app-card [poll]="poll"></app-card>
+        <app-card [poll]="poll" [admin]="true"></app-card>
       </div>
     </div>
     <div class="col-md-3">
@@ -47,7 +47,7 @@
     </div>
     <div class="col-md-6">
       <div *ngFor="let poll of oldAdminPolls">
-        <app-card [poll]="poll" [small]="true"></app-card>
+        <app-card [poll]="poll" [small]="true" [admin]="true"></app-card>
       </div>
     </div>
   </div>

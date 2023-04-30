@@ -10,4 +10,5 @@ import {ReadPoll} from '../../model';
 export class CardComponent {
   @Input() poll!: ReadPoll;
   @Input() small = false;
+  @Input() admin = false;
 }
