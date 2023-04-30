@@ -1,7 +1,7 @@
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
 import {FormsModule} from '@angular/forms';
-import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
+import {NgbNavModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 
 import {CardComponent} from './card/card.component';
 import {DashboardComponent} from './dashboard/dashboard.component';
@@ -21,6 +21,7 @@ import {TruncatePipe} from '../pipes';
     NgbTooltipModule,
     FormsModule,
     CoreModule,
+    NgbNavModule,
   ],
 })
 export class DashboardModule {

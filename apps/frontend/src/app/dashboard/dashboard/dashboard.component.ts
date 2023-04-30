@@ -1,4 +1,6 @@
 import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+import {switchMap, tap} from 'rxjs/operators';
 
 import {ReadPoll} from '../../model';
 import {PollService} from '../../poll/services/poll.service';
@@ -9,18 +11,24 @@ import {PollService} from '../../poll/services/poll.service';
   styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit {
-  currentAdminPolls: ReadPoll[] = [];
-  oldAdminPolls: ReadPoll[] = [];
-  participantPolls: ReadPoll[] = [];
+  polls: ReadPoll[] = [];
+  admin = true;
 
   constructor(
     private pollService: PollService,
+    private route: ActivatedRoute,
   ) {
   }
 
   ngOnInit(): void {
-    this.pollService.getOwn(true).subscribe(polls => this.currentAdminPolls = polls);
-    this.pollService.getOwn(false).subscribe(polls => this.oldAdminPolls = polls);
-    this.pollService.getParticipated().subscribe(polls => this.participantPolls = polls);
+    this.route.queryParams.pipe(
+      tap(({participated}) => this.admin = !participated),
+      switchMap(({participated, active}) => {
+        if (participated) {
+          return this.pollService.getParticipated();
+        }
+        return this.pollService.getOwn(active);
+      }),
+    ).subscribe(polls => this.polls = polls);
   }
 }
