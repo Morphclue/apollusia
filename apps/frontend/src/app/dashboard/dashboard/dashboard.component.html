@@ -3,7 +3,8 @@
     <div class="col-md-3">
       <div class="card sticky-top" style="top: 1rem">
         <div class="card-body">
-          <img class="float-end logo-glow ms-2 mb-2" ngSrc="/assets/logo.png" alt="Apollusia Logo" width="64" height="64">
+          <img class="float-end logo-glow ms-2 mb-2" ngSrc="/assets/logo.png" alt="Apollusia Logo" width="64"
+               height="64">
           <h5 class="card-title">
             Welcome to Apollusia!
           </h5>
@@ -23,28 +24,26 @@
       <ul class="nav nav-pills sticky-top py-3 bg-body" style="margin-top: -1rem">
         <li class="nav-item">
           <a class="nav-link bi-calendar" routerLink="." [queryParams]="{active: null}" routerLinkActive="active"
-          [routerLinkActiveOptions]="{exact: true}">
+             [routerLinkActiveOptions]="{exact: true}">
             Active
-            <!--<span class="text-muted">({{currentAdminPolls.length}})</span>-->
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link bi-hourglass-bottom" routerLink="." [queryParams]="{active: false}" routerLinkActive="active">
+          <a class="nav-link bi-hourglass-bottom" routerLink="." [queryParams]="{active: false}"
+             routerLinkActive="active">
             Inactive
-            <!--<span class="text-muted">({{oldAdminPolls.length}})</span>-->
           </a>
-          <ng-template ngbNavContent>
-          </ng-template>
         </li>
         <li class="nav-item">
-          <a class="nav-link bi-person-check" routerLink="." [queryParams]="{active: null, participated: true}" routerLinkActive="active">
+          <a class="nav-link bi-person-check" routerLink="." [queryParams]="{active: null, participated: true}"
+             routerLinkActive="active">
             Participations
-            <!--<span class="text-muted">({{participantPolls.length}})</span>-->
           </a>
         </li>
         <li class="me-auto"></li>
         <li class="nav-item">
-          <input class="form-control" type="search" placeholder="Type to search..." aria-label="Search" [(ngModel)]="searchText">
+          <input class="form-control" type="search" placeholder="Type to search..." aria-label="Search"
+                 [(ngModel)]="searchText">
         </li>
       </ul>
       <ul class="list-unstyled">
