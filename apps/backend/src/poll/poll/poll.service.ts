@@ -49,24 +49,23 @@ export class PollService {
   }
 
   async getPolls(token: string, active: boolean | undefined): Promise<ReadStatsPollDto[]> {
-    const adminPolls = await this.pollModel.find({
+    return this.readPolls({
       adminToken: token,
       ...this.activeFilter(active),
-    }).select(readPollSelect).exec();
-    return this.readPolls(adminPolls.map(poll => poll.toObject<Poll>()));
+    });
   }
 
   async getParticipatedPolls(token: string): Promise<ReadStatsPollDto[]> {
     const pollIds = await this.participantModel.distinct('poll', {token}).exec();
-    const polls = await this.pollModel.find({
+    return this.readPolls({
       _id: {$in: pollIds},
-    }).select(readPollSelect).exec();
-    return this.readPolls(polls.map(poll => poll.toObject<Poll>()));
+    });
   }
 
-  private readPolls(polls: Poll[]): Promise<ReadStatsPollDto[]> {
+  private async readPolls(filter: FilterQuery<Poll>): Promise<ReadStatsPollDto[]> {
+    const polls = await this.pollModel.find(filter).select(readPollSelect).sort('-createdAt').exec();
     return Promise.all(polls.map(async (poll): Promise<ReadStatsPollDto> => ({
-      ...this.mask(poll),
+      ...this.mask(poll.toObject()),
       events: await this.pollEventModel.count({poll: poll._id}).exec(),
       participants: await this.participantModel.count({poll: poll._id}).exec(),
     })));
