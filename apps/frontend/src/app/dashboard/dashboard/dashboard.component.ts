@@ -12,7 +12,7 @@ import {PollService} from '../../poll/services/poll.service';
 })
 export class DashboardComponent implements OnInit {
   polls: ReadPoll[] = [];
-  admin = true;
+  participated = false;
   searchText = '';
 
   constructor(
@@ -23,7 +23,7 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.queryParams.pipe(
-      tap(({participated}) => this.admin = !participated),
+      tap(({participated}) => this.participated = participated),
       switchMap(({participated, active}) => {
         if (participated) {
           return this.pollService.getParticipated();

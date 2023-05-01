@@ -18,7 +18,7 @@
     </div>
     <div class="col-md-6">
       <h1 class="mb-4">
-        My Polls
+        My {{ participated ? 'Participations' : 'Polls' }}
       </h1>
       <ul class="nav nav-pills sticky-top py-3 bg-body" style="margin-top: -1rem">
         <li class="nav-item">
@@ -49,7 +49,7 @@
       </ul>
       <ul class="list-unstyled">
         <li *ngFor="let poll of polls|search:searchText" class="mb-3">
-          <app-card [poll]="poll" [admin]="admin"></app-card>
+          <app-card [poll]="poll" [admin]="!participated"></app-card>
         </li>
         <li class="text-center text-muted if-empty">
           There is nothing here.
