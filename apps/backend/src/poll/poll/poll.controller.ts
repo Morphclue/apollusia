@@ -14,7 +14,6 @@ import {
   Controller, DefaultValuePipe,
   Delete,
   Get,
-  Header,
   Headers,
   NotFoundException,
   Param, ParseBoolPipe,
