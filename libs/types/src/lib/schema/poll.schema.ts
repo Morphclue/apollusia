@@ -6,7 +6,7 @@ import {IsNotEmpty, IsObject, IsOptional, IsString, MinLength, ValidateNested} f
 import {Types} from 'mongoose';
 import {Settings} from './settings';
 
-@Schema()
+@Schema({timestamps: true})
 export class Poll {
     @ApiProperty()
     _id: Types.ObjectId;

@@ -1,9 +1,9 @@
-import {HttpClient} from '@angular/common/http';
 import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+import {switchMap, tap} from 'rxjs/operators';
 
-import {environment} from '../../../environments/environment';
-import {TokenService} from '../../core/services';
 import {ReadPoll} from '../../model';
+import {PollService} from '../../poll/services/poll.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -11,23 +11,25 @@ import {ReadPoll} from '../../model';
   styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit {
-  currentAdminPolls: ReadPoll[] = [];
-  oldAdminPolls: ReadPoll[] = [];
-  participantPolls: ReadPoll[] = [];
+  polls: ReadPoll[] = [];
+  participated = false;
+  searchText = '';
 
   constructor(
-    private http: HttpClient,
-    private tokenService: TokenService,
+    private pollService: PollService,
+    private route: ActivatedRoute,
   ) {
   }
 
   ngOnInit(): void {
-    this.http.get<ReadPoll[]>(`${environment.backendURL}/poll/all/${this.tokenService.getToken()}`).subscribe((data: ReadPoll[]) => {
-      const now = new Date();
-      const adminPolls = data.filter(p => p.isAdmin);
-      this.currentAdminPolls = adminPolls.filter(p => !p.settings.deadline || now < new Date(p.settings.deadline));
-      this.oldAdminPolls = adminPolls.filter(p => p.settings.deadline && now >= new Date(p.settings.deadline));
-      this.participantPolls = data.filter(p => !p.isAdmin);
-    });
+    this.route.queryParams.pipe(
+      tap(({participated}) => this.participated = participated),
+      switchMap(({participated, active}) => {
+        if (participated) {
+          return this.pollService.getParticipated();
+        }
+        return this.pollService.getOwn(active !== 'false');
+      }),
+    ).subscribe(polls => this.polls = polls);
   }
 }

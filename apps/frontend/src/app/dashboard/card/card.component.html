@@ -6,7 +6,7 @@
         <a class="btn btn-flash-border-primary bi-person" [routerLink]="['/poll', poll._id, 'participate']">
           View
         </a>
-        <a *ngIf="poll.isAdmin" class="btn btn-flash-border-primary bi-pencil-square"
+        <a *ngIf="admin" class="btn btn-flash-border-primary bi-pencil-square"
            [routerLink]="['/poll', poll._id]">
           Edit
         </a>

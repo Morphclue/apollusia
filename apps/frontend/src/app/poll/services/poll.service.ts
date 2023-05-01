@@ -3,7 +3,7 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 
 import {environment} from '../../../environments/environment';
-import {CreateParticipantDto, Participant, Poll, PollEvent} from '../../model';
+import {CreateParticipantDto, Participant, Poll, PollEvent, ReadPoll} from '../../model';
 
 @Injectable({
   providedIn: 'root',
@@ -13,6 +13,22 @@ export class PollService {
   constructor(
     private http: HttpClient,
   ) {
+  }
+
+  getOwn(active?: boolean): Observable<ReadPoll[]> {
+    return this.http.get<ReadPoll[]>(`${environment.backendURL}/poll`, {
+      params: active !== undefined ? {
+        active,
+      } : {},
+    });
+  }
+
+  getParticipated(): Observable<ReadPoll[]> {
+    return this.http.get<ReadPoll[]>(`${environment.backendURL}/poll`, {
+      params: {
+        participated: true,
+      },
+    });
   }
 
   get(id: string): Observable<Poll> {

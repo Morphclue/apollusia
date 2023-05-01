@@ -9,7 +9,18 @@ import {
   ReadPollDto,
   ReadStatsPollDto,
 } from '@apollusia/types';
-import {Body, Controller, Delete, Get, Headers, NotFoundException, Param, Post, Put} from '@nestjs/common';
+import {
+  Body,
+  Controller, DefaultValuePipe,
+  Delete,
+  Get,
+  Headers,
+  NotFoundException,
+  Param, ParseBoolPipe,
+  Post,
+  Put,
+  Query,
+} from '@nestjs/common';
 import {Types} from 'mongoose';
 
 import {PollService} from './poll.service';
@@ -19,13 +30,16 @@ export class PollController {
     constructor(private readonly pollService: PollService) {
     }
 
-    @Get('all/:token')
-    async getPolls(@Param('token') token: string): Promise<ReadStatsPollDto[]> {
-        if (!token) {
-            return [];
-        }
-
-        return this.pollService.getPolls(token);
+    @Get('')
+    async getPolls(
+      @Headers('Participant-Token') token: string,
+      @Query('participated', new DefaultValuePipe(false), ParseBoolPipe) participated: boolean,
+      @Query('active') active?: string,
+    ): Promise<ReadStatsPollDto[]> {
+      if (participated) {
+        return this.pollService.getParticipatedPolls(token);
+      }
+      return this.pollService.getPolls(token, active !== undefined ? active === 'true' : undefined);
     }
 
     @Get(':id/admin/:token')
