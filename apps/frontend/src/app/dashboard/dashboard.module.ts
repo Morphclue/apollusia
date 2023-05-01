@@ -6,9 +6,9 @@ import {NgbNavModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {CardComponent} from './card/card.component';
 import {DashboardComponent} from './dashboard/dashboard.component';
 import {DashboardRoutingModule} from './dashboard-routing.module';
+import {SearchPipe} from './pipes/search.pipe';
 import {CoreModule} from '../core/core.module';
 import {TruncatePipe} from '../pipes';
-import { SearchPipe } from './pipes/search.pipe';
 
 @NgModule({
   declarations: [
