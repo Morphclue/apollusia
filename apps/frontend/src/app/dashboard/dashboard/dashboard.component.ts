@@ -28,7 +28,7 @@ export class DashboardComponent implements OnInit {
         if (participated) {
           return this.pollService.getParticipated();
         }
-        return this.pollService.getOwn(active);
+        return this.pollService.getOwn(active !== 'false');
       }),
     ).subscribe(polls => this.polls = polls);
   }
