@@ -1,15 +1,9 @@
 {
-  "extends": [
-    "../../.eslintrc.json"
-  ],
-  "ignorePatterns": [
-    "!**/*"
-  ],
+  "extends": ["../../.eslintrc.json"],
+  "ignorePatterns": ["!**/*"],
   "overrides": [
     {
-      "files": [
-        "*.ts"
-      ],
+      "files": ["*.ts"],
       "rules": {
         "@angular-eslint/directive-selector": [
           "error",
@@ -23,18 +17,14 @@
         "@angular-eslint/no-empty-lifecycle-method": "off"
       },
       "extends": [
-        "plugin:@nrwl/nx/angular",
+        "plugin:@nx/angular",
         "plugin:@angular-eslint/template/process-inline-templates",
         "../../.eslint-overrides.json"
       ]
     },
     {
-      "files": [
-        "*.html"
-      ],
-      "extends": [
-        "plugin:@nrwl/nx/angular-template"
-      ],
+      "files": ["*.html"],
+      "extends": ["plugin:@nx/angular-template"],
       "rules": {}
     }
   ]
