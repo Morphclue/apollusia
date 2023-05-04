@@ -1,0 +1,60 @@
+<div class="container">
+  <div class="row my-3">
+    <div class="col-md-3">
+      <div class="card sticky-top" style="top: 1rem">
+        <div class="card-body">
+          <img class="float-end logo-glow ms-2 mb-2" ngSrc="/assets/logo.png" alt="Apollusia Logo" width="64"
+               height="64">
+          <h5 class="card-title">
+            Welcome to Apollusia!
+          </h5>
+          <p class="card-text">
+            You can create polls and share them with your friends.
+          </p>
+          <a class="btn btn-primary bi-calendar-plus icon" type="button" routerLink="/poll/create">
+            Create Poll
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <h1 class="mb-4">
+        My {{ participated ? 'Participations' : 'Polls' }}
+      </h1>
+      <ul class="nav nav-pills sticky-top py-3 bg-body" style="margin-top: -1rem">
+        <li class="nav-item">
+          <a class="nav-link bi-calendar" routerLink="." [queryParams]="{active: null}" routerLinkActive="active"
+             [routerLinkActiveOptions]="{exact: true}">
+            Active
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link bi-hourglass-bottom" routerLink="." [queryParams]="{active: false}"
+             routerLinkActive="active">
+            Inactive
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link bi-person-check" routerLink="." [queryParams]="{active: null, participated: true}"
+             routerLinkActive="active">
+            Participations
+          </a>
+        </li>
+        <li class="me-auto"></li>
+        <li class="nav-item">
+          <input class="form-control" type="search" placeholder="Type to search..." aria-label="Search"
+                 [(ngModel)]="searchText">
+        </li>
+      </ul>
+      <ul class="list-unstyled">
+        <li *ngFor="let poll of polls|search:searchText" class="mb-3">
+          <app-card [poll]="poll" [admin]="!participated"></app-card>
+        </li>
+        <li class="text-center text-muted if-empty">
+          There is nothing here.
+          Maybe you {{searchText ? 'can try another search' : 'should create a poll'}}?
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

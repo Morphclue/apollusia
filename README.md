@@ -19,7 +19,7 @@ TODO: Add screenshots of the application
 
 Create an `.env` file in the backend directory and add the following environment variables:
 
-```bash
+```properties
 EMAIL_HOST=<smtp host>
 EMAIL_PORT=25 # optional, alternatively 587, or 465 for SSL
 EMAIL_SSL=false # optional
@@ -28,4 +28,12 @@ EMAIL_USER=<username>
 EMAIL_PASSWORD=<password>
 EMAIL_FROM=<sender email>
 EMAIL_NAME=Apollusia # optional sender display name
+VAPID_PUBLIC_KEY=<vapid public key> # for push notifications
+VAPID_PRIVATE_KEY=<vapid private key> # for push notifications
+```
+
+VAPID keys can be generated using the following command:
+
+```bash
+npx web-push generate-vapid-keys
 ```

@@ -1,0 +1,78 @@
+<ngbx-modal #modal [back]="['../']" size="lg">
+  <ng-container modal-title>
+    <h4 class="modal-title" id="modal-title">Autofill</h4>
+  </ng-container>
+  <ng-container modal-body>
+    <form [formGroup]="modalForm">
+      <div class="row">
+        <div class="col-md">
+          <label for="dates">Select multiple dates</label>
+          <ngb-datepicker
+            class="form-control"
+            id="dates"
+            (dateSelect)="onDateSelect($event)"
+            [dayTemplate]="dayTemplate"
+            [displayMonths]="1"
+          ></ngb-datepicker>
+        </div>
+        <div class="col-md">
+          <div class="mb-3 ">
+            <label for="startTime">Start time</label>
+            <input class="form-control"
+                   id="startTime"
+                   formControlName="startTime"
+                   type="time"
+            >
+          </div>
+          <div class="mb-3 ">
+            <label for="duration">Duration</label>
+            <input class="form-control"
+                   id="duration"
+                   formControlName="duration"
+                   type="time"
+            >
+          </div>
+          <div class="mb-3 ">
+            <label for="pause">Break between Events</label>
+            <input class="form-control"
+                   id="pause"
+                   formControlName="pause"
+                   type="time"
+            >
+          </div>
+          <div class="mb-3">
+            <label for="repeat">Repeat x times</label>
+            <input class="form-control"
+                   id="repeat"
+                   formControlName="repeat"
+                   type="number"
+                   autocomplete="off"
+                   min="1"
+            >
+          </div>
+        </div>
+      </div>
+    </form>
+  </ng-container>
+  <ng-container modal-footer>
+    <div
+      class="text-muted bi-info-circle"
+      ngbTooltip="The end time is calculated from the start time, the duration of the events, the pauses between events, and the number of repetitions."
+    >
+      End time: {{ endTime }}
+    </div>
+    <button type="button" class="btn btn-outline-secondary" (click)="modal.close()">Cancel</button>
+    <button
+      type="button"
+      class="btn btn-primary"
+      (click)="apply(); modal.close()"
+      [disabled]="!modalForm.valid">Apply
+    </button>
+  </ng-container>
+</ngbx-modal>
+
+<ng-template #dayTemplate let-date>
+  <div class="d-flex justify-content-center align-items-center" [class.ngb-dp-selected]="isSelected(date)">
+    {{ date.day }}
+  </div>
+</ng-template>

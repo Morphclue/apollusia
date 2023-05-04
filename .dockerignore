@@ -1,0 +1,6 @@
+.git/
+.angular/
+.idea/
+.vscode/
+dist/
+node_modules/
