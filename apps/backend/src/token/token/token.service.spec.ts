@@ -3,7 +3,7 @@ import {Test, TestingModule} from '@nestjs/testing';
 import {Model} from 'mongoose';
 
 import {TokenService} from './token.service';
-import {PollStub} from '../../../test/stubs/PollStub';
+import {PollStub} from '../../../test/stubs';
 import {closeMongoConnection, rootMongooseTestModule} from '../../utils/mongo-util';
 import {TokenModule} from '../token.module';
 

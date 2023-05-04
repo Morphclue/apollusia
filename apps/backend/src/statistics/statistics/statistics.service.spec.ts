@@ -3,9 +3,7 @@ import {Test, TestingModule} from '@nestjs/testing';
 import {Model} from 'mongoose';
 
 import {StatisticsService} from './statistics.service';
-import {ParticipantStub} from '../../../test/stubs/ParticipantStub';
-import {PollEventStub} from '../../../test/stubs/PollEventStub';
-import {PollStub} from '../../../test/stubs/PollStub';
+import {ParticipantStub, PollEventStub, PollStub} from '../../../test/stubs';
 import {closeMongoConnection, rootMongooseTestModule} from '../../utils/mongo-util';
 import {StatisticsModule} from '../statistics.module';
 

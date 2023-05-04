@@ -4,9 +4,7 @@ import {Test, TestingModule} from '@nestjs/testing';
 import {Model, Types} from 'mongoose';
 
 import {PollService} from './poll.service';
-import {ParticipantStub} from '../../../test/stubs/ParticipantStub';
-import {PollEventStub} from '../../../test/stubs/PollEventStub';
-import {PollStub} from '../../../test/stubs/PollStub';
+import {ParticipantStub, PollEventStub, PollStub} from '../../../test/stubs';
 import {closeMongoConnection, rootMongooseTestModule} from '../../utils/mongo-util';
 import {PollModule} from '../poll.module';
 
