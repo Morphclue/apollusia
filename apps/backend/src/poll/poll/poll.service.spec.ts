@@ -131,6 +131,19 @@ describe('PollService', () => {
         expect(events.length).toEqual(0);
     });
 
+    it('should not get participants from poll', async () => {
+       const poll = await pollModel.findOne({title: 'Party (clone)'}).exec();
+       const participants = await service.getParticipants(poll._id.toString(), ParticipantStub().token);
+       expect(participants.length).toEqual(0);
+    });
+
+    it('should post participation', async () => {
+      const poll = await pollModel.findOne({title: 'Party (clone)'}).exec();
+      await service.postParticipation(poll._id.toString(), ParticipantStub());
+      const participants = await service.getParticipants(poll._id.toString(), ParticipantStub().token);
+      expect(participants.length).toEqual(1);
+    });
+
     afterAll(async () => {
         await closeMongoConnection();
     });
