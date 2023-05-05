@@ -144,6 +144,13 @@ describe('PollService', () => {
       expect(participants.length).toEqual(1);
     });
 
+    it('should not post participation', async () => {
+      await expect(service.postParticipation(
+        new Types.ObjectId('5f1f9b9b9b9b942b9b9b9b9b').toString(),
+        ParticipantStub())
+      ).rejects.toThrow(NotFoundException);
+    });
+
     afterAll(async () => {
         await closeMongoConnection();
     });
