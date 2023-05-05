@@ -151,6 +151,12 @@ describe('PollService', () => {
       ).rejects.toThrow(NotFoundException);
     });
 
+    it('should be admin', async () => {
+      const poll = await pollModel.findOne({title: 'Party (clone)'}).exec();
+      const isAdmin = await service.isAdmin(poll._id.toString(), ParticipantStub().token);
+      expect(isAdmin).toEqual(true);
+    });
+
     afterAll(async () => {
         await closeMongoConnection();
     });
