@@ -1,14 +1,23 @@
-import {Injectable} from '@nestjs/common';
+import {Injectable, Logger} from '@nestjs/common';
 import {ConfigService} from '@nestjs/config';
 import * as webpush from 'web-push';
 import {PushSubscription} from 'web-push';
 
 @Injectable()
 export class PushService {
+  private logger = new Logger(PushService.name);
+
     constructor(
         private config: ConfigService,
     ) {
-        webpush.setVapidDetails('mailto:' + config.get('EMAIL_FROM'), config.get('VAPID_PUBLIC_KEY'), config.get('VAPID_PRIVATE_KEY'));
+      const publicKey = config.get('VAPID_PUBLIC_KEY');
+      const privateKey = config.get('VAPID_PRIVATE_KEY');
+      const emailSender = config.get('EMAIL_FROM');
+      if (publicKey && privateKey && emailSender) {
+        webpush.setVapidDetails('mailto:' + emailSender, publicKey, privateKey);
+      } else {
+        this.logger.warn('VAPID keys not set. Push notifications will not work.');
+      }
     }
 
     async send(sub: PushSubscription, title: string, body: string, url: string) {
