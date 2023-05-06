@@ -4,6 +4,7 @@ import {MailerModule} from '@nestjs-modules/mailer';
 import {HandlebarsAdapter} from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 
 import {MailService} from './mail/mail.service';
+import {environment} from '../environment';
 
 @Module({
     imports: [MailerModule.forRootAsync({
@@ -26,7 +27,7 @@ import {MailService} from './mail/mail.service';
                 },
             },
             template: {
-                dir: __dirname + '/assets/templates',
+                dir: environment.assetPath + '/templates',
                 adapter: new HandlebarsAdapter(),
                 options: {
                     strict: true,

@@ -89,7 +89,11 @@ export class PollService {
     }
 
     async putPoll(id: string, pollDto: PollDto): Promise<ReadPollDto> {
-        return this.pollModel.findByIdAndUpdate(id, pollDto, {new: true}).select(readPollSelect).exec();
+        const poll = await this.pollModel.findByIdAndUpdate(id, pollDto, {new: true}).select(readPollSelect).exec();
+        if (!poll) {
+            throw new NotFoundException(id);
+        }
+        return poll;
     }
 
     async clonePoll(id: string): Promise<ReadPollDto> {
@@ -109,10 +113,10 @@ export class PollService {
         return clonedPoll;
     }
 
-    async deletePoll(id: string): Promise<ReadPollDto | undefined> {
+    async deletePoll(id: string): Promise<ReadPollDto> {
         const poll = await this.pollModel.findByIdAndDelete(id).select(readPollSelect).exec();
         if (!poll) {
-            return;
+            throw new NotFoundException(id);
         }
 
         await this.pollEventModel.deleteMany({poll: new Types.ObjectId(id)}).exec();
