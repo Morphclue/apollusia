@@ -20,7 +20,7 @@ export class MailService {
         Handlebars.registerHelper('date', renderDate);
 
         let styles: Handlebars.SafeString;
-        fs.promises.readFile(__dirname + '../../../assets/templates/styles.css', 'utf8').then(data => {
+        fs.promises.readFile(__dirname + '/assets/templates/styles.css', 'utf8').then(data => {
             styles = new Handlebars.SafeString(`<style>${data}</style>`);
         });
         Handlebars.registerHelper('style', () => styles);
