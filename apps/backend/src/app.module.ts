@@ -1,8 +1,6 @@
 import {Module} from '@nestjs/common';
 import {MongooseModule} from '@nestjs/mongoose';
 
-import {AppController} from './app.controller';
-import {AppService} from './app.service';
 import {environment} from './environment';
 import {MailModule} from './mail/mail.module';
 import {PollModule} from './poll/poll.module';
@@ -19,8 +17,6 @@ import {TokenModule} from './token/token.module';
         MailModule,
         PushModule,
     ],
-    controllers: [AppController],
-    providers: [AppService],
 })
 export class AppModule {
 }
