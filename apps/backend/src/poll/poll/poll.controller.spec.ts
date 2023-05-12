@@ -34,7 +34,7 @@ describe('PollController', () => {
 
     it('should call getPoll', async () => {
       jest.spyOn(service, 'getPoll')
-      await controller.getPoll(PollStub()._id.toString());
+      await controller.getPoll(PollStub()._id);
       expect(service.getPoll).toHaveBeenCalled();
     });
 });
