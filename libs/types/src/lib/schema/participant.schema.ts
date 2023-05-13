@@ -7,10 +7,16 @@ import {Types} from 'mongoose';
 import {PollEvent} from './poll-event.schema';
 import {Poll} from './poll.schema';
 
-@Schema()
+@Schema({timestamps: true})
 export class Participant {
     @ApiProperty()
     _id: Types.ObjectId;
+
+    @ApiProperty()
+    createdAt?: Date;
+
+    @ApiProperty()
+    updatedAt?: Date;
 
     @Ref(Poll.name)
     poll: Types.ObjectId;
