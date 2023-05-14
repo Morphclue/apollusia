@@ -61,7 +61,7 @@
           <td *ngFor="let event of pollEvents">
             <app-check-button
               [poll]="poll"
-              [check]="newParticipant.selection[event._id]"
+              [(check)]="newParticipant.selection[event._id]"
               [isFull]="maxParticipantsReached(event)"
             ></app-check-button>
           </td>
