@@ -274,9 +274,9 @@ export class PollService implements OnModuleInit {
         return `${renderDate(event.start, locale, timeZone)} - ${renderDate(event.end, locale, timeZone)}`;
     }
 
-    private async removeParticipations(id: Types.ObjectId, events: PollEventDto[]) {
+    private async removeParticipations(poll: Types.ObjectId, events: PollEventDto[]) {
       const filter = {
-        poll: new Types.ObjectId(id),
+        poll,
         $or: events.map(e => ({['selection.' + e._id]: {$exists: true}})),
       };
       await this.participantModel.updateMany(filter, {
