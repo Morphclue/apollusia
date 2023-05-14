@@ -2,8 +2,10 @@ import {Poll} from '@apollusia/types';
 import {Types} from 'mongoose';
 
 export const PollStub = (): Poll => {
+  const _id = new Types.ObjectId('5f1f9b9b9b9b9b9b9b9b9b9b');
   return {
-    _id: new Types.ObjectId('5f1f9b9b9b9b9b9b9b9b9b9b'),
+    _id,
+    id: _id.toString('base64'),
     title: 'Test',
     settings: {
       allowMaybe: true,
