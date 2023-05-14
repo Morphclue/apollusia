@@ -1,4 +1,4 @@
-import {RefArray} from '@mean-stream/nestx';
+import {objectIdToBase64, RefArray} from '@mean-stream/nestx';
 import {Prop, Schema, SchemaFactory} from '@nestjs/mongoose';
 import {ApiProperty, ApiPropertyOptional} from '@nestjs/swagger';
 import {Type} from 'class-transformer';
@@ -14,7 +14,7 @@ import {Settings} from './settings';
   virtuals: {
     id: {
       get: function (this: Poll) {
-        return this._id.toString('base64');
+        return objectIdToBase64(this._id);
       },
     },
   },
