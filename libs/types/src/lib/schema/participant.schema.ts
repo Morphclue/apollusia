@@ -1,6 +1,6 @@
 import {Ref, RefArray} from '@mean-stream/nestx';
 import {Prop, Schema, SchemaFactory} from '@nestjs/mongoose';
-import {ApiProperty} from '@nestjs/swagger';
+import {ApiProperty, ApiPropertyOptional} from '@nestjs/swagger';
 import {IsEmail, IsNotEmpty, IsOptional, IsString, MinLength} from 'class-validator';
 import {Types} from 'mongoose';
 
@@ -12,10 +12,10 @@ export class Participant {
     @ApiProperty()
     _id: Types.ObjectId;
 
-    @ApiProperty()
+    @ApiPropertyOptional()
     createdAt?: Date;
 
-    @ApiProperty()
+    @ApiPropertyOptional()
     updatedAt?: Date;
 
     @Ref(Poll.name)
