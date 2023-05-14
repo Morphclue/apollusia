@@ -1,13 +1,17 @@
 import {Ref, RefArray} from '@mean-stream/nestx';
 import {Prop, Schema, SchemaFactory} from '@nestjs/mongoose';
 import {ApiProperty} from '@nestjs/swagger';
-import {IsEmail, IsNotEmpty, IsOptional, IsString, MinLength} from 'class-validator';
+import {IsEmail, IsNotEmpty, IsObject, IsOptional, IsString, MinLength} from 'class-validator';
 import {Types} from 'mongoose';
 
-import {PollEvent} from './poll-event.schema';
 import {Poll} from './poll.schema';
 
-@Schema()
+export type PollEventState = 'yes' | 'no' | 'maybe';
+
+@Schema({
+  // NB: this is required to retain selection: {} when it is empty
+  minimize: false,
+})
 export class Participant {
     @ApiProperty()
     _id: Types.ObjectId;
@@ -22,11 +26,18 @@ export class Participant {
     @MinLength(1)
     name: string;
 
-    @RefArray(PollEvent.name)
-    participation: Types.ObjectId[];
+    @Prop({type: Object, default: {}})
+    @IsObject()
+    @ApiProperty({description: 'Record from PollEvent ID to state'})
+    selection: Partial<Record<string, PollEventState>>;
 
-    @RefArray(PollEvent.name)
-    indeterminateParticipation: Types.ObjectId[];
+    /** @deprecated */
+    @Prop({type: [Types.ObjectId], default: undefined})
+    participation?: Types.ObjectId[];
+
+    /** @deprecated */
+    @Prop({type: [Types.ObjectId], default: undefined})
+    indeterminateParticipation?: Types.ObjectId[];
 
     @Prop({required: true})
     @ApiProperty()

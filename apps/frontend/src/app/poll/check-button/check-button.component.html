@@ -5,8 +5,8 @@
   <input
     type="checkbox"
     [disabled]="isFull"
-    [ngModel]="check !== 'false'"
-    [indeterminate]="check === 'indeterminate'"
+    [ngModel]="check !== 'no'"
+    [indeterminate]="check === 'maybe'"
     class="form-check-input"
     (ngModelChange)="toggle()"
   >

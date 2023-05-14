@@ -13,7 +13,7 @@ import {
   readPollSelect,
   ReadStatsPollDto,
 } from '@apollusia/types';
-import {Injectable, NotFoundException} from '@nestjs/common';
+import {Injectable, Logger, NotFoundException, OnModuleInit} from '@nestjs/common';
 import {InjectModel} from '@nestjs/mongoose';
 import {Document, FilterQuery, Model, Types} from 'mongoose';
 
@@ -23,7 +23,9 @@ import {MailService} from '../../mail/mail/mail.service';
 import {PushService} from '../../push/push.service';
 
 @Injectable()
-export class PollService {
+export class PollService implements OnModuleInit {
+  private logger = new Logger(PollService.name);
+
     constructor(
         @InjectModel(Poll.name) private pollModel: Model<Poll>,
         @InjectModel(PollEvent.name) private pollEventModel: Model<PollEvent>,
@@ -32,6 +34,29 @@ export class PollService {
         private pushService: PushService,
     ) {
     }
+
+  async onModuleInit() {
+    const participants = await this.participantModel.find({
+      $or: [
+        {participation: {$exists: true}},
+        {indeterminateParticipation: {$exists: true}},
+      ]
+    }).exec();
+    for (const participant of participants) {
+      participant.selection ||= {};
+      for (const participation of (participant as any).participation || []) {
+        participant.selection[participation.toString()] = 'yes';
+      }
+      for (const participation of (participant as any).indeterminateParticipation || []) {
+        participant.selection[participation.toString()] = 'maybe';
+      }
+      participant.markModified('selection');
+      participant.set('participation', undefined);
+      participant.set('indeterminateParticipation', undefined);
+    }
+    await this.participantModel.bulkSave(participants, {timestamps: false});
+    this.logger.log(`Migrated ${participants.length} participants to the new selection format.`);
+  }
 
   private activeFilter(active: boolean | undefined): FilterQuery<Poll> {
     if (active === undefined) {
@@ -189,11 +214,10 @@ export class PollService {
 
         for (let i = 0; i < events.length; i++) {
             const event = events[i];
-            const yes = participant.participation.some(e => e._id.toString() === event._id.toString());
-            const maybe = participant.indeterminateParticipation.some(e => e._id.toString() === event._id.toString());
+            const state = participant.selection[event._id.toString()];
             participation[i] = {
-                class: yes ? 'p-yes' : maybe ? 'p-maybe' : 'p-no',
-                icon: yes ? '✓' : maybe ? '?' : 'X',
+                class: 'p-' + (state || 'no'),
+                icon: state === 'yes' ? '✓' : state === 'maybe' ? '?' : 'X',
             };
         }
 
@@ -227,11 +251,11 @@ export class PollService {
             .populate<{ bookedEvents: PollEvent[] }>('bookedEvents')
             .select(readPollSelect)
             .exec();
-        for await (const participant of this.participantModel.find({poll: new Types.ObjectId(id)}).populate(['participation', 'indeterminateParticipation'])) {
-            const participations = [...participant.participation, ...participant.indeterminateParticipation];
+        for await (const participant of this.participantModel.find({poll: new Types.ObjectId(id)})) {
             const appointments = poll.bookedEvents.map(event => {
                 let eventLine = this.renderEvent(event, undefined, poll.timeZone);
-                if (participations.some(p => p._id.toString() === event._id.toString())) {
+                const selection = participant.selection[event._id.toString()];
+                if (selection === 'yes' || selection === 'maybe') {
                     eventLine += ' *';
                 }
                 return eventLine;
@@ -250,27 +274,13 @@ export class PollService {
     }
 
     private async removeParticipations(id: string, events: PollEventDto[]) {
-        const changedParticipants = await this.participantModel.find({
-            poll: new Types.ObjectId(id),
-            participation: {$in: events.map(event => event._id)},
-        }).exec();
-
-        for (const participant of changedParticipants) {
-            participant.participation = participant.participation.filter((event: any) =>
-                !events.some(e => e._id.toString() === event._id.toString()));
-            await this.participantModel.findByIdAndUpdate(participant._id, participant).exec();
-        }
-
-        const indeterminateParticipants = await this.participantModel.find({
-            poll: new Types.ObjectId(id),
-            indeterminateParticipation: {$in: events.map(event => event._id)},
-        });
-
-        for (const participant of indeterminateParticipants) {
-            participant.indeterminateParticipation = participant.indeterminateParticipation.filter((event: any) =>
-                !events.some(e => e._id.toString() === event._id.toString()));
-            await this.participantModel.findByIdAndUpdate(participant._id, participant).exec();
-        }
+      const filter = {
+        poll: new Types.ObjectId(id),
+        $or: events.map(e => ({['selection.' + e._id]: {$exists: true}})),
+      };
+      await this.participantModel.updateMany(filter, {
+        $unset: events.map(e => 'selection.' + e._id),
+      }).exec();
     }
 
     async setMail(mailDto: MailDto) {
