@@ -1,7 +1,7 @@
 import {
   MailDto,
   Participant,
-  ParticipantDto,
+  CreateParticipantDto,
   Poll,
   PollDto,
   PollEvent,
@@ -11,7 +11,7 @@ import {
   ReadPollDto,
   readPollExcluded,
   readPollSelect,
-  ReadStatsPollDto,
+  ReadStatsPollDto, UpdateParticipantDto,
 } from '@apollusia/types';
 import {Injectable, Logger, NotFoundException, OnModuleInit} from '@nestjs/common';
 import {InjectModel} from '@nestjs/mongoose';
@@ -189,7 +189,7 @@ export class PollService implements OnModuleInit {
         return [...participants, ...currentParticipant];
     }
 
-    async postParticipation(id: string, dto: ParticipantDto): Promise<Participant> {
+    async postParticipation(id: string, dto: CreateParticipantDto): Promise<Participant> {
         const poll = await this.pollModel.findById(id).exec();
         if (!poll) {
             throw new NotFoundException(id);
@@ -233,7 +233,7 @@ export class PollService implements OnModuleInit {
         await this.pushService.send(poll.adminPush, 'Updates in Poll | Apollusia', `${participant.name} participated in your poll ${poll.title}`, `${environment.origin}/poll/${poll._id}/participate`);
     }
 
-    async editParticipation(id: string, participantId: string, token: string, participant: ParticipantDto): Promise<ReadParticipantDto | null> {
+    async editParticipation(id: string, participantId: string, token: string, participant: UpdateParticipantDto): Promise<ReadParticipantDto | null> {
         return await this.participantModel.findOneAndUpdate({
             _id: participantId,
             token,

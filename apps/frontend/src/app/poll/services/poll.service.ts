@@ -3,7 +3,7 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 
 import {environment} from '../../../environments/environment';
-import {CreateParticipantDto, Participant, Poll, PollEvent, ReadPoll} from '../../model';
+import {CreateParticipantDto, Participant, Poll, PollEvent, ReadPoll, UpdateParticipantDto} from '../../model';
 
 @Injectable({
   providedIn: 'root',
@@ -55,8 +55,8 @@ export class PollService {
     return this.http.post<Participant>(`${environment.backendURL}/poll/${id}/participate`, participant);
   }
 
-  editParticipant(id: string, participant: Participant) {
-    return this.http.put<Participant>(`${environment.backendURL}/poll/${id}/participate/${participant._id}`, participant);
+  editParticipant(poll: string, participant: string, dto: UpdateParticipantDto) {
+    return this.http.put<Participant>(`${environment.backendURL}/poll/${poll}/participate/${participant}`, dto);
   }
 
   deleteParticipant(id: string, participant: string) {

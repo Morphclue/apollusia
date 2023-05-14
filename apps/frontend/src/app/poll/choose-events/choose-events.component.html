@@ -91,11 +91,11 @@
                 </ng-container>
               </td>
             </ng-container>
-            <ng-container *ngIf="participant === editParticipant">
+            <ng-container *ngIf="participant === editParticipant && editDto">
               <td *ngFor="let event of pollEvents">
                 <app-check-button
                   [poll]="poll"
-                  [(check)]="editParticipant.selection[event._id]"
+                  [(check)]="editDto.selection[event._id]"
                 ></app-check-button>
               </td>
             </ng-container>

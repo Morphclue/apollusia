@@ -1,13 +1,13 @@
 import {
   MailDto,
   Participant,
-  ParticipantDto,
+  CreateParticipantDto,
   PollDto,
   PollEvent,
   PollEventDto,
   ReadParticipantDto,
   ReadPollDto,
-  ReadStatsPollDto,
+  ReadStatsPollDto, UpdateParticipantDto,
 } from '@apollusia/types';
 import {
   Body,
@@ -111,7 +111,7 @@ export class PollController {
     }
 
     @Post(':id/participate')
-    async postParticipation(@Param('id') id: string, @Body() participant: ParticipantDto): Promise<Participant> {
+    async postParticipation(@Param('id') id: string, @Body() participant: CreateParticipantDto): Promise<Participant> {
         return this.pollService.postParticipation(id, participant);
     }
 
@@ -125,7 +125,7 @@ export class PollController {
         @Param('id') id: string,
         @Param('participantId') participantId: string,
         @Headers('Participant-Token') token: string,
-        @Body() participant: ParticipantDto,
+        @Body() participant: UpdateParticipantDto,
     ): Promise<ReadParticipantDto | null> {
         return this.pollService.editParticipation(id, participantId, token, participant);
     }

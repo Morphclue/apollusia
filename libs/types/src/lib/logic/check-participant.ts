@@ -1,9 +1,9 @@
 import type {Participant, Poll, PollEvent} from "@apollusia/types";
-import {ParticipantDto} from "@apollusia/types";
+import {CreateParticipantDto} from "@apollusia/types";
 import {DTO} from "@mean-stream/nestx";
 
 export function checkParticipant(
-  participant: Participant | DTO<Participant> | ParticipantDto | DTO<ParticipantDto>,
+  participant: Participant | DTO<Participant> | CreateParticipantDto | DTO<CreateParticipantDto>,
   poll: Poll | DTO<Poll>,
   otherParticipants: Participant[] | DTO<Participant>[],
 ): string[] | undefined {

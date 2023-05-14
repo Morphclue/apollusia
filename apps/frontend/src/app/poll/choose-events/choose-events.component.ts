@@ -6,7 +6,7 @@ import {forkJoin} from 'rxjs';
 import {map, switchMap, tap} from 'rxjs/operators';
 
 import {MailService, TokenService} from '../../core/services';
-import {CreateParticipantDto, Participant, Poll, PollEvent} from '../../model';
+import {CreateParticipantDto, Participant, Poll, PollEvent, UpdateParticipantDto} from '../../model';
 import {PollService} from '../services/poll.service';
 
 @Component({
@@ -34,6 +34,7 @@ export class ChooseEventsComponent implements OnInit {
     token: '',
   };
   editParticipant?: Participant;
+  editDto?: UpdateParticipantDto;
 
   // helpers
   id: string = '';
@@ -122,6 +123,9 @@ export class ChooseEventsComponent implements OnInit {
 
   setEditParticipant(participant: Participant) {
     this.editParticipant = participant;
+    this.editDto = {
+      selection: {...participant.selection},
+    };
   }
 
   cancelEdit() {
@@ -129,11 +133,11 @@ export class ChooseEventsComponent implements OnInit {
   }
 
   confirmEdit() {
-    if (!this.editParticipant) {
+    if (!this.editParticipant || !this.editDto) {
       return;
     }
 
-    this.pollService.editParticipant(this.id, this.editParticipant).subscribe(participant => {
+    this.pollService.editParticipant(this.id, this.editParticipant._id, this.editDto).subscribe(participant => {
       this.cancelEdit();
       this.participants = this.participants.map(p => p._id === participant._id ? participant : p);
       this.updateHelpers();
