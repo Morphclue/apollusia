@@ -13,7 +13,14 @@ import {
   readPollSelect,
   ReadStatsPollDto, UpdateParticipantDto,
 } from '@apollusia/types';
-import {Injectable, Logger, NotFoundException, OnModuleInit} from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  Logger,
+  NotFoundException,
+  OnModuleInit,
+  UnprocessableEntityException
+} from '@nestjs/common';
 import {InjectModel} from '@nestjs/mongoose';
 import {Document, FilterQuery, Model, Types} from 'mongoose';
 
@@ -21,6 +28,7 @@ import {environment} from '../../environment';
 import {renderDate} from '../../mail/helpers';
 import {MailService} from '../../mail/mail/mail.service';
 import {PushService} from '../../push/push.service';
+import {checkParticipant} from "../../../../../libs/types/src/lib/logic/check-participant";
 
 @Injectable()
 export class PollService implements OnModuleInit {
@@ -189,11 +197,22 @@ export class PollService implements OnModuleInit {
         return [...participants, ...currentParticipant];
     }
 
+    async findAllParticipants(poll: Types.ObjectId): Promise<Participant[]> {
+      return this.participantModel.find({poll}).exec();
+    }
+
     async postParticipation(id: string, dto: CreateParticipantDto): Promise<Participant> {
         const poll = await this.pollModel.findById(id).exec();
         if (!poll) {
             throw new NotFoundException(id);
         }
+
+        const otherParticipants = await this.findAllParticipants(poll._id);
+        const errors = checkParticipant(dto, poll, otherParticipants);
+        if (errors.length) {
+          throw new UnprocessableEntityException(errors);
+        }
+
         const participant = await this.participantModel.create({
             ...dto,
             poll: new Types.ObjectId(id),
@@ -234,10 +253,18 @@ export class PollService implements OnModuleInit {
     }
 
     async editParticipation(id: string, participantId: string, token: string, participant: UpdateParticipantDto): Promise<ReadParticipantDto | null> {
-        return await this.participantModel.findOneAndUpdate({
-            _id: participantId,
-            token,
-        }, participant, {new: true}).exec();
+      const [poll, otherParticipants] = await Promise.all([
+        this.getPoll(id),
+        this.findAllParticipants(new Types.ObjectId(id)),
+      ]);
+      const errors = checkParticipant(participant, poll, otherParticipants);
+      if (errors.length) {
+        throw new UnprocessableEntityException(errors);
+      }
+      return this.participantModel.findOneAndUpdate({
+        _id: participantId,
+        token,
+      }, participant, {new: true}).exec();
     }
 
     async deleteParticipation(id: string, participantId: string): Promise<ReadParticipantDto | null> {

@@ -1,12 +1,12 @@
-import type {Participant, Poll, PollEvent} from "@apollusia/types";
-import {CreateParticipantDto} from "@apollusia/types";
+import type {CreateParticipantDto, UpdateParticipantDto} from "@apollusia/types";
+import {ReadParticipantDto, ReadPollDto} from "@apollusia/types";
 import {DTO} from "@mean-stream/nestx";
 
 export function checkParticipant(
-  participant: Participant | DTO<Participant> | CreateParticipantDto | DTO<CreateParticipantDto>,
-  poll: Poll | DTO<Poll>,
-  otherParticipants: Participant[] | DTO<Participant>[],
-): string[] | undefined {
+  participant: CreateParticipantDto | DTO<CreateParticipantDto> | UpdateParticipantDto | DTO<UpdateParticipantDto>,
+  poll: ReadPollDto | DTO<ReadPollDto>,
+  otherParticipants: ReadParticipantDto[] | DTO<ReadParticipantDto>[],
+): string[] {
   const problems: string[] = [];
   const isEdit = '_id' in participant;
   const {
@@ -52,11 +52,10 @@ export function checkParticipant(
         }
       }
       if (count >= maxEventParticipants) {
-        problems.push(`max participants for an event reached`);
+        problems.push('max participants for an event reached');
       }
     }
   }
 
-
-  return;
+  return problems;
 }
