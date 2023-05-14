@@ -1,16 +1,17 @@
-import type {CreateParticipantDto, UpdateParticipantDto} from "@apollusia/types";
-import {ReadParticipantDto, ReadPollDto} from "@apollusia/types";
+import type {CreateParticipantDto, ReadParticipantDto, ReadPollDto, UpdateParticipantDto} from "@apollusia/types";
 import {DTO} from "@mean-stream/nestx";
+import type {Types} from "mongoose";
 
 export function checkParticipant(
   participant: CreateParticipantDto | DTO<CreateParticipantDto> | UpdateParticipantDto | DTO<UpdateParticipantDto>,
   poll: ReadPollDto | DTO<ReadPollDto>,
   otherParticipants: ReadParticipantDto[] | DTO<ReadParticipantDto>[],
+  edit?: string | Types.ObjectId,
 ): string[] {
   const problems: string[] = [];
-  const isEdit = '_id' in participant;
   const {
     deadline,
+    anonymous,
     allowEdit,
     allowMaybe,
     maxParticipants,
@@ -21,7 +22,11 @@ export function checkParticipant(
     problems.push('deadline is over');
   }
 
-  if (!allowEdit && isEdit) {
+  if (!anonymous && !edit && !(participant as any).name) {
+    problems.push('name is required');
+  }
+
+  if (!allowEdit && edit) {
     problems.push('editing is not allowed');
   }
 
@@ -29,7 +34,7 @@ export function checkParticipant(
     problems.push('maybe is not allowed');
   }
 
-  if (maxParticipants && otherParticipants.length >= maxParticipants && !isEdit) {
+  if (maxParticipants && otherParticipants.length >= maxParticipants && !edit) {
     problems.push('max participants reached');
   }
 
@@ -44,7 +49,7 @@ export function checkParticipant(
       }
       let count = 0;
       for (const otherParticipant of otherParticipants) {
-        if (isEdit && otherParticipant._id.toString() === participant._id.toString()) {
+        if (edit && otherParticipant._id.toString() === edit.toString()) {
           continue;
         }
         if (otherParticipant.selection[participation] === 'yes') {

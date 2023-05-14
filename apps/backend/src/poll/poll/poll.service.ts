@@ -257,7 +257,7 @@ export class PollService implements OnModuleInit {
         this.getPoll(id),
         this.findAllParticipants(new Types.ObjectId(id)),
       ]);
-      const errors = checkParticipant(participant, poll, otherParticipants);
+      const errors = checkParticipant(participant, poll, otherParticipants, participantId);
       if (errors.length) {
         throw new UnprocessableEntityException(errors);
       }
