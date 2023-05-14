@@ -83,15 +83,12 @@
             </th>
             <ng-container *ngIf="participant !== editParticipant">
               <td *ngFor="let pollEvent of pollEvents; let n=index">
-                <h5 *ngIf="participant.selection[pollEvent._id] === 'yes' && participant !== editParticipant"
-                    class="text-green bi-check-lg">
-                </h5>
-                <h5 *ngIf="participant.selection[pollEvent._id] === 'no' && participant !== editParticipant"
-                    class="text-red bi-x-lg">
-                </h5>
-                <h5 *ngIf="participant.selection[pollEvent._id] === 'maybe' && participant !== editParticipant"
-                  class="text-orange bi-question">
-                </h5>
+                <ng-container [ngSwitch]="participant.selection[pollEvent._id]">
+                  <h5 *ngSwitchCase="'yes'" class="p-yes bi-check-lg" ngbTooltip="Yes"></h5>
+                  <h5 *ngSwitchCase="'no'" class="p-no bi-x-lg" ngbTooltip="No"></h5>
+                  <h5 *ngSwitchCase="'maybe'" class="p-maybe bi-question" ngbTooltip="Maybe"></h5>
+                  <h5 *ngSwitchDefault class="p-unset bi-question" ngbTooltip="Unspecified"></h5>
+                </ng-container>
               </td>
             </ng-container>
             <ng-container *ngIf="participant === editParticipant">
@@ -127,7 +124,7 @@
           <tr>
             <th>Sum</th>
             <td *ngFor="let pollEvent of pollEvents">
-              <h5 *ngIf="bestOption === countParticipants(pollEvent)" class="bi-award text-purple">
+              <h5 *ngIf="bestOption === countParticipants(pollEvent)" class="bi-award text-primary">
                 {{ countParticipants(pollEvent) }}
               </h5>
               <div *ngIf="bestOption !== countParticipants(pollEvent)">

@@ -1,13 +1,10 @@
-<span
-  class="d-inline-block"
-  [ngbTooltip]="isFull ? 'This option has reached it\'s maximum number of participants' : null"
->
+<div class="p-{{check || 'unset'}}" [ngbTooltip]="isFull ? 'This option has reached it\'s maximum number of participants' : null">
   <input
     type="checkbox"
     [disabled]="isFull"
-    [ngModel]="check !== 'no'"
+    [ngModel]="check && check !== 'no'"
     [indeterminate]="check === 'maybe'"
     class="form-check-input"
     (ngModelChange)="toggle()"
   >
-</span>
+</div>
