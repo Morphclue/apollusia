@@ -1,7 +1,8 @@
 import {
+  checkParticipant,
+  CreateParticipantDto,
   MailDto,
   Participant,
-  CreateParticipantDto,
   Poll,
   PollDto,
   PollEvent,
@@ -14,17 +15,10 @@ import {
   ReadStatsPollDto,
   UpdateParticipantDto,
 } from '@apollusia/types';
-import {
-  Injectable,
-  Logger,
-  NotFoundException,
-  OnModuleInit,
-  UnprocessableEntityException
-} from '@nestjs/common';
+import {Injectable, Logger, NotFoundException, OnModuleInit, UnprocessableEntityException} from '@nestjs/common';
 import {InjectModel} from '@nestjs/mongoose';
 import {Document, FilterQuery, Model, Types} from 'mongoose';
 
-import {checkParticipant} from "../../../../../libs/types/src/lib/logic/check-participant";
 import {environment} from '../../environment';
 import {renderDate} from '../../mail/helpers';
 import {MailService} from '../../mail/mail/mail.service';

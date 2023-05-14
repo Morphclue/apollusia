@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Meta, Title} from '@angular/platform-browser';
 import {ActivatedRoute, Router} from '@angular/router';
+import {checkParticipant} from '@apollusia/types';
 import {ToastService} from '@mean-stream/ngbx';
 import {forkJoin} from 'rxjs';
 import {map, switchMap, tap} from 'rxjs/operators';
@@ -8,7 +9,6 @@ import {map, switchMap, tap} from 'rxjs/operators';
 import {MailService, TokenService} from '../../core/services';
 import {CreateParticipantDto, Participant, Poll, PollEvent, UpdateParticipantDto} from '../../model';
 import {PollService} from '../services/poll.service';
-import {checkParticipant} from "../../../../../../libs/types/src/lib/logic/check-participant";
 
 @Component({
   selector: 'app-choose-events',
