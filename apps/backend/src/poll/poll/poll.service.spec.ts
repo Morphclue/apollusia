@@ -38,7 +38,7 @@ describe('PollService', () => {
     });
 
     it('should get poll', async () => {
-        const poll = await service.getPoll(PollStub()._id.toString());
+        const poll = await service.getPoll(PollStub()._id);
         expect(poll).toBeDefined();
     });
 
@@ -53,7 +53,7 @@ describe('PollService', () => {
         modifiedPoll.title = 'Party';
 
         const oldPoll = await pollModel.findOne({_id: PollStub()._id}).exec();
-        await service.putPoll(modifiedPoll._id.toString(), modifiedPoll);
+        await service.putPoll(modifiedPoll._id, modifiedPoll);
         const updatedPoll = await pollModel.findOne({_id: PollStub()._id}).exec();
 
         expect(oldPoll._id).toEqual(updatedPoll._id);
@@ -67,7 +67,7 @@ describe('PollService', () => {
         modifiedPoll.title = 'Meeting';
 
         const oldPoll = await pollModel.findOne({_id: PollStub()._id}).exec();
-        await expect(service.putPoll(modifiedPoll._id.toString(), modifiedPoll)).rejects.toThrow(NotFoundException);
+        await expect(service.putPoll(modifiedPoll._id, modifiedPoll)).rejects.toThrow(NotFoundException);
         const updatedPoll = await pollModel.findOne({_id: PollStub()._id}).exec();
         const pollCounts = await pollModel.countDocuments().exec();
 
@@ -80,7 +80,7 @@ describe('PollService', () => {
         let pollCounts = await pollModel.countDocuments().exec();
         expect(pollCounts).toEqual(1);
 
-        const clonedPoll = await service.clonePoll(PollStub()._id.toString());
+        const clonedPoll = await service.clonePoll(PollStub()._id);
         pollCounts = await pollModel.countDocuments().exec();
 
         expect(clonedPoll).toBeDefined();
@@ -92,7 +92,7 @@ describe('PollService', () => {
         let pollCounts = await pollModel.countDocuments().exec();
         expect(pollCounts).toEqual(2);
 
-        await service.deletePoll(PollStub()._id.toString());
+        await service.deletePoll(PollStub()._id);
         pollCounts = await pollModel.countDocuments().exec();
 
         expect(pollCounts).toEqual(1);
@@ -102,7 +102,7 @@ describe('PollService', () => {
         let pollCounts = await pollModel.countDocuments().exec();
         expect(pollCounts).toEqual(1);
 
-        await expect(service.deletePoll(PollStub()._id.toString())).rejects.toThrow(NotFoundException);
+        await expect(service.deletePoll(PollStub()._id)).rejects.toThrow(NotFoundException);
         pollCounts = await pollModel.countDocuments().exec();
 
         expect(pollCounts).toEqual(1);
@@ -112,7 +112,7 @@ describe('PollService', () => {
         const poll = await pollModel.findOne({title: 'Party (clone)'}).exec();
         let pollEventCount = await pollEventModel.countDocuments().exec();
         expect(pollEventCount).toEqual(0);
-        const event = await service.postEvents(poll._id.toString(), [PollEventStub()] as any);
+        const event = await service.postEvents(poll._id, [PollEventStub()] as any);
 
         pollEventCount = await pollEventModel.countDocuments().exec();
         expect(event[0].poll).toEqual(poll._id);
@@ -121,39 +121,39 @@ describe('PollService', () => {
 
     it('should get events from poll', async () => {
         const poll = await pollModel.findOne({title: 'Party (clone)'}).exec();
-        const events = await service.getEvents(poll._id.toString());
+        const events = await service.getEvents(poll._id);
         expect(events.length).toEqual(1);
     });
 
     it('should delete events from poll', async () => {
         const poll = await pollModel.findOne({title: 'Party (clone)'}).exec();
-        const events = await service.postEvents(poll._id.toString(), []);
+        const events = await service.postEvents(poll._id, []);
         expect(events.length).toEqual(0);
     });
 
     it('should not get participants from poll', async () => {
        const poll = await pollModel.findOne({title: 'Party (clone)'}).exec();
-       const participants = await service.getParticipants(poll._id.toString(), ParticipantStub().token);
+       const participants = await service.getParticipants(poll._id, ParticipantStub().token);
        expect(participants.length).toEqual(0);
     });
 
     it('should post participation', async () => {
       const poll = await pollModel.findOne({title: 'Party (clone)'}).exec();
-      await service.postParticipation(poll._id.toString(), ParticipantStub());
-      const participants = await service.getParticipants(poll._id.toString(), ParticipantStub().token);
+      await service.postParticipation(poll._id, ParticipantStub());
+      const participants = await service.getParticipants(poll._id, ParticipantStub().token);
       expect(participants.length).toEqual(1);
     });
 
     it('should not post participation', async () => {
       await expect(service.postParticipation(
-        new Types.ObjectId('5f1f9b9b9b9b942b9b9b9b9b').toString(),
+        new Types.ObjectId('5f1f9b9b9b9b942b9b9b9b9b'),
         ParticipantStub())
       ).rejects.toThrow(NotFoundException);
     });
 
     it('should be admin', async () => {
       const poll = await pollModel.findOne({title: 'Party (clone)'}).exec();
-      const isAdmin = await service.isAdmin(poll._id.toString(), ParticipantStub().token);
+      const isAdmin = await service.isAdmin(poll._id, ParticipantStub().token);
       expect(isAdmin).toEqual(true);
     });
 
