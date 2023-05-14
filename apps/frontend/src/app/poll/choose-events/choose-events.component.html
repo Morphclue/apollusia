@@ -79,8 +79,9 @@
               <span *ngIf="participant.createdAt" class="small text-muted" [ngbTooltip]="participant.createdAt | date:'medium'">
                 {{ participant.createdAt | date: 'shortTime' }}
               </span>
-              <i *ngIf="participant.updatedAt !== participant.createdAt" class="small text-muted bi-pencil-square" [ngbTooltip]="'edited ' + (participant.updatedAt | date:'medium')">
-              </i>
+              <span *ngIf="participant.updatedAt !== participant.createdAt" class="small text-muted" [ngbTooltip]="participant.updatedAt | date:'medium'">
+                &bull; edited
+              </span>
             </th>
             <ng-container *ngIf="participant !== editParticipant">
               <td *ngFor="let pollEvent of pollEvents; let n=index">
