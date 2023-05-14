@@ -25,7 +25,7 @@ export function checkParticipant(
     problems.push('editing is not allowed');
   }
 
-  if (!allowMaybe && participant.indeterminateParticipation.length) {
+  if (!allowMaybe && Object.values(participant.selection).includes('maybe')) {
     problems.push('maybe is not allowed');
   }
 
@@ -33,18 +33,21 @@ export function checkParticipant(
     problems.push('max participants reached');
   }
 
-  if (maxParticipantEvents && participant.participation.length > maxParticipantEvents) {
+  if (maxParticipantEvents && Object.values(participant.selection).filter(e => e === 'yes').length > maxParticipantEvents) {
     problems.push('too many events selected');
   }
 
   if (maxEventParticipants) {
-    for (const participation of participant.participation) {
+    for (const participation of Object.keys(participant.selection)) {
+      if (participant.selection[participation] !== 'yes') {
+        continue;
+      }
       let count = 0;
       for (const otherParticipant of otherParticipants) {
         if (isEdit && otherParticipant._id.toString() === participant._id.toString()) {
           continue;
         }
-        if (otherParticipant.participation.some(p => p.toString() === participation.toString())) {
+        if (otherParticipant.selection[participation] === 'yes') {
           count++;
         }
       }
