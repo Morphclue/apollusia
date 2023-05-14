@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {PollEventState} from "@apollusia/types";
 
 import {Poll} from '../../model';
-import {PollEventState} from "@apollusia/types";
 
 @Component({
   selector: 'app-check-button',

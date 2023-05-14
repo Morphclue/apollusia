@@ -7,16 +7,20 @@ import {
   PollEventDto,
   ReadParticipantDto,
   ReadPollDto,
-  ReadStatsPollDto, UpdateParticipantDto,
+  ReadStatsPollDto,
+  UpdateParticipantDto,
 } from '@apollusia/types';
+import {ObjectIdPipe} from "@mean-stream/nestx";
 import {
   Body,
-  Controller, DefaultValuePipe,
+  Controller,
+  DefaultValuePipe,
   Delete,
   Get,
   Headers,
   NotFoundException,
-  Param, ParseBoolPipe,
+  Param,
+  ParseBoolPipe,
   Post,
   Put,
   Query,
@@ -24,6 +28,7 @@ import {
 import {Types} from 'mongoose';
 
 import {PollService} from './poll.service';
+
 
 @Controller('poll')
 export class PollController {
@@ -43,12 +48,12 @@ export class PollController {
     }
 
     @Get(':id/admin/:token')
-    async isAdmin(@Param('id') id: string, @Param('token') token: string): Promise<boolean> {
+    async isAdmin(@Param('id', ObjectIdPipe) id: Types.ObjectId, @Param('token') token: string): Promise<boolean> {
         return this.pollService.isAdmin(id, token);
     }
 
     @Get(':id')
-    async getPoll(@Param('id') id: string): Promise<ReadPollDto> {
+    async getPoll(@Param('id', ObjectIdPipe) id: Types.ObjectId): Promise<ReadPollDto> {
         return this.pollService.getPoll(id);
     }
 
@@ -58,12 +63,12 @@ export class PollController {
     }
 
     @Put(':id')
-    async putPoll(@Param('id') id: string, @Body() pollDto: PollDto): Promise<ReadPollDto> {
+    async putPoll(@Param('id', ObjectIdPipe) id: Types.ObjectId, @Body() pollDto: PollDto): Promise<ReadPollDto> {
         return this.pollService.putPoll(id, pollDto);
     }
 
     @Post(':id/clone')
-    async clonePoll(@Param('id') id: string): Promise<ReadPollDto> {
+    async clonePoll(@Param('id', ObjectIdPipe) id: Types.ObjectId): Promise<ReadPollDto> {
         const poll = await this.pollService.getPoll(id);
         if (!poll) {
             throw new NotFoundException(id);
@@ -73,7 +78,7 @@ export class PollController {
     }
 
     @Delete(':id')
-    async deletePoll(@Param('id') id: string): Promise<ReadPollDto | undefined> {
+    async deletePoll(@Param('id', ObjectIdPipe) id: Types.ObjectId): Promise<ReadPollDto | undefined> {
         const poll = await this.pollService.deletePoll(id);
         if (!poll) {
             throw new NotFoundException(id);
@@ -83,7 +88,7 @@ export class PollController {
     }
 
     @Get(':id/events')
-    async getEvents(@Param('id') id: string): Promise<PollEvent[]> {
+    async getEvents(@Param('id', ObjectIdPipe) id: Types.ObjectId): Promise<PollEvent[]> {
         const poll = await this.pollService.getPoll(id);
         if (!poll) {
             throw new NotFoundException(id);
@@ -93,7 +98,7 @@ export class PollController {
     }
 
     @Post(':id/events')
-    async postEvents(@Param('id') id: string, @Body() pollEvents: PollEventDto[]): Promise<PollEvent[]> {
+    async postEvents(@Param('id', ObjectIdPipe) id: Types.ObjectId, @Body() pollEvents: PollEventDto[]): Promise<PollEvent[]> {
         const poll = await this.pollService.getPoll(id);
         if (!poll) {
             throw new NotFoundException(id);
@@ -104,14 +109,14 @@ export class PollController {
 
     @Get(':id/participate')
     async getParticipants(
-        @Param('id') id: string,
+        @Param('id', ObjectIdPipe) id: Types.ObjectId,
         @Headers('Participant-Token') token: string,
     ): Promise<ReadParticipantDto[]> {
         return this.pollService.getParticipants(id, token);
     }
 
     @Post(':id/participate')
-    async postParticipation(@Param('id') id: string, @Body() participant: CreateParticipantDto): Promise<Participant> {
+    async postParticipation(@Param('id', ObjectIdPipe) id: Types.ObjectId, @Body() participant: CreateParticipantDto): Promise<Participant> {
         return this.pollService.postParticipation(id, participant);
     }
 
@@ -122,8 +127,8 @@ export class PollController {
 
     @Put(':id/participate/:participantId')
     async editParticipation(
-        @Param('id') id: string,
-        @Param('participantId') participantId: string,
+        @Param('id', ObjectIdPipe) id: Types.ObjectId,
+        @Param('participantId', ObjectIdPipe) participantId: Types.ObjectId,
         @Headers('Participant-Token') token: string,
         @Body() participant: UpdateParticipantDto,
     ): Promise<ReadParticipantDto | null> {
@@ -132,14 +137,14 @@ export class PollController {
 
     @Delete(':id/participate/:participantId')
     async deleteParticipation(
-        @Param('id') id: string,
-        @Param('participantId') participantId: string,
+        @Param('id', ObjectIdPipe) id: Types.ObjectId,
+        @Param('participantId', ObjectIdPipe) participantId: Types.ObjectId,
     ): Promise<ReadParticipantDto | null> {
         return this.pollService.deleteParticipation(id, participantId);
     }
 
     @Post(':id/book')
-    async bookEvents(@Param('id') id: string, @Body() events: string[]): Promise<ReadPollDto> {
+    async bookEvents(@Param('id', ObjectIdPipe) id: Types.ObjectId, @Body() events: string[]): Promise<ReadPollDto> {
         const poll = await this.pollService.getPoll(id);
         if (!poll) {
             throw new NotFoundException(id);

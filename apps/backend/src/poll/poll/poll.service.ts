@@ -11,10 +11,10 @@ import {
   ReadPollDto,
   readPollExcluded,
   readPollSelect,
-  ReadStatsPollDto, UpdateParticipantDto,
+  ReadStatsPollDto,
+  UpdateParticipantDto,
 } from '@apollusia/types';
 import {
-  BadRequestException,
   Injectable,
   Logger,
   NotFoundException,
@@ -24,11 +24,11 @@ import {
 import {InjectModel} from '@nestjs/mongoose';
 import {Document, FilterQuery, Model, Types} from 'mongoose';
 
+import {checkParticipant} from "../../../../../libs/types/src/lib/logic/check-participant";
 import {environment} from '../../environment';
 import {renderDate} from '../../mail/helpers';
 import {MailService} from '../../mail/mail/mail.service';
 import {PushService} from '../../push/push.service';
-import {checkParticipant} from "../../../../../libs/types/src/lib/logic/check-participant";
 
 @Injectable()
 export class PollService implements OnModuleInit {
@@ -104,7 +104,7 @@ export class PollService implements OnModuleInit {
     })));
   }
 
-    async getPoll(id: string): Promise<ReadPollDto> {
+    async getPoll(id: Types.ObjectId): Promise<ReadPollDto> {
         return this.pollModel.findById(id).select(readPollSelect).exec();
     }
 
@@ -121,7 +121,7 @@ export class PollService implements OnModuleInit {
         return rest;
     }
 
-    async putPoll(id: string, pollDto: PollDto): Promise<ReadPollDto> {
+    async putPoll(id: Types.ObjectId, pollDto: PollDto): Promise<ReadPollDto> {
         const poll = await this.pollModel.findByIdAndUpdate(id, pollDto, {new: true}).select(readPollSelect).exec();
         if (!poll) {
             throw new NotFoundException(id);
@@ -129,9 +129,9 @@ export class PollService implements OnModuleInit {
         return poll;
     }
 
-    async clonePoll(id: string): Promise<ReadPollDto> {
+    async clonePoll(id: Types.ObjectId): Promise<ReadPollDto> {
         const poll = await this.pollModel.findById(id).exec();
-        const {_id, title, ...rest} = poll.toObject();
+        const {_id, id: _, title, ...rest} = poll.toObject();
         const pollEvents = await this.pollEventModel.find({poll: new Types.ObjectId(id)}).exec();
         const clonedPoll = await this.postPoll({
             ...rest,
@@ -146,7 +146,7 @@ export class PollService implements OnModuleInit {
         return clonedPoll;
     }
 
-    async deletePoll(id: string): Promise<ReadPollDto> {
+    async deletePoll(id: Types.ObjectId): Promise<ReadPollDto> {
         const poll = await this.pollModel.findByIdAndDelete(id).select(readPollSelect).exec();
         if (!poll) {
             throw new NotFoundException(id);
@@ -157,11 +157,11 @@ export class PollService implements OnModuleInit {
         return poll;
     }
 
-    async getEvents(id: string): Promise<PollEvent[]> {
+    async getEvents(id: Types.ObjectId): Promise<PollEvent[]> {
         return await this.pollEventModel.find({poll: new Types.ObjectId(id)}).exec();
     }
 
-    async postEvents(id: string, pollEvents: PollEventDto[]): Promise<PollEvent[]> {
+    async postEvents(id: Types.ObjectId, pollEvents: PollEventDto[]): Promise<PollEvent[]> {
         const oldEvents = await this.pollEventModel.find({poll: new Types.ObjectId(id)}).exec();
         const newEvents = pollEvents.filter(event => !oldEvents.some(oldEvent => oldEvent._id.toString() === event._id));
         await this.pollEventModel.create(newEvents.map(event => ({...event, poll: new Types.ObjectId(id)})));
@@ -185,7 +185,7 @@ export class PollService implements OnModuleInit {
         return await this.pollEventModel.find({poll: new Types.ObjectId(id)}).exec();
     }
 
-    async getParticipants(id: string, token: string): Promise<ReadParticipantDto[]> {
+    async getParticipants(id: Types.ObjectId, token: string): Promise<ReadParticipantDto[]> {
         const participants = await this.participantModel.find({
             poll: new Types.ObjectId(id),
             token: {$ne: token},
@@ -201,7 +201,7 @@ export class PollService implements OnModuleInit {
       return this.participantModel.find({poll}).exec();
     }
 
-    async postParticipation(id: string, dto: CreateParticipantDto): Promise<Participant> {
+    async postParticipation(id: Types.ObjectId, dto: CreateParticipantDto): Promise<Participant> {
         const poll = await this.pollModel.findById(id).exec();
         if (!poll) {
             throw new NotFoundException(id);
@@ -252,7 +252,7 @@ export class PollService implements OnModuleInit {
         await this.pushService.send(poll.adminPush, 'Updates in Poll | Apollusia', `${participant.name} participated in your poll ${poll.title}`, `${environment.origin}/poll/${poll._id}/participate`);
     }
 
-    async editParticipation(id: string, participantId: string, token: string, participant: UpdateParticipantDto): Promise<ReadParticipantDto | null> {
+    async editParticipation(id: Types.ObjectId, participantId: Types.ObjectId, token: string, participant: UpdateParticipantDto): Promise<ReadParticipantDto | null> {
       const [poll, otherParticipants] = await Promise.all([
         this.getPoll(id),
         this.findAllParticipants(new Types.ObjectId(id)),
@@ -267,11 +267,11 @@ export class PollService implements OnModuleInit {
       }, participant, {new: true}).exec();
     }
 
-    async deleteParticipation(id: string, participantId: string): Promise<ReadParticipantDto | null> {
+    async deleteParticipation(id: Types.ObjectId, participantId: Types.ObjectId): Promise<ReadParticipantDto | null> {
         return this.participantModel.findByIdAndDelete(participantId).select(readParticipantSelect).exec();
     }
 
-    async bookEvents(id: string, events: Types.ObjectId[]): Promise<ReadPollDto> {
+    async bookEvents(id: Types.ObjectId, events: Types.ObjectId[]): Promise<ReadPollDto> {
         const poll = await this.pollModel.findByIdAndUpdate(id, {
             bookedEvents: events,
         }, {new: true})
@@ -300,9 +300,9 @@ export class PollService implements OnModuleInit {
         return `${renderDate(event.start, locale, timeZone)} - ${renderDate(event.end, locale, timeZone)}`;
     }
 
-    private async removeParticipations(id: string, events: PollEventDto[]) {
+    private async removeParticipations(poll: Types.ObjectId, events: PollEventDto[]) {
       const filter = {
-        poll: new Types.ObjectId(id),
+        poll,
         $or: events.map(e => ({['selection.' + e._id]: {$exists: true}})),
       };
       await this.participantModel.updateMany(filter, {
@@ -322,7 +322,7 @@ export class PollService implements OnModuleInit {
         }).exec();
     }
 
-    async isAdmin(id: string, token: string) {
+    async isAdmin(id: Types.ObjectId, token: string) {
         return this.pollModel.findById(id).exec().then(poll => poll.adminToken === token);
     }
 }

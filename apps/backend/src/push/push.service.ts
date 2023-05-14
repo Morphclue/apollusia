@@ -33,6 +33,6 @@ export class PushService {
                 },
             },
         };
-        // await webpush.sendNotification(sub, JSON.stringify(payload));
+        await webpush.sendNotification(sub, JSON.stringify(payload));
     }
 }

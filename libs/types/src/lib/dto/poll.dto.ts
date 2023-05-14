@@ -1,7 +1,7 @@
 import {ApiProperty, OmitType} from '@nestjs/swagger';
 import {Poll} from '../schema';
 
-export class PollDto extends OmitType(Poll, ['_id'] as const) {
+export class PollDto extends OmitType(Poll, ['id', '_id'] as const) {
 }
 
 export const readPollExcluded = ['adminToken', 'adminMail', 'adminPush'] as const;

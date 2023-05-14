@@ -1,4 +1,4 @@
-import {RefArray} from '@mean-stream/nestx';
+import {objectIdToBase64, RefArray} from '@mean-stream/nestx';
 import {Prop, Schema, SchemaFactory} from '@nestjs/mongoose';
 import {ApiProperty, ApiPropertyOptional} from '@nestjs/swagger';
 import {Type} from 'class-transformer';
@@ -6,10 +6,25 @@ import {IsNotEmpty, IsObject, IsOptional, IsString, MinLength, ValidateNested} f
 import {Types} from 'mongoose';
 import {Settings} from './settings';
 
-@Schema({timestamps: true})
+@Schema({
+  timestamps: true,
+  id: false,
+  toJSON: {virtuals: true},
+  toObject: {virtuals: true},
+  virtuals: {
+    id: {
+      get: function (this: Poll) {
+        return objectIdToBase64(this._id);
+      },
+    },
+  },
+})
 export class Poll {
     @ApiProperty()
     _id: Types.ObjectId;
+
+    @ApiProperty()
+    id: string;
 
     @Prop({required: true})
     @ApiProperty()
