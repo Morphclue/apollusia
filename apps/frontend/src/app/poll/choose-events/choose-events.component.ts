@@ -69,6 +69,9 @@ export class ChooseEventsComponent implements OnInit {
         this.pollService.getEvents(id).pipe(tap(events => {
           this.pollEvents = events.sort((a, b) => new Date(a.start).getTime() - new Date(b.start).getTime());
           this.bookedEvents = new Array(this.pollEvents.length).fill(false);
+          for (const event of events) {
+            this.newParticipant.selection[event._id] ||= 'no';
+          }
         })),
         this.pollService.getParticipants(id).pipe(tap(participants => this.participants = participants)),
       ])),
