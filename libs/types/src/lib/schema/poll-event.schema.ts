@@ -31,4 +31,6 @@ export class PollEvent {
     note: string;
 }
 
-export const PollEventSchema = SchemaFactory.createForClass(PollEvent);
+export const PollEventSchema = SchemaFactory.createForClass(PollEvent)
+  .index({poll: 1})
+;

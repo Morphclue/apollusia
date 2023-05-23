@@ -41,4 +41,6 @@ export class Participant {
     mail?: string;
 }
 
-export const ParticipantSchema = SchemaFactory.createForClass(Participant);
+export const ParticipantSchema = SchemaFactory.createForClass(Participant)
+  .index({poll: 1})
+;
