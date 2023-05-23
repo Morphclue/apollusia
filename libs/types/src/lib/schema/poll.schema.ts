@@ -51,7 +51,7 @@ export class Poll {
     @IsString() // TODO IsTimeZone will be added to class-validator soon
     timeZone?: string;
 
-    @Prop({required: true})
+    @Prop({required: true, index: 1})
     @ApiProperty()
     @IsNotEmpty()
     @IsString()

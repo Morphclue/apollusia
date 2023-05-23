@@ -28,7 +28,7 @@ export class Participant {
     @RefArray(PollEvent.name)
     indeterminateParticipation: Types.ObjectId[];
 
-    @Prop({required: true})
+    @Prop({required: true, index: 1})
     @ApiProperty()
     @IsString()
     @IsNotEmpty()
