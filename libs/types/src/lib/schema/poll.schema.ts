@@ -4,10 +4,11 @@ import {ApiProperty, ApiPropertyOptional} from '@nestjs/swagger';
 import {Type} from 'class-transformer';
 import {IsNotEmpty, IsObject, IsOptional, IsString, MinLength, ValidateNested} from 'class-validator';
 import {Types} from 'mongoose';
-import {Settings} from './settings';
+import {Settings, SettingsSchema} from './settings';
 
 @Schema({
   timestamps: true,
+  minimize: false, // for settings
   id: false,
   toJSON: {virtuals: true},
   toObject: {virtuals: true},
@@ -69,7 +70,7 @@ export class Poll {
     @IsObject()
     adminPush?: PushSubscriptionJSON;
 
-    @Prop()
+    @Prop({type: SettingsSchema, default: {}})
     @ApiProperty()
     @Type(() => Settings)
     @ValidateNested()
