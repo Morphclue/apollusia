@@ -14,7 +14,7 @@ export class PollEvent {
     @Ref(Poll.name)
     poll: Types.ObjectId;
 
-    @Prop({required: true})
+    @Prop({required: true, index: 1})
     @ApiProperty()
     @IsString()
     @IsNotEmpty()
