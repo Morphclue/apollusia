@@ -12,7 +12,7 @@ export class Participant {
     @ApiProperty()
     _id: Types.ObjectId;
 
-    @Ref(Poll.name)
+    @Ref(Poll.name, {index: 1})
     poll: Types.ObjectId;
 
     @Prop({required: true})
@@ -41,6 +41,4 @@ export class Participant {
     mail?: string;
 }
 
-export const ParticipantSchema = SchemaFactory.createForClass(Participant)
-  .index({poll: 1})
-;
+export const ParticipantSchema = SchemaFactory.createForClass(Participant);

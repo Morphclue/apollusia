@@ -11,7 +11,7 @@ export class PollEvent {
     @ApiProperty()
     _id: Types.ObjectId;
 
-    @Ref(Poll.name)
+    @Ref(Poll.name, {index: 1})
     poll: Types.ObjectId;
 
     @Prop({required: true, index: 1})
@@ -31,6 +31,4 @@ export class PollEvent {
     note: string;
 }
 
-export const PollEventSchema = SchemaFactory.createForClass(PollEvent)
-  .index({poll: 1})
-;
+export const PollEventSchema = SchemaFactory.createForClass(PollEvent);
