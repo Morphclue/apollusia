@@ -125,7 +125,7 @@ export class PollService {
     }
 
     async getEvents(id: Types.ObjectId): Promise<PollEvent[]> {
-        return await this.pollEventModel.find({poll: new Types.ObjectId(id)}).exec();
+        return await this.pollEventModel.find({poll: new Types.ObjectId(id)}).sort('+start').exec();
     }
 
     async postEvents(id: Types.ObjectId, pollEvents: PollEventDto[]): Promise<PollEvent[]> {

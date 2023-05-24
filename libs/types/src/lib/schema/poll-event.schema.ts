@@ -11,10 +11,10 @@ export class PollEvent {
     @ApiProperty()
     _id: Types.ObjectId;
 
-    @Ref(Poll.name)
+    @Ref(Poll.name, {index: 1})
     poll: Types.ObjectId;
 
-    @Prop({required: true})
+    @Prop({required: true, index: 1})
     @ApiProperty()
     @IsString()
     @IsNotEmpty()
