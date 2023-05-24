@@ -120,6 +120,7 @@ export class ChooseEventsComponent implements OnInit {
     }).subscribe(participant => {
       this.participants.unshift(participant);
       this.updateHelpers();
+      this.clearSelection();
     });
   }
 
@@ -204,7 +205,6 @@ export class ChooseEventsComponent implements OnInit {
   // Helpers
 
   private updateHelpers() {
-
     this.bestOption = Math.max(...this.pollEvents.map(event => this.countParticipants(event))) || 1;
 
     const deadline = this.poll?.settings.deadline;
@@ -219,6 +219,11 @@ export class ChooseEventsComponent implements OnInit {
       this.closedReason = undefined;
       this.showResults = !this.poll?.settings?.blindParticipation || this.isAdmin || this.userVoted();
     }
+  }
+
+  private clearSelection(){
+    this.name = '';
+    this.checks = new Array(this.checks.length).fill(CheckboxState.FALSE);
   }
 
   private filterEvents(checks: CheckboxState[], state: CheckboxState) {
