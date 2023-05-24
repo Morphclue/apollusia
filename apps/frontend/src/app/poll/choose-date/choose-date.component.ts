@@ -117,8 +117,8 @@ export class ChooseDateComponent implements AfterViewInit {
   createEvents() {
     const events: CreatePollEventDto[] = this.chooseDateService.events.map((event: CalendarEvent) => ({
       _id: event.id?.toString(),
-      start: event.start.toString(),
-      end: event.end!.toString(),
+      start: event.start.toISOString(),
+      end: event.end!.toISOString(),
       note: event.meta.note,
     }));
     this.http.post(`${environment.backendURL}/poll/${this.id}/events`, events).subscribe(() => {
