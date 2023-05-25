@@ -151,7 +151,7 @@ export class PollService implements OnModuleInit {
     }
 
     async getEvents(id: Types.ObjectId): Promise<PollEvent[]> {
-        return await this.pollEventModel.find({poll: new Types.ObjectId(id)}).exec();
+        return await this.pollEventModel.find({poll: new Types.ObjectId(id)}).sort('+start').exec();
     }
 
     async postEvents(poll: Types.ObjectId, pollEvents: PollEventDto[]): Promise<PollEvent[]> {

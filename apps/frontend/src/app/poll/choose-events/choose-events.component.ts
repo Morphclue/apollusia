@@ -68,7 +68,7 @@ export class ChooseEventsComponent implements OnInit {
           this.meta.updateTag({property: 'og:title', content: poll.title});
         })),
         this.pollService.getEvents(id).pipe(tap(events => {
-          this.pollEvents = events.sort((a, b) => new Date(a.start).getTime() - new Date(b.start).getTime());
+          this.pollEvents = events;
           this.bookedEvents = new Array(this.pollEvents.length).fill(false);
           for (const event of events) {
             this.newParticipant.selection[event._id] ||= 'no';

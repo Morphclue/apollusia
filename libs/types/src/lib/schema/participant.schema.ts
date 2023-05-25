@@ -23,7 +23,7 @@ export class Participant {
     @ApiPropertyOptional()
     updatedAt?: Date;
 
-    @Ref(Poll.name)
+    @Ref(Poll.name, {index: 1})
     poll: Types.ObjectId;
 
     @Prop({required: true})
@@ -46,7 +46,7 @@ export class Participant {
     @Prop({type: [Types.ObjectId], default: undefined})
     indeterminateParticipation?: Types.ObjectId[];
 
-    @Prop({required: true})
+    @Prop({required: true, index: 1})
     @ApiProperty()
     @IsString()
     @IsNotEmpty()
