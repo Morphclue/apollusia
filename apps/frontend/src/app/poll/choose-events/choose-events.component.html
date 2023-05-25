@@ -51,23 +51,22 @@
                    type="text"
                    id="name"
                    placeholder="Your name"
-                   [(ngModel)]="name">
+                   [(ngModel)]="newParticipant.name">
             <input *ngIf="poll?.settings?.anonymous"
                    class="form-control"
                    type="text"
                    value="Anonymous"
                    [disabled]="true">
           </th>
-          <td *ngFor="let event of pollEvents; let n=index">
+          <td *ngFor="let event of pollEvents">
             <app-check-button
               [poll]="poll"
-              [check]="checks[n]"
+              [(check)]="newParticipant.selection[event._id]"
               [isFull]="maxParticipantsReached(event)"
-              (checkChanged)="checks[n] = $event"
             ></app-check-button>
           </td>
           <th class="border-0 text-start" scope="col">
-            <button class="btn btn-primary btn-sm" [disabled]="!(name || poll?.settings?.anonymous) || !canSubmitChecks(checks)" (click)="submit()">
+            <button class="btn btn-primary btn-sm" [disabled]="!(newParticipant.name || poll?.settings?.anonymous) || !canSubmitChecks(newParticipant)" (click)="submit()">
               Submit
             </button>
           </th>
@@ -85,31 +84,25 @@
             </th>
             <ng-container *ngIf="participant !== editParticipant">
               <td *ngFor="let pollEvent of pollEvents; let n=index">
-                <h5 *ngIf="(participant.participation | some: pollEvent._id ) && participant !== editParticipant"
-                    class="text-green bi-check-lg">
-                </h5>
-                <h5 *ngIf="!(participant.participation | some: pollEvent._id )
-                && !(participant.indeterminateParticipation | some: pollEvent._id ) && participant !== editParticipant"
-                    class="text-red bi-x-lg">
-                </h5>
-                <h5
-                  *ngIf="(participant.indeterminateParticipation | some: pollEvent._id ) && participant !== editParticipant"
-                  class="text-orange bi-question">
-                </h5>
+                <ng-container [ngSwitch]="participant.selection[pollEvent._id]">
+                  <h5 *ngSwitchCase="'yes'" class="p-yes bi-check-lg" ngbTooltip="Yes"></h5>
+                  <h5 *ngSwitchCase="'no'" class="p-no bi-x-lg" ngbTooltip="No"></h5>
+                  <h5 *ngSwitchCase="'maybe'" class="p-maybe bi-question" ngbTooltip="Maybe"></h5>
+                  <h5 *ngSwitchDefault class="p-unset bi-question" ngbTooltip="Unspecified"></h5>
+                </ng-container>
               </td>
             </ng-container>
-            <ng-container *ngIf="participant === editParticipant">
-              <td *ngFor="let event of pollEvents; let n=index">
+            <ng-container *ngIf="participant === editParticipant && editDto">
+              <td *ngFor="let event of pollEvents">
                 <app-check-button
                   [poll]="poll"
-                  [check]="editChecks[n]"
-                  (checkChanged)="editChecks[n] = $event">
-                </app-check-button>
+                  [(check)]="editDto.selection[event._id]"
+                ></app-check-button>
               </td>
             </ng-container>
             <td *ngIf="participant === editParticipant" class="border-0 text-start">
               <button class="btn btn-primary btn-sm ms-1 bi-x" type="button" (click)="cancelEdit()"></button>
-              <button class="btn btn-secondary btn-sm ms-1 bi-check" type="button" [disabled]="!canSubmitChecks(editChecks)" (click)="confirmEdit()"></button>
+              <button class="btn btn-secondary btn-sm ms-1 bi-check" type="button" [disabled]="!canSubmitChecks(editParticipant)" (click)="confirmEdit()"></button>
             </td>
             <td *ngIf="!editParticipant" class="border-0 text-start">
               <button
@@ -132,7 +125,7 @@
           <tr>
             <th>Sum</th>
             <td *ngFor="let pollEvent of pollEvents">
-              <h5 *ngIf="bestOption === countParticipants(pollEvent)" class="bi-award text-purple">
+              <h5 *ngIf="bestOption === countParticipants(pollEvent)" class="bi-award text-primary">
                 {{ countParticipants(pollEvent) }}
               </h5>
               <div *ngIf="bestOption !== countParticipants(pollEvent)">

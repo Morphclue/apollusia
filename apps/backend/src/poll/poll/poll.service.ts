@@ -1,7 +1,7 @@
 import {
   MailDto,
   Participant,
-  ParticipantDto,
+  CreateParticipantDto,
   Poll,
   PollDto,
   PollEvent,
@@ -12,8 +12,9 @@ import {
   readPollExcluded,
   readPollSelect,
   ReadStatsPollDto,
+  UpdateParticipantDto,
 } from '@apollusia/types';
-import {Injectable, NotFoundException} from '@nestjs/common';
+import {Injectable, Logger, NotFoundException, OnModuleInit} from '@nestjs/common';
 import {InjectModel} from '@nestjs/mongoose';
 import {Document, FilterQuery, Model, Types} from 'mongoose';
 
@@ -23,7 +24,9 @@ import {MailService} from '../../mail/mail/mail.service';
 import {PushService} from '../../push/push.service';
 
 @Injectable()
-export class PollService {
+export class PollService implements OnModuleInit {
+  private logger = new Logger(PollService.name);
+
     constructor(
         @InjectModel(Poll.name) private pollModel: Model<Poll>,
         @InjectModel(PollEvent.name) private pollEventModel: Model<PollEvent>,
@@ -32,6 +35,29 @@ export class PollService {
         private pushService: PushService,
     ) {
     }
+
+  async onModuleInit() {
+    const participants = await this.participantModel.find({
+      $or: [
+        {participation: {$exists: true}},
+        {indeterminateParticipation: {$exists: true}},
+      ]
+    }).exec();
+    for (const participant of participants) {
+      participant.selection ||= {};
+      for (const participation of (participant as any).participation || []) {
+        participant.selection[participation.toString()] = 'yes';
+      }
+      for (const participation of (participant as any).indeterminateParticipation || []) {
+        participant.selection[participation.toString()] = 'maybe';
+      }
+      participant.markModified('selection');
+      participant.set('participation', undefined);
+      participant.set('indeterminateParticipation', undefined);
+    }
+    await this.participantModel.bulkSave(participants, {timestamps: false});
+    participants.length && this.logger.log(`Migrated ${participants.length} participants to the new selection format.`);
+  }
 
   private activeFilter(active: boolean | undefined): FilterQuery<Poll> {
     if (active === undefined) {
@@ -128,10 +154,10 @@ export class PollService {
         return await this.pollEventModel.find({poll: new Types.ObjectId(id)}).sort('+start').exec();
     }
 
-    async postEvents(id: Types.ObjectId, pollEvents: PollEventDto[]): Promise<PollEvent[]> {
-        const oldEvents = await this.pollEventModel.find({poll: new Types.ObjectId(id)}).exec();
+    async postEvents(poll: Types.ObjectId, pollEvents: PollEventDto[]): Promise<PollEvent[]> {
+        const oldEvents = await this.pollEventModel.find({poll}).exec();
         const newEvents = pollEvents.filter(event => !oldEvents.some(oldEvent => oldEvent._id.toString() === event._id));
-        await this.pollEventModel.create(newEvents.map(event => ({...event, poll: new Types.ObjectId(id)})));
+        await this.pollEventModel.create(newEvents.map(event => ({...event, poll})));
 
         const updatedEvents = pollEvents.filter(event => {
             const oldEvent = oldEvents.find(e => e._id.toString() === event._id);
@@ -148,8 +174,8 @@ export class PollService {
 
         const deletedEvents = oldEvents.filter(event => !pollEvents.some(e => e._id === event._id.toString()));
         await this.pollEventModel.deleteMany({_id: {$in: deletedEvents.map(event => event._id)}}).exec();
-        await this.removeParticipations(id, updatedEvents);
-        return await this.pollEventModel.find({poll: new Types.ObjectId(id)}).exec();
+        await this.removeParticipations(poll, updatedEvents);
+        return await this.pollEventModel.find({poll}).exec();
     }
 
     async getParticipants(id: Types.ObjectId, token: string): Promise<ReadParticipantDto[]> {
@@ -164,7 +190,7 @@ export class PollService {
         return [...participants, ...currentParticipant];
     }
 
-    async postParticipation(id: Types.ObjectId, dto: ParticipantDto): Promise<Participant> {
+    async postParticipation(id: Types.ObjectId, dto: CreateParticipantDto): Promise<Participant> {
         const poll = await this.pollModel.findById(id).exec();
         if (!poll) {
             throw new NotFoundException(id);
@@ -189,11 +215,10 @@ export class PollService {
 
         for (let i = 0; i < events.length; i++) {
             const event = events[i];
-            const yes = participant.participation.some(e => e._id.toString() === event._id.toString());
-            const maybe = participant.indeterminateParticipation.some(e => e._id.toString() === event._id.toString());
+            const state = participant.selection[event._id.toString()];
             participation[i] = {
-                class: yes ? 'p-yes' : maybe ? 'p-maybe' : 'p-no',
-                icon: yes ? '✓' : maybe ? '?' : 'X',
+                class: 'p-' + (state || 'no'),
+                icon: state === 'yes' ? '✓' : state === 'maybe' ? '?' : 'X',
             };
         }
 
@@ -209,7 +234,7 @@ export class PollService {
         await this.pushService.send(poll.adminPush, 'Updates in Poll | Apollusia', `${participant.name} participated in your poll ${poll.title}`, `${environment.origin}/poll/${poll._id}/participate`);
     }
 
-    async editParticipation(id: Types.ObjectId, participantId: Types.ObjectId, token: string, participant: ParticipantDto): Promise<ReadParticipantDto | null> {
+    async editParticipation(id: Types.ObjectId, participantId: Types.ObjectId, token: string, participant: UpdateParticipantDto): Promise<ReadParticipantDto | null> {
         return await this.participantModel.findOneAndUpdate({
             _id: participantId,
             token,
@@ -227,11 +252,11 @@ export class PollService {
             .populate<{ bookedEvents: PollEvent[] }>('bookedEvents')
             .select(readPollSelect)
             .exec();
-        for await (const participant of this.participantModel.find({poll: new Types.ObjectId(id)}).populate(['participation', 'indeterminateParticipation'])) {
-            const participations = [...participant.participation, ...participant.indeterminateParticipation];
+        for await (const participant of this.participantModel.find({poll: new Types.ObjectId(id)})) {
             const appointments = poll.bookedEvents.map(event => {
                 let eventLine = this.renderEvent(event, undefined, poll.timeZone);
-                if (participations.some(p => p._id.toString() === event._id.toString())) {
+                const selection = participant.selection[event._id.toString()];
+                if (selection === 'yes' || selection === 'maybe') {
                     eventLine += ' *';
                 }
                 return eventLine;
@@ -249,28 +274,17 @@ export class PollService {
         return `${renderDate(event.start, locale, timeZone)} - ${renderDate(event.end, locale, timeZone)}`;
     }
 
-    private async removeParticipations(id: Types.ObjectId, events: PollEventDto[]) {
-        const changedParticipants = await this.participantModel.find({
-            poll: new Types.ObjectId(id),
-            participation: {$in: events.map(event => event._id)},
-        }).exec();
-
-        for (const participant of changedParticipants) {
-            participant.participation = participant.participation.filter((event: any) =>
-                !events.some(e => e._id.toString() === event._id.toString()));
-            await this.participantModel.findByIdAndUpdate(participant._id, participant).exec();
-        }
-
-        const indeterminateParticipants = await this.participantModel.find({
-            poll: new Types.ObjectId(id),
-            indeterminateParticipation: {$in: events.map(event => event._id)},
-        });
-
-        for (const participant of indeterminateParticipants) {
-            participant.indeterminateParticipation = participant.indeterminateParticipation.filter((event: any) =>
-                !events.some(e => e._id.toString() === event._id.toString()));
-            await this.participantModel.findByIdAndUpdate(participant._id, participant).exec();
-        }
+    private async removeParticipations(poll: Types.ObjectId, events: PollEventDto[]) {
+      if (!events.length) {
+        return;
+      }
+      const filter = {
+        poll,
+        $or: events.map(e => ({['selection.' + e._id]: {$exists: true}})),
+      };
+      await this.participantModel.updateMany(filter, {
+        $unset: events.map(e => 'selection.' + e._id),
+      }).exec();
     }
 
     async setMail(mailDto: MailDto) {

@@ -1,8 +1,11 @@
-import {OmitType} from '@nestjs/swagger';
+import {OmitType, PickType} from '@nestjs/swagger';
 
 import {Participant} from '../schema';
 
-export class ParticipantDto extends OmitType(Participant, ['_id', 'poll'] as const) {
+export class CreateParticipantDto extends OmitType(Participant, ['_id', 'poll'] as const) {
+}
+
+export class UpdateParticipantDto extends PickType(Participant, ['selection'] as const) {
 }
 
 export const readParticipantExcluded = ['token', 'mail'] as const;

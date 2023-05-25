@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {PollEventState} from "@apollusia/types";
 
 import {Poll} from '../../model';
-import {CheckboxState} from '../../model/checkbox-state';
 
 @Component({
   selector: 'app-check-button',
@@ -11,25 +11,25 @@ import {CheckboxState} from '../../model/checkbox-state';
 export class CheckButtonComponent {
   @Input() poll?: Poll;
   @Input() isFull = false;
-  @Input() check!: CheckboxState;
-  @Output() checkChanged = new EventEmitter<CheckboxState>();
+  @Input() check?: PollEventState;
+  @Output() checkChange = new EventEmitter<PollEventState>();
 
   toggle(): void {
-    this.check = this.nextState(this.check);
-    this.checkChanged.next(this.check);
+    this.check = this.nextState(this.check || 'no');
+    this.checkChange.next(this.check);
   }
 
-  private nextState(state: CheckboxState): CheckboxState {
+  private nextState(state: PollEventState): PollEventState {
     switch (state) {
-      case CheckboxState.INDETERMINATE:
-        return CheckboxState.FALSE;
-      case CheckboxState.FALSE:
-        return CheckboxState.TRUE;
-      case CheckboxState.TRUE:
+      case 'maybe':
+        return 'no';
+      case 'no':
+        return 'yes';
+      case 'yes':
         if (this.poll?.settings.allowMaybe) {
-          return CheckboxState.INDETERMINATE;
+          return 'maybe';
         }
-        return CheckboxState.FALSE;
+        return 'no';
     }
   }
 }

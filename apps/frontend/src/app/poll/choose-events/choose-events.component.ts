@@ -6,8 +6,7 @@ import {forkJoin} from 'rxjs';
 import {map, switchMap, tap} from 'rxjs/operators';
 
 import {MailService, TokenService} from '../../core/services';
-import {Participant, Poll, PollEvent} from '../../model';
-import {CheckboxState} from '../../model/checkbox-state';
+import {CreateParticipantDto, Participant, Poll, PollEvent, UpdateParticipantDto} from '../../model';
 import {PollService} from '../services/poll.service';
 
 @Component({
@@ -23,16 +22,19 @@ export class ChooseEventsComponent implements OnInit {
   isAdmin: boolean = false;
 
   // aux
-  checks: CheckboxState[] = [];
-  editChecks: CheckboxState[] = [];
   bookedEvents: boolean[] = [];
   bestOption: number = 1;
   closedReason?: string;
   showResults = false;
 
   // view state
-  name: string = '';
+  newParticipant: CreateParticipantDto = {
+    name: '',
+    selection: {},
+    token: '',
+  };
   editParticipant?: Participant;
+  editDto?: UpdateParticipantDto;
 
   // helpers
   id: string = '';
@@ -52,6 +54,7 @@ export class ChooseEventsComponent implements OnInit {
   ) {
     this.mail = mailService.getMail()
     this.token = tokenService.getToken();
+    this.newParticipant.token = this.token;
   }
 
   ngOnInit(): void {
@@ -66,9 +69,10 @@ export class ChooseEventsComponent implements OnInit {
         })),
         this.pollService.getEvents(id).pipe(tap(events => {
           this.pollEvents = events;
-          this.checks = new Array(this.pollEvents.length).fill(CheckboxState.FALSE);
-          this.editChecks = new Array(this.pollEvents.length).fill(CheckboxState.FALSE);
           this.bookedEvents = new Array(this.pollEvents.length).fill(false);
+          for (const event of events) {
+            this.newParticipant.selection[event._id] ||= 'no';
+          }
         })),
         this.pollService.getParticipants(id).pipe(tap(participants => this.participants = participants)),
       ])),
@@ -111,13 +115,7 @@ export class ChooseEventsComponent implements OnInit {
   }
 
   submit() {
-    this.pollService.participate(this.id, {
-      name: this.name || 'Anonymous',
-      participation: this.filterEvents(this.checks, CheckboxState.TRUE),
-      indeterminateParticipation: this.filterEvents(this.checks, CheckboxState.INDETERMINATE),
-      token: this.token,
-      mail: this.mail,
-    }).subscribe(participant => {
+    this.pollService.participate(this.id, this.newParticipant).subscribe(participant => {
       this.participants.unshift(participant);
       this.updateHelpers();
       this.clearSelection();
@@ -126,29 +124,21 @@ export class ChooseEventsComponent implements OnInit {
 
   setEditParticipant(participant: Participant) {
     this.editParticipant = participant;
-    this.editChecks = new Array(this.checks.length).fill(CheckboxState.FALSE);
-    participant.participation.forEach(event => {
-      this.editChecks[this.pollEvents.findIndex(e => e._id === event)] = CheckboxState.TRUE;
-    });
-    participant.indeterminateParticipation.forEach(event => {
-      this.editChecks[this.pollEvents.findIndex(e => e._id === event)] = CheckboxState.INDETERMINATE;
-    });
+    this.editDto = {
+      selection: {...participant.selection},
+    };
   }
 
   cancelEdit() {
     this.editParticipant = undefined;
-    this.editChecks = new Array(this.checks.length).fill(CheckboxState.FALSE);
   }
 
   confirmEdit() {
-    if (!this.editParticipant) {
+    if (!this.editParticipant || !this.editDto) {
       return;
     }
 
-    this.editParticipant.participation = this.filterEvents(this.editChecks, CheckboxState.TRUE);
-    this.editParticipant.indeterminateParticipation = this.filterEvents(this.editChecks, CheckboxState.INDETERMINATE);
-
-    this.pollService.editParticipant(this.id, this.editParticipant).subscribe(participant => {
+    this.pollService.editParticipant(this.id, this.editParticipant._id, this.editDto).subscribe(participant => {
       this.cancelEdit();
       this.participants = this.participants.map(p => p._id === participant._id ? participant : p);
       this.updateHelpers();
@@ -172,10 +162,10 @@ export class ChooseEventsComponent implements OnInit {
   // View Helpers
   // TODO called from template, bad practice
 
-  canSubmitChecks(checks: CheckboxState[]) {
+  canSubmitChecks(participant: Participant | CreateParticipantDto) {
     const maxParticipantEvents = this.poll?.settings?.maxParticipantEvents;
     if (maxParticipantEvents) {
-      const selected = checks.filter(c => c === CheckboxState.TRUE).length;
+      const selected = Object.values(participant.selection).filter(p => p === 'yes').length;
       if (selected > maxParticipantEvents) {
         return false;
       }
@@ -185,8 +175,8 @@ export class ChooseEventsComponent implements OnInit {
   }
 
   countParticipants(pollEvent: PollEvent) {
-    const participants = this.participants.filter(p => p.participation.includes(pollEvent._id));
-    const indeterminateParticipants = this.participants.filter(p => p.indeterminateParticipation.includes(pollEvent._id));
+    const participants = this.participants.filter(p => p.selection[pollEvent._id] === 'yes');
+    const indeterminateParticipants = this.participants.filter(p => p.selection[pollEvent._id] === 'maybe');
     return participants.length + indeterminateParticipants.length;
   }
 
@@ -222,11 +212,9 @@ export class ChooseEventsComponent implements OnInit {
   }
 
   private clearSelection(){
-    this.name = '';
-    this.checks = new Array(this.checks.length).fill(CheckboxState.FALSE);
-  }
-
-  private filterEvents(checks: CheckboxState[], state: CheckboxState) {
-    return this.pollEvents.filter((_, i) => checks[i] === state).map(e => e._id);
+    this.newParticipant.name = '';
+    for (const event of this.pollEvents) {
+      this.newParticipant.selection[event._id] = 'no';
+    }
   }
 }

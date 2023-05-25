@@ -47,6 +47,35 @@ $danger: $mauve;
   color: white;
 }
 
+.p-yes {
+  color: #28a745;
+  background-color: #d4edda;
+
+  & > .form-check-input:checked {
+    background-color: #28a745;
+    border-color: #28a745;
+  }
+}
+
+.p-no {
+  color: #dc3545;
+  background-color: #f8d7da;
+}
+
+.p-maybe {
+  color: #ffc107;
+  background-color: #fff3cd;
+
+  & > .form-check-input:indeterminate {
+    background-color: #ffc107;
+    border-color: #ffc107;
+  }
+}
+
+.p-unset {
+  color: gray;
+  background-color: lightgray;
+}
 
 /* Ngb-Datepicker */
 .ngb-dp-day {
