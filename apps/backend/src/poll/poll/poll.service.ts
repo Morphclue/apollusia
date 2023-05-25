@@ -56,7 +56,7 @@ export class PollService implements OnModuleInit {
       participant.set('indeterminateParticipation', undefined);
     }
     await this.participantModel.bulkSave(participants, {timestamps: false});
-    this.logger.log(`Migrated ${participants.length} participants to the new selection format.`);
+    participants.length && this.logger.log(`Migrated ${participants.length} participants to the new selection format.`);
   }
 
   private activeFilter(active: boolean | undefined): FilterQuery<Poll> {
