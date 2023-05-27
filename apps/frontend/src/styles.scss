@@ -119,6 +119,10 @@ $danger: $mauve;
   margin: 0;
 }
 
+.markdown p {
+  margin: 0 0;
+}
+
 .bi-zoom::before {
   // the 'bi-' prefix gives us all the styling from bootstrap-icons.
   // this class needs to be used with another icon like .bi-camera-video,
