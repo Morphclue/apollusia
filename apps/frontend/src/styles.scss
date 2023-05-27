@@ -113,6 +113,12 @@ $danger: $mauve;
   max-width: 100%;
 }
 
+.markdown blockquote {
+  border-left: 4px solid $info;
+  padding: 0 1rem;
+  margin: 0;
+}
+
 .bi-zoom::before {
   // the 'bi-' prefix gives us all the styling from bootstrap-icons.
   // this class needs to be used with another icon like .bi-camera-video,
