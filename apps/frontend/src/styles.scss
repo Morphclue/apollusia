@@ -109,18 +109,19 @@ $danger: $mauve;
   color: white;
 }
 
-.markdown img {
-  max-width: 100%;
-}
+.markdown {
+  img {
+    max-width: 100%;
+  }
 
-.markdown blockquote {
-  border-left: 4px solid $info;
-  padding: 0 1rem;
-  margin: 0;
-}
+  blockquote {
+    border-left: 4px solid $info;
+    padding: 0 1rem;
+  }
 
-.markdown p {
-  margin: 0;
+  p:last-child {
+    margin-bottom: 0;
+  }
 }
 
 .bi-zoom::before {
