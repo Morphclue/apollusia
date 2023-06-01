@@ -1,4 +1,4 @@
-import {objectIdToBase64, RefArray} from '@mean-stream/nestx';
+import {objectIdToBase64, RefArray} from '@mean-stream/nestx/ref';
 import {Prop, Schema, SchemaFactory} from '@nestjs/mongoose';
 import {ApiProperty, ApiPropertyOptional} from '@nestjs/swagger';
 import {Type} from 'class-transformer';

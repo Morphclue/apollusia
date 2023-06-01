@@ -1,7 +1,7 @@
 export * from './token';
 
 import * as types from '@apollusia/types';
-import {DTO} from '@mean-stream/nestx';
+import {DTO} from '@mean-stream/nestx/ref';
 
 export type Poll = DTO<types.Poll>;
 export type CreatePollDto = DTO<types.PollDto>;
