@@ -1,6 +1,6 @@
 import {Component, ElementRef, Input, OnInit, SecurityContext} from '@angular/core';
 import {DomSanitizer, SafeHtml} from '@angular/platform-browser';
-import * as MarkdownIt from 'markdown-it';
+import MarkdownIt from 'markdown-it';
 
 const markdown = new MarkdownIt({
   html: false,
