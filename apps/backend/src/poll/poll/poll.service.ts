@@ -23,6 +23,7 @@ import {environment} from '../../environment';
 import {renderDate} from '../../mail/helpers';
 import {MailService} from '../../mail/mail/mail.service';
 import {PushService} from '../../push/push.service';
+import {Doc} from "@mean-stream/nestx";
 
 @Injectable()
 export class PollService implements OnModuleInit {
@@ -98,7 +99,7 @@ export class PollService implements OnModuleInit {
     })));
   }
 
-    async getPoll(id: Types.ObjectId): Promise<ReadPollDto> {
+    async getPoll(id: Types.ObjectId): Promise<Doc<ReadPollDto>> {
         return this.pollModel.findById(id).select(readPollSelect).exec();
     }
 
@@ -202,7 +203,7 @@ export class PollService implements OnModuleInit {
         }
 
         const otherParticipants = await this.findAllParticipants(poll._id);
-        const errors = checkParticipant(dto, poll, otherParticipants);
+        const errors = checkParticipant(dto, poll.toObject(), otherParticipants);
         if (errors.length) {
           throw new UnprocessableEntityException(errors);
         }
@@ -251,7 +252,7 @@ export class PollService implements OnModuleInit {
         this.getPoll(id),
         this.findAllParticipants(new Types.ObjectId(id)),
       ]);
-      const errors = checkParticipant(participant, poll, otherParticipants, participantId);
+      const errors = checkParticipant(participant, poll.toObject(), otherParticipants, participantId);
       if (errors.length) {
         throw new UnprocessableEntityException(errors);
       }
