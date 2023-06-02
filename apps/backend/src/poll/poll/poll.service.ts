@@ -57,7 +57,7 @@ export class PollService implements OnModuleInit {
       participant.set('indeterminateParticipation', undefined);
     }
     await this.participantModel.bulkSave(participants, {timestamps: false});
-    this.logger.log(`Migrated ${participants.length} participants to the new selection format.`);
+    participants.length && this.logger.log(`Migrated ${participants.length} participants to the new selection format.`);
   }
 
   private activeFilter(active: boolean | undefined): FilterQuery<Poll> {
@@ -152,13 +152,13 @@ export class PollService implements OnModuleInit {
     }
 
     async getEvents(id: Types.ObjectId): Promise<PollEvent[]> {
-        return await this.pollEventModel.find({poll: new Types.ObjectId(id)}).exec();
+        return await this.pollEventModel.find({poll: new Types.ObjectId(id)}).sort('+start').exec();
     }
 
-    async postEvents(id: Types.ObjectId, pollEvents: PollEventDto[]): Promise<PollEvent[]> {
-        const oldEvents = await this.pollEventModel.find({poll: new Types.ObjectId(id)}).exec();
+    async postEvents(poll: Types.ObjectId, pollEvents: PollEventDto[]): Promise<PollEvent[]> {
+        const oldEvents = await this.pollEventModel.find({poll}).exec();
         const newEvents = pollEvents.filter(event => !oldEvents.some(oldEvent => oldEvent._id.toString() === event._id));
-        await this.pollEventModel.create(newEvents.map(event => ({...event, poll: new Types.ObjectId(id)})));
+        await this.pollEventModel.create(newEvents.map(event => ({...event, poll})));
 
         const updatedEvents = pollEvents.filter(event => {
             const oldEvent = oldEvents.find(e => e._id.toString() === event._id);
@@ -175,8 +175,8 @@ export class PollService implements OnModuleInit {
 
         const deletedEvents = oldEvents.filter(event => !pollEvents.some(e => e._id === event._id.toString()));
         await this.pollEventModel.deleteMany({_id: {$in: deletedEvents.map(event => event._id)}}).exec();
-        await this.removeParticipations(id, updatedEvents);
-        return await this.pollEventModel.find({poll: new Types.ObjectId(id)}).exec();
+        await this.removeParticipations(poll, updatedEvents);
+        return await this.pollEventModel.find({poll}).exec();
     }
 
     async getParticipants(id: Types.ObjectId, token: string): Promise<ReadParticipantDto[]> {
@@ -295,6 +295,9 @@ export class PollService implements OnModuleInit {
     }
 
     private async removeParticipations(poll: Types.ObjectId, events: PollEventDto[]) {
+      if (!events.length) {
+        return;
+      }
       const filter = {
         poll,
         $or: events.map(e => ({['selection.' + e._id]: {$exists: true}})),

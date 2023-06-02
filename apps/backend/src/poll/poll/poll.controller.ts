@@ -10,7 +10,7 @@ import {
   ReadStatsPollDto,
   UpdateParticipantDto,
 } from '@apollusia/types';
-import {ObjectIdPipe} from "@mean-stream/nestx";
+import {ObjectIdPipe} from '@mean-stream/nestx/ref';
 import {
   Body,
   Controller,

@@ -77,12 +77,13 @@
         <ng-container *ngIf="showResults">
           <tr *ngFor="let participant of participants">
             <th>
-              <div *ngIf="poll?.settings?.anonymous">
-                Anonymous
-              </div>
-              <div *ngIf="!poll?.settings?.anonymous">
-                {{participant.name}}
-              </div>
+              {{ poll?.settings?.anonymous ? 'Anonymous' : participant.name }}
+              <span *ngIf="participant.createdAt" class="small text-muted" [ngbTooltip]="participant.createdAt | date:'medium'">
+                {{ participant.createdAt | date: 'shortTime' }}
+              </span>
+              <span *ngIf="participant.updatedAt !== participant.createdAt" class="small text-muted" [ngbTooltip]="participant.updatedAt | date:'medium'">
+                &bull; edited
+              </span>
             </th>
             <ng-container *ngIf="participant !== editParticipant">
               <td *ngFor="let pollEvent of pollEvents; let n=index">

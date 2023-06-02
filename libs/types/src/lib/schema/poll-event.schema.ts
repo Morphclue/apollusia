@@ -1,4 +1,4 @@
-import {Ref} from '@mean-stream/nestx';
+import {Ref} from '@mean-stream/nestx/ref';
 import {Prop, Schema, SchemaFactory} from '@nestjs/mongoose';
 import {ApiProperty} from '@nestjs/swagger';
 import {IsNotEmpty, IsString} from 'class-validator';
@@ -11,10 +11,10 @@ export class PollEvent {
     @ApiProperty()
     _id: Types.ObjectId;
 
-    @Ref(Poll.name)
+    @Ref(Poll.name, {index: 1})
     poll: Types.ObjectId;
 
-    @Prop({required: true})
+    @Prop({required: true, index: 1})
     @ApiProperty()
     @IsString()
     @IsNotEmpty()
