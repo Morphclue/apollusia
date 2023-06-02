@@ -9,6 +9,11 @@ $heliotrope: #c77dffff;
 $mauve: #e0aaffff;
 
 /* Overrides */
+
+// see https://github.com/twbs/bootstrap/issues/38525
+$body-bg-dark: #111315; // mix of $black and $gray-900
+$body-color-dark: #f8f9fa; // $gray-100
+
 $primary: $french-violet;
 $secondary: $purple;
 $dark: $persian-indigo;
