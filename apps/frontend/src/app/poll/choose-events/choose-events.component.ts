@@ -132,6 +132,7 @@ export class ChooseEventsComponent implements OnInit {
     this.editDto = {
       selection: {...participant.selection},
     };
+    this.validateEdit();
   }
 
   cancelEdit() {
