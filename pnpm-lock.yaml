@@ -41,8 +41,8 @@ dependencies:
     specifier: ^0.7.4
     version: 0.7.4(@nestjs/common@9.4.2)(@nestjs/core@9.4.2)(@nestjs/mongoose@9.2.2)(@nestjs/platform-express@9.4.2)(@nestjs/swagger@6.3.0)(class-transformer@0.5.1)(class-validator@0.14.0)(mongoose@7.2.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)(tslib@2.5.2)
   '@mean-stream/ngbx':
-    specifier: ^0.9.0
-    version: 0.9.0(@angular/common@15.2.9)(@angular/core@15.2.9)(@angular/forms@15.2.9)(@angular/router@15.2.9)(@ng-bootstrap/ng-bootstrap@14.1.1)(bootstrap@5.3.0)(class-validator@0.14.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)
+    specifier: ^0.11.0
+    version: 0.11.0(@angular/common@15.2.9)(@angular/core@15.2.9)(@angular/forms@15.2.9)(@angular/router@15.2.9)(@ng-bootstrap/ng-bootstrap@14.1.1)(bootstrap@5.3.0)(class-validator@0.14.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)
   '@nestjs-modules/mailer':
     specifier: ^1.8.1
     version: 1.8.1(@nestjs/common@9.4.2)(@nestjs/core@9.4.2)(nodemailer@6.9.2)
@@ -4672,21 +4672,25 @@ packages:
       tslib: 2.5.2
     dev: false
 
-  /@mean-stream/ngbx@0.9.0(@angular/common@15.2.9)(@angular/core@15.2.9)(@angular/forms@15.2.9)(@angular/router@15.2.9)(@ng-bootstrap/ng-bootstrap@14.1.1)(bootstrap@5.3.0)(class-validator@0.14.0)(reflect-metadata@0.1.13)(rxjs@7.8.1):
-    resolution: {integrity: sha512-kEmgmsRc0QeImEJUsQGkSegDxwD4TpTyHcdU4y11VJgqAtKfXZYhBrGfbhXxFOGmi50iuwViHX35/IPKssp16w==}
+  /@mean-stream/ngbx@0.11.0(@angular/common@15.2.9)(@angular/core@15.2.9)(@angular/forms@15.2.9)(@angular/router@15.2.9)(@ng-bootstrap/ng-bootstrap@14.1.1)(bootstrap@5.3.0)(class-validator@0.14.0)(reflect-metadata@0.1.13)(rxjs@7.8.1):
+    resolution: {integrity: sha512-KYtpF3VlaoLb2QCQg4EPl/mD54207tYwzj1PKqYWa9m3AvIUBzt0HLYvJtNJL9LholwhGV1kxEdp9YJ0r3JgKQ==}
     peerDependencies:
       '@angular/common': ^15.2.0
       '@angular/core': ^15.2.0
-      '@angular/forms': ~15.2.7
+      '@angular/forms': 15.2.8
       '@angular/router': ^15.2.0
       '@ng-bootstrap/ng-bootstrap': ^14.0.0
       bootstrap: ^5.2.3
       bootstrap-darkmode: ^0.9.1
       class-validator: ^0.14.0
       reflect-metadata: ^0.1.13
-      rxjs: ^7.8.0
+      rxjs: 7.8.1
     peerDependenciesMeta:
       bootstrap-darkmode:
+        optional: true
+      class-validator:
+        optional: true
+      reflect-metadata:
         optional: true
     dependencies:
       '@angular/common': 15.2.9(@angular/core@15.2.9)(rxjs@7.8.1)
