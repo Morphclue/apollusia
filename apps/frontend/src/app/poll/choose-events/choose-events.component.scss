@@ -15,12 +15,12 @@
   }
 
   th:first-child, td:first-child {
-    background: linear-gradient(90deg, white, rgba(white, 0.75));
+    background: linear-gradient(90deg, var(--bs-body-bg), rgba(var(--bs-body-bg), 0.75));
     left: 0;
   }
 
   th:last-child, td:last-child {
-    background: linear-gradient(90deg, rgba(white, 0.75), white);
+    background: linear-gradient(90deg, rgba(var(--bs-body-bg), 0.75), var(--bs-body-bg));
     right: 0;
   }
 }
