@@ -1,10 +1,11 @@
 import {Ref} from '@mean-stream/nestx/ref';
 import {Prop, Schema, SchemaFactory} from '@nestjs/mongoose';
 import {ApiProperty} from '@nestjs/swagger';
-import {IsNotEmpty, IsString} from 'class-validator';
+import {IsDate, IsString} from 'class-validator';
 import {Types} from 'mongoose';
 
 import {Poll} from './poll.schema';
+import {Transform} from "class-transformer";
 
 @Schema()
 export class PollEvent {
@@ -16,15 +17,15 @@ export class PollEvent {
 
     @Prop({required: true, index: 1})
     @ApiProperty()
-    @IsString()
-    @IsNotEmpty()
-    start: string;
+    @Transform(({value}) => new Date(value))
+    @IsDate()
+    start: Date;
 
     @Prop({required: true})
     @ApiProperty()
-    @IsString()
-    @IsNotEmpty()
-    end: string;
+    @Transform(({value}) => new Date(value))
+    @IsDate()
+    end: Date;
 
     @Prop()
     @IsString()
