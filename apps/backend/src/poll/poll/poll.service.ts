@@ -39,6 +39,13 @@ export class PollService implements OnModuleInit {
     }
 
   async onModuleInit() {
+    await Promise.all([
+      this.migrateSelection(),
+      this.migratePollEvents(),
+    ]);
+  }
+
+  private async migrateSelection() {
     const participants = await this.participantModel.find({
       $or: [
         {participation: {$exists: true}},
@@ -59,6 +66,25 @@ export class PollService implements OnModuleInit {
     }
     await this.participantModel.bulkSave(participants, {timestamps: false});
     participants.length && this.logger.log(`Migrated ${participants.length} participants to the new selection format.`);
+  }
+
+  private async migratePollEvents() {
+    const pollEvents = await this.pollEventModel.find({
+      $or: [
+        {start: {$type: 'string'}},
+        {end: {$type: 'string'}},
+      ],
+    });
+    for (const pollEvent of pollEvents) {
+      // NB: needs to happen here instead of aggregation pipeline, because MongoDB does not understand
+      //     the strange date format returned by Date.toString() that was sometimes used in the past.
+      pollEvent.start = new Date(pollEvent.start);
+      pollEvent.end = new Date(pollEvent.end);
+      pollEvent.markModified('start');
+      pollEvent.markModified('end');
+    }
+    await this.pollEventModel.bulkSave(pollEvents, {timestamps: false});
+    pollEvents.length && this.logger.log(`Migrated ${pollEvents.length} poll events to the new date format.`);
   }
 
   private activeFilter(active: boolean | undefined): FilterQuery<Poll> {
@@ -91,7 +117,7 @@ export class PollService implements OnModuleInit {
   }
 
   private async readPolls(filter: FilterQuery<Poll>): Promise<ReadStatsPollDto[]> {
-    const polls = await this.pollModel.find(filter).select(readPollSelect).sort('-createdAt').exec();
+    const polls = await this.pollModel.find(filter).select(readPollSelect).sort({createdAt: -1}).exec();
     return Promise.all(polls.map(async (poll): Promise<ReadStatsPollDto> => ({
       ...this.mask(poll.toObject()),
       events: await this.pollEventModel.count({poll: poll._id}).exec(),
@@ -153,7 +179,7 @@ export class PollService implements OnModuleInit {
     }
 
     async getEvents(id: Types.ObjectId): Promise<PollEvent[]> {
-        return await this.pollEventModel.find({poll: new Types.ObjectId(id)}).sort('+start').exec();
+        return await this.pollEventModel.find({poll: new Types.ObjectId(id)}).sort({start: 1}).exec();
     }
 
     async postEvents(poll: Types.ObjectId, pollEvents: PollEventDto[]): Promise<PollEvent[]> {
@@ -166,7 +192,7 @@ export class PollService implements OnModuleInit {
             if (!oldEvent) {
                 return false;
             }
-            return oldEvent.start !== event.start || oldEvent.end !== event.end;
+            return oldEvent.start.valueOf() !== event.start.valueOf() || oldEvent.end.valueOf() !== event.end.valueOf();
         });
         if (updatedEvents.length > 0) {
             for (const event of updatedEvents) {
