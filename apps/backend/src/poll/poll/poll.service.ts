@@ -15,6 +15,7 @@ import {
   ReadStatsPollDto,
   UpdateParticipantDto,
 } from '@apollusia/types';
+import {Doc} from "@mean-stream/nestx";
 import {Injectable, Logger, NotFoundException, OnModuleInit, UnprocessableEntityException} from '@nestjs/common';
 import {InjectModel} from '@nestjs/mongoose';
 import {Document, FilterQuery, Model, Types} from 'mongoose';
@@ -23,7 +24,6 @@ import {environment} from '../../environment';
 import {renderDate} from '../../mail/helpers';
 import {MailService} from '../../mail/mail/mail.service';
 import {PushService} from '../../push/push.service';
-import {Doc} from "@mean-stream/nestx";
 
 @Injectable()
 export class PollService implements OnModuleInit {
