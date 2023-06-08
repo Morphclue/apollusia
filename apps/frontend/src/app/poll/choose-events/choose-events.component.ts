@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Meta, Title} from '@angular/platform-browser';
 import {ActivatedRoute, Router} from '@angular/router';
+import {checkParticipant} from '@apollusia/logic';
 import {ToastService} from '@mean-stream/ngbx';
 import {forkJoin} from 'rxjs';
 import {map, switchMap, tap} from 'rxjs/operators';
@@ -35,6 +36,7 @@ export class ChooseEventsComponent implements OnInit {
   };
   editParticipant?: Participant;
   editDto?: UpdateParticipantDto;
+  errors: string[] = [];
 
   // helpers
   id: string = '';
@@ -73,6 +75,7 @@ export class ChooseEventsComponent implements OnInit {
           for (const event of events) {
             this.newParticipant.selection[event._id] ||= 'no';
           }
+          this.validateNew();
         })),
         this.pollService.getParticipants(id).pipe(tap(participants => this.participants = participants)),
       ])),
@@ -119,6 +122,8 @@ export class ChooseEventsComponent implements OnInit {
       this.participants.unshift(participant);
       this.updateHelpers();
       this.clearSelection();
+    }, error => {
+      this.toastService.error('Submit', 'Failed to submit your participation', error);
     });
   }
 
@@ -127,6 +132,7 @@ export class ChooseEventsComponent implements OnInit {
     this.editDto = {
       selection: {...participant.selection},
     };
+    this.validateEdit();
   }
 
   cancelEdit() {
@@ -162,16 +168,12 @@ export class ChooseEventsComponent implements OnInit {
   // View Helpers
   // TODO called from template, bad practice
 
-  canSubmitChecks(participant: Participant | CreateParticipantDto) {
-    const maxParticipantEvents = this.poll?.settings?.maxParticipantEvents;
-    if (maxParticipantEvents) {
-      const selected = Object.values(participant.selection).filter(p => p === 'yes').length;
-      if (selected > maxParticipantEvents) {
-        return false;
-      }
-    }
+  validateNew() {
+    this.errors = checkParticipant(this.newParticipant, this.poll!, this.participants);
+  }
 
-    return true;
+  validateEdit() {
+    this.errors = checkParticipant(this.editDto!, this.poll!, this.participants, this.editParticipant!._id);
   }
 
   countParticipants(pollEvent: PollEvent) {
