@@ -10,6 +10,12 @@ import {AppModule} from './app.module';
     ServerModule,
   ],
   bootstrap: [AppComponent],
+  providers: [
+    {
+      provide: 'BASE_URL',
+      useValue: process.env['BASE_URL'],
+    },
+  ],
 })
 export class AppServerModule {
 }
