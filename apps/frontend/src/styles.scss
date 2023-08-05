@@ -102,12 +102,16 @@ $danger: $mauve;
 
 .ngb-dp-day:hover {
   background-color: $amethyst;
-  color: white;
+  color: var(--bs-body-bg);
 }
 
 .ngb-dp-selected {
   background-color: $primary;
-  color: white;
+  color: var(--bs-body-bg);
+}
+
+.ngb-dp-header, .ngb-dp-weekdays {
+  background-color: var(--bs-body-bg) !important;
 }
 
 .markdown {
