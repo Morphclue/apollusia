@@ -30,13 +30,34 @@ $danger: $mauve;
 }
 
 /* Cal-header */
+.cal-week-view {
+  background-color: var(--bs-body-bg);
+
+  & .cal-hour-odd {
+    background-color: var(--bs-tertiary-bg);
+  }
+
+  & .cal-time-events .cal-day-columns:not(.cal-resize-active) .cal-hour-segment:hover {
+    background-color: var(--bs-secondary-bg);
+  }
+
+  & .cal-day-headers .cal-header:hover,
+  & .cal-day-headers .cal-drag-over {
+    background-color: var(--bs-tertiary-bg);
+  }
+
+  & .cal-header.cal-today {
+    background-color: var(--bs-success-bg);
+  }
+
+  & .cal-header.cal-weekend span {
+    color: var(--bs-warning);
+  }
+}
+
 .cal-week-view .cal-time-events {
   max-height: calc(100vh - 320px);;
   overflow-y: auto;
-}
-
-.cal-day-headers {
-  margin-right: 17px;
 }
 
 .cal-day-columns {
