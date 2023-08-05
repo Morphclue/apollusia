@@ -11,8 +11,10 @@
       <div *ngFor="let column of columns" class="col-md-3">
         <div class="card border-primary thick-border shadow">
           <div class="card-body">
-            <i [class]="column[1]"></i>
-            <h3 class="mt-2" [countUp]="statistics[column[0]]">0</h3>
+            <div class="d-flex justify-content-between">
+              <h3 class="mt-2" [countUp]="statistics[column[0]]">0</h3>
+              <i class="fs-1" [class]="column[1]"></i>
+            </div>
             <span>{{ column[2] }}</span>
           </div>
         </div>
