@@ -90,7 +90,7 @@
     "angular-calendar": "^0.31.0",
     "angularx-flatpickr": "^7.3.0",
     "axios": "^1.4.0",
-    "bootstrap": "^5.3.0",
+    "bootstrap": "^5.3.1",
     "bootstrap-icons": "^1.10.5",
     "calendar-utils": "^0.10.4",
     "class-transformer": "^0.5.1",
