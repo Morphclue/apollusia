@@ -1,9 +1,20 @@
+version: '3'
 services:
-    database:
-        image: mongo
-        ports:
-            - "27017:27017"
-        volumes:
-            - database:/data/db
+  database:
+    image: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - database:/data/db
+  frontend:
+    build:
+      dockerfile: ./apps/frontend/Dockerfile
+    ports:
+      - "4000:4000"
+  backend:
+    build:
+      dockerfile: ./apps/backend/Dockerfile
+    ports:
+      - "3000:3000"
 volumes:
-    database:
+  database:

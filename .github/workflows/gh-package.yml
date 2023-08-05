@@ -1,0 +1,44 @@
+name: Deploy to Hetzner
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  frontend:
+    name: Frontend
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Build and push Docker image
+        uses: whoan/docker-build-with-cache-action@v6
+        with:
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          registry: ghcr.io
+          image_name: apollusia-frontend
+          image_tag: latest
+          dockerfile: apps/frontend/Dockerfile
+  backend:
+    name: Backend
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Build and push Docker image
+        uses: whoan/docker-build-with-cache-action@v6
+        with:
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          registry: ghcr.io
+          image_name: apollusia-backend
+          image_tag: latest
+          dockerfile: apps/backend/Dockerfile

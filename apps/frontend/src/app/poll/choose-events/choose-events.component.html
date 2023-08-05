@@ -51,7 +51,7 @@
                    type="text"
                    id="name"
                    placeholder="Your name"
-                   [(ngModel)]="newParticipant.name">
+                   [(ngModel)]="newParticipant.name" (change)="validateNew()">
             <input *ngIf="poll?.settings?.anonymous"
                    class="form-control"
                    type="text"
@@ -62,13 +62,16 @@
             <app-check-button
               [poll]="poll"
               [(check)]="newParticipant.selection[event._id]"
+              (checkChange)="validateNew()"
               [isFull]="maxParticipantsReached(event)"
             ></app-check-button>
           </td>
           <th class="border-0 text-start" scope="col">
-            <button class="btn btn-primary btn-sm" [disabled]="!(newParticipant.name || poll?.settings?.anonymous) || !canSubmitChecks(newParticipant)" (click)="submit()">
-              Submit
-            </button>
+            <div class="d-inline-block" [ngbTooltip]="errors.length ? errors.join(',\n') : null">
+              <button class="btn btn-primary btn-sm" [disabled]="errors.length" (click)="submit()">
+                Submit
+              </button>
+            </div>
           </th>
         </tr>
         <ng-container *ngIf="showResults">
@@ -97,12 +100,15 @@
                 <app-check-button
                   [poll]="poll"
                   [(check)]="editDto.selection[event._id]"
+                  (checkChange)="validateEdit()"
                 ></app-check-button>
               </td>
             </ng-container>
             <td *ngIf="participant === editParticipant" class="border-0 text-start">
               <button class="btn btn-primary btn-sm ms-1 bi-x" type="button" (click)="cancelEdit()"></button>
-              <button class="btn btn-secondary btn-sm ms-1 bi-check" type="button" [disabled]="!canSubmitChecks(editParticipant)" (click)="confirmEdit()"></button>
+              <div class="d-inline-block" [ngbTooltip]="errors.length ? errors.join(',\n') : null">
+                <button class="btn btn-secondary btn-sm ms-1 bi-check" type="button" [disabled]="errors.length" (click)="confirmEdit()"></button>
+              </div>
             </td>
             <td *ngIf="!editParticipant" class="border-0 text-start">
               <button
@@ -159,4 +165,3 @@
       </table>
   </div>
 </div>
-<ngbx-toast-list></ngbx-toast-list>

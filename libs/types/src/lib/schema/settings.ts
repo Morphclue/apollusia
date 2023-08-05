@@ -12,33 +12,40 @@ export class Settings {
     @Transform(({value}) => new Date(value))
     deadline?: Date;
 
+    @Prop()
     @ApiProperty()
     @IsOptional()
     @IsPositive()
     maxParticipants?: number;
 
+    @Prop()
     @ApiProperty()
     @IsOptional()
     @IsPositive()
     maxParticipantEvents?: number;
 
+    @Prop()
     @ApiProperty()
     @IsOptional()
     @IsPositive()
     maxEventParticipants?: number;
 
+    @Prop()
     @ApiProperty()
     @IsBoolean()
     allowMaybe: boolean;
 
+    @Prop()
     @ApiProperty()
     @IsBoolean()
     allowEdit: boolean;
 
+    @Prop()
     @ApiProperty()
     @IsBoolean()
     anonymous: boolean;
 
+    @Prop()
     @ApiProperty()
     @IsBoolean()
     blindParticipation: boolean;
