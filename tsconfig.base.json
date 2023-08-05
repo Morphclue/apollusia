@@ -15,8 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@apollusia/types": ["libs/types/src/index.ts"],
-      "@apollusia/logic": ["libs/types/src/lib/logic/index.ts"]
+      "@apollusia/logic": ["libs/types/src/lib/logic/index.ts"],
+      "@apollusia/types": ["libs/types/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

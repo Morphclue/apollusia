@@ -1,0 +1,22 @@
+<div class="container">
+  <div class="col-md-6">
+    <h2>Our Promises</h2>
+    <p>
+      Our promises are the foundation of Apollusia.
+      We believe that following these promises will help us to create a better tool for everyone.
+    </p>
+  </div>
+  <div class="row">
+    <div *ngFor="let promise of promises" class="col-md-4">
+        <div class="card h-100 border-primary shadow thick-border">
+          <div class="card-body">
+            <div class="d-flex align-items-center justify-content-center">
+              <i class="bi fs-1 my-5" [class]=promise.icon></i>
+            </div>
+            <h5 class="card-title text-start">{{promise.title}}</h5>
+            <p class="card-text text-start">{{promise.description}}</p>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
