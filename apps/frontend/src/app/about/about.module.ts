@@ -7,8 +7,8 @@ import {AboutComponent} from './about/about.component';
 import {AboutRoutingModule} from './about-routing.module';
 import {FeaturesComponent} from './features/features.component';
 import {InformationComponent} from './information/information.component';
-import {StatisticsComponent} from './statistics/statistics.component';
 import {PromisesComponent} from './promises/promises.component';
+import {StatisticsComponent} from './statistics/statistics.component';
 
 @NgModule({
   declarations: [

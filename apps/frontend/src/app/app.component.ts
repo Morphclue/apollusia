@@ -1,4 +1,3 @@
-import {APP_BASE_HREF} from "@angular/common";
 import {Component, Inject, OnInit, Optional} from '@angular/core';
 import {Meta} from "@angular/platform-browser";
 import {SwUpdate} from '@angular/service-worker';
