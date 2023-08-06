@@ -6,8 +6,13 @@
       modern event polls.
     </p>
   </div>
-  <table class="table table-bordered text-center">
-    <thead class="bg-dark text-light">
+  <table class="table text-center shadow">
+    <colgroup>
+      <col>
+      <col class="outlined">
+      <col>
+    </colgroup>
+    <thead class="table-dark bg-dark text-light custom">
     <tr>
       <th scope="col">Feature</th>
       <th scope="col" *ngFor="let app of apps">{{ app }}</th>
@@ -17,11 +22,11 @@
     <tr *ngFor="let feature of features">
       <th scope="row">{{ feature[0] }}</th>
       <ng-container *ngFor="let alternative of feature[1]">
-        <ng-container [ngSwitch]="alternative">
-          <td *ngSwitchCase="true" class="bg-success text-light bi-check-lg"></td>
-          <td *ngSwitchCase="false" class="bg-danger bi-x-lg"></td>
+        <ng-container [ngSwitch]="alternative" class="icon-lg">
+          <td *ngSwitchCase="true" class="p-yes icon-lg bi-check-lg"></td>
+          <td *ngSwitchCase="false" class="p-no icon-lg bi-x-lg"></td>
           <td *ngSwitchDefault
-              class="bg-warning bi-flag"
+              class="p-maybe bi-flag icon-lg"
               placement="left" [ngbTooltip]="''+alternative"
               container="body"></td>
         </ng-container>

@@ -6,19 +6,19 @@ import {Component} from '@angular/core';
   styleUrls: ['./features.component.scss'],
 })
 export class FeaturesComponent {
-  apps = ['Doodle', 'Apollusia'];
+  apps = ['Apollusia', 'Doodle'];
   features: [string, (boolean | string)[]][] = [
     ['Anonymous participation', [true, true]],
     ['Participation limit', [true, true]],
     ['Editing participation', [true, true]],
-    ['Deadline', ['Paid option', true]],
-    ['Maybe-option', ['Not adjustable', true]],
-    ['Rich Text and Links in Description', [false, true]],
-    ['Events of varying length', [false, true]],
-    ['Blind participation', [false, true]],
-    ['Autofill', [false, true]],
-    ['Event Notes', [false, true]],
-    ['Cloning polls', [false, true]],
-    ['Postponing events', [false, true]],
+    ['Deadline', [true, 'Paid option']],
+    ['Maybe-option', [true, 'Not adjustable']],
+    ['Rich Text and Links in Description', [true, false]],
+    ['Events of varying length', [true, false]],
+    ['Blind participation', [true, false]],
+    ['Autofill', [true, false]],
+    ['Event Notes', [true, false]],
+    ['Cloning polls', [true, false]],
+    ['Postponing events', [true, false]],
   ];
 }
