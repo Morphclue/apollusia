@@ -20,14 +20,19 @@
     </thead>
     <tbody>
     <tr *ngFor="let feature of features">
-      <th scope="row">{{ feature[0] }}</th>
-      <ng-container *ngFor="let alternative of feature[1]">
-        <ng-container [ngSwitch]="alternative" class="icon-lg">
+      <th scope="row">
+        {{ feature.title }}
+        <div class="small text-muted fw-normal">
+          {{ feature.description }}
+        </div>
+      </th>
+      <ng-container *ngFor="let app of apps">
+        <ng-container [ngSwitch]="feature.support[app]" class="icon-lg">
           <td *ngSwitchCase="true" class="p-yes icon-lg bi-check-lg"></td>
           <td *ngSwitchCase="false" class="p-no icon-lg bi-x-lg"></td>
           <td *ngSwitchDefault
               class="p-maybe bi-flag icon-lg"
-              placement="left" [ngbTooltip]="''+alternative"
+              placement="left" [ngbTooltip]="''+feature.support[app]"
               container="body"></td>
         </ng-container>
       </ng-container>
