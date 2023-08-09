@@ -24,7 +24,7 @@ jobs:
           image_name: apollusia-frontend
           image_tag: latest
           dockerfile: apps/frontend/Dockerfile
-          push_images_and_stages: false
+          push_image_and_stages: false
   backend:
     name: Backend
     runs-on: ubuntu-latest
@@ -43,4 +43,4 @@ jobs:
           image_name: apollusia-backend
           image_tag: latest
           dockerfile: apps/backend/Dockerfile
-          push_images_and_stages: false
+          push_image_and_stages: false
