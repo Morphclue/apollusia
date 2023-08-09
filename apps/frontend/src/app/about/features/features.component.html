@@ -1,24 +1,49 @@
-<div class="container text-center">
-  <table class="table table-bordered">
-    <thead class="bg-dark text-light">
+<div class="container">
+  <div class="col-md-6">
+    <h2>Feature Rich</h2>
+    <p>
+      Experience the unparalleled feature set of Apollusia, setting it apart as the market's foremost platform for
+      modern event polls.
+    </p>
+  </div>
+  <table class="table shadow">
+    <colgroup>
+      <col>
+      <col class="outlined">
+      <col>
+    </colgroup>
+    <thead>
     <tr>
       <th scope="col">Feature</th>
       <th scope="col" *ngFor="let app of apps">{{ app }}</th>
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let feature of features">
-      <th scope="row">{{ feature[0] }}</th>
-      <ng-container *ngFor="let alternative of feature[1]">
-        <ng-container [ngSwitch]="alternative">
-          <td *ngSwitchCase="true" class="bg-success text-light bi-check-lg"></td>
-          <td *ngSwitchCase="false" class="bg-danger bi-x-lg"></td>
-          <td *ngSwitchDefault
-              class="bg-warning bi-flag"
-              placement="left" [ngbTooltip]="''+alternative"
-              container="body"></td>
+    <ng-container *ngFor="let kv of features|keyvalue">
+      <tr>
+        <td>
+          <h4>{{ kv.key }}</h4>
+        </td>
+      </tr>
+      <tr *ngFor="let feature of kv.value">
+        <th scope="row" class="ps-5">
+          {{ feature.title }}
+          <div class="small text-muted fw-normal">
+            {{ feature.description }}
+          </div>
+        </th>
+        <ng-container *ngFor="let app of apps">
+          <ng-container [ngSwitch]="feature.support[app]" class="icon-lg">
+            <td *ngSwitchCase="true" class="p-yes icon-lg bi-check-lg"></td>
+            <td *ngSwitchCase="false" class="p-no icon-lg bi-x-lg"></td>
+            <td *ngSwitchDefault
+                class="p-maybe bi-flag icon-lg"
+                placement="left" [ngbTooltip]="''+feature.support[app]"
+                container="body"></td>
+          </ng-container>
         </ng-container>
-      </ng-container>
+      </tr>
+    </ng-container>
     </tbody>
   </table>
 </div>
