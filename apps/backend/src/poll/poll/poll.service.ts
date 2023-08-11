@@ -332,7 +332,7 @@ export class PollService implements OnModuleInit {
       };
       await this.participantModel.updateMany(filter, {
         $unset: events.map(e => 'selection.' + e._id),
-      }).exec();
+      }, {timestamps: false}).exec();
     }
 
     async setMail(mailDto: MailDto) {
