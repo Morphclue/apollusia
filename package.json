@@ -109,5 +109,10 @@
     "uuid": "^9.0.0",
     "web-push": "^3.6.5",
     "zone.js": "~0.12.0"
+  },
+  "pnpm": {
+    "overrides": {
+      "degenerator@<5.0.1": ">=5.0.1"
+    }
   }
 }
