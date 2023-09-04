@@ -112,7 +112,8 @@
   },
   "pnpm": {
     "overrides": {
-      "degenerator@<5.0.1": ">=5.0.1"
+      "degenerator@<5.0.1": ">=5.0.1",
+      "@cypress/request@<=2.88.12": ">=3.0.0"
     }
   }
 }
