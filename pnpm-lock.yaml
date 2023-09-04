@@ -45,11 +45,11 @@ dependencies:
     specifier: 16.2.3
     version: 16.2.3(@angular/common@16.2.3)(@angular/core@16.2.3)
   '@mean-stream/nestx':
-    specifier: ^0.7.4
-    version: 0.7.4(@nestjs/common@10.2.4)(@nestjs/core@10.2.4)(@nestjs/mongoose@9.2.2)(@nestjs/platform-express@10.2.4)(@nestjs/swagger@7.1.10)(class-transformer@0.5.1)(class-validator@0.14.0)(mongoose@7.5.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)(tslib@2.6.2)
+    specifier: ^0.10.1
+    version: 0.10.1(@nestjs/common@10.2.4)(@nestjs/core@10.2.4)(@nestjs/mongoose@10.0.1)(@nestjs/platform-express@10.2.4)(@nestjs/swagger@7.1.10)(class-transformer@0.5.1)(class-validator@0.14.0)(mongoose@7.5.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)(tslib@2.6.2)
   '@mean-stream/ngbx':
-    specifier: ^0.9.0
-    version: 0.9.0(@angular/common@16.2.3)(@angular/core@16.2.3)(@angular/forms@16.2.3)(@angular/router@16.2.3)(@ng-bootstrap/ng-bootstrap@14.2.0)(bootstrap@5.3.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)
+    specifier: ^0.11.0
+    version: 0.11.0(@angular/common@16.2.3)(@angular/core@16.2.3)(@angular/forms@16.2.3)(@angular/router@16.2.3)(@ng-bootstrap/ng-bootstrap@15.1.1)(bootstrap@5.3.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)
   '@nestjs-modules/mailer':
     specifier: ^1.9.1
     version: 1.9.1(@nestjs/common@10.2.4)(@nestjs/core@10.2.4)(nodemailer@6.9.4)
@@ -57,14 +57,14 @@ dependencies:
     specifier: 10.2.4
     version: 10.2.4(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)
   '@nestjs/config':
-    specifier: ^2.3.4
-    version: 2.3.4(@nestjs/common@10.2.4)(reflect-metadata@0.1.13)(rxjs@7.8.1)
+    specifier: ^3.0.1
+    version: 3.0.1(@nestjs/common@10.2.4)(reflect-metadata@0.1.13)
   '@nestjs/core':
     specifier: 10.2.4
     version: 10.2.4(@nestjs/common@10.2.4)(@nestjs/platform-express@10.2.4)(reflect-metadata@0.1.13)(rxjs@7.8.1)
   '@nestjs/mongoose':
-    specifier: ^9.2.2
-    version: 9.2.2(@nestjs/common@10.2.4)(@nestjs/core@10.2.4)(mongoose@7.5.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)
+    specifier: ^10.0.1
+    version: 10.0.1(@nestjs/common@10.2.4)(@nestjs/core@10.2.4)(mongoose@7.5.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)
   '@nestjs/platform-express':
     specifier: 10.2.4
     version: 10.2.4(@nestjs/common@10.2.4)(@nestjs/core@10.2.4)
@@ -72,8 +72,8 @@ dependencies:
     specifier: 7.1.10
     version: 7.1.10(@nestjs/common@10.2.4)(@nestjs/core@10.2.4)(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)
   '@ng-bootstrap/ng-bootstrap':
-    specifier: ^14.2.0
-    version: 14.2.0(@angular/common@16.2.3)(@angular/core@16.2.3)(@angular/forms@16.2.3)(@angular/localize@16.2.3)(@popperjs/core@2.11.8)(rxjs@7.8.1)
+    specifier: ^15.1.1
+    version: 15.1.1(@angular/common@16.2.3)(@angular/core@16.2.3)(@angular/forms@16.2.3)(@angular/localize@16.2.3)(@popperjs/core@2.11.8)(rxjs@7.8.1)
   '@nguniversal/express-engine':
     specifier: 16.2.0
     version: 16.2.0(@angular/common@16.2.3)(@angular/core@16.2.3)(express@4.18.2)
@@ -120,8 +120,8 @@ dependencies:
     specifier: ^7.5.0
     version: 7.5.0
   ngx-cookie-service-ssr:
-    specifier: ^15.0.0
-    version: 15.0.0(@angular/common@16.2.3)(@angular/core@16.2.3)(@nguniversal/express-engine@16.2.0)
+    specifier: ^16.0.1
+    version: 16.0.1(@angular/common@16.2.3)(@angular/core@16.2.3)(@nguniversal/express-engine@16.2.0)
   ngx-countup:
     specifier: ^13.1.0
     version: 13.1.0(@angular/common@16.2.3)(@angular/core@16.2.3)
@@ -4442,8 +4442,8 @@ packages:
     resolution: {integrity: sha512-YbrUWREPGEjE/FU6foXcAT1YbVwqD/jkYnY1dFb0o4AxtP3s4xKBthlELjndZih8uwsDWgQZx1eNskRNe2BgZQ==}
     dev: false
 
-  /@mean-stream/nestx@0.7.4(@nestjs/common@10.2.4)(@nestjs/core@10.2.4)(@nestjs/mongoose@9.2.2)(@nestjs/platform-express@10.2.4)(@nestjs/swagger@7.1.10)(class-transformer@0.5.1)(class-validator@0.14.0)(mongoose@7.5.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)(tslib@2.6.2):
-    resolution: {integrity: sha512-XpCVPgIn3urm0KdEVwtkPATr5/cMX+ltrnR5vCoSRI5IVkH8BuPzjlA53uYMfAMCAdbQfiZVtYM+ezwXy4F4Kw==}
+  /@mean-stream/nestx@0.10.1(@nestjs/common@10.2.4)(@nestjs/core@10.2.4)(@nestjs/mongoose@10.0.1)(@nestjs/platform-express@10.2.4)(@nestjs/swagger@7.1.10)(class-transformer@0.5.1)(class-validator@0.14.0)(mongoose@7.5.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)(tslib@2.6.2):
+    resolution: {integrity: sha512-axbVWMEIdDEHURStxWMUETs05B7KugBQidA+NG8ArJPrNNUWaO3+0tMoUxe3Y9hrzjX0kytqU3VFpBnaLIxCqQ==}
     peerDependencies:
       '@nestjs/common': ^9.0.0
       '@nestjs/core': ^9.0.0
@@ -4480,7 +4480,7 @@ packages:
     dependencies:
       '@nestjs/common': 10.2.4(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)
       '@nestjs/core': 10.2.4(@nestjs/common@10.2.4)(@nestjs/platform-express@10.2.4)(reflect-metadata@0.1.13)(rxjs@7.8.1)
-      '@nestjs/mongoose': 9.2.2(@nestjs/common@10.2.4)(@nestjs/core@10.2.4)(mongoose@7.5.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)
+      '@nestjs/mongoose': 10.0.1(@nestjs/common@10.2.4)(@nestjs/core@10.2.4)(mongoose@7.5.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)
       '@nestjs/platform-express': 10.2.4(@nestjs/common@10.2.4)(@nestjs/core@10.2.4)
       '@nestjs/swagger': 7.1.10(@nestjs/common@10.2.4)(@nestjs/core@10.2.4)(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)
       base64-js: 1.5.1
@@ -4492,28 +4492,32 @@ packages:
       tslib: 2.6.2
     dev: false
 
-  /@mean-stream/ngbx@0.9.0(@angular/common@16.2.3)(@angular/core@16.2.3)(@angular/forms@16.2.3)(@angular/router@16.2.3)(@ng-bootstrap/ng-bootstrap@14.2.0)(bootstrap@5.3.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)(rxjs@7.8.1):
-    resolution: {integrity: sha512-kEmgmsRc0QeImEJUsQGkSegDxwD4TpTyHcdU4y11VJgqAtKfXZYhBrGfbhXxFOGmi50iuwViHX35/IPKssp16w==}
+  /@mean-stream/ngbx@0.11.0(@angular/common@16.2.3)(@angular/core@16.2.3)(@angular/forms@16.2.3)(@angular/router@16.2.3)(@ng-bootstrap/ng-bootstrap@15.1.1)(bootstrap@5.3.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)(rxjs@7.8.1):
+    resolution: {integrity: sha512-KYtpF3VlaoLb2QCQg4EPl/mD54207tYwzj1PKqYWa9m3AvIUBzt0HLYvJtNJL9LholwhGV1kxEdp9YJ0r3JgKQ==}
     peerDependencies:
       '@angular/common': ^15.2.0
       '@angular/core': ^15.2.0
-      '@angular/forms': ~15.2.7
+      '@angular/forms': 15.2.8
       '@angular/router': ^15.2.0
       '@ng-bootstrap/ng-bootstrap': ^14.0.0
       bootstrap: ^5.2.3
       bootstrap-darkmode: ^0.9.1
       class-validator: ^0.14.0
       reflect-metadata: ^0.1.13
-      rxjs: ^7.8.0
+      rxjs: 7.8.1
     peerDependenciesMeta:
       bootstrap-darkmode:
+        optional: true
+      class-validator:
+        optional: true
+      reflect-metadata:
         optional: true
     dependencies:
       '@angular/common': 16.2.3(@angular/core@16.2.3)(rxjs@7.8.1)
       '@angular/core': 16.2.3(rxjs@7.8.1)(zone.js@0.13.1)
       '@angular/forms': 16.2.3(@angular/common@16.2.3)(@angular/core@16.2.3)(@angular/platform-browser@16.2.3)(rxjs@7.8.1)
       '@angular/router': 16.2.3(@angular/common@16.2.3)(@angular/core@16.2.3)(@angular/platform-browser@16.2.3)(rxjs@7.8.1)
-      '@ng-bootstrap/ng-bootstrap': 14.2.0(@angular/common@16.2.3)(@angular/core@16.2.3)(@angular/forms@16.2.3)(@angular/localize@16.2.3)(@popperjs/core@2.11.8)(rxjs@7.8.1)
+      '@ng-bootstrap/ng-bootstrap': 15.1.1(@angular/common@16.2.3)(@angular/core@16.2.3)(@angular/forms@16.2.3)(@angular/localize@16.2.3)(@popperjs/core@2.11.8)(rxjs@7.8.1)
       bootstrap: 5.3.1(@popperjs/core@2.11.8)
       class-validator: 0.14.0
       reflect-metadata: 0.1.13
@@ -4574,19 +4578,17 @@ packages:
       tslib: 2.6.2
       uid: 2.0.2
 
-  /@nestjs/config@2.3.4(@nestjs/common@10.2.4)(reflect-metadata@0.1.13)(rxjs@7.8.1):
-    resolution: {integrity: sha512-IGdSF+0F9MJO6dCRTEahdxPz4iVijjtolcFBxnY+2QYM3bXYQvAgzskGZi+WkAFJN/VzR3TEp60gN5sI74GxPA==}
+  /@nestjs/config@3.0.1(@nestjs/common@10.2.4)(reflect-metadata@0.1.13):
+    resolution: {integrity: sha512-a98MMkDlgUlXTv9qtDbimYfXsuafn/YZOh/S35afutr0Qc5T6KzjyWP5VjxRkv26yI2JM0RhFruByFTM6ezwHA==}
     peerDependencies:
-      '@nestjs/common': ^7.0.0 || ^8.0.0 || ^9.0.0
+      '@nestjs/common': ^8.0.0 || ^9.0.0 || ^10.0.0
       reflect-metadata: ^0.1.13
-      rxjs: ^6.0.0 || ^7.2.0
     dependencies:
       '@nestjs/common': 10.2.4(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)
-      dotenv: 16.1.4
+      dotenv: 16.3.1
       dotenv-expand: 10.0.0
       lodash: 4.17.21
       reflect-metadata: 0.1.13
-      rxjs: 7.8.1
       uuid: 9.0.0
     dev: false
 
@@ -4640,11 +4642,11 @@ packages:
       reflect-metadata: 0.1.13
     dev: false
 
-  /@nestjs/mongoose@9.2.2(@nestjs/common@10.2.4)(@nestjs/core@10.2.4)(mongoose@7.5.0)(reflect-metadata@0.1.13)(rxjs@7.8.1):
-    resolution: {integrity: sha512-szNuSUCwwbQSSeiTh8+tZ9fHV4nuzHwBDROb0hX0s7crwY15TunCfwyKbB2XjqkEQWUAasDeCBuKOJSL9N6tTg==}
+  /@nestjs/mongoose@10.0.1(@nestjs/common@10.2.4)(@nestjs/core@10.2.4)(mongoose@7.5.0)(reflect-metadata@0.1.13)(rxjs@7.8.1):
+    resolution: {integrity: sha512-woUViG28WKf/kRiv6NFXu4Oc0DvAPeX4+fT4coDVt2OqndnfJZTXwkkys23uVsBpKSIflRyjPvmcVBHQvcunZw==}
     peerDependencies:
-      '@nestjs/common': ^8.0.0 || ^9.0.0
-      '@nestjs/core': ^8.0.0 || ^9.0.0
+      '@nestjs/common': ^8.0.0 || ^9.0.0 || ^10.0.0
+      '@nestjs/core': ^8.0.0 || ^9.0.0 || ^10.0.0
       mongoose: ^6.0.2 || ^7.0.0
       reflect-metadata: ^0.1.12
       rxjs: ^7.0.0
@@ -4749,13 +4751,13 @@ packages:
       tslib: 2.6.2
     dev: true
 
-  /@ng-bootstrap/ng-bootstrap@14.2.0(@angular/common@16.2.3)(@angular/core@16.2.3)(@angular/forms@16.2.3)(@angular/localize@16.2.3)(@popperjs/core@2.11.8)(rxjs@7.8.1):
-    resolution: {integrity: sha512-nqEKVXauSontGKqC5WSKpch5TiAGDZB3hluvxkINS0r9LUE6sBQRP3qeYOe7Uwu+UbQcj28NG3qFHhpfnG8KHw==}
+  /@ng-bootstrap/ng-bootstrap@15.1.1(@angular/common@16.2.3)(@angular/core@16.2.3)(@angular/forms@16.2.3)(@angular/localize@16.2.3)(@popperjs/core@2.11.8)(rxjs@7.8.1):
+    resolution: {integrity: sha512-nZlIMMggtI3IHkGs0XPrUIUdpeEzQvfGV9M4I9IvCqiS2n4RwWoUvWK1ICo4csZqFNBDlCQx956gO6ZZUSL2mw==}
     peerDependencies:
-      '@angular/common': ^15.0.0
-      '@angular/core': ^15.0.0
-      '@angular/forms': ^15.0.0
-      '@angular/localize': ^15.0.0
+      '@angular/common': ^16.0.0
+      '@angular/core': ^16.0.0
+      '@angular/forms': ^16.0.0
+      '@angular/localize': ^16.0.0
       '@popperjs/core': ^2.11.6
       rxjs: ^6.5.3 || ^7.4.0
     dependencies:
@@ -9112,15 +9114,9 @@ packages:
     engines: {node: '>=12'}
     dev: false
 
-  /dotenv@16.1.4:
-    resolution: {integrity: sha512-m55RtE8AsPeJBpOIFKihEmqUcoVncQIwo7x9U8ZwLEZw9ZpXboz2c+rvog+jUaJvVrZ5kBOeYQBX5+8Aa/OZQw==}
-    engines: {node: '>=12'}
-    dev: false
-
   /dotenv@16.3.1:
     resolution: {integrity: sha512-IPzF4w4/Rd94bA9imS68tZBaYyBWSCE47V1RGuMrB94iyTOIEwRmVL2x/4An+6mETpLrKJ5hQkB8W4kFAadeIQ==}
     engines: {node: '>=12'}
-    dev: true
 
   /duplexer@0.1.2:
     resolution: {integrity: sha512-jtD6YG370ZCIi/9GTaJKQxWTZD045+4R4hTk/x1UyoqadyJ9x9CgSi1RlVDQF8U2sxLLSnFkCaMihqljHIWgMg==}
@@ -13422,12 +13418,12 @@ packages:
       - supports-color
     dev: true
 
-  /ngx-cookie-service-ssr@15.0.0(@angular/common@16.2.3)(@angular/core@16.2.3)(@nguniversal/express-engine@16.2.0):
-    resolution: {integrity: sha512-zgeNOg+31nhZ7Z63dOC+oLnSHLsnX8ws+mLz6zFl4N3/jf3c9ELKgDAZReEvO2eQi88YXTZz2069/Q0LQo4G8g==}
+  /ngx-cookie-service-ssr@16.0.1(@angular/common@16.2.3)(@angular/core@16.2.3)(@nguniversal/express-engine@16.2.0):
+    resolution: {integrity: sha512-R6pxyoGbo6cudDMtB7IKiUyNU/MYjO21H61ApTYLGcc8Loto3lWrNPpXnQX79M1ATxNAi7qT7dVW2ueDyEmoBA==}
     peerDependencies:
-      '@angular/common': ^15.0.0
-      '@angular/core': ^15.0.0
-      '@nguniversal/express-engine': ^15.0.0
+      '@angular/common': ^16.0.0
+      '@angular/core': ^16.0.0
+      '@nguniversal/express-engine': ^16.0.0
     dependencies:
       '@angular/common': 16.2.3(@angular/core@16.2.3)(rxjs@7.8.1)
       '@angular/core': 16.2.3(rxjs@7.8.1)(zone.js@0.13.1)
