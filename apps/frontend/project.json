@@ -128,7 +128,8 @@
         "development": {
           "optimization": false,
           "sourceMap": true,
-          "extractLicenses": false
+          "extractLicenses": false,
+          "buildOptimizer": false
         }
       },
       "defaultConfiguration": "production"
