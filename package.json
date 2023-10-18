@@ -113,7 +113,9 @@
   "pnpm": {
     "overrides": {
       "degenerator@<5.0.1": ">=5.0.1",
-      "@cypress/request@<=2.88.12": ">=3.0.0"
+      "@cypress/request@<=2.88.12": ">=3.0.0",
+      "postcss@<8.4.31": ">=8.4.31",
+      "@babel/traverse@<7.23.2": ">=7.23.2"
     }
   }
 }
