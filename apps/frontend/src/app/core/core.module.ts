@@ -2,9 +2,14 @@ import {CommonModule, NgOptimizedImage} from '@angular/common';
 import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {RouterModule} from '@angular/router';
-import {NgbAlertModule, NgbCollapseModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbAlertModule,
+  NgbCollapseModule,
+  NgbDropdownModule,
+  NgbTooltipModule,
+} from '@ng-bootstrap/ng-bootstrap';
 
-import { CookieBannerComponent } from './cookie-banner/cookie-banner.component';
+import {CookieBannerComponent} from './cookie-banner/cookie-banner.component';
 import {LocationLinkComponent} from './location-link/location-link.component';
 import {MarkdownComponent} from './markdown/markdown.component';
 import {NavbarComponent} from './navbar/navbar.component';
@@ -29,6 +34,7 @@ import {TokenComponent} from './token/token.component';
     ReactiveFormsModule,
     NgbAlertModule,
     NgOptimizedImage,
+    NgbDropdownModule
   ],
   exports: [
     RouterModule,
