@@ -3,7 +3,7 @@ import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {RouterModule} from '@angular/router';
 import {NgbxDarkmodeModule, THEME_ATTRIBUTE} from '@mean-stream/ngbx';
-import {NgbAlertModule, NgbCollapseModule, NgbDropdownModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
+import {NgbAlertModule, NgbCollapseModule, NgbDropdownModule, NgbTooltipModule,} from '@ng-bootstrap/ng-bootstrap';
 
 import {CookieBannerComponent} from './cookie-banner/cookie-banner.component';
 import {InfoTableComponent} from './info-table/info-table.component';

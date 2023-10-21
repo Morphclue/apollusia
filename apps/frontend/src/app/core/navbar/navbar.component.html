@@ -38,6 +38,24 @@
             <i class="bi-github icon" title="GitHub"></i>
           </a>
         </li>
+        <li class="nav-item" ngbDropdown display="dynamic">
+          <a class="nav-link" ngbDropdownToggle id="navbarDropdown" role="button">
+            <i class="bi-person-circle icon" title="User"></i>
+          </a>
+          <div ngbDropdownMenu aria-labelledby="navbarDropdown" class="dropdown-menu">
+            <a ngbDropdownItem href="#">
+              <i class="bi-gear icon"></i>
+              Settings
+            </a>
+            <a
+              ngbDropdownItem
+              href="https://github.com/Morphclue/apollusia/issues/new?template=bug_report.md"
+              target="_blank">
+              <i class="bi-bug icon"></i>
+              Report a bug
+            </a>
+          </div>
+        </li>
       </ul>
     </div>
   </div>
