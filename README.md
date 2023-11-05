@@ -30,6 +30,9 @@ EMAIL_FROM=<sender email>
 EMAIL_NAME=Apollusia # optional sender display name
 VAPID_PUBLIC_KEY=<vapid public key> # for push notifications
 VAPID_PRIVATE_KEY=<vapid private key> # for push notifications
+CONTACT_OPERATOR=<contact operator>
+CONTACT_MAIL=<contact email>
+CONTACT_ADDRESS=<contact address>
 ```
 
 VAPID keys can be generated using the following command:
