@@ -89,5 +89,19 @@
       </p>
     </li>
   </ul>
-  <h3>Contact Us</h3>
+  <div *ngIf="imprint">
+    <h3>Contact Us</h3>
+    <p>
+      {{imprint.contactOperator}}<br>
+      {{imprint.contactAddress}}<br>
+      <a href="mailto:{{imprint.contactMail}}">{{imprint.contactMail}}</a>
+    </p>
+  </div>
+  <div *ngIf="!imprint">
+    <h3>No contact</h3>
+    <p>
+      No contact information available.
+      Please contact the hosting entity or instance directly.
+    </p>
+  </div>
 </div>
