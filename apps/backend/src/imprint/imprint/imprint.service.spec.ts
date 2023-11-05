@@ -1,6 +1,7 @@
 import {Test, TestingModule} from '@nestjs/testing';
 
 import {ImprintService} from './imprint.service';
+import {closeMongoConnection, rootMongooseTestModule} from '../../utils/mongo-util';
 import {ImprintModule} from '../imprint.module';
 
 describe('ImprintService', () => {
@@ -8,7 +9,10 @@ describe('ImprintService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [ImprintModule]
+      imports: [
+          rootMongooseTestModule(),
+          ImprintModule
+      ]
     }).compile();
 
     service = module.get<ImprintService>(ImprintService);
@@ -16,5 +20,9 @@ describe('ImprintService', () => {
 
   it('should be defined', () => {
     expect(service).toBeDefined();
+  });
+
+  afterAll(async () => {
+    await closeMongoConnection();
   });
 });
