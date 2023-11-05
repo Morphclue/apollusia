@@ -8,7 +8,6 @@ export class ImprintService {
   }
 
   getImprint(): ImprintDto {
-    console.log(this.config.get('CONTACT_ADDRESS'))
     return {
       contactOperator: this.config.get('CONTACT_OPERATOR'),
       contactAddress: this.config.get('CONTACT_ADDRESS'),
