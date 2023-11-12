@@ -60,9 +60,8 @@ export class ChooseEventsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const id$ = this.route.params.pipe(map(({id}) => this.id = id));
-
-    id$.pipe(
+    this.route.params.pipe(
+      map(({id}) => this.id = id),
       switchMap(id => forkJoin([
         this.pollService.get(id).pipe(tap(poll => {
           this.poll = poll;
@@ -78,37 +77,35 @@ export class ChooseEventsComponent implements OnInit {
           this.validateNew();
         })),
         this.pollService.getParticipants(id).pipe(tap(participants => this.participants = participants)),
+        this.pollService.isAdmin(id, this.token),
       ])),
-    ).subscribe(([poll, events, participants]) => {
-      let description = '';
-      if (poll.description) {
-        description += poll.description + '\n\n';
-      }
-      if (poll.location) {
-        description += `🌐 Location: ${poll.location}\n`;
-      }
-      if (poll.settings.deadline) {
-        // sv-SE formats like ISO 8601, but with a space instead of a T
-        const timeZone = poll.timeZone;
-        const timeZoneStr = timeZone ? ' (' + timeZone + ')' : '';
-        const deadline = new Date(poll.settings.deadline).toLocaleString('sv-SE', {
-          timeZone: timeZone,
-        });
-        description += `📅 Deadline: ${deadline}${timeZoneStr}\n`;
-      }
-      description += `✅ ${events.length} Option${events.length !== 1 ? 's' : ''} - 👤 ${participants.length} Participant${participants.length !== 1 ? 's' : ''}`;
-      this.meta.updateTag({name: 'description', content: description});
-      this.meta.updateTag({property: 'og:description', content: description});
+    ).subscribe(([poll, events, participants, isAdmin]) => {
+      this.setDescription(poll, events, participants);
 
       this.bookedEvents = events.map(e => poll.bookedEvents.includes(e._id));
+      this.isAdmin = isAdmin;
       this.updateHelpers();
     });
+  }
 
-    id$.pipe(
-      switchMap(id => this.pollService.isAdmin(id, this.token)),
-    ).subscribe(isAdmin => {
-      this.isAdmin = isAdmin;
-    });
+  private setDescription(poll: Poll, events: PollEvent[], participants: Participant[]) {
+    let description = '';
+    if (poll.description) {
+      description += poll.description + '\n\n';
+    }
+    if (poll.location) {
+      description += `🌐 Location: ${poll.location}\n`;
+    }
+    if (poll.settings.deadline) {
+      const timeZone = poll.timeZone;
+      // sv-SE formats like ISO 8601, but with a space instead of a T
+      const deadline = new Date(poll.settings.deadline).toLocaleString('sv-SE', {timeZone});
+      const timeZoneStr = timeZone ? ` (${timeZone})` : '';
+      description += `📅 Deadline: ${deadline}${timeZoneStr}\n`;
+    }
+    description += `✅ ${events.length} Option${events.length !== 1 ? 's' : ''} - 👤 ${participants.length} Participant${participants.length !== 1 ? 's' : ''}`;
+    this.meta.updateTag({name: 'description', content: description});
+    this.meta.updateTag({property: 'og:description', content: description});
   }
 
   // Primary Actions
