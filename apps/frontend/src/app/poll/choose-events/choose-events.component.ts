@@ -80,25 +80,7 @@ export class ChooseEventsComponent implements OnInit {
         this.pollService.isAdmin(id, this.token),
       ])),
     ).subscribe(([poll, events, participants, isAdmin]) => {
-      let description = '';
-      if (poll.description) {
-        description += poll.description + '\n\n';
-      }
-      if (poll.location) {
-        description += `🌐 Location: ${poll.location}\n`;
-      }
-      if (poll.settings.deadline) {
-        // sv-SE formats like ISO 8601, but with a space instead of a T
-        const timeZone = poll.timeZone;
-        const timeZoneStr = timeZone ? ' (' + timeZone + ')' : '';
-        const deadline = new Date(poll.settings.deadline).toLocaleString('sv-SE', {
-          timeZone: timeZone,
-        });
-        description += `📅 Deadline: ${deadline}${timeZoneStr}\n`;
-      }
-      description += `✅ ${events.length} Option${events.length !== 1 ? 's' : ''} - 👤 ${participants.length} Participant${participants.length !== 1 ? 's' : ''}`;
-      this.meta.updateTag({name: 'description', content: description});
-      this.meta.updateTag({property: 'og:description', content: description});
+      this.setDescription(poll, events, participants);
 
       this.bookedEvents = events.map(e => poll.bookedEvents.includes(e._id));
       this.isAdmin = isAdmin;
@@ -106,7 +88,29 @@ export class ChooseEventsComponent implements OnInit {
     });
   }
 
-  // Primary Actions
+  private setDescription(poll: Poll, events: PollEvent[], participants: Participant[]) {
+    let description = '';
+    if (poll.description) {
+      description += poll.description + '\n\n';
+    }
+    if (poll.location) {
+      description += `🌐 Location: ${poll.location}\n`;
+    }
+    if (poll.settings.deadline) {
+      // sv-SE formats like ISO 8601, but with a space instead of a T
+      const timeZone = poll.timeZone;
+      const timeZoneStr = timeZone ? ' (' + timeZone + ')' : '';
+      const deadline = new Date(poll.settings.deadline).toLocaleString('sv-SE', {
+        timeZone: timeZone,
+      });
+      description += `📅 Deadline: ${deadline}${timeZoneStr}\n`;
+    }
+    description += `✅ ${events.length} Option${events.length !== 1 ? 's' : ''} - 👤 ${participants.length} Participant${participants.length !== 1 ? 's' : ''}`;
+    this.meta.updateTag({name: 'description', content: description});
+    this.meta.updateTag({property: 'og:description', content: description});
+  }
+
+// Primary Actions
 
   copyToClipboard() {
     navigator.clipboard.writeText(this.url).then().catch(e => console.log(e));
