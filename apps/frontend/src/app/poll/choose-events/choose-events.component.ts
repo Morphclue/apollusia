@@ -60,9 +60,8 @@ export class ChooseEventsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const id$ = this.route.params.pipe(map(({id}) => this.id = id));
-
-    id$.pipe(
+    this.route.params.pipe(
+      map(({id}) => this.id = id),
       switchMap(id => forkJoin([
         this.pollService.get(id).pipe(tap(poll => {
           this.poll = poll;
@@ -78,8 +77,9 @@ export class ChooseEventsComponent implements OnInit {
           this.validateNew();
         })),
         this.pollService.getParticipants(id).pipe(tap(participants => this.participants = participants)),
+        this.pollService.isAdmin(id, this.token),
       ])),
-    ).subscribe(([poll, events, participants]) => {
+    ).subscribe(([poll, events, participants, isAdmin]) => {
       let description = '';
       if (poll.description) {
         description += poll.description + '\n\n';
@@ -101,13 +101,8 @@ export class ChooseEventsComponent implements OnInit {
       this.meta.updateTag({property: 'og:description', content: description});
 
       this.bookedEvents = events.map(e => poll.bookedEvents.includes(e._id));
-      this.updateHelpers();
-    });
-
-    id$.pipe(
-      switchMap(id => this.pollService.isAdmin(id, this.token)),
-    ).subscribe(isAdmin => {
       this.isAdmin = isAdmin;
+      this.updateHelpers();
     });
   }
 
