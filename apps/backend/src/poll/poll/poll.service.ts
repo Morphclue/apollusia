@@ -91,14 +91,15 @@ export class PollService implements OnModuleInit {
     if (active === undefined) {
       return {};
     }
+    const date = new Date(Date.now() - environment.polls.activeDays * 24 * 60 * 60 * 1000);
     return active ? {
       $or: [
-        {'settings.deadline': {$gt: new Date()}},
+        {'settings.deadline': {$gt: date}},
         {'settings.deadline': {$exists: false}},
         {'settings.deadline': null},
       ],
     } : {
-      'settings.deadline': {$ne: null, $lte: new Date()},
+      'settings.deadline': {$ne: null, $lte: date},
     };
   }
 
@@ -331,7 +332,7 @@ export class PollService implements OnModuleInit {
       };
       await this.participantModel.updateMany(filter, {
         $unset: events.map(e => 'selection.' + e._id),
-      }).exec();
+      }, {timestamps: false}).exec();
     }
 
     async setMail(mailDto: MailDto) {

@@ -12,6 +12,7 @@ import {AppComponent} from './app.component';
 import {CoreModule} from './core/core.module';
 import {ParticipantTokenInterceptor} from './core/interceptors/participant-token.interceptor';
 import {TokenService} from './core/services';
+import {LegalModule} from './legal/legal.module';
 import {SettingsModalComponent} from './modals';
 
 @NgModule({
@@ -27,12 +28,13 @@ import {SettingsModalComponent} from './modals';
     HttpClientModule,
     ReactiveFormsModule,
     AboutModule,
+    LegalModule,
     CoreModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: !isDevMode(),
       // Register the ServiceWorker as soon as the application is stable
       // or after 30 seconds (whichever comes first).
-      registrationStrategy: 'registerWhenStable:30000'
+      registrationStrategy: 'registerWhenStable:30000',
     }),
     ToastModule,
   ],

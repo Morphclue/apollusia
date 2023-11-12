@@ -2,7 +2,7 @@
 
 Apollusia is a calendar tool for coordinating events with multiple people.
 It is a web application written in Angular with NestJS as the backend.
-A running instance of the application can be found under https://apollusia.uniks.de/.
+A running instance of the application can be found under https://apollusia.com/.
 Feel free to check it out!
 
 :star: Star this project on GitHub — it motivates me a lot!
@@ -30,6 +30,9 @@ EMAIL_FROM=<sender email>
 EMAIL_NAME=Apollusia # optional sender display name
 VAPID_PUBLIC_KEY=<vapid public key> # for push notifications
 VAPID_PRIVATE_KEY=<vapid private key> # for push notifications
+CONTACT_OPERATOR=<contact operator>
+CONTACT_MAIL=<contact email>
+CONTACT_ADDRESS=<contact address>
 ```
 
 VAPID keys can be generated using the following command:

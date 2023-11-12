@@ -1,0 +1,100 @@
+<div class="container mt-5 mb-5">
+  <h2>Privacy Policy</h2>
+  <p class="text-muted">Last updated: August 19, 2023</p>
+  <p>
+    This Privacy Policy describes the use and disclosure of your information when you are using this service.
+    We use your information to provide and improve the service. By using the service, you agree to the collection and
+    use of information in accordance with this policy. Apollusia is an open source project and is not responsible for
+    the privacy policies of other hosting entities or instances. Each hosting entity or instance is responsible for
+    their own privacy policies. The original Apollusia project is hosted at <a href="https://apollusia.com">apollusia.com</a>.
+  </p>
+  <h3>Purpose of Data Collection</h3>
+  <p>
+    We collect certain types of personal information to improve our service and to provide you with a better
+    experience. The types of personal information we collect are described below.
+  </p>
+  <ul>
+    <li>
+      <p><strong>Name</strong>
+        By participating in a poll, you may be asked to provide your name. This name may used to identify you in the
+        poll results by the poll creator.
+      </p>
+    </li>
+    <li>
+      <p><strong>Email Address</strong>
+        You have the option to provide an email address when using Apollusia. This email address is used to send you
+        notifications about the poll you are participating in. You can opt-out of these notifications at any time.
+      </p>
+    </li>
+    <li>
+      <p><strong>Available times</strong>
+        When participating in a poll, you may be asked to provide your available times. This information is used to
+        determine the best time for an event.
+      </p>
+    </li>
+  </ul>
+  <h3>Legal Basis for Data Processing</h3>
+  <p>
+    Apollusia operates in compliance with the data protection regulations applicable in Germany, where our platform is
+    hosted. The collection and processing of personal information is carried out based on the legal grounds of user
+    consent. When you voluntarily provide your personal information by participating in a poll and utilizing our
+    services, you
+    are providing your explicit consent for us to process the information for the purposes outlined in this Privacy
+    Policy.
+  </p>
+  <h3>Statistics</h3>
+  <p>
+    Apollusia collects certain anonymized statistics to improve our service and better understand user interactions.
+    These statistics include the number of polls created, general usage patterns and trends. Please note that these
+    statistics are aggregated and anonymized, ensuring that individual users cannot be identified through this data.
+  </p>
+  <h3>Cookies</h3>
+  <p>
+    At Apollusia, we utilize cookies to enhance your experience and offer convenient functionality, especially for
+    users accessing our platform on different end devices. Cookies are small text files stored on your device, which
+    contain data such as a unique token. The specific purpose of the cookies we employ is to allow users to seamlessly
+    continue using Apollusia on different end devices. By storing a unique token in these cookies, we can provide
+    you with a consistent experience across sessions. By continuing to use our platform, you consent to the use of
+    cookies as described.
+  </p>
+  <h3>Security Measures</h3>
+  <p>
+    Our website operates over HTTPS (Hypertext Transfer Protocol Secure), which provides a secure and encrypted
+    connection between your browser and our servers. This encryption helps protect the data you exchange with our
+    platform, including any personal information you provide. Furthermore, we regularly update our security measures
+    to ensure that your data is protected. While we strive to maintain the highest level of security, it's important to
+    note that no method of data transmission over the internet is entirely foolproof. Therefore, while we implement
+    robust security measures, we cannot guarantee absolute security of your data.
+  </p>
+  <h3>User Rights</h3>
+  <p>
+    As a user of Apollusia, you have certain rights regarding your personal information, which we are committed to
+    respecting and facilitating:
+  </p>
+  <ul>
+    <li>
+      <p><strong>Access</strong>
+        You have the right to request information about the personal data we hold about you and how it is being used.
+      </p>
+    </li>
+    <li>
+      <p><strong>Correction</strong>
+        If you believe that any of the personal information we have about you is inaccurate or incomplete, you have the
+        right to request corrections to it.
+      </p>
+    </li>
+    <li>
+      <p><strong>Deletion</strong>
+        You have the right to request that we delete your personal information.
+      </p>
+    </li>
+  </ul>
+  <div *ngIf="imprint">
+    <h3>Contact Us</h3>
+    <p>
+      {{imprint.contactOperator}}<br>
+      {{imprint.contactAddress}}<br>
+      <a href="mailto:{{imprint.contactMail}}">{{imprint.contactMail}}</a>
+    </p>
+  </div>
+</div>
