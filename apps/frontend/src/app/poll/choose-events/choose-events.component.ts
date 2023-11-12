@@ -97,12 +97,10 @@ export class ChooseEventsComponent implements OnInit {
       description += `🌐 Location: ${poll.location}\n`;
     }
     if (poll.settings.deadline) {
-      // sv-SE formats like ISO 8601, but with a space instead of a T
       const timeZone = poll.timeZone;
-      const timeZoneStr = timeZone ? ' (' + timeZone + ')' : '';
-      const deadline = new Date(poll.settings.deadline).toLocaleString('sv-SE', {
-        timeZone: timeZone,
-      });
+      // sv-SE formats like ISO 8601, but with a space instead of a T
+      const deadline = new Date(poll.settings.deadline).toLocaleString('sv-SE', {timeZone});
+      const timeZoneStr = timeZone ? ` (${timeZone})` : '';
       description += `📅 Deadline: ${deadline}${timeZoneStr}\n`;
     }
     description += `✅ ${events.length} Option${events.length !== 1 ? 's' : ''} - 👤 ${participants.length} Participant${participants.length !== 1 ? 's' : ''}`;
@@ -110,7 +108,7 @@ export class ChooseEventsComponent implements OnInit {
     this.meta.updateTag({property: 'og:description', content: description});
   }
 
-// Primary Actions
+  // Primary Actions
 
   copyToClipboard() {
     navigator.clipboard.writeText(this.url).then().catch(e => console.log(e));
