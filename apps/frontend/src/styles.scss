@@ -14,11 +14,6 @@ $primary: $french-violet;
 $secondary: $purple;
 $dark: $persian-indigo;
 
-$success: $french-violet;
-$info: $amethyst;
-$warning: $heliotrope;
-$danger: $mauve;
-
 /* Imports */
 @import 'node_modules/bootstrap/scss/bootstrap';
 @import 'node_modules/bootstrap-icons/font/bootstrap-icons.css';
@@ -70,33 +65,33 @@ $danger: $mauve;
 }
 
 .p-yes {
-  color: #28a745;
-  background-color: #d4edda;
+  color: var(--bs-success-text-emphasis);
+  background-color: var(--bs-success-bg-subtle);
 
   & > .form-check-input:checked {
-    background-color: #28a745;
-    border-color: #28a745;
+    background-color: var(--bs-success);
+    border-color: var(--bs-success);
   }
 }
 
 .p-no {
-  color: #dc3545;
-  background-color: #f8d7da;
+  color: var(--bs-danger-text-emphasis);
+  background-color: var(--bs-danger-bg-subtle);
 }
 
 .p-maybe {
-  color: #ffc107;
-  background-color: #fff3cd;
+  color: var(--bs-warning-text-emphasis);
+  background-color: var(--bs-warning-bg-subtle);
 
   & > .form-check-input:indeterminate {
-    background-color: #ffc107;
-    border-color: #ffc107;
+    background-color: var(--bs-warning);
+    border-color: var(--bs-warning);
   }
 }
 
 .p-unset {
-  color: gray;
-  background-color: lightgray;
+  color: var(--bs-tertiary-color);
+  background-color: var(--bs-tertiary-bg);
 }
 
 /* Ngb-Datepicker */
