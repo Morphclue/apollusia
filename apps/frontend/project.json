@@ -16,9 +16,10 @@
         "polyfills": ["zone.js"],
         "tsConfig": "apps/frontend/tsconfig.app.json",
         "assets": [
-          "apps/frontend/src/favicon.ico",
           "apps/frontend/src/assets",
-          "apps/frontend/src/manifest.webmanifest"
+          "apps/frontend/src/favicon.ico",
+          "apps/frontend/src/manifest.webmanifest",
+          "apps/frontend/src/robots.txt"
         ],
         "styles": ["apps/frontend/src/styles.scss"],
         "allowedCommonJsDependencies": ["validator"],
