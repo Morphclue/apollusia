@@ -26,9 +26,11 @@
       [class.cal-after-hour-start]="!segment.isStart"
       (mousedown)="startDragToCreate(segment, $event, segmentElement)"
     >
-      <div class="cal-time" *ngIf="isTimeLabel">
-        {{ segment.date | calendarDate:'weekViewHour':locale }}
-      </div>
+      @if (isTimeLabel) {
+        <div class="cal-time">
+          {{ segment.date | calendarDate:'weekViewHour':locale }}
+        </div>
+      }
     </div>
   </ng-template>
   <div class="scroll-container border border-primary shadow mb-3">
@@ -44,8 +46,12 @@
     </mwl-calendar-week-view>
   </div>
   <div class="d-flex justify-content-end">
-    <div *ngIf="!hasEvents()" class="btn btn-primary" (click)="createEvents()">Create</div>
-    <div *ngIf="hasEvents()" class="btn btn-primary" (click)="createEvents()">Update</div>
+    @if (!hasEvents()) {
+      <div class="btn btn-primary" (click)="createEvents()">Create</div>
+    }
+    @if (hasEvents()) {
+      <div class="btn btn-primary" (click)="createEvents()">Update</div>
+    }
   </div>
 </div>
 
@@ -59,21 +65,18 @@
       [event]="weekEvent.tempEvent || weekEvent.event"
       [view]="daysInWeek === 1 ? 'day' : 'week'"
     ></mwl-calendar-event-title>
-    <i *ngIf="weekEvent.event.meta.note !== undefined && weekEvent.event.meta.note.length > 0"
-       class="bi-sticky-fill text-light"
-       placement="top"
-       ngbTooltip="{{weekEvent.event.meta.note}}"
-    ></i>
+    @if (weekEvent.event.meta.note !== undefined && weekEvent.event.meta.note.length > 0) {
+      <i class="bi-sticky-fill text-light" placement="top" ngbTooltip="{{weekEvent.event.meta.note}}"></i>
+    }
     <div class="click-cursor">
       <div ngbDropdown container="body" class="d-flex align-content-center">
         <button ngbDropdownToggle type="button" class="btn-no-style" id="dropdownButton"></button>
         <div ngbDropdownMenu>
           <button ngbDropdownItem (click)="openNoteModal(noteContent, weekEvent.event)">Add Note</button>
           <button ngbDropdownItem (click)="autofill(weekEvent.event)">Autofill</button>
-          <button
-            *ngIf="weekEvent.event.meta.note !== undefined"
-            ngbDropdownItem (click)="deleteNote(weekEvent.event)">Delete Note
-          </button>
+          @if (weekEvent.event.meta.note !== undefined) {
+            <button ngbDropdownItem (click)="deleteNote(weekEvent.event)">Delete Note</button>
+          }
         </div>
         <button class="btn-no-style bi-x-lg" (click)="deleteEvent(weekEvent.event)"></button>
       </div>
