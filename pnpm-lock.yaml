@@ -54,8 +54,8 @@ dependencies:
     specifier: 17.0.7
     version: 17.0.7(@angular/common@17.0.7)(@angular/core@17.0.7)
   '@mean-stream/nestx':
-    specifier: ^0.11.1
-    version: 0.11.1(@nestjs/common@10.2.4)(@nestjs/core@10.2.4)(@nestjs/mongoose@10.0.2)(@nestjs/platform-express@10.2.4)(@nestjs/swagger@7.1.10)(class-transformer@0.5.1)(class-validator@0.14.1)(mongoose@8.0.4)(reflect-metadata@0.1.14)(rxjs@7.8.1)(tslib@2.6.2)
+    specifier: ^0.11.2
+    version: 0.11.2(@nestjs/common@10.2.4)(@nestjs/core@10.2.4)(@nestjs/mongoose@10.0.2)(@nestjs/platform-express@10.2.4)(@nestjs/swagger@7.1.10)(base64-js@1.5.1)(class-transformer@0.5.1)(class-validator@0.14.1)(mongoose@8.0.4)(reflect-metadata@0.1.14)(rxjs@7.8.1)(tslib@2.6.2)
   '@mean-stream/ngbx':
     specifier: ^0.13.0
     version: 0.13.0(@angular/common@17.0.7)(@angular/core@17.0.7)(@angular/router@17.0.7)(@ng-bootstrap/ng-bootstrap@16.0.0)(bootstrap@5.3.2)(class-validator@0.14.1)(reflect-metadata@0.1.14)
@@ -4685,8 +4685,8 @@ packages:
     resolution: {integrity: sha512-YbrUWREPGEjE/FU6foXcAT1YbVwqD/jkYnY1dFb0o4AxtP3s4xKBthlELjndZih8uwsDWgQZx1eNskRNe2BgZQ==}
     dev: false
 
-  /@mean-stream/nestx@0.11.1(@nestjs/common@10.2.4)(@nestjs/core@10.2.4)(@nestjs/mongoose@10.0.2)(@nestjs/platform-express@10.2.4)(@nestjs/swagger@7.1.10)(class-transformer@0.5.1)(class-validator@0.14.1)(mongoose@8.0.4)(reflect-metadata@0.1.14)(rxjs@7.8.1)(tslib@2.6.2):
-    resolution: {integrity: sha512-zLWPgfrboENpfqdOGLRhs2fM9o4F/LHzu+w/xX+PYUHCn2UUs3uHnXhBYViR2hwcRx0vyGKijgQb2/5PL12P/w==}
+  /@mean-stream/nestx@0.11.2(@nestjs/common@10.2.4)(@nestjs/core@10.2.4)(@nestjs/mongoose@10.0.2)(@nestjs/platform-express@10.2.4)(@nestjs/swagger@7.1.10)(base64-js@1.5.1)(class-transformer@0.5.1)(class-validator@0.14.1)(mongoose@8.0.4)(reflect-metadata@0.1.14)(rxjs@7.8.1)(tslib@2.6.2):
+    resolution: {integrity: sha512-4azv+OYXIpAX59Pd3A6+iQ9CR+NegFxnAdSCjITB+j4dcddoWdZF7Y8CSJJL7Ogbfqvfe0hBL0avwsMFlJ6d6g==}
     peerDependencies:
       '@nestjs/common': ^10.0.0
       '@nestjs/core': ^10.0.0
@@ -4696,6 +4696,7 @@ packages:
       '@nestjs/platform-express': ^10.0.0
       '@nestjs/swagger': ^7.0.0
       '@nestjs/websockets': ^10.0.0
+      base64-js: ^1.5.1
       class-transformer: ^0.5.0
       class-validator: ^0.14.0
       mongoose: '>=7.0.0 <9.0.0'
@@ -4716,6 +4717,8 @@ packages:
         optional: true
       '@nestjs/websockets':
         optional: true
+      base64-js:
+        optional: true
       mongoose:
         optional: true
       nats:
@@ -4726,6 +4729,7 @@ packages:
       '@nestjs/mongoose': 10.0.2(@nestjs/common@10.2.4)(@nestjs/core@10.2.4)(mongoose@8.0.4)(reflect-metadata@0.1.14)(rxjs@7.8.1)
       '@nestjs/platform-express': 10.2.4(@nestjs/common@10.2.4)(@nestjs/core@10.2.4)
       '@nestjs/swagger': 7.1.10(@nestjs/common@10.2.4)(@nestjs/core@10.2.4)(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.1.14)
+      base64-js: 1.5.1
       class-transformer: 0.5.1
       class-validator: 0.14.1
       mongoose: 8.0.4

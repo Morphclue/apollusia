@@ -76,7 +76,7 @@
     "@angular/router": "17.0.7",
     "@angular/service-worker": "17.0.7",
     "@angular/ssr": "17.0.7",
-    "@mean-stream/nestx": "^0.11.1",
+    "@mean-stream/nestx": "^0.11.2",
     "@mean-stream/ngbx": "^0.13.0",
     "@nestjs-modules/mailer": "^1.10.3",
     "@nestjs/common": "10.2.4",
