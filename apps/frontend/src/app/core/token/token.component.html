@@ -17,11 +17,10 @@
       type="button"
       placement="top"
       ngbTooltip="Toggle visibility"
+      [class.bi-eye]="!visible"
+      [class.bi-eye-slash]="visible"
       (click)="toggleVisibility()"
-    >
-      <i *ngIf=!visible class="bi-eye"></i>
-      <i *ngIf=visible class="bi-eye-slash"></i>
-    </button>
+    ></button>
     <button
       class="btn btn-outline-secondary"
       type="button"

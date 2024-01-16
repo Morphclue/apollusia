@@ -121,8 +121,8 @@ export class PollService implements OnModuleInit {
     const polls = await this.pollModel.find(filter).select(readPollSelect).sort({createdAt: -1}).exec();
     return Promise.all(polls.map(async (poll): Promise<ReadStatsPollDto> => ({
       ...this.mask(poll.toObject()),
-      events: await this.pollEventModel.count({poll: poll._id}).exec(),
-      participants: await this.participantModel.count({poll: poll._id}).exec(),
+      events: await this.pollEventModel.countDocuments({poll: poll._id}).exec(),
+      participants: await this.participantModel.countDocuments({poll: poll._id}).exec(),
     })));
   }
 
@@ -169,7 +169,7 @@ export class PollService implements OnModuleInit {
     }
 
     async deletePoll(id: Types.ObjectId): Promise<ReadPollDto> {
-        const poll = await this.pollModel.findByIdAndDelete(id).select(readPollSelect).exec();
+        const poll = await this.pollModel.findByIdAndDelete(id, {projection: readPollSelect}).exec();
         if (!poll) {
             throw new NotFoundException(id);
         }
@@ -290,7 +290,7 @@ export class PollService implements OnModuleInit {
     }
 
     async deleteParticipation(id: Types.ObjectId, participantId: Types.ObjectId): Promise<ReadParticipantDto | null> {
-        return this.participantModel.findByIdAndDelete(participantId).select(readParticipantSelect).exec();
+        return this.participantModel.findByIdAndDelete(participantId, {projection: readParticipantSelect}).exec();
     }
 
     async bookEvents(id: Types.ObjectId, events: Types.ObjectId[]): Promise<ReadPollDto> {

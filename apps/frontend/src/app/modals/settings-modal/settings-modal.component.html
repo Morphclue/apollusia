@@ -7,9 +7,9 @@
       <form [formGroup]="mailForm">
         <label for="mail">E-Mail</label>
         <input type="email" class="form-control" id="mail" formControlName="mail">
-        <small
-          *ngIf="mailForm.controls.mail.errors?.['email']"
-          class="form-text text-danger">Please enter a valid email (e.g. example@email.com).</small>
+        @if (mailForm.controls.mail.errors?.['email']) {
+          <small class="form-text text-danger">Please enter a valid email (e.g. example&#64;email.com).</small>
+        }
       </form>
     </div>
     <app-token></app-token>

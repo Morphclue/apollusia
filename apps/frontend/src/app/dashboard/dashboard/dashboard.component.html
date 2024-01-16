@@ -47,12 +47,14 @@
         </li>
       </ul>
       <ul class="list-unstyled">
-        <li *ngFor="let poll of polls|search:searchText" class="mb-3">
-          <app-card [poll]="poll" [admin]="!participated"></app-card>
-        </li>
+        @for (poll of polls|search:searchText; track poll) {
+          <li class="mb-3">
+            <app-card [poll]="poll" [admin]="!participated"></app-card>
+          </li>
+        }
         <li class="text-center text-muted if-empty">
           There is nothing here.
-          Maybe you {{searchText ? 'can try another search' : 'should create a poll'}}?
+          Maybe you {{ searchText ? 'can try another search' : 'should create a poll' }}?
         </li>
       </ul>
     </div>

@@ -15,35 +15,47 @@
     <thead>
     <tr>
       <th scope="col">Feature</th>
-      <th scope="col" *ngFor="let app of apps">{{ app }}</th>
+      @for (app of apps; track app) {
+        <th scope="col">{{ app }}</th>
+      }
     </tr>
     </thead>
     <tbody>
-    <ng-container *ngFor="let kv of features|keyvalue">
-      <tr>
-        <td>
-          <h4>{{ kv.key }}</h4>
-        </td>
-      </tr>
-      <tr *ngFor="let feature of kv.value">
-        <th scope="row" class="ps-5">
-          {{ feature.title }}
-          <div class="small text-muted fw-normal">
-            {{ feature.description }}
-          </div>
-        </th>
-        <ng-container *ngFor="let app of apps">
-          <ng-container [ngSwitch]="feature.support[app]" class="icon-lg">
-            <td *ngSwitchCase="true" class="p-yes icon-lg bi-check-lg"></td>
-            <td *ngSwitchCase="false" class="p-no icon-lg bi-x-lg"></td>
-            <td *ngSwitchDefault
-                class="p-maybe bi-flag icon-lg"
-                placement="left" [ngbTooltip]="''+feature.support[app]"
-                container="body"></td>
-          </ng-container>
-        </ng-container>
-      </tr>
-    </ng-container>
+      @for (kv of features|keyvalue; track kv) {
+        <tr>
+          <td>
+            <h4>{{ kv.key }}</h4>
+          </td>
+        </tr>
+        @for (feature of kv.value; track feature) {
+          <tr>
+            <th scope="row" class="ps-5">
+              {{ feature.title }}
+              <div class="small text-muted fw-normal">
+                {{ feature.description }}
+              </div>
+            </th>
+            @for (app of apps; track app) {
+              <ng-container class="icon-lg">
+                @switch (feature.support[app]) {
+                  @case (true) {
+                    <td class="p-yes icon-lg bi-check-lg"></td>
+                  }
+                  @case (false) {
+                    <td class="p-no icon-lg bi-x-lg"></td>
+                  }
+                  @default {
+                    <td class="p-maybe bi-flag icon-lg"
+                        [ngbTooltip]="''+feature.support[app]"
+                        placement="left"
+                        container="body"></td>
+                  }
+                }
+              </ng-container>
+            }
+          </tr>
+        }
+      }
     </tbody>
   </table>
 </div>
