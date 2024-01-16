@@ -89,6 +89,7 @@
     "angular-calendar": "^0.31.0",
     "angularx-flatpickr": "^7.3.0",
     "axios": "^1.6.5",
+    "base64-js": "^1.5.1",
     "bootstrap": "^5.3.2",
     "bootstrap-icons": "^1.11.3",
     "calendar-utils": "^0.10.4",
@@ -121,4 +122,3 @@
     }
   }
 }
-
