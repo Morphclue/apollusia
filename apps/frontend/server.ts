@@ -6,7 +6,7 @@ import * as express from 'express';
 import { existsSync } from 'node:fs';
 import { join } from 'node:path';
 
-import bootstrap from './src/main.server';
+import { AppServerModule } from './src/main.server';
 
 // The Express app is exported so that it can be used by serverless Functions.
 export function app(): express.Express {
@@ -37,7 +37,7 @@ export function app(): express.Express {
 
     commonEngine
       .render({
-        bootstrap,
+        bootstrap: AppServerModule,
         documentFilePath: indexHtml,
         url: `${protocol}://${headers.host}${originalUrl}`,
         publicPath: distFolder,
@@ -70,4 +70,4 @@ if (moduleFilename === __filename || moduleFilename.includes('iisnode')) {
   run();
 }
 
-export default bootstrap;
+export default AppServerModule;

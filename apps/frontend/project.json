@@ -117,10 +117,11 @@
           ]
         },
         "development": {
+          "buildOptimizer": false,
           "optimization": false,
           "sourceMap": true,
           "extractLicenses": false,
-          "buildOptimizer": false
+          "vendorChunk": true
         }
       },
       "defaultConfiguration": "production"
