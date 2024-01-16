@@ -99,7 +99,7 @@
     "flatpickr": "^4.6.13",
     "handlebars": "^4.7.8",
     "markdown-it": "^13.0.2",
-    "mongoose": "^7.6.8",
+    "mongoose": "^8.0.4",
     "ngx-cookie-service-ssr": "^17.0.1",
     "ngx-countup": "^13.1.0",
     "reflect-metadata": "^0.1.14",
