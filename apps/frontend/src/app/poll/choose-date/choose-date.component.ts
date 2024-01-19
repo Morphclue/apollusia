@@ -4,7 +4,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {CalendarEvent, CalendarEventTimesChangedEvent} from 'angular-calendar';
 import {WeekViewHourSegment} from 'calendar-utils';
-import {addMinutes, differenceInMinutes, endOfWeek, format} from 'date-fns';
+import {addMinutes, differenceInMinutes, endOfWeek, format, getMinutes, isBefore, setMinutes} from 'date-fns';
 import {fromEvent, Observable} from 'rxjs';
 import {finalize, map, takeUntil} from 'rxjs/operators';
 
@@ -25,6 +25,7 @@ export class ChooseDateComponent implements AfterViewInit {
   id: string = '';
   note: string = '';
   noteEvent?: CalendarEvent = undefined;
+  disabledHour: boolean;
 
   constructor(
     private modalService: NgbModal,
@@ -157,6 +158,13 @@ export class ChooseDateComponent implements AfterViewInit {
   autofill(event: CalendarEvent) {
     this.chooseDateService.autofillEvent = event;
     this.router.navigate(['autofill'], {relativeTo: this.activatedRoute}).then();
+  }
+
+  isDisabledHour(date: Date) {
+    const now = new Date();
+    const lastQuarter = Math.floor(getMinutes(now) / 15) * 15 - 15;
+    this.disabledHour = isBefore(date, setMinutes(now, lastQuarter));
+    return this.disabledHour;
   }
 
   private updateTime(event: CalendarEvent) {

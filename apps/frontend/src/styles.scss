@@ -109,6 +109,15 @@ $danger: $mauve;
   color: white;
 }
 
+.disabled-hour {
+  background-color: lightgrey;
+  cursor: not-allowed;
+}
+
+.disabled-hour > .disabled-pointer-events {
+  pointer-events: none;
+}
+
 .markdown {
   img {
     max-width: 100%;
