@@ -18,7 +18,7 @@
     let-segmentHeight="segmentHeight"
     let-isTimeLabel="isTimeLabel"
   >
-    <div [class.disabled-hour]="isDisabledHour(segment.date)">
+    <div [class.disabled-hour]="segment.date < disabledBefore">
       <div
         #segmentElement
         class="cal-hour-segment"
