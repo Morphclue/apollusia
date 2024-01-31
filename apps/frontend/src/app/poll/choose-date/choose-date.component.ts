@@ -25,7 +25,6 @@ export class ChooseDateComponent implements AfterViewInit {
   id: string = '';
   note: string = '';
   noteEvent?: CalendarEvent = undefined;
-  disabledHour: boolean;
 
   constructor(
     private modalService: NgbModal,
@@ -163,8 +162,7 @@ export class ChooseDateComponent implements AfterViewInit {
   isDisabledHour(date: Date) {
     const now = new Date();
     const lastQuarter = Math.floor(getMinutes(now) / 15) * 15 - 15;
-    this.disabledHour = isBefore(date, setMinutes(now, lastQuarter));
-    return this.disabledHour;
+    return isBefore(date, setMinutes(now, lastQuarter));
   }
 
   private updateTime(event: CalendarEvent) {
