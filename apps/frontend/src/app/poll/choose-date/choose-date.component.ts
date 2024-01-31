@@ -4,9 +4,9 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {CalendarEvent, CalendarEventTimesChangedEvent} from 'angular-calendar';
 import {WeekViewHourSegment} from 'calendar-utils';
-import {addMinutes, differenceInMinutes, endOfWeek, format, getMinutes, isBefore, setMinutes} from 'date-fns';
-import {fromEvent, Observable} from 'rxjs';
-import {finalize, map, takeUntil} from 'rxjs/operators';
+import {addMinutes, differenceInMinutes, endOfWeek, format} from 'date-fns';
+import {fromEvent} from 'rxjs';
+import {finalize, takeUntil} from 'rxjs/operators';
 
 import {environment} from '../../../environments/environment';
 import {CreatePollEventDto} from '../../model';
@@ -16,15 +16,16 @@ import {ChooseDateService} from '../services/choose-date.service';
   selector: 'app-choose-date',
   templateUrl: './choose-date.component.html',
   styleUrls: ['./choose-date.component.scss'],
+  providers: [ChooseDateService],
 })
 export class ChooseDateComponent implements AfterViewInit {
   viewDate = new Date();
   dragToCreateActive = true;
-  weekStartsOn: 1 = 1 as const;
+  weekStartsOn = 1 as const;
   previousEventDuration = 15;
-  id: string = '';
-  note: string = '';
-  noteEvent?: CalendarEvent = undefined;
+  id = '';
+  note = '';
+  noteEvent?: CalendarEvent;
   disabledBefore = Date.now() - 15 * 60 * 1000;
 
   constructor(
@@ -37,8 +38,7 @@ export class ChooseDateComponent implements AfterViewInit {
     private activatedRoute: ActivatedRoute,
     private elementRef: ElementRef,
   ) {
-    const routeId: Observable<string> = route.params.pipe(map(({id}) => id));
-    routeId.subscribe((id: string) => {
+    route.params.subscribe(({id}) => {
       this.id = id;
       this.chooseDateService.updateEvents(id);
     });
