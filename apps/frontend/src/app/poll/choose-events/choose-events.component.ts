@@ -71,9 +71,6 @@ export class ChooseEventsComponent implements OnInit {
         this.pollService.getEvents(id).pipe(tap(events => {
           this.pollEvents = events;
           this.bookedEvents = new Array(this.pollEvents.length).fill(false);
-          for (const event of events) {
-            this.newParticipant.selection[event._id] ||= 'no';
-          }
           this.validateNew();
         })),
         this.pollService.getParticipants(id).pipe(tap(participants => this.participants = participants)),
@@ -82,6 +79,7 @@ export class ChooseEventsComponent implements OnInit {
     ).subscribe(([poll, events, participants, isAdmin]) => {
       this.setDescription(poll, events, participants);
 
+      this.clearSelection();
       this.bookedEvents = events.map(e => poll.bookedEvents.includes(e._id));
       this.isAdmin = isAdmin;
       this.updateHelpers();
@@ -211,7 +209,7 @@ export class ChooseEventsComponent implements OnInit {
   }
 
   private clearSelection(){
-    this.newParticipant.name = '';
+    this.newParticipant.name = this.poll?.settings?.anonymous ? 'Anonymous' : '';
     for (const event of this.pollEvents) {
       this.newParticipant.selection[event._id] = 'no';
     }

@@ -64,21 +64,14 @@
           @if (!closedReason) {
             <tr>
               <th style="min-width: 240px" scope="row">
-                @if (!poll?.settings?.anonymous) {
-                  <input
-                    class="form-control"
-                    type="text"
-                    id="name"
-                    placeholder="Your name"
-                    [(ngModel)]="newParticipant.name" (change)="validateNew()">
-                }
-                @if (poll?.settings?.anonymous) {
-                  <input
-                    class="form-control"
-                    type="text"
-                    value="Anonymous"
-                    [disabled]="true">
-                }
+                <input
+                  class="form-control"
+                  type="text"
+                  id="name"
+                  placeholder="Your name"
+                  [disabled]="poll?.settings?.anonymous ?? false"
+                  [(ngModel)]="newParticipant.name" (change)="validateNew()"
+                >
               </th>
               @for (event of pollEvents; track event) {
                 <td>
