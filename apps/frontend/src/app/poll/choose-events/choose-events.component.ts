@@ -214,4 +214,8 @@ export class ChooseEventsComponent implements OnInit {
       this.newParticipant.selection[event._id] = 'no';
     }
   }
+
+  isPastEvent(event: PollEvent) {
+    return new Date(event.start) < new Date();
+  }
 }
