@@ -1,20 +1,24 @@
 import {Poll} from '@apollusia/types';
+import {MongooseModule} from '@nestjs/mongoose';
 import {Test, TestingModule} from '@nestjs/testing';
+import {MongoMemoryServer} from 'mongodb-memory-server';
 import {Model} from 'mongoose';
 
 import {TokenService} from './token.service';
 import {PollStub} from '../../../test/stubs';
-import {closeMongoConnection, rootMongooseTestModule} from '../../utils/mongo-util';
 import {TokenModule} from '../token.module';
 
 describe('TokenService', () => {
+  let mongoServer: MongoMemoryServer;
     let service: TokenService;
     let pollModel: Model<Poll>;
 
-    beforeEach(async () => {
+    beforeAll(async () => {
+      mongoServer = await MongoMemoryServer.create();
+
         const module: TestingModule = await Test.createTestingModule({
             imports: [
-                rootMongooseTestModule(),
+                MongooseModule.forRoot(mongoServer.getUri()),
                 TokenModule,
             ],
         }).compile();
@@ -22,6 +26,10 @@ describe('TokenService', () => {
         pollModel = module.get('PollModel');
         service = module.get<TokenService>(TokenService);
     });
+
+  afterAll(async () => {
+    await mongoServer?.stop();
+  });
 
     it('should be defined', () => {
         expect(service).toBeDefined();
@@ -45,9 +53,5 @@ describe('TokenService', () => {
         const newPoll = await pollModel.findOne({adminToken: newToken.token}).exec();
         expect(newPoll).toBeDefined();
         expect(newPoll.adminToken).not.toEqual(pollStub.adminToken);
-    });
-
-    afterAll(async () => {
-        await closeMongoConnection();
     });
 });

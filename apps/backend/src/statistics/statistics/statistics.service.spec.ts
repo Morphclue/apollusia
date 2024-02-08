@@ -1,22 +1,26 @@
 import {Participant, Poll, PollEvent} from '@apollusia/types';
+import {MongooseModule} from '@nestjs/mongoose';
 import {Test, TestingModule} from '@nestjs/testing';
+import {MongoMemoryServer} from 'mongodb-memory-server';
 import {Model} from 'mongoose';
 
 import {StatisticsService} from './statistics.service';
 import {ParticipantStub, PollEventStub, PollStub} from '../../../test/stubs';
-import {closeMongoConnection, rootMongooseTestModule} from '../../utils/mongo-util';
 import {StatisticsModule} from '../statistics.module';
 
 describe('StatisticsService', () => {
+  let mongoServer: MongoMemoryServer;
     let service: StatisticsService;
     let pollModel: Model<Poll>;
     let pollEventModel: Model<PollEvent>;
     let participantModel: Model<Participant>;
 
-    beforeEach(async () => {
-        const module: TestingModule = await Test.createTestingModule({
+    beforeAll(async () => {
+      mongoServer = await MongoMemoryServer.create();
+
+      const module: TestingModule = await Test.createTestingModule({
             imports: [
-                rootMongooseTestModule(),
+                MongooseModule.forRoot(mongoServer.getUri()),
                 StatisticsModule,
             ],
         }).compile();
@@ -25,6 +29,10 @@ describe('StatisticsService', () => {
         pollEventModel = module.get('PollEventModel');
         participantModel = module.get('ParticipantModel');
         service = module.get<StatisticsService>(StatisticsService);
+    });
+
+    afterAll(async () => {
+      await mongoServer?.stop();
     });
 
     it('should be defined', () => {
@@ -53,9 +61,5 @@ describe('StatisticsService', () => {
         expect(statistics.pollEvents).toEqual(1);
         expect(statistics.participants).toEqual(1);
         expect(statistics.users).toEqual(1);
-    });
-
-    afterAll(async () => {
-        await closeMongoConnection();
     });
 });
