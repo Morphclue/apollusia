@@ -56,7 +56,7 @@
             <th scope="col">
               <app-event-head
                 [event]="event"
-                [ngClass]="{'text-muted': isPastEvent(event)}"
+                [class.text-muted]="isPastEvent(event)"
               ></app-event-head>
             </th>
           }

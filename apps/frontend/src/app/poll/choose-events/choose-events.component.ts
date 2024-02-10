@@ -41,6 +41,7 @@ export class ChooseEventsComponent implements OnInit {
   // helpers
   id: string = '';
   url = globalThis.location?.href;
+  now = Date.now();
   mail: string | undefined;
   token: string;
 
@@ -216,6 +217,6 @@ export class ChooseEventsComponent implements OnInit {
   }
 
   isPastEvent(event: PollEvent) {
-    return new Date(event.start) < new Date();
+    return Date.parse(event.start) < this.now;
   }
 }
