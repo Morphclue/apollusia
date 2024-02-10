@@ -7,12 +7,10 @@ import {addDays, addMinutes, format} from 'date-fns';
 import {environment} from '../../../environments/environment';
 import {PollEvent} from '../../model';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class ChooseDateService {
   events: CalendarEvent[] = [];
-  autofillEvent?: CalendarEvent = undefined;
+  autofillEvent?: CalendarEvent;
 
   constructor(private http: HttpClient) {
   }

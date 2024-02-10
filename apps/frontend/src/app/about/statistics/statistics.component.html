@@ -1,24 +1,28 @@
 <div class="container">
-  <div *ngIf="statistics">
-    <div class="col-md-6">
-      <h2>Statistics</h2>
-      <p>
-        We are thankful for every single one of our users.
-        Here are some insights about our fantastic community.
-      </p>
-    </div>
-    <div class="row">
-      <div *ngFor="let column of columns" class="col-md-3">
-        <div class="card border-primary thick-border shadow">
-          <div class="card-body">
-            <div class="d-flex justify-content-between">
-              <h3 class="mt-2" [countUp]="statistics[column[0]]">0</h3>
-              <i class="fs-1" [class]="column[1]"></i>
+  @if (statistics) {
+    <div>
+      <div class="col-md-6">
+        <h2>Statistics</h2>
+        <p>
+          We are thankful for every single one of our users.
+          Here are some insights about our fantastic community.
+        </p>
+      </div>
+      <div class="row">
+        @for (column of columns; track column) {
+          <div class="col-md-3">
+            <div class="card border-primary thick-border shadow">
+              <div class="card-body">
+                <div class="d-flex justify-content-between">
+                  <h3 class="mt-2" [countUp]="statistics[column[0]]">0</h3>
+                  <i class="fs-1" [class]="column[1]"></i>
+                </div>
+                <span>{{ column[2] }}</span>
+              </div>
             </div>
-            <span>{{ column[2] }}</span>
           </div>
-        </div>
+        }
       </div>
     </div>
-  </div>
+  }
 </div>

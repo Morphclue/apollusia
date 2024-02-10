@@ -130,6 +130,15 @@ $dark: $persian-indigo;
   background-color: var(--bs-body-bg) !important;
 }
 
+.disabled-hour {
+  background-color: lightgrey;
+  cursor: not-allowed;
+}
+
+.disabled-hour > .cal-hour-segment {
+  pointer-events: none;
+}
+
 .markdown {
   img {
     max-width: 100%;

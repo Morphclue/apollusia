@@ -11,6 +11,7 @@ import {Poll} from '../../model';
 export class CheckButtonComponent {
   @Input() poll?: Poll;
   @Input() isFull = false;
+  @Input() isPastEvent = false;
   @Input() check?: PollEventState;
   @Output() checkChange = new EventEmitter<PollEventState>();
 

@@ -1,7 +1,7 @@
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {isDevMode, NgModule} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
-import {BrowserModule} from '@angular/platform-browser';
+import {BrowserModule, provideClientHydration} from '@angular/platform-browser';
 import {ServiceWorkerModule} from '@angular/service-worker';
 import {ModalModule, ToastModule} from '@mean-stream/ngbx';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
@@ -16,10 +16,7 @@ import {LegalModule} from './legal/legal.module';
 import {SettingsModalComponent} from './modals';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    SettingsModalComponent,
-  ],
+  declarations: [AppComponent, SettingsModalComponent],
   imports: [
     BrowserModule.withServerTransition({appId: 'serverApp'}),
     AppRoutingModule,
@@ -40,7 +37,12 @@ import {SettingsModalComponent} from './modals';
   ],
   providers: [
     TokenService,
-    {provide: HTTP_INTERCEPTORS, useClass: ParticipantTokenInterceptor, multi: true},
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ParticipantTokenInterceptor,
+      multi: true,
+    },
+    provideClientHydration(),
   ],
   bootstrap: [AppComponent],
 })
