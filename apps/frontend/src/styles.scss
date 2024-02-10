@@ -65,8 +65,8 @@ $dark: $persian-indigo;
 }
 
 .p-yes {
-  color: var(--bs-success-text-emphasis);
-  background-color: var(--bs-success-bg-subtle);
+  color: var(--bs-success-text-emphasis) !important;
+  background-color: var(--bs-success-bg-subtle) !important;
 
   & > .form-check-input:checked {
     background-color: var(--bs-success);
@@ -75,13 +75,13 @@ $dark: $persian-indigo;
 }
 
 .p-no {
-  color: var(--bs-danger-text-emphasis);
-  background-color: var(--bs-danger-bg-subtle);
+  color: var(--bs-danger-text-emphasis) !important;
+  background-color: var(--bs-danger-bg-subtle) !important;
 }
 
 .p-maybe {
-  color: var(--bs-warning-text-emphasis);
-  background-color: var(--bs-warning-bg-subtle);
+  color: var(--bs-warning-text-emphasis) !important;
+  background-color: var(--bs-warning-bg-subtle) !important;
 
   & > .form-check-input:indeterminate {
     background-color: var(--bs-warning);
