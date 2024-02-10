@@ -11,7 +11,7 @@ $mauve: #e0aaffff;
 /* Overrides */
 
 $primary: $french-violet;
-$secondary: $purple;
+$secondary: $amethyst;
 $dark: $persian-indigo;
 
 /* Imports */
@@ -57,11 +57,6 @@ $dark: $persian-indigo;
 
 .cal-day-columns {
   height: 100%;
-}
-
-.card-header {
-  background-color: $purple;
-  color: white;
 }
 
 .p-yes {
@@ -131,7 +126,7 @@ $dark: $persian-indigo;
 }
 
 .disabled-hour {
-  background-color: lightgrey;
+  background-color: var(--bs-secondary-bg-subtle);
   cursor: not-allowed;
 }
 
@@ -145,7 +140,7 @@ $dark: $persian-indigo;
   }
 
   blockquote {
-    border-left: 4px solid $info;
+    border-left: 4px solid var(--bs-info-border-subtle);
     padding: 0 1rem;
   }
 
