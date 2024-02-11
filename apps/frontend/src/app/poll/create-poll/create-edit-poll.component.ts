@@ -21,7 +21,6 @@ export class CreateEditPollComponent implements OnInit {
   isCollapsed: boolean = true;
   id: string = '';
   poll?: Poll;
-  minDate = new Date();
   mail?: string;
   isAdmin: boolean = false;
   pollForm = new FormGroup({
@@ -42,6 +41,9 @@ export class CreateEditPollComponent implements OnInit {
     allowEdit: new FormControl(false),
     anonymous: new FormControl(false),
     blindParticipation: new FormControl(false),
+    showResultGroup: new FormGroup({
+      showResult: new FormControl(), // TODO set default value
+    }),
   });
 
   presets = [
@@ -54,6 +56,7 @@ export class CreateEditPollComponent implements OnInit {
         allowMaybe: true,
         allowEdit: true,
         blindParticipation: false,
+        showResult: 'immediately',
       },
     },
     {
@@ -65,6 +68,7 @@ export class CreateEditPollComponent implements OnInit {
         allowMaybe: true,
         allowEdit: false,
         blindParticipation: true, // TODO participants should not see other participants' votes
+        showResult: 'never',
       },
     },
     {
@@ -78,6 +82,7 @@ export class CreateEditPollComponent implements OnInit {
         allowMaybe: false,
         allowEdit: false,
         blindParticipation: true, // TODO participants should not see other participants' votes
+        showResult: 'never',
       },
     },
   ];
@@ -121,7 +126,7 @@ export class CreateEditPollComponent implements OnInit {
     const pushToken = pollForm.pushUpdates ? await this.swPush.requestSubscription({
       serverPublicKey: environment.vapidPublicKey,
     }) : undefined;
-    const createPollDto: CreatePollDto & { adminToken: string } = {
+    const createPollDto: CreatePollDto & {adminToken: string} = {
       title: pollForm.title!,
       description: pollForm.description ? pollForm.description : '',
       location: pollForm.location ? pollForm.location : '',
@@ -139,6 +144,7 @@ export class CreateEditPollComponent implements OnInit {
         maxParticipantEvents: pollForm.maxParticipantEvents && pollForm.maxParticipantEventsInput || undefined,
         maxEventParticipants: pollForm.maxEventParticipants && pollForm.maxEventParticipantsInput || undefined,
         blindParticipation: !!pollForm.blindParticipation,
+        showResult: pollForm.showResultGroup?.showResult,
       },
     };
 
@@ -170,8 +176,9 @@ export class CreateEditPollComponent implements OnInit {
   }
 
   applyPreset(preset: any): void {
-    this.selectedPreset = preset;
     this.pollForm.patchValue(preset.settings);
+    this.pollForm.get('showResultGroup.showResult')?.setValue(preset.settings.showResult);
+    this.selectedPreset = preset;
     this.pollForm.markAsDirty();
   }
 
@@ -212,6 +219,7 @@ export class CreateEditPollComponent implements OnInit {
         allowEdit: poll.settings.allowEdit,
         anonymous: poll.settings.anonymous,
         blindParticipation: poll.settings.blindParticipation,
+        // showResult: poll.settings.showResult,
       });
     });
   }
