@@ -1,4 +1,4 @@
-<nav class="navbar navbar-dark navbar-expand-lg bg-secondary">
+<nav class="navbar navbar-dark navbar-expand-lg bg-primary">
   <div class="container-fluid">
     <img class="navbar-logo" ngSrc="/assets/logo.png" alt="Apollusia Logo" width="64" height="64" style="height: 2rem">
     <a class="navbar-brand" routerLink="/">Apollusia</a>
@@ -11,6 +11,15 @@
           <a class="btn btn-primary text-nowrap bi-calendar-plus" type="button" routerLink="poll/create">
             Create Poll
           </a>
+        </li>
+        <li ngbDropdown class="nav-item" role="presentation" placement="end">
+          <button type="button" class="nav-link bi-moon-stars" ngbDropdownToggle></button>
+          <div ngbDropdownMenu>
+            <button *ngFor="let theme of themes" ngbDropdownItem [class]="theme.icon" (click)="theme$.next(theme.value)">
+              {{ theme.name }}
+              <i [class.bi-check]="(theme$ | async) === theme.value"></i>
+            </button>
+          </div>
         </li>
         <li class="nav-item">
           <a class="nav-link" routerLinkActive="active" routerLink="dashboard">Dashboard</a>
