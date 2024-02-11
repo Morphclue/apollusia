@@ -19,6 +19,7 @@ import {CreatePollDto, Poll} from '../../model';
   styleUrls: ['./create-edit-poll.component.scss'],
 })
 export class CreateEditPollComponent implements OnInit {
+  readonly ShowResultOptions = ShowResultOptions;
   isCollapsed: boolean = true;
   id: string = '';
   poll?: Poll;
