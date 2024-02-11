@@ -173,15 +173,26 @@
             <div class="form-group form-check" formGroupName="showResultGroup">
               <label>Show results to participants</label>
               <div class="form-check">
-                <input class="form-check-input" type="radio" id="showImmediately" [value]="ShowResultOptions.IMMEDIATELY" formControlName="showResult">
+                <input class="form-check-input"
+                       type="radio"
+                       id="showImmediately"
+                       [value]="ShowResultOptions.IMMEDIATELY"
+                       formControlName="showResult">
                 <label class="form-check-label" for="showImmediately">Immediately</label>
               </div>
               <div class="form-check">
-                <input class="form-check-input" type="radio" id="showAfterParticipating" [value]="ShowResultOptions.AFTER_PARTICIPATING" formControlName="showResult">
+                <input class="form-check-input"
+                       type="radio" id="showAfterParticipating"
+                       [value]="ShowResultOptions.AFTER_PARTICIPATING"
+                       formControlName="showResult">
                 <label class="form-check-label" for="showAfterParticipating">After participating</label>
               </div>
               <div class="form-check">
-                <input class="form-check-input" type="radio" id="showNever" [value]="ShowResultOptions.NEVER" formControlName="showResult">
+                <input class="form-check-input"
+                       type="radio"
+                       id="showNever"
+                       [value]="ShowResultOptions.NEVER"
+                       formControlName="showResult">
                 <label class="form-check-label" for="showNever">Never</label>
               </div>
             </div>
