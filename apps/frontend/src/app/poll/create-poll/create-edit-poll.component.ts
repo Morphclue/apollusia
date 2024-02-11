@@ -57,7 +57,7 @@ export class CreateEditPollComponent implements OnInit {
         allowMaybe: true,
         allowEdit: true,
         blindParticipation: false,
-        showResult: 'immediately',
+        showResult: ShowResultOptions.IMMEDIATELY,
       },
     },
     {
@@ -69,7 +69,7 @@ export class CreateEditPollComponent implements OnInit {
         allowMaybe: true,
         allowEdit: false,
         blindParticipation: true, // TODO participants should not see other participants' votes
-        showResult: 'never',
+        showResult: ShowResultOptions.NEVER,
       },
     },
     {
@@ -83,7 +83,7 @@ export class CreateEditPollComponent implements OnInit {
         allowMaybe: false,
         allowEdit: false,
         blindParticipation: true, // TODO participants should not see other participants' votes
-        showResult: 'never',
+        showResult: ShowResultOptions.NEVER,
       },
     },
   ];
