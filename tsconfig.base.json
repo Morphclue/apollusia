@@ -16,7 +16,8 @@
     "baseUrl": ".",
     "paths": {
       "@apollusia/logic": ["libs/types/src/lib/logic/index.ts"],
-      "@apollusia/types": ["libs/types/src/index.ts"]
+      "@apollusia/types": ["libs/types/src/index.ts"],
+      "@apollusia/types/*": ["libs/types/src/*"],
     }
   },
   "exclude": ["node_modules", "tmp"]

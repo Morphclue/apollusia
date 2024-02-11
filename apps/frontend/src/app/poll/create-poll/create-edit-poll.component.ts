@@ -3,6 +3,7 @@ import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {SwPush} from '@angular/service-worker';
+import {ShowResultOptions} from "@apollusia/types/lib/schema/show-result-options";
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {format} from 'date-fns';
 import {Observable} from 'rxjs';
@@ -42,7 +43,7 @@ export class CreateEditPollComponent implements OnInit {
     anonymous: new FormControl(false),
     blindParticipation: new FormControl(false),
     showResultGroup: new FormGroup({
-      showResult: new FormControl(), // TODO set default value
+      showResult: new FormControl(ShowResultOptions.IMMEDIATELY),
     }),
   });
 
@@ -144,7 +145,7 @@ export class CreateEditPollComponent implements OnInit {
         maxParticipantEvents: pollForm.maxParticipantEvents && pollForm.maxParticipantEventsInput || undefined,
         maxEventParticipants: pollForm.maxEventParticipants && pollForm.maxEventParticipantsInput || undefined,
         blindParticipation: !!pollForm.blindParticipation,
-        showResult: pollForm.showResultGroup?.showResult,
+        showResult: pollForm.showResultGroup?.showResult ?? ShowResultOptions.IMMEDIATELY,
       },
     };
 
