@@ -90,14 +90,27 @@ export class PollService implements OnModuleInit {
   }
 
   private async migrateShowResults() {
-    const polls = await this.pollModel.find({showResult: {$exists: false}}).exec();
-    for (const poll of polls) {
-      poll.settings.showResult = poll.settings.blindParticipation ? ShowResultOptions.AFTER_PARTICIPATING : ShowResultOptions.IMMEDIATELY;
-      poll.settings.blindParticipation = undefined;
-      poll.markModified('settings');
-    }
-    await this.pollModel.bulkSave(polls, {timestamps: false});
-    polls.length && this.logger.log(`Migrated ${polls.length} polls to the new show result format.`);
+    const result = await this.pollModel.updateMany(
+      {showResult: {$exists: false}},
+      [
+        {
+          $set: {
+            'settings.showResult': {
+              $cond: {
+                if: {$eq: ['$settings.blindParticipation', true]},
+                then: ShowResultOptions.AFTER_PARTICIPATING,
+                else: ShowResultOptions.IMMEDIATELY,
+              },
+            },
+          },
+        },
+        {
+          $unset: 'settings.blindParticipation',
+        },
+      ],
+      {timestamps: false},
+    ).exec();
+    result.modifiedCount && this.logger.log(`Migrated ${result.modifiedCount} polls to the new show result format.`);
   }
 
   private activeFilter(active: boolean | undefined): FilterQuery<Poll> {
