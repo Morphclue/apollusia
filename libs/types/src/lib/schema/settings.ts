@@ -46,11 +46,6 @@ export class Settings {
     @IsBoolean()
     anonymous: boolean;
 
-    @Prop()
-    @ApiProperty()
-    @IsBoolean()
-    blindParticipation: boolean;
-
     @Prop({type: String, enum: ShowResultOptions})
     @ApiProperty({enum: ShowResultOptions})
     @IsEnum(ShowResultOptions)

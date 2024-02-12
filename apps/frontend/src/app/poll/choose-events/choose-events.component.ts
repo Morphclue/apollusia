@@ -9,6 +9,7 @@ import {map, switchMap, tap} from 'rxjs/operators';
 import {MailService, TokenService} from '../../core/services';
 import {CreateParticipantDto, Participant, Poll, PollEvent, UpdateParticipantDto} from '../../model';
 import {PollService} from '../services/poll.service';
+import {ShowResultOptions} from '@apollusia/types/lib/schema/show-result-options';
 
 @Component({
   selector: 'app-choose-events',
@@ -39,6 +40,7 @@ export class ChooseEventsComponent implements OnInit {
   errors: string[] = [];
 
   // helpers
+  readonly ShowResultOptions = ShowResultOptions;
   id: string = '';
   url = globalThis.location?.href;
   mail: string | undefined;
@@ -54,7 +56,7 @@ export class ChooseEventsComponent implements OnInit {
     tokenService: TokenService,
     mailService: MailService,
   ) {
-    this.mail = mailService.getMail()
+    this.mail = mailService.getMail();
     this.token = tokenService.getToken();
     this.newParticipant.token = this.token;
   }
@@ -204,11 +206,11 @@ export class ChooseEventsComponent implements OnInit {
       this.showResults = true;
     } else {
       this.closedReason = undefined;
-      this.showResults = !this.poll?.settings?.blindParticipation || this.isAdmin || this.userVoted();
+      this.showResults = this.poll?.settings?.showResult === ShowResultOptions.IMMEDIATELY || this.isAdmin || this.userVoted();
     }
   }
 
-  private clearSelection(){
+  private clearSelection() {
     this.newParticipant.name = this.poll?.settings?.anonymous ? 'Anonymous' : '';
     for (const event of this.pollEvents) {
       this.newParticipant.selection[event._id] = 'no';

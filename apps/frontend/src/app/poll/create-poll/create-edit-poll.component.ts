@@ -3,7 +3,7 @@ import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {SwPush} from '@angular/service-worker';
-import {ShowResultOptions} from "@apollusia/types/lib/schema/show-result-options";
+import {ShowResultOptions} from '@apollusia/types/lib/schema/show-result-options';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {format} from 'date-fns';
 import {Observable} from 'rxjs';
@@ -42,7 +42,6 @@ export class CreateEditPollComponent implements OnInit {
     allowMaybe: new FormControl(false),
     allowEdit: new FormControl(false),
     anonymous: new FormControl(false),
-    blindParticipation: new FormControl(false),
     showResultGroup: new FormGroup({
       showResult: new FormControl(ShowResultOptions.IMMEDIATELY),
     }),
@@ -57,7 +56,6 @@ export class CreateEditPollComponent implements OnInit {
         maxEventParticipants: false,
         allowMaybe: true,
         allowEdit: true,
-        blindParticipation: false,
         showResult: ShowResultOptions.IMMEDIATELY,
       },
     },
@@ -69,7 +67,6 @@ export class CreateEditPollComponent implements OnInit {
         maxEventParticipants: false,
         allowMaybe: true,
         allowEdit: false,
-        blindParticipation: true, // TODO participants should not see other participants' votes
         showResult: ShowResultOptions.NEVER,
       },
     },
@@ -83,7 +80,6 @@ export class CreateEditPollComponent implements OnInit {
         maxEventParticipantsInput: 1,
         allowMaybe: false,
         allowEdit: false,
-        blindParticipation: true, // TODO participants should not see other participants' votes
         showResult: ShowResultOptions.NEVER,
       },
     },
@@ -145,7 +141,6 @@ export class CreateEditPollComponent implements OnInit {
         maxParticipants: pollForm.maxParticipants && pollForm.maxParticipantsInput || undefined,
         maxParticipantEvents: pollForm.maxParticipantEvents && pollForm.maxParticipantEventsInput || undefined,
         maxEventParticipants: pollForm.maxEventParticipants && pollForm.maxEventParticipantsInput || undefined,
-        blindParticipation: !!pollForm.blindParticipation,
         showResult: pollForm.showResultGroup?.showResult ?? ShowResultOptions.IMMEDIATELY,
       },
     };
@@ -220,8 +215,9 @@ export class CreateEditPollComponent implements OnInit {
         allowMaybe: poll.settings.allowMaybe,
         allowEdit: poll.settings.allowEdit,
         anonymous: poll.settings.anonymous,
-        blindParticipation: poll.settings.blindParticipation,
-        // showResult: poll.settings.showResult,
+        showResultGroup: {
+          showResult: poll.settings.showResult,
+        },
       });
     });
   }
