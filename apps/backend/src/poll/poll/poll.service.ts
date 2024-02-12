@@ -91,7 +91,7 @@ export class PollService implements OnModuleInit {
 
   private async migrateShowResults() {
     const result = await this.pollModel.updateMany(
-      {showResult: {$exists: false}},
+      {'settings.blindParticipation': {$exists: true}},
       [
         {
           $set: {
