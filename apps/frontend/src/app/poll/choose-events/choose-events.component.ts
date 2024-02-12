@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Meta, Title} from '@angular/platform-browser';
 import {ActivatedRoute, Router} from '@angular/router';
 import {checkParticipant} from '@apollusia/logic';
+import {ShowResultOptions} from '@apollusia/types/lib/schema/show-result-options';
 import {ToastService} from '@mean-stream/ngbx';
 import {forkJoin} from 'rxjs';
 import {map, switchMap, tap} from 'rxjs/operators';
@@ -9,7 +10,6 @@ import {map, switchMap, tap} from 'rxjs/operators';
 import {MailService, TokenService} from '../../core/services';
 import {CreateParticipantDto, Participant, Poll, PollEvent, UpdateParticipantDto} from '../../model';
 import {PollService} from '../services/poll.service';
-import {ShowResultOptions} from '@apollusia/types/lib/schema/show-result-options';
 
 @Component({
   selector: 'app-choose-events',
