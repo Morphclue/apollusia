@@ -167,14 +167,22 @@
                        id="showImmediately"
                        [value]="ShowResultOptions.IMMEDIATELY"
                        formControlName="showResult">
-                <label class="form-check-label" for="showImmediately">Immediately</label>
+                <label class="form-check-label" for="showImmediately">
+                  Immediately
+                  <i class="bi-question-circle text-muted" placement="top"
+                     ngbTooltip="Show results to everyone without a need to vote."></i>
+                </label>
               </div>
               <div class="form-check">
                 <input class="form-check-input"
                        type="radio" id="showAfterParticipating"
                        [value]="ShowResultOptions.AFTER_PARTICIPATING"
                        formControlName="showResult">
-                <label class="form-check-label" for="showAfterParticipating">After participating</label>
+                <label class="form-check-label" for="showAfterParticipating">
+                  After participating
+                  <i class="bi-question-circle text-muted" placement="top"
+                     ngbTooltip="Show results to participants after submiting their vote."></i>
+                </label>
               </div>
               <div class="form-check">
                 <input class="form-check-input"
@@ -182,7 +190,11 @@
                        id="showNever"
                        [value]="ShowResultOptions.NEVER"
                        formControlName="showResult">
-                <label class="form-check-label" for="showNever">Never</label>
+                <label class="form-check-label" for="showNever">
+                  Never
+                  <i class="bi-question-circle text-muted" placement="top"
+                     ngbTooltip="Never show results to participants."></i>
+                </label>
               </div>
             </div>
           </fieldset>
