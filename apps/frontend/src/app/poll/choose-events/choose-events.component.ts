@@ -28,6 +28,8 @@ export class ChooseEventsComponent implements OnInit {
   bestOption: number = 1;
   closedReason?: string;
   showResults = false;
+  showAfterParticipating = false;
+  showNever = false;
 
   // view state
   newParticipant: CreateParticipantDto = {
@@ -204,9 +206,19 @@ export class ChooseEventsComponent implements OnInit {
     } else if (maxParticipants && this.participants.length >= maxParticipants) {
       this.closedReason = 'This poll has reached it\'s maximum number of participants. You can no longer submit your vote.';
       this.showResults = true;
+    } else if (this.poll?.settings?.showResult === ShowResultOptions.NEVER as ShowResultOptions) {
+      this.closedReason = undefined;
+      this.showNever = !this.userVoted() && !this.isAdmin;
+      if (!this.isAdmin) {
+        this.participants = this.participants.filter(p => p.token === this.token);
+      }
+      this.showResults = true;
     } else {
       this.closedReason = undefined;
-      this.showResults = this.poll?.settings?.showResult === ShowResultOptions.IMMEDIATELY || this.isAdmin || this.userVoted();
+      this.showAfterParticipating = !this.userVoted() && !this.isAdmin &&
+        this.poll?.settings?.showResult === ShowResultOptions.AFTER_PARTICIPATING;
+      this.showResults = this.isAdmin || this.userVoted() ||
+        this.poll?.settings?.showResult === ShowResultOptions.IMMEDIATELY;
     }
   }
 
