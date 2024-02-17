@@ -251,7 +251,7 @@ export class PollService implements OnModuleInit {
       return [...participants, ...currentParticipant];
     }
 
-    return [...currentParticipant];
+    return currentParticipant;
   }
 
   async findAllParticipants(poll: Types.ObjectId): Promise<Participant[]> {
