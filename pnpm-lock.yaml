@@ -1,4 +1,4 @@
-lockfileVersion: '6.1'
+lockfileVersion: '6.0'
 
 settings:
   autoInstallPeers: true
@@ -8,6 +8,7 @@ overrides:
   axios@>=0.8.1 <1.6.0: '>=1.6.0'
   vite@>=4.0.0 <=4.5.1: '>=4.5.2'
   nodemailer@<=6.9.8: '>=6.9.9'
+  undici@>=6.0.0 <=6.6.0: '>=6.6.1'
 
 dependencies:
   '@angular/animations':
@@ -420,7 +421,7 @@ packages:
       tree-kill: 1.2.2
       tslib: 2.6.2
       typescript: 5.3.3
-      undici: 6.2.1
+      undici: 6.6.2
       vite: 5.0.12(@types/node@20.11.13)(less@4.1.3)(stylus@0.59.0)
       watchpack: 2.4.0
       webpack: 5.89.0(esbuild@0.19.11)
@@ -4080,7 +4081,7 @@ packages:
     peerDependencies:
       '@nestjs/common': '>=7.0.9'
       '@nestjs/core': '>=7.0.9'
-      nodemailer: '>=6.4.6'
+      nodemailer: '>=6.9.9'
     dependencies:
       '@nestjs/common': 10.3.1(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.1.14)(rxjs@7.8.1)
       '@nestjs/core': 10.3.1(@nestjs/common@10.3.1)(@nestjs/platform-express@10.3.1)(reflect-metadata@0.1.14)(rxjs@7.8.1)
@@ -6073,7 +6074,7 @@ packages:
     resolution: {integrity: sha512-DKHKVtpI+eA5fvObVgQ3QtTGU70CcCnedalzqmGSR050AzKZMdUzgC8KmlOneHWH8dF2hJ3wkC9+8FDVAaDRCw==}
     engines: {node: '>=14.6.0'}
     peerDependencies:
-      vite: ^3.0.0 || ^4.0.0 || ^5.0.0
+      vite: '>=4.5.2'
     dependencies:
       vite: 5.0.12(@types/node@20.11.13)(less@4.1.3)(stylus@0.59.0)
     dev: true
@@ -15127,8 +15128,8 @@ packages:
     resolution: {integrity: sha512-JlCMO+ehdEIKqlFxk6IfVoAUVmgz7cU7zD/h9XZ0qzeosSHmUJVOzSQvvYSYWXkFXC+IfLKSIffhv0sVZup6pA==}
     dev: true
 
-  /undici@6.2.1:
-    resolution: {integrity: sha512-7Wa9thEM6/LMnnKtxJHlc8SrTlDmxqJecgz1iy8KlsN0/iskQXOQCuPkrZLXbElPaSw5slFFyKIKXyJ3UtbApw==}
+  /undici@6.6.2:
+    resolution: {integrity: sha512-vSqvUE5skSxQJ5sztTZ/CdeJb1Wq0Hf44hlYMciqHghvz+K88U0l7D6u1VsndoFgskDcnU+nG3gYmMzJVzd9Qg==}
     engines: {node: '>=18.0'}
     dependencies:
       '@fastify/busboy': 2.1.0
