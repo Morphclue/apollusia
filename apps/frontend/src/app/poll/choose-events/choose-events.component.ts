@@ -182,14 +182,6 @@ export class ChooseEventsComponent implements OnInit {
     return this.participants.some(participant => participant.token === this.token);
   }
 
-  maxParticipantsReached(event: PollEvent) {
-    if (!this.poll?.settings.maxEventParticipants) {
-      return false;
-    }
-
-    return this.countParticipants(event) >= this.poll.settings.maxEventParticipants;
-  }
-
   // Helpers
 
   private updateHelpers() {
@@ -214,6 +206,14 @@ export class ChooseEventsComponent implements OnInit {
     for (const event of this.pollEvents) {
       this.newParticipant.selection[event._id] = this.maxParticipantsReached(event) ? undefined : 'no';
     }
+  }
+
+  private maxParticipantsReached(event: PollEvent) {
+    if (!this.poll?.settings.maxEventParticipants) {
+      return false;
+    }
+
+    return this.countParticipants(event) >= this.poll.settings.maxEventParticipants;
   }
 
   isPastEvent(event: PollEvent) {
