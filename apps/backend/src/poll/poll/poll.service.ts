@@ -386,4 +386,12 @@ export class PollService implements OnModuleInit {
   async isAdmin(id: Types.ObjectId, token: string) {
     return this.pollModel.findById(id).exec().then(poll => poll.adminToken === token);
   }
+
+  async getParticipantCount(id: Types.ObjectId) {
+    const poll = await this.pollModel.findById(id).exec();
+    if (!poll) {
+      throw new NotFoundException(id);
+    }
+    return await this.participantModel.countDocuments({poll: id}).exec();
+  }
 }

@@ -152,4 +152,9 @@ export class PollController {
 
         return this.pollService.bookEvents(id, events.map(e => new Types.ObjectId(e)));
     }
+
+    @Get(':id/participantCount')
+    async getParticipantCount(@Param('id', ObjectIdPipe) id: Types.ObjectId): Promise<number> {
+        return this.pollService.getParticipantCount(id);
+    }
 }
