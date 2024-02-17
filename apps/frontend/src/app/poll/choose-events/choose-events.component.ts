@@ -210,6 +210,8 @@ export class ChooseEventsComponent implements OnInit {
     } else if (maxParticipants && this.participants.length >= maxParticipants) {
       this.closedReason = 'This poll has reached it\'s maximum number of participants. You can no longer submit your vote.';
       this.showResults = true;
+    } else {
+      this.closedReason = undefined;
     }
   }
 
@@ -229,6 +231,7 @@ export class ChooseEventsComponent implements OnInit {
         this.showResults = this.isAdmin || this.userVoted();
         break;
       default:
+        this.hiddenReason = undefined;
         this.showResults = true;
     }
   }
