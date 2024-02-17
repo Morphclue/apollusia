@@ -26,7 +26,8 @@ export class ChooseEventsComponent implements OnInit {
   // aux
   bookedEvents: boolean[] = [];
   bestOption: number = 1;
-  closedReason?: string;
+  closedReason?: string = undefined;
+  hiddenReason?: string = undefined;
   showResults = false;
   showNever = false;
 
@@ -196,7 +197,11 @@ export class ChooseEventsComponent implements OnInit {
 
   private updateHelpers() {
     this.bestOption = Math.max(...this.pollEvents.map(event => this.countParticipants(event))) || 1;
+    this.updateClosedReason();
+    this.updateHiddenReason();
+  }
 
+  private updateClosedReason() {
     const deadline = this.poll?.settings.deadline;
     const maxParticipants = this.poll?.settings.maxParticipants;
     if (deadline && new Date(deadline) < new Date()) {
@@ -205,14 +210,28 @@ export class ChooseEventsComponent implements OnInit {
     } else if (maxParticipants && this.participants.length >= maxParticipants) {
       this.closedReason = 'This poll has reached it\'s maximum number of participants. You can no longer submit your vote.';
       this.showResults = true;
-    } else if (this.poll?.settings?.showResult === ShowResultOptions.NEVER) {
-      this.closedReason = undefined;
-      this.showNever = !this.userVoted() && !this.isAdmin;
-      this.showResults = true;
-    } else {
-      this.closedReason = undefined;
-      this.showResults = this.isAdmin || this.userVoted() ||
-        this.poll?.settings?.showResult === ShowResultOptions.IMMEDIATELY;
+    }
+  }
+
+  private updateHiddenReason() {
+    this.showResults = this.isAdmin || this.userVoted() ||
+      this.poll?.settings?.showResult === ShowResultOptions.IMMEDIATELY;
+
+    switch (this.poll?.settings.showResult) {
+      case ShowResultOptions.NEVER:
+        this.showNever = !this.userVoted() && !this.isAdmin;
+        if (!this.isAdmin) {
+          this.hiddenReason = 'The results of this poll are hidden. You will only be able to see your own votes.';
+        }
+        this.showResults = true;
+        break;
+      case ShowResultOptions.AFTER_PARTICIPATING:
+        if (!this.showResults) {
+          this.hiddenReason = 'This is a blind poll. You can\'t see results or other user\'s votes until you participate yourself.';
+        }
+        break;
+      default:
+        this.showResults = false;
     }
   }
 

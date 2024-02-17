@@ -35,14 +35,9 @@
       {{ closedReason }}
     </div>
   }
-  @if (!this.userVoted() && !this.isAdmin && this.poll?.settings?.showResult === ShowResultOptions.AFTER_PARTICIPATING) {
+  @if (hiddenReason) {
     <div class="alert alert-info">
-      This is a blind poll. You can't see results or other user's votes until you participate yourself.
-    </div>
-  }
-  @if (showNever) {
-    <div class="alert alert-info">
-      The results of this poll are hidden. You will only be able to see your own votes.
+      {{ hiddenReason }}
     </div>
   }
   @if (!closedReason && poll?.settings?.maxParticipantEvents; as limit) {
