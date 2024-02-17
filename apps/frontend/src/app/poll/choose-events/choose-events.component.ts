@@ -231,7 +231,7 @@ export class ChooseEventsComponent implements OnInit {
         }
         break;
       default:
-        this.showResults = false;
+        this.showResults = true;
     }
   }
 
