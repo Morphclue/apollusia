@@ -243,7 +243,7 @@ export class PollService implements OnModuleInit {
       token,
     }).exec();
 
-    if (await this.isAdmin(id, token) || poll.settings.showResult !== ShowResultOptions.NEVER) {
+    if (poll.adminToken === token || poll.settings.showResult !== ShowResultOptions.NEVER) {
       const participants = await this.participantModel.find({
         poll: new Types.ObjectId(id),
         token: {$ne: token},
