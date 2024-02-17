@@ -238,16 +238,20 @@ export class PollService implements OnModuleInit {
     if (!poll) {
       throw new NotFoundException(id);
     }
-
-    const participants = await this.participantModel.find({
-      poll: new Types.ObjectId(id),
-      token: poll.settings.showResult === ShowResultOptions.NEVER ? token : {$ne: token},
-    }).select(readParticipantSelect).exec();
     const currentParticipant = await this.participantModel.find({
       poll: new Types.ObjectId(id),
       token,
     }).exec();
-    return [...participants, ...currentParticipant];
+
+    if (await this.isAdmin(id, token) || poll.settings.showResult !== ShowResultOptions.NEVER) {
+      const participants = await this.participantModel.find({
+        poll: new Types.ObjectId(id),
+        token: {$ne: token},
+      }).select(readParticipantSelect).exec();
+      return [...participants, ...currentParticipant];
+    }
+
+    return [...currentParticipant];
   }
 
   async findAllParticipants(poll: Types.ObjectId): Promise<Participant[]> {
