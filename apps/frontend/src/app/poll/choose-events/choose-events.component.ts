@@ -206,7 +206,7 @@ export class ChooseEventsComponent implements OnInit {
     } else if (maxParticipants && this.participants.length >= maxParticipants) {
       this.closedReason = 'This poll has reached it\'s maximum number of participants. You can no longer submit your vote.';
       this.showResults = true;
-    } else if (this.poll?.settings?.showResult === ShowResultOptions.NEVER as ShowResultOptions) {
+    } else if (this.poll?.settings?.showResult === ShowResultOptions.NEVER) {
       this.closedReason = undefined;
       this.showNever = !this.userVoted() && !this.isAdmin;
       if (!this.isAdmin) {
