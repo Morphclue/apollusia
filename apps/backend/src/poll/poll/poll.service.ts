@@ -239,7 +239,7 @@ export class PollService implements OnModuleInit {
       throw new NotFoundException(id);
     }
 
-    let participants = await this.participantModel.find({
+    const participants = await this.participantModel.find({
       poll: new Types.ObjectId(id),
       token: poll.settings.showResult === ShowResultOptions.NEVER ? token : {$ne: token},
     }).select(readParticipantSelect).exec();
