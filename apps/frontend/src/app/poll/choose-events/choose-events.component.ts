@@ -28,7 +28,6 @@ export class ChooseEventsComponent implements OnInit {
   bestOption: number = 1;
   closedReason?: string;
   showResults = false;
-  showAfterParticipating = false;
   showNever = false;
 
   // view state
@@ -212,8 +211,6 @@ export class ChooseEventsComponent implements OnInit {
       this.showResults = true;
     } else {
       this.closedReason = undefined;
-      this.showAfterParticipating = !this.userVoted() && !this.isAdmin &&
-        this.poll?.settings?.showResult === ShowResultOptions.AFTER_PARTICIPATING;
       this.showResults = this.isAdmin || this.userVoted() ||
         this.poll?.settings?.showResult === ShowResultOptions.IMMEDIATELY;
     }
