@@ -214,9 +214,6 @@ export class ChooseEventsComponent implements OnInit {
   }
 
   private updateHiddenReason() {
-    this.showResults = this.isAdmin || this.userVoted() ||
-      this.poll?.settings?.showResult === ShowResultOptions.IMMEDIATELY;
-
     switch (this.poll?.settings.showResult) {
       case ShowResultOptions.NEVER:
         this.showNever = !this.userVoted() && !this.isAdmin;
@@ -229,6 +226,7 @@ export class ChooseEventsComponent implements OnInit {
         if (!this.showResults) {
           this.hiddenReason = 'This is a blind poll. You can\'t see results or other user\'s votes until you participate yourself.';
         }
+        this.showResults = this.isAdmin || this.userVoted();
         break;
       default:
         this.showResults = true;
