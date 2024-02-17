@@ -9,18 +9,15 @@ import {ParticipantStub, PollEventStub, PollStub} from '../../../test/stubs';
 import {StatisticsModule} from '../statistics.module';
 
 describe('StatisticsService', () => {
-  let mongoServer: MongoMemoryServer;
     let service: StatisticsService;
     let pollModel: Model<Poll>;
     let pollEventModel: Model<PollEvent>;
     let participantModel: Model<Participant>;
 
     beforeAll(async () => {
-      mongoServer = await MongoMemoryServer.create();
-
-      const module: TestingModule = await Test.createTestingModule({
+        const module: TestingModule = await Test.createTestingModule({
             imports: [
-                MongooseModule.forRoot(mongoServer.getUri()),
+                MongooseModule.forRoot(process.env.MONGO_URI),
                 StatisticsModule,
             ],
         }).compile();
@@ -29,10 +26,6 @@ describe('StatisticsService', () => {
         pollEventModel = module.get('PollEventModel');
         participantModel = module.get('ParticipantModel');
         service = module.get<StatisticsService>(StatisticsService);
-    });
-
-    afterAll(async () => {
-      await mongoServer?.stop();
     });
 
     it('should be defined', () => {

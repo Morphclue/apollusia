@@ -2,7 +2,6 @@ import {Poll, PollEventDto} from '@apollusia/types';
 import {NotFoundException} from '@nestjs/common';
 import {MongooseModule} from '@nestjs/mongoose';
 import {Test, TestingModule} from '@nestjs/testing';
-import {MongoMemoryServer} from 'mongodb-memory-server';
 import {Model, Types} from 'mongoose';
 
 import {PollService} from './poll.service';
@@ -10,17 +9,14 @@ import {ParticipantStub, PollEventStub, PollStub} from '../../../test/stubs';
 import {PollModule} from '../poll.module';
 
 describe('PollService', () => {
-  let mongoServer: MongoMemoryServer;
     let service: PollService;
     let pollModel: Model<Poll>;
     let pollEventModel: Model<PollEventDto>;
 
     beforeAll(async () => {
-      mongoServer = await MongoMemoryServer.create();
-
         const module: TestingModule = await Test.createTestingModule({
             imports: [
-                MongooseModule.forRoot(mongoServer.getUri()),
+                MongooseModule.forRoot(process.env.MONGO_URI),
                 PollModule,
             ],
         }).compile();
@@ -29,10 +25,6 @@ describe('PollService', () => {
         pollEventModel = module.get('PollEventModel');
         service = module.get<PollService>(PollService);
     });
-
-  afterAll(async () => {
-    await mongoServer?.stop();
-  });
 
     it('should be defined', () => {
         expect(service).toBeDefined();
