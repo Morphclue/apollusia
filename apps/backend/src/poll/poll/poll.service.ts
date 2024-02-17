@@ -234,9 +234,14 @@ export class PollService implements OnModuleInit {
   }
 
   async getParticipants(id: Types.ObjectId, token: string): Promise<ReadParticipantDto[]> {
-    const participants = await this.participantModel.find({
+    const poll = await this.pollModel.findById(id).exec();
+    if (!poll) {
+      throw new NotFoundException(id);
+    }
+
+    let participants = await this.participantModel.find({
       poll: new Types.ObjectId(id),
-      token: {$ne: token},
+      token: poll.settings.showResult === ShowResultOptions.NEVER ? token : {$ne: token},
     }).select(readParticipantSelect).exec();
     const currentParticipant = await this.participantModel.find({
       poll: new Types.ObjectId(id),

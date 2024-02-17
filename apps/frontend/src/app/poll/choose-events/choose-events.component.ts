@@ -209,9 +209,6 @@ export class ChooseEventsComponent implements OnInit {
     } else if (this.poll?.settings?.showResult === ShowResultOptions.NEVER) {
       this.closedReason = undefined;
       this.showNever = !this.userVoted() && !this.isAdmin;
-      if (!this.isAdmin) {
-        this.participants = this.participants.filter(p => p.token === this.token);
-      }
       this.showResults = true;
     } else {
       this.closedReason = undefined;
