@@ -229,10 +229,10 @@ export class ChooseEventsComponent implements OnInit {
         this.showResults = true;
         break;
       case ShowResultOptions.AFTER_PARTICIPATING:
+        this.showResults = this.isAdmin || this.userVoted();
         if (!this.showResults) {
           this.hiddenReason = 'This is a blind poll. You can\'t see results or other user\'s votes until you participate yourself.';
         }
-        this.showResults = this.isAdmin || this.userVoted();
         break;
       default:
         this.hiddenReason = undefined;
