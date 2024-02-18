@@ -392,6 +392,7 @@ export class PollService implements OnModuleInit {
     if (!poll) {
       throw new NotFoundException(id);
     }
-    return await this.participantModel.countDocuments({poll: id}).exec();
+
+    return this.participantModel.countDocuments({poll: id}).exec();
   }
 }
