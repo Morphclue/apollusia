@@ -28,6 +28,33 @@ export class ChooseEventsComponent implements OnInit {
   closedReason?: string;
   showResults = false;
 
+  sortMethods = [
+    {
+      name: 'Created',
+      description: 'View the participants in the order they joined the poll.',
+      by: p => p.createdAt,
+    },
+    {
+      name: 'Updated',
+      description: 'View the participants in the order they last updated their vote.',
+      by: p => p.updatedAt,
+    },
+    {
+      name: 'Name',
+      description: 'View the participants in alphabetical order.',
+      by: p => p.name,
+    },
+    {
+      name: 'Yes Votes',
+      description: 'View the participants with the most "yes" or "maybe" votes.',
+      by: p => -Object.values(p.selection).filter(s => s === 'yes' || s === 'maybe').length},
+    {
+      name: 'First Event',
+      description: 'View the participants in the order of the events they selected.',
+      by: p => this.pollEvents.findIndex(e => p.selection[e._id] === 'yes' || p.selection[e._id] === 'maybe'),
+    },
+  ] satisfies { name: string; description: string; by: (p: Participant) => any }[];
+
   // view state
   newParticipant: CreateParticipantDto = {
     name: '',
