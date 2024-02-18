@@ -62,3 +62,22 @@ import 'zone.js'; // Included with Angular CLI.
 /***************************************************************************************************
  * APPLICATION IMPORTS
  */
+declare global {
+  interface Array<T> {
+    sortBy(expr: (item: T) => any): T[];
+  }
+}
+
+Array.prototype.sortBy = function(expr) {
+  return this.sort((a, b) => {
+    const aVal = expr(a);
+    const bVal = expr(b);
+    if (aVal < bVal) {
+      return -1;
+    }
+    if (aVal > bVal) {
+      return 1;
+    }
+    return 0;
+  });
+};
