@@ -29,7 +29,6 @@ export class ChooseEventsComponent implements OnInit {
   closedReason?: string = undefined;
   hiddenReason?: string = undefined;
   showResults = false;
-  showNever = false;
 
   // view state
   newParticipant: CreateParticipantDto = {
@@ -210,7 +209,6 @@ export class ChooseEventsComponent implements OnInit {
   private updateHiddenReason() {
     switch (this.poll?.settings.showResult) {
       case ShowResultOptions.NEVER:
-        this.showNever = !this.userVoted() && !this.isAdmin;
         this.isAdmin ? this.hiddenReason = undefined : 'The results of this poll are hidden. You will only be able to see your own votes.';
         this.showResults = true;
         break;
