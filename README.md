@@ -1,4 +1,4 @@
-# apollusia
+# <img src=".github/images/logo.png" alt="Apollusia Logo" height="40"> Apollusia
 
 Apollusia is a calendar tool for coordinating events with multiple people.
 It is a web application written in Angular with NestJS as the backend.
@@ -7,13 +7,27 @@ Feel free to check it out!
 
 :star: Star this project on GitHub — it motivates me a lot!
 
-<!---
-TODO: Add Logo Banner
--->
+## Screenshots
 
-<!---
-TODO: Add screenshots of the application
--->
+### View Your Polls and Participations in the Dashboard
+
+![Dashboard](.github/images/dashboard_light.png#gh-light-mode-only)
+![Dashboard](.github/images/dashboard_dark.png#gh-dark-mode-only)
+
+### Create Polls with Advanced Options
+
+![Create Polls](.github/images/new_poll_light.png#gh-light-mode-only)
+![Create Polls](.github/images/new_poll_dark.png#gh-dark-mode-only)
+
+### Choose Available Dates and Times
+
+![Choose Dates](.github/images/choose_events_light.png#gh-light-mode-only)
+![Choose Dates](.github/images/choose_events_dark.png#gh-dark-mode-only)
+
+### Participate and Find the Best Option
+
+![Participate](.github/images/participate_light.png#gh-light-mode-only)
+![Participate](.github/images/participate_dark.png#gh-dark-mode-only)
 
 ## Setup
 
