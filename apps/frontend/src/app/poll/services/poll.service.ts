@@ -62,8 +62,4 @@ export class PollService {
   deleteParticipant(id: string, participant: string) {
     return this.http.delete(`${environment.backendURL}/poll/${id}/participate/${participant}`);
   }
-
-  getParticipantCount(id: string): Observable<number> {
-    return this.http.get<number>(`${environment.backendURL}/poll/${id}/participantCount`);
-  }
 }

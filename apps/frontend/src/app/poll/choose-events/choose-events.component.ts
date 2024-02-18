@@ -22,7 +22,6 @@ export class ChooseEventsComponent implements OnInit {
   pollEvents: PollEvent[] = [];
   participants: Participant[] = [];
   isAdmin: boolean = false;
-  participantCount: number;
 
   // aux
   bookedEvents: boolean[] = [];
@@ -81,14 +80,12 @@ export class ChooseEventsComponent implements OnInit {
         })),
         this.pollService.getParticipants(id).pipe(tap(participants => this.participants = participants)),
         this.pollService.isAdmin(id, this.token),
-        this.pollService.getParticipantCount(id),
       ])),
-    ).subscribe(([poll, events, participants, isAdmin, participantCount]) => {
+    ).subscribe(([poll, events, participants, isAdmin]) => {
       this.setDescription(poll, events, participants);
       this.clearSelection();
       this.bookedEvents = events.map(e => poll.bookedEvents.includes(e._id));
       this.isAdmin = isAdmin;
-      this.participantCount = participantCount;
       this.updateHelpers();
     });
   }
@@ -122,7 +119,7 @@ export class ChooseEventsComponent implements OnInit {
   submit() {
     this.pollService.participate(this.id, this.newParticipant).subscribe(participant => {
       this.participants.unshift(participant);
-      this.participantCount++;
+      this.poll ? this.poll.participants++ : undefined;
       this.updateHelpers();
       this.clearSelection();
     }, error => {
@@ -157,7 +154,7 @@ export class ChooseEventsComponent implements OnInit {
   deleteParticipation(participantId: string) {
     this.pollService.deleteParticipant(this.id, participantId).subscribe(() => {
       this.participants = this.participants.filter(p => p._id !== participantId);
-      this.participantCount--;
+      this.poll ? this.poll.participants-- : undefined;
       this.updateHelpers();
     });
   }
@@ -203,7 +200,7 @@ export class ChooseEventsComponent implements OnInit {
     const maxParticipants = this.poll?.settings.maxParticipants;
     if (deadline && new Date(deadline) < new Date()) {
       this.closedReason = 'This poll is over because the deadline has passed. You can no longer submit your vote.';
-    } else if (maxParticipants && this.participantCount >= maxParticipants) {
+    } else if (maxParticipants && this.poll && this.poll.participants >= maxParticipants) {
       this.closedReason = 'This poll has reached it\'s maximum number of participants. You can no longer submit your vote.';
     } else {
       this.closedReason = undefined;
