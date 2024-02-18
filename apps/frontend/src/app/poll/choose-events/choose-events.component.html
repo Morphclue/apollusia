@@ -171,24 +171,26 @@
                 }
               </tr>
             }
-            <tr>
-              <th>Sum</th>
-              @for (pollEvent of pollEvents; track pollEvent) {
-                <td>
-                  @if (bestOption === countParticipants(pollEvent)) {
-                    <h5 class="bi-award text-primary">
-                      {{ countParticipants(pollEvent) }}
-                    </h5>
-                  }
-                  @if (bestOption !== countParticipants(pollEvent)) {
-                    <div>
-                      {{ countParticipants(pollEvent) }}
-                    </div>
-                  }
-                </td>
-              }
-              <td class="border-0"></td>
-            </tr>
+            @if (poll?.settings?.showResult !== ShowResultOptions.NEVER) {
+              <tr>
+                <th>Sum</th>
+                @for (pollEvent of pollEvents; track pollEvent) {
+                  <td>
+                    @if (bestOption === countParticipants(pollEvent)) {
+                      <h5 class="bi-award text-primary">
+                        {{ countParticipants(pollEvent) }}
+                      </h5>
+                    }
+                    @if (bestOption !== countParticipants(pollEvent)) {
+                      <div>
+                        {{ countParticipants(pollEvent) }}
+                      </div>
+                    }
+                  </td>
+                }
+                <td class="border-0"></td>
+              </tr>
+            }
           }
           @if (poll && isAdmin) {
             <tr>
