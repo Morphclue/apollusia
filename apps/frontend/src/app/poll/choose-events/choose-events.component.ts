@@ -8,7 +8,7 @@ import {forkJoin} from 'rxjs';
 import {map, switchMap, tap} from 'rxjs/operators';
 
 import {MailService, TokenService} from '../../core/services';
-import {CreateParticipantDto, Participant, PollEvent, ReadPoll, ReadPollEvent, UpdateParticipantDto} from '../../model';
+import {CreateParticipantDto, Participant, ReadPoll, ReadPollEvent, UpdateParticipantDto} from '../../model';
 import {PollService} from '../services/poll.service';
 
 @Component({
@@ -86,7 +86,6 @@ export class ChooseEventsComponent implements OnInit {
       this.bookedEvents = events.map(e => poll.bookedEvents.includes(e._id));
       this.isAdmin = isAdmin;
       this.updateHelpers();
-      console.log(events)
     });
   }
 
