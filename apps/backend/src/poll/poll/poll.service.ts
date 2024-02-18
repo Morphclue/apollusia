@@ -144,12 +144,13 @@ export class PollService implements OnModuleInit {
   }
 
   private async readPolls(filter: FilterQuery<Poll>): Promise<ReadStatsPollDto[]> {
-    const polls = await this.pollModel.find(filter).select(readPollSelect).sort({createdAt: -1}).exec();
-    return Promise.all(polls.map(async (poll): Promise<ReadStatsPollDto> => ({
-      ...this.mask(poll.toObject()),
-      events: await this.pollEventModel.countDocuments({poll: poll._id}).exec(),
-      participants: await this.participantModel.countDocuments({poll: poll._id}).exec(),
-    })));
+    return this.pollModel
+      .find(filter)
+      .select(readPollSelect)
+      .populate<{ participants: number }>('participants')
+      .populate<{ events: number }>('events')
+      .sort({createdAt: -1})
+      .exec();
   }
 
   async getPoll(id: Types.ObjectId): Promise<Doc<ReadPollDto>> {
