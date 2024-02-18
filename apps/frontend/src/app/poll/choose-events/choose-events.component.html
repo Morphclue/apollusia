@@ -176,7 +176,7 @@
                 }
               </tr>
             }
-            @if (poll?.settings?.showResult !== ShowResultOptions.NEVER) {
+            @if (poll?.settings?.showResult !== ShowResultOptions.NEVER || isAdmin) {
               <tr>
                 <th>Sum</th>
                 @for (pollEvent of pollEvents; track pollEvent) {
