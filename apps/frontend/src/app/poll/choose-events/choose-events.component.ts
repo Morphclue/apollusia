@@ -176,12 +176,6 @@ export class ChooseEventsComponent implements OnInit {
     this.errors = checkParticipant(this.editDto!, this.poll!, this.participants, this.editParticipant!._id);
   }
 
-  countParticipants(pollEvent: ReadPollEvent) {
-    const participants = this.participants.filter(p => p.selection[pollEvent._id] === 'yes');
-    const indeterminateParticipants = this.participants.filter(p => p.selection[pollEvent._id] === 'maybe');
-    return participants.length + indeterminateParticipants.length;
-  }
-
   userVoted() {
     return this.participants.some(participant => participant.token === this.token);
   }
@@ -189,7 +183,7 @@ export class ChooseEventsComponent implements OnInit {
   // Helpers
 
   private updateHelpers() {
-    this.bestOption = Math.max(...this.pollEvents.map(event => this.countParticipants(event))) || 1;
+    this.bestOption = Math.max(...this.pollEvents.map(event => event.participants) || 1);
     this.updateClosedReason();
     this.updateHiddenReason();
   }
@@ -234,7 +228,7 @@ export class ChooseEventsComponent implements OnInit {
       return false;
     }
 
-    return this.countParticipants(event) >= this.poll.settings.maxEventParticipants;
+    return event.participants >= this.poll.settings.maxEventParticipants;
   }
 
   isPastEvent(event: ReadPollEvent) {

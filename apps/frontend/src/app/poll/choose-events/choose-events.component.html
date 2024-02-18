@@ -181,14 +181,14 @@
                 <th>Sum</th>
                 @for (pollEvent of pollEvents; track pollEvent) {
                   <td>
-                    @if (bestOption === countParticipants(pollEvent)) {
+                    @if (bestOption === pollEvent.participants) {
                       <h5 class="bi-award text-primary">
-                        {{ countParticipants(pollEvent) }}
+                        {{ pollEvent.participants }}
                       </h5>
                     }
-                    @if (bestOption !== countParticipants(pollEvent)) {
+                    @if (bestOption !== pollEvent.participants) {
                       <div>
-                        {{ countParticipants(pollEvent) }}
+                        {{ pollEvent.participants }}
                       </div>
                     }
                   </td>
