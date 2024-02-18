@@ -210,10 +210,8 @@ export class ChooseEventsComponent implements OnInit {
     const maxParticipants = this.poll?.settings.maxParticipants;
     if (deadline && new Date(deadline) < new Date()) {
       this.closedReason = 'This poll is over because the deadline has passed. You can no longer submit your vote.';
-      this.showResults = true;
     } else if (maxParticipants && this.participantCount >= maxParticipants) {
       this.closedReason = 'This poll has reached it\'s maximum number of participants. You can no longer submit your vote.';
-      this.showResults = true;
     } else {
       this.closedReason = undefined;
     }
