@@ -9,14 +9,9 @@ $heliotrope: #c77dffff;
 $mauve: #e0aaffff;
 
 /* Overrides */
-$primary: $french-violet;
-$secondary: $purple;
-$dark: $persian-indigo;
 
-$success: $french-violet;
-$info: $amethyst;
-$warning: $heliotrope;
-$danger: $mauve;
+$primary: $french-violet;
+$dark: $persian-indigo;
 
 /* Imports */
 @import 'node_modules/bootstrap/scss/bootstrap';
@@ -29,52 +24,68 @@ $danger: $mauve;
 }
 
 /* Cal-header */
+.cal-week-view {
+  background-color: var(--bs-body-bg);
+
+  & .cal-hour-odd {
+    background-color: var(--bs-tertiary-bg);
+  }
+
+  & .cal-time-events .cal-day-columns:not(.cal-resize-active) .cal-hour-segment:hover {
+    background-color: var(--bs-secondary-bg);
+  }
+
+  & .cal-day-headers .cal-header:hover,
+  & .cal-day-headers .cal-drag-over {
+    background-color: var(--bs-tertiary-bg);
+  }
+
+  & .cal-header.cal-today {
+    background-color: var(--bs-success-bg);
+  }
+
+  & .cal-header.cal-weekend span {
+    color: var(--bs-warning);
+  }
+}
+
 .cal-week-view .cal-time-events {
   max-height: calc(100vh - 320px);;
   overflow-y: auto;
-}
-
-.cal-day-headers {
-  margin-right: 17px;
 }
 
 .cal-day-columns {
   height: 100%;
 }
 
-.card-header {
-  background-color: $purple;
-  color: white;
-}
-
 .p-yes {
-  color: #28a745;
-  background-color: #d4edda;
+  color: var(--bs-success-text-emphasis) !important;
+  background-color: var(--bs-success-bg-subtle) !important;
 
   & > .form-check-input:checked {
-    background-color: #28a745;
-    border-color: #28a745;
+    background-color: var(--bs-success);
+    border-color: var(--bs-success);
   }
 }
 
 .p-no {
-  color: #dc3545;
-  background-color: #f8d7da;
+  color: var(--bs-danger-text-emphasis) !important;
+  background-color: var(--bs-danger-bg-subtle) !important;
 }
 
 .p-maybe {
-  color: #ffc107;
-  background-color: #fff3cd;
+  color: var(--bs-warning-text-emphasis) !important;
+  background-color: var(--bs-warning-bg-subtle) !important;
 
   & > .form-check-input:indeterminate {
-    background-color: #ffc107;
-    border-color: #ffc107;
+    background-color: var(--bs-warning);
+    border-color: var(--bs-warning);
   }
 }
 
 .p-unset {
-  color: gray;
-  background-color: lightgray;
+  color: var(--bs-secondary-color);
+  background-color: var(--bs-secondary-bg);
 }
 
 /* Ngb-Datepicker */
@@ -101,16 +112,20 @@ $danger: $mauve;
 
 .ngb-dp-day:hover {
   background-color: $amethyst;
-  color: white;
+  color: var(--bs-body-bg);
 }
 
 .ngb-dp-selected {
   background-color: $primary;
-  color: white;
+  color: var(--bs-body-bg);
+}
+
+.ngb-dp-header, .ngb-dp-weekdays {
+  background-color: var(--bs-body-bg) !important;
 }
 
 .disabled-hour {
-  background-color: lightgrey;
+  background-color: var(--bs-secondary-bg-subtle);
   cursor: not-allowed;
 }
 
@@ -124,7 +139,7 @@ $danger: $mauve;
   }
 
   blockquote {
-    border-left: 4px solid $info;
+    border-left: 4px solid var(--bs-info-border-subtle);
     padding: 0 1rem;
   }
 

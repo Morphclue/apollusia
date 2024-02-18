@@ -46,6 +46,7 @@ export class ChooseEventsComponent implements OnInit {
   readonly ShowResultOptions = ShowResultOptions;
   id: string = '';
   url = globalThis.location?.href;
+  now = Date.now();
   mail: string | undefined;
   token: string;
 
@@ -189,14 +190,6 @@ export class ChooseEventsComponent implements OnInit {
     return this.participants.some(participant => participant.token === this.token);
   }
 
-  maxParticipantsReached(event: PollEvent) {
-    if (!this.poll?.settings.maxEventParticipants) {
-      return false;
-    }
-
-    return this.countParticipants(event) >= this.poll.settings.maxEventParticipants;
-  }
-
   // Helpers
 
   private updateHelpers() {
@@ -241,7 +234,19 @@ export class ChooseEventsComponent implements OnInit {
   private clearSelection() {
     this.newParticipant.name = this.poll?.settings?.anonymous ? 'Anonymous' : '';
     for (const event of this.pollEvents) {
-      this.newParticipant.selection[event._id] = 'no';
+      this.newParticipant.selection[event._id] = this.maxParticipantsReached(event) ? undefined : 'no';
     }
+  }
+
+  private maxParticipantsReached(event: PollEvent) {
+    if (!this.poll?.settings.maxEventParticipants) {
+      return false;
+    }
+
+    return this.countParticipants(event) >= this.poll.settings.maxEventParticipants;
+  }
+
+  isPastEvent(event: PollEvent) {
+    return Date.parse(event.start) < this.now;
   }
 }

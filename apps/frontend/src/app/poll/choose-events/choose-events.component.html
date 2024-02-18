@@ -54,7 +54,10 @@
           <th scope="col"></th>
           @for (event of pollEvents; track event) {
             <th scope="col">
-              <app-event-head [event]="event"></app-event-head>
+              <app-event-head
+                [event]="event"
+                [class.text-muted]="isPastEvent(event)"
+              ></app-event-head>
             </th>
           }
           <th class="border-0" scope="col"></th>
@@ -79,7 +82,8 @@
                     [poll]="poll"
                     [(check)]="newParticipant.selection[event._id]"
                     (checkChange)="validateNew()"
-                    [isFull]="maxParticipantsReached(event)"
+                    [isFull]="!newParticipant.selection[event._id]"
+                    [isPastEvent]="isPastEvent(event)"
                   ></app-check-button>
                 </td>
               }
@@ -135,6 +139,7 @@
                         [poll]="poll"
                         [(check)]="editDto.selection[event._id]"
                         (checkChange)="validateEdit()"
+                        [isPastEvent]="isPastEvent(event)"
                       ></app-check-button>
                     </td>
                   }

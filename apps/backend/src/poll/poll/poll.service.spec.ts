@@ -1,22 +1,26 @@
 import {Poll, PollEventDto} from '@apollusia/types';
 import {NotFoundException} from '@nestjs/common';
+import {MongooseModule} from '@nestjs/mongoose';
 import {Test, TestingModule} from '@nestjs/testing';
+import {MongoMemoryServer} from 'mongodb-memory-server';
 import {Model, Types} from 'mongoose';
 
 import {PollService} from './poll.service';
 import {ParticipantStub, PollEventStub, PollStub} from '../../../test/stubs';
-import {closeMongoConnection, rootMongooseTestModule} from '../../utils/mongo-util';
 import {PollModule} from '../poll.module';
 
 describe('PollService', () => {
+  let mongoServer: MongoMemoryServer;
     let service: PollService;
     let pollModel: Model<Poll>;
     let pollEventModel: Model<PollEventDto>;
 
     beforeAll(async () => {
+      mongoServer = await MongoMemoryServer.create();
+
         const module: TestingModule = await Test.createTestingModule({
             imports: [
-                rootMongooseTestModule(),
+                MongooseModule.forRoot(mongoServer.getUri()),
                 PollModule,
             ],
         }).compile();
@@ -25,6 +29,10 @@ describe('PollService', () => {
         pollEventModel = module.get('PollEventModel');
         service = module.get<PollService>(PollService);
     });
+
+  afterAll(async () => {
+    await mongoServer?.stop();
+  });
 
     it('should be defined', () => {
         expect(service).toBeDefined();
@@ -155,9 +163,5 @@ describe('PollService', () => {
       const poll = await pollModel.findOne({title: 'Party (clone)'}).exec();
       const isAdmin = await service.isAdmin(poll._id, ParticipantStub().token);
       expect(isAdmin).toEqual(true);
-    });
-
-    afterAll(async () => {
-        await closeMongoConnection();
     });
 });

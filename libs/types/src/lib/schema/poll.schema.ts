@@ -3,7 +3,7 @@ import {objectIdToBase64, RefArray} from '@mean-stream/nestx/ref';
 import {Prop, Schema, SchemaFactory} from '@nestjs/mongoose';
 import {ApiProperty, ApiPropertyOptional} from '@nestjs/swagger';
 import {Type} from 'class-transformer';
-import {IsNotEmpty, IsObject, IsOptional, IsString, MinLength, ValidateNested} from 'class-validator';
+import {IsNotEmpty, IsObject, IsOptional, IsString, IsTimeZone, MinLength, ValidateNested} from 'class-validator';
 import {Types} from 'mongoose';
 import {Settings, SettingsSchema} from './settings';
 
@@ -50,7 +50,7 @@ export class Poll {
     @Prop()
     @ApiProperty()
     @IsOptional()
-    @IsString() // TODO IsTimeZone will be added to class-validator soon
+    @IsTimeZone()
     timeZone?: string;
 
     @Prop({required: true, index: 1})
