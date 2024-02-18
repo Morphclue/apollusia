@@ -10,6 +10,7 @@ import {
   ReadParticipantDto,
   readParticipantSelect,
   ReadPollDto,
+  ReadPollEventDto,
   readPollExcluded,
   readPollSelect,
   ReadStatsPollDto,
@@ -147,8 +148,8 @@ export class PollService implements OnModuleInit {
     return this.pollModel
       .find(filter)
       .select(readPollSelect)
-      .populate<{ participants: number }>('participants')
-      .populate<{ events: number }>('events')
+      .populate<{participants: number}>('participants')
+      .populate<{events: number}>('events')
       .sort({createdAt: -1})
       .exec();
   }
@@ -157,7 +158,7 @@ export class PollService implements OnModuleInit {
     return this.pollModel
       .findById(id)
       .select(readPollSelect)
-      .populate<{ participants: number }>('participants')
+      .populate<{participants: number}>('participants')
       .exec();
   }
 
@@ -210,8 +211,17 @@ export class PollService implements OnModuleInit {
     return poll;
   }
 
-  async getEvents(id: Types.ObjectId): Promise<PollEvent[]> {
-    return await this.pollEventModel.find({poll: new Types.ObjectId(id)}).sort({start: 1}).exec();
+  async getEvents(id: Types.ObjectId): Promise<ReadPollEventDto[]> {
+    const [events, participants] = await Promise.all([
+      this.pollEventModel.find({poll: new Types.ObjectId(id)}).sort({start: 1}).exec(),
+      this.participantModel.find({poll: new Types.ObjectId(id)}).exec(),
+    ]);
+    return events.map(event => ({
+      ...event.toObject(),
+      participants: participants.filter(participant =>
+        ['yes', 'maybe'].includes(participant.selection[event._id.toString()]),
+      ).length,
+    }));
   }
 
   async postEvents(poll: Types.ObjectId, pollEvents: PollEventDto[]): Promise<PollEvent[]> {

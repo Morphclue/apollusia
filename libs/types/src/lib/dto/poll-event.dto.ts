@@ -9,3 +9,8 @@ export class PollEventDto extends OmitType(PollEvent, ['_id', 'poll'] as const) 
   @IsMongoId()
   _id?: string;
 }
+
+export class ReadPollEventDto extends PollEvent {
+  @ApiPropertyOptional()
+  participants?: number;
+}

@@ -8,7 +8,7 @@ import {forkJoin} from 'rxjs';
 import {map, switchMap, tap} from 'rxjs/operators';
 
 import {MailService, TokenService} from '../../core/services';
-import {CreateParticipantDto, Participant, PollEvent, ReadPoll, UpdateParticipantDto} from '../../model';
+import {CreateParticipantDto, Participant, PollEvent, ReadPoll, ReadPollEvent, UpdateParticipantDto} from '../../model';
 import {PollService} from '../services/poll.service';
 
 @Component({
@@ -19,7 +19,7 @@ import {PollService} from '../services/poll.service';
 export class ChooseEventsComponent implements OnInit {
   // initial state
   poll?: ReadPoll;
-  pollEvents: PollEvent[] = [];
+  pollEvents: ReadPollEvent[] = [];
   participants: Participant[] = [];
   isAdmin: boolean = false;
 
@@ -86,10 +86,11 @@ export class ChooseEventsComponent implements OnInit {
       this.bookedEvents = events.map(e => poll.bookedEvents.includes(e._id));
       this.isAdmin = isAdmin;
       this.updateHelpers();
+      console.log(events)
     });
   }
 
-  private setDescription(poll: ReadPoll, events: PollEvent[], participants: Participant[]) {
+  private setDescription(poll: ReadPoll, events: ReadPollEvent[], participants: Participant[]) {
     let description = '';
     if (poll.description) {
       description += poll.description + '\n\n';
@@ -176,7 +177,7 @@ export class ChooseEventsComponent implements OnInit {
     this.errors = checkParticipant(this.editDto!, this.poll!, this.participants, this.editParticipant!._id);
   }
 
-  countParticipants(pollEvent: PollEvent) {
+  countParticipants(pollEvent: ReadPollEvent) {
     const participants = this.participants.filter(p => p.selection[pollEvent._id] === 'yes');
     const indeterminateParticipants = this.participants.filter(p => p.selection[pollEvent._id] === 'maybe');
     return participants.length + indeterminateParticipants.length;
@@ -229,7 +230,7 @@ export class ChooseEventsComponent implements OnInit {
     }
   }
 
-  private maxParticipantsReached(event: PollEvent) {
+  private maxParticipantsReached(event: ReadPollEvent) {
     if (!this.poll?.settings.maxEventParticipants) {
       return false;
     }
@@ -237,7 +238,7 @@ export class ChooseEventsComponent implements OnInit {
     return this.countParticipants(event) >= this.poll.settings.maxEventParticipants;
   }
 
-  isPastEvent(event: PollEvent) {
+  isPastEvent(event: ReadPollEvent) {
     return Date.parse(event.start) < this.now;
   }
 }

@@ -8,7 +8,7 @@ import {
   ReadParticipantDto,
   ReadPollDto,
   ReadStatsPollDto,
-  UpdateParticipantDto,
+  UpdateParticipantDto, ReadPollEventDto,
 } from '@apollusia/types';
 import {ObjectIdPipe} from '@mean-stream/nestx/ref';
 import {
@@ -88,7 +88,7 @@ export class PollController {
     }
 
     @Get(':id/events')
-    async getEvents(@Param('id', ObjectIdPipe) id: Types.ObjectId): Promise<PollEvent[]> {
+    async getEvents(@Param('id', ObjectIdPipe) id: Types.ObjectId): Promise<ReadPollEventDto[]> {
         const poll = await this.pollService.getPoll(id);
         if (!poll) {
             throw new NotFoundException(id);
