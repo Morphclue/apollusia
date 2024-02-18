@@ -154,7 +154,11 @@ export class PollService implements OnModuleInit {
   }
 
   async getPoll(id: Types.ObjectId): Promise<Doc<ReadPollDto>> {
-    return this.pollModel.findById(id).select(readPollSelect).exec();
+    return this.pollModel
+      .findById(id)
+      .select(readPollSelect)
+      .populate<{ participants: number }>('participants')
+      .exec();
   }
 
   async postPoll(pollDto: PollDto): Promise<ReadPollDto> {

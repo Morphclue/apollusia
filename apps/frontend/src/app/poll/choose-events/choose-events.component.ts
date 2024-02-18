@@ -8,7 +8,7 @@ import {forkJoin} from 'rxjs';
 import {map, switchMap, tap} from 'rxjs/operators';
 
 import {MailService, TokenService} from '../../core/services';
-import {CreateParticipantDto, Participant, Poll, PollEvent, UpdateParticipantDto} from '../../model';
+import {CreateParticipantDto, Participant, PollEvent, ReadPoll, UpdateParticipantDto} from '../../model';
 import {PollService} from '../services/poll.service';
 
 @Component({
@@ -18,7 +18,7 @@ import {PollService} from '../services/poll.service';
 })
 export class ChooseEventsComponent implements OnInit {
   // initial state
-  poll?: Poll;
+  poll?: ReadPoll;
   pollEvents: PollEvent[] = [];
   participants: Participant[] = [];
   isAdmin: boolean = false;
@@ -69,7 +69,7 @@ export class ChooseEventsComponent implements OnInit {
     this.route.params.pipe(
       map(({id}) => this.id = id),
       switchMap(id => forkJoin([
-        this.pollService.get(id).pipe(tap(poll => {
+        this.pollService.get(id).pipe(tap((poll) => {
           this.poll = poll;
           this.title.setTitle(`${poll.title} - Apollusia`);
           this.meta.updateTag({property: 'og:title', content: poll.title});
@@ -93,7 +93,7 @@ export class ChooseEventsComponent implements OnInit {
     });
   }
 
-  private setDescription(poll: Poll, events: PollEvent[], participants: Participant[]) {
+  private setDescription(poll: ReadPoll, events: PollEvent[], participants: Participant[]) {
     let description = '';
     if (poll.description) {
       description += poll.description + '\n\n';
