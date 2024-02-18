@@ -29,6 +29,48 @@ Feel free to check it out!
 ![Participate](.github/images/participate_light.png#gh-light-mode-only)
 ![Participate](.github/images/participate_dark.png#gh-dark-mode-only)
 
+## Features
+
+Apollusia offers a variety of features to make event coordination as easy as possible.
+All features are completely free and can be used without registration.
+
+### Participation
+
+<dl>
+  <dt>Anonymous participation</dt>
+  <dd>Participants can vote without entering their name</dd>
+  <dt>Editing participation</dt>
+  <dd>Participants can edit their participation</dd>
+  <dt>Blind participation</dt>
+  <dd>Participants can't see other participants until they participate</dd>
+</dl>
+
+### Poll Options
+
+<dl>
+  <dt>Participation limit</dt>
+  <dd>Limit the number of participants</dd>
+  <dt>Maybe Option</dt>
+  <dd>Friendlier event selection with a Maybe option</dd>
+  <dt>Deadline</dt>
+  <dd>Set a deadline for new participations</dd>
+  <dt>Events of varying length</dt>
+  <dd>Every event can have its own length</dd>
+  <dt>Event Notes</dt>
+  <dd>Add notes to events to provide additional information</dd>
+</dl>
+
+### Productivity
+
+<dl>
+  <dt>Autofill</dt>
+  <dd>Create many sequential events automatically, with breaks and on multiple days</dd>
+  <dt>Cloning polls</dt>
+  <dd>Clone polls to start off with the same options</dd>
+  <dt>Postponing events</dt>
+  <dd>Move all events to a later date</dd>
+</dl>
+
 ## Setup
 
 Create an `.env` file in the backend directory and add the following environment variables:
