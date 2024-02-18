@@ -211,16 +211,12 @@ export class ChooseEventsComponent implements OnInit {
     switch (this.poll?.settings.showResult) {
       case ShowResultOptions.NEVER:
         this.showNever = !this.userVoted() && !this.isAdmin;
-        if (!this.isAdmin) {
-          this.hiddenReason = 'The results of this poll are hidden. You will only be able to see your own votes.';
-        }
+        this.isAdmin ? this.hiddenReason = undefined : 'The results of this poll are hidden. You will only be able to see your own votes.';
         this.showResults = true;
         break;
       case ShowResultOptions.AFTER_PARTICIPATING:
         this.showResults = this.isAdmin || this.userVoted();
-        if (!this.showResults) {
-          this.hiddenReason = 'This is a blind poll. You can\'t see results or other user\'s votes until you participate yourself.';
-        }
+        this.showResults ? this.hiddenReason = undefined : 'This is a blind poll. You can\'t see results or other user\'s votes until you participate yourself.';
         break;
       default:
         this.hiddenReason = undefined;
