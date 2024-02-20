@@ -1,11 +1,7 @@
-import {PollEvent} from '@apollusia/types';
-import {Types} from 'mongoose';
+import {PollEventDto} from '@apollusia/types';
 
-
-export const PollEventStub = (): PollEvent => {
+export const PollEventStub = (): PollEventDto => {
   return {
-    _id: new Types.ObjectId('4b1f9b9b9b9b9b9b9b9b9b9b'),
-    poll: new Types.ObjectId('5f1f9b9b9b9b9b9b9b9b9b9b'),
     start: new Date('2022-12-24T12:00:00.000Z'),
     end: new Date('2022-12-24T20:00:00.000Z'),
     note: 'Test',
