@@ -1,7 +1,4 @@
-import {Types} from 'mongoose';
 import {PollDto} from "@apollusia/types";
-
-export const PollStubId = new Types.ObjectId('5f1f9b9b9b9b9b9b9b9b9b9b');
 
 export const PollStub = (): PollDto => {
   return {
