@@ -16,7 +16,7 @@ describe('PollService', () => {
   beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [
-        MongooseModule.forRoot(process.env.MONGO_URI),
+        MongooseModule.forRoot(process.env.MONGO_URI + 'PollService'),
         PollModule,
       ],
     }).compile();
