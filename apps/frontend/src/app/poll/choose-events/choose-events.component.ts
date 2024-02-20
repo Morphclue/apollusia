@@ -118,7 +118,7 @@ export class ChooseEventsComponent implements OnInit {
   submit() {
     this.pollService.participate(this.id, this.newParticipant).subscribe(participant => {
       this.participants.unshift(participant);
-      this.poll ? this.poll.participants++ : undefined;
+      this.poll && this.poll.participants++;
       this.updateHelpers();
       this.clearSelection();
     }, error => {
@@ -153,7 +153,7 @@ export class ChooseEventsComponent implements OnInit {
   deleteParticipation(participantId: string) {
     this.pollService.deleteParticipant(this.id, participantId).subscribe(() => {
       this.participants = this.participants.filter(p => p._id !== participantId);
-      this.poll ? this.poll.participants-- : undefined;
+      this.poll && this.poll.participants--;
       this.updateHelpers();
     });
   }
@@ -203,12 +203,12 @@ export class ChooseEventsComponent implements OnInit {
   private updateHiddenReason() {
     switch (this.poll?.settings.showResult) {
       case ShowResultOptions.NEVER:
-        this.isAdmin ? this.hiddenReason = undefined : 'The results of this poll are hidden. You will only be able to see your own votes.';
+        this.hiddenReason = this.isAdmin ? undefined : 'The results of this poll are hidden. You will only be able to see your own votes.';
         this.showResults = true;
         break;
       case ShowResultOptions.AFTER_PARTICIPATING:
         this.showResults = this.isAdmin || this.userVoted();
-        this.showResults ? this.hiddenReason = undefined : 'This is a blind poll. You can\'t see results or other user\'s votes until you participate yourself.';
+        this.hiddenReason = this.showResults ? undefined : 'This is a blind poll. You can\'t see results or other user\'s votes until you participate yourself.';
         break;
       default:
         this.hiddenReason = undefined;
