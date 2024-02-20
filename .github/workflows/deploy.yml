@@ -41,9 +41,11 @@ jobs:
           context: .
           file: apps/${{ matrix.app }}/Dockerfile
           push: true
+          # ${{ github.repository_owner }} does not work. See https://github.com/orgs/community/discussions/27086
+          # If we ever move this to a different org, we need to update this line.
           tags: |
             ${{ secrets.DOCKER_REGISTRY }}/apollusia/${{ matrix.app }}
-            ghcr.io/${{ github.repository_owner }}/apollusia-${{ matrix.app }}
+            ghcr.io/morphclue/apollusia-${{ matrix.app }}
           cache-to: type=gha,mode=max
           cache-from: type=gha
       # https://github.com/sekassel-research/actions-rancher-update?tab=readme-ov-file#update-service
