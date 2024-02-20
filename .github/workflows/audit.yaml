@@ -1,20 +1,21 @@
-name: Test
+name: Audit
 
 on:
   push:
     branches:
-        - master
+      - master
+    paths:
+      - 'package.json'
+      - 'pnpm-lock.yaml'
   pull_request:
+    paths:
+      - 'package.json'
+      - 'pnpm-lock.yaml'
 
 jobs:
-  lint-test:
-    name: Lint ${{ matrix.app }}
+  audit:
+    name: Audit
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        app:
-          - frontend
-          - backend
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -30,7 +31,5 @@ jobs:
           cache-dependency-path: pnpm-lock.yaml
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
-      - name: Lint
-        run: pnpm run lint:${{ matrix.app }}
-      - name: Test
-        run: pnpm run test:${{ matrix.app }}
+      - name: Audit
+        run: pnpm audit
