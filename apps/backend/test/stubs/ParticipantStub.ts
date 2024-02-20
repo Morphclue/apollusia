@@ -1,10 +1,7 @@
-import {Participant} from '@apollusia/types';
-import {Types} from 'mongoose';
+import {CreateParticipantDto} from '@apollusia/types';
 
-export const ParticipantStub = (): Participant => {
+export const ParticipantStub = (): CreateParticipantDto => {
   return {
-    _id: new Types.ObjectId('6385f9a2af23127d1e023759'),
-    poll: new Types.ObjectId('5f1f9b9b9b9b9b9b9b9b9b9b'),
     name: 'Administrator',
     selection: {},
     token: '619b3a00-2dc3-48f1-8b3d-50386a91a559',

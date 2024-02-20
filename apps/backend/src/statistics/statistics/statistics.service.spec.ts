@@ -27,10 +27,6 @@ describe('StatisticsService', () => {
     service = module.get<StatisticsService>(StatisticsService);
   });
 
-  it('should be defined', () => {
-    expect(service).toBeDefined();
-  });
-
   it('should get empty statistics', async () => {
     const statistics = await service.getStats();
     expect(statistics).toBeDefined();
@@ -41,12 +37,9 @@ describe('StatisticsService', () => {
   });
 
   it('should get statistics', async () => {
-    const pollStub = PollStub();
-    const pollEvent = PollEventStub();
-    const participant = ParticipantStub();
-    await (new pollModel(pollStub)).save();
-    await (new pollEventModel(pollEvent)).save();
-    await (new participantModel(participant)).save();
+    const pollStub = await pollModel.create(PollStub());
+    await pollEventModel.create({poll: pollStub._id, ...PollEventStub()});
+    await participantModel.create({poll: pollStub._id, ...ParticipantStub()});
 
     const statistics = await service.getStats();
     expect(statistics.polls).toEqual(1);

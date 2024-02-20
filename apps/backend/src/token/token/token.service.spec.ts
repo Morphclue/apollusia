@@ -23,10 +23,6 @@ describe('TokenService', () => {
     service = module.get<TokenService>(TokenService);
   });
 
-  it('should be defined', () => {
-    expect(service).toBeDefined();
-  });
-
   it('should generate a token', async () => {
     const token = await service.generateToken();
     expect(token).toBeDefined();
@@ -39,11 +35,11 @@ describe('TokenService', () => {
   });
 
   it('should regenerate a token for a poll', async () => {
-    const pollStub = PollStub();
-    await (new pollModel(pollStub)).save();
+    const pollStub = await pollModel.create(PollStub());
     const newToken = await service.regenerateToken(pollStub.adminToken);
     const newPoll = await pollModel.findOne({adminToken: newToken.token}).exec();
     expect(newPoll).toBeDefined();
+    expect(newPoll._id).toEqual(pollStub._id);
     expect(newPoll.adminToken).not.toEqual(pollStub.adminToken);
   });
 });
