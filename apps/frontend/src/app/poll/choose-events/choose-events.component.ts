@@ -10,6 +10,13 @@ import {MailService, TokenService} from '../../core/services';
 import {CreateParticipantDto, Participant, Poll, PollEvent, UpdateParticipantDto} from '../../model';
 import {PollService} from '../services/poll.service';
 
+interface SortMethod {
+  name: string;
+  description: string;
+  defaultDirection: 1 | -1;
+  by: (p: Participant) => any;
+}
+
 @Component({
   selector: 'app-choose-events',
   templateUrl: './choose-events.component.html',
@@ -28,32 +35,39 @@ export class ChooseEventsComponent implements OnInit {
   closedReason?: string;
   showResults = false;
 
+  currentSort = 'Created';
+  currentSortDirection: 1 | -1 = 1;
   sortMethods = [
     {
       name: 'Created',
       description: 'View the participants in the order they joined the poll.',
+      defaultDirection: 1,
       by: p => p.createdAt,
     },
     {
       name: 'Updated',
       description: 'View the participants in the order they last updated their vote.',
+      defaultDirection: 1,
       by: p => p.updatedAt,
     },
     {
       name: 'Name',
       description: 'View the participants in alphabetical order.',
+      defaultDirection: 1,
       by: p => p.name,
     },
     {
       name: 'Yes Votes',
       description: 'View the participants with the most "yes" or "maybe" votes.',
-      by: p => -Object.values(p.selection).filter(s => s === 'yes' || s === 'maybe').length},
+      defaultDirection: -1,
+      by: p => Object.values(p.selection).filter(s => s === 'yes' || s === 'maybe').length},
     {
       name: 'First Event',
       description: 'View the participants in the order of the events they selected.',
+      defaultDirection: 1,
       by: p => this.pollEvents.findIndex(e => p.selection[e._id] === 'yes' || p.selection[e._id] === 'maybe'),
     },
-  ] satisfies { name: string; description: string; by: (p: Participant) => any }[];
+  ] satisfies SortMethod[];
 
   // view state
   newParticipant: CreateParticipantDto = {
@@ -179,6 +193,16 @@ export class ChooseEventsComponent implements OnInit {
       this.participants = this.participants.filter(p => p._id !== participantId);
       this.updateHelpers();
     });
+  }
+
+  sort(sortMethod: SortMethod) {
+    if (this.currentSort === sortMethod.name) {
+      this.currentSortDirection *= -1;
+    } else {
+      this.currentSort = sortMethod.name;
+      this.currentSortDirection = sortMethod.defaultDirection;
+    }
+    this.participants.sortBy(sortMethod.by, this.currentSortDirection);
   }
 
   book() {

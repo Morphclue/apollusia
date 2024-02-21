@@ -64,19 +64,20 @@ import 'zone.js'; // Included with Angular CLI.
  */
 declare global {
   interface Array<T> {
-    sortBy(expr: (item: T) => any): T[];
+    sortBy(expr: (item: T) => any, direction?: 1 | -1): T[];
   }
 }
 
-Array.prototype.sortBy = function(expr) {
+console.log('Polyfills loaded');
+Array.prototype.sortBy = function(expr, direction = 1) {
   return this.sort((a, b) => {
     const aVal = expr(a);
     const bVal = expr(b);
     if (aVal < bVal) {
-      return -1;
+      return -direction;
     }
     if (aVal > bVal) {
-      return 1;
+      return direction;
     }
     return 0;
   });
