@@ -176,12 +176,6 @@ export class ChooseEventsComponent implements OnInit {
   // View Helpers
   // TODO called from template, bad practice
 
-  countParticipants(pollEvent: ReadPollEvent) {
-    const participants = this.participants.filter(p => p.selection[pollEvent._id] === 'yes');
-    const indeterminateParticipants = this.participants.filter(p => p.selection[pollEvent._id] === 'maybe');
-    return participants.length + indeterminateParticipants.length;
-  }
-
   isPastEvent(event: ReadPollEvent) {
     return Date.parse(event.start) < this.now;
   }
