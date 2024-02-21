@@ -46,6 +46,21 @@
       You can select up to {{ limit }} choices.
     </div>
   }
+  <div class="d-flex justify-content-end mb-3">
+    <div ngbDropdown class="d-inline-block">
+      <button type="button" class="btn btn-outline-primary" id="sort-dropdown" ngbDropdownToggle>
+        Sort
+      </button>
+      <div ngbDropdownMenu aria-labelledby="sort-dropdown">
+        @for (sort of sortMethods; track sort) {
+          <button ngbDropdownItem (click)="participants.sortBy(sort.by)">
+            {{ sort.name }}
+            <i class="bi-question-circle" [ngbTooltip]="sort.description"></i>
+          </button>
+        }
+      </div>
+    </div>
+  </div>
   @if (pollEvents) {
     <div class="table-responsive text-center">
       <table class="table align-middle">
@@ -221,19 +236,6 @@
           }
         </tbody>
       </table>
-    </div>
-    <div ngbDropdown class="d-inline-block">
-      <button type="button" class="btn btn-outline-primary" id="sort-dropdown" ngbDropdownToggle>
-        Sort
-      </button>
-      <div ngbDropdownMenu aria-labelledby="sort-dropdown">
-        @for (sort of sortMethods; track sort) {
-          <button ngbDropdownItem (click)="participants.sortBy(sort.by)">
-            {{ sort.name }}
-            <i class="bi-question-circle" [ngbTooltip]="sort.description"></i>
-          </button>
-        }
-      </div>
     </div>
   }
 </div>
