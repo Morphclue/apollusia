@@ -72,7 +72,6 @@ export class ChooseEventsComponent implements OnInit {
         this.pollService.getEvents(id).pipe(tap(events => {
           this.pollEvents = events;
           this.bookedEvents = new Array(this.pollEvents.length).fill(false);
-          this.validateNew();
         })),
         this.pollService.getParticipants(id).pipe(tap(participants => this.participants = participants)),
         this.pollService.isAdmin(id, this.token),
@@ -81,6 +80,7 @@ export class ChooseEventsComponent implements OnInit {
       this.setDescription(poll, events, participants);
 
       this.clearSelection();
+      this.validateNew();
       this.bookedEvents = events.map(e => poll.bookedEvents.includes(e._id));
       this.isAdmin = isAdmin;
       this.updateHelpers();
