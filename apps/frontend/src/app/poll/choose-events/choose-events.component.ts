@@ -99,7 +99,6 @@ export class ChooseEventsComponent implements OnInit {
         this.pollService.getEvents(id).pipe(tap(events => {
           this.pollEvents = events;
           this.bookedEvents = new Array(this.pollEvents.length).fill(false);
-          this.validateNew();
         })),
         this.pollService.getParticipants(id).pipe(tap(participants => this.participants = participants)),
         this.pollService.isAdmin(id, this.token),
@@ -108,6 +107,7 @@ export class ChooseEventsComponent implements OnInit {
       this.setDescription(poll, events, participants);
 
       this.clearSelection();
+      this.validateNew();
       this.bookedEvents = events.map(e => poll.bookedEvents.includes(e._id));
       this.isAdmin = isAdmin;
       this.updateHelpers();
@@ -188,9 +188,6 @@ export class ChooseEventsComponent implements OnInit {
     });
   }
 
-  // View Helpers
-  // TODO called from template, bad practice
-
   validateNew() {
     this.errors = checkParticipant(this.newParticipant, this.poll!, this.participants);
   }
@@ -199,14 +196,17 @@ export class ChooseEventsComponent implements OnInit {
     this.errors = checkParticipant(this.editDto!, this.poll!, this.participants, this.editParticipant!._id);
   }
 
+  // View Helpers
+  // TODO called from template, bad practice
+
   countParticipants(pollEvent: PollEvent) {
     const participants = this.participants.filter(p => p.selection[pollEvent._id] === 'yes');
     const indeterminateParticipants = this.participants.filter(p => p.selection[pollEvent._id] === 'maybe');
     return participants.length + indeterminateParticipants.length;
   }
 
-  userVoted() {
-    return this.participants.some(participant => participant.token === this.token);
+  isPastEvent(event: PollEvent) {
+    return Date.parse(event.start) < this.now;
   }
 
   // Helpers
@@ -243,7 +243,7 @@ export class ChooseEventsComponent implements OnInit {
     return this.countParticipants(event) >= this.poll.settings.maxEventParticipants;
   }
 
-  isPastEvent(event: PollEvent) {
-    return Date.parse(event.start) < this.now;
+  private userVoted() {
+    return this.participants.some(participant => participant.token === this.token);
   }
 }
