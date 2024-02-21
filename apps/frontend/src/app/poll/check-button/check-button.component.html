@@ -1,4 +1,9 @@
-<div class="p-{{check || 'unset'}}" [ngbTooltip]="isFull ? 'This option has reached it\'s maximum number of participants' : null">
+<div class="p-{{check || 'unset'}}"
+     [ngbTooltip]="
+     isPastEvent ? 'This option is in the past'
+     : isFull ? 'This option has reached it\'s maximum number of participants'
+     : null"
+>
   <input
     type="checkbox"
     [disabled]="isFull || isPastEvent"
