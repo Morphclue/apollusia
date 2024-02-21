@@ -1,11 +1,7 @@
-import {Poll, ShowResultOptions} from '@apollusia/types';
-import {Types} from 'mongoose';
+import {PollDto, ShowResultOptions} from "@apollusia/types";
 
-export const PollStub = (): Poll => {
-  const _id = new Types.ObjectId('5f1f9b9b9b9b9b9b9b9b9b9b');
+export const PollStub = (): PollDto => {
   return {
-    _id,
-    id: _id.toString('base64'),
     title: 'Test',
     settings: {
       allowMaybe: true,
