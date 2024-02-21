@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Meta, Title} from '@angular/platform-browser';
 import {ActivatedRoute, Router} from '@angular/router';
 import {checkParticipant} from '@apollusia/logic';
+import {PollEventState} from "@apollusia/types";
 import {ToastService} from '@mean-stream/ngbx';
 import {forkJoin} from 'rxjs';
 import {map, switchMap, tap} from 'rxjs/operators';
@@ -212,6 +213,12 @@ export class ChooseEventsComponent implements OnInit {
     });
   }
 
+  selectAll(state: PollEventState) {
+    for (const event of this.pollEvents) {
+      this.newParticipant.selection[event._id] = this.maxParticipantsReached(event) || this.isPastEvent(event) ? undefined : state;
+    }
+  }
+
   validateNew() {
     this.errors = checkParticipant(this.newParticipant, this.poll!, this.participants);
   }
@@ -254,9 +261,7 @@ export class ChooseEventsComponent implements OnInit {
 
   private clearSelection(){
     this.newParticipant.name = this.poll?.settings?.anonymous ? 'Anonymous' : '';
-    for (const event of this.pollEvents) {
-      this.newParticipant.selection[event._id] = this.maxParticipantsReached(event) ? undefined : 'no';
-    }
+    this.selectAll('no');
   }
 
   private maxParticipantsReached(event: PollEvent) {
