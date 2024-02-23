@@ -46,6 +46,29 @@
       You can select up to {{ limit }} choices.
     </div>
   }
+  <div class="d-flex justify-content-end mb-3">
+    <button class="btn btn-outline-primary me-2" (click)="selectAll('yes')">
+      Select All
+    </button>
+    <div ngbDropdown class="d-inline-block">
+      <button type="button" class="btn btn-outline-secondary" id="sort-dropdown" ngbDropdownToggle>
+        Sort
+      </button>
+      <div ngbDropdownMenu aria-labelledby="sort-dropdown">
+        @for (sortMethod of sortMethods; track sortMethod) {
+          <button
+            ngbDropdownItem
+            (click)="sort(sortMethod)"
+            class="d-flex align-items-center"
+          >
+            {{ sortMethod.name }}
+            <i class="ms-1" [class]="sortMethod.name === currentSort ? (currentSortDirection === 1 ? 'bi-sort-down-alt' : 'bi-sort-up') : ''"></i>
+            <i class="ms-auto hover-info bi-question-circle" [ngbTooltip]="sortMethod.description"></i>
+          </button>
+        }
+      </div>
+    </div>
+  </div>
   @if (pollEvents) {
     <div class="table-responsive text-center">
       <table class="table align-middle">
