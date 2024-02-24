@@ -19,6 +19,22 @@ import {Settings, SettingsSchema} from './settings';
         return objectIdToBase64(this._id);
       },
     },
+    participants: {
+      options: {
+        ref: 'Participant',
+        localField: '_id',
+        foreignField: 'poll',
+        count: true,
+      },
+    },
+    events: {
+      options: {
+        ref: 'PollEvent',
+        localField: '_id',
+        foreignField: 'poll',
+        count: true,
+      },
+    },
   },
 })
 export class Poll {

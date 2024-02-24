@@ -11370,8 +11370,6 @@ packages:
     peerDependenciesMeta:
       webpack:
         optional: true
-      webpack-sources:
-        optional: true
     dependencies:
       webpack: 5.89.0(esbuild@0.19.11)
       webpack-sources: 3.2.3
@@ -11383,8 +11381,6 @@ packages:
       webpack: '*'
     peerDependenciesMeta:
       webpack:
-        optional: true
-      webpack-sources:
         optional: true
     dependencies:
       webpack: 5.90.2

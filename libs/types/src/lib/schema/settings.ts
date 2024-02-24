@@ -1,7 +1,8 @@
 import {ApiProperty} from '@nestjs/swagger';
 import {Transform} from 'class-transformer';
-import {IsBoolean, IsDate, IsOptional, IsPositive} from 'class-validator';
+import {IsBoolean, IsDate, IsEnum, IsOptional, IsPositive} from 'class-validator';
 import {Prop, Schema, SchemaFactory} from "@nestjs/mongoose";
+import {ShowResultOptions} from "./show-result-options";
 
 @Schema({_id: false, id: false, timestamps: false})
 export class Settings {
@@ -45,10 +46,10 @@ export class Settings {
     @IsBoolean()
     anonymous: boolean;
 
-    @Prop()
-    @ApiProperty()
-    @IsBoolean()
-    blindParticipation: boolean;
+    @Prop({type: String, enum: ShowResultOptions})
+    @ApiProperty({enum: ShowResultOptions})
+    @IsEnum(ShowResultOptions)
+    showResult: ShowResultOptions;
 }
 
 export const SettingsSchema = SchemaFactory.createForClass(Settings);
