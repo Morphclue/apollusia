@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {PollEventState} from "@apollusia/types";
+import {PollEventState} from '@apollusia/types';
 
-import {Poll} from '../../model';
+import {ReadPoll} from '../../model/index.js';
 
 @Component({
   selector: 'app-check-button',
@@ -9,7 +9,7 @@ import {Poll} from '../../model';
   styleUrls: ['./check-button.component.scss'],
 })
 export class CheckButtonComponent {
-  @Input() poll?: Poll;
+  @Input() poll?: ReadPoll;
   @Input() isFull = false;
   @Input() isPastEvent = false;
   @Input() check?: PollEventState;

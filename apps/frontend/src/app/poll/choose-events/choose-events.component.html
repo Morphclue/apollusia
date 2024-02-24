@@ -35,9 +35,9 @@
       {{ closedReason }}
     </div>
   }
-  @if (poll?.settings?.blindParticipation && !showResults) {
+  @if (hiddenReason) {
     <div class="alert alert-info">
-      This is a blind poll. You can't see results or other user's votes until you participate yourself.
+      {{ hiddenReason }}
     </div>
   }
   @if (!closedReason && poll?.settings?.maxParticipantEvents; as limit) {
@@ -199,24 +199,26 @@
                 }
               </tr>
             }
-            <tr>
-              <th>Sum</th>
-              @for (pollEvent of pollEvents; track pollEvent) {
-                <td>
-                  @if (bestOption === countParticipants(pollEvent)) {
-                    <h5 class="bi-award text-primary">
-                      {{ countParticipants(pollEvent) }}
-                    </h5>
-                  }
-                  @if (bestOption !== countParticipants(pollEvent)) {
-                    <div>
-                      {{ countParticipants(pollEvent) }}
-                    </div>
-                  }
-                </td>
-              }
-              <td class="border-0"></td>
-            </tr>
+            @if (poll?.settings?.showResult !== ShowResultOptions.NEVER || isAdmin) {
+              <tr>
+                <th>Sum</th>
+                @for (pollEvent of pollEvents; track pollEvent) {
+                  <td>
+                    @if (bestOption === pollEvent.participants) {
+                      <h5 class="bi-award text-primary">
+                        {{ pollEvent.participants }}
+                      </h5>
+                    }
+                    @if (bestOption !== pollEvent.participants) {
+                      <div>
+                        {{ pollEvent.participants }}
+                      </div>
+                    }
+                  </td>
+                }
+                <td class="border-0"></td>
+              </tr>
+            }
           }
           @if (poll && isAdmin) {
             <tr>

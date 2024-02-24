@@ -159,16 +159,43 @@
               </label>
               <input class="form-check-input" type="checkbox" id="anonymous" formControlName="anonymous">
             </div>
-            <div class="form-group form-check">
-              <label class="form-check-label" for="blindParticipation">
-                Force blind participation
-                <i class="bi-question-circle text-muted" placement="top"
-                   ngbTooltip="Allows participants to see other participants' answers only after they have voted."></i>
-              </label>
-              <input class="form-check-input"
-                     type="checkbox"
-                     id="blindParticipation"
-                     formControlName="blindParticipation">
+            <div class="form-group form-check" formGroupName="showResultGroup">
+              <label>Show results to participants</label>
+              <div class="form-check">
+                <input class="form-check-input"
+                       type="radio"
+                       id="showImmediately"
+                       [value]="ShowResultOptions.IMMEDIATELY"
+                       formControlName="showResult">
+                <label class="form-check-label" for="showImmediately">
+                  Immediately
+                  <i class="bi-question-circle text-muted" placement="top"
+                     ngbTooltip="Show results to everyone without a need to vote."></i>
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input"
+                       type="radio" id="showAfterParticipating"
+                       [value]="ShowResultOptions.AFTER_PARTICIPATING"
+                       formControlName="showResult">
+                <label class="form-check-label" for="showAfterParticipating">
+                  After participating
+                  <i class="bi-question-circle text-muted" placement="top"
+                     ngbTooltip="Show results to participants after submiting their vote."></i>
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input"
+                       type="radio"
+                       id="showNever"
+                       [value]="ShowResultOptions.NEVER"
+                       formControlName="showResult">
+                <label class="form-check-label" for="showNever">
+                  Never
+                  <i class="bi-question-circle text-muted" placement="top"
+                     ngbTooltip="Never show results to participants."></i>
+                </label>
+              </div>
             </div>
           </fieldset>
           <fieldset class="col-12 col-lg-4">

@@ -3,12 +3,13 @@ import {Meta, Title} from '@angular/platform-browser';
 import {ActivatedRoute, Router} from '@angular/router';
 import {checkParticipant} from '@apollusia/logic';
 import {PollEventState} from "@apollusia/types";
+import {ShowResultOptions} from '@apollusia/types/lib/schema/show-result-options';
 import {ToastService} from '@mean-stream/ngbx';
 import {forkJoin} from 'rxjs';
 import {map, switchMap, tap} from 'rxjs/operators';
 
 import {MailService, TokenService} from '../../core/services';
-import {CreateParticipantDto, Participant, Poll, PollEvent, UpdateParticipantDto} from '../../model';
+import {CreateParticipantDto, Participant, ReadPoll, ReadPollEvent, UpdateParticipantDto} from '../../model';
 import {PollService} from '../services/poll.service';
 
 interface SortMethod {
@@ -25,15 +26,16 @@ interface SortMethod {
 })
 export class ChooseEventsComponent implements OnInit {
   // initial state
-  poll?: Poll;
-  pollEvents: PollEvent[] = [];
+  poll?: ReadPoll;
+  pollEvents: ReadPollEvent[] = [];
   participants: Participant[] = [];
   isAdmin: boolean = false;
 
   // aux
   bookedEvents: boolean[] = [];
   bestOption: number = 1;
-  closedReason?: string;
+  closedReason?: string = undefined;
+  hiddenReason?: string = undefined;
   showResults = false;
 
   currentSort = 'Created';
@@ -81,6 +83,7 @@ export class ChooseEventsComponent implements OnInit {
   errors: string[] = [];
 
   // helpers
+  readonly ShowResultOptions = ShowResultOptions;
   id: string = '';
   url = globalThis.location?.href;
   now = Date.now();
@@ -97,7 +100,7 @@ export class ChooseEventsComponent implements OnInit {
     tokenService: TokenService,
     mailService: MailService,
   ) {
-    this.mail = mailService.getMail()
+    this.mail = mailService.getMail();
     this.token = tokenService.getToken();
     this.newParticipant.token = this.token;
   }
@@ -106,7 +109,7 @@ export class ChooseEventsComponent implements OnInit {
     this.route.params.pipe(
       map(({id}) => this.id = id),
       switchMap(id => forkJoin([
-        this.pollService.get(id).pipe(tap(poll => {
+        this.pollService.get(id).pipe(tap((poll) => {
           this.poll = poll;
           this.title.setTitle(`${poll.title} - Apollusia`);
           this.meta.updateTag({property: 'og:title', content: poll.title});
@@ -120,7 +123,6 @@ export class ChooseEventsComponent implements OnInit {
       ])),
     ).subscribe(([poll, events, participants, isAdmin]) => {
       this.setDescription(poll, events, participants);
-
       this.clearSelection();
       this.validateNew();
       this.bookedEvents = events.map(e => poll.bookedEvents.includes(e._id));
@@ -129,7 +131,7 @@ export class ChooseEventsComponent implements OnInit {
     });
   }
 
-  private setDescription(poll: Poll, events: PollEvent[], participants: Participant[]) {
+  private setDescription(poll: ReadPoll, events: ReadPollEvent[], participants: Participant[]) {
     let description = '';
     if (poll.description) {
       description += poll.description + '\n\n';
@@ -158,6 +160,7 @@ export class ChooseEventsComponent implements OnInit {
   submit() {
     this.pollService.participate(this.id, this.newParticipant).subscribe(participant => {
       this.participants.unshift(participant);
+      this.poll && this.poll.participants++;
       this.updateHelpers();
       this.clearSelection();
     }, error => {
@@ -192,6 +195,7 @@ export class ChooseEventsComponent implements OnInit {
   deleteParticipation(participantId: string) {
     this.pollService.deleteParticipant(this.id, participantId).subscribe(() => {
       this.participants = this.participants.filter(p => p._id !== participantId);
+      this.poll && this.poll.participants--;
       this.updateHelpers();
     });
   }
@@ -230,46 +234,57 @@ export class ChooseEventsComponent implements OnInit {
   // View Helpers
   // TODO called from template, bad practice
 
-  countParticipants(pollEvent: PollEvent) {
-    const participants = this.participants.filter(p => p.selection[pollEvent._id] === 'yes');
-    const indeterminateParticipants = this.participants.filter(p => p.selection[pollEvent._id] === 'maybe');
-    return participants.length + indeterminateParticipants.length;
-  }
-
-  isPastEvent(event: PollEvent) {
+  isPastEvent(event: ReadPollEvent) {
     return Date.parse(event.start) < this.now;
   }
 
   // Helpers
 
   private updateHelpers() {
-    this.bestOption = Math.max(...this.pollEvents.map(event => this.countParticipants(event))) || 1;
+    this.bestOption = Math.max(...this.pollEvents.map(event => event.participants) || 1);
+    this.updateClosedReason();
+    this.updateHiddenReason();
+  }
 
+  private updateClosedReason() {
     const deadline = this.poll?.settings.deadline;
     const maxParticipants = this.poll?.settings.maxParticipants;
     if (deadline && new Date(deadline) < new Date()) {
       this.closedReason = 'This poll is over because the deadline has passed. You can no longer submit your vote.';
-      this.showResults = true;
-    } else if (maxParticipants && this.participants.length >= maxParticipants) {
+    } else if (maxParticipants && this.poll && this.poll.participants >= maxParticipants) {
       this.closedReason = 'This poll has reached it\'s maximum number of participants. You can no longer submit your vote.';
-      this.showResults = true;
     } else {
       this.closedReason = undefined;
-      this.showResults = !this.poll?.settings?.blindParticipation || this.isAdmin || this.userVoted();
     }
   }
 
-  private clearSelection(){
+  private updateHiddenReason() {
+    switch (this.poll?.settings.showResult) {
+      case ShowResultOptions.NEVER:
+        this.hiddenReason = this.isAdmin ? undefined : 'The results of this poll are hidden. You will only be able to see your own votes.';
+        this.showResults = true;
+        break;
+      case ShowResultOptions.AFTER_PARTICIPATING:
+        this.showResults = this.isAdmin || this.userVoted();
+        this.hiddenReason = this.showResults ? undefined : 'This is a blind poll. You can\'t see results or other user\'s votes until you participate yourself.';
+        break;
+      default:
+        this.hiddenReason = undefined;
+        this.showResults = true;
+    }
+  }
+
+  private clearSelection() {
     this.newParticipant.name = this.poll?.settings?.anonymous ? 'Anonymous' : '';
     this.selectAll('no');
   }
 
-  private maxParticipantsReached(event: PollEvent) {
+  private maxParticipantsReached(event: ReadPollEvent) {
     if (!this.poll?.settings.maxEventParticipants) {
       return false;
     }
 
-    return this.countParticipants(event) >= this.poll.settings.maxEventParticipants;
+    return event.participants >= this.poll.settings.maxEventParticipants;
   }
 
   private userVoted() {
