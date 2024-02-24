@@ -13,7 +13,11 @@
         "outputPath": "dist/apps/frontend/browser",
         "index": "apps/frontend/src/index.html",
         "main": "apps/frontend/src/main.ts",
-        "polyfills": ["apps/frontend/src/polyfills.ts"],
+        "polyfills": [
+          "@angular/localize/init",
+          "zone.js",
+          "apps/frontend/src/polyfills.ts"
+        ],
         "tsConfig": "apps/frontend/tsconfig.app.json",
         "assets": [
           "apps/frontend/src/assets",
