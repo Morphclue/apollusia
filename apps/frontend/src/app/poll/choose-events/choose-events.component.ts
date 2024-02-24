@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Meta, Title} from '@angular/platform-browser';
 import {ActivatedRoute, Router} from '@angular/router';
 import {checkParticipant} from '@apollusia/logic';
+import {PollEventState} from "@apollusia/types";
 import {ShowResultOptions} from '@apollusia/types/lib/schema/show-result-options';
 import {ToastService} from '@mean-stream/ngbx';
 import {forkJoin} from 'rxjs';
@@ -10,6 +11,13 @@ import {map, switchMap, tap} from 'rxjs/operators';
 import {MailService, TokenService} from '../../core/services';
 import {CreateParticipantDto, Participant, ReadPoll, ReadPollEvent, UpdateParticipantDto} from '../../model';
 import {PollService} from '../services/poll.service';
+
+interface SortMethod {
+  name: string;
+  description: string;
+  defaultDirection: 1 | -1;
+  by: (p: Participant) => any;
+}
 
 @Component({
   selector: 'app-choose-events',
@@ -29,6 +37,40 @@ export class ChooseEventsComponent implements OnInit {
   closedReason?: string = undefined;
   hiddenReason?: string = undefined;
   showResults = false;
+
+  currentSort = 'Created';
+  currentSortDirection: 1 | -1 = 1;
+  sortMethods = [
+    {
+      name: 'Created',
+      description: 'View the participants in the order they joined the poll.',
+      defaultDirection: 1,
+      by: p => p.createdAt,
+    },
+    {
+      name: 'Updated',
+      description: 'View the participants in the order they last updated their vote.',
+      defaultDirection: 1,
+      by: p => p.updatedAt,
+    },
+    {
+      name: 'Name',
+      description: 'View the participants in alphabetical order.',
+      defaultDirection: 1,
+      by: p => p.name,
+    },
+    {
+      name: 'Yes Votes',
+      description: 'View the participants with the most "yes" or "maybe" votes.',
+      defaultDirection: -1,
+      by: p => Object.values(p.selection).filter(s => s === 'yes' || s === 'maybe').length},
+    {
+      name: 'First Event',
+      description: 'View the participants in the order of the events they selected.',
+      defaultDirection: 1,
+      by: p => this.pollEvents.findIndex(e => p.selection[e._id] === 'yes' || p.selection[e._id] === 'maybe'),
+    },
+  ] satisfies SortMethod[];
 
   // view state
   newParticipant: CreateParticipantDto = {
@@ -158,11 +200,27 @@ export class ChooseEventsComponent implements OnInit {
     });
   }
 
+  sort(sortMethod: SortMethod) {
+    if (this.currentSort === sortMethod.name) {
+      this.currentSortDirection *= -1;
+    } else {
+      this.currentSort = sortMethod.name;
+      this.currentSortDirection = sortMethod.defaultDirection;
+    }
+    this.participants.sortBy(sortMethod.by, this.currentSortDirection);
+  }
+
   book() {
     const events = this.pollEvents.filter((e, i) => this.bookedEvents[i]).map(e => e._id);
     this.pollService.book(this.id, events).subscribe(() => {
       this.toastService.success('Booking', 'Booked events successfully');
     });
+  }
+
+  selectAll(state: PollEventState) {
+    for (const event of this.pollEvents) {
+      this.newParticipant.selection[event._id] = this.maxParticipantsReached(event) || this.isPastEvent(event) ? undefined : state;
+    }
   }
 
   validateNew() {
@@ -218,9 +276,7 @@ export class ChooseEventsComponent implements OnInit {
 
   private clearSelection() {
     this.newParticipant.name = this.poll?.settings?.anonymous ? 'Anonymous' : '';
-    for (const event of this.pollEvents) {
-      this.newParticipant.selection[event._id] = this.maxParticipantsReached(event) ? undefined : 'no';
-    }
+    this.selectAll('no');
   }
 
   private maxParticipantsReached(event: ReadPollEvent) {
