@@ -1,6 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {checkParticipant} from "@apollusia/logic";
-import {ShowResultOptions} from "@apollusia/types/lib/schema/show-result-options";
 import {ToastService} from "@mean-stream/ngbx";
 
 import {CreateParticipantDto, Participant, ReadPoll, ReadPollEvent, UpdateParticipantDto} from "../../model";
@@ -12,8 +11,6 @@ import {PollService} from "../services/poll.service";
   styleUrl: './table.component.scss',
 })
 export class TableComponent implements OnInit {
-  protected readonly ShowResultOptions = ShowResultOptions;
-
   @Input() poll: ReadPoll;
   @Input() pollEvents: ReadPollEvent[] = [];
   @Input() participants: Participant[] = [];

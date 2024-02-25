@@ -39,7 +39,7 @@
             </td>
           }
           <th class="border-0 text-start" scope="col">
-            <div class="d-inline-block" [ngbTooltip]="errors.length ? errors.join(',\n') : null">
+            <div class="d-inline-block" [ngbTooltip]="errors.join(', ')">
               <button class="btn btn-primary btn-sm" [disabled]="errors.length" (click)="submit()">
                 Submit
               </button>
@@ -116,7 +116,7 @@
               }
               <td class="border-0 text-start">
                 <button class="btn btn-primary btn-sm ms-1 bi-x" type="button" (click)="cancelEdit()"></button>
-                <div class="d-inline-block" [ngbTooltip]="errors.length ? errors.join(',\n') : null">
+                <div class="d-inline-block" [ngbTooltip]="errors.join(', ')">
                   <button class="btn btn-secondary btn-sm ms-1 bi-check" type="button" [disabled]="errors.length"
                           (click)="confirmEdit()"></button>
                 </div>
