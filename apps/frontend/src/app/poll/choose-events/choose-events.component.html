@@ -47,6 +47,15 @@
     </div>
   }
   <div class="d-flex justify-content-end mb-3">
+    <div class="btn-group me-2" role="group">
+      @for (view of ['table']; track view) {
+        <a
+          class="btn btn-outline-secondary bi-{{view}}"
+          ngbTooltip="View as {{ view }}" container="body"
+          routerLink="." [queryParams]="{view}">
+        </a>
+      }
+    </div>
     <button class="btn btn-outline-primary me-2" (click)="0 // TODO selectAll('yes')">
       Select All
     </button>
@@ -70,14 +79,18 @@
     </div>
   </div>
   @if (poll && pollEvents && participants) {
-    <apollusia-table
-      [poll]="poll"
-      [pollEvents]="pollEvents"
-      [participants]="participants"
-      [isAdmin]="isAdmin"
-      [canParticipate]="!closedReason"
-      [showResults]="!hiddenReason"
-      [token]="token"
-    ></apollusia-table>
+    @switch (view$ | async) {
+      @case ("table") {
+        <apollusia-table
+          [poll]="poll"
+          [pollEvents]="pollEvents"
+          [participants]="participants"
+          [isAdmin]="isAdmin"
+          [canParticipate]="!closedReason"
+          [showResults]="!hiddenReason"
+          [token]="token"
+        ></apollusia-table>
+      }
+    }
   }
 </div>

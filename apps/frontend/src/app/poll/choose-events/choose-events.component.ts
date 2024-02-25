@@ -4,7 +4,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {ShowResultOptions} from '@apollusia/types/lib/schema/show-result-options';
 import {ToastService} from '@mean-stream/ngbx';
 import {forkJoin} from 'rxjs';
-import {switchMap, tap} from 'rxjs/operators';
+import {map, switchMap, tap} from 'rxjs/operators';
 
 import {MailService, TokenService} from '../../core/services';
 import {Participant, ReadPoll, ReadPollEvent} from '../../model';
@@ -70,6 +70,7 @@ export class ChooseEventsComponent implements OnInit {
   url = globalThis.location?.href;
   mail: string | undefined;
   token: string;
+  readonly view$ = this.route.queryParams.pipe(map(({view}) => view ?? 'table'));
 
   constructor(
     public route: ActivatedRoute,
