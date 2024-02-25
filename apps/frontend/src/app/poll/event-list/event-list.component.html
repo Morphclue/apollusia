@@ -2,10 +2,10 @@
   <h5>
     {{ event.start | date:'fullDate' }} at {{ event.start | date:'shortTime' }} - {{ event.end | date:'shortTime' }}
     @if (event.note) {
-      <i class="bi-sticky-fill text-primary-emphasis" ngbTooltip="{{event.note}}" placement="top"></i>
+      <i class="bi-sticky-fill text-secondary" ngbTooltip="{{event.note}}" placement="top"></i>
     }
     <span
-      [class]="bestOption === event.participants ? 'bi-award text-primary' : 'bi-person-check text-secondary-emphasis'"
+      [class]="bestOption === event.participants ? 'bi-award text-primary' : 'bi-person-check text-primary-emphasis'"
       [ngbTooltip]="bestOption === event.participants ? 'Best Option' : 'Sum'"
     >
       {{ event.participants }}
