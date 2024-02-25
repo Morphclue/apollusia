@@ -1,0 +1,45 @@
+@for (event of pollEvents; track event._id) {
+  <h5>
+    {{ event.start | date:'fullDate' }} at {{ event.start | date:'shortTime' }} - {{ event.end | date:'shortTime' }}
+  </h5>
+  <ul class="list-unstyled">
+    @for (participant of participants; track participant._id) {
+      <ng-template #content>
+        <!-- TODO reusable template for participant info -->
+        {{ participant.name }}
+        @if (participant.createdAt) {
+          <span class="small text-muted" [ngbTooltip]="participant.createdAt | date:'medium'">
+            {{ participant.createdAt | date: 'shortTime' }}
+          </span>
+        }
+        @if (participant.updatedAt !== participant.createdAt) {
+          <span class="small text-muted" [ngbTooltip]="participant.updatedAt | date:'medium'">
+            &bull; edited
+          </span>
+        }
+      </ng-template>
+      <li>
+        @switch (participant.selection[event._id]) {
+          @case ('yes') {
+            <span class="p-yes bi-check-lg" ngbTooltip="Yes"></span>
+            <ng-container [ngTemplateOutlet]="content"></ng-container>
+          }
+          @case ('maybe') {
+            <span class="p-maybe bi-question" ngbTooltip="Maybe"></span>
+            <ng-container [ngTemplateOutlet]="content"></ng-container>
+          }
+          <!--
+          TODO Maybe add an option to show No votes as well.
+               Or make it dependent on the maxEventParticipants poll setting.
+          @case ('no') {
+            <span class="p-no bi-x-lg" ngbTooltip="No"></span>
+          }
+          @default {
+            <span class="p-unset bi-question" ngbTooltip="Unspecified"></span>
+          }
+          -->
+        }
+      </li>
+    }
+  </ul>
+}
