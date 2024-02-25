@@ -15,6 +15,7 @@ import {EventHeadComponent} from './event-head/event-head.component';
 import {MailAlertComponent} from './mail-alert/mail-alert.component';
 import {PollRoutingModule} from './poll-routing.module';
 import {ChooseDateService} from './services/choose-date.service';
+import {TableComponent} from "./table/table.component";
 import {CoreModule} from '../core/core.module';
 import {AutofillModalComponent, PostponeModalComponent} from '../modals';
 import {SomePipe} from '../pipes';
@@ -30,6 +31,7 @@ import {SomePipe} from '../pipes';
     EventHeadComponent,
     CheckButtonComponent,
     MailAlertComponent,
+    TableComponent,
   ],
   imports: [
     CommonModule,

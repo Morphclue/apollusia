@@ -1,5 +1,6 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
+import type {PollEventState} from "@apollusia/types";
 import {Observable} from 'rxjs';
 
 import {environment} from '../../../environments/environment';
@@ -13,6 +14,24 @@ export class PollService {
   constructor(
     private http: HttpClient,
   ) {
+  }
+
+  selectAll(poll: ReadPoll, events: ReadPollEvent[], participant: CreateParticipantDto | UpdateParticipantDto, state: PollEventState) {
+    for (const event of events) {
+      participant.selection[event._id] = this.maxParticipantsReached(poll, event) || this.isPastEvent(event) ? undefined : state;
+    }
+  }
+
+  maxParticipantsReached(poll: ReadPoll, event: ReadPollEvent) {
+    if (!poll?.settings.maxEventParticipants) {
+      return false;
+    }
+
+    return event.participants >= poll.settings.maxEventParticipants;
+  }
+
+  isPastEvent(event: ReadPollEvent) {
+    return Date.parse(event.start) < Date.now();
   }
 
   getOwn(active?: boolean): Observable<ReadPoll[]> {

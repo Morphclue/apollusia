@@ -1,0 +1,177 @@
+<div class="table-responsive text-center">
+  <table class="table align-middle">
+    <thead>
+    <tr>
+      <th scope="col"></th>
+      @for (event of pollEvents; track event) {
+        <th scope="col">
+          <app-event-head
+            [event]="event"
+            [class.text-muted]="pollService.isPastEvent(event)"
+          ></app-event-head>
+        </th>
+      }
+      <th class="border-0" scope="col"></th>
+    </tr>
+    </thead>
+    <tbody>
+      @if (canParticipate) {
+        <tr>
+          <th style="min-width: 240px" scope="row">
+            <input
+              class="form-control"
+              type="text"
+              id="name"
+              placeholder="Your name"
+              [disabled]="poll.settings.anonymous"
+              [(ngModel)]="newParticipant.name" (change)="validateNew()"
+            >
+          </th>
+          @for (event of pollEvents; track event) {
+            <td>
+              <app-check-button
+                [poll]="poll"
+                [(check)]="newParticipant.selection[event._id]"
+                (checkChange)="validateNew()"
+                [isFull]="!newParticipant.selection[event._id]"
+                [isPastEvent]="pollService.isPastEvent(event)"
+              ></app-check-button>
+            </td>
+          }
+          <th class="border-0 text-start" scope="col">
+            <div class="d-inline-block" [ngbTooltip]="errors.length ? errors.join(',\n') : null">
+              <button class="btn btn-primary btn-sm" [disabled]="errors.length" (click)="submit()">
+                Submit
+              </button>
+            </div>
+          </th>
+        </tr>
+      }
+      @if (showResults) {
+        @for (participant of participants; track participant) {
+          <tr>
+            <th>
+              {{ poll.settings.anonymous ? 'Anonymous' : participant.name }}
+              @if (participant.createdAt) {
+                <span class="small text-muted" [ngbTooltip]="participant.createdAt | date:'medium'">
+                      {{ participant.createdAt | date: 'shortTime' }}
+                    </span>
+              }
+              @if (participant.updatedAt !== participant.createdAt) {
+                <span class="small text-muted" [ngbTooltip]="participant.updatedAt | date:'medium'">
+                      &bull; edited
+                    </span>
+              }
+            </th>
+            @if (participant !== editParticipant) {
+              @for (pollEvent of pollEvents; track pollEvent; let n = $index) {
+                <td>
+                  @switch (participant.selection[pollEvent._id]) {
+                    @case ('yes') {
+                      <h5 class="p-yes bi-check-lg" ngbTooltip="Yes"></h5>
+                    }
+                    @case ('no') {
+                      <h5 class="p-no bi-x-lg" ngbTooltip="No"></h5>
+                    }
+                    @case ('maybe') {
+                      <h5 class="p-maybe bi-question" ngbTooltip="Maybe"></h5>
+                    }
+                    @default {
+                      <h5 class="p-unset bi-question" ngbTooltip="Unspecified"></h5>
+                    }
+                  }
+                </td>
+              }
+            }
+            @if (participant === editParticipant && editDto) {
+              @for (event of pollEvents; track event) {
+                <td>
+                  <app-check-button
+                    [poll]="poll"
+                    [(check)]="editDto.selection[event._id]"
+                    (checkChange)="validateEdit()"
+                    [isPastEvent]="pollService.isPastEvent(event)"
+                  ></app-check-button>
+                </td>
+              }
+            }
+            @if (participant === editParticipant) {
+              <td class="border-0 text-start">
+                <button class="btn btn-primary btn-sm ms-1 bi-x" type="button" (click)="cancelEdit()"></button>
+                <div class="d-inline-block" [ngbTooltip]="errors.length ? errors.join(',\n') : null">
+                  <button class="btn btn-secondary btn-sm ms-1 bi-check" type="button" [disabled]="errors.length"
+                          (click)="confirmEdit()"></button>
+                </div>
+              </td>
+            }
+            @if (!editParticipant) {
+              <td class="border-0 text-start">
+                @if (poll.settings.allowEdit && token === participant.token) {
+                  <button
+                    class="btn btn-primary btn-sm ms-1 bi-pencil"
+                    placement="top"
+                    ngbTooltip="Edit participation"
+                    (click)="setEditParticipant(participant)">
+                  </button>
+                }
+                @if (isAdmin || token === participant.token) {
+                  <button
+                    class="btn btn-sm btn-danger ms-1 bi-trash"
+                    type="button"
+                    placement="top"
+                    ngbTooltip="Delete participation"
+                    (click)="deleteParticipation(participant._id)">
+                  </button>
+                }
+              </td>
+            }
+          </tr>
+        }
+        @if (poll.settings.showResult !== ShowResultOptions.NEVER || isAdmin) {
+          <tr>
+            <th>Sum</th>
+            @for (pollEvent of pollEvents; track pollEvent) {
+              <td>
+                @if (bestOption === pollEvent.participants) {
+                  <h5 class="bi-award text-primary">
+                    {{ pollEvent.participants }}
+                  </h5>
+                }
+                @if (bestOption !== pollEvent.participants) {
+                  <div>
+                    {{ pollEvent.participants }}
+                  </div>
+                }
+              </td>
+            }
+            <td class="border-0"></td>
+          </tr>
+        }
+      }
+      @if (poll && isAdmin) {
+        <tr>
+          <th>Select Events</th>
+          @for (pollEvent of pollEvents; track pollEvent; let i = $index) {
+            <td>
+              <input
+                type="checkbox"
+                class="text-primary form-check-hidden"
+                [class.bi-star-fill]="bookedEvents[i]"
+                [class.bi-star]="!bookedEvents[i]"
+                [(ngModel)]="bookedEvents[i]"
+              >
+            </td>
+          }
+          <td class="border-0 text-start">
+            <button
+              class="btn btn-sm btn-primary"
+              type="button"
+              (click)="book()">
+              Book
+            </button>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>

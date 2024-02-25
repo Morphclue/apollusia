@@ -1,16 +1,15 @@
 import {Component, OnInit} from '@angular/core';
 import {Meta, Title} from '@angular/platform-browser';
 import {ActivatedRoute, Router} from '@angular/router';
-import {checkParticipant} from '@apollusia/logic';
-import {PollEventState} from "@apollusia/types";
 import {ShowResultOptions} from '@apollusia/types/lib/schema/show-result-options';
 import {ToastService} from '@mean-stream/ngbx';
 import {forkJoin} from 'rxjs';
 import {map, switchMap, tap} from 'rxjs/operators';
 
 import {MailService, TokenService} from '../../core/services';
-import {CreateParticipantDto, Participant, ReadPoll, ReadPollEvent, UpdateParticipantDto} from '../../model';
+import {Participant, ReadPoll, ReadPollEvent} from '../../model';
 import {PollService} from '../services/poll.service';
+import {PollEventState} from "@apollusia/types";
 
 interface SortMethod {
   name: string;
@@ -32,8 +31,6 @@ export class ChooseEventsComponent implements OnInit {
   isAdmin: boolean = false;
 
   // aux
-  bookedEvents: boolean[] = [];
-  bestOption: number = 1;
   closedReason?: string = undefined;
   hiddenReason?: string = undefined;
   showResults = false;
@@ -72,18 +69,7 @@ export class ChooseEventsComponent implements OnInit {
     },
   ] satisfies SortMethod[];
 
-  // view state
-  newParticipant: CreateParticipantDto = {
-    name: '',
-    selection: {},
-    token: '',
-  };
-  editParticipant?: Participant;
-  editDto?: UpdateParticipantDto;
-  errors: string[] = [];
-
   // helpers
-  readonly ShowResultOptions = ShowResultOptions;
   id: string = '';
   url = globalThis.location?.href;
   now = Date.now();
@@ -102,7 +88,6 @@ export class ChooseEventsComponent implements OnInit {
   ) {
     this.mail = mailService.getMail();
     this.token = tokenService.getToken();
-    this.newParticipant.token = this.token;
   }
 
   ngOnInit(): void {
@@ -116,16 +101,12 @@ export class ChooseEventsComponent implements OnInit {
         })),
         this.pollService.getEvents(id).pipe(tap(events => {
           this.pollEvents = events;
-          this.bookedEvents = new Array(this.pollEvents.length).fill(false);
         })),
         this.pollService.getParticipants(id).pipe(tap(participants => this.participants = participants)),
         this.pollService.isAdmin(id, this.token),
       ])),
     ).subscribe(([poll, events, participants, isAdmin]) => {
       this.setDescription(poll, events, participants);
-      this.clearSelection();
-      this.validateNew();
-      this.bookedEvents = events.map(e => poll.bookedEvents.includes(e._id));
       this.isAdmin = isAdmin;
       this.updateHelpers();
     });
@@ -157,49 +138,6 @@ export class ChooseEventsComponent implements OnInit {
     navigator.clipboard.writeText(this.url).then().catch(e => console.log(e));
   }
 
-  submit() {
-    this.pollService.participate(this.id, this.newParticipant).subscribe(participant => {
-      this.participants.unshift(participant);
-      this.poll && this.poll.participants++;
-      this.updateHelpers();
-      this.clearSelection();
-    }, error => {
-      this.toastService.error('Submit', 'Failed to submit your participation', error);
-    });
-  }
-
-  setEditParticipant(participant: Participant) {
-    this.editParticipant = participant;
-    this.editDto = {
-      selection: {...participant.selection},
-    };
-    this.validateEdit();
-  }
-
-  cancelEdit() {
-    this.editParticipant = undefined;
-  }
-
-  confirmEdit() {
-    if (!this.editParticipant || !this.editDto) {
-      return;
-    }
-
-    this.pollService.editParticipant(this.id, this.editParticipant._id, this.editDto).subscribe(participant => {
-      this.cancelEdit();
-      this.participants = this.participants.map(p => p._id === participant._id ? participant : p);
-      this.updateHelpers();
-    });
-  }
-
-  deleteParticipation(participantId: string) {
-    this.pollService.deleteParticipant(this.id, participantId).subscribe(() => {
-      this.participants = this.participants.filter(p => p._id !== participantId);
-      this.poll && this.poll.participants--;
-      this.updateHelpers();
-    });
-  }
-
   sort(sortMethod: SortMethod) {
     if (this.currentSort === sortMethod.name) {
       this.currentSortDirection *= -1;
@@ -210,38 +148,9 @@ export class ChooseEventsComponent implements OnInit {
     this.participants.sortBy(sortMethod.by, this.currentSortDirection);
   }
 
-  book() {
-    const events = this.pollEvents.filter((e, i) => this.bookedEvents[i]).map(e => e._id);
-    this.pollService.book(this.id, events).subscribe(() => {
-      this.toastService.success('Booking', 'Booked events successfully');
-    });
-  }
-
-  selectAll(state: PollEventState) {
-    for (const event of this.pollEvents) {
-      this.newParticipant.selection[event._id] = this.maxParticipantsReached(event) || this.isPastEvent(event) ? undefined : state;
-    }
-  }
-
-  validateNew() {
-    this.errors = checkParticipant(this.newParticipant, this.poll!, this.participants);
-  }
-
-  validateEdit() {
-    this.errors = checkParticipant(this.editDto!, this.poll!, this.participants, this.editParticipant!._id);
-  }
-
-  // View Helpers
-  // TODO called from template, bad practice
-
-  isPastEvent(event: ReadPollEvent) {
-    return Date.parse(event.start) < this.now;
-  }
-
   // Helpers
 
   private updateHelpers() {
-    this.bestOption = Math.max(...this.pollEvents.map(event => event.participants) || 1);
     this.updateClosedReason();
     this.updateHiddenReason();
   }
@@ -272,19 +181,6 @@ export class ChooseEventsComponent implements OnInit {
         this.hiddenReason = undefined;
         this.showResults = true;
     }
-  }
-
-  private clearSelection() {
-    this.newParticipant.name = this.poll?.settings?.anonymous ? 'Anonymous' : '';
-    this.selectAll('no');
-  }
-
-  private maxParticipantsReached(event: ReadPollEvent) {
-    if (!this.poll?.settings.maxEventParticipants) {
-      return false;
-    }
-
-    return event.participants >= this.poll.settings.maxEventParticipants;
   }
 
   private userVoted() {
