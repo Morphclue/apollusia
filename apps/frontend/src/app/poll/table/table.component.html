@@ -127,19 +127,17 @@
             }
           </tr>
         }
-        @if (poll.settings.showResult !== ShowResultOptions.NEVER || isAdmin) {
-          <tr>
-            <th>Sum</th>
-            @for (pollEvent of pollEvents; track pollEvent) {
-              <td>
-                <h5 [class]="bestOption === pollEvent.participants ? 'bi-award text-primary' : ''">
-                  {{ pollEvent.participants }}
-                </h5>
-              </td>
-            }
-            <td class="border-0"></td>
-          </tr>
-        }
+        <tr>
+          <th>Sum</th>
+          @for (pollEvent of pollEvents; track pollEvent) {
+            <td>
+              <h5 [class]="bestOption === pollEvent.participants ? 'bi-award text-primary' : ''">
+                {{ pollEvent.participants }}
+              </h5>
+            </td>
+          }
+          <td class="border-0"></td>
+        </tr>
       }
       @if (poll && isAdmin) {
         <tr>
