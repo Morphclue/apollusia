@@ -20,6 +20,7 @@ import { CoreModule } from '../core/core.module';
 import { AutofillModalComponent, PostponeModalComponent } from '../modals';
 import { SomePipe } from '../pipes';
 import { EventListComponent } from './event-list/event-list.component';
+import { ParticipantInfoComponent } from './participant-info/participant-info.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { EventListComponent } from './event-list/event-list.component';
     MailAlertComponent,
     TableComponent,
     EventListComponent,
+    ParticipantInfoComponent,
   ],
   imports: [
     CommonModule,
