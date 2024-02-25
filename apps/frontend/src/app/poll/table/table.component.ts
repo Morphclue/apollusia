@@ -45,6 +45,7 @@ export class TableComponent implements OnInit {
   ngOnInit() {
     this.bookedEvents = this.pollEvents.map(e => this.poll.bookedEvents.includes(e._id));
     this.newParticipant.token = this.token;
+    this.bestOption = Math.max(...this.pollEvents.map(event => event.participants) || 1); // TODO update when participants change
     this.clearSelection();
     this.validateNew();
   }
@@ -53,7 +54,7 @@ export class TableComponent implements OnInit {
     this.pollService.participate(this.poll._id, this.newParticipant).subscribe(participant => {
       this.participants.unshift(participant);
       this.poll.participants++;
-      this.updateHelpers();
+      this.onChange();
       this.clearSelection();
     }, error => {
       this.toastService.error('Submit', 'Failed to submit your participation', error);
@@ -80,7 +81,7 @@ export class TableComponent implements OnInit {
     this.pollService.editParticipant(this.poll._id, this.editParticipant._id, this.editDto).subscribe(participant => {
       this.cancelEdit();
       this.participants = this.participants.map(p => p._id === participant._id ? participant : p);
-      this.updateHelpers();
+      this.onChange();
     });
   }
 
@@ -88,7 +89,7 @@ export class TableComponent implements OnInit {
     this.pollService.deleteParticipant(this.poll._id, participantId).subscribe(() => {
       this.participants = this.participants.filter(p => p._id !== participantId);
       this.poll.participants--;
-      this.updateHelpers();
+      this.onChange();
     });
   }
 
@@ -112,8 +113,7 @@ export class TableComponent implements OnInit {
     });
   }
 
-  private updateHelpers() {
-    this.bestOption = Math.max(...this.pollEvents.map(event => event.participants) || 1);
+  private onChange() {
     this.changed.next();
   }
 }

@@ -132,16 +132,9 @@
             <th>Sum</th>
             @for (pollEvent of pollEvents; track pollEvent) {
               <td>
-                @if (bestOption === pollEvent.participants) {
-                  <h5 class="bi-award text-primary">
-                    {{ pollEvent.participants }}
-                  </h5>
-                }
-                @if (bestOption !== pollEvent.participants) {
-                  <div>
-                    {{ pollEvent.participants }}
-                  </div>
-                }
+                <h5 [class]="bestOption === pollEvent.participants ? 'bi-award text-primary' : ''">
+                  {{ pollEvent.participants }}
+                </h5>
               </td>
             }
             <td class="border-0"></td>
