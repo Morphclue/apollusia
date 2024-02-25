@@ -4,7 +4,10 @@
     @if (event.note) {
       <i class="bi-sticky-fill text-primary-emphasis" ngbTooltip="{{event.note}}" placement="top"></i>
     }
-    <span class="bi-person-check text-secondary-emphasis" ngbTooltip="Sum">
+    <span
+      [class]="bestOption === event.participants ? 'bi-award text-primary' : 'bi-person-check text-secondary-emphasis'"
+      [ngbTooltip]="bestOption === event.participants ? 'Best Option' : 'Sum'"
+    >
       {{ event.participants }}
     </span>
   </h5>

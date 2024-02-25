@@ -18,11 +18,11 @@ export class TableComponent implements OnInit {
   @Input() canParticipate: boolean = false;
   @Input() showResults: boolean = false;
   @Input() token: string;
+  @Input() bestOption: number = 1;
 
   @Output() changed = new EventEmitter<void>();
 
   bookedEvents: boolean[] = [];
-  bestOption: number = 1;
 
   newParticipant: CreateParticipantDto = {
     name: '',
@@ -42,7 +42,6 @@ export class TableComponent implements OnInit {
   ngOnInit() {
     this.bookedEvents = this.pollEvents.map(e => this.poll.bookedEvents.includes(e._id));
     this.newParticipant.token = this.token;
-    this.bestOption = Math.max(...this.pollEvents.map(event => event.participants) || 1); // TODO update when participants change
     this.clearSelection();
     this.validateNew();
   }

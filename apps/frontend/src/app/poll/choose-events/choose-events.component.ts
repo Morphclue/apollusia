@@ -32,6 +32,7 @@ export class ChooseEventsComponent implements OnInit {
   closedReason?: string;
   hiddenReason?: string;
 
+  bestOption: number = 1;
 
   readonly view$ = this.route.queryParams.pipe(map(({view}) => view ?? 'table'));
   readonly views = [
@@ -149,6 +150,7 @@ export class ChooseEventsComponent implements OnInit {
   // Helpers
 
   private updateHelpers() {
+    this.bestOption = Math.max(1, ...this.pollEvents!.map(event => event.participants));
     this.updateClosedReason();
     this.updateHiddenReason();
   }

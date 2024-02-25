@@ -89,6 +89,7 @@
           [canParticipate]="!closedReason"
           [showResults]="!hiddenReason"
           [token]="token"
+          [bestOption]="bestOption"
         ></apollusia-table>
       }
       @case ("events") {
@@ -96,6 +97,7 @@
           [poll]="poll"
           [pollEvents]="pollEvents"
           [participants]="participants"
+          [bestOption]="bestOption"
         ></apollusia-event-list>
       }
     }

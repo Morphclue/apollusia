@@ -11,4 +11,5 @@ export class EventListComponent {
   @Input() poll!: ReadPoll;
   @Input() pollEvents!: ReadPollEvent[];
   @Input() participants!: Participant[];
+  @Input() bestOption!: number;
 }
