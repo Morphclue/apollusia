@@ -50,9 +50,9 @@ export class TableComponent implements OnInit {
   }
 
   submit() {
-    this.pollService.participate(this.poll!._id, this.newParticipant).subscribe(participant => {
+    this.pollService.participate(this.poll._id, this.newParticipant).subscribe(participant => {
       this.participants.unshift(participant);
-      this.poll && this.poll.participants++;
+      this.poll.participants++;
       this.updateHelpers();
       this.clearSelection();
     }, error => {
@@ -77,7 +77,7 @@ export class TableComponent implements OnInit {
       return;
     }
 
-    this.pollService.editParticipant(this.poll!._id, this.editParticipant._id, this.editDto).subscribe(participant => {
+    this.pollService.editParticipant(this.poll._id, this.editParticipant._id, this.editDto).subscribe(participant => {
       this.cancelEdit();
       this.participants = this.participants.map(p => p._id === participant._id ? participant : p);
       this.updateHelpers();
@@ -85,29 +85,29 @@ export class TableComponent implements OnInit {
   }
 
   deleteParticipation(participantId: string) {
-    this.pollService.deleteParticipant(this.poll!._id, participantId).subscribe(() => {
+    this.pollService.deleteParticipant(this.poll._id, participantId).subscribe(() => {
       this.participants = this.participants.filter(p => p._id !== participantId);
-      this.poll && this.poll.participants--;
+      this.poll.participants--;
       this.updateHelpers();
     });
   }
 
   validateNew() {
-    this.errors = checkParticipant(this.newParticipant, this.poll!, this.participants);
+    this.errors = checkParticipant(this.newParticipant, this.poll, this.participants);
   }
 
   validateEdit() {
-    this.errors = checkParticipant(this.editDto!, this.poll!, this.participants, this.editParticipant!._id);
+    this.errors = checkParticipant(this.editDto!, this.poll, this.participants, this.editParticipant!._id);
   }
 
   clearSelection() {
-    this.newParticipant.name = this.poll?.settings?.anonymous ? 'Anonymous' : '';
-    this.pollService.selectAll(this.poll!, this.pollEvents, this.newParticipant, 'no');
+    this.newParticipant.name = this.poll.settings.anonymous ? 'Anonymous' : '';
+    this.pollService.selectAll(this.poll, this.pollEvents, this.newParticipant, 'no');
   }
 
   book() {
     const events = this.pollEvents.filter((e, i) => this.bookedEvents[i]).map(e => e._id);
-    this.pollService.book(this.poll!._id, events).subscribe(() => {
+    this.pollService.book(this.poll._id, events).subscribe(() => {
       this.toastService.success('Booking', 'Booked events successfully');
     });
   }
