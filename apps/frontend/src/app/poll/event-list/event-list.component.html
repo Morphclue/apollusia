@@ -1,6 +1,12 @@
 @for (event of pollEvents; track event._id) {
   <h5>
     {{ event.start | date:'fullDate' }} at {{ event.start | date:'shortTime' }} - {{ event.end | date:'shortTime' }}
+    @if (event.note) {
+      <i class="bi-sticky-fill text-primary-emphasis" ngbTooltip="{{event.note}}" placement="top"></i>
+    }
+    <span class="bi-person-check text-secondary-emphasis" ngbTooltip="Sum">
+      {{ event.participants }}
+    </span>
   </h5>
   <ul class="list-unstyled">
     @for (participant of participants; track participant._id) {
