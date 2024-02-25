@@ -32,6 +32,13 @@ export class ChooseEventsComponent implements OnInit {
   closedReason?: string;
   hiddenReason?: string;
 
+
+  readonly view$ = this.route.queryParams.pipe(map(({view}) => view ?? 'table'));
+  readonly views = [
+    {id: 'table', name: 'Table', icon: 'bi-table'},
+    {id: 'events', name: 'List of Events', icon: 'bi-list-ol'},
+  ];
+
   currentSort = 'Created';
   currentSortDirection: 1 | -1 = 1;
   sortMethods = [
@@ -70,7 +77,6 @@ export class ChooseEventsComponent implements OnInit {
   url = globalThis.location?.href;
   mail: string | undefined;
   token: string;
-  readonly view$ = this.route.queryParams.pipe(map(({view}) => view ?? 'table'));
 
   constructor(
     public route: ActivatedRoute,

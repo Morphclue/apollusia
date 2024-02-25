@@ -48,11 +48,11 @@
   }
   <div class="btn-toolbar justify-content-end mb-3" role="toolbar">
     <div class="btn-group ms-2" role="group">
-      @for (view of ['table', 'events']; track view) {
+      @for (view of views; track view.id) {
         <a
-          class="btn btn-outline-secondary bi-{{view}}"
-          ngbTooltip="View as {{ view }}" container="body"
-          routerLink="." [queryParams]="{view}">
+          class="btn btn-outline-secondary {{ view.icon }}"
+          ngbTooltip="View as {{ view.name }}" container="body"
+          routerLink="." [queryParams]="{view: view.id}">
         </a>
       }
     </div>
