@@ -26,8 +26,8 @@ interface SortMethod {
 export class ChooseEventsComponent implements OnInit {
   // initial state
   poll?: ReadPoll;
-  pollEvents: ReadPollEvent[] = [];
-  participants: Participant[] = [];
+  pollEvents?: ReadPollEvent[];
+  participants?: Participant[];
   isAdmin: boolean = false;
 
   // aux
@@ -65,7 +65,7 @@ export class ChooseEventsComponent implements OnInit {
       name: 'First Event',
       description: 'View the participants in the order of the events they selected.',
       defaultDirection: 1,
-      by: p => this.pollEvents.findIndex(e => p.selection[e._id] === 'yes' || p.selection[e._id] === 'maybe'),
+      by: p => this.pollEvents?.findIndex(e => p.selection[e._id] === 'yes' || p.selection[e._id] === 'maybe'),
     },
   ] satisfies SortMethod[];
 
@@ -98,21 +98,18 @@ export class ChooseEventsComponent implements OnInit {
           this.poll = poll;
           this.title.setTitle(`${poll.title} - Apollusia`);
           this.meta.updateTag({property: 'og:title', content: poll.title});
+          this.setDescription(poll);
         })),
-        this.pollService.getEvents(id).pipe(tap(events => {
-          this.pollEvents = events;
-        })),
+        this.pollService.getEvents(id).pipe(tap(events => this.pollEvents = events)),
         this.pollService.getParticipants(id).pipe(tap(participants => this.participants = participants)),
-        this.pollService.isAdmin(id, this.token),
+        this.pollService.isAdmin(id, this.token).pipe(tap(isAdmin => this.isAdmin = isAdmin)),
       ])),
-    ).subscribe(([poll, events, participants, isAdmin]) => {
-      this.setDescription(poll, events, participants);
-      this.isAdmin = isAdmin;
+    ).subscribe(() => {
       this.updateHelpers();
     });
   }
 
-  private setDescription(poll: ReadPoll, events: ReadPollEvent[], participants: Participant[]) {
+  private setDescription(poll: ReadPoll) {
     let description = '';
     if (poll.description) {
       description += poll.description + '\n\n';
@@ -127,7 +124,7 @@ export class ChooseEventsComponent implements OnInit {
       const timeZoneStr = timeZone ? ` (${timeZone})` : '';
       description += `📅 Deadline: ${deadline}${timeZoneStr}\n`;
     }
-    description += `✅ ${events.length} Option${events.length !== 1 ? 's' : ''} - 👤 ${participants.length} Participant${participants.length !== 1 ? 's' : ''}`;
+    description += `✅ ${poll.events} Option${poll.events !== 1 ? 's' : ''} - 👤 ${poll.participants} Participant${poll.participants !== 1 ? 's' : ''}`;
     this.meta.updateTag({name: 'description', content: description});
     this.meta.updateTag({property: 'og:description', content: description});
   }
@@ -145,7 +142,7 @@ export class ChooseEventsComponent implements OnInit {
       this.currentSort = sortMethod.name;
       this.currentSortDirection = sortMethod.defaultDirection;
     }
-    this.participants.sortBy(sortMethod.by, this.currentSortDirection);
+    this.participants?.sortBy(sortMethod.by, this.currentSortDirection);
   }
 
   // Helpers
@@ -183,7 +180,7 @@ export class ChooseEventsComponent implements OnInit {
     }
   }
 
-  private userVoted() {
-    return this.participants.some(participant => participant.token === this.token);
+  private userVoted(): boolean {
+    return this.participants?.some(participant => participant.token === this.token) ?? false;
   }
 }

@@ -69,7 +69,7 @@
       </div>
     </div>
   </div>
-  @if (poll && pollEvents) {
+  @if (poll && pollEvents && participants) {
     <apollusia-table
       [poll]="poll"
       [pollEvents]="pollEvents"
