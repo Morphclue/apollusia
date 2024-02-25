@@ -70,9 +70,7 @@ export class ChooseEventsComponent implements OnInit {
   ] satisfies SortMethod[];
 
   // helpers
-  id: string = '';
   url = globalThis.location?.href;
-  now = Date.now();
   mail: string | undefined;
   token: string;
 
@@ -92,8 +90,7 @@ export class ChooseEventsComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.pipe(
-      map(({id}) => this.id = id),
-      switchMap(id => forkJoin([
+      switchMap(({id}) => forkJoin([
         this.pollService.get(id).pipe(tap((poll) => {
           this.poll = poll;
           this.title.setTitle(`${poll.title} - Apollusia`);
