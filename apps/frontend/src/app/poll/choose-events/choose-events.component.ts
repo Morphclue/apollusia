@@ -4,12 +4,11 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {ShowResultOptions} from '@apollusia/types/lib/schema/show-result-options';
 import {ToastService} from '@mean-stream/ngbx';
 import {forkJoin} from 'rxjs';
-import {map, switchMap, tap} from 'rxjs/operators';
+import {switchMap, tap} from 'rxjs/operators';
 
 import {MailService, TokenService} from '../../core/services';
 import {Participant, ReadPoll, ReadPollEvent} from '../../model';
 import {PollService} from '../services/poll.service';
-import {PollEventState} from "@apollusia/types";
 
 interface SortMethod {
   name: string;
