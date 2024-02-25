@@ -82,29 +82,6 @@
                   }
                 </td>
               }
-            }
-            @if (participant === editParticipant && editDto) {
-              @for (event of pollEvents; track event) {
-                <td>
-                  <app-check-button
-                    [poll]="poll"
-                    [(check)]="editDto.selection[event._id]"
-                    (checkChange)="validateEdit()"
-                    [isPastEvent]="pollService.isPastEvent(event)"
-                  ></app-check-button>
-                </td>
-              }
-            }
-            @if (participant === editParticipant) {
-              <td class="border-0 text-start">
-                <button class="btn btn-primary btn-sm ms-1 bi-x" type="button" (click)="cancelEdit()"></button>
-                <div class="d-inline-block" [ngbTooltip]="errors.length ? errors.join(',\n') : null">
-                  <button class="btn btn-secondary btn-sm ms-1 bi-check" type="button" [disabled]="errors.length"
-                          (click)="confirmEdit()"></button>
-                </div>
-              </td>
-            }
-            @if (!editParticipant) {
               <td class="border-0 text-start">
                 @if (poll.settings.allowEdit && token === participant.token) {
                   <button
@@ -123,6 +100,26 @@
                     (click)="deleteParticipation(participant._id)">
                   </button>
                 }
+              </td>
+            } @else {
+              @if (editDto) {
+                @for (event of pollEvents; track event) {
+                  <td>
+                    <app-check-button
+                      [poll]="poll"
+                      [(check)]="editDto.selection[event._id]"
+                      (checkChange)="validateEdit()"
+                      [isPastEvent]="pollService.isPastEvent(event)"
+                    ></app-check-button>
+                  </td>
+                }
+              }
+              <td class="border-0 text-start">
+                <button class="btn btn-primary btn-sm ms-1 bi-x" type="button" (click)="cancelEdit()"></button>
+                <div class="d-inline-block" [ngbTooltip]="errors.length ? errors.join(',\n') : null">
+                  <button class="btn btn-secondary btn-sm ms-1 bi-check" type="button" [disabled]="errors.length"
+                          (click)="confirmEdit()"></button>
+                </div>
               </td>
             }
           </tr>
