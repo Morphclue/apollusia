@@ -30,10 +30,8 @@ export class ChooseEventsComponent implements OnInit {
   participants?: Participant[];
   isAdmin: boolean = false;
 
-  // aux
-  closedReason?: string = undefined;
-  hiddenReason?: string = undefined;
-  showResults = false;
+  closedReason?: string;
+  hiddenReason?: string;
 
   currentSort = 'Created';
   currentSortDirection: 1 | -1 = 1;
@@ -165,15 +163,12 @@ export class ChooseEventsComponent implements OnInit {
     switch (this.poll?.settings.showResult) {
       case ShowResultOptions.NEVER:
         this.hiddenReason = this.isAdmin ? undefined : 'The results of this poll are hidden. You will only be able to see your own votes.';
-        this.showResults = true;
         break;
       case ShowResultOptions.AFTER_PARTICIPATING:
-        this.showResults = this.isAdmin || this.userVoted();
-        this.hiddenReason = this.showResults ? undefined : 'This is a blind poll. You can\'t see results or other user\'s votes until you participate yourself.';
+        this.hiddenReason = this.isAdmin || this.userVoted() ? undefined : 'This is a blind poll. You can\'t see results or other user\'s votes until you participate yourself.';
         break;
       default:
         this.hiddenReason = undefined;
-        this.showResults = true;
     }
   }
 
