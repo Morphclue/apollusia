@@ -52,8 +52,9 @@
         <a
           class="btn btn-outline-secondary {{ view.icon }}"
           ngbTooltip="View as {{ view.name }}" container="body"
-          routerLink="." [queryParams]="{view: view.id}">
-        </a>
+          routerLink="." [queryParams]="{view: view.id}"
+          routerLinkActive="active"
+        ></a>
       }
     </div>
     <div ngbDropdown class="d-inline-block ms-2">
