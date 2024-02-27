@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {checkParticipant} from "@apollusia/logic";
+import type {PollEventState} from "@apollusia/types";
 import {ToastService} from "@mean-stream/ngbx";
 
 import {CreateParticipantDto, Participant, ReadPoll, ReadPollEvent, UpdateParticipantDto} from "../../model";
@@ -99,7 +100,11 @@ export class TableComponent implements OnInit {
 
   clearSelection() {
     this.newParticipant.name = this.poll.settings.anonymous ? 'Anonymous' : '';
-    this.pollService.selectAll(this.poll, this.pollEvents, this.newParticipant, 'no');
+    this.selectAll('no');
+  }
+
+  selectAll(state: PollEventState = 'yes') {
+    this.pollService.selectAll(this.poll, this.pollEvents, this.newParticipant, state);
   }
 
   book() {

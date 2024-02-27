@@ -38,11 +38,19 @@
               ></app-check-button>
             </td>
           }
-          <th class="border-0 text-start" scope="col">
-            <div class="d-inline-block" [ngbTooltip]="errors.join(', ')">
-              <button class="btn btn-primary btn-sm" [disabled]="errors.length" (click)="submit()">
-                Submit
-              </button>
+          <th class="border-0" scope="col">
+            <div class="d-flex align-items-center">
+              <div class="text-center ms-1" ngbTooltip="Select All" style="flex-basis: 2rem">
+                <app-check-button
+                  [poll]="poll"
+                  (checkChange)="selectAll($event)"
+                ></app-check-button>
+              </div>
+              <div class="d-inline-block ms-1" [ngbTooltip]="errors.join(', ')">
+                <button class="btn btn-primary btn-sm" [disabled]="errors.length" (click)="submit()">
+                  Submit
+                </button>
+              </div>
             </div>
           </th>
         </tr>
