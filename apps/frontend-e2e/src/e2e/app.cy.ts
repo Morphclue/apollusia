@@ -1,13 +1,8 @@
-import { getGreeting } from '../support/app.po';
-
 describe('web', () => {
-  beforeEach(() => cy.visit('/'));
+  beforeEach(() => cy.visit('/dashboard'));
 
-  it('should display welcome message', () => {
-    // Custom command example, see `../support/commands.ts` file
-    cy.login('my-email@something.com', 'myPassword');
-
-    // Function helper example, see `../support/app.po.ts` file
-    getGreeting().contains('Welcome web');
+  it('should display the dashboard', () => {
+    cy.get('app-navbar').should('be.visible');
+    cy.get('app-dashboard').should('be.visible');
   });
 });
