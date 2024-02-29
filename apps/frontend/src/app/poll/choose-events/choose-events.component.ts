@@ -156,9 +156,11 @@ export class ChooseEventsComponent implements OnInit {
     }
 
     const calendar = new ICalCalendar({
-      name: 'my first iCal',
-      method: ICalCalendarMethod.REQUEST,
+      name: poll.title,
+      description: poll.description,
+      url: this.url,
       timezone: poll.timeZone,
+      method: ICalCalendarMethod.REQUEST,
     });
 
     for (const event of pollEvents) {
@@ -179,6 +181,8 @@ export class ChooseEventsComponent implements OnInit {
       description += `\n\nParticipants:\n${eventParticipants.map(p => `- ${p.name} (${p.selection[event._id]})`).join('\n')}`;
 
       calendar.createEvent({
+        id: event._id,
+        timezone: poll.timeZone,
         start: new Date(event.start),
         end: new Date(event.end),
         summary,
