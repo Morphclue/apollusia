@@ -1,15 +1,13 @@
 import {Component, OnInit} from '@angular/core';
 import {Meta, Title} from '@angular/platform-browser';
 import {ActivatedRoute, Router} from '@angular/router';
-import {checkParticipant} from '@apollusia/logic';
-import {PollEventState} from "@apollusia/types";
 import {ShowResultOptions} from '@apollusia/types/lib/schema/show-result-options';
 import {ToastService} from '@mean-stream/ngbx';
 import {forkJoin} from 'rxjs';
 import {map, switchMap, tap} from 'rxjs/operators';
 
 import {MailService, TokenService} from '../../core/services';
-import {CreateParticipantDto, Participant, ReadPoll, ReadPollEvent, UpdateParticipantDto} from '../../model';
+import {Participant, ReadPoll, ReadPollEvent} from '../../model';
 import {PollService} from '../services/poll.service';
 
 interface SortMethod {
@@ -27,16 +25,20 @@ interface SortMethod {
 export class ChooseEventsComponent implements OnInit {
   // initial state
   poll?: ReadPoll;
-  pollEvents: ReadPollEvent[] = [];
-  participants: Participant[] = [];
+  pollEvents?: ReadPollEvent[];
+  participants?: Participant[];
   isAdmin: boolean = false;
 
-  // aux
-  bookedEvents: boolean[] = [];
+  closedReason?: string;
+  hiddenReason?: string;
+
   bestOption: number = 1;
-  closedReason?: string = undefined;
-  hiddenReason?: string = undefined;
-  showResults = false;
+
+  readonly view$ = this.route.queryParams.pipe(map(({view}) => view ?? 'table'));
+  readonly views = [
+    {id: 'table', name: 'Table', icon: 'bi-table'},
+    {id: 'events', name: 'List of Events', icon: 'bi-list-ol'},
+  ];
 
   currentSort = 'Created';
   currentSortDirection: 1 | -1 = 1;
@@ -68,25 +70,12 @@ export class ChooseEventsComponent implements OnInit {
       name: 'First Event',
       description: 'View the participants in the order of the events they selected.',
       defaultDirection: 1,
-      by: p => this.pollEvents.findIndex(e => p.selection[e._id] === 'yes' || p.selection[e._id] === 'maybe'),
+      by: p => this.pollEvents?.findIndex(e => p.selection[e._id] === 'yes' || p.selection[e._id] === 'maybe'),
     },
   ] satisfies SortMethod[];
 
-  // view state
-  newParticipant: CreateParticipantDto = {
-    name: '',
-    selection: {},
-    token: '',
-  };
-  editParticipant?: Participant;
-  editDto?: UpdateParticipantDto;
-  errors: string[] = [];
-
   // helpers
-  readonly ShowResultOptions = ShowResultOptions;
-  id: string = '';
   url = globalThis.location?.href;
-  now = Date.now();
   mail: string | undefined;
   token: string;
 
@@ -102,36 +91,27 @@ export class ChooseEventsComponent implements OnInit {
   ) {
     this.mail = mailService.getMail();
     this.token = tokenService.getToken();
-    this.newParticipant.token = this.token;
   }
 
   ngOnInit(): void {
     this.route.params.pipe(
-      map(({id}) => this.id = id),
-      switchMap(id => forkJoin([
+      switchMap(({id}) => forkJoin([
         this.pollService.get(id).pipe(tap((poll) => {
           this.poll = poll;
           this.title.setTitle(`${poll.title} - Apollusia`);
           this.meta.updateTag({property: 'og:title', content: poll.title});
+          this.setDescription(poll);
         })),
-        this.pollService.getEvents(id).pipe(tap(events => {
-          this.pollEvents = events;
-          this.bookedEvents = new Array(this.pollEvents.length).fill(false);
-        })),
+        this.pollService.getEvents(id).pipe(tap(events => this.pollEvents = events)),
         this.pollService.getParticipants(id).pipe(tap(participants => this.participants = participants)),
-        this.pollService.isAdmin(id, this.token),
+        this.pollService.isAdmin(id, this.token).pipe(tap(isAdmin => this.isAdmin = isAdmin)),
       ])),
-    ).subscribe(([poll, events, participants, isAdmin]) => {
-      this.setDescription(poll, events, participants);
-      this.clearSelection();
-      this.validateNew();
-      this.bookedEvents = events.map(e => poll.bookedEvents.includes(e._id));
-      this.isAdmin = isAdmin;
+    ).subscribe(() => {
       this.updateHelpers();
     });
   }
 
-  private setDescription(poll: ReadPoll, events: ReadPollEvent[], participants: Participant[]) {
+  private setDescription(poll: ReadPoll) {
     let description = '';
     if (poll.description) {
       description += poll.description + '\n\n';
@@ -146,7 +126,7 @@ export class ChooseEventsComponent implements OnInit {
       const timeZoneStr = timeZone ? ` (${timeZone})` : '';
       description += `📅 Deadline: ${deadline}${timeZoneStr}\n`;
     }
-    description += `✅ ${events.length} Option${events.length !== 1 ? 's' : ''} - 👤 ${participants.length} Participant${participants.length !== 1 ? 's' : ''}`;
+    description += `✅ ${poll.events} Option${poll.events !== 1 ? 's' : ''} - 👤 ${poll.participants} Participant${poll.participants !== 1 ? 's' : ''}`;
     this.meta.updateTag({name: 'description', content: description});
     this.meta.updateTag({property: 'og:description', content: description});
   }
@@ -157,49 +137,6 @@ export class ChooseEventsComponent implements OnInit {
     navigator.clipboard.writeText(this.url).then().catch(e => console.log(e));
   }
 
-  submit() {
-    this.pollService.participate(this.id, this.newParticipant).subscribe(participant => {
-      this.participants.unshift(participant);
-      this.poll && this.poll.participants++;
-      this.updateHelpers();
-      this.clearSelection();
-    }, error => {
-      this.toastService.error('Submit', 'Failed to submit your participation', error);
-    });
-  }
-
-  setEditParticipant(participant: Participant) {
-    this.editParticipant = participant;
-    this.editDto = {
-      selection: {...participant.selection},
-    };
-    this.validateEdit();
-  }
-
-  cancelEdit() {
-    this.editParticipant = undefined;
-  }
-
-  confirmEdit() {
-    if (!this.editParticipant || !this.editDto) {
-      return;
-    }
-
-    this.pollService.editParticipant(this.id, this.editParticipant._id, this.editDto).subscribe(participant => {
-      this.cancelEdit();
-      this.participants = this.participants.map(p => p._id === participant._id ? participant : p);
-      this.updateHelpers();
-    });
-  }
-
-  deleteParticipation(participantId: string) {
-    this.pollService.deleteParticipant(this.id, participantId).subscribe(() => {
-      this.participants = this.participants.filter(p => p._id !== participantId);
-      this.poll && this.poll.participants--;
-      this.updateHelpers();
-    });
-  }
-
   sort(sortMethod: SortMethod) {
     if (this.currentSort === sortMethod.name) {
       this.currentSortDirection *= -1;
@@ -207,41 +144,13 @@ export class ChooseEventsComponent implements OnInit {
       this.currentSort = sortMethod.name;
       this.currentSortDirection = sortMethod.defaultDirection;
     }
-    this.participants.sortBy(sortMethod.by, this.currentSortDirection);
-  }
-
-  book() {
-    const events = this.pollEvents.filter((e, i) => this.bookedEvents[i]).map(e => e._id);
-    this.pollService.book(this.id, events).subscribe(() => {
-      this.toastService.success('Booking', 'Booked events successfully');
-    });
-  }
-
-  selectAll(state: PollEventState) {
-    for (const event of this.pollEvents) {
-      this.newParticipant.selection[event._id] = this.maxParticipantsReached(event) || this.isPastEvent(event) ? undefined : state;
-    }
-  }
-
-  validateNew() {
-    this.errors = checkParticipant(this.newParticipant, this.poll!, this.participants);
-  }
-
-  validateEdit() {
-    this.errors = checkParticipant(this.editDto!, this.poll!, this.participants, this.editParticipant!._id);
-  }
-
-  // View Helpers
-  // TODO called from template, bad practice
-
-  isPastEvent(event: ReadPollEvent) {
-    return Date.parse(event.start) < this.now;
+    this.participants?.sortBy(sortMethod.by, this.currentSortDirection);
   }
 
   // Helpers
 
   private updateHelpers() {
-    this.bestOption = Math.max(...this.pollEvents.map(event => event.participants) || 1);
+    this.bestOption = Math.max(1, ...this.pollEvents!.map(event => event.participants));
     this.updateClosedReason();
     this.updateHiddenReason();
   }
@@ -262,32 +171,16 @@ export class ChooseEventsComponent implements OnInit {
     switch (this.poll?.settings.showResult) {
       case ShowResultOptions.NEVER:
         this.hiddenReason = this.isAdmin ? undefined : 'The results of this poll are hidden. You will only be able to see your own votes.';
-        this.showResults = true;
         break;
       case ShowResultOptions.AFTER_PARTICIPATING:
-        this.showResults = this.isAdmin || this.userVoted();
-        this.hiddenReason = this.showResults ? undefined : 'This is a blind poll. You can\'t see results or other user\'s votes until you participate yourself.';
+        this.hiddenReason = this.isAdmin || this.userVoted() ? undefined : 'This is a blind poll. You can\'t see results or other user\'s votes until you participate yourself.';
         break;
       default:
         this.hiddenReason = undefined;
-        this.showResults = true;
     }
   }
 
-  private clearSelection() {
-    this.newParticipant.name = this.poll?.settings?.anonymous ? 'Anonymous' : '';
-    this.selectAll('no');
-  }
-
-  private maxParticipantsReached(event: ReadPollEvent) {
-    if (!this.poll?.settings.maxEventParticipants) {
-      return false;
-    }
-
-    return event.participants >= this.poll.settings.maxEventParticipants;
-  }
-
-  private userVoted() {
-    return this.participants.some(participant => participant.token === this.token);
+  private userVoted(): boolean {
+    return this.participants?.some(participant => participant.token === this.token) ?? false;
   }
 }

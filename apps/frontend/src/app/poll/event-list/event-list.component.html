@@ -1,0 +1,40 @@
+@for (event of pollEvents; track event._id) {
+  <h5>
+    {{ event.start | date:'fullDate' }} at {{ event.start | date:'shortTime' }} - {{ event.end | date:'shortTime' }}
+    @if (event.note) {
+      <i class="bi-sticky-fill text-secondary" ngbTooltip="{{event.note}}" placement="top"></i>
+    }
+    <span
+      [class]="bestOption === event.participants ? 'bi-award text-primary' : 'bi-person-check text-primary-emphasis'"
+      [ngbTooltip]="bestOption === event.participants ? 'Best Option' : 'Sum'"
+    >
+      {{ event.participants }}
+    </span>
+  </h5>
+  <ul class="list-unstyled">
+    @for (participant of participants; track participant._id) {
+      <li>
+        @switch (participant.selection[event._id]) {
+          @case ('yes') {
+            <span class="p-yes bi-check-lg me-2" ngbTooltip="Yes"></span>
+            <apollusia-participant-info [participant]="participant"></apollusia-participant-info>
+          }
+          @case ('maybe') {
+            <span class="p-maybe bi-question me-2" ngbTooltip="Maybe"></span>
+            <apollusia-participant-info [participant]="participant"></apollusia-participant-info>
+          }
+          <!--
+          TODO Maybe add an option to show No votes as well.
+               Or make it dependent on the maxEventParticipants poll setting.
+          @case ('no') {
+            <span class="p-no bi-x-lg" ngbTooltip="No"></span>
+          }
+          @default {
+            <span class="p-unset bi-question" ngbTooltip="Unspecified"></span>
+          }
+          -->
+        }
+      </li>
+    }
+  </ul>
+}
