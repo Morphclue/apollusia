@@ -3,6 +3,8 @@ import {Meta, Title} from '@angular/platform-browser';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ShowResultOptions} from '@apollusia/types/lib/schema/show-result-options';
 import {ToastService} from '@mean-stream/ngbx';
+import {saveAs} from "file-saver";
+import ical, {ICalCalendarMethod} from "ical-generator";
 import {forkJoin} from 'rxjs';
 import {map, switchMap, tap} from 'rxjs/operators';
 
@@ -145,6 +147,47 @@ export class ChooseEventsComponent implements OnInit {
       this.currentSortDirection = sortMethod.defaultDirection;
     }
     this.participants?.sortBy(sortMethod.by, this.currentSortDirection);
+  }
+
+  downloadIcal() {
+    const {url, participants, poll, pollEvents} = this;
+    if (!poll || !pollEvents || !participants) {
+      return;
+    }
+
+    const calendar = ical({
+      name: 'my first iCal',
+      method: ICalCalendarMethod.REQUEST,
+      timezone: poll.timeZone,
+    });
+
+    for (const event of pollEvents) {
+      const eventParticipants = participants.filter(p => p.selection[event._id] === 'yes' || p.selection[event._id] === 'maybe');
+      if (!eventParticipants) {
+        continue;
+      }
+
+      const startTime = new Date(event.start);
+      const endTime = new Date(event.end);
+      const iCalEvent = calendar.createEvent({
+        start: startTime,
+        end: endTime,
+        summary: `${poll.title}: ${eventParticipants.map(p => p.name).join(', ')}`,
+        description: `${event.note}\n\n${poll.description}`,
+        location: poll.location,
+        url,
+      });
+      /* TODO maybe useful, but could create annoying invitations:
+      for (const participant of eventParticipants) {
+        iCalEvent.createAttendee({
+          name: participant.name,
+          email: participant.mail,
+          status: participant.selection[event._id] === 'yes' ? ICalAttendeeStatus.ACCEPTED : ICalAttendeeStatus.TENTATIVE,
+        });
+      }*/
+    }
+
+    saveAs(new Blob([calendar.toString()], {type: 'text/calendar'}), `${poll.title}.ics`);
   }
 
   // Helpers
