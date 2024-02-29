@@ -167,13 +167,22 @@ export class ChooseEventsComponent implements OnInit {
         continue;
       }
 
-      const startTime = new Date(event.start);
-      const endTime = new Date(event.end);
+      let summary = poll.title;
+      if (eventParticipants.length === 1) {
+        summary += `: ${eventParticipants[0].name}`;
+      }
+
+      let description = poll.description;
+      if (event.note) {
+        description += `\n\nNote: ${event.note}`;
+      }
+      description += `\n\nParticipants:\n${eventParticipants.map(p => `- ${p.name} (${p.selection[event._id]})`).join('\n')}`;
+
       calendar.createEvent({
-        start: startTime,
-        end: endTime,
-        summary: `${poll.title}: ${eventParticipants.map(p => p.name).join(', ')}`,
-        description: `${event.note}\n\n${poll.description}`,
+        start: new Date(event.start),
+        end: new Date(event.end),
+        summary,
+        description,
         location: poll.location,
         url,
       });
