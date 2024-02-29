@@ -4,7 +4,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {ShowResultOptions} from '@apollusia/types/lib/schema/show-result-options';
 import {ToastService} from '@mean-stream/ngbx';
 import {saveAs} from "file-saver";
-import ical, {ICalCalendarMethod} from "ical-generator";
+import {ICalCalendar, ICalCalendarMethod} from "ical-generator";
 import {forkJoin} from 'rxjs';
 import {map, switchMap, tap} from 'rxjs/operators';
 
@@ -155,7 +155,7 @@ export class ChooseEventsComponent implements OnInit {
       return;
     }
 
-    const calendar = ical({
+    const calendar = new ICalCalendar({
       name: 'my first iCal',
       method: ICalCalendarMethod.REQUEST,
       timezone: poll.timeZone,
@@ -169,7 +169,7 @@ export class ChooseEventsComponent implements OnInit {
 
       const startTime = new Date(event.start);
       const endTime = new Date(event.end);
-      const iCalEvent = calendar.createEvent({
+      calendar.createEvent({
         start: startTime,
         end: endTime,
         summary: `${poll.title}: ${eventParticipants.map(p => p.name).join(', ')}`,
