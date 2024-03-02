@@ -10,6 +10,12 @@ export class ICalConfig {
   customTitle?: string;
 
   @Presentation({
+    description: 'Include events without participants in the calendar.',
+  })
+  @IsBoolean()
+  emptyEvents = false;
+
+  @Presentation({
     description: 'Only include booked events with participants in the calendar.',
   })
   @IsBoolean()
@@ -17,9 +23,8 @@ export class ICalConfig {
 
   @Presentation({
     label: 'Invite Participants as Attendees',
-    description: 'Invite participants to the events. ' +
-      'This will send an email to all participants with the calendar file attached. ' +
-      'Only participants with a valid email address will be invited.',
+    description: 'Add participants with a valid email address as attendees. ' +
+      'You calendar app will automatically invite them.'
   })
   @IsBoolean()
   inviteParticipants = false;

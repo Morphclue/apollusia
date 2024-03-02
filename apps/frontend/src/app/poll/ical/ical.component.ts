@@ -64,9 +64,6 @@ export class IcalComponent implements OnInit {
 
     for (const event of this.getExportedEvents()) {
       const eventParticipants = participants.filter(p => p.selection[event._id] === 'yes' || p.selection[event._id] === 'maybe');
-      if (!eventParticipants.length) {
-        continue;
-      }
 
       let summary = config.customTitle ?? poll.title;
       if (eventParticipants.length === 1) {
@@ -104,6 +101,14 @@ export class IcalComponent implements OnInit {
   }
 
   getExportedEvents(): ReadPollEvent[] {
-    return this.pollEvents?.filter(e => e.participants > 0 && (!this.config.onlyBookedEvents || this.poll?.bookedEvents.includes(e._id))) ?? [];
+    return this.pollEvents?.filter(e => {
+      if (!this.config.emptyEvents && !e.participants) {
+        return false;
+      }
+      if (this.config.onlyBookedEvents && !this.poll?.bookedEvents.includes(e._id)) {
+        return false;
+      }
+      return true;
+    }) ?? [];
   }
 }
