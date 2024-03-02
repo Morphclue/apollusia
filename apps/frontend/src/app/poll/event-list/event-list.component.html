@@ -13,28 +13,30 @@
   </h5>
   <ul class="list-unstyled">
     @for (participant of participants; track participant._id) {
-      <li>
-        @switch (participant.selection[event._id]) {
-          @case ('yes') {
+      @switch (participant.selection[event._id]) {
+        @case ('yes') {
+          <li>
             <span class="p-yes bi-check-lg me-2" ngbTooltip="Yes"></span>
             <apollusia-participant-info [participant]="participant"></apollusia-participant-info>
-          }
-          @case ('maybe') {
+          </li>
+        }
+        @case ('maybe') {
+          <li>
             <span class="p-maybe bi-question me-2" ngbTooltip="Maybe"></span>
             <apollusia-participant-info [participant]="participant"></apollusia-participant-info>
-          }
-          <!--
-          TODO Maybe add an option to show No votes as well.
-               Or make it dependent on the maxEventParticipants poll setting.
-          @case ('no') {
-            <span class="p-no bi-x-lg" ngbTooltip="No"></span>
-          }
-          @default {
-            <span class="p-unset bi-question" ngbTooltip="Unspecified"></span>
-          }
-          -->
+          </li>
         }
-      </li>
+        <!--
+        TODO Maybe add an option to show No votes as well.
+             Or make it dependent on the maxEventParticipants poll setting.
+        @case ('no') {
+          <span class="p-no bi-x-lg" ngbTooltip="No"></span>
+        }
+        @default {
+          <span class="p-unset bi-question" ngbTooltip="Unspecified"></span>
+        }
+        -->
+      }
     }
   </ul>
 }
