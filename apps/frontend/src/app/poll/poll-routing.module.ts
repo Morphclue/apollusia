@@ -4,6 +4,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {ChooseDateComponent} from './choose-date/choose-date.component';
 import {ChooseEventsComponent} from './choose-events/choose-events.component';
 import {CreateEditPollComponent} from './create-poll/create-edit-poll.component';
+import {IcalComponent} from "./ical/ical.component";
 import {AutofillModalComponent, PostponeModalComponent} from '../modals';
 
 const routes: Routes = [
@@ -15,7 +16,12 @@ const routes: Routes = [
       {path: 'postpone', component: PostponeModalComponent, title: 'Postpone | Apollusia'},
     ],
   },
-  {path: ':id/participate', component: ChooseEventsComponent, title: 'Poll | Apollusia'},
+  {
+    path: ':id/participate', component: ChooseEventsComponent, title: 'Poll | Apollusia',
+    children: [
+      {path: 'ical', component: IcalComponent, title: 'Export iCal | Apollusia'},
+    ]
+  },
 ];
 
 @NgModule({
