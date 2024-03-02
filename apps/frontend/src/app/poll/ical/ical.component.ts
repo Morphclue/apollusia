@@ -62,12 +62,9 @@ export class IcalComponent implements OnInit {
       method: ICalCalendarMethod.REQUEST,
     });
 
-    for (const event of pollEvents) {
+    for (const event of this.getExportedEvents()) {
       const eventParticipants = participants.filter(p => p.selection[event._id] === 'yes' || p.selection[event._id] === 'maybe');
       if (!eventParticipants.length) {
-        continue;
-      }
-      if (config.onlyBookedEvents && !poll.bookedEvents.includes(event._id)) {
         continue;
       }
 
@@ -104,5 +101,9 @@ export class IcalComponent implements OnInit {
     }
 
     saveAs(new Blob([calendar.toString()], {type: 'text/calendar'}), `${poll.title}.ics`);
+  }
+
+  getExportedEvents(): ReadPollEvent[] {
+    return this.pollEvents?.filter(e => e.participants > 0 && (!this.config.onlyBookedEvents || this.poll?.bookedEvents.includes(e._id))) ?? [];
   }
 }
