@@ -64,7 +64,10 @@ export class IcalComponent implements OnInit {
 
     for (const event of pollEvents) {
       const eventParticipants = participants.filter(p => p.selection[event._id] === 'yes' || p.selection[event._id] === 'maybe');
-      if (!eventParticipants) {
+      if (!eventParticipants.length) {
+        continue;
+      }
+      if (config.onlyBookedEvents && !poll.bookedEvents.includes(event._id)) {
         continue;
       }
 

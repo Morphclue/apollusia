@@ -10,6 +10,12 @@ export class ICalConfig {
   customTitle?: string;
 
   @Presentation({
+    description: 'Only include booked events with participants in the calendar.',
+  })
+  @IsBoolean()
+  onlyBookedEvents = false;
+
+  @Presentation({
     label: 'Invite Participants as Attendees',
     description: 'Invite participants to the events. ' +
       'This will send an email to all participants with the calendar file attached. ' +
