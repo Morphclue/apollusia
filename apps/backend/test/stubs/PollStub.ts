@@ -1,4 +1,4 @@
-import {PollDto, ShowResultOptions} from "@apollusia/types";
+import {PollDto, ShowResultOptions} from '@apollusia/types';
 
 export const PollStub = (): PollDto => {
   return {
