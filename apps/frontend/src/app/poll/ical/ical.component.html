@@ -3,7 +3,82 @@
     iCal Export
   </ng-container>
   <ng-container modal-body>
+    <h5>
+      Options
+    </h5>
     <ngbx-validator-form [model]="config"></ngbx-validator-form>
+    <h5>
+      Preview
+    </h5>
+    <div class="card">
+      <div class="card-body">
+        <table>
+          <tr>
+            <th>
+              <i class="bi-square-fill text-primary-emphasis"></i>
+            </th>
+            <td>
+              <h5 class="card-title">
+                {{ config.customTitle ?? poll?.title }}:
+                {{ exampleEvent?._participants?.[0]?.name }}
+              </h5>
+              <h6 class="card-subtitle text-muted">
+                {{ exampleEvent?.start | date: 'short' }} - {{ exampleEvent?.end | date: 'short' }}
+              </h6>
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <i class="bi-pin-map"></i>
+            </th>
+            <td>
+              <h6 class="card-subtitle m-0">
+                {{ poll?.location }}
+              </h6>
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <i class="bi-text-paragraph"></i>
+            </th>
+            <td>
+              {{ poll?.description }}<br>
+              <br>
+              Note: {{ exampleEvent?.note ?? 'Example Note' }}<br>
+              <br>
+              Participants:<br>
+              @for (participant of exampleEvent?._participants; track participant._id) {
+                - {{ participant.name }} ({{ participant.selection[exampleEvent!._id] }})<br>
+              }
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <i class="bi-link"></i>
+            </th>
+            <td>
+              <a class="card-link" routerLink=".">{{ url }}</a>
+            </td>
+          </tr>
+          @if (config.inviteParticipants) {
+            <tr>
+              <th>
+                <i class="bi-people"></i>
+              </th>
+              <td>
+                <h6>
+                  Attendees:
+                </h6>
+                @for (participant of exampleEvent?._participants; track participant._id) {
+                  <i class="bi-person-check"></i>
+                  {{ participant.name }} &lt;{{ participant.mail ?? 'mail@example.com' }}&gt;<br>
+                }
+              </td>
+            </tr>
+          }
+        </table>
+      </div>
+    </div>
   </ng-container>
   <ng-container modal-footer>
     <button class="btn btn-secondary" (click)="modal.close()">Close</button>

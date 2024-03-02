@@ -1,22 +1,52 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute} from "@angular/router";
 import {saveAs} from "file-saver";
 import {ICalAttendeeStatus, ICalCalendar, ICalCalendarMethod} from "ical-generator";
+import {forkJoin} from "rxjs";
+import {switchMap, tap} from "rxjs/operators";
 
 import {ICalConfig} from "./ical-config";
-import {Participant, ReadPoll, ReadPollEvent} from "../../model/index.js";
+import {Participant, ReadPoll, ReadPollEvent} from "../../model";
+import {PollService} from "../services/poll.service";
+
 
 @Component({
   selector: 'apollusia-ical',
   templateUrl: './ical.component.html',
   styleUrl: './ical.component.scss',
 })
-export class IcalComponent {
+export class IcalComponent implements OnInit {
   poll?: ReadPoll;
   pollEvents?: ReadPollEvent[];
   participants?: Participant[];
   url: string;
 
+  exampleEvent?: ReadPollEvent & {_participants: Participant[]};
+
   config = new ICalConfig();
+
+  constructor(
+    public route: ActivatedRoute,
+    private pollService: PollService,
+  ) {
+  }
+
+  ngOnInit() {
+    this.route.params.pipe(
+      switchMap(({id}) => forkJoin([
+        this.pollService.get(id).pipe(tap((poll) => this.poll = poll)),
+        this.pollService.getEvents(id).pipe(tap(events => this.pollEvents = events)),
+        this.pollService.getParticipants(id).pipe(tap(participants => this.participants = participants)),
+      ])),
+    ).subscribe(([poll, events, participants]) => {
+      this.url = new URL(`/poll/${poll.id}/participate`, window.location.origin).href;
+      const exampleEvent = events.find(e => e.participants > 0) ?? events[0];
+      this.exampleEvent = {
+        ...exampleEvent,
+        _participants: exampleEvent.participants === 0 ? participants : participants.filter(p => p.selection[exampleEvent._id] === 'yes' || p.selection[exampleEvent._id] === 'maybe'),
+      };
+    });
+  }
 
   export() {
     const {url, participants, poll, pollEvents, config} = this;
