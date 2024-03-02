@@ -1,7 +1,8 @@
 import {Component} from '@angular/core';
 import {saveAs} from "file-saver";
-import {ICalCalendar, ICalCalendarMethod} from "ical-generator";
+import {ICalAttendeeStatus, ICalCalendar, ICalCalendarMethod} from "ical-generator";
 
+import {ICalConfig} from "./ical-config";
 import {Participant, ReadPoll, ReadPollEvent} from "../../model/index.js";
 
 @Component({
@@ -15,8 +16,10 @@ export class IcalComponent {
   participants?: Participant[];
   url: string;
 
+  config = new ICalConfig();
+
   export() {
-    const {url, participants, poll, pollEvents} = this;
+    const {url, participants, poll, pollEvents, config} = this;
     if (!poll || !pollEvents || !participants) {
       return;
     }
@@ -35,7 +38,7 @@ export class IcalComponent {
         continue;
       }
 
-      let summary = poll.title;
+      let summary = config.customTitle ?? poll.title;
       if (eventParticipants.length === 1) {
         summary += `: ${eventParticipants[0].name}`;
       }
@@ -46,7 +49,7 @@ export class IcalComponent {
       }
       description += `\n\nParticipants:\n${eventParticipants.map(p => `- ${p.name} (${p.selection[event._id]})`).join('\n')}`;
 
-      calendar.createEvent({
+      const iCalEvent = calendar.createEvent({
         id: event._id,
         timezone: poll.timeZone,
         start: new Date(event.start),
@@ -56,14 +59,15 @@ export class IcalComponent {
         location: poll.location,
         url,
       });
-      /* TODO maybe useful, but could create annoying invitations:
-      for (const participant of eventParticipants) {
-        iCalEvent.createAttendee({
-          name: participant.name,
-          email: participant.mail,
-          status: participant.selection[event._id] === 'yes' ? ICalAttendeeStatus.ACCEPTED : ICalAttendeeStatus.TENTATIVE,
-        });
-      }*/
+      if (config.inviteParticipants) {
+        for (const participant of eventParticipants) {
+          participant.mail && iCalEvent.createAttendee({
+            name: participant.name,
+            email: participant.mail,
+            status: participant.selection[event._id] === 'yes' ? ICalAttendeeStatus.ACCEPTED : ICalAttendeeStatus.TENTATIVE,
+          });
+        }
+      }
     }
 
     saveAs(new Blob([calendar.toString()], {type: 'text/calendar'}), `${poll.title}.ics`);

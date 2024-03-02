@@ -3,8 +3,7 @@
     iCal Export
   </ng-container>
   <ng-container modal-body>
-    <p>Export your calendar to iCal format.</p>
-    <p>Click the button below to download the file.</p>
+    <ngbx-validator-form [model]="config"></ngbx-validator-form>
   </ng-container>
   <ng-container modal-footer>
     <button class="btn btn-secondary" (click)="modal.close()">Close</button>
