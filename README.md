@@ -69,6 +69,11 @@ All features are completely free and can be used without registration.
   <dd>Clone polls to start off with the same options</dd>
   <dt>Postponing events</dt>
   <dd>Move all events to a later date</dd>
+  <dt>iCal Export</dt>
+  <dd>
+    Keep track of your polled events and 1-1 meetings using your favorite calendar app.
+    Tested with Apple Calendar and Google Calendar.
+  </dd>
 </dl>
 
 ## Setup
