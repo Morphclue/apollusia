@@ -6,6 +6,7 @@ import {forkJoin} from "rxjs";
 import {switchMap, tap} from "rxjs/operators";
 
 import {ICalConfig} from "./ical-config";
+import {MarkdownService} from "../../core/services/markdown.service";
 import {Participant, ReadPoll, ReadPollEvent} from "../../model";
 import {PollService} from "../services/poll.service";
 
@@ -28,6 +29,7 @@ export class IcalComponent implements OnInit {
   constructor(
     public route: ActivatedRoute,
     private pollService: PollService,
+    private markdownService: MarkdownService,
   ) {
   }
 
@@ -70,7 +72,7 @@ export class IcalComponent implements OnInit {
         summary += `: ${eventParticipants[0].name}`;
       }
 
-      let description = poll.description;
+      let description = poll.description ?? '';
       if (event.note) {
         description += `\n\nNote: ${event.note}`;
       }
@@ -82,7 +84,10 @@ export class IcalComponent implements OnInit {
         start: new Date(event.start),
         end: new Date(event.end),
         summary,
-        description,
+        description: {
+          plain: description,
+          html: this.markdownService.render(description),
+        },
         location: poll.location,
         url,
       });
