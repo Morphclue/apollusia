@@ -31,6 +31,10 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
       - name: Lint
-        run: pnpm run lint:${{ matrix.app }}
+        run: pnpm run lint:${{ matrix.app }} --fix
+      - name: Commit changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: 'chore: Fix lint problems'
       - name: Test
         run: pnpm run test:${{ matrix.app }}
