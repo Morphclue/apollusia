@@ -42,6 +42,8 @@ export class IcalComponent implements OnInit {
       ])),
     ).subscribe(([poll, events, participants]) => {
       this.url = new URL(`/poll/${poll.id}/participate`, window.location.origin).href;
+      this.config.onlyBookedEvents = poll.bookedEvents.length > 0;
+
       const exampleEvent = events.find(e => e.participants > 0) ?? events[0];
       this.exampleEvent = {
         ...exampleEvent,
