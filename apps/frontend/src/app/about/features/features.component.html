@@ -36,22 +36,23 @@
               </div>
             </th>
             @for (app of apps; track app) {
-              <ng-container class="icon-lg">
-                @switch (feature.support[app]) {
-                  @case (true) {
-                    <td class="p-yes icon-lg bi-check-lg"></td>
-                  }
-                  @case (false) {
-                    <td class="p-no icon-lg bi-x-lg"></td>
-                  }
-                  @default {
-                    <td class="p-maybe bi-flag icon-lg"
-                        [ngbTooltip]="''+feature.support[app]"
-                        placement="left"
-                        container="body"></td>
-                  }
+              @switch (feature.support[app]) {
+                @case (true) {
+                  <td class="p-yes icon-lg bi-check-lg"></td>
                 }
-              </ng-container>
+                @case (false) {
+                  <td class="p-no icon-lg bi-x-lg"></td>
+                }
+                @case ('Paid option') {
+                  <td class="p-maybe icon-lg bi-cash" ngbTooltip="Paid option" container="body"></td>
+                }
+                @case ('Always') {
+                  <td class="p-maybe icon-lg bi-lock" ngbTooltip="Always" container="body"></td>
+                }
+                @default {
+                  <td class="p-maybe bi-flag icon-lg" [ngbTooltip]="''+feature.support[app]" container="body"></td>
+                }
+              }
             }
           </tr>
         }

@@ -7,7 +7,7 @@ interface Feature {
   title: string;
   description: string;
   apollusiaIssue?: number;
-  support: Record<App, boolean | string>;
+  support: Record<App, boolean | 'Always' | 'Paid option' | string>;
 }
 
 @Component({
@@ -49,7 +49,7 @@ export class FeaturesComponent {
       {
         title: 'Maybe Option',
         description: 'Friendlier event selection with a Maybe option',
-        support: {Apollusia: true, Doodle: 'Not adjustable', 'DuD-Poll': 'Always'}
+        support: {Apollusia: true, Doodle: 'Always', 'DuD-Poll': 'Always'}
       },
       {
         title: 'Deadline',
