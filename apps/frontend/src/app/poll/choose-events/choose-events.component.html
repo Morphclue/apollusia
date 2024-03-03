@@ -29,7 +29,7 @@
     </div>
   }
   <div class="btn-toolbar justify-content-end mb-3" role="toolbar">
-    <button class="btn btn-outline-secondary bi-calendar" ngbTooltip="Download iCal" (click)="downloadIcal()"></button>
+    <a class="btn btn-outline-secondary bi-calendar" ngbTooltip="Export iCal" routerLink="ical"></a>
     <div class="btn-group ms-2" role="group">
       @for (view of views; track view.id) {
         <a
@@ -84,3 +84,4 @@
     }
   }
 </div>
+<router-outlet></router-outlet>

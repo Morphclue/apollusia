@@ -1,12 +1,7 @@
 import {Component, ElementRef, Input, OnInit, SecurityContext} from '@angular/core';
 import {DomSanitizer, SafeHtml} from '@angular/platform-browser';
-import MarkdownIt from 'markdown-it';
 
-const markdown = new MarkdownIt({
-  html: false,
-  linkify: true,
-  breaks: true,
-});
+import {MarkdownService} from '../services/markdown.service';
 
 @Component({
   selector: 'app-markdown',
@@ -21,11 +16,12 @@ export class MarkdownComponent implements OnInit {
   constructor(
     private el: ElementRef,
     private sanitizer: DomSanitizer,
+    private markdownService: MarkdownService,
   ) {
   }
 
   ngOnInit(): void {
-    const rendered = markdown.render(this.text);
+    const rendered = this.markdownService.render(this.text);
     this.html = this.sanitizer.bypassSecurityTrustHtml(this.sanitizer.sanitize(SecurityContext.HTML, rendered) || '');
   }
 }
