@@ -88,6 +88,11 @@ export class FeaturesComponent {
         description: 'Move all events to a later date',
         support: {Apollusia: true, Doodle: false, 'DuD-Poll': false}
       },
+      {
+        title: 'iCal Export',
+        description: 'Keep track of your polled events and 1-1 meetings using your favorite calendar app',
+        support: {Apollusia: true, Doodle: 'Paid option', 'DuD-Poll': false}
+      },
     ],
     'Poll Management': [
       {
