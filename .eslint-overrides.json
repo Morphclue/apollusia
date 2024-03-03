@@ -9,6 +9,7 @@
         "@typescript-eslint/no-inferrable-types": "off",
         "@typescript-eslint/no-non-null-assertion": "off",
         "@typescript-eslint/no-unused-vars": ["error", {"ignoreRestSiblings": true}],
+        "quotes": ["error", "single"],
         "import/order": [
           "error",
           {

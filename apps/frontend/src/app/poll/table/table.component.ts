@@ -1,10 +1,10 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {checkParticipant} from "@apollusia/logic";
-import type {PollEventState} from "@apollusia/types";
-import {ToastService} from "@mean-stream/ngbx";
+import {checkParticipant} from '@apollusia/logic';
+import type {PollEventState} from '@apollusia/types';
+import {ToastService} from '@mean-stream/ngbx';
 
-import {CreateParticipantDto, Participant, ReadPoll, ReadPollEvent, UpdateParticipantDto} from "../../model";
-import {PollService} from "../services/poll.service";
+import {CreateParticipantDto, Participant, ReadPoll, ReadPollEvent, UpdateParticipantDto} from '../../model';
+import {PollService} from '../services/poll.service';
 
 @Component({
   selector: 'apollusia-table',

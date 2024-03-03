@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Theme, ThemeService} from '@mean-stream/ngbx';
-import {Subject} from "rxjs";
+import {Subject} from 'rxjs';
 
 @Component({
   selector: 'app-navbar',
