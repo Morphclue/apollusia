@@ -5,29 +5,51 @@
   <h1 class="text-center">
     {{ poll?.title }}
   </h1>
-  <div class="mb-3">
-    @if (poll?.location; as location) {
-      <div class="d-flex align-items-center">
-        <i class="text-primary fs-4 me-2 {{location | locationIcon}}" ngbTooltip="Location"></i>
-        <app-location-link [location]="location"></app-location-link>
-      </div>
-    }
-    @if (poll?.settings?.deadline; as deadline) {
-      <div class="d-flex align-items-center">
-        <i class="bi-calendar text-primary fs-4 me-2" ngbTooltip="Deadline"></i>
-        {{ deadline | date: 'medium' }}
-      </div>
-    }
-    @if (poll?.description; as description) {
-      <div class="d-flex align-items-center">
-        <i class="bi-file-text text-primary fs-4 me-2" ngbTooltip="Description"></i>
-        <app-markdown [text]="description"></app-markdown>
-      </div>
-    }
-    <div class="d-flex align-items-center">
-      <i class="bi-link text-primary fs-4 me-2" ngbTooltip="Link"></i>
-      <a routerLink="." class="text-truncate">{{ url }}</a>
-      <button class="btn btn-link bi-clipboard" ngbTooltip="Copy to clipboard" (click)="copyToClipboard()"></button>
+  <div class="card mb-3">
+    <div class="card-body">
+      <table>
+        @if (poll?.location; as location) {
+          <tr>
+            <th>
+              <i [class]="location | locationIcon" ngbTooltip="Location"></i>
+            </th>
+            <td>
+              <app-location-link [location]="location"></app-location-link>
+            </td>
+          </tr>
+        }
+        @if (poll?.settings?.deadline; as deadline) {
+          <tr>
+            <th>
+              <i class="bi-calendar" ngbTooltip="Deadline"></i>
+            </th>
+            <td>
+              {{ deadline | date: 'medium' }}
+            </td>
+          </tr>
+        }
+        @if (poll?.description; as description) {
+          <tr>
+            <th>
+              <i class="bi-text-paragraph" ngbTooltip="Description"></i>
+            </th>
+            <td>
+              <app-markdown [text]="description"></app-markdown>
+            </td>
+          </tr>
+        }
+        <tr>
+          <th>
+            <i class="bi-link" ngbTooltip="Link"></i>
+          </th>
+          <td>
+            <a routerLink="." class="text-truncate">{{ url }}</a>
+            &nbsp;
+            <button class="btn p-0 btn-link bi-clipboard" ngbTooltip="Copy to clipboard"
+                    (click)="copyToClipboard()"></button>
+          </td>
+        </tr>
+      </table>
     </div>
   </div>
   @if (closedReason) {
@@ -41,7 +63,7 @@
     </div>
   }
   @if (!closedReason && poll?.settings?.maxParticipantEvents; as limit) {
-    <div class="alert alert-info mb-0">
+    <div class="alert alert-info">
       This poll is limited.
       You can select up to {{ limit }} choices.
     </div>
