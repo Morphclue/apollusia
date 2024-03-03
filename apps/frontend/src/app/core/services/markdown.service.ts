@@ -1,5 +1,5 @@
-import {Injectable} from "@angular/core";
-import MarkdownIt from "markdown-it";
+import {Injectable} from '@angular/core';
+import MarkdownIt from 'markdown-it';
 
 @Injectable({
   providedIn: 'root',

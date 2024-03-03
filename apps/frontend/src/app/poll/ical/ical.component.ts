@@ -1,14 +1,14 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
-import {saveAs} from "file-saver";
-import {ICalAttendeeStatus, ICalCalendar, ICalCalendarMethod} from "ical-generator";
-import {forkJoin} from "rxjs";
-import {switchMap, tap} from "rxjs/operators";
+import {ActivatedRoute} from '@angular/router';
+import {saveAs} from 'file-saver';
+import {ICalAttendeeStatus, ICalCalendar, ICalCalendarMethod} from 'ical-generator';
+import {forkJoin} from 'rxjs';
+import {switchMap, tap} from 'rxjs/operators';
 
-import {ICalConfig} from "./ical-config";
-import {MarkdownService} from "../../core/services/markdown.service";
-import {Participant, ReadPoll, ReadPollEvent} from "../../model";
-import {PollService} from "../services/poll.service";
+import {ICalConfig} from './ical-config';
+import {MarkdownService} from '../../core/services/markdown.service';
+import {Participant, ReadPoll, ReadPollEvent} from '../../model';
+import {PollService} from '../services/poll.service';
 
 
 @Component({

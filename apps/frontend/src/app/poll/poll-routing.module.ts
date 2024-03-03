@@ -4,7 +4,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {ChooseDateComponent} from './choose-date/choose-date.component';
 import {ChooseEventsComponent} from './choose-events/choose-events.component';
 import {CreateEditPollComponent} from './create-poll/create-edit-poll.component';
-import {IcalComponent} from "./ical/ical.component";
+import {IcalComponent} from './ical/ical.component';
 import {AutofillModalComponent, PostponeModalComponent} from '../modals';
 
 const routes: Routes = [

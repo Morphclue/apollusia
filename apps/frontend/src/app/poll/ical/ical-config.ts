@@ -1,5 +1,5 @@
-import {Presentation} from "@mean-stream/ngbx";
-import {IsBoolean, IsOptional, IsString} from "class-validator";
+import {Presentation} from '@mean-stream/ngbx';
+import {IsBoolean, IsOptional, IsString} from 'class-validator';
 
 export class ICalConfig {
   @Presentation({

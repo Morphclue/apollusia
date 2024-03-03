@@ -1,7 +1,7 @@
 import {Component, ElementRef, Input, OnInit, SecurityContext} from '@angular/core';
 import {DomSanitizer, SafeHtml} from '@angular/platform-browser';
 
-import {MarkdownService} from "../services/markdown.service";
+import {MarkdownService} from '../services/markdown.service';
 
 @Component({
   selector: 'app-markdown',
