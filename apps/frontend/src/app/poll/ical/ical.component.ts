@@ -67,7 +67,7 @@ export class IcalComponent implements OnInit {
     for (const event of this.getExportedEvents()) {
       const eventParticipants = participants.filter(p => p.selection[event._id] === 'yes' || p.selection[event._id] === 'maybe');
 
-      let summary = config.customTitle ?? poll.title;
+      let summary = config.customTitle || poll.title;
       if (eventParticipants.length === 1) {
         summary += `: ${eventParticipants[0].name}`;
       }

@@ -19,7 +19,7 @@
             </th>
             <td>
               <h5 class="card-title">
-                {{ config.customTitle ?? poll?.title }}:
+                {{ config.customTitle || poll?.title }}:
                 {{ exampleEvent?._participants?.[0]?.name }}
               </h5>
               <h6 class="card-subtitle text-muted">
