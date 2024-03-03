@@ -135,10 +135,6 @@ export class ChooseEventsComponent implements OnInit {
 
   // Primary Actions
 
-  copyToClipboard() {
-    navigator.clipboard.writeText(this.url).then().catch(e => console.log(e));
-  }
-
   sort(sortMethod: SortMethod) {
     if (this.currentSort === sortMethod.name) {
       this.currentSortDirection *= -1;
