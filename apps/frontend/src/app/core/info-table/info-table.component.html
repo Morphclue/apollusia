@@ -1,0 +1,61 @@
+<table class="w-100">
+  @if (poll.location; as location) {
+    <tr>
+      <th>
+        <i [class]="location | locationIcon" ngbTooltip="Location"></i>
+      </th>
+      <td>
+        <app-location-link [location]="location"></app-location-link>
+      </td>
+    </tr>
+  }
+  @if (poll.settings.deadline; as deadline) {
+    <tr>
+      <th>
+        <i class="bi-calendar" ngbTooltip="Deadline"></i>
+      </th>
+      <td>
+        {{ deadline | date: 'medium' }}
+      </td>
+    </tr>
+  }
+  @if (description && poll.description; as description) {
+    <tr>
+      <th>
+        <i class="bi-text-paragraph" ngbTooltip="Description"></i>
+      </th>
+      <td>
+        <app-markdown [text]="description"></app-markdown>
+      </td>
+    </tr>
+  }
+  <tr>
+    <th>
+      <i class="bi-link" ngbTooltip="Link"></i>
+    </th>
+    <td>
+      <a routerLink="." class="text-truncate">{{ url }}</a>
+      &nbsp;
+      <button class="btn p-0 btn-link bi-clipboard" ngbTooltip="Copy to clipboard"
+              (click)="copyToClipboard()"></button>
+    </td>
+  </tr>
+  @if (stats) {
+    <tr>
+      <th>
+        <i class="bi-calendar-check"></i>
+      </th>
+      <td>
+        {{ poll.events }} {poll.events, plural, =1 {Option} other {Options}}
+      </td>
+    </tr>
+    <tr>
+      <th>
+        <i class="bi-person-check"></i>
+      </th>
+      <td>
+        {{ poll.participants }} {poll.participants, plural, =1 {Participant} other {Participants}}
+      </td>
+    </tr>
+  }
+</table>
