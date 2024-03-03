@@ -19,8 +19,10 @@
             </th>
             <td>
               <h5 class="card-title">
-                {{ config.customTitle || poll?.title }}:
-                {{ exampleEvent?._participants?.[0]?.name }}
+                {{ config.customTitle || poll?.title }}
+                @if (exampleEvent && exampleEvent._participants.length === 1) {
+                  : {{ exampleEvent._participants[0].name }}
+                }
               </h5>
               <h6 class="card-subtitle text-muted">
                 {{ exampleEvent?.start | date: 'short' }} - {{ exampleEvent?.end | date: 'short' }}
@@ -44,8 +46,10 @@
             <td>
               {{ poll?.description }}<br>
               <br>
-              Note: {{ exampleEvent?.note ?? 'Example Note' }}<br>
-              <br>
+              @if (exampleEvent?.note) {
+                Note: {{ exampleEvent?.note }}<br>
+                <br>
+              }
               Participants:<br>
               @for (participant of exampleEvent?._participants; track participant._id) {
                 - {{ participant.name }} ({{ participant.selection[exampleEvent!._id] }})<br>
