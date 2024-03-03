@@ -9,12 +9,13 @@
   <table class="table shadow">
     <colgroup>
       <col>
+      <col>
       <col class="outlined">
       <col>
     </colgroup>
     <thead>
     <tr>
-      <th scope="col">Feature</th>
+      <th scope="col" colspan="2">Feature</th>
       @for (app of apps; track app) {
         <th scope="col">{{ app }}</th>
       }
@@ -23,13 +24,16 @@
     <tbody>
       @for (kv of features|keyvalue; track kv) {
         <tr>
-          <td>
+          <td colspan="2">
             <h4>{{ kv.key }}</h4>
           </td>
         </tr>
         @for (feature of kv.value; track feature) {
           <tr>
-            <th scope="row" class="ps-5">
+            <th class="text-center">
+              <i [class]="['icon-lg', 'bi-' + feature.icon, feature.support['Apollusia'] === true ? 'text-primary-emphasis' : 'text-muted']"></i>
+            </th>
+            <th scope="row">
               {{ feature.title }}
               <div class="small text-muted fw-normal">
                 {{ feature.description }}
