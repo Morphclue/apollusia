@@ -10,6 +10,8 @@ import {ReadPoll} from '../../model';
 })
 export class InfoTableComponent implements OnInit {
   @Input({required: true}) poll: ReadPoll;
+  @Input() description = true;
+  @Input() stats = false;
 
   url = '';
 

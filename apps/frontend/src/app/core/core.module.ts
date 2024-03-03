@@ -6,6 +6,7 @@ import {NgbxDarkmodeModule, THEME_ATTRIBUTE} from '@mean-stream/ngbx';
 import {NgbAlertModule, NgbCollapseModule, NgbDropdownModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 
 import {CookieBannerComponent} from './cookie-banner/cookie-banner.component';
+import {InfoTableComponent} from './info-table/info-table.component';
 import {LocationLinkComponent} from './location-link/location-link.component';
 import {MarkdownComponent} from './markdown/markdown.component';
 import {NavbarComponent} from './navbar/navbar.component';
@@ -20,6 +21,7 @@ import {TokenComponent} from './token/token.component';
     LocationLinkComponent,
     LocationIconPipe,
     CookieBannerComponent,
+    InfoTableComponent,
   ],
   imports: [
     CommonModule,
@@ -41,6 +43,7 @@ import {TokenComponent} from './token/token.component';
     LocationLinkComponent,
     LocationIconPipe,
     CookieBannerComponent,
+    InfoTableComponent,
   ],
   providers: [
     {

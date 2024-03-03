@@ -21,7 +21,6 @@ import { TableComponent } from './table/table.component';
 import { CoreModule } from '../core/core.module';
 import { AutofillModalComponent, PostponeModalComponent } from '../modals';
 import { SomePipe } from '../pipes';
-import { InfoTableComponent } from './info-table/info-table.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +36,6 @@ import { InfoTableComponent } from './info-table/info-table.component';
     TableComponent,
     EventListComponent,
     ParticipantInfoComponent,
-    InfoTableComponent,
   ],
   imports: [
     CommonModule,

@@ -14,36 +14,7 @@
       </div>
     </div>
   </div>
-  @if (poll.description && !small) {
-    <div class="card-body">
-      <app-markdown [text]="poll.description"></app-markdown>
-    </div>
-  }
-  <div class="card-footer">
-    @if (poll.description && small) {
-      <div class="bi-file-text text-truncate" [ngbTooltip]="description">
-        Description: {{ poll.description }}
-        <ng-template #description>
-          <app-markdown [text]="poll.description"></app-markdown>
-        </ng-template>
-      </div>
-    }
-    @if (poll.settings.deadline) {
-      <div class="bi-calendar">
-        Deadline: {{ poll.settings.deadline | date:'medium' }}
-      </div>
-    }
-    @if (poll.location) {
-      <div [class]="poll.location | locationIcon">
-        Location:
-        <app-location-link [location]="poll.location"></app-location-link>
-      </div>
-    }
-    <div class="bi-check">
-      Options: {{ poll.events }}
-    </div>
-    <div class="bi-person">
-      Participants: {{ poll.participants }}
-    </div>
+  <div class="card-body">
+    <apollusia-info-table [poll]="poll" [description]="!small" [stats]="true"></apollusia-info-table>
   </div>
 </div>
