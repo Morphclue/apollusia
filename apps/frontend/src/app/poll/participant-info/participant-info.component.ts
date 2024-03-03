@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
 
-import {Participant} from "../../model";
+import {Participant} from '../../model';
 
 @Component({
   selector: 'apollusia-participant-info',

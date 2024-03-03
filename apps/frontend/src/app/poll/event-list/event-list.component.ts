@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
 
-import {Participant, ReadPoll, ReadPollEvent} from "../../model";
+import {Participant, ReadPoll, ReadPollEvent} from '../../model';
 
 @Component({
   selector: 'apollusia-event-list',

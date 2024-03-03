@@ -1,5 +1,5 @@
 import {Component, Inject, OnInit, Optional} from '@angular/core';
-import {Meta} from "@angular/platform-browser";
+import {Meta} from '@angular/platform-browser';
 import {SwUpdate} from '@angular/service-worker';
 
 import {TokenService} from './core/services';
