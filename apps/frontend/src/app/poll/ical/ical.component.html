@@ -60,22 +60,6 @@
               <a class="card-link" routerLink=".">{{ url }}</a>
             </td>
           </tr>
-          @if (config.inviteParticipants) {
-            <tr>
-              <th>
-                <i class="bi-people"></i>
-              </th>
-              <td>
-                <h6>
-                  Attendees:
-                </h6>
-                @for (participant of exampleEvent?._participants; track participant._id) {
-                  <i class="bi-person-check"></i>
-                  {{ participant.name }} &lt;{{ participant.mail ?? 'mail@example.com' }}&gt;<br>
-                }
-              </td>
-            </tr>
-          }
         </table>
       </div>
     </div>

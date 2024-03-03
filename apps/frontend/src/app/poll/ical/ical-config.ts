@@ -20,12 +20,4 @@ export class ICalConfig {
   })
   @IsBoolean()
   onlyBookedEvents = false;
-
-  @Presentation({
-    label: 'Invite Participants as Attendees',
-    description: 'Add participants with a valid email address as attendees. ' +
-      'You calendar app will automatically invite them.'
-  })
-  @IsBoolean()
-  inviteParticipants = false;
 }

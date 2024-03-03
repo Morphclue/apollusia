@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {saveAs} from 'file-saver';
-import {ICalAttendeeStatus, ICalCalendar, ICalCalendarMethod} from 'ical-generator';
+import {ICalCalendar, ICalCalendarMethod} from 'ical-generator';
 import {forkJoin} from 'rxjs';
 import {switchMap, tap} from 'rxjs/operators';
 
@@ -78,7 +78,7 @@ export class IcalComponent implements OnInit {
       }
       description += `\n\nParticipants:\n${eventParticipants.map(p => `- ${p.name} (${p.selection[event._id]})`).join('\n')}`;
 
-      const iCalEvent = calendar.createEvent({
+      calendar.createEvent({
         id: event._id,
         timezone: poll.timeZone,
         start: new Date(event.start),
@@ -91,15 +91,6 @@ export class IcalComponent implements OnInit {
         location: poll.location,
         url,
       });
-      if (config.inviteParticipants) {
-        for (const participant of eventParticipants) {
-          participant.mail && iCalEvent.createAttendee({
-            name: participant.name,
-            email: participant.mail,
-            status: participant.selection[event._id] === 'yes' ? ICalAttendeeStatus.ACCEPTED : ICalAttendeeStatus.TENTATIVE,
-          });
-        }
-      }
     }
 
     saveAs(new Blob([calendar.toString()], {type: 'text/calendar'}), `${poll.title}.ics`);
