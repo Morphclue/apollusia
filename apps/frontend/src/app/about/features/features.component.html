@@ -48,10 +48,10 @@
                   <td class="p-no icon-lg bi-x-lg"></td>
                 }
                 @case ('Paid option') {
-                  <td class="p-maybe icon-lg bi-cash" ngbTooltip="Paid option" container="body"></td>
+                  <td class="p-maybe icon-lg bi-currency-dollar" ngbTooltip="Paid option" container="body"></td>
                 }
                 @case ('Always') {
-                  <td class="p-maybe icon-lg bi-lock" ngbTooltip="Always" container="body"></td>
+                  <td class="p-maybe icon-lg bi-slash-square" ngbTooltip="Always" container="body"></td>
                 }
                 @default {
                   <td class="p-maybe bi-flag icon-lg" [ngbTooltip]="''+feature.support[app]" container="body"></td>
