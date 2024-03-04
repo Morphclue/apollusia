@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 
-import * as features from './features.json';
+import features from './features.json';
 
 const apps = ['Apollusia', 'Doodle', 'DuD-Poll'] as const;
 type App = typeof apps[number];

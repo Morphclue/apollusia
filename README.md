@@ -34,6 +34,7 @@ Feel free to check it out!
 Apollusia offers a variety of features to make event coordination as easy as possible.
 All features are completely free and can be used without registration.
 
+<!-- features:start -->
 ### Participation
 
 <dl>
@@ -54,6 +55,8 @@ All features are completely free and can be used without registration.
   <dd>Friendlier event selection with a Maybe option</dd>
   <dt>Deadline</dt>
   <dd>Set a deadline for new participations</dd>
+  <dt>Rich Text and Links in Description</dt>
+  <dd>Add Markdown formatted text and links to the description</dd>
   <dt>Events of varying length</dt>
   <dd>Every event can have its own length</dd>
   <dt>Event Notes</dt>
@@ -70,11 +73,11 @@ All features are completely free and can be used without registration.
   <dt>Postponing events</dt>
   <dd>Move all events to a later date</dd>
   <dt>iCal Export</dt>
-  <dd>
-    Keep track of your polled events and 1-1 meetings using your favorite calendar app.
-    Tested with Apple Calendar and Google Calendar.
-  </dd>
+  <dd>Keep track of your polled events and 1-1 meetings using your favorite calendar app</dd>
 </dl>
+
+
+<!-- features:end -->
 
 ## Setup
 
