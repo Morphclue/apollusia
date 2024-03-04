@@ -38,10 +38,13 @@ All features are completely free and can be used without registration.
 ### Participation
 
 <dl>
+  <img src="docs/bootstrap-icons/icons/incognito.svg" alt="incognito" align="right" height="50">
   <dt>Anonymous participation</dt>
   <dd>Participants can vote without entering their name</dd>
+  <img src="docs/bootstrap-icons/icons/pencil-square.svg" alt="pencil-square" align="right" height="50">
   <dt>Editing participation</dt>
   <dd>Participants can edit their participation</dd>
+  <img src="docs/bootstrap-icons/icons/eye-slash.svg" alt="eye-slash" align="right" height="50">
   <dt>Blind participation</dt>
   <dd>Participants can't see other participants until they participate</dd>
 </dl>
@@ -49,16 +52,22 @@ All features are completely free and can be used without registration.
 ### Poll Options
 
 <dl>
+  <img src="docs/bootstrap-icons/icons/1-square.svg" alt="1-square" align="right" height="50">
   <dt>Participation limit</dt>
   <dd>Limit the number of participants</dd>
+  <img src="docs/bootstrap-icons/icons/question-square.svg" alt="question-square" align="right" height="50">
   <dt>Maybe Option</dt>
   <dd>Friendlier event selection with a Maybe option</dd>
+  <img src="docs/bootstrap-icons/icons/calendar-day.svg" alt="calendar-day" align="right" height="50">
   <dt>Deadline</dt>
   <dd>Set a deadline for new participations</dd>
+  <img src="docs/bootstrap-icons/icons/markdown.svg" alt="markdown" align="right" height="50">
   <dt>Rich Text and Links in Description</dt>
   <dd>Add Markdown formatted text and links to the description</dd>
+  <img src="docs/bootstrap-icons/icons/calendar-week.svg" alt="calendar-week" align="right" height="50">
   <dt>Events of varying length</dt>
   <dd>Every event can have its own length</dd>
+  <img src="docs/bootstrap-icons/icons/sticky.svg" alt="sticky" align="right" height="50">
   <dt>Event Notes</dt>
   <dd>Add notes to events to provide additional information</dd>
 </dl>
@@ -66,12 +75,16 @@ All features are completely free and can be used without registration.
 ### Productivity
 
 <dl>
+  <img src="docs/bootstrap-icons/icons/calendar-range.svg" alt="calendar-range" align="right" height="50">
   <dt>Autofill</dt>
   <dd>Create many sequential events automatically, with breaks and on multiple days</dd>
+  <img src="docs/bootstrap-icons/icons/copy.svg" alt="copy" align="right" height="50">
   <dt>Cloning polls</dt>
   <dd>Clone polls to start off with the same options</dd>
+  <img src="docs/bootstrap-icons/icons/fast-forward.svg" alt="fast-forward" align="right" height="50">
   <dt>Postponing events</dt>
   <dd>Move all events to a later date</dd>
+  <img src="docs/bootstrap-icons/icons/calendar2-week.svg" alt="calendar2-week" align="right" height="50">
   <dt>iCal Export</dt>
   <dd>Keep track of your polled events and 1-1 meetings using your favorite calendar app</dd>
 </dl>
