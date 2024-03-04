@@ -1,5 +1,7 @@
 import {Component} from '@angular/core';
 
+import * as features from './features.json';
+
 const apps = ['Apollusia', 'Doodle', 'DuD-Poll'] as const;
 type App = typeof apps[number];
 
@@ -17,117 +19,6 @@ interface Feature {
   styleUrls: ['./features.component.scss'],
 })
 export class FeaturesComponent {
-  apps = apps;
-  features: Record<string, Feature[]> = {
-    Participation: [
-      {
-        icon: 'incognito',
-        title: 'Anonymous participation',
-        description: 'Participants can vote without entering their name',
-        support: {Apollusia: true, Doodle: true, 'DuD-Poll': true}
-      },
-      {
-        icon: 'pencil-square',
-        title: 'Editing participation',
-        description: 'Participants can edit their participation',
-        support: {Apollusia: true, Doodle: true, 'DuD-Poll': true}
-      },
-      {
-        icon: 'eye-slash',
-        title: 'Blind participation',
-        description: 'Participants can\'t see other participants until they participate',
-        support: {Apollusia: true, Doodle: false, 'DuD-Poll': false}
-      },
-      {
-        icon: 'chat-dots',
-        title: 'Comments',
-        description: 'Add comments to a poll',
-        support: {Apollusia: false, Doodle: false, 'DuD-Poll': true}
-      },
-    ],
-    'Poll Options': [
-      {
-        icon: '1-square',
-        title: 'Participation limit',
-        description: 'Limit the number of participants',
-        support: {Apollusia: true, Doodle: true, 'DuD-Poll': false}
-      },
-      {
-        icon: 'question-square',
-        title: 'Maybe Option',
-        description: 'Friendlier event selection with a Maybe option',
-        support: {Apollusia: true, Doodle: 'Always', 'DuD-Poll': 'Always'}
-      },
-      {
-        icon: 'calendar-day',
-        title: 'Deadline',
-        description: 'Set a deadline for new participations',
-        support: {Apollusia: true, Doodle: 'Paid option', 'DuD-Poll': false}
-      },
-      {
-        icon: 'markdown',
-        title: 'Rich Text and Links in Description',
-        description: 'Add Markdown formatted text and links to the description',
-        support: {Apollusia: true, Doodle: false, 'DuD-Poll': false}
-      },
-      {
-        icon: 'calendar-week',
-        title: 'Events of varying length',
-        description: 'Every event can have its own length',
-        support: {Apollusia: true, Doodle: false, 'DuD-Poll': false}
-      },
-      {
-        icon: 'sticky',
-        title: 'Event Notes',
-        description: 'Add notes to events to provide additional information',
-        support: {Apollusia: true, Doodle: false, 'DuD-Poll': false}
-      },
-    ],
-    Productivity: [
-      {
-        icon: 'calendar-range',
-        title: 'Autofill',
-        description: 'Create many sequential events automatically, with breaks and on multiple days',
-        support: {Apollusia: true, Doodle: false, 'DuD-Poll': 'Repeating the time for every day is possible'}
-      },
-      {
-        icon: 'copy',
-        title: 'Cloning polls',
-        description: 'Clone polls to start off with the same options',
-        support: {Apollusia: true, Doodle: false, 'DuD-Poll': false}
-      },
-      {
-        icon: 'fast-forward',
-        title: 'Postponing events',
-        description: 'Move all events to a later date',
-        support: {Apollusia: true, Doodle: false, 'DuD-Poll': false}
-      },
-      {
-        icon: 'calendar2-week',
-        title: 'iCal Export',
-        description: 'Keep track of your polled events and 1-1 meetings using your favorite calendar app',
-        support: {Apollusia: true, Doodle: 'Paid option', 'DuD-Poll': false}
-      },
-    ],
-    'Poll Management': [
-      {
-        icon: 'send',
-        title: 'Invite Participants',
-        description: 'Invite participants via email or other means',
-        support: {Apollusia: 'Simple link sharing is possible', Doodle: true, 'DuD-Poll': true}
-      },
-      {
-        icon: 'universal-access-circle',
-        title: 'Access Control',
-        description: 'Restrict access to your poll',
-        support: {Apollusia: 'Only for creator, but planned. See #60', Doodle: false, 'DuD-Poll': true}
-      },
-      {
-        icon: 'clock-history',
-        title: 'History',
-        description: 'See all changes to a poll',
-        support: {Apollusia: false, Doodle: false, 'DuD-Poll': true}
-      },
-    ],
-  };
+  readonly apps = apps;
+  readonly features: Record<string, Feature[]> = features;
 }
