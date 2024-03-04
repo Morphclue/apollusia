@@ -10,6 +10,7 @@ const newReadme = readme.replace(/<!-- features:start -->.*<!-- features:end -->
 await fs.writeFile('../README.md', newReadme, 'utf-8');
 
 await fs.mkdir('../docs/bootstrap-icons/icons', {recursive: true});
+await fs.copyFile('../node_modules/bootstrap-icons/LICENSE', '../docs/bootstrap-icons/LICENSE');
 
 const icons = new Set(Object.values(features).flatMap(f => f).map(f => f.icon));
 for (const icon of icons) {
