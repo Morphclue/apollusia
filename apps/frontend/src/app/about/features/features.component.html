@@ -9,12 +9,13 @@
   <table class="table shadow">
     <colgroup>
       <col>
+      <col>
       <col class="outlined">
       <col>
     </colgroup>
     <thead>
     <tr>
-      <th scope="col">Feature</th>
+      <th scope="col" colspan="2">Feature</th>
       @for (app of apps; track app) {
         <th scope="col">{{ app }}</th>
       }
@@ -23,35 +24,39 @@
     <tbody>
       @for (kv of features|keyvalue; track kv) {
         <tr>
-          <td>
+          <td colspan="2">
             <h4>{{ kv.key }}</h4>
           </td>
         </tr>
         @for (feature of kv.value; track feature) {
           <tr>
-            <th scope="row" class="ps-5">
+            <th class="text-center">
+              <i [class]="['icon-lg', 'bi-' + feature.icon, feature.support['Apollusia'] === true ? 'text-primary-emphasis' : 'text-muted']"></i>
+            </th>
+            <th scope="row">
               {{ feature.title }}
               <div class="small text-muted fw-normal">
                 {{ feature.description }}
               </div>
             </th>
             @for (app of apps; track app) {
-              <ng-container class="icon-lg">
-                @switch (feature.support[app]) {
-                  @case (true) {
-                    <td class="p-yes icon-lg bi-check-lg"></td>
-                  }
-                  @case (false) {
-                    <td class="p-no icon-lg bi-x-lg"></td>
-                  }
-                  @default {
-                    <td class="p-maybe bi-flag icon-lg"
-                        [ngbTooltip]="''+feature.support[app]"
-                        placement="left"
-                        container="body"></td>
-                  }
+              @switch (feature.support[app]) {
+                @case (true) {
+                  <td class="p-yes icon-lg bi-check-lg"></td>
                 }
-              </ng-container>
+                @case (false) {
+                  <td class="p-no icon-lg bi-x-lg"></td>
+                }
+                @case ('Paid option') {
+                  <td class="p-maybe icon-lg bi-currency-dollar" ngbTooltip="Paid option" container="body"></td>
+                }
+                @case ('Always') {
+                  <td class="p-maybe icon-lg bi-slash-square" ngbTooltip="Always" container="body"></td>
+                }
+                @default {
+                  <td class="p-maybe bi-flag icon-lg" [ngbTooltip]="''+feature.support[app]" container="body"></td>
+                }
+              }
             }
           </tr>
         }
