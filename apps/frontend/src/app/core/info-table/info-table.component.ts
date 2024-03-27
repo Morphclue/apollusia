@@ -31,4 +31,19 @@ export class InfoTableComponent implements OnInit {
       this.toastService.error('Copy Poll Link', 'Failed to copy link to clipboard', e);
     });
   }
+
+  draftEmail() {
+    const subject = `Poll Invitation: ${this.poll!.title}`;
+    const body = `Hello,
+
+I would like to invite you to participate in a poll.
+Please click the link below to participate.
+
+${this.url}
+
+Thank you!`;
+
+    const mailto = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    open(mailto, '_self');
+  }
 }
