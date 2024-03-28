@@ -38,6 +38,8 @@
       &nbsp;
       <button class="btn p-0 btn-link bi-clipboard" ngbTooltip="Copy to clipboard"
               (click)="copyToClipboard()"></button>
+      <button class="btn p-0 btn-link bi-envelope-at" ngbTooltip="Share via email"
+              (click)="draftEmail()"></button>
     </td>
   </tr>
   @if (stats) {

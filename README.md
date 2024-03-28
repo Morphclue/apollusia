@@ -89,6 +89,14 @@ All features are completely free and can be used without registration.
   <dd>Keep track of your polled events and 1-1 meetings using your favorite calendar app</dd>
 </dl>
 
+### Poll Management
+
+<dl>
+  <img src="docs/bootstrap-icons/icons/send.svg" alt="send" align="right" height="50">
+  <dt>Invite Participants</dt>
+  <dd>Invite participants via email or other means</dd>
+</dl>
+
 
 <!-- features:end -->
 

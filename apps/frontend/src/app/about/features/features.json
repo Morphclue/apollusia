@@ -151,7 +151,7 @@
       "title": "Invite Participants",
       "description": "Invite participants via email or other means",
       "support": {
-        "Apollusia": "Simple link sharing is possible",
+        "Apollusia": true,
         "Doodle": true,
         "DuD-Poll": true
       }
