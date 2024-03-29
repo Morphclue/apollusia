@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {ToastService} from '@mean-stream/ngbx';
 
 import {MailService} from '../../core/services';
 import {Settings} from '../settings';
@@ -13,6 +14,7 @@ export class SettingsComponent implements OnInit {
 
   constructor(
     private mailService: MailService,
+    private toastService: ToastService,
   ) {
   }
 
@@ -22,6 +24,7 @@ export class SettingsComponent implements OnInit {
 
   save() {
     this.mailService.setMail(this.settings.email);
+    this.toastService.success('Settings', 'Sucessfully saved settings.');
   }
 }
 
