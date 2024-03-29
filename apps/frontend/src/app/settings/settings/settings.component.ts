@@ -1,8 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {ActivatedRoute} from '@angular/router';
 
 import {MailService} from '../../core/services';
+import {Settings} from '../settings';
 
 @Component({
   selector: 'apollusia-settings',
@@ -10,35 +9,19 @@ import {MailService} from '../../core/services';
   styleUrls: ['./settings.component.scss'],
 })
 export class SettingsComponent implements OnInit {
-  mailForm = new FormGroup({
-    mail: new FormControl('', Validators.email),
-  });
+  settings = new Settings();
 
   constructor(
-    public route: ActivatedRoute,
     private mailService: MailService,
   ) {
   }
 
   ngOnInit(): void {
-    this.mailForm.controls.mail.setValue(this.mailService.getMail() || '');
+    this.settings.email = this.mailService.getMail() || '';
   }
 
   save() {
-    if (!this.mailForm.valid) {
-      return;
-    }
-
-    if (this.mailForm.controls.mail.value === '') {
-      this.mailService.setMail('');
-      return;
-    }
-
-    if (this.mailForm.controls.mail.value == null) {
-      return;
-    }
-    this.mailService.setMail(this.mailForm.controls.mail.value);
-    window.location.reload();
+    this.mailService.setMail(this.settings.email);
   }
 }
 

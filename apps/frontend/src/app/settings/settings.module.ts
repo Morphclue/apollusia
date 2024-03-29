@@ -5,6 +5,7 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {SettingsComponent} from './settings/settings.component';
 import {SettingsRoutingModule} from './settings-routing.module';
 import {CoreModule} from '../core/core.module';
+import {FormsModule} from "@mean-stream/ngbx";
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import {CoreModule} from '../core/core.module';
     CommonModule,
     SettingsRoutingModule,
     ReactiveFormsModule,
-    CoreModule
+    CoreModule,
+    FormsModule
   ]
 })
 export class SettingsModule {
