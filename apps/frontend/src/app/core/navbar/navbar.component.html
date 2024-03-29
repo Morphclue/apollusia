@@ -31,7 +31,7 @@
           <a class="nav-link" routerLinkActive="active" routerLink="legal">Legal</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLinkActive="active" [routerLink]="[{outlets: {modal: 'settings'}}]">Settings</a>
+          <a class="nav-link" routerLinkActive="active" routerLink="settings">Settings</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="https://github.com/Morphclue/apollusia" target="_blank">
@@ -43,7 +43,7 @@
             <i class="bi-person-circle icon" title="User"></i>
           </a>
           <div ngbDropdownMenu aria-labelledby="navbarDropdown" class="dropdown-menu">
-            <a ngbDropdownItem href="#">
+            <a ngbDropdownItem routerLink="settings">
               <i class="bi-gear icon"></i>
               Settings
             </a>

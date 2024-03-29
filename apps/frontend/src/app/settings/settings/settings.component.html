@@ -1,0 +1,22 @@
+<div class="container">
+  <h1>
+    User Settings
+  </h1>
+  <div class="mb-3">
+    <form [formGroup]="mailForm">
+      <label for="mail">E-Mail</label>
+      <input type="email" class="form-control" id="mail" formControlName="mail">
+      @if (mailForm.controls.mail.errors?.['email']) {
+        <small class="form-text text-danger">Please enter a valid email (e.g. example&#64;email.com).</small>
+      }
+    </form>
+  </div>
+  <div class="mb-3">
+    <app-token></app-token>
+    <div class="form-text">
+      This token can be copied to view your polls on other devices.
+      The letters should not be typed in individually, but the token should be pasted as a whole.
+    </div>
+  </div>
+  <button class="btn btn-primary" (click)="save()">Save</button>
+</div>
