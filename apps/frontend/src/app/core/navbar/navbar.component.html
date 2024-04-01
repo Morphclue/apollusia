@@ -1,6 +1,6 @@
 <nav class="navbar navbar-dark navbar-expand-sm bg-primary">
   <div class="container-fluid justify-content-start">
-    <button class="btn btn-primary bi-list" (click)="offcanvas.open(content)"></button>
+    <button class="btn btn-primary bi-list" (click)="loadRecentPolls(); offcanvas.open(content)"></button>
     <img class="navbar-logo" ngSrc="/assets/logo.png" alt="Apollusia Logo" width="32" height="32">
     <a class="navbar-brand" routerLink="/">Apollusia</a>
     <div class="navbar-collapse collapse">
@@ -56,6 +56,19 @@
           Settings
         </a>
       </li>
+      <hr/>
+      <h6>
+        Recent Polls
+      </h6>
+      @for (poll of recentPolls; track poll.id) {
+        <li class="nav-item w-100">
+          <a class="nav-link text-truncate" routerLinkActive="active" [routerLink]="['poll', poll.id, 'participate']">
+            <i [class]="poll.location | locationIcon"></i>
+            {{ poll.title }}
+            <app-location-link class="small text-muted" [location]="poll.location" [shorten]="true"></app-location-link>
+          </a>
+        </li>
+      }
       <hr class="mt-auto"/>
       <li class="nav-item">
         <a class="nav-item nav-link bi-info-circle" routerLinkActive="active" routerLink="about">
