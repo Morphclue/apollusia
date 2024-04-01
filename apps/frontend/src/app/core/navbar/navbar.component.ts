@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Theme, ThemeService} from '@mean-stream/ngbx';
+import {NgbOffcanvas} from '@ng-bootstrap/ng-bootstrap';
 import {Subject} from 'rxjs';
 
 @Component({
@@ -8,8 +9,6 @@ import {Subject} from 'rxjs';
   styleUrls: ['./navbar.component.scss'],
 })
 export class NavbarComponent implements OnInit {
-  menuCollapsed: boolean = true;
-
   themes = [
     {
       name: 'Light',
@@ -31,6 +30,7 @@ export class NavbarComponent implements OnInit {
 
   constructor(
     themeService: ThemeService,
+    protected readonly offcanvas: NgbOffcanvas,
   ) {
     this.theme$ = themeService.theme$;
   }

@@ -1,62 +1,85 @@
-<nav class="navbar navbar-dark navbar-expand-lg bg-primary">
-  <div class="container-fluid">
-    <img class="navbar-logo" ngSrc="/assets/logo.png" alt="Apollusia Logo" width="64" height="64" style="height: 2rem">
+<nav class="navbar navbar-dark navbar-expand-sm bg-primary">
+  <div class="container-fluid justify-content-start">
+    <button class="btn btn-primary bi-list" (click)="offcanvas.open(content)"></button>
+    <img class="navbar-logo" ngSrc="/assets/logo.png" alt="Apollusia Logo" width="32" height="32">
     <a class="navbar-brand" routerLink="/">Apollusia</a>
-    <button class="navbar-toggler" type="button" (click)="menuCollapsed = !menuCollapsed">
-      <i class="bi-list icon"></i>
-    </button>
-    <div [ngbCollapse]="menuCollapsed" class="collapse navbar-collapse">
-      <ul class="navbar-nav ms-auto">
-        <li>
-          <a class="btn btn-primary text-nowrap bi-calendar-plus" type="button" routerLink="poll/create">
-            Create Poll
-          </a>
-        </li>
-        <li ngbDropdown class="nav-item" role="presentation" placement="end">
-          <button type="button" class="nav-link bi-moon-stars" ngbDropdownToggle></button>
-          <div ngbDropdownMenu>
-            <button *ngFor="let theme of themes" ngbDropdownItem [class]="theme.icon" (click)="theme$.next(theme.value)">
-              {{ theme.name }}
-              <i [class.bi-check]="(theme$ | async) === theme.value"></i>
-            </button>
+    <div class="navbar-collapse collapse">
+      <ul class="ms-auto navbar-nav">
+        <a class="btn btn-primary bi-calendar-plus" type="button" routerLink="poll/create">
+          Create Poll
+        </a>
+        <li class="nav-item">
+          <div ngbDropdown>
+            <button type="button" class="nav-link bi-person-circle" ngbDropdownToggle></button>
+            <div ngbDropdownMenu class="dropdown-menu dropdown-menu-end">
+              <a ngbDropdownItem routerLink="settings">
+                <i class="bi-gear icon"></i>
+                Settings
+              </a>
+              <h5 class="dropdown-header">Theme</h5>
+              <button *ngFor="let theme of themes" ngbDropdownItem [class]="theme.icon" (click)="theme$.next(theme.value)">
+                {{ theme.name }}
+                <i [class.bi-check]="(theme$ | async) === theme.value"></i>
+              </button>
+            </div>
           </div>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLinkActive="active" routerLink="dashboard">Dashboard</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLinkActive="active" routerLink="about">About</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLinkActive="active" routerLink="legal">Legal</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLinkActive="active" routerLink="settings">Settings</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="https://github.com/Morphclue/apollusia" target="_blank">
-            <i class="bi-github icon" title="GitHub"></i>
-          </a>
-        </li>
-        <li class="nav-item" ngbDropdown display="dynamic">
-          <a class="nav-link" ngbDropdownToggle id="navbarDropdown" role="button">
-            <i class="bi-person-circle icon" title="User"></i>
-          </a>
-          <div ngbDropdownMenu aria-labelledby="navbarDropdown" class="dropdown-menu">
-            <a ngbDropdownItem routerLink="settings">
-              <i class="bi-gear icon"></i>
-              Settings
-            </a>
-            <a
-              ngbDropdownItem
-              href="https://github.com/Morphclue/apollusia/issues/new?template=bug_report.md"
-              target="_blank">
-              <i class="bi-bug icon"></i>
-              Report a bug
-            </a>
-          </div>
+          <a class="nav-link bi-github" href="https://github.com/Morphclue/apollusia" target="_blank" ngbTooltip="GitHub"></a>
         </li>
       </ul>
     </div>
   </div>
 </nav>
+<ng-template #content let-offcanvas>
+  <div class="offcanvas-header">
+    <h4 class="offcanvas-title" id="offcanvas-basic-title">
+      <img class="navbar-logo" ngSrc="/assets/logo.png" alt="Apollusia Logo" width="32" height="32">
+      Apollusia
+    </h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="offcanvas.dismiss()"></button>
+  </div>
+  <div class="offcanvas-body">
+    <ul class="nav nav-pills flex-column h-100">
+      <li class="nav-item">
+        <a class="nav-item nav-link bi-house" routerLinkActive="active" routerLink="dashboard">
+          Dashboard
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-item nav-link bi-calendar-plus" routerLinkActive="active" routerLink="poll/create">
+          Create Poll
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-item nav-link bi-gear" routerLinkActive="active" routerLink="settings">
+          Settings
+        </a>
+      </li>
+      <hr class="mt-auto"/>
+      <li class="nav-item">
+        <a class="nav-item nav-link bi-info-circle" routerLinkActive="active" routerLink="about">
+          About
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-item nav-link bi-file-earmark-text" routerLinkActive="active" routerLink="legal">
+          Legal
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-item nav-link bi-github" href="https://github.com/Morphclue/apollusia">
+          GitHub
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-item nav-link bi-bug" href="https://github.com/Morphclue/apollusia/issues/new?template=bug_report.md" target="_blank">
+          Report a bug
+        </a>
+      </li>
+      <div class="small text-muted text-center">
+        Copyright © Apollusia, 2024
+      </div>
+    </ul>
+  </div>
+</ng-template>
