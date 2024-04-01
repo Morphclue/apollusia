@@ -7,9 +7,9 @@ import {forkJoin} from 'rxjs';
 import {map, switchMap, tap} from 'rxjs/operators';
 
 import {MailService, TokenService} from '../../core/services';
+import {StorageService} from '../../core/services/storage.service';
 import {Participant, ReadPoll, ReadPollEvent} from '../../model';
 import {PollService} from '../services/poll.service';
-import {StorageService} from '../../core/services/storage.service';
 
 interface SortMethod {
   name: string;
