@@ -140,7 +140,17 @@ export class ChooseEventsComponent implements OnInit {
       this.currentSort = sortMethod.name;
       this.currentSortDirection = sortMethod.defaultDirection;
     }
-    this.participants?.sortBy(sortMethod.by, this.currentSortDirection);
+    this.participants?.sort((a, b) => {
+      const aVal = sortMethod.by(a);
+      const bVal = sortMethod.by(b);
+      if (aVal < bVal) {
+        return -this.currentSortDirection;
+      }
+      if (aVal > bVal) {
+        return this.currentSortDirection;
+      }
+      return 0;
+    });
   }
 
   // Helpers
