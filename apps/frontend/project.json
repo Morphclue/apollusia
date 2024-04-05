@@ -30,7 +30,12 @@
         "allowedCommonJsDependencies": ["validator"],
         "scripts": [],
         "serviceWorker": "apps/frontend/ngsw-config.json",
-        "browser": "apps/frontend/src/main.ts"
+        "browser": "apps/frontend/src/main.ts",
+        "server": "apps/frontend/src/main.server.ts",
+        "prerender": true,
+        "ssr": {
+          "entry": "apps/frontend/server.ts"
+        }
       },
       "configurations": {
         "production": {
