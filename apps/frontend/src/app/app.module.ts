@@ -18,7 +18,7 @@ import {SettingsModalComponent} from './modals';
 @NgModule({
   declarations: [AppComponent, SettingsModalComponent],
   imports: [
-    BrowserModule.withServerTransition({appId: 'serverApp'}),
+    BrowserModule,
     AppRoutingModule,
     NgbModule,
     ModalModule,
