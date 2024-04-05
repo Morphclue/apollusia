@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Inject, Input, OnInit, Optional} from '@angular/core';
 import {ToastService} from '@mean-stream/ngbx';
 
 import {ReadPoll} from '../../model';
@@ -17,11 +17,12 @@ export class InfoTableComponent implements OnInit {
 
   constructor(
     private toastService: ToastService,
+    @Optional() @Inject('BASE_URL') private baseUrl?: string,
   ) {
   }
 
   ngOnInit() {
-    this.url = `${document.baseURI}poll/${this.poll.id}/participate`;
+    this.url = `${this.baseUrl}poll/${this.poll.id}/participate`;
   }
 
   copyToClipboard() {

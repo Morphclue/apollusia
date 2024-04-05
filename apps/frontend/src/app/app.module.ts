@@ -43,6 +43,10 @@ import {SettingsModalComponent} from './modals';
       multi: true,
     },
     provideClientHydration(),
+    ...globalThis.document ? [{
+      provide: 'BASE_URL',
+      useValue: globalThis.document?.baseURI,
+    }] : [],
   ],
   bootstrap: [AppComponent],
 })
