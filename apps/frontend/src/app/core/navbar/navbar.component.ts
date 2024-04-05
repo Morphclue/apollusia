@@ -11,6 +11,8 @@ import {StorageService} from '../services/storage.service';
   styleUrls: ['./navbar.component.scss'],
 })
 export class NavbarComponent {
+  readonly currentYear = new Date().getFullYear();
+
   themes = [
     {
       name: 'Light',
