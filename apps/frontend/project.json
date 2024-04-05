@@ -7,12 +7,13 @@
   "tags": [],
   "targets": {
     "build": {
-      "executor": "@angular-devkit/build-angular:browser",
-      "outputs": ["{options.outputPath}"],
+      "executor": "@angular-devkit/build-angular:application",
+      "outputs": ["{options.outputPath.base}"],
       "options": {
-        "outputPath": "dist/apps/frontend/browser",
+        "outputPath": {
+          "base": "dist/apps/frontend"
+        },
         "index": "apps/frontend/src/index.html",
-        "main": "apps/frontend/src/main.ts",
         "polyfills": [
           "@angular/localize/init",
           "zone.js",
@@ -28,8 +29,8 @@
         "styles": ["apps/frontend/src/styles.scss"],
         "allowedCommonJsDependencies": ["validator"],
         "scripts": [],
-        "serviceWorker": true,
-        "ngswConfigPath": "apps/frontend/ngsw-config.json"
+        "serviceWorker": "apps/frontend/ngsw-config.json",
+        "browser": "apps/frontend/src/main.ts"
       },
       "configurations": {
         "production": {
@@ -54,9 +55,7 @@
           ]
         },
         "development": {
-          "buildOptimizer": false,
           "optimization": false,
-          "vendorChunk": true,
           "extractLicenses": false,
           "sourceMap": true,
           "namedChunks": true
