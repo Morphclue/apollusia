@@ -1,3 +1,8 @@
 .nav-pills {
   --bs-nav-link-color: var(--bs-body-color);
 }
+
+// Makes sure there is some space between the user icon and the dropdown arrow.
+.dropdown-toggle.bi-person-circle::after {
+  margin-left: 0.25em;
+}
