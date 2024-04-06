@@ -1,4 +1,4 @@
-import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule, provideHttpClient, withFetch} from '@angular/common/http';
 import {isDevMode, NgModule} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 import {BrowserModule, provideClientHydration} from '@angular/platform-browser';
@@ -43,6 +43,7 @@ import {SettingsModalComponent} from './modals';
       multi: true,
     },
     provideClientHydration(),
+    provideHttpClient(withFetch()),
     ...globalThis.document ? [{
       provide: 'BASE_URL',
       useValue: globalThis.document?.baseURI,
