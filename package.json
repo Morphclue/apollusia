@@ -4,9 +4,8 @@
   "license": "MIT",
   "scripts": {
     "serve:frontend": "nx serve frontend",
-    "serve:frontend:ssr": "nx serve-ssr frontend",
     "serve:backend": "nx serve backend",
-    "build:frontend": "nx server frontend",
+    "build:frontend": "nx build frontend",
     "build:backend": "nx build backend",
     "test:frontend": "nx test frontend",
     "test:backend": "nx test backend",
