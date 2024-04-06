@@ -14,10 +14,10 @@ $primary: $french-violet;
 $dark: $persian-indigo;
 
 /* Imports */
-@import 'node_modules/bootstrap/scss/bootstrap';
-@import 'node_modules/bootstrap-icons/font/bootstrap-icons.css';
-@import 'node_modules/angular-calendar/css/angular-calendar.css';
-@import 'node_modules/flatpickr/dist/flatpickr.css';
+@import 'bootstrap/scss/bootstrap'; // NB: @import 'bootstrap' does not allow variable overrides
+@import 'bootstrap-icons';
+@import 'angular-calendar/scss/angular-calendar';
+@import 'flatpickr';
 
 .logo-glow {
   filter: drop-shadow(0 0 10px $primary);
@@ -106,8 +106,8 @@ $dark: $persian-indigo;
 }
 
 .ngb-dp-today {
+  @extend .fw-bold;
   color: $primary;
-  font-weight: $font-weight-bold;
 }
 
 .ngb-dp-day:hover {

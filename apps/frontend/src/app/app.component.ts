@@ -2,8 +2,6 @@ import {Component, Inject, OnInit, Optional} from '@angular/core';
 import {Meta} from '@angular/platform-browser';
 import {SwUpdate} from '@angular/service-worker';
 
-import {TokenService} from './core/services';
-
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -13,7 +11,6 @@ export class AppComponent implements OnInit {
   title = 'apollusia';
 
   constructor(
-    private tokenService: TokenService,
     private swUpdate: SwUpdate,
     private meta: Meta,
     @Optional() @Inject('BASE_URL') private baseUrl?: string,

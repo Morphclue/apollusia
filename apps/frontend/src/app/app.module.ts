@@ -1,4 +1,4 @@
-import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule, provideHttpClient, withFetch} from '@angular/common/http';
 import {isDevMode, NgModule} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 import {BrowserModule, provideClientHydration} from '@angular/platform-browser';
@@ -17,7 +17,7 @@ import {LegalModule} from './legal/legal.module';
 @NgModule({
   declarations: [AppComponent],
   imports: [
-    BrowserModule.withServerTransition({appId: 'serverApp'}),
+    BrowserModule,
     AppRoutingModule,
     NgbModule,
     ModalModule,
@@ -42,6 +42,11 @@ import {LegalModule} from './legal/legal.module';
       multi: true,
     },
     provideClientHydration(),
+    provideHttpClient(withFetch()),
+    ...globalThis.document ? [{
+      provide: 'BASE_URL',
+      useValue: globalThis.document?.baseURI,
+    }] : [],
   ],
   bootstrap: [AppComponent],
 })
