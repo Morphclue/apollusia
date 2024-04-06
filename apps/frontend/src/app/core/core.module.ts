@@ -11,12 +11,10 @@ import {LocationLinkComponent} from './location-link/location-link.component';
 import {MarkdownComponent} from './markdown/markdown.component';
 import {NavbarComponent} from './navbar/navbar.component';
 import {LocationIconPipe} from './pipes/location-icon.pipe';
-import {TokenComponent} from './token/token.component';
 
 @NgModule({
   declarations: [
     NavbarComponent,
-    TokenComponent,
     MarkdownComponent,
     LocationLinkComponent,
     LocationIconPipe,
@@ -38,7 +36,6 @@ import {TokenComponent} from './token/token.component';
   exports: [
     RouterModule,
     NavbarComponent,
-    TokenComponent,
     MarkdownComponent,
     LocationLinkComponent,
     LocationIconPipe,

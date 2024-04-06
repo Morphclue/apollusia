@@ -1,6 +1,6 @@
 @if (location.startsWith('http')) {
-  <a [href]="location" target="_blank">
-    {{ location }}
+  <a [href]="location" target="_blank" (click)="$event.stopPropagation()">
+    {{ shortLink }}
   </a>
 } @else {
   {{ location }}

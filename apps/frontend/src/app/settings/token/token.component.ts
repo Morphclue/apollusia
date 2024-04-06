@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Subject} from 'rxjs';
 import {distinctUntilChanged} from 'rxjs/operators';
 
-import {TokenService} from '../services';
+import {TokenService} from '../../core/services';
 
 @Component({
   selector: 'app-token',

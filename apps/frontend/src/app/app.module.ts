@@ -13,10 +13,9 @@ import {CoreModule} from './core/core.module';
 import {ParticipantTokenInterceptor} from './core/interceptors/participant-token.interceptor';
 import {TokenService} from './core/services';
 import {LegalModule} from './legal/legal.module';
-import {SettingsModalComponent} from './modals';
 
 @NgModule({
-  declarations: [AppComponent, SettingsModalComponent],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
