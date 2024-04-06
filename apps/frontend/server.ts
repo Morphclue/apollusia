@@ -41,6 +41,9 @@ export function app(): express.Express {
         providers: [
           { provide: APP_BASE_HREF, useValue: baseUrl },
           { provide: 'BASE_URL', useValue: `${protocol}://${headers.host}` },
+          // https://www.npmjs.com/package/ngx-cookie-service-ssr#server-side-rendering
+          { provide: 'REQUEST', useValue: req },
+          { provide: 'RESPONSE', useValue: res },
         ],
       })
       .then((html) => res.send(html))

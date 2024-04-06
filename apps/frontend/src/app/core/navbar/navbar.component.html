@@ -10,7 +10,7 @@
         </a>
         <li class="nav-item">
           <div ngbDropdown>
-            <button type="button" class="nav-link bi-person-circle" ngbDropdownToggle>&#20;</button>
+            <button type="button" class="nav-link bi-person-circle" ngbDropdownToggle></button>
             <div ngbDropdownMenu class="dropdown-menu dropdown-menu-end">
               <a ngbDropdownItem routerLink="settings">
                 <i class="bi-gear icon"></i>
@@ -39,7 +39,7 @@
     </h4>
     <button type="button" class="btn-close" aria-label="Close" (click)="offcanvas.dismiss()"></button>
   </div>
-  <div class="offcanvas-body">
+  <div class="offcanvas-body" (click)="$any($event.target)?.href && offcanvas.dismiss()">
     <ul class="nav nav-pills flex-column h-100">
       <li class="nav-item">
         <a class="nav-item nav-link bi-house" routerLinkActive="active" routerLink="dashboard">

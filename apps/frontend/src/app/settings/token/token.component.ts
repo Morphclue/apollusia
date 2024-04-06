@@ -1,6 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {Subject} from 'rxjs';
-import {distinctUntilChanged} from 'rxjs/operators';
 
 import {TokenService} from '../../core/services';
 
@@ -10,18 +8,12 @@ import {TokenService} from '../../core/services';
   styleUrls: ['./token.component.scss'],
 })
 export class TokenComponent implements OnInit {
-  input: string = '';
-  inputChanged: Subject<string> = new Subject<string>();
-  visible: boolean = false;
+  input = '';
+  visible = false;
 
   constructor(
     private tokenService: TokenService,
   ) {
-    this.inputChanged.pipe(
-      distinctUntilChanged())
-      .subscribe(() => {
-        this.tokenService.setToken(this.input);
-      });
   }
 
   ngOnInit(): void {
@@ -36,12 +28,13 @@ export class TokenComponent implements OnInit {
     this.visible = !this.visible;
   }
 
-  async regenerateToken() {
-    await this.tokenService.regenerateToken();
-    this.input = this.tokenService.getToken();
+  regenerateToken() {
+    this.tokenService.regenerateToken().subscribe(token => {
+      this.input = token;
+    });
   }
 
-  changed() {
-    this.inputChanged.next(this.input);
+  save() {
+    this.tokenService.setToken(this.input);
   }
 }
