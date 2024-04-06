@@ -39,7 +39,7 @@
     </h4>
     <button type="button" class="btn-close" aria-label="Close" (click)="offcanvas.dismiss()"></button>
   </div>
-  <div class="offcanvas-body">
+  <div class="offcanvas-body" (click)="$any($event.target)?.href && offcanvas.dismiss()">
     <ul class="nav nav-pills flex-column h-100">
       <li class="nav-item">
         <a class="nav-item nav-link bi-house" routerLinkActive="active" routerLink="dashboard">
