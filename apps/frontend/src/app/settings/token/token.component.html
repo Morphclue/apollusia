@@ -1,0 +1,36 @@
+<label class="form-label" for="token">Token</label>
+<div class="input-group">
+  <input class="form-control" id="token" autocomplete="off" [class.blurred]="!visible" type="text" [(ngModel)]="input"
+         (ngModelChange)="changed()">
+  <button
+    class="btn btn-outline-secondary"
+    type="button"
+    placement="top"
+    ngbTooltip="Copy to clipboard"
+    (click)="copyToClipboard()"
+  >
+    <i class="bi-clipboard"></i>
+  </button>
+  <button
+    class="btn btn-outline-secondary"
+    type="button"
+    placement="top"
+    ngbTooltip="Toggle visibility"
+    [class.bi-eye]="!visible"
+    [class.bi-eye-slash]="visible"
+    (click)="toggleVisibility()"
+  ></button>
+  <button
+    class="btn btn-outline-secondary"
+    type="button"
+    placement="top"
+    ngbTooltip="Re-Generate Token"
+    (click)="regenerateToken()"
+  >
+    <i class="bi-arrow-repeat"></i>
+  </button>
+</div>
+<div class="form-text">
+  This token can be copied to view your polls on other devices.
+  The letters should not be typed in individually, but the token should be pasted as a whole.
+</div>

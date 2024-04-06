@@ -7,6 +7,7 @@ import {forkJoin} from 'rxjs';
 import {map, switchMap, tap} from 'rxjs/operators';
 
 import {MailService, TokenService} from '../../core/services';
+import {StorageService} from '../../core/services/storage.service';
 import {Participant, ReadPoll, ReadPollEvent} from '../../model';
 import {PollService} from '../services/poll.service';
 
@@ -88,6 +89,7 @@ export class ChooseEventsComponent implements OnInit {
     private meta: Meta,
     tokenService: TokenService,
     mailService: MailService,
+    private storageService: StorageService,
   ) {
     this.mail = mailService.getMail();
     this.token = tokenService.getToken();
@@ -101,6 +103,12 @@ export class ChooseEventsComponent implements OnInit {
           this.title.setTitle(`${poll.title} - Apollusia`);
           this.meta.updateTag({property: 'og:title', content: poll.title});
           this.setDescription(poll);
+          this.storageService.set('recentPolls/' + poll.id, JSON.stringify({
+            id: poll.id,
+            title: poll.title,
+            location: poll.location,
+            visitedAt: new Date(),
+          }));
         })),
         this.pollService.getEvents(id).pipe(tap(events => this.pollEvents = events)),
         this.pollService.getParticipants(id).pipe(tap(participants => this.participants = participants)),

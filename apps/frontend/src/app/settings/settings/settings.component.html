@@ -1,0 +1,10 @@
+<div class="container">
+  <h1>
+    User Settings
+  </h1>
+  <ngbx-validator-form [model]="settings"></ngbx-validator-form>
+  <div class="mb-3">
+    <app-token></app-token>
+  </div>
+  <button class="btn btn-primary" (click)="save()">Save</button>
+</div>
