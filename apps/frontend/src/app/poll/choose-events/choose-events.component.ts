@@ -187,6 +187,15 @@ export class ChooseEventsComponent implements OnInit {
       case ShowResultOptions.AFTER_PARTICIPATING:
         this.hiddenReason = this.isAdmin || this.userVoted() ? undefined : 'This is a blind poll. You can\'t see results or other user\'s votes until you participate yourself.';
         break;
+      case ShowResultOptions.AFTER_DEADLINE: {
+        const deadline = this.poll.settings.deadline;
+        if (this.isAdmin || !deadline || new Date(deadline) < new Date()) {
+          this.hiddenReason = undefined;
+        } else {
+          this.hiddenReason = 'The results of this poll are hidden until the deadline is over. You can only see your own votes.';
+        }
+        break;
+      }
       default:
         this.hiddenReason = undefined;
     }

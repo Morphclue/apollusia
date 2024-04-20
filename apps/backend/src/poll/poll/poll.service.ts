@@ -259,8 +259,7 @@ export class PollService implements OnModuleInit {
       token,
     }).exec();
 
-    if (poll.adminToken === token || poll.settings.showResult === ShowResultOptions.IMMEDIATELY ||
-      poll.settings.showResult === ShowResultOptions.AFTER_PARTICIPATING && currentParticipant.length > 0) {
+    if (this.canViewResults(poll, token, currentParticipant.length > 0)) {
       const participants = await this.participantModel.find({
         poll: new Types.ObjectId(id),
         token: {$ne: token},
@@ -269,6 +268,22 @@ export class PollService implements OnModuleInit {
     }
 
     return currentParticipant;
+  }
+
+  private canViewResults(poll: Poll, token: string, currentParticipant: boolean) {
+    if (poll.adminToken === token) {
+      return true;
+    }
+    switch (poll.settings.showResult) {
+      case ShowResultOptions.IMMEDIATELY:
+        return true;
+      case ShowResultOptions.AFTER_PARTICIPATING:
+        return currentParticipant;
+      case ShowResultOptions.AFTER_DEADLINE:
+        return !poll.settings.deadline || +poll.settings.deadline < Date.now();
+      case ShowResultOptions.NEVER:
+        return false;
+    }
   }
 
   async findAllParticipants(poll: Types.ObjectId): Promise<Participant[]> {
