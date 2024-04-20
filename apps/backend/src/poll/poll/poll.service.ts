@@ -159,6 +159,7 @@ export class PollService implements OnModuleInit {
       .findById(id)
       .select(readPollSelect)
       .populate<{participants: number}>('participants')
+      .populate<{events: number}>('events')
       .exec();
   }
 
