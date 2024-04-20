@@ -29,6 +29,7 @@ export class ChooseEventsComponent implements OnInit {
   pollEvents?: ReadPollEvent[];
   participants?: Participant[];
   isAdmin: boolean = false;
+  timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
   closedReason?: string;
   hiddenReason?: string;
@@ -82,9 +83,7 @@ export class ChooseEventsComponent implements OnInit {
 
   constructor(
     public route: ActivatedRoute,
-    private router: Router,
     private pollService: PollService,
-    private toastService: ToastService,
     private title: Title,
     private meta: Meta,
     tokenService: TokenService,
