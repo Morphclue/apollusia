@@ -186,6 +186,17 @@
               </div>
               <div class="form-check">
                 <input class="form-check-input"
+                       type="radio" id="showAfterDeadline"
+                       [value]="ShowResultOptions.AFTER_DEADLINE"
+                       formControlName="showResult">
+                <label class="form-check-label" for="showAfterDeadline">
+                  After deadline
+                  <i class="bi-question-circle text-muted" placement="top"
+                     ngbTooltip="Show results to participants after the deadline is over."></i>
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input"
                        type="radio"
                        id="showNever"
                        [value]="ShowResultOptions.NEVER"
