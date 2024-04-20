@@ -1,8 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Meta, Title} from '@angular/platform-browser';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
 import {ShowResultOptions} from '@apollusia/types/lib/schema/show-result-options';
-import {ToastService} from '@mean-stream/ngbx';
 import {forkJoin} from 'rxjs';
 import {map, switchMap, tap} from 'rxjs/operators';
 
@@ -29,6 +28,7 @@ export class ChooseEventsComponent implements OnInit {
   pollEvents?: ReadPollEvent[];
   participants?: Participant[];
   isAdmin: boolean = false;
+  timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
   closedReason?: string;
   hiddenReason?: string;
@@ -82,9 +82,7 @@ export class ChooseEventsComponent implements OnInit {
 
   constructor(
     public route: ActivatedRoute,
-    private router: Router,
     private pollService: PollService,
-    private toastService: ToastService,
     private title: Title,
     private meta: Meta,
     tokenService: TokenService,

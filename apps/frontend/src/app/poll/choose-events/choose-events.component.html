@@ -28,7 +28,13 @@
       You can select up to {{ limit }} choices.
     </div>
   }
-  <div class="btn-toolbar justify-content-end mb-3" role="toolbar">
+  <div class="btn-toolbar align-items-center justify-content-end mb-3" role="toolbar">
+    @if (poll && timeZone !== poll.timeZone) {
+      <div class="text-muted me-auto bi-info-circle">
+        All times are displayed in <b>{{ timeZone }}</b>.
+        The poll owner is in <b>{{ poll.timeZone }}</b>.
+      </div>
+    }
     <a class="btn btn-outline-secondary bi-calendar" ngbTooltip="Export iCal" routerLink="ical"></a>
     <div class="btn-group ms-2" role="group">
       @for (view of views; track view.id) {

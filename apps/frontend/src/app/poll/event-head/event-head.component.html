@@ -1,9 +1,9 @@
-<span class="d-md-block">
-  {{ event.start | date:'E' }}
-</span>
 @if (event.note) {
   <i class="d-md-block bi-sticky-fill text-primary" placement="top" ngbTooltip="{{event.note}}"></i>
 }
+<span class="d-md-block">
+  {{ event.start | date:'E' }}
+</span>
 <span class="d-md-block md-h3 fw-bold">
   {{ event.start | date:'d' }}
 </span>
@@ -11,8 +11,8 @@
   {{ event.start | date:'MMM' }}
 </span>
 <span class="d-md-block">
-  {{ event.start | date:'HH:mm' }}-
+  {{ event.start | date:'shortTime' }} -
 </span>
 <span class="d-md-block">
-  {{ event.end | date:'HH:mm' }}
+  {{ event.end | date:'shortTime' }}
 </span>
