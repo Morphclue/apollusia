@@ -6,15 +6,29 @@ services:
       - "27017:27017"
     volumes:
       - database:/data/db
+
   frontend:
     build:
       dockerfile: ./apps/frontend/Dockerfile
     ports:
       - "4000:4000"
+
   backend:
     build:
       dockerfile: ./apps/backend/Dockerfile
     ports:
       - "3000:3000"
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:24.0.3
+    command: [ 'start-dev', '--optimize' ]
+    environment:
+      KC_HOSTNAME: localhost
+      KC_HTTP_RELATIVE_PATH: /auth
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: root
+    ports:
+      - "8080:8080"
+
 volumes:
   database:
