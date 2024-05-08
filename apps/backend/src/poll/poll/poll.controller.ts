@@ -20,6 +20,7 @@ import {
   Headers,
   NotFoundException,
   Param,
+  ParseArrayPipe,
   ParseBoolPipe,
   Post,
   Put,
@@ -98,7 +99,10 @@ export class PollController {
     }
 
     @Post(':id/events')
-    async postEvents(@Param('id', ObjectIdPipe) id: Types.ObjectId, @Body() pollEvents: PollEventDto[]): Promise<PollEvent[]> {
+    async postEvents(
+      @Param('id', ObjectIdPipe) id: Types.ObjectId,
+      @Body(new ParseArrayPipe({items: PollEventDto})) pollEvents: PollEventDto[],
+    ): Promise<PollEvent[]> {
         const poll = await this.pollService.getPoll(id);
         if (!poll) {
             throw new NotFoundException(id);

@@ -235,7 +235,7 @@ export class PollService implements OnModuleInit {
       if (!oldEvent) {
         return false;
       }
-      return oldEvent.start.valueOf() !== new Date(event.start).valueOf() || oldEvent.end.valueOf() !== new Date(event.end).valueOf();
+      return oldEvent.start.valueOf() !== event.start.valueOf() || oldEvent.end.valueOf() !== event.end.valueOf();
     });
     if (updatedEvents.length > 0) {
       for (const event of updatedEvents) {
