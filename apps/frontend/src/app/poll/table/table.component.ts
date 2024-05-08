@@ -17,7 +17,6 @@ export class TableComponent implements OnInit {
   @Input() participants: Participant[] = [];
   @Input() isAdmin: boolean = false;
   @Input() canParticipate: boolean = false;
-  @Input() showResults: boolean = false;
   @Input() token: string;
   @Input() bestOption: number = 1;
 
