@@ -55,7 +55,6 @@
           </th>
         </tr>
       }
-      @if (showResults) {
         @for (participant of participants; track participant) {
           <tr>
             <th>
@@ -133,7 +132,6 @@
           }
           <td class="border-0"></td>
         </tr>
-      }
       @if (poll && isAdmin) {
         <tr>
           <th>Select Events</th>

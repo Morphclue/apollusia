@@ -398,7 +398,7 @@ export class PollService implements OnModuleInit {
       $or: events.map(e => ({['selection.' + e._id]: {$exists: true}})),
     };
     await this.participantModel.updateMany(filter, {
-      $unset: events.map(e => 'selection.' + e._id),
+      $unset: events.reduce((acc, e) => ({...acc, ['selection.' + e._id]: true}), {})
     }, {timestamps: false}).exec();
   }
 
