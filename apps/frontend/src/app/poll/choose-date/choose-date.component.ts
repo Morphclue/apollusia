@@ -116,7 +116,7 @@ export class ChooseDateComponent implements AfterViewInit {
     return this.chooseDateService.events;
   }
 
-  createEvents() {
+  saveEvents() {
     const events: CreatePollEventDto[] = this.chooseDateService.events.map((event: CalendarEvent) => ({
       _id: event.id?.toString(),
       start: event.start.toISOString(),
