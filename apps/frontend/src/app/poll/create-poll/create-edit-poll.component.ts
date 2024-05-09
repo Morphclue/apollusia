@@ -132,7 +132,7 @@ export class CreateEditPollComponent implements OnInit {
       adminMail: pollForm.emailUpdates ? this.poll?.adminMail || this.mail : undefined,
       adminPush: pollForm.pushUpdates && (this.poll?.adminPush || pushToken?.toJSON()) || undefined,
       timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-      bookedEvents: [],
+      bookedEvents: {},
       settings: {
         deadline: deadline?.toISOString(),
         allowMaybe: !!pollForm.allowMaybe,

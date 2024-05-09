@@ -3,7 +3,7 @@ import {checkParticipant} from '@apollusia/logic';
 import type {PollEventState} from '@apollusia/types';
 import {ToastService} from '@mean-stream/ngbx';
 
-import {CreateParticipantDto, Participant, ReadPoll, ReadPollEvent, UpdateParticipantDto} from '../../model';
+import {CreateParticipantDto, Participant, Poll, ReadPoll, ReadPollEvent, UpdateParticipantDto} from '../../model';
 import {PollService} from '../services/poll.service';
 
 @Component({
@@ -22,7 +22,7 @@ export class TableComponent implements OnInit {
 
   @Output() changed = new EventEmitter<void>();
 
-  bookedEvents: boolean[] = [];
+  bookedEvents: Poll['bookedEvents'] = {};
 
   newParticipant: CreateParticipantDto = {
     name: '',
@@ -40,7 +40,7 @@ export class TableComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.bookedEvents = this.pollEvents.map(e => this.poll.bookedEvents.includes(e._id));
+    this.bookedEvents = this.poll.bookedEvents || {};
     this.newParticipant.token = this.token;
     this.clearSelection();
     this.validateNew();
@@ -106,9 +106,16 @@ export class TableComponent implements OnInit {
     this.pollService.selectAll(this.poll, this.pollEvents, this.newParticipant, state);
   }
 
+  setBooked(eventId: string, state: boolean) {
+    if (state) {
+      this.bookedEvents[eventId] = true;
+    } else {
+      delete this.bookedEvents[eventId];
+    }
+  }
+
   book() {
-    const events = this.pollEvents.filter((e, i) => this.bookedEvents[i]).map(e => e._id);
-    this.pollService.book(this.poll._id, events).subscribe(() => {
+    this.pollService.book(this.poll._id, this.bookedEvents).subscribe(() => {
       this.toastService.success('Booking', 'Booked events successfully');
     });
   }

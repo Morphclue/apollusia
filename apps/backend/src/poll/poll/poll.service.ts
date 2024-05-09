@@ -360,15 +360,18 @@ export class PollService implements OnModuleInit {
     return this.participantModel.findByIdAndDelete(participantId, {projection: readParticipantSelect}).exec();
   }
 
-  async bookEvents(id: Types.ObjectId, events: Types.ObjectId[]): Promise<ReadPollDto> {
+  async bookEvents(id: Types.ObjectId, events: Poll['bookedEvents']): Promise<ReadPollDto> {
     const poll = await this.pollModel.findByIdAndUpdate(id, {
       bookedEvents: events,
     }, {new: true})
-      .populate<{bookedEvents: PollEvent[]}>('bookedEvents')
       .select(readPollSelect)
       .exec();
+    const eventDocs = await this.pollEventModel.find({
+      poll: id,
+      _id: {$in: Object.keys(events).map(e => new Types.ObjectId(e))},
+    });
     for await (const participant of this.participantModel.find({poll: new Types.ObjectId(id)})) {
-      const appointments = poll.bookedEvents.map(event => {
+      const appointments = eventDocs.map(event => {
         let eventLine = this.renderEvent(event, undefined, poll.timeZone);
         const selection = participant.selection[event._id.toString()];
         if (selection === 'yes' || selection === 'maybe') {
@@ -382,7 +385,7 @@ export class PollService implements OnModuleInit {
         participant: participant.toObject(),
       }).then();
     }
-    return {...poll.toObject(), bookedEvents: events};
+    return poll;
   }
 
   private renderEvent(event: PollEvent, locale?: string, timeZone?: string) {

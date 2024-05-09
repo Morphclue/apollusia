@@ -135,14 +135,15 @@
       @if (poll && isAdmin) {
         <tr>
           <th>Select Events</th>
-          @for (pollEvent of pollEvents; track pollEvent; let i = $index) {
+          @for (pollEvent of pollEvents; track pollEvent) {
             <td>
               <input
                 type="checkbox"
                 class="text-primary form-check-hidden"
-                [class.bi-star-fill]="bookedEvents[i]"
-                [class.bi-star]="!bookedEvents[i]"
-                [(ngModel)]="bookedEvents[i]"
+                [class.bi-star-fill]="bookedEvents[pollEvent._id] === true"
+                [class.bi-star]="!bookedEvents[pollEvent._id]"
+                [ngModel]="bookedEvents[pollEvent._id] === true"
+                (ngModelChange)="setBooked(pollEvent._id, $event)"
               >
             </td>
           }
