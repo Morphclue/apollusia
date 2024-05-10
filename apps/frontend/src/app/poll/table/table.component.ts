@@ -123,4 +123,13 @@ export class TableComponent implements OnInit {
   private onChange() {
     this.changed.next();
   }
+
+  setBookedParticipant(eventId: string, participantId: string, state: boolean) {
+    const original = Array.isArray(this.bookedEvents[eventId]) ? this.bookedEvents[eventId] as string[] : [];
+    if (state) {
+      this.bookedEvents[eventId] = [...original, participantId];
+    } else {
+      this.bookedEvents[eventId] = original.filter(id => id !== participantId);
+    }
+  }
 }

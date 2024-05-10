@@ -77,6 +77,16 @@
                       <h5 class="p-unset bi-question" ngbTooltip="Unspecified"></h5>
                     }
                   }
+                  @if (isAdmin) {
+                    <input
+                      type="checkbox"
+                      class="text-secondary form-check-hidden"
+                      [class.bi-star-fill]="bookedEvents[pollEvent._id] | some:participant._id"
+                      [class.bi-star]="!(bookedEvents[pollEvent._id] | some:participant._id)"
+                      [ngModel]="bookedEvents[pollEvent._id] | some:participant._id"
+                      (ngModelChange)="setBookedParticipant(pollEvent._id, participant._id, $event)"
+                    >
+                  }
                 </td>
               }
               <td class="border-0 text-start">
@@ -141,7 +151,7 @@
                 type="checkbox"
                 class="text-primary form-check-hidden"
                 [class.bi-star-fill]="bookedEvents[pollEvent._id] === true"
-                [class.bi-star]="!bookedEvents[pollEvent._id]"
+                [class.bi-star]="bookedEvents[pollEvent._id] !== true"
                 [ngModel]="bookedEvents[pollEvent._id] === true"
                 (ngModelChange)="setBooked(pollEvent._id, $event)"
               >
