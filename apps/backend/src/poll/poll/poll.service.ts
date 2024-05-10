@@ -370,7 +370,10 @@ export class PollService implements OnModuleInit {
       poll: id,
       _id: {$in: Object.keys(events).map(e => new Types.ObjectId(e))},
     });
-    for await (const participant of this.participantModel.find({poll: new Types.ObjectId(id)})) {
+    for await (const participant of this.participantModel.find({
+      poll: new Types.ObjectId(id),
+      mail: {$exists: true},
+    })) {
       const appointments = eventDocs.map(event => {
         let eventLine = this.renderEvent(event, undefined, poll.timeZone);
         const selection = participant.selection[event._id.toString()];
@@ -383,7 +386,7 @@ export class PollService implements OnModuleInit {
         appointments,
         poll: poll.toObject(),
         participant: participant.toObject(),
-      }).then();
+      }).catch(console.error);
     }
     return poll;
   }
