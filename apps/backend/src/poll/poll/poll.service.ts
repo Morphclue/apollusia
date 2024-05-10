@@ -374,14 +374,34 @@ export class PollService implements OnModuleInit {
       poll: new Types.ObjectId(id),
       mail: {$exists: true},
     })) {
-      const appointments = eventDocs.map(event => {
-        let eventLine = this.renderEvent(event, undefined, poll.timeZone);
-        const selection = participant.selection[event._id.toString()];
-        if (selection === 'yes' || selection === 'maybe') {
-          eventLine += ' *';
-        }
-        return eventLine;
-      });
+      const appointments = eventDocs
+        .filter(event => {
+          const booked = events[event._id.toString()];
+          // only show the events to the participant that are either
+          if (booked === true) {
+            // 1) booked entirely, or
+            return true;
+          } else if (Array.isArray(booked)) {
+            // 2) booked for the participant
+            return booked.some(id => participant._id.equals(id));
+          } else {
+            return false;
+          }
+        })
+        .map(event => {
+          let eventLine = this.renderEvent(event, undefined, poll.timeZone);
+          const selection = participant.selection[event._id.toString()];
+          if (selection === 'yes' || selection === 'maybe') {
+            eventLine += ' *';
+          }
+          return eventLine;
+        });
+
+      if (!appointments.length) {
+        // don't send them an email if there are no appointments
+        continue;
+      }
+
       this.mailService.sendMail(participant.name, participant.mail, 'Poll booked', 'book', {
         appointments,
         poll: poll.toObject(),
