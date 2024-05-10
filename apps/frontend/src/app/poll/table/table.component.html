@@ -64,30 +64,32 @@
               @for (pollEvent of pollEvents; track pollEvent; let n = $index) {
                 <td>
                   <div class="d-flex">
-                  @switch (participant.selection[pollEvent._id]) {
-                    @case ('yes') {
-                      <h5 class="p-yes bi-check-lg" ngbTooltip="Yes"></h5>
+                    @switch (participant.selection[pollEvent._id]) {
+                      @case ('yes') {
+                        <h5 class="p-yes bi-check-lg" ngbTooltip="Yes"></h5>
+                      }
+                      @case ('no') {
+                        <h5 class="p-no bi-x-lg" ngbTooltip="No"></h5>
+                      }
+                      @case ('maybe') {
+                        <h5 class="p-maybe bi-question" ngbTooltip="Maybe"></h5>
+                      }
+                      @default {
+                        <h5 class="p-unset bi-question" ngbTooltip="Unspecified"></h5>
+                      }
                     }
-                    @case ('no') {
-                      <h5 class="p-no bi-x-lg" ngbTooltip="No"></h5>
+                    @if (isAdmin) {
+                      @for (isBooked of [bookedEvents[pollEvent._id] | some:participant._id]; track isBooked // cursed_variable) {
+                        <input
+                          type="checkbox"
+                          class="ms-2 text-secondary form-check-hidden"
+                          [class.bi-star-fill]="isBooked"
+                          [class.bi-star]="!isBooked"
+                          [ngModel]="isBooked"
+                          (ngModelChange)="setBookedParticipant(pollEvent._id, participant._id, $event)"
+                        >
+                      }
                     }
-                    @case ('maybe') {
-                      <h5 class="p-maybe bi-question" ngbTooltip="Maybe"></h5>
-                    }
-                    @default {
-                      <h5 class="p-unset bi-question" ngbTooltip="Unspecified"></h5>
-                    }
-                  }
-                  @if (isAdmin) {
-                    <input
-                      type="checkbox"
-                      class="ms-2 text-secondary form-check-hidden"
-                      [class.bi-star-fill]="bookedEvents[pollEvent._id] | some:participant._id"
-                      [class.bi-star]="!(bookedEvents[pollEvent._id] | some:participant._id)"
-                      [ngModel]="bookedEvents[pollEvent._id] | some:participant._id"
-                      (ngModelChange)="setBookedParticipant(pollEvent._id, participant._id, $event)"
-                    >
-                  }
                   </div>
                 </td>
               }
