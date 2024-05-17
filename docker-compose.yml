@@ -21,7 +21,7 @@ services:
 
   keycloak:
     image: quay.io/keycloak/keycloak:24.0.3
-    command: [ 'start-dev', '--optimize' ]
+    command: [ 'start-dev' ]
     environment:
       KC_HOSTNAME: localhost
       KC_HTTP_RELATIVE_PATH: /auth
@@ -29,6 +29,8 @@ services:
       KEYCLOAK_ADMIN_PASSWORD: root
     ports:
       - "8080:8080"
+    volumes:
+      - ./keycloak/apollusia:/opt/keycloak/themes/apollusia
 
 volumes:
   database:

@@ -1,0 +1,53 @@
+@import "bootstrap/scss/bootstrap";
+@import "bootstrap-darkmode/scss/mixins/dark-theme";
+
+html, body {
+  height: 100%;
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    @include dark-theme;
+  }
+}
+
+body {
+  display: flex;
+  background: url('../img/keycloak-bg.png') no-repeat center center fixed;
+  background-size: cover;
+}
+
+.login-pf-page-header {
+  @extend .text-center;
+  @extend .h1;
+  @extend .text-light;
+}
+
+.login-pf-page {
+  @extend .container;
+  @extend .align-self-center;
+}
+
+.card-pf {
+  @extend .card;
+}
+
+.login-pf-header {
+  @extend .card-header;
+}
+
+#kc-content {
+  @extend .card-body;
+}
+
+.pf-c-form-control {
+  @extend .form-control;
+}
+
+.pf-c-button {
+  @extend .btn;
+}
+
+.pf-c-button.pf-m-primary {
+  @extend .btn-primary;
+}
