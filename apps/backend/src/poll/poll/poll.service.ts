@@ -45,6 +45,7 @@ export class PollService implements OnModuleInit {
       this.migrateSelection(),
       this.migratePollEvents(),
       this.migrateShowResults(),
+      this.migrateBookedEvents(),
     ]);
   }
 
@@ -112,6 +113,26 @@ export class PollService implements OnModuleInit {
       {timestamps: false},
     ).exec();
     result.modifiedCount && this.logger.log(`Migrated ${result.modifiedCount} polls to the new show result format.`);
+  }
+
+  private async migrateBookedEvents() {
+    // migrate all Poll's bookedEvents: ObjectId[] to Record<ObjectId, true>
+    const polls = await this.pollModel.find({bookedEvents: {$type: 'array'}}).exec();
+    if (!polls.length) {
+      return;
+    }
+
+    for (const poll of polls) {
+      const bookedEvents = poll.bookedEvents as unknown as Types.ObjectId[];
+      const newBookedEvents: Record<string, true> = {};
+      for (const event of bookedEvents) {
+        newBookedEvents[event.toString()] = true;
+      }
+      poll.bookedEvents = newBookedEvents;
+      poll.markModified('bookedEvents');
+    }
+    await this.pollModel.bulkSave(polls, {timestamps: false});
+    this.logger.log(`Migrated ${polls.length} polls to the new booked events format.`);
   }
 
   private activeFilter(active: boolean | undefined): FilterQuery<Poll> {
