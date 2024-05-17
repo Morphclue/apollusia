@@ -1,5 +1,5 @@
 import {PushConfigDto} from '@apollusia/types';
-import {NotFound} from '@mean-stream/nestx';
+import {NotFound} from '@mean-stream/nestx/not-found';
 import {Controller, Get} from '@nestjs/common';
 
 import {PushService} from './push.service';
