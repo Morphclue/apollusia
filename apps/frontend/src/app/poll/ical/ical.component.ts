@@ -67,7 +67,16 @@ export class IcalComponent implements OnInit {
     });
 
     for (const event of this.getExportedEvents()) {
-      const eventParticipants = participants.filter(p => p.selection[event._id] === 'yes' || p.selection[event._id] === 'maybe');
+      const eventParticipants = participants.filter(p => {
+        if (p.selection[event._id] !== 'yes' && p.selection[event._id] !== 'maybe') {
+          return false;
+        }
+        const bookedEvent = poll.bookedEvents[event._id];
+        if (config.onlyBookedEvents && Array.isArray(bookedEvent) && !bookedEvent.includes(p._id)) {
+          return false;
+        }
+        return true;
+      });
 
       let summary = config.customTitle || poll.title;
       if (eventParticipants.length === 1) {
