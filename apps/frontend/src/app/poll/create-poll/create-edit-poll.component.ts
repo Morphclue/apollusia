@@ -2,7 +2,6 @@ import {HttpClient} from '@angular/common/http';
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
-import {SwPush} from '@angular/service-worker';
 import {ShowResultOptions} from '@apollusia/types/lib/schema/show-result-options';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {format} from 'date-fns';
