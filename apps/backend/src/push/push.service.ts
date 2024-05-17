@@ -1,3 +1,4 @@
+import {PushConfigDto} from '@apollusia/types';
 import {Injectable, Logger} from '@nestjs/common';
 import {ConfigService} from '@nestjs/config';
 import * as webpush from 'web-push';
@@ -7,14 +8,20 @@ import {PushSubscription} from 'web-push';
 export class PushService {
   private logger = new Logger(PushService.name);
 
+  config?: PushConfigDto;
+
     constructor(
-        private config: ConfigService,
+        config: ConfigService,
     ) {
       const publicKey = config.get('VAPID_PUBLIC_KEY');
       const privateKey = config.get('VAPID_PRIVATE_KEY');
       const emailSender = config.get('EMAIL_FROM');
       if (publicKey && privateKey && emailSender) {
         webpush.setVapidDetails('mailto:' + emailSender, publicKey, privateKey);
+
+        this.config = {
+          vapidPublicKey: publicKey,
+        };
       } else {
         this.logger.warn('VAPID keys not set. Push notifications will not work.');
       }
