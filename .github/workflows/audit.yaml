@@ -19,10 +19,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Set up pnpm
-        uses: pnpm/action-setup@v3
-        with:
-          version: latest
+      # https://github.com/actions/setup-node/issues/480#issuecomment-1915448139
+      - name: Enable Corepack
+        run: corepack enable
       - name: Set up Node.js LTS
         uses: actions/setup-node@v4
         with:

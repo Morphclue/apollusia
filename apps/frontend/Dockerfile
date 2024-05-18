@@ -1,10 +1,9 @@
 FROM node:lts-slim as builder
 WORKDIR /app
-RUN npm install -g pnpm
 COPY package.json pnpm-lock.yaml ./
-RUN pnpm install
+RUN corepack pnpm install --frozen-lockfile
 COPY . .
-RUN pnpm run build:frontend
+RUN corepack pnpm run build:frontend
 
 FROM node:lts-slim
 WORKDIR /app

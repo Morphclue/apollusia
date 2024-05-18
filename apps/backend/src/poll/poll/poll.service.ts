@@ -317,7 +317,7 @@ export class PollService implements OnModuleInit {
   }
 
   private async sendAdminInfo(poll: Poll & Document, participant: Participant & Document) {
-    const events = await this.getEvents(poll._id.toString());
+    const events = await this.getEvents(poll._id);
     const participation = Array(events.length).fill({});
 
     for (let i = 0; i < events.length; i++) {
