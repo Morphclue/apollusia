@@ -147,13 +147,21 @@ export class PollController {
         return this.pollService.deleteParticipation(id, participantId);
     }
 
-    @Post(':id/book')
-    async bookEvents(@Param('id', ObjectIdPipe) id: Types.ObjectId, @Body() events: string[]): Promise<ReadPollDto> {
-        const poll = await this.pollService.getPoll(id);
-        if (!poll) {
-            throw new NotFoundException(id);
-        }
-
-        return this.pollService.bookEvents(id, events.map(e => new Types.ObjectId(e)));
+  @Post(':id/book')
+  async bookEvents(
+    @Param('id', ObjectIdPipe) id: Types.ObjectId,
+    @Body() events: Record<string, string[] | true>,
+  ): Promise<ReadPollDto> {
+    const poll = await this.pollService.getPoll(id);
+    if (!poll) {
+      throw new NotFoundException(id);
     }
+
+    // convert nested strings to ObjectIds
+    const bookedEvents = Object.fromEntries(Object
+      .entries(events)
+      .map(([key, value]) => [key, value === true ? true as const : value.map(v => new Types.ObjectId(v))]),
+    );
+    return this.pollService.bookEvents(id, bookedEvents);
+  }
 }
