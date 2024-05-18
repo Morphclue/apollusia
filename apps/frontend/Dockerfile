@@ -3,7 +3,8 @@ WORKDIR /app
 COPY package.json pnpm-lock.yaml ./
 RUN corepack pnpm install --frozen-lockfile
 COPY . .
-RUN corepack pnpm run build:frontend
+ARG APP_VERSION
+RUN APP_VERSION=$APP_VERSION corepack pnpm run build:frontend
 
 FROM node:lts-slim
 WORKDIR /app

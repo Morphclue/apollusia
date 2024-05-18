@@ -2,5 +2,6 @@
 .angular/
 .idea/
 .vscode/
+.nx/
 dist/
 node_modules/
