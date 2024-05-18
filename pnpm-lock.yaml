@@ -54,8 +54,8 @@ importers:
         specifier: ^0.13.0
         version: 0.13.0(@angular/common@17.3.9(@angular/core@17.3.9(rxjs@7.8.1)(zone.js@0.14.3))(rxjs@7.8.1))(@angular/core@17.3.9(rxjs@7.8.1)(zone.js@0.14.3))(@angular/router@17.3.9(@angular/common@17.3.9(@angular/core@17.3.9(rxjs@7.8.1)(zone.js@0.14.3))(rxjs@7.8.1))(@angular/core@17.3.9(rxjs@7.8.1)(zone.js@0.14.3))(@angular/platform-browser@17.3.9(@angular/animations@17.3.9(@angular/core@17.3.9(rxjs@7.8.1)(zone.js@0.14.3)))(@angular/common@17.3.9(@angular/core@17.3.9(rxjs@7.8.1)(zone.js@0.14.3))(rxjs@7.8.1))(@angular/core@17.3.9(rxjs@7.8.1)(zone.js@0.14.3)))(rxjs@7.8.1))(@ng-bootstrap/ng-bootstrap@16.0.0(@angular/common@17.3.9(@angular/core@17.3.9(rxjs@7.8.1)(zone.js@0.14.3))(rxjs@7.8.1))(@angular/core@17.3.9(rxjs@7.8.1)(zone.js@0.14.3))(@angular/forms@17.3.9(@angular/common@17.3.9(@angular/core@17.3.9(rxjs@7.8.1)(zone.js@0.14.3))(rxjs@7.8.1))(@angular/core@17.3.9(rxjs@7.8.1)(zone.js@0.14.3))(@angular/platform-browser@17.3.9(@angular/animations@17.3.9(@angular/core@17.3.9(rxjs@7.8.1)(zone.js@0.14.3)))(@angular/common@17.3.9(@angular/core@17.3.9(rxjs@7.8.1)(zone.js@0.14.3))(rxjs@7.8.1))(@angular/core@17.3.9(rxjs@7.8.1)(zone.js@0.14.3)))(rxjs@7.8.1))(@angular/localize@17.3.9(@angular/compiler-cli@17.3.9(@angular/compiler@17.3.9(@angular/core@17.3.9(rxjs@7.8.1)(zone.js@0.14.3)))(typescript@5.4.3))(@angular/compiler@17.3.9(@angular/core@17.3.9(rxjs@7.8.1)(zone.js@0.14.3))))(@popperjs/core@2.11.8)(rxjs@7.8.1))(bootstrap@5.3.3(@popperjs/core@2.11.8))(class-validator@0.14.1)(reflect-metadata@0.1.14)
       '@nestjs-modules/mailer':
-        specifier: ^1.11.2
-        version: 1.11.2(@nestjs/common@10.3.8(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.1.14)(rxjs@7.8.1))(@nestjs/core@10.3.8(@nestjs/common@10.3.8(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.1.14)(rxjs@7.8.1))(@nestjs/platform-express@10.3.8)(encoding@0.1.13)(reflect-metadata@0.1.14)(rxjs@7.8.1))(encoding@0.1.13)(nodemailer@6.9.13)
+        specifier: ^2.0.2
+        version: 2.0.2(@nestjs/common@10.3.8(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.1.14)(rxjs@7.8.1))(@nestjs/core@10.3.8(@nestjs/common@10.3.8(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.1.14)(rxjs@7.8.1))(@nestjs/platform-express@10.3.8)(encoding@0.1.13)(reflect-metadata@0.1.14)(rxjs@7.8.1))(encoding@0.1.13)(nodemailer@6.9.13)
       '@nestjs/common':
         specifier: ^10.3.8
         version: 10.3.8(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.1.14)(rxjs@7.8.1)
@@ -120,8 +120,8 @@ importers:
         specifier: ^4.7.8
         version: 4.7.8
       ical-generator:
-        specifier: ^6.0.1
-        version: 6.0.1(@types/node@20.11.13)(dayjs@1.11.11)
+        specifier: ^7.1.0
+        version: 7.1.0(@types/node@20.11.13)(dayjs@1.11.11)
       markdown-it:
         specifier: ^14.1.0
         version: 14.1.0
@@ -232,8 +232,8 @@ importers:
         specifier: ^29.5.12
         version: 29.5.12
       '@types/markdown-it':
-        specifier: ^13.0.8
-        version: 13.0.8
+        specifier: ^14.1.1
+        version: 14.1.1
       '@types/node':
         specifier: 20.11.13
         version: 20.11.13
@@ -1246,56 +1246,68 @@ packages:
     resolution: {integrity: sha512-IchNf6dN4tHoMFIn/7OE8LWZ19Y6q/67Bmf6vnGREv8RSbBVb9LPJxEcnwrcwX6ixSvaiGoomAUvu4YSxXrVgw==}
     engines: {node: '>=12'}
 
-  '@css-inline/css-inline-darwin-arm64@0.13.0':
-    resolution: {integrity: sha512-A4QvlZdhp8v+3IHKF/UftRf5GrAVUMEHCGRuk2Dx594xn/UR4ieh+B70aMm5rfONh2hv5mlR9UcoYAkVpEQ99g==}
+  '@css-inline/css-inline-android-arm-eabi@0.14.1':
+    resolution: {integrity: sha512-LNUR8TY4ldfYi0mi/d4UNuHJ+3o8yLQH9r2Nt6i4qeg1i7xswfL3n/LDLRXvGjBYqeEYNlhlBQzbPwMX1qrU6A==}
+    engines: {node: '>= 10'}
+    cpu: [arm]
+    os: [android]
+
+  '@css-inline/css-inline-android-arm64@0.14.1':
+    resolution: {integrity: sha512-tH5us0NYGoTNBHOUHVV7j9KfJ4DtFOeTLA3cM0XNoMtArNu2pmaaBMFJPqECzavfXkLc7x5Z22UPZYjoyHfvCA==}
+    engines: {node: '>= 10'}
+    cpu: [arm64]
+    os: [android]
+
+  '@css-inline/css-inline-darwin-arm64@0.14.1':
+    resolution: {integrity: sha512-QE5W1YRIfRayFrtrcK/wqEaxNaqLULPI0gZB4ArbFRd3d56IycvgBasDTHPre5qL2cXCO3VyPx+80XyHOaVkag==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [darwin]
 
-  '@css-inline/css-inline-darwin-x64@0.13.0':
-    resolution: {integrity: sha512-px9z4ypzeECMyBEtlrNzTMpA1tnw5MmMIiMkBRhb8UGRr2pOBZY3yd/eEIxWzVVSPt0aIjVDwUOJ3+d0Z+BskA==}
+  '@css-inline/css-inline-darwin-x64@0.14.1':
+    resolution: {integrity: sha512-mAvv2sN8awNFsbvBzlFkZPbCNZ6GCWY5/YcIz7V5dPYw+bHHRbjnlkNTEZq5BsDxErVrMIGvz05PGgzuNvZvdQ==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [darwin]
 
-  '@css-inline/css-inline-linux-arm-gnueabihf@0.13.0':
-    resolution: {integrity: sha512-+uo0coLQNgk/AKeOB8mXSRd8VIlUg38zRSB9B9q0ior9oBCDPtEdn1HuCSvWxHoOSJ8QNNk+uwbz0zW4CETzFw==}
+  '@css-inline/css-inline-linux-arm-gnueabihf@0.14.1':
+    resolution: {integrity: sha512-AWC44xL0X7BgKvrWEqfSqkT2tJA5kwSGrAGT+m0gt11wnTYySvQ6YpX0fTY9i3ppYGu4bEdXFjyK2uY1DTQMHA==}
     engines: {node: '>= 10'}
     cpu: [arm]
     os: [linux]
 
-  '@css-inline/css-inline-linux-arm64-gnu@0.13.0':
-    resolution: {integrity: sha512-GVrsFbY5l0Hxyzxsm5S5JPGObvHm/Ybf2wZgnWBsQigxqGtr1FL535HaTwEnq6aHOpH3f08gR5Vx33gB7jG4pw==}
+  '@css-inline/css-inline-linux-arm64-gnu@0.14.1':
+    resolution: {integrity: sha512-drj0ciiJgdP3xKXvNAt4W+FH4KKMs8vB5iKLJ3HcH07sNZj58Sx++2GxFRS1el3p+GFp9OoYA6dgouJsGEqt0Q==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [linux]
 
-  '@css-inline/css-inline-linux-arm64-musl@0.13.0':
-    resolution: {integrity: sha512-V5h5+CRnE01EgoafI/kyjEcM8zvN+sKLnp17Aq9LqQfsut7mO3i72d8g/xeVC37DCLoGQFLvDCzbze2NbF2dIQ==}
+  '@css-inline/css-inline-linux-arm64-musl@0.14.1':
+    resolution: {integrity: sha512-FzknI+st8eA8YQSdEJU9ykcM0LZjjigBuynVF5/p7hiMm9OMP8aNhWbhZ8LKJpKbZrQsxSGS4g9Vnr6n6FiSdQ==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [linux]
 
-  '@css-inline/css-inline-linux-x64-gnu@0.13.0':
-    resolution: {integrity: sha512-vbRV++73MW7dvz/AIbozkv4R68/k/sEp57hno/L6lx034VYxpCwdfqtGN4D0W1TOTzdr2b6qBOGNZ1oLKQZOQQ==}
+  '@css-inline/css-inline-linux-x64-gnu@0.14.1':
+    resolution: {integrity: sha512-yubbEye+daDY/4vXnyASAxH88s256pPati1DfVoZpU1V0+KP0BZ1dByZOU1ktExurbPH3gZOWisAnBE9xon0Uw==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [linux]
 
-  '@css-inline/css-inline-linux-x64-musl@0.13.0':
-    resolution: {integrity: sha512-2tCnwU23W/yMs9cGc2/i2jd9y2pjuntx0a5OytqX7s9fvUtmI3nc0Od6wuf51LnmdU+XAU8HLT9pZppsQiwPfQ==}
+  '@css-inline/css-inline-linux-x64-musl@0.14.1':
+    resolution: {integrity: sha512-6CRAZzoy1dMLPC/tns2rTt1ZwPo0nL/jYBEIAsYTCWhfAnNnpoLKVh5Nm+fSU3OOwTTqU87UkGrFJhObD/wobQ==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [linux]
 
-  '@css-inline/css-inline-win32-x64-msvc@0.13.0':
-    resolution: {integrity: sha512-6VFhFSXp4FH+NzJhLd6fFi7jKCPvIRW+vq0tV+CPuiQ3zPzMfC9nIk8sB/1VJR8EcvBAjMV53YnacuDjRFRT9g==}
+  '@css-inline/css-inline-win32-x64-msvc@0.14.1':
+    resolution: {integrity: sha512-nzotGiaiuiQW78EzsiwsHZXbxEt6DiMUFcDJ6dhiliomXxnlaPyBfZb6/FMBgRJOf6sknDt/5695OttNmbMYzg==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [win32]
 
-  '@css-inline/css-inline@0.13.0':
-    resolution: {integrity: sha512-ZozAXBiW1I8hf6eW5eTNqhxUdNOBxrNNxxUnQRiKQpWcs5ORuGaiWwV5focMBTJ5WXGN+Z8VLP93BOwWFPzCJw==}
+  '@css-inline/css-inline@0.14.1':
+    resolution: {integrity: sha512-u4eku+hnPqqHIGq/ZUQcaP0TrCbYeLIYBaK7qClNRGZbnh8RC4gVxLEIo8Pceo1nOK9E5G4Lxzlw5KnXcvflfA==}
     engines: {node: '>= 10'}
 
   '@cypress/request@3.0.1':
@@ -1929,8 +1941,8 @@ packages:
   '@mongodb-js/saslprep@1.1.7':
     resolution: {integrity: sha512-dCHW/oEX0KJ4NjDULBo3JiOaK5+6axtpBbS+ao2ZInoAL9/YRQLhXzSNAFz7hP4nzLkIqsfYAK/PDE3+XHny0Q==}
 
-  '@nestjs-modules/mailer@1.11.2':
-    resolution: {integrity: sha512-k07wyKbtCzxWMm6IqGwcGIisnXD/6sneGvUR8rBBZbxtLn1HE1FLGyiaXBrPui/0K7W41aS9x9jAIhfTawtlUg==}
+  '@nestjs-modules/mailer@2.0.2':
+    resolution: {integrity: sha512-+z4mADQasg0H1ZaGu4zZTuKv2pu+XdErqx99PLFPzCDNTN/q9U59WPgkxVaHnsvKHNopLj5Xap7G4ZpptduoYw==}
     peerDependencies:
       '@nestjs/common': '>=7.0.9'
       '@nestjs/core': '>=7.0.9'
@@ -2534,17 +2546,23 @@ packages:
   '@types/json5@0.0.29':
     resolution: {integrity: sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==}
 
-  '@types/linkify-it@3.0.5':
-    resolution: {integrity: sha512-yg6E+u0/+Zjva+buc3EIb+29XEg4wltq7cSmd4Uc2EE/1nUVmxyzpX6gUXD0V8jIrG0r7YeOGVIbYRkxeooCtw==}
+  '@types/linkify-it@5.0.0':
+    resolution: {integrity: sha512-sVDA58zAw4eWAffKOaQH5/5j3XeayukzDk+ewSsnv3p4yJEZHCCzMDiZM8e0OUrRvmpGZ85jf4yDHkHsgBNr9Q==}
 
-  '@types/markdown-it@13.0.8':
-    resolution: {integrity: sha512-V+KmpgiipS+zoypeUSS9ojesWtY/0k4XfqcK2fnVrX/qInJhX7rsCxZ/rygiPH2zxlPPrhfuW0I6ddMcWTKLsg==}
+  '@types/markdown-it@14.1.1':
+    resolution: {integrity: sha512-4NpsnpYl2Gt1ljyBGrKMxFYAYvpqbnnkgP/i/g+NLpjEUa3obn1XJCur9YbEXKDAkaXqsR1LbDnGEJ0MmKFxfg==}
 
-  '@types/mdurl@1.0.5':
-    resolution: {integrity: sha512-6L6VymKTzYSrEf4Nev4Xa1LCHKrlTlYCBMTlQKFuddo1CvQcE52I0mwfOJayueUC7MJuXOeHTcIU683lzd0cUA==}
+  '@types/mdurl@2.0.0':
+    resolution: {integrity: sha512-RGdgjQUZba5p6QEFAVx2OGb8rQDL/cPRG7GiedRzMcJ1tYnUANBncjbSB1NRGwbvjcPeikRABz2nshyPk1bhWg==}
 
   '@types/mime@1.3.5':
     resolution: {integrity: sha512-/pyBZWSLD2n0dcHE3hq8s8ZvcETHtEuF+3E7XVt0Ig2nvsVQXdghHVcEkIWjy9A0wKfTn97a/PSDYohKIlnP/w==}
+
+  '@types/mjml-core@4.7.4':
+    resolution: {integrity: sha512-hajbYITLm/wJU99Of50Dmn/k4ok+mrhJs4qDdnveJsINdiNJhQd+03C6Kt09vF9biB23cEI4pPeLrJNYfIZf7g==}
+
+  '@types/mjml@4.7.4':
+    resolution: {integrity: sha512-vyi1vzWgMzFMwZY7GSZYX0GU0dmtC8vLHwpgk+NWmwbwRSrlieVyJ9sn5elodwUfklJM7yGl0zQeet1brKTWaQ==}
 
   '@types/node-forge@1.3.11':
     resolution: {integrity: sha512-FQx220y22OKNTqaByeBGqHWYz4cl94tpcxeFdvBo3wjG6XPBuZ0BNgNZRV5J5TFmmcsJ4IzsLkmGRiQbnYsBEQ==}
@@ -4601,8 +4619,8 @@ packages:
   glob-to-regexp@0.4.1:
     resolution: {integrity: sha512-lkX1HJXwyMcprw/5YUZc2s7DrpAiHB21/V+E1rHUrVNokkvB6bqMzT0VfV6/86ZNabt1k14YOIaT7nDvOX3Iiw==}
 
-  glob@10.3.10:
-    resolution: {integrity: sha512-fa46+tv1Ak0UPK1TOy/pZrIybNNt4HCv7SDzwyfiOZkvZLEbjsZkJBPtDHVshZjbecAoAGSC20MjLDG/qr679g==}
+  glob@10.3.12:
+    resolution: {integrity: sha512-TCNv8vJ+xz4QiqTpfOJA7HvYv+tNIRHKfUWw/q+v2jdgN4ebz+KY9tGx5J4rHP0o84mNP+ApH66HRX8us3Khqg==}
     engines: {node: '>=16 || 14 >=14.17'}
     hasBin: true
 
@@ -4802,8 +4820,8 @@ packages:
     resolution: {integrity: sha512-B4FFZ6q/T2jhhksgkbEW3HBvWIfDW85snkQgawt07S7J5QXTk6BkNV+0yAeZrM5QpMAdYlocGoljn0sJ/WQkFw==}
     engines: {node: '>=10.17.0'}
 
-  ical-generator@6.0.1:
-    resolution: {integrity: sha512-m0Li239l4xddH+MveodfAWFFrHrT8F3rGmgR0zyWUe0Mg7Q/XxiPssN+cKer3+WSpfFNyhjdAsqalTUivKl/vQ==}
+  ical-generator@7.1.0:
+    resolution: {integrity: sha512-mv7wW35+YHbaFDQGgFPSnn+SOiN805UvQL8VaMye6F6AgTQCDlT8dc0XIndCHgp22KvOdJ0po795QHoPIAq+kA==}
     engines: {node: '>=18.0.0'}
     peerDependencies:
       '@touch4it/ical-timezones': '>=1.6.0'
@@ -5522,6 +5540,11 @@ packages:
 
   linkify-it@5.0.0:
     resolution: {integrity: sha512-5aHCbzQRADcdP+ATqnDuhhJ/MRIqDkZX5pyjFHRRysS8vZ5AbqGEoFIb6pYHPZ+L/OC2Lc+xT8uHVVR5CAK/wQ==}
+
+  liquidjs@10.13.0:
+    resolution: {integrity: sha512-MnxinZZgtLcbuvwjCuNwsVthDQgcGEJzXRZZIq9rkUILwLbez3286Gsl0P3h9cL3crng45Joh+sCMcoQ0WsL5w==}
+    engines: {node: '>=14'}
+    hasBin: true
 
   listr2@3.14.0:
     resolution: {integrity: sha512-TyWI8G99GX9GjE54cJ+RrNMcIFBfwMPxc3XTFiAYGN4s10hWROGtOg7+O6u6LE3mNkyld7RSLE6nrKBvTfcs3g==}
@@ -9947,40 +9970,48 @@ snapshots:
     dependencies:
       '@jridgewell/trace-mapping': 0.3.9
 
-  '@css-inline/css-inline-darwin-arm64@0.13.0':
+  '@css-inline/css-inline-android-arm-eabi@0.14.1':
     optional: true
 
-  '@css-inline/css-inline-darwin-x64@0.13.0':
+  '@css-inline/css-inline-android-arm64@0.14.1':
     optional: true
 
-  '@css-inline/css-inline-linux-arm-gnueabihf@0.13.0':
+  '@css-inline/css-inline-darwin-arm64@0.14.1':
     optional: true
 
-  '@css-inline/css-inline-linux-arm64-gnu@0.13.0':
+  '@css-inline/css-inline-darwin-x64@0.14.1':
     optional: true
 
-  '@css-inline/css-inline-linux-arm64-musl@0.13.0':
+  '@css-inline/css-inline-linux-arm-gnueabihf@0.14.1':
     optional: true
 
-  '@css-inline/css-inline-linux-x64-gnu@0.13.0':
+  '@css-inline/css-inline-linux-arm64-gnu@0.14.1':
     optional: true
 
-  '@css-inline/css-inline-linux-x64-musl@0.13.0':
+  '@css-inline/css-inline-linux-arm64-musl@0.14.1':
     optional: true
 
-  '@css-inline/css-inline-win32-x64-msvc@0.13.0':
+  '@css-inline/css-inline-linux-x64-gnu@0.14.1':
     optional: true
 
-  '@css-inline/css-inline@0.13.0':
+  '@css-inline/css-inline-linux-x64-musl@0.14.1':
+    optional: true
+
+  '@css-inline/css-inline-win32-x64-msvc@0.14.1':
+    optional: true
+
+  '@css-inline/css-inline@0.14.1':
     optionalDependencies:
-      '@css-inline/css-inline-darwin-arm64': 0.13.0
-      '@css-inline/css-inline-darwin-x64': 0.13.0
-      '@css-inline/css-inline-linux-arm-gnueabihf': 0.13.0
-      '@css-inline/css-inline-linux-arm64-gnu': 0.13.0
-      '@css-inline/css-inline-linux-arm64-musl': 0.13.0
-      '@css-inline/css-inline-linux-x64-gnu': 0.13.0
-      '@css-inline/css-inline-linux-x64-musl': 0.13.0
-      '@css-inline/css-inline-win32-x64-msvc': 0.13.0
+      '@css-inline/css-inline-android-arm-eabi': 0.14.1
+      '@css-inline/css-inline-android-arm64': 0.14.1
+      '@css-inline/css-inline-darwin-arm64': 0.14.1
+      '@css-inline/css-inline-darwin-x64': 0.14.1
+      '@css-inline/css-inline-linux-arm-gnueabihf': 0.14.1
+      '@css-inline/css-inline-linux-arm64-gnu': 0.14.1
+      '@css-inline/css-inline-linux-arm64-musl': 0.14.1
+      '@css-inline/css-inline-linux-x64-gnu': 0.14.1
+      '@css-inline/css-inline-linux-x64-musl': 0.14.1
+      '@css-inline/css-inline-win32-x64-msvc': 0.14.1
 
   '@cypress/request@3.0.1':
     dependencies:
@@ -10506,20 +10537,22 @@ snapshots:
     dependencies:
       sparse-bitfield: 3.0.3
 
-  '@nestjs-modules/mailer@1.11.2(@nestjs/common@10.3.8(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.1.14)(rxjs@7.8.1))(@nestjs/core@10.3.8(@nestjs/common@10.3.8(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.1.14)(rxjs@7.8.1))(@nestjs/platform-express@10.3.8)(encoding@0.1.13)(reflect-metadata@0.1.14)(rxjs@7.8.1))(encoding@0.1.13)(nodemailer@6.9.13)':
+  '@nestjs-modules/mailer@2.0.2(@nestjs/common@10.3.8(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.1.14)(rxjs@7.8.1))(@nestjs/core@10.3.8(@nestjs/common@10.3.8(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.1.14)(rxjs@7.8.1))(@nestjs/platform-express@10.3.8)(encoding@0.1.13)(reflect-metadata@0.1.14)(rxjs@7.8.1))(encoding@0.1.13)(nodemailer@6.9.13)':
     dependencies:
-      '@css-inline/css-inline': 0.13.0
+      '@css-inline/css-inline': 0.14.1
       '@nestjs/common': 10.3.8(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.1.14)(rxjs@7.8.1)
       '@nestjs/core': 10.3.8(@nestjs/common@10.3.8(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.1.14)(rxjs@7.8.1))(@nestjs/platform-express@10.3.8)(encoding@0.1.13)(reflect-metadata@0.1.14)(rxjs@7.8.1)
-      glob: 10.3.10
-      mjml: 4.15.3(encoding@0.1.13)
+      glob: 10.3.12
       nodemailer: 6.9.13
-      preview-email: 3.0.19
     optionalDependencies:
       '@types/ejs': 3.1.5
+      '@types/mjml': 4.7.4
       '@types/pug': 2.0.10
       ejs: 3.1.10
       handlebars: 4.7.8
+      liquidjs: 10.13.0
+      mjml: 4.15.3(encoding@0.1.13)
+      preview-email: 3.0.19
       pug: 3.0.2
     transitivePeerDependencies:
       - encoding
@@ -11360,7 +11393,8 @@ snapshots:
       - '@swc/core'
       - debug
 
-  '@one-ini/wasm@0.1.1': {}
+  '@one-ini/wasm@0.1.1':
+    optional: true
 
   '@phenomnomnominal/tsquery@5.0.1(typescript@5.4.3)':
     dependencies:
@@ -11442,6 +11476,7 @@ snapshots:
     dependencies:
       domhandler: 5.0.3
       selderee: 0.11.0
+    optional: true
 
   '@sigstore/bundle@2.3.2':
     dependencies:
@@ -11617,16 +11652,24 @@ snapshots:
 
   '@types/json5@0.0.29': {}
 
-  '@types/linkify-it@3.0.5': {}
+  '@types/linkify-it@5.0.0': {}
 
-  '@types/markdown-it@13.0.8':
+  '@types/markdown-it@14.1.1':
     dependencies:
-      '@types/linkify-it': 3.0.5
-      '@types/mdurl': 1.0.5
+      '@types/linkify-it': 5.0.0
+      '@types/mdurl': 2.0.0
 
-  '@types/mdurl@1.0.5': {}
+  '@types/mdurl@2.0.0': {}
 
   '@types/mime@1.3.5': {}
+
+  '@types/mjml-core@4.7.4':
+    optional: true
+
+  '@types/mjml@4.7.4':
+    dependencies:
+      '@types/mjml-core': 4.7.4
+    optional: true
 
   '@types/node-forge@1.3.11':
     dependencies:
@@ -12016,7 +12059,8 @@ snapshots:
 
   acorn-walk@8.3.2: {}
 
-  acorn@7.4.1: {}
+  acorn@7.4.1:
+    optional: true
 
   acorn@8.11.3: {}
 
@@ -12086,6 +12130,7 @@ snapshots:
     dependencies:
       esprima: 1.2.5
       estraverse: 1.9.3
+    optional: true
 
   angular-calendar@0.31.1(@angular/core@17.3.9(rxjs@7.8.1)(zone.js@0.14.3)):
     dependencies:
@@ -12216,7 +12261,8 @@ snapshots:
       is-array-buffer: 3.0.4
       is-shared-array-buffer: 1.0.3
 
-  asap@2.0.6: {}
+  asap@2.0.6:
+    optional: true
 
   asn1.js@5.4.1:
     dependencies:
@@ -12229,7 +12275,8 @@ snapshots:
     dependencies:
       safer-buffer: 2.1.2
 
-  assert-never@1.2.1: {}
+  assert-never@1.2.1:
+    optional: true
 
   assert-plus@1.0.0: {}
 
@@ -12432,6 +12479,7 @@ snapshots:
   babel-walk@3.0.0-canary-5:
     dependencies:
       '@babel/types': 7.24.5
+    optional: true
 
   balanced-match@1.0.2: {}
 
@@ -12640,6 +12688,7 @@ snapshots:
     dependencies:
       no-case: 2.3.2
       upper-case: 1.1.3
+    optional: true
 
   camelcase@5.3.1: {}
 
@@ -12666,6 +12715,7 @@ snapshots:
     dependencies:
       ansi-styles: 4.3.0
       supports-color: 7.2.0
+    optional: true
 
   chalk@4.1.2:
     dependencies:
@@ -12679,6 +12729,7 @@ snapshots:
   character-parser@2.2.0:
     dependencies:
       is-regex: 1.1.4
+    optional: true
 
   chardet@0.7.0: {}
 
@@ -12692,6 +12743,7 @@ snapshots:
       domelementtype: 2.3.0
       domhandler: 5.0.3
       domutils: 3.1.0
+    optional: true
 
   cheerio@1.0.0-rc.12:
     dependencies:
@@ -12702,6 +12754,7 @@ snapshots:
       htmlparser2: 8.0.2
       parse5: 7.1.2
       parse5-htmlparser2-tree-adapter: 7.0.0
+    optional: true
 
   chokidar@3.6.0:
     dependencies:
@@ -12734,6 +12787,7 @@ snapshots:
   clean-css@4.2.4:
     dependencies:
       source-map: 0.6.1
+    optional: true
 
   clean-stack@2.2.0: {}
 
@@ -12801,7 +12855,8 @@ snapshots:
     dependencies:
       delayed-stream: 1.0.0
 
-  commander@10.0.1: {}
+  commander@10.0.1:
+    optional: true
 
   commander@2.20.3: {}
 
@@ -12852,6 +12907,7 @@ snapshots:
     dependencies:
       ini: 1.3.8
       proto-list: 1.2.4
+    optional: true
 
   confusing-browser-globals@1.0.11: {}
 
@@ -12874,6 +12930,7 @@ snapshots:
     dependencies:
       '@babel/parser': 7.24.5
       '@babel/types': 7.24.5
+    optional: true
 
   content-disposition@0.5.4:
     dependencies:
@@ -12991,6 +13048,7 @@ snapshots:
       semver: 5.7.2
       shebang-command: 1.2.0
       which: 1.3.1
+    optional: true
 
   cross-spawn@7.0.3:
     dependencies:
@@ -13215,7 +13273,8 @@ snapshots:
 
   dedent@1.5.3: {}
 
-  deep-extend@0.6.0: {}
+  deep-extend@0.6.0:
+    optional: true
 
   deep-is@0.1.4: {}
 
@@ -13255,7 +13314,8 @@ snapshots:
 
   destroy@1.2.0: {}
 
-  detect-indent@6.1.0: {}
+  detect-indent@6.1.0:
+    optional: true
 
   detect-newline@3.1.0: {}
 
@@ -13282,6 +13342,7 @@ snapshots:
     dependencies:
       escape-string-applescript: 1.0.0
       run-applescript: 3.2.0
+    optional: true
 
   dns-packet@5.6.1:
     dependencies:
@@ -13295,13 +13356,15 @@ snapshots:
     dependencies:
       esutils: 2.0.3
 
-  doctypes@1.1.0: {}
+  doctypes@1.1.0:
+    optional: true
 
   dom-serializer@1.4.1:
     dependencies:
       domelementtype: 2.3.0
       domhandler: 4.3.1
       entities: 2.2.0
+    optional: true
 
   dom-serializer@2.0.0:
     dependencies:
@@ -13318,10 +13381,12 @@ snapshots:
   domhandler@3.3.0:
     dependencies:
       domelementtype: 2.3.0
+    optional: true
 
   domhandler@4.3.1:
     dependencies:
       domelementtype: 2.3.0
+    optional: true
 
   domhandler@5.0.3:
     dependencies:
@@ -13332,6 +13397,7 @@ snapshots:
       dom-serializer: 1.4.1
       domelementtype: 2.3.0
       domhandler: 4.3.1
+    optional: true
 
   domutils@3.1.0:
     dependencies:
@@ -13372,6 +13438,7 @@ snapshots:
       commander: 10.0.1
       minimatch: 9.0.1
       semver: 7.6.2
+    optional: true
 
   ee-first@1.1.1: {}
 
@@ -13391,9 +13458,11 @@ snapshots:
 
   encodeurl@1.0.2: {}
 
-  encoding-japanese@2.0.0: {}
+  encoding-japanese@2.0.0:
+    optional: true
 
-  encoding-japanese@2.1.0: {}
+  encoding-japanese@2.1.0:
+    optional: true
 
   encoding@0.1.13:
     dependencies:
@@ -13449,7 +13518,8 @@ snapshots:
       ansi-colors: 4.1.3
       strip-ansi: 6.0.1
 
-  entities@2.2.0: {}
+  entities@2.2.0:
+    optional: true
 
   entities@4.5.0: {}
 
@@ -13629,11 +13699,13 @@ snapshots:
 
   escalade@3.1.2: {}
 
-  escape-goat@3.0.0: {}
+  escape-goat@3.0.0:
+    optional: true
 
   escape-html@1.0.3: {}
 
-  escape-string-applescript@1.0.0: {}
+  escape-string-applescript@1.0.0:
+    optional: true
 
   escape-string-regexp@1.0.5: {}
 
@@ -13773,7 +13845,8 @@ snapshots:
       acorn-jsx: 5.3.2(acorn@8.11.3)
       eslint-visitor-keys: 3.4.3
 
-  esprima@1.2.5: {}
+  esprima@1.2.5:
+    optional: true
 
   esprima@4.0.1: {}
 
@@ -13785,7 +13858,8 @@ snapshots:
     dependencies:
       estraverse: 5.3.0
 
-  estraverse@1.9.3: {}
+  estraverse@1.9.3:
+    optional: true
 
   estraverse@4.3.0: {}
 
@@ -13810,6 +13884,7 @@ snapshots:
       p-finally: 1.0.0
       signal-exit: 3.0.7
       strip-eof: 1.0.0
+    optional: true
 
   execa@4.1.0:
     dependencies:
@@ -13887,7 +13962,8 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  extend-object@1.0.0: {}
+  extend-object@1.0.0:
+    optional: true
 
   extend@3.0.2: {}
 
@@ -14027,6 +14103,7 @@ snapshots:
       detect-newline: 3.1.0
       extend-object: 1.0.0
       rc: 1.2.8
+    optional: true
 
   flat-cache@3.2.0:
     dependencies:
@@ -14157,9 +14234,11 @@ snapshots:
 
   get-package-type@0.1.0: {}
 
-  get-port@5.1.1: {}
+  get-port@5.1.1:
+    optional: true
 
-  get-stream@3.0.0: {}
+  get-stream@3.0.0:
+    optional: true
 
   get-stream@5.2.0:
     dependencies:
@@ -14191,7 +14270,7 @@ snapshots:
 
   glob-to-regexp@0.4.1: {}
 
-  glob@10.3.10:
+  glob@10.3.12:
     dependencies:
       foreground-child: 3.1.1
       jackspeak: 2.3.6
@@ -14332,6 +14411,7 @@ snapshots:
       param-case: 2.1.1
       relateurl: 0.2.7
       uglify-js: 3.17.4
+    optional: true
 
   html-to-text@9.0.5:
     dependencies:
@@ -14340,6 +14420,7 @@ snapshots:
       dom-serializer: 2.0.0
       htmlparser2: 8.0.2
       selderee: 0.11.0
+    optional: true
 
   htmlparser2@5.0.1:
     dependencies:
@@ -14347,6 +14428,7 @@ snapshots:
       domhandler: 3.3.0
       domutils: 2.8.0
       entities: 2.2.0
+    optional: true
 
   htmlparser2@8.0.2:
     dependencies:
@@ -14361,6 +14443,7 @@ snapshots:
       domhandler: 5.0.3
       domutils: 3.1.0
       entities: 4.5.0
+    optional: true
 
   http-cache-semantics@4.1.1: {}
 
@@ -14463,7 +14546,7 @@ snapshots:
 
   human-signals@2.1.0: {}
 
-  ical-generator@6.0.1(@types/node@20.11.13)(dayjs@1.11.11):
+  ical-generator@7.1.0(@types/node@20.11.13)(dayjs@1.11.11):
     dependencies:
       uuid-random: 1.3.2
     optionalDependencies:
@@ -14528,7 +14611,8 @@ snapshots:
 
   inherits@2.0.4: {}
 
-  ini@1.3.8: {}
+  ini@1.3.8:
+    optional: true
 
   ini@2.0.0: {}
 
@@ -14611,6 +14695,7 @@ snapshots:
     dependencies:
       acorn: 7.4.1
       object-assign: 4.1.1
+    optional: true
 
   is-extglob@2.1.1: {}
 
@@ -14653,7 +14738,8 @@ snapshots:
 
   is-potential-custom-element-name@1.0.1: {}
 
-  is-promise@2.2.2: {}
+  is-promise@2.2.2:
+    optional: true
 
   is-regex@1.1.4:
     dependencies:
@@ -14664,7 +14750,8 @@ snapshots:
     dependencies:
       call-bind: 1.0.7
 
-  is-stream@1.1.0: {}
+  is-stream@1.1.0:
+    optional: true
 
   is-stream@2.0.1: {}
 
@@ -15128,10 +15215,13 @@ snapshots:
       glob: 10.3.15
       js-cookie: 3.0.5
       nopt: 7.2.1
+    optional: true
 
-  js-cookie@3.0.5: {}
+  js-cookie@3.0.5:
+    optional: true
 
-  js-stringify@1.0.2: {}
+  js-stringify@1.0.2:
+    optional: true
 
   js-tokens@4.0.0: {}
 
@@ -15241,6 +15331,7 @@ snapshots:
     dependencies:
       is-promise: 2.2.2
       promise: 7.3.1
+    optional: true
 
   juice@10.0.0(encoding@0.1.13):
     dependencies:
@@ -15251,6 +15342,7 @@ snapshots:
       web-resource-inliner: 6.0.1(encoding@0.1.13)
     transitivePeerDependencies:
       - encoding
+    optional: true
 
   jwa@2.0.0:
     dependencies:
@@ -15286,7 +15378,8 @@ snapshots:
 
   lazy-ass@1.6.0: {}
 
-  leac@0.6.0: {}
+  leac@0.6.0:
+    optional: true
 
   less-loader@11.1.0(less@4.1.3)(webpack@5.91.0(esbuild@0.19.12)):
     dependencies:
@@ -15335,9 +15428,11 @@ snapshots:
       prelude-ls: 1.2.1
       type-check: 0.4.0
 
-  libbase64@1.2.1: {}
+  libbase64@1.2.1:
+    optional: true
 
-  libbase64@1.3.0: {}
+  libbase64@1.3.0:
+    optional: true
 
   libmime@5.2.0:
     dependencies:
@@ -15345,6 +15440,7 @@ snapshots:
       iconv-lite: 0.6.3
       libbase64: 1.2.1
       libqp: 2.0.1
+    optional: true
 
   libmime@5.3.5:
     dependencies:
@@ -15352,12 +15448,15 @@ snapshots:
       iconv-lite: 0.6.3
       libbase64: 1.3.0
       libqp: 2.1.0
+    optional: true
 
   libphonenumber-js@1.11.1: {}
 
-  libqp@2.0.1: {}
+  libqp@2.0.1:
+    optional: true
 
-  libqp@2.1.0: {}
+  libqp@2.1.0:
+    optional: true
 
   license-webpack-plugin@4.0.2(webpack@5.90.3(esbuild@0.20.1)):
     dependencies:
@@ -15382,6 +15481,11 @@ snapshots:
   linkify-it@5.0.0:
     dependencies:
       uc.micro: 2.1.0
+
+  liquidjs@10.13.0:
+    dependencies:
+      commander: 10.0.1
+    optional: true
 
   listr2@3.14.0(enquirer@2.4.1):
     dependencies:
@@ -15444,7 +15548,8 @@ snapshots:
       slice-ansi: 4.0.0
       wrap-ansi: 6.2.0
 
-  lower-case@1.1.4: {}
+  lower-case@1.1.4:
+    optional: true
 
   lru-cache@10.2.2: {}
 
@@ -15484,12 +15589,14 @@ snapshots:
       nodemailer: 6.9.13
       punycode.js: 2.3.1
       tlds: 1.252.0
+    optional: true
 
   mailsplit@5.4.0:
     dependencies:
       libbase64: 1.2.1
       libmime: 5.2.0
       libqp: 2.0.1
+    optional: true
 
   make-dir@2.1.0:
     dependencies:
@@ -15551,7 +15658,8 @@ snapshots:
 
   memory-pager@1.5.0: {}
 
-  mensch@0.3.4: {}
+  mensch@0.3.4:
+    optional: true
 
   merge-descriptors@1.0.1: {}
 
@@ -15576,7 +15684,8 @@ snapshots:
 
   mime@1.6.0: {}
 
-  mime@2.6.0: {}
+  mime@2.6.0:
+    optional: true
 
   mimic-fn@2.1.0: {}
 
@@ -15604,6 +15713,7 @@ snapshots:
   minimatch@9.0.1:
     dependencies:
       brace-expansion: 2.0.1
+    optional: true
 
   minimatch@9.0.3:
     dependencies:
@@ -15666,6 +15776,7 @@ snapshots:
       mjml-core: 4.15.3(encoding@0.1.13)
     transitivePeerDependencies:
       - encoding
+    optional: true
 
   mjml-body@4.15.3(encoding@0.1.13):
     dependencies:
@@ -15674,6 +15785,7 @@ snapshots:
       mjml-core: 4.15.3(encoding@0.1.13)
     transitivePeerDependencies:
       - encoding
+    optional: true
 
   mjml-button@4.15.3(encoding@0.1.13):
     dependencies:
@@ -15682,6 +15794,7 @@ snapshots:
       mjml-core: 4.15.3(encoding@0.1.13)
     transitivePeerDependencies:
       - encoding
+    optional: true
 
   mjml-carousel@4.15.3(encoding@0.1.13):
     dependencies:
@@ -15690,12 +15803,13 @@ snapshots:
       mjml-core: 4.15.3(encoding@0.1.13)
     transitivePeerDependencies:
       - encoding
+    optional: true
 
   mjml-cli@4.15.3(encoding@0.1.13):
     dependencies:
       '@babel/runtime': 7.24.5
       chokidar: 3.6.0
-      glob: 10.3.10
+      glob: 10.3.15
       html-minifier: 4.0.0
       js-beautify: 1.15.1
       lodash: 4.17.21
@@ -15707,6 +15821,7 @@ snapshots:
       yargs: 17.7.2
     transitivePeerDependencies:
       - encoding
+    optional: true
 
   mjml-column@4.15.3(encoding@0.1.13):
     dependencies:
@@ -15715,6 +15830,7 @@ snapshots:
       mjml-core: 4.15.3(encoding@0.1.13)
     transitivePeerDependencies:
       - encoding
+    optional: true
 
   mjml-core@4.15.3(encoding@0.1.13):
     dependencies:
@@ -15730,6 +15846,7 @@ snapshots:
       mjml-validator: 4.15.3
     transitivePeerDependencies:
       - encoding
+    optional: true
 
   mjml-divider@4.15.3(encoding@0.1.13):
     dependencies:
@@ -15738,6 +15855,7 @@ snapshots:
       mjml-core: 4.15.3(encoding@0.1.13)
     transitivePeerDependencies:
       - encoding
+    optional: true
 
   mjml-group@4.15.3(encoding@0.1.13):
     dependencies:
@@ -15746,6 +15864,7 @@ snapshots:
       mjml-core: 4.15.3(encoding@0.1.13)
     transitivePeerDependencies:
       - encoding
+    optional: true
 
   mjml-head-attributes@4.15.3(encoding@0.1.13):
     dependencies:
@@ -15754,6 +15873,7 @@ snapshots:
       mjml-core: 4.15.3(encoding@0.1.13)
     transitivePeerDependencies:
       - encoding
+    optional: true
 
   mjml-head-breakpoint@4.15.3(encoding@0.1.13):
     dependencies:
@@ -15762,6 +15882,7 @@ snapshots:
       mjml-core: 4.15.3(encoding@0.1.13)
     transitivePeerDependencies:
       - encoding
+    optional: true
 
   mjml-head-font@4.15.3(encoding@0.1.13):
     dependencies:
@@ -15770,6 +15891,7 @@ snapshots:
       mjml-core: 4.15.3(encoding@0.1.13)
     transitivePeerDependencies:
       - encoding
+    optional: true
 
   mjml-head-html-attributes@4.15.3(encoding@0.1.13):
     dependencies:
@@ -15778,6 +15900,7 @@ snapshots:
       mjml-core: 4.15.3(encoding@0.1.13)
     transitivePeerDependencies:
       - encoding
+    optional: true
 
   mjml-head-preview@4.15.3(encoding@0.1.13):
     dependencies:
@@ -15786,6 +15909,7 @@ snapshots:
       mjml-core: 4.15.3(encoding@0.1.13)
     transitivePeerDependencies:
       - encoding
+    optional: true
 
   mjml-head-style@4.15.3(encoding@0.1.13):
     dependencies:
@@ -15794,6 +15918,7 @@ snapshots:
       mjml-core: 4.15.3(encoding@0.1.13)
     transitivePeerDependencies:
       - encoding
+    optional: true
 
   mjml-head-title@4.15.3(encoding@0.1.13):
     dependencies:
@@ -15802,6 +15927,7 @@ snapshots:
       mjml-core: 4.15.3(encoding@0.1.13)
     transitivePeerDependencies:
       - encoding
+    optional: true
 
   mjml-head@4.15.3(encoding@0.1.13):
     dependencies:
@@ -15810,6 +15936,7 @@ snapshots:
       mjml-core: 4.15.3(encoding@0.1.13)
     transitivePeerDependencies:
       - encoding
+    optional: true
 
   mjml-hero@4.15.3(encoding@0.1.13):
     dependencies:
@@ -15818,6 +15945,7 @@ snapshots:
       mjml-core: 4.15.3(encoding@0.1.13)
     transitivePeerDependencies:
       - encoding
+    optional: true
 
   mjml-image@4.15.3(encoding@0.1.13):
     dependencies:
@@ -15826,6 +15954,7 @@ snapshots:
       mjml-core: 4.15.3(encoding@0.1.13)
     transitivePeerDependencies:
       - encoding
+    optional: true
 
   mjml-migrate@4.15.3(encoding@0.1.13):
     dependencies:
@@ -15837,6 +15966,7 @@ snapshots:
       yargs: 17.7.2
     transitivePeerDependencies:
       - encoding
+    optional: true
 
   mjml-navbar@4.15.3(encoding@0.1.13):
     dependencies:
@@ -15845,6 +15975,7 @@ snapshots:
       mjml-core: 4.15.3(encoding@0.1.13)
     transitivePeerDependencies:
       - encoding
+    optional: true
 
   mjml-parser-xml@4.15.3:
     dependencies:
@@ -15852,6 +15983,7 @@ snapshots:
       detect-node: 2.1.0
       htmlparser2: 9.1.0
       lodash: 4.17.21
+    optional: true
 
   mjml-preset-core@4.15.3(encoding@0.1.13):
     dependencies:
@@ -15883,6 +16015,7 @@ snapshots:
       mjml-wrapper: 4.15.3(encoding@0.1.13)
     transitivePeerDependencies:
       - encoding
+    optional: true
 
   mjml-raw@4.15.3(encoding@0.1.13):
     dependencies:
@@ -15891,6 +16024,7 @@ snapshots:
       mjml-core: 4.15.3(encoding@0.1.13)
     transitivePeerDependencies:
       - encoding
+    optional: true
 
   mjml-section@4.15.3(encoding@0.1.13):
     dependencies:
@@ -15899,6 +16033,7 @@ snapshots:
       mjml-core: 4.15.3(encoding@0.1.13)
     transitivePeerDependencies:
       - encoding
+    optional: true
 
   mjml-social@4.15.3(encoding@0.1.13):
     dependencies:
@@ -15907,6 +16042,7 @@ snapshots:
       mjml-core: 4.15.3(encoding@0.1.13)
     transitivePeerDependencies:
       - encoding
+    optional: true
 
   mjml-spacer@4.15.3(encoding@0.1.13):
     dependencies:
@@ -15915,6 +16051,7 @@ snapshots:
       mjml-core: 4.15.3(encoding@0.1.13)
     transitivePeerDependencies:
       - encoding
+    optional: true
 
   mjml-table@4.15.3(encoding@0.1.13):
     dependencies:
@@ -15923,6 +16060,7 @@ snapshots:
       mjml-core: 4.15.3(encoding@0.1.13)
     transitivePeerDependencies:
       - encoding
+    optional: true
 
   mjml-text@4.15.3(encoding@0.1.13):
     dependencies:
@@ -15931,10 +16069,12 @@ snapshots:
       mjml-core: 4.15.3(encoding@0.1.13)
     transitivePeerDependencies:
       - encoding
+    optional: true
 
   mjml-validator@4.15.3:
     dependencies:
       '@babel/runtime': 7.24.5
+    optional: true
 
   mjml-wrapper@4.15.3(encoding@0.1.13):
     dependencies:
@@ -15944,6 +16084,7 @@ snapshots:
       mjml-section: 4.15.3(encoding@0.1.13)
     transitivePeerDependencies:
       - encoding
+    optional: true
 
   mjml@4.15.3(encoding@0.1.13):
     dependencies:
@@ -15955,6 +16096,7 @@ snapshots:
       mjml-validator: 4.15.3
     transitivePeerDependencies:
       - encoding
+    optional: true
 
   mkdirp@0.5.6:
     dependencies:
@@ -16114,11 +16256,13 @@ snapshots:
       node-gyp-build: 4.8.1
     optional: true
 
-  nice-try@1.0.5: {}
+  nice-try@1.0.5:
+    optional: true
 
   no-case@2.3.2:
     dependencies:
       lower-case: 1.1.4
+    optional: true
 
   node-abort-controller@3.1.1: {}
 
@@ -16218,6 +16362,7 @@ snapshots:
   npm-run-path@2.0.2:
     dependencies:
       path-key: 2.0.1
+    optional: true
 
   npm-run-path@4.0.1:
     dependencies:
@@ -16335,6 +16480,7 @@ snapshots:
     dependencies:
       is-docker: 2.2.1
       is-wsl: 2.2.0
+    optional: true
 
   open@8.4.2:
     dependencies:
@@ -16387,8 +16533,10 @@ snapshots:
   p-event@4.2.0:
     dependencies:
       p-timeout: 3.2.0
+    optional: true
 
-  p-finally@1.0.0: {}
+  p-finally@1.0.0:
+    optional: true
 
   p-limit@2.3.0:
     dependencies:
@@ -16426,12 +16574,14 @@ snapshots:
   p-timeout@3.2.0:
     dependencies:
       p-finally: 1.0.0
+    optional: true
 
   p-try@2.2.0: {}
 
   p-wait-for@3.2.0:
     dependencies:
       p-timeout: 3.2.0
+    optional: true
 
   pacote@17.0.6:
     dependencies:
@@ -16460,6 +16610,7 @@ snapshots:
   param-case@2.1.1:
     dependencies:
       no-case: 2.3.2
+    optional: true
 
   parent-module@1.0.1:
     dependencies:
@@ -16484,6 +16635,7 @@ snapshots:
     dependencies:
       domhandler: 5.0.3
       parse5: 7.1.2
+    optional: true
 
   parse5-sax-parser@7.0.0:
     dependencies:
@@ -16499,6 +16651,7 @@ snapshots:
     dependencies:
       leac: 0.6.0
       peberminta: 0.9.0
+    optional: true
 
   parseurl@1.3.3: {}
 
@@ -16508,7 +16661,8 @@ snapshots:
 
   path-is-absolute@1.0.1: {}
 
-  path-key@2.0.1: {}
+  path-key@2.0.1:
+    optional: true
 
   path-key@3.1.1: {}
 
@@ -16525,7 +16679,8 @@ snapshots:
 
   path-type@4.0.0: {}
 
-  peberminta@0.9.0: {}
+  peberminta@0.9.0:
+    optional: true
 
   pend@1.2.0: {}
 
@@ -16838,6 +16993,7 @@ snapshots:
       p-wait-for: 3.2.0
       pug: 3.0.2
       uuid: 9.0.1
+    optional: true
 
   proc-log@3.0.0: {}
 
@@ -16857,13 +17013,15 @@ snapshots:
   promise@7.3.1:
     dependencies:
       asap: 2.0.6
+    optional: true
 
   prompts@2.4.2:
     dependencies:
       kleur: 3.0.3
       sisteransi: 1.0.5
 
-  proto-list@1.2.4: {}
+  proto-list@1.2.4:
+    optional: true
 
   proxy-addr@2.0.7:
     dependencies:
@@ -16884,6 +17042,7 @@ snapshots:
       constantinople: 4.0.1
       js-stringify: 1.0.2
       pug-runtime: 3.0.1
+    optional: true
 
   pug-code-gen@3.0.2:
     dependencies:
@@ -16895,8 +17054,10 @@ snapshots:
       pug-runtime: 3.0.1
       void-elements: 3.1.0
       with: 7.0.2
+    optional: true
 
-  pug-error@2.0.0: {}
+  pug-error@2.0.0:
+    optional: true
 
   pug-filters@4.0.0:
     dependencies:
@@ -16905,35 +17066,43 @@ snapshots:
       pug-error: 2.0.0
       pug-walk: 2.0.0
       resolve: 1.22.8
+    optional: true
 
   pug-lexer@5.0.1:
     dependencies:
       character-parser: 2.2.0
       is-expression: 4.0.0
       pug-error: 2.0.0
+    optional: true
 
   pug-linker@4.0.0:
     dependencies:
       pug-error: 2.0.0
       pug-walk: 2.0.0
+    optional: true
 
   pug-load@3.0.0:
     dependencies:
       object-assign: 4.1.1
       pug-walk: 2.0.0
+    optional: true
 
   pug-parser@6.0.0:
     dependencies:
       pug-error: 2.0.0
       token-stream: 1.0.0
+    optional: true
 
-  pug-runtime@3.0.1: {}
+  pug-runtime@3.0.1:
+    optional: true
 
   pug-strip-comments@2.0.0:
     dependencies:
       pug-error: 2.0.0
+    optional: true
 
-  pug-walk@2.0.0: {}
+  pug-walk@2.0.0:
+    optional: true
 
   pug@3.0.2:
     dependencies:
@@ -16945,6 +17114,7 @@ snapshots:
       pug-parser: 6.0.0
       pug-runtime: 3.0.1
       pug-strip-comments: 2.0.0
+    optional: true
 
   pump@3.0.0:
     dependencies:
@@ -16994,6 +17164,7 @@ snapshots:
       ini: 1.3.8
       minimist: 1.2.8
       strip-json-comments: 2.0.1
+    optional: true
 
   react-is@18.3.1: {}
 
@@ -17071,7 +17242,8 @@ snapshots:
     dependencies:
       jsesc: 0.5.0
 
-  relateurl@0.2.7: {}
+  relateurl@0.2.7:
+    optional: true
 
   repeat-string@1.6.1: {}
 
@@ -17160,6 +17332,7 @@ snapshots:
   run-applescript@3.2.0:
     dependencies:
       execa: 0.10.0
+    optional: true
 
   run-async@3.0.0: {}
 
@@ -17246,6 +17419,7 @@ snapshots:
   selderee@0.11.0:
     dependencies:
       parseley: 0.12.1
+    optional: true
 
   select-hose@2.0.0: {}
 
@@ -17254,7 +17428,8 @@ snapshots:
       '@types/node-forge': 1.3.11
       node-forge: 1.3.1
 
-  semver@5.7.2: {}
+  semver@5.7.2:
+    optional: true
 
   semver@6.3.1: {}
 
@@ -17363,12 +17538,14 @@ snapshots:
   shebang-command@1.2.0:
     dependencies:
       shebang-regex: 1.0.0
+    optional: true
 
   shebang-command@2.0.0:
     dependencies:
       shebang-regex: 3.0.0
 
-  shebang-regex@1.0.0: {}
+  shebang-regex@1.0.0:
+    optional: true
 
   shebang-regex@3.0.0: {}
 
@@ -17416,7 +17593,8 @@ snapshots:
       astral-regex: 2.0.0
       is-fullwidth-code-point: 3.0.0
 
-  slick@1.12.2: {}
+  slick@1.12.2:
+    optional: true
 
   smart-buffer@4.2.0: {}
 
@@ -17653,11 +17831,13 @@ snapshots:
 
   strip-bom@4.0.0: {}
 
-  strip-eof@1.0.0: {}
+  strip-eof@1.0.0:
+    optional: true
 
   strip-final-newline@2.0.0: {}
 
-  strip-json-comments@2.0.1: {}
+  strip-json-comments@2.0.1:
+    optional: true
 
   strip-json-comments@3.1.1: {}
 
@@ -17799,7 +17979,8 @@ snapshots:
 
   thunky@1.1.0: {}
 
-  tlds@1.252.0: {}
+  tlds@1.252.0:
+    optional: true
 
   tmp@0.0.33:
     dependencies:
@@ -17817,7 +17998,8 @@ snapshots:
 
   toidentifier@1.0.1: {}
 
-  token-stream@1.0.0: {}
+  token-stream@1.0.0:
+    optional: true
 
   tough-cookie@4.1.4:
     dependencies:
@@ -18016,7 +18198,8 @@ snapshots:
 
   uc.micro@2.1.0: {}
 
-  uglify-js@3.17.4: {}
+  uglify-js@3.17.4:
+    optional: true
 
   uid@2.0.2:
     dependencies:
@@ -18072,7 +18255,8 @@ snapshots:
       escalade: 3.1.2
       picocolors: 1.0.1
 
-  upper-case@1.1.3: {}
+  upper-case@1.1.3:
+    optional: true
 
   uri-js@4.4.1:
     dependencies:
@@ -18103,7 +18287,8 @@ snapshots:
       '@types/istanbul-lib-coverage': 2.0.6
       convert-source-map: 2.0.0
 
-  valid-data-url@3.0.1: {}
+  valid-data-url@3.0.1:
+    optional: true
 
   validate-npm-package-license@3.0.4:
     dependencies:
@@ -18135,7 +18320,8 @@ snapshots:
       stylus: 0.59.0
       terser: 5.29.1
 
-  void-elements@3.1.0: {}
+  void-elements@3.1.0:
+    optional: true
 
   w3c-xmlserializer@4.0.0:
     dependencies:
@@ -18183,6 +18369,7 @@ snapshots:
       valid-data-url: 3.0.1
     transitivePeerDependencies:
       - encoding
+    optional: true
 
   webidl-conversions@3.0.1: {}
 
@@ -18417,6 +18604,7 @@ snapshots:
   which@1.3.1:
     dependencies:
       isexe: 2.0.0
+    optional: true
 
   which@2.0.2:
     dependencies:
@@ -18434,6 +18622,7 @@ snapshots:
       '@babel/types': 7.24.5
       assert-never: 1.2.1
       babel-walk: 3.0.0-canary-5
+    optional: true
 
   word-wrap@1.2.5: {}
 
