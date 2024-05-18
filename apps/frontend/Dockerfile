@@ -4,7 +4,8 @@ RUN npm install -g pnpm
 COPY package.json pnpm-lock.yaml ./
 RUN pnpm install
 COPY . .
-RUN pnpm run build:frontend
+ARG APP_VERSION
+RUN APP_VERSION=$APP_VERSION pnpm run build:frontend
 
 FROM node:lts-slim
 WORKDIR /app
