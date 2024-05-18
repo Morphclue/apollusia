@@ -13,6 +13,7 @@
     "lint:backend": "nx lint backend"
   },
   "private": true,
+  "packageManager": "pnpm@8.15.8",
   "devDependencies": {
     "@angular-devkit/build-angular": "~17.3.7",
     "@angular-devkit/core": "~17.3.7",
@@ -115,4 +116,3 @@
   },
   "resolutions": {}
 }
-
