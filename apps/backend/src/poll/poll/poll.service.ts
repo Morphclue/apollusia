@@ -45,6 +45,7 @@ export class PollService implements OnModuleInit {
       this.migrateSelection(),
       this.migratePollEvents(),
       this.migrateShowResults(),
+      this.migrateBookedEvents(),
     ]);
   }
 
@@ -112,6 +113,26 @@ export class PollService implements OnModuleInit {
       {timestamps: false},
     ).exec();
     result.modifiedCount && this.logger.log(`Migrated ${result.modifiedCount} polls to the new show result format.`);
+  }
+
+  private async migrateBookedEvents() {
+    // migrate all Poll's bookedEvents: ObjectId[] to Record<ObjectId, true>
+    const polls = await this.pollModel.find({bookedEvents: {$type: 'array'}}).exec();
+    if (!polls.length) {
+      return;
+    }
+
+    for (const poll of polls) {
+      const bookedEvents = poll.bookedEvents as unknown as Types.ObjectId[];
+      const newBookedEvents: Record<string, true> = {};
+      for (const event of bookedEvents) {
+        newBookedEvents[event.toString()] = true;
+      }
+      poll.bookedEvents = newBookedEvents;
+      poll.markModified('bookedEvents');
+    }
+    await this.pollModel.bulkSave(polls, {timestamps: false});
+    this.logger.log(`Migrated ${polls.length} polls to the new booked events format.`);
   }
 
   private activeFilter(active: boolean | undefined): FilterQuery<Poll> {
@@ -317,7 +338,7 @@ export class PollService implements OnModuleInit {
   }
 
   private async sendAdminInfo(poll: Poll & Document, participant: Participant & Document) {
-    const events = await this.getEvents(poll._id.toString());
+    const events = await this.getEvents(poll._id);
     const participation = Array(events.length).fill({});
 
     for (let i = 0; i < events.length; i++) {
@@ -360,29 +381,55 @@ export class PollService implements OnModuleInit {
     return this.participantModel.findByIdAndDelete(participantId, {projection: readParticipantSelect}).exec();
   }
 
-  async bookEvents(id: Types.ObjectId, events: Types.ObjectId[]): Promise<ReadPollDto> {
+  async bookEvents(id: Types.ObjectId, events: Poll['bookedEvents']): Promise<ReadPollDto> {
     const poll = await this.pollModel.findByIdAndUpdate(id, {
       bookedEvents: events,
     }, {new: true})
-      .populate<{bookedEvents: PollEvent[]}>('bookedEvents')
       .select(readPollSelect)
       .exec();
-    for await (const participant of this.participantModel.find({poll: new Types.ObjectId(id)})) {
-      const appointments = poll.bookedEvents.map(event => {
-        let eventLine = this.renderEvent(event, undefined, poll.timeZone);
-        const selection = participant.selection[event._id.toString()];
-        if (selection === 'yes' || selection === 'maybe') {
-          eventLine += ' *';
-        }
-        return eventLine;
-      });
+    const eventDocs = await this.pollEventModel.find({
+      poll: id,
+      _id: {$in: Object.keys(events).map(e => new Types.ObjectId(e))},
+    });
+    for await (const participant of this.participantModel.find({
+      poll: new Types.ObjectId(id),
+      mail: {$exists: true},
+    })) {
+      const appointments = eventDocs
+        .filter(event => {
+          const booked = events[event._id.toString()];
+          // only show the events to the participant that are either
+          if (booked === true) {
+            // 1) booked entirely, or
+            return true;
+          } else if (Array.isArray(booked)) {
+            // 2) booked for the participant
+            return booked.some(id => participant._id.equals(id));
+          } else {
+            return false;
+          }
+        })
+        .map(event => {
+          let eventLine = this.renderEvent(event, undefined, poll.timeZone);
+          const selection = participant.selection[event._id.toString()];
+          if (selection === 'yes' || selection === 'maybe') {
+            eventLine += ' *';
+          }
+          return eventLine;
+        });
+
+      if (!appointments.length) {
+        // don't send them an email if there are no appointments
+        continue;
+      }
+
       this.mailService.sendMail(participant.name, participant.mail, 'Poll booked', 'book', {
         appointments,
         poll: poll.toObject(),
         participant: participant.toObject(),
-      }).then();
+      }).catch(console.error);
     }
-    return {...poll.toObject(), bookedEvents: events};
+    return poll;
   }
 
   private renderEvent(event: PollEvent, locale?: string, timeZone?: string) {

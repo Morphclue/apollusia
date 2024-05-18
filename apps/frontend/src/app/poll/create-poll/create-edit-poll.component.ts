@@ -2,7 +2,6 @@ import {HttpClient} from '@angular/common/http';
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
-import {SwPush} from '@angular/service-worker';
 import {ShowResultOptions} from '@apollusia/types/lib/schema/show-result-options';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {format} from 'date-fns';
@@ -12,6 +11,7 @@ import {map} from 'rxjs/operators';
 import {environment} from '../../../environments/environment';
 import {MailService, TokenService} from '../../core/services';
 import {CreatePollDto, Poll} from '../../model';
+import {PushService} from '../services/push.service';
 
 @Component({
   selector: 'app-create-edit-poll',
@@ -90,10 +90,10 @@ export class CreateEditPollComponent implements OnInit {
     private modalService: NgbModal,
     private http: HttpClient,
     private router: Router,
-    private route: ActivatedRoute,
+    private pushService: PushService,
     private tokenService: TokenService,
     private mailService: MailService,
-    private swPush: SwPush,
+    route: ActivatedRoute,
   ) {
     const routeId: Observable<string> = route.params.pipe(map(({id}) => id));
     routeId.subscribe((id: string) => {
@@ -121,9 +121,7 @@ export class CreateEditPollComponent implements OnInit {
   async onFormSubmit() {
     const pollForm = this.pollForm.value;
     const deadline = pollForm.deadlineDate ? new Date(pollForm.deadlineDate + ' ' + (pollForm.deadlineTime || '00:00')) : undefined;
-    const pushToken = pollForm.pushUpdates ? await this.swPush.requestSubscription({
-      serverPublicKey: environment.vapidPublicKey,
-    }) : undefined;
+    const pushToken = pollForm.pushUpdates ? await this.pushService.getPushToken().catch(() => undefined) : undefined;
     const createPollDto: CreatePollDto & {adminToken: string} = {
       title: pollForm.title!,
       description: pollForm.description ? pollForm.description : '',
@@ -132,7 +130,7 @@ export class CreateEditPollComponent implements OnInit {
       adminMail: pollForm.emailUpdates ? this.poll?.adminMail || this.mail : undefined,
       adminPush: pollForm.pushUpdates && (this.poll?.adminPush || pushToken?.toJSON()) || undefined,
       timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-      bookedEvents: [],
+      bookedEvents: {},
       settings: {
         deadline: deadline?.toISOString(),
         allowMaybe: !!pollForm.allowMaybe,

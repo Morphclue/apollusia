@@ -93,8 +93,10 @@ export class Poll {
     @ValidateNested()
     settings: Settings;
 
-    @RefArray('PollEvent')
-    bookedEvents: Types.ObjectId[];
+    @Prop({type: Object})
+    @ApiProperty()
+    @IsObject()
+    bookedEvents: Record<string, Types.ObjectId[] | true>;
 }
 
 export const PollSchema = SchemaFactory.createForClass(Poll);
