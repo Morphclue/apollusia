@@ -22,7 +22,7 @@ jobs:
         uses: actions/checkout@v4
       - name: Set Deployment Options
         id: deployment
-        run: ./.github/workflows/deploy.sh
+        run: .github/workflows/deploy.sh
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
       # https://docs.docker.com/build/ci/github-actions/push-multi-registries/
@@ -50,7 +50,7 @@ jobs:
             ${{ secrets.DOCKER_REGISTRY }}/apollusia/${{ matrix.app }}:${{ steps.deployment.outputs.tag }}
             ghcr.io/morphclue/apollusia-${{ matrix.app }}:${{ steps.deployment.outputs.tag }}
           build-args: |
-            APP_VERSION=${{ steps.deployment.outputs.version }}
+            APP_VERSION=${{ steps.deployment.outputs.v_version }}
           cache-to: type=gha,mode=max
           cache-from: type=gha
       # https://github.com/sekassel-research/actions-rancher-update?tab=readme-ov-file#update-service
