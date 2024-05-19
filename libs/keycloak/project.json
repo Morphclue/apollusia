@@ -10,8 +10,8 @@
         "{options.outputPath}"
       ],
       "options": {
-        "outputPath": "dist",
-        "main": "libs/keycloak/src/main.scss",
+        "outputPath": "libs/keycloak/common/resources/css/",
+        "main": "libs/keycloak/src/theme.scss",
         "sourceMap": true
       },
       "configurations": {
@@ -24,8 +24,8 @@
       "executor": "@gitopslovers/nx-sass:compiler",
       "options": {
         "watch": true,
-        "outputPath": "dist",
-        "main": "libs/keycloak/src/main.scss",
+        "outputPath": "libs/keycloak/common/resources/css/",
+        "main": "libs/keycloak/src/theme.scss",
         "sourceMap": true
       }
     },
@@ -39,12 +39,6 @@
           "libs/keycloak/src/**/*.scss"
         ],
         "formatter": "compact"
-      }
-    },
-    "sass": {
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "sass -I node_modules --style compressed libs/keycloak/src/theme.scss:libs/keycloak/common/resources/css/bootstrap-5.css"
       }
     }
   }
