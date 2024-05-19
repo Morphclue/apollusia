@@ -4,7 +4,7 @@ import type {PollEventState} from '@apollusia/types';
 import {Observable} from 'rxjs';
 
 import {environment} from '../../../environments/environment';
-import {CreateParticipantDto, Participant, ReadPoll, ReadPollEvent, UpdateParticipantDto} from '../../model';
+import {CreateParticipantDto, Participant, Poll, ReadPoll, ReadPollEvent, UpdateParticipantDto} from '../../model';
 
 @Injectable({
   providedIn: 'root',
@@ -66,7 +66,7 @@ export class PollService {
     return this.http.get<boolean>(`${environment.backendURL}/poll/${id}/admin/${adminToken}`);
   }
 
-  book(id: string, events: string[]) {
+  book(id: string, events: Poll['bookedEvents']) {
     return this.http.post(`${environment.backendURL}/poll/${id}/book`, events);
   }
 

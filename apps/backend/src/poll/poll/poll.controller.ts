@@ -20,6 +20,7 @@ import {
   Headers,
   NotFoundException,
   Param,
+  ParseArrayPipe,
   ParseBoolPipe,
   Post,
   Put,
@@ -98,7 +99,10 @@ export class PollController {
     }
 
     @Post(':id/events')
-    async postEvents(@Param('id', ObjectIdPipe) id: Types.ObjectId, @Body() pollEvents: PollEventDto[]): Promise<PollEvent[]> {
+    async postEvents(
+      @Param('id', ObjectIdPipe) id: Types.ObjectId,
+      @Body(new ParseArrayPipe({items: PollEventDto})) pollEvents: PollEventDto[],
+    ): Promise<PollEvent[]> {
         const poll = await this.pollService.getPoll(id);
         if (!poll) {
             throw new NotFoundException(id);
@@ -143,13 +147,21 @@ export class PollController {
         return this.pollService.deleteParticipation(id, participantId);
     }
 
-    @Post(':id/book')
-    async bookEvents(@Param('id', ObjectIdPipe) id: Types.ObjectId, @Body() events: string[]): Promise<ReadPollDto> {
-        const poll = await this.pollService.getPoll(id);
-        if (!poll) {
-            throw new NotFoundException(id);
-        }
-
-        return this.pollService.bookEvents(id, events.map(e => new Types.ObjectId(e)));
+  @Post(':id/book')
+  async bookEvents(
+    @Param('id', ObjectIdPipe) id: Types.ObjectId,
+    @Body() events: Record<string, string[] | true>,
+  ): Promise<ReadPollDto> {
+    const poll = await this.pollService.getPoll(id);
+    if (!poll) {
+      throw new NotFoundException(id);
     }
+
+    // convert nested strings to ObjectIds
+    const bookedEvents = Object.fromEntries(Object
+      .entries(events)
+      .map(([key, value]) => [key, value === true ? true as const : value.map(v => new Types.ObjectId(v))]),
+    );
+    return this.pollService.bookEvents(id, bookedEvents);
+  }
 }

@@ -40,11 +40,11 @@ export class ChooseDateService {
     return dragToSelectEvent;
   }
 
-  calculateNewEnd(segment: WeekViewHourSegment, segmentElement: HTMLElement, mouseMoveEvent: any): Date {
+  calculateNewEnd(segment: WeekViewHourSegment, segmentElement: HTMLElement, mouseMoveEvent: any, length: number): Date {
     const segmentPosition = segmentElement.getBoundingClientRect();
     const minutesDifference = this.ceilToNearest(
       (mouseMoveEvent.clientY - segmentPosition.top) / 2,
-      15,
+      length,
     );
 
     const daysDifference =

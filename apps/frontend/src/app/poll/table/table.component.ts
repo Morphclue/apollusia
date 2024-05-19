@@ -3,7 +3,7 @@ import {checkParticipant} from '@apollusia/logic';
 import type {PollEventState} from '@apollusia/types';
 import {ToastService} from '@mean-stream/ngbx';
 
-import {CreateParticipantDto, Participant, ReadPoll, ReadPollEvent, UpdateParticipantDto} from '../../model';
+import {CreateParticipantDto, Participant, Poll, ReadPoll, ReadPollEvent, UpdateParticipantDto} from '../../model';
 import {PollService} from '../services/poll.service';
 
 @Component({
@@ -17,13 +17,12 @@ export class TableComponent implements OnInit {
   @Input() participants: Participant[] = [];
   @Input() isAdmin: boolean = false;
   @Input() canParticipate: boolean = false;
-  @Input() showResults: boolean = false;
   @Input() token: string;
   @Input() bestOption: number = 1;
 
   @Output() changed = new EventEmitter<void>();
 
-  bookedEvents: boolean[] = [];
+  bookedEvents: Poll['bookedEvents'] = {};
 
   newParticipant: CreateParticipantDto = {
     name: '',
@@ -41,7 +40,7 @@ export class TableComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.bookedEvents = this.pollEvents.map(e => this.poll.bookedEvents.includes(e._id));
+    this.bookedEvents = this.poll.bookedEvents || {};
     this.newParticipant.token = this.token;
     this.clearSelection();
     this.validateNew();
@@ -107,14 +106,30 @@ export class TableComponent implements OnInit {
     this.pollService.selectAll(this.poll, this.pollEvents, this.newParticipant, state);
   }
 
+  setBooked(eventId: string, state: boolean) {
+    if (state) {
+      this.bookedEvents[eventId] = true;
+    } else {
+      delete this.bookedEvents[eventId];
+    }
+  }
+
   book() {
-    const events = this.pollEvents.filter((e, i) => this.bookedEvents[i]).map(e => e._id);
-    this.pollService.book(this.poll._id, events).subscribe(() => {
+    this.pollService.book(this.poll._id, this.bookedEvents).subscribe(() => {
       this.toastService.success('Booking', 'Booked events successfully');
     });
   }
 
   private onChange() {
     this.changed.next();
+  }
+
+  setBookedParticipant(eventId: string, participantId: string, state: boolean) {
+    const original = Array.isArray(this.bookedEvents[eventId]) ? this.bookedEvents[eventId] as string[] : [];
+    if (state) {
+      this.bookedEvents[eventId] = [...original, participantId];
+    } else {
+      this.bookedEvents[eventId] = original.filter(id => id !== participantId);
+    }
   }
 }

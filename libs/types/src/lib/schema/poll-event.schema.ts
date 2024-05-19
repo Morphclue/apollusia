@@ -1,7 +1,7 @@
 import {Ref} from '@mean-stream/nestx/ref';
 import {Prop, Schema, SchemaFactory} from '@nestjs/mongoose';
 import {ApiProperty} from '@nestjs/swagger';
-import {IsDate, IsString} from 'class-validator';
+import {IsDate, IsOptional, IsString} from 'class-validator';
 import {Types} from 'mongoose';
 
 import {Poll} from './poll.schema';
@@ -28,8 +28,9 @@ export class PollEvent {
     end: Date;
 
     @Prop()
+    @IsOptional()
     @IsString()
-    note: string;
+    note?: string;
 }
 
 export const PollEventSchema = SchemaFactory.createForClass(PollEvent);

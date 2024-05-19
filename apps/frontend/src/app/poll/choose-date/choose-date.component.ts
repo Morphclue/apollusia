@@ -27,6 +27,7 @@ export class ChooseDateComponent implements AfterViewInit {
   note = '';
   noteEvent?: CalendarEvent;
   disabledBefore = Date.now() - 15 * 60 * 1000;
+  segments = 4;
 
   constructor(
     private modalService: NgbModal,
@@ -80,7 +81,7 @@ export class ChooseDateComponent implements AfterViewInit {
         takeUntil(fromEvent(document, 'mouseup')),
       )
       .subscribe((mouseMoveEvent: any) => {
-        const newEnd = this.chooseDateService.calculateNewEnd(segment, segmentElement, mouseMoveEvent);
+        const newEnd = this.chooseDateService.calculateNewEnd(segment, segmentElement, mouseMoveEvent, 60 / this.segments);
         if (newEnd > segment.date && newEnd < endOfView) {
           dragToSelectEvent.end = newEnd;
           this.previousEventDuration = differenceInMinutes(dragToSelectEvent.end, dragToSelectEvent.start);
@@ -115,7 +116,7 @@ export class ChooseDateComponent implements AfterViewInit {
     return this.chooseDateService.events;
   }
 
-  createEvents() {
+  saveEvents() {
     const events: CreatePollEventDto[] = this.chooseDateService.events.map((event: CalendarEvent) => ({
       _id: event.id?.toString(),
       start: event.start.toISOString(),

@@ -12,6 +12,17 @@ import {StorageService} from '../services/storage.service';
 })
 export class NavbarComponent {
   readonly currentYear = new Date().getFullYear();
+  readonly version = APP_VERSION;
+  readonly changelogLink = (() => {
+    const [version, , commit] = APP_VERSION.split('-');
+    if (commit) {
+      // e.g. v1.0.0-1-g1234567, git describe included the commit, so we show the diff
+      return `compare/${version}...${commit}`;
+    } else {
+      // for tagged versions, just link to the changelog
+      return `releases/tag/${version}`;
+    }
+  })();
 
   themes = [
     {
