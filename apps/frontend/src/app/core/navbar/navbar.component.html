@@ -12,6 +12,22 @@
           <div ngbDropdown>
             <button type="button" class="nav-link bi-person-circle" ngbDropdownToggle></button>
             <div ngbDropdownMenu class="dropdown-menu dropdown-menu-end">
+              @if (user) {
+                <h5 class="dropdown-header">
+                  Logged in as <strong>{{ user.username }}</strong>
+                </h5>
+                <a ngbDropdownItem href="{{ environment.keycloak.url }}/realms/{{ environment.keycloak.realm }}/account" target="_blank" class="bi-person-gear">
+                  Account Settings
+                </a>
+                <button ngbDropdownItem (click)="logout()" class="text-warning bi-box-arrow-right">
+                  Logout
+                </button>
+              } @else {
+                <button ngbDropdownItem (click)="login()" class="bi-box-arrow-in-right">
+                  Login
+                </button>
+              }
+              <div class="dropdown-divider"></div>
               <a ngbDropdownItem routerLink="settings">
                 <i class="bi-gear icon"></i>
                 Settings
