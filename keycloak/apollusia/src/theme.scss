@@ -1,14 +1,7 @@
 @import "bootstrap/scss/bootstrap";
-@import "bootstrap-darkmode/scss/mixins/dark-theme";
 
 html, body {
   height: 100%;
-}
-
-@media (prefers-color-scheme: dark) {
-  body {
-    @include dark-theme;
-  }
 }
 
 body {
