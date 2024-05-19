@@ -30,7 +30,7 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - ./keycloak/apollusia:/opt/keycloak/themes/apollusia
+      - ./libs/keycloak:/opt/keycloak/themes/apollusia
 
 volumes:
   database:

@@ -1,0 +1,51 @@
+{
+  "name": "keycloak",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/keycloak",
+  "targets": {
+    "build": {
+      "executor": "@gitopslovers/nx-sass:compiler",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "options": {
+        "outputPath": "dist",
+        "main": "libs/keycloak/src/main.scss",
+        "sourceMap": true
+      },
+      "configurations": {
+        "production": {},
+        "development": {}
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "executor": "@gitopslovers/nx-sass:compiler",
+      "options": {
+        "watch": true,
+        "outputPath": "dist",
+        "main": "libs/keycloak/src/main.scss",
+        "sourceMap": true
+      }
+    },
+    "lint": {
+      "executor": "nx-stylelint:lint",
+      "outputs": [
+        "{options.outputFile}"
+      ],
+      "options": {
+        "lintFilePatterns": [
+          "libs/keycloak/src/**/*.scss"
+        ],
+        "formatter": "compact"
+      }
+    },
+    "sass": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "sass -I node_modules --style compressed libs/keycloak/src/theme.scss:libs/keycloak/common/resources/css/bootstrap-5.css"
+      }
+    }
+  }
+}

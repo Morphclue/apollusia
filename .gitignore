@@ -42,3 +42,6 @@ Thumbs.db
 .env
 
 .nx/cache
+
+# Theme files
+bootstrap-5*
