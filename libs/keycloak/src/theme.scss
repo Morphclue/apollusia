@@ -14,6 +14,10 @@ body {
   background-size: cover;
 }
 
+#kc-header-wrapper {
+  display: none;
+}
+
 .login-pf-page-header {
   @extend .text-center;
   @extend .h1;
@@ -37,6 +41,11 @@ body {
   @extend .card-header;
   background-color: $french-violet;
   color: $white;
+}
+
+#kc-page-title {
+  @extend .card-title;
+  @extend .h3;
 }
 
 #kc-content {
