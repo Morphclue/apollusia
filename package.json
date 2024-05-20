@@ -11,7 +11,7 @@
     "test:backend": "nx test backend",
     "lint:frontend": "nx lint frontend",
     "lint:backend": "nx lint backend",
-    "sass:keycloak": "nx sass keycloak"
+    "build:keycloak": "nx build keycloak"
   },
   "private": true,
   "packageManager": "pnpm@8.15.8",
