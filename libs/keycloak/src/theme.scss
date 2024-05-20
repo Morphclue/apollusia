@@ -1,8 +1,13 @@
-@import "../../../node_modules/bootstrap/scss/bootstrap";
-
+/* Color palette */
 $french-violet: #7b2cbfff;
 $amethyst: #9d4eddff;
 $white: #ffffff;
+
+/* overrides */
+$primary: $french-violet;
+
+/* imports */
+@import "../../../node_modules/bootstrap/scss/bootstrap";
 
 html, body {
   height: 100%;
@@ -10,7 +15,8 @@ html, body {
 
 body {
   display: flex;
-  background: url('../img/keycloak-bg.png') no-repeat center center fixed $amethyst;
+  background: url('../img/keycloak-bg.png') no-repeat center center fixed, rgba($amethyst, 0.5);
+  background-blend-mode: multiply;
   background-size: cover;
 }
 
@@ -39,7 +45,7 @@ body {
 
 .login-pf-header {
   @extend .card-header;
-  background-color: $french-violet;
+  background-color: $primary;
   color: $white;
 }
 
@@ -62,7 +68,4 @@ body {
 
 .pf-c-button.pf-m-primary {
   @extend .btn-primary;
-  background-color: $french-violet;
-  color: $white;
-  border: none;
 }
