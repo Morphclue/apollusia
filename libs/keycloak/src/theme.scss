@@ -8,6 +8,7 @@ $primary: $french-violet;
 
 /* imports */
 @import "../../../node_modules/bootstrap/scss/bootstrap";
+@import "../../../node_modules/bootstrap-icons/font/bootstrap-icons.scss";
 
 html, body {
   height: 100%;
@@ -68,4 +69,22 @@ body {
 
 .pf-c-button.pf-m-primary {
   @extend .btn-primary;
+}
+
+#kc-social-providers {
+  h2 {
+    @extend .h4;
+  }
+
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+}
+
+.kc-social-item {
+  @extend .btn;
+  @extend .btn-primary;
+  @extend .mb-3;
+  @extend .w-100;
 }
