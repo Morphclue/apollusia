@@ -5,6 +5,37 @@
   "sourceRoot": "libs/keycloak",
   "targets": {
     "build": {
+      "executor": "nx:run-commands",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "options": {
+        "commands": [
+          {
+            "command": "nx run keycloak:sass-build"
+          },
+          {
+            "command": "nx run keycloak:copy-fonts"
+          }
+        ],
+        "parallel": false
+      }
+    },
+    "serve": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          {
+            "command": "nx run keycloak:sass-serve"
+          },
+          {
+            "command": "nx run keycloak:copy-fonts"
+          }
+        ],
+        "parallel": false
+      }
+    },
+    "sass-build": {
       "executor": "@gitopslovers/nx-sass:compiler",
       "outputs": [
         "{options.outputPath}"
@@ -20,7 +51,7 @@
       },
       "defaultConfiguration": "production"
     },
-    "serve": {
+    "sass-serve": {
       "executor": "@gitopslovers/nx-sass:compiler",
       "options": {
         "watch": true,
@@ -39,6 +70,12 @@
           "libs/keycloak/src/**/*.scss"
         ],
         "formatter": "compact"
+      }
+    },
+    "copy-fonts": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "cpx '../../node_modules/bootstrap-icons/font/fonts/*.{woff,woff2}' libs/keycloak/common/resources/css/fonts/"
       }
     }
   }
