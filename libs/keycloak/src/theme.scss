@@ -87,4 +87,6 @@ body {
   @extend .btn-primary;
   @extend .mb-3;
   @extend .w-100;
+  display: flex;
+  justify-content: flex-start;
 }
