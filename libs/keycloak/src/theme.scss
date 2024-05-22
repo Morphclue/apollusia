@@ -104,6 +104,7 @@ body {
   justify-content: flex-start;
 
   .fa {
+    @extend .bi;
     @extend .me-2;
   }
 }
@@ -113,7 +114,6 @@ body {
   background-color: $facebook;
 
   .fa-facebook {
-    @extend .bi;
     @extend .bi-facebook;
   }
 }
@@ -123,7 +123,6 @@ body {
   background-color: $github;
 
   .fa-github {
-    @extend .bi;
     @extend .bi-github;
   }
 }
@@ -133,7 +132,6 @@ body {
   background-color: $google;
 
   .fa-google {
-    @extend .bi;
     @extend .bi-google;
   }
 }
@@ -143,7 +141,6 @@ body {
   background-color: $twitter;
 
   .fa-twitter {
-    @extend .bi;
     @extend .bi-twitter;
   }
 }
