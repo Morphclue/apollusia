@@ -2,9 +2,21 @@
 $french-violet: #7b2cbfff;
 $amethyst: #9d4eddff;
 $white: #ffffff;
+$facebook: #1877f2;
+$google: #ea4335;
+$github: #333333;
+$twitter: #1da1f2;
 
 /* overrides */
 $primary: $french-violet;
+
+@font-face {
+  font-family: 'bootstrap-icons';
+  src: url('fonts/bootstrap-icons.woff') format('woff'),
+  url('fonts/bootstrap-icons.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
 
 /* imports */
 @import "../../../node_modules/bootstrap/scss/bootstrap";
@@ -87,6 +99,51 @@ body {
   @extend .btn-primary;
   @extend .mb-3;
   @extend .w-100;
+  @extend .border-0;
   display: flex;
   justify-content: flex-start;
+
+  .fa {
+    @extend .me-2;
+  }
+}
+
+#social-facebook {
+  @extend .kc-social-item;
+  background-color: $facebook;
+
+  .fa-facebook {
+    @extend .bi;
+    @extend .bi-facebook;
+  }
+}
+
+#social-github {
+  @extend .kc-social-item;
+  background-color: $github;
+
+  .fa-github {
+    @extend .bi;
+    @extend .bi-github;
+  }
+}
+
+#social-google {
+  @extend .kc-social-item;
+  background-color: $google;
+
+  .fa-google {
+    @extend .bi;
+    @extend .bi-google;
+  }
+}
+
+#social-twitter {
+  @extend .kc-social-item;
+  background-color: $twitter;
+
+  .fa-twitter {
+    @extend .bi;
+    @extend .bi-twitter;
+  }
 }
