@@ -46,6 +46,7 @@ export class PollService implements OnModuleInit {
       this.migratePollEvents(),
       this.migrateShowResults(),
       this.migrateBookedEvents(),
+      this.migrateDailyEvents(),
     ]);
   }
 
@@ -133,6 +134,19 @@ export class PollService implements OnModuleInit {
     }
     await this.pollModel.bulkSave(polls, {timestamps: false});
     this.logger.log(`Migrated ${polls.length} polls to the new booked events format.`);
+  }
+
+  private async migrateDailyEvents() {
+    const pollEvents = await this.pollEventModel.find({allDay: {$exists: false}}).exec();
+    if (!pollEvents.length) {
+      return;
+    }
+
+    for (const pollEvent of pollEvents) {
+      pollEvent.allDay = false;
+    }
+    await this.pollEventModel.bulkSave(pollEvents, {timestamps: false});
+    this.logger.log(`Migrated ${pollEvents.length} poll events to the new all day format.`);
   }
 
   private activeFilter(active: boolean | undefined): FilterQuery<Poll> {
@@ -445,7 +459,7 @@ export class PollService implements OnModuleInit {
       $or: events.map(e => ({['selection.' + e._id]: {$exists: true}})),
     };
     await this.participantModel.updateMany(filter, {
-      $unset: events.reduce((acc, e) => ({...acc, ['selection.' + e._id]: true}), {})
+      $unset: events.reduce((acc, e) => ({...acc, ['selection.' + e._id]: true}), {}),
     }, {timestamps: false}).exec();
   }
 
