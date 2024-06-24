@@ -1,0 +1,1859 @@
+{
+  "version": "6.0",
+  "nxVersion": "19.3.1",
+  "deps": {
+    "@angular/animations": "~17.3.9",
+    "@angular/common": "~17.3.9",
+    "@angular/compiler": "~17.3.9",
+    "@angular/core": "~17.3.9",
+    "@angular/forms": "~17.3.9",
+    "@angular/localize": "~17.3.9",
+    "@angular/platform-browser": "~17.3.9",
+    "@angular/platform-browser-dynamic": "~17.3.9",
+    "@angular/platform-server": "~17.3.9",
+    "@angular/pwa": "~17.3.7",
+    "@angular/router": "~17.3.9",
+    "@angular/service-worker": "~17.3.9",
+    "@angular/ssr": "~17.3.7",
+    "@mean-stream/nestx": "^0.11.4",
+    "@mean-stream/ngbx": "^0.13.0",
+    "@nestjs-modules/mailer": "^2.0.2",
+    "@nestjs/common": "^10.3.9",
+    "@nestjs/config": "^3.2.2",
+    "@nestjs/core": "^10.3.9",
+    "@nestjs/mongoose": "^10.0.6",
+    "@nestjs/platform-express": "^10.3.9",
+    "@nestjs/swagger": "^7.3.1",
+    "@ng-bootstrap/ng-bootstrap": "^16.0.0",
+    "angular-calendar": "^0.31.1",
+    "angularx-flatpickr": "^7.3.0",
+    "axios": "^1.7.2",
+    "base64-js": "^1.5.1",
+    "bootstrap": "^5.3.3",
+    "bootstrap-icons": "^1.11.3",
+    "calendar-utils": "^0.10.4",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.1",
+    "date-fns": "^3.6.0",
+    "express": "^4.19.2",
+    "file-saver": "^2.0.5",
+    "flatpickr": "^4.6.13",
+    "handlebars": "^4.7.8",
+    "ical-generator": "^7.1.0",
+    "markdown-it": "^14.1.0",
+    "mongoose": "^8.4.3",
+    "ngx-cookie-service-ssr": "^17.1.0",
+    "ngx-countup": "^13.1.0",
+    "reflect-metadata": "^0.1.14",
+    "rxjs": "~7.8.1",
+    "tslib": "^2.6.3",
+    "uuid": "^9.0.1",
+    "web-push": "^3.6.7",
+    "zone.js": "0.14.3",
+    "@angular-devkit/build-angular": "~17.3.7",
+    "@angular-devkit/core": "~17.3.7",
+    "@angular-devkit/schematics": "~17.3.7",
+    "@angular-eslint/eslint-plugin": "~17.3.0",
+    "@angular-eslint/eslint-plugin-template": "~17.3.0",
+    "@angular-eslint/template-parser": "~17.3.0",
+    "@angular/cli": "~17.3.7",
+    "@angular/compiler-cli": "~17.3.9",
+    "@angular/language-service": "~17.3.9",
+    "@gitopslovers/nx-sass": "^1.5.1",
+    "@nestjs/schematics": "10.1.1",
+    "@nestjs/testing": "10.3.9",
+    "@nx/angular": "19.3.1",
+    "@nx/cypress": "19.3.1",
+    "@nx/eslint": "19.3.1",
+    "@nx/eslint-plugin": "19.3.1",
+    "@nx/jest": "19.3.1",
+    "@nx/js": "19.3.1",
+    "@nx/nest": "19.3.1",
+    "@nx/node": "19.3.1",
+    "@nx/web": "19.3.1",
+    "@nx/webpack": "19.3.1",
+    "@nx/workspace": "19.3.1",
+    "@schematics/angular": "17.3.2",
+    "@types/express": "^4.17.21",
+    "@types/file-saver": "^2.0.7",
+    "@types/jest": "^29.5.12",
+    "@types/markdown-it": "^14.1.1",
+    "@types/node": "20.14.8",
+    "@types/uuid": "^9.0.8",
+    "@typescript-eslint/eslint-plugin": "6.20.0",
+    "@typescript-eslint/parser": "6.20.0",
+    "browser-sync": "^3.0.2",
+    "cypress": "^13.12.0",
+    "eslint": "8.57.0",
+    "eslint-config-prettier": "9.1.0",
+    "eslint-import-resolver-alias": "^1.1.2",
+    "eslint-plugin-cypress": "2.15.1",
+    "eslint-plugin-import": "^2.29.1",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
+    "jest-environment-node": "^29.7.0",
+    "jest-preset-angular": "14.1.1",
+    "mongodb-memory-server": "^9.4.0",
+    "nx": "19.3.1",
+    "nx-stylelint": "17.1.5",
+    "prettier": "^3.3.2",
+    "sass": "1.77.6",
+    "stylelint": "16.6.1",
+    "stylelint-config-standard-scss": "13.1.0",
+    "ts-jest": "29.1.5",
+    "ts-node": "10.9.2",
+    "typescript": "5.4.3"
+  },
+  "pathMappings": {
+    "@apollusia/logic": [
+      "libs/types/src/lib/logic/index.ts"
+    ],
+    "@apollusia/types": [
+      "libs/types/src/index.ts"
+    ],
+    "@apollusia/types/*": [
+      "libs/types/src/*"
+    ]
+  },
+  "nxJsonPlugins": [],
+  "fileMap": {
+    "projectFileMap": {
+      "frontend": [
+        {
+          "file": "apps/frontend/.eslintrc.json",
+          "hash": "3699327164805072120"
+        },
+        {
+          "file": "apps/frontend/Dockerfile",
+          "hash": "11580966508924875406"
+        },
+        {
+          "file": "apps/frontend/jest.config.ts",
+          "hash": "387728295188061506"
+        },
+        {
+          "file": "apps/frontend/ngsw-config.json",
+          "hash": "3963520009355315545"
+        },
+        {
+          "file": "apps/frontend/package.json",
+          "hash": "8630294688235076505"
+        },
+        {
+          "file": "apps/frontend/plugins/define-version.cjs",
+          "hash": "2852016304652132583"
+        },
+        {
+          "file": "apps/frontend/project.json",
+          "hash": "8484520949401651740"
+        },
+        {
+          "file": "apps/frontend/proxy.conf.json",
+          "hash": "11281046345527164812"
+        },
+        {
+          "file": "apps/frontend/server.ts",
+          "hash": "2182327018296830858",
+          "deps": [
+            "npm:@angular/common",
+            "npm:@angular/ssr",
+            "npm:express"
+          ]
+        },
+        {
+          "file": "apps/frontend/src/app/about/about-routing.module.ts",
+          "hash": "5322836759340478836",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "apps/frontend/src/app/about/about.module.ts",
+          "hash": "1083693610075932871",
+          "deps": [
+            "npm:@angular/common",
+            "npm:@angular/core",
+            "npm:@ng-bootstrap/ng-bootstrap",
+            "npm:ngx-countup"
+          ]
+        },
+        {
+          "file": "apps/frontend/src/app/about/about/about.component.html",
+          "hash": "6505040932785307454"
+        },
+        {
+          "file": "apps/frontend/src/app/about/about/about.component.scss",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "apps/frontend/src/app/about/about/about.component.ts",
+          "hash": "17506985354340619120",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "apps/frontend/src/app/about/features/features.component.html",
+          "hash": "5049356717733799693"
+        },
+        {
+          "file": "apps/frontend/src/app/about/features/features.component.scss",
+          "hash": "11205296516502794843"
+        },
+        {
+          "file": "apps/frontend/src/app/about/features/features.component.ts",
+          "hash": "9520005172617660458",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "apps/frontend/src/app/about/features/features.json",
+          "hash": "14482523872979766506"
+        },
+        {
+          "file": "apps/frontend/src/app/about/information/information.component.html",
+          "hash": "10645360995194013388"
+        },
+        {
+          "file": "apps/frontend/src/app/about/information/information.component.scss",
+          "hash": "11890976505234336773"
+        },
+        {
+          "file": "apps/frontend/src/app/about/information/information.component.ts",
+          "hash": "12199394980360596017",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "apps/frontend/src/app/about/promises/promises.component.html",
+          "hash": "14020320321947643383"
+        },
+        {
+          "file": "apps/frontend/src/app/about/promises/promises.component.scss",
+          "hash": "8880508971191529287"
+        },
+        {
+          "file": "apps/frontend/src/app/about/promises/promises.component.ts",
+          "hash": "15027003799112600585",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "apps/frontend/src/app/about/statistics/statistics.component.html",
+          "hash": "18011949308832918069"
+        },
+        {
+          "file": "apps/frontend/src/app/about/statistics/statistics.component.scss",
+          "hash": "9527102622384554811"
+        },
+        {
+          "file": "apps/frontend/src/app/about/statistics/statistics.component.ts",
+          "hash": "10380122215117747448",
+          "deps": [
+            "npm:@angular/common",
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "apps/frontend/src/app/app-routing.module.ts",
+          "hash": "16145739100961984525",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "apps/frontend/src/app/app.component.html",
+          "hash": "1715331782346313673"
+        },
+        {
+          "file": "apps/frontend/src/app/app.component.scss",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "apps/frontend/src/app/app.component.ts",
+          "hash": "15396870671126962591",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/platform-browser",
+            "npm:@angular/service-worker"
+          ]
+        },
+        {
+          "file": "apps/frontend/src/app/app.module.ts",
+          "hash": "14589130111096838147",
+          "deps": [
+            "npm:@angular/common",
+            "npm:@angular/core",
+            "npm:@angular/forms",
+            "npm:@angular/platform-browser",
+            "npm:@angular/service-worker",
+            "npm:@mean-stream/ngbx",
+            "npm:@ng-bootstrap/ng-bootstrap"
+          ]
+        },
+        {
+          "file": "apps/frontend/src/app/app.server.module.ts",
+          "hash": "4452567797682406808",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/platform-server"
+          ]
+        },
+        {
+          "file": "apps/frontend/src/app/core/cookie-banner/cookie-banner.component.html",
+          "hash": "12189863317328808659"
+        },
+        {
+          "file": "apps/frontend/src/app/core/cookie-banner/cookie-banner.component.scss",
+          "hash": "3403262784707276729"
+        },
+        {
+          "file": "apps/frontend/src/app/core/cookie-banner/cookie-banner.component.ts",
+          "hash": "13726919237644721987",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "apps/frontend/src/app/core/core.module.ts",
+          "hash": "17330585621777702001",
+          "deps": [
+            "npm:@angular/common",
+            "npm:@angular/core",
+            "npm:@angular/forms",
+            "npm:@angular/router",
+            "npm:@mean-stream/ngbx",
+            "npm:@ng-bootstrap/ng-bootstrap"
+          ]
+        },
+        {
+          "file": "apps/frontend/src/app/core/info-table/info-table.component.html",
+          "hash": "8617501851453546896"
+        },
+        {
+          "file": "apps/frontend/src/app/core/info-table/info-table.component.scss",
+          "hash": "687882629914088526"
+        },
+        {
+          "file": "apps/frontend/src/app/core/info-table/info-table.component.ts",
+          "hash": "7401952273247837404",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@mean-stream/ngbx"
+          ]
+        },
+        {
+          "file": "apps/frontend/src/app/core/interceptors/participant-token.interceptor.ts",
+          "hash": "16226115250886991998",
+          "deps": [
+            "npm:@angular/common",
+            "npm:@angular/core",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "apps/frontend/src/app/core/location-link/location-link.component.html",
+          "hash": "13920892425372752295"
+        },
+        {
+          "file": "apps/frontend/src/app/core/location-link/location-link.component.scss",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "apps/frontend/src/app/core/location-link/location-link.component.ts",
+          "hash": "14587439290562462674",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "apps/frontend/src/app/core/markdown/markdown.component.html",
+          "hash": "16769712426097851970"
+        },
+        {
+          "file": "apps/frontend/src/app/core/markdown/markdown.component.scss",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "apps/frontend/src/app/core/markdown/markdown.component.ts",
+          "hash": "9411904104520575016",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/platform-browser"
+          ]
+        },
+        {
+          "file": "apps/frontend/src/app/core/navbar/navbar.component.html",
+          "hash": "17257538931063236416"
+        },
+        {
+          "file": "apps/frontend/src/app/core/navbar/navbar.component.scss",
+          "hash": "14624209148507980543"
+        },
+        {
+          "file": "apps/frontend/src/app/core/navbar/navbar.component.ts",
+          "hash": "13918819669824904045",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@mean-stream/ngbx",
+            "npm:@ng-bootstrap/ng-bootstrap",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "apps/frontend/src/app/core/pipes/location-icon.pipe.ts",
+          "hash": "11973235406743601434",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "apps/frontend/src/app/core/services/index.ts",
+          "hash": "9419586219353940602"
+        },
+        {
+          "file": "apps/frontend/src/app/core/services/mail.service.ts",
+          "hash": "3377379766355425066",
+          "deps": [
+            "npm:@angular/common",
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "apps/frontend/src/app/core/services/markdown.service.ts",
+          "hash": "13604140908875728984",
+          "deps": [
+            "npm:@angular/core",
+            "npm:markdown-it"
+          ]
+        },
+        {
+          "file": "apps/frontend/src/app/core/services/storage.service.ts",
+          "hash": "6572973680651709617",
+          "deps": [
+            "npm:@angular/core",
+            "npm:ngx-cookie-service-ssr"
+          ]
+        },
+        {
+          "file": "apps/frontend/src/app/core/services/token.service.ts",
+          "hash": "10460217217113249810",
+          "deps": [
+            "npm:@angular/common",
+            "npm:@angular/core",
+            "npm:rxjs",
+            "npm:uuid"
+          ]
+        },
+        {
+          "file": "apps/frontend/src/app/dashboard/card/card.component.html",
+          "hash": "16271377419458311156"
+        },
+        {
+          "file": "apps/frontend/src/app/dashboard/card/card.component.scss",
+          "hash": "14031500178519938725"
+        },
+        {
+          "file": "apps/frontend/src/app/dashboard/card/card.component.ts",
+          "hash": "10113016371198179598",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "apps/frontend/src/app/dashboard/dashboard-routing.module.ts",
+          "hash": "13776523251978402752",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "apps/frontend/src/app/dashboard/dashboard.module.ts",
+          "hash": "18266680855021607624",
+          "deps": [
+            "npm:@angular/common",
+            "npm:@angular/core",
+            "npm:@angular/forms",
+            "npm:@ng-bootstrap/ng-bootstrap"
+          ]
+        },
+        {
+          "file": "apps/frontend/src/app/dashboard/dashboard/dashboard.component.html",
+          "hash": "5894931845114980627"
+        },
+        {
+          "file": "apps/frontend/src/app/dashboard/dashboard/dashboard.component.scss",
+          "hash": "15730888603845586785"
+        },
+        {
+          "file": "apps/frontend/src/app/dashboard/dashboard/dashboard.component.ts",
+          "hash": "13378284684060164001",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/router",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "apps/frontend/src/app/dashboard/pipes/search.pipe.ts",
+          "hash": "7894204065582888689",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "apps/frontend/src/app/legal/legal-routing.module.ts",
+          "hash": "8212503879341729713",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "apps/frontend/src/app/legal/legal.module.ts",
+          "hash": "10188029028279997152",
+          "deps": [
+            "npm:@angular/common",
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "apps/frontend/src/app/legal/legal/legal.component.html",
+          "hash": "7961540795638140276"
+        },
+        {
+          "file": "apps/frontend/src/app/legal/legal/legal.component.scss",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "apps/frontend/src/app/legal/legal/legal.component.ts",
+          "hash": "5950227717012064314",
+          "deps": [
+            "npm:@angular/core",
+            "types"
+          ]
+        },
+        {
+          "file": "apps/frontend/src/app/legal/services/imprint.service.ts",
+          "hash": "9937260699340756350",
+          "deps": [
+            "npm:@angular/common",
+            "npm:@angular/core",
+            "types",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "apps/frontend/src/app/modals/autofill-modal/autofill-modal.component.html",
+          "hash": "12635628913928385329"
+        },
+        {
+          "file": "apps/frontend/src/app/modals/autofill-modal/autofill-modal.component.scss",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "apps/frontend/src/app/modals/autofill-modal/autofill-modal.component.ts",
+          "hash": "7352851176477774657",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/forms",
+            "npm:@ng-bootstrap/ng-bootstrap",
+            "npm:date-fns"
+          ]
+        },
+        {
+          "file": "apps/frontend/src/app/modals/index.ts",
+          "hash": "5786339992397677809"
+        },
+        {
+          "file": "apps/frontend/src/app/modals/postpone-modal/postpone-modal.component.html",
+          "hash": "9562797102506301138"
+        },
+        {
+          "file": "apps/frontend/src/app/modals/postpone-modal/postpone-modal.component.scss",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "apps/frontend/src/app/modals/postpone-modal/postpone-modal.component.ts",
+          "hash": "7595610864912870089",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "apps/frontend/src/app/model/index.ts",
+          "hash": "1466989006586012392",
+          "deps": [
+            "types",
+            "npm:@mean-stream/nestx"
+          ]
+        },
+        {
+          "file": "apps/frontend/src/app/model/token.ts",
+          "hash": "4617847475199814718"
+        },
+        {
+          "file": "apps/frontend/src/app/pipes/index.ts",
+          "hash": "3500685126994623113"
+        },
+        {
+          "file": "apps/frontend/src/app/pipes/some.pipe.ts",
+          "hash": "2671526344284718257",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "apps/frontend/src/app/pipes/truncate.pipe.ts",
+          "hash": "12469680463832505322",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "apps/frontend/src/app/poll/check-button/check-button.component.html",
+          "hash": "16964910620539479804"
+        },
+        {
+          "file": "apps/frontend/src/app/poll/check-button/check-button.component.scss",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "apps/frontend/src/app/poll/check-button/check-button.component.ts",
+          "hash": "5934157444739419958",
+          "deps": [
+            "npm:@angular/core",
+            "types"
+          ]
+        },
+        {
+          "file": "apps/frontend/src/app/poll/choose-date/choose-date.component.html",
+          "hash": "15741884159917371978"
+        },
+        {
+          "file": "apps/frontend/src/app/poll/choose-date/choose-date.component.scss",
+          "hash": "988911025271516052"
+        },
+        {
+          "file": "apps/frontend/src/app/poll/choose-date/choose-date.component.ts",
+          "hash": "7582554363954705323",
+          "deps": [
+            "npm:@angular/common",
+            "npm:@angular/core",
+            "npm:@angular/router",
+            "npm:@ng-bootstrap/ng-bootstrap",
+            "npm:angular-calendar",
+            "npm:calendar-utils",
+            "npm:date-fns",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "apps/frontend/src/app/poll/choose-events/choose-events.component.html",
+          "hash": "9575126593925222706"
+        },
+        {
+          "file": "apps/frontend/src/app/poll/choose-events/choose-events.component.scss",
+          "hash": "10469133470408644799"
+        },
+        {
+          "file": "apps/frontend/src/app/poll/choose-events/choose-events.component.ts",
+          "hash": "6824098864918441129",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/platform-browser",
+            "npm:@angular/router",
+            "types",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "apps/frontend/src/app/poll/create-poll/create-edit-poll.component.html",
+          "hash": "7560344398266891684"
+        },
+        {
+          "file": "apps/frontend/src/app/poll/create-poll/create-edit-poll.component.scss",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "apps/frontend/src/app/poll/create-poll/create-edit-poll.component.ts",
+          "hash": "1333588290373670659",
+          "deps": [
+            "npm:@angular/common",
+            "npm:@angular/core",
+            "npm:@angular/forms",
+            "npm:@angular/router",
+            "types",
+            "npm:@ng-bootstrap/ng-bootstrap",
+            "npm:date-fns",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "apps/frontend/src/app/poll/event-head/event-head.component.html",
+          "hash": "13801242950114183679"
+        },
+        {
+          "file": "apps/frontend/src/app/poll/event-head/event-head.component.scss",
+          "hash": "16201048209645831624"
+        },
+        {
+          "file": "apps/frontend/src/app/poll/event-head/event-head.component.ts",
+          "hash": "6212811746839398257",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "apps/frontend/src/app/poll/event-list/event-list.component.html",
+          "hash": "3303172884891144778"
+        },
+        {
+          "file": "apps/frontend/src/app/poll/event-list/event-list.component.scss",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "apps/frontend/src/app/poll/event-list/event-list.component.ts",
+          "hash": "12100183966042907588",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "apps/frontend/src/app/poll/ical/ical-config.ts",
+          "hash": "10301310319562226114",
+          "deps": [
+            "npm:@mean-stream/ngbx",
+            "npm:class-validator"
+          ]
+        },
+        {
+          "file": "apps/frontend/src/app/poll/ical/ical.component.html",
+          "hash": "18435753084435838376"
+        },
+        {
+          "file": "apps/frontend/src/app/poll/ical/ical.component.scss",
+          "hash": "687882629914088526"
+        },
+        {
+          "file": "apps/frontend/src/app/poll/ical/ical.component.ts",
+          "hash": "10222970286229780356",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/router",
+            "npm:file-saver",
+            "npm:ical-generator",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "apps/frontend/src/app/poll/mail-alert/mail-alert.component.html",
+          "hash": "12703821295854285936"
+        },
+        {
+          "file": "apps/frontend/src/app/poll/mail-alert/mail-alert.component.scss",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "apps/frontend/src/app/poll/mail-alert/mail-alert.component.ts",
+          "hash": "3510529959226661654",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "apps/frontend/src/app/poll/participant-info/participant-info.component.html",
+          "hash": "10572103270171177808"
+        },
+        {
+          "file": "apps/frontend/src/app/poll/participant-info/participant-info.component.scss",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "apps/frontend/src/app/poll/participant-info/participant-info.component.ts",
+          "hash": "11231673333590896251",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "apps/frontend/src/app/poll/poll-routing.module.ts",
+          "hash": "1838048840386884077",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "apps/frontend/src/app/poll/poll.module.ts",
+          "hash": "3054456834511119108",
+          "deps": [
+            "npm:@angular/common",
+            "npm:@angular/core",
+            "npm:@angular/forms",
+            "npm:@mean-stream/ngbx",
+            "npm:@ng-bootstrap/ng-bootstrap",
+            "npm:angular-calendar",
+            "npm:angularx-flatpickr"
+          ]
+        },
+        {
+          "file": "apps/frontend/src/app/poll/services/choose-date.service.ts",
+          "hash": "14167363372313057992",
+          "deps": [
+            "npm:@angular/common",
+            "npm:@angular/core",
+            "npm:angular-calendar",
+            "npm:calendar-utils",
+            "npm:date-fns"
+          ]
+        },
+        {
+          "file": "apps/frontend/src/app/poll/services/poll.service.ts",
+          "hash": "7515558518411679329",
+          "deps": [
+            "npm:@angular/common",
+            "npm:@angular/core",
+            "types",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "apps/frontend/src/app/poll/services/push.service.ts",
+          "hash": "246171184286620073",
+          "deps": [
+            "npm:@angular/common",
+            "npm:@angular/core",
+            "npm:@angular/service-worker",
+            "types",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "apps/frontend/src/app/poll/table/table.component.html",
+          "hash": "498412073798882917"
+        },
+        {
+          "file": "apps/frontend/src/app/poll/table/table.component.scss",
+          "hash": "675521991323428307"
+        },
+        {
+          "file": "apps/frontend/src/app/poll/table/table.component.ts",
+          "hash": "4120424425820356910",
+          "deps": [
+            "npm:@angular/core",
+            "types",
+            "npm:@mean-stream/ngbx"
+          ]
+        },
+        {
+          "file": "apps/frontend/src/app/settings/settings-routing.module.ts",
+          "hash": "2865051810682329630",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "apps/frontend/src/app/settings/settings.module.ts",
+          "hash": "9861899840074715266",
+          "deps": [
+            "npm:@angular/common",
+            "npm:@angular/core",
+            "npm:@angular/forms",
+            "npm:@mean-stream/ngbx"
+          ]
+        },
+        {
+          "file": "apps/frontend/src/app/settings/settings.ts",
+          "hash": "18115696097809852808",
+          "deps": [
+            "npm:class-validator"
+          ]
+        },
+        {
+          "file": "apps/frontend/src/app/settings/settings/settings.component.html",
+          "hash": "4093229383490189378"
+        },
+        {
+          "file": "apps/frontend/src/app/settings/settings/settings.component.scss",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "apps/frontend/src/app/settings/settings/settings.component.ts",
+          "hash": "5239799295130519070",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@mean-stream/ngbx"
+          ]
+        },
+        {
+          "file": "apps/frontend/src/app/settings/token/token.component.html",
+          "hash": "5014762981154826973"
+        },
+        {
+          "file": "apps/frontend/src/app/settings/token/token.component.scss",
+          "hash": "9687675409628752905"
+        },
+        {
+          "file": "apps/frontend/src/app/settings/token/token.component.ts",
+          "hash": "939550828118540821",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "apps/frontend/src/assets/.gitkeep",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "apps/frontend/src/assets/icons/icon-128x128.png",
+          "hash": "14704712641809909995"
+        },
+        {
+          "file": "apps/frontend/src/assets/icons/icon-144x144.png",
+          "hash": "14448056310636123580"
+        },
+        {
+          "file": "apps/frontend/src/assets/icons/icon-152x152.png",
+          "hash": "5454335161872455092"
+        },
+        {
+          "file": "apps/frontend/src/assets/icons/icon-192x192.png",
+          "hash": "4180689791874457213"
+        },
+        {
+          "file": "apps/frontend/src/assets/icons/icon-384x384.png",
+          "hash": "18271594086430235496"
+        },
+        {
+          "file": "apps/frontend/src/assets/icons/icon-48x48.png",
+          "hash": "8676034956629347989"
+        },
+        {
+          "file": "apps/frontend/src/assets/icons/icon-512x512.png",
+          "hash": "4442908169506024154"
+        },
+        {
+          "file": "apps/frontend/src/assets/icons/icon-72x72.png",
+          "hash": "10722171700753611327"
+        },
+        {
+          "file": "apps/frontend/src/assets/icons/icon-96x96.png",
+          "hash": "275236418771078206"
+        },
+        {
+          "file": "apps/frontend/src/assets/logo-colored.png",
+          "hash": "5288349307811749769"
+        },
+        {
+          "file": "apps/frontend/src/assets/logo.png",
+          "hash": "9809351272435020224"
+        },
+        {
+          "file": "apps/frontend/src/environments/environment.prod.ts",
+          "hash": "10093349929010489446"
+        },
+        {
+          "file": "apps/frontend/src/environments/environment.ts",
+          "hash": "15687042617846964976"
+        },
+        {
+          "file": "apps/frontend/src/favicon.ico",
+          "hash": "3509591998475656167"
+        },
+        {
+          "file": "apps/frontend/src/index.html",
+          "hash": "3076372893691790811"
+        },
+        {
+          "file": "apps/frontend/src/main.server.ts",
+          "hash": "13653717856308672110"
+        },
+        {
+          "file": "apps/frontend/src/main.ts",
+          "hash": "18134461988447225927",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/platform-browser-dynamic"
+          ]
+        },
+        {
+          "file": "apps/frontend/src/manifest.webmanifest",
+          "hash": "12578609085951328170"
+        },
+        {
+          "file": "apps/frontend/src/polyfills.ts",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "apps/frontend/src/robots.txt",
+          "hash": "10550630560343403933"
+        },
+        {
+          "file": "apps/frontend/src/styles.scss",
+          "hash": "274106370735929059"
+        },
+        {
+          "file": "apps/frontend/src/test-setup.ts",
+          "hash": "17711435995618823417",
+          "deps": [
+            "npm:jest-preset-angular"
+          ]
+        },
+        {
+          "file": "apps/frontend/src/types.d.ts",
+          "hash": "5739490045208543718"
+        },
+        {
+          "file": "apps/frontend/tsconfig.app.json",
+          "hash": "18016190977190254459"
+        },
+        {
+          "file": "apps/frontend/tsconfig.editor.json",
+          "hash": "17511610827034788226"
+        },
+        {
+          "file": "apps/frontend/tsconfig.json",
+          "hash": "15282513215284148810"
+        },
+        {
+          "file": "apps/frontend/tsconfig.spec.json",
+          "hash": "804461630027825466"
+        }
+      ],
+      "keycloak": [
+        {
+          "file": "libs/keycloak/.gitignore",
+          "hash": "14010905227880858766"
+        },
+        {
+          "file": "libs/keycloak/.stylelintrc.json",
+          "hash": "12683012316955031309"
+        },
+        {
+          "file": "libs/keycloak/common/resources/img/favicon.ico",
+          "hash": "3509591998475656167"
+        },
+        {
+          "file": "libs/keycloak/login/theme.properties",
+          "hash": "13052585877663552297"
+        },
+        {
+          "file": "libs/keycloak/project.json",
+          "hash": "12778847690491286523"
+        },
+        {
+          "file": "libs/keycloak/src/theme.scss",
+          "hash": "16060602278144040014"
+        }
+      ],
+      "backend-e2e": [
+        {
+          "file": "apps/backend-e2e/.eslintrc.json",
+          "hash": "8709851544463005581"
+        },
+        {
+          "file": "apps/backend-e2e/jest.config.ts",
+          "hash": "4155009856886983109"
+        },
+        {
+          "file": "apps/backend-e2e/project.json",
+          "hash": "15950950578469869215"
+        },
+        {
+          "file": "apps/backend-e2e/src/backend/backend.spec.ts",
+          "hash": "110394728024017389",
+          "deps": [
+            "npm:axios"
+          ]
+        },
+        {
+          "file": "apps/backend-e2e/src/support/global-setup.ts",
+          "hash": "2568409276037275290"
+        },
+        {
+          "file": "apps/backend-e2e/src/support/global-teardown.ts",
+          "hash": "5275447082211835490"
+        },
+        {
+          "file": "apps/backend-e2e/src/support/test-setup.ts",
+          "hash": "9412252679009852535",
+          "deps": [
+            "npm:axios"
+          ]
+        },
+        {
+          "file": "apps/backend-e2e/tsconfig.json",
+          "hash": "15443990093475294480"
+        },
+        {
+          "file": "apps/backend-e2e/tsconfig.spec.json",
+          "hash": "14954872453723519891"
+        }
+      ],
+      "backend": [
+        {
+          "file": "apps/backend/.eslintrc.json",
+          "hash": "1414194105391929736"
+        },
+        {
+          "file": "apps/backend/Dockerfile",
+          "hash": "15617627656629083078"
+        },
+        {
+          "file": "apps/backend/jest.config.ts",
+          "hash": "13228327897119956928"
+        },
+        {
+          "file": "apps/backend/project.json",
+          "hash": "303876277020011339"
+        },
+        {
+          "file": "apps/backend/src/app.module.ts",
+          "hash": "4327652231557399841",
+          "deps": [
+            "npm:@nestjs/common",
+            "npm:@nestjs/mongoose"
+          ]
+        },
+        {
+          "file": "apps/backend/src/assets/.gitkeep",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "apps/backend/src/assets/templates/book.hbs",
+          "hash": "14550463981750987360"
+        },
+        {
+          "file": "apps/backend/src/assets/templates/participant.hbs",
+          "hash": "13870211246751056903"
+        },
+        {
+          "file": "apps/backend/src/assets/templates/participated.hbs",
+          "hash": "16881451107778930798"
+        },
+        {
+          "file": "apps/backend/src/assets/templates/styles.css",
+          "hash": "17611670439060095963"
+        },
+        {
+          "file": "apps/backend/src/environment.ts",
+          "hash": "17702374839693754845"
+        },
+        {
+          "file": "apps/backend/src/imprint/imprint.module.ts",
+          "hash": "10217358920864748947",
+          "deps": [
+            "npm:@nestjs/common",
+            "npm:@nestjs/config"
+          ]
+        },
+        {
+          "file": "apps/backend/src/imprint/imprint/imprint.controller.ts",
+          "hash": "9627247870369941340",
+          "deps": [
+            "types",
+            "npm:@nestjs/common"
+          ]
+        },
+        {
+          "file": "apps/backend/src/imprint/imprint/imprint.service.ts",
+          "hash": "13673455673628630533",
+          "deps": [
+            "types",
+            "npm:@nestjs/common",
+            "npm:@nestjs/config"
+          ]
+        },
+        {
+          "file": "apps/backend/src/mail/helpers.ts",
+          "hash": "4521744259557199788"
+        },
+        {
+          "file": "apps/backend/src/mail/mail.module.ts",
+          "hash": "10331542806831240755",
+          "deps": [
+            "npm:@nestjs/common",
+            "npm:@nestjs/config",
+            "npm:@nestjs-modules/mailer"
+          ]
+        },
+        {
+          "file": "apps/backend/src/mail/mail/mail.service.spec.ts",
+          "hash": "9569695260555256534",
+          "deps": [
+            "npm:@nestjs/testing"
+          ]
+        },
+        {
+          "file": "apps/backend/src/mail/mail/mail.service.ts",
+          "hash": "4534596279821274048",
+          "deps": [
+            "npm:@nestjs/common",
+            "npm:@nestjs-modules/mailer",
+            "npm:handlebars",
+            "npm:markdown-it"
+          ]
+        },
+        {
+          "file": "apps/backend/src/main.ts",
+          "hash": "1835526516274892875",
+          "deps": [
+            "npm:@nestjs/common",
+            "npm:@nestjs/core",
+            "npm:@nestjs/swagger"
+          ]
+        },
+        {
+          "file": "apps/backend/src/poll/poll.module.ts",
+          "hash": "16718807633638759652",
+          "deps": [
+            "types",
+            "npm:@nestjs/common",
+            "npm:@nestjs/mongoose"
+          ]
+        },
+        {
+          "file": "apps/backend/src/poll/poll/poll.controller.ts",
+          "hash": "977342343904515245",
+          "deps": [
+            "types",
+            "npm:@mean-stream/nestx",
+            "npm:@nestjs/common",
+            "npm:mongoose"
+          ]
+        },
+        {
+          "file": "apps/backend/src/poll/poll/poll.service.spec.ts",
+          "hash": "2241983164157154454",
+          "deps": [
+            "types",
+            "npm:@nestjs/common",
+            "npm:@nestjs/mongoose",
+            "npm:@nestjs/testing",
+            "npm:mongoose"
+          ]
+        },
+        {
+          "file": "apps/backend/src/poll/poll/poll.service.ts",
+          "hash": "8957313435321405618",
+          "deps": [
+            "types",
+            "npm:@mean-stream/nestx",
+            "npm:@nestjs/common",
+            "npm:@nestjs/mongoose",
+            "npm:mongoose"
+          ]
+        },
+        {
+          "file": "apps/backend/src/push/push.controller.ts",
+          "hash": "6468118723768054406",
+          "deps": [
+            "types",
+            "npm:@mean-stream/nestx",
+            "npm:@nestjs/common"
+          ]
+        },
+        {
+          "file": "apps/backend/src/push/push.module.ts",
+          "hash": "9671243869406216176",
+          "deps": [
+            "npm:@nestjs/common",
+            "npm:@nestjs/config"
+          ]
+        },
+        {
+          "file": "apps/backend/src/push/push.service.ts",
+          "hash": "5581793922357677863",
+          "deps": [
+            "types",
+            "npm:@nestjs/common",
+            "npm:@nestjs/config",
+            "npm:web-push"
+          ]
+        },
+        {
+          "file": "apps/backend/src/statistics/statistics.module.ts",
+          "hash": "6015484907135171247",
+          "deps": [
+            "types",
+            "npm:@nestjs/common",
+            "npm:@nestjs/mongoose"
+          ]
+        },
+        {
+          "file": "apps/backend/src/statistics/statistics/statistics.controller.ts",
+          "hash": "2067616986074361665",
+          "deps": [
+            "types",
+            "npm:@nestjs/common"
+          ]
+        },
+        {
+          "file": "apps/backend/src/statistics/statistics/statistics.service.spec.ts",
+          "hash": "3728702599388203601",
+          "deps": [
+            "types",
+            "npm:@nestjs/mongoose",
+            "npm:@nestjs/testing",
+            "npm:mongoose"
+          ]
+        },
+        {
+          "file": "apps/backend/src/statistics/statistics/statistics.service.ts",
+          "hash": "426080253372052725",
+          "deps": [
+            "types",
+            "npm:@nestjs/common",
+            "npm:@nestjs/mongoose",
+            "npm:mongoose"
+          ]
+        },
+        {
+          "file": "apps/backend/src/token/token.module.ts",
+          "hash": "13578488858159778825",
+          "deps": [
+            "types",
+            "npm:@nestjs/common",
+            "npm:@nestjs/mongoose"
+          ]
+        },
+        {
+          "file": "apps/backend/src/token/token/token.controller.ts",
+          "hash": "13704203567146148028",
+          "deps": [
+            "npm:@nestjs/common"
+          ]
+        },
+        {
+          "file": "apps/backend/src/token/token/token.service.spec.ts",
+          "hash": "13421134229397646478",
+          "deps": [
+            "types",
+            "npm:@nestjs/mongoose",
+            "npm:@nestjs/testing",
+            "npm:mongoose"
+          ]
+        },
+        {
+          "file": "apps/backend/src/token/token/token.service.ts",
+          "hash": "16793687196861467857",
+          "deps": [
+            "types",
+            "npm:@nestjs/common",
+            "npm:@nestjs/mongoose",
+            "npm:mongoose",
+            "npm:uuid"
+          ]
+        },
+        {
+          "file": "apps/backend/test/globalSetup.ts",
+          "hash": "1028457900111854067",
+          "deps": [
+            "npm:mongodb-memory-server"
+          ]
+        },
+        {
+          "file": "apps/backend/test/globalTeardown.ts",
+          "hash": "5152273883518925763",
+          "deps": [
+            "npm:mongodb-memory-server"
+          ]
+        },
+        {
+          "file": "apps/backend/test/stubs/ParticipantStub.ts",
+          "hash": "3278316815331973963",
+          "deps": [
+            "types"
+          ]
+        },
+        {
+          "file": "apps/backend/test/stubs/PollEventStub.ts",
+          "hash": "14288596637573565347",
+          "deps": [
+            "types"
+          ]
+        },
+        {
+          "file": "apps/backend/test/stubs/PollStub.ts",
+          "hash": "4623285938914124940",
+          "deps": [
+            "types"
+          ]
+        },
+        {
+          "file": "apps/backend/test/stubs/index.ts",
+          "hash": "7337239769600611625"
+        },
+        {
+          "file": "apps/backend/tsconfig.app.json",
+          "hash": "13486697707876430051"
+        },
+        {
+          "file": "apps/backend/tsconfig.json",
+          "hash": "3490524966360018312"
+        },
+        {
+          "file": "apps/backend/tsconfig.spec.json",
+          "hash": "11550347367511341917"
+        },
+        {
+          "file": "apps/backend/webpack.config.js",
+          "hash": "10619490397189790225",
+          "deps": [
+            "npm:@nx/webpack"
+          ]
+        }
+      ],
+      "types": [
+        {
+          "file": "libs/types/.babelrc",
+          "hash": "12976955572016683368"
+        },
+        {
+          "file": "libs/types/.eslintrc.json",
+          "hash": "13800677001662881425"
+        },
+        {
+          "file": "libs/types/README.md",
+          "hash": "10825246303961700588"
+        },
+        {
+          "file": "libs/types/jest.config.ts",
+          "hash": "747466539210540568"
+        },
+        {
+          "file": "libs/types/project.json",
+          "hash": "11062223610405449996"
+        },
+        {
+          "file": "libs/types/src/index.ts",
+          "hash": "14428353282588746736"
+        },
+        {
+          "file": "libs/types/src/lib/dto/imprint.dto.ts",
+          "hash": "17469818271088264744",
+          "deps": [
+            "npm:@nestjs/swagger",
+            "npm:class-validator"
+          ]
+        },
+        {
+          "file": "libs/types/src/lib/dto/index.ts",
+          "hash": "3945081057736565250"
+        },
+        {
+          "file": "libs/types/src/lib/dto/mail.dto.ts",
+          "hash": "10796600799859826091",
+          "deps": [
+            "npm:@nestjs/swagger",
+            "npm:class-validator"
+          ]
+        },
+        {
+          "file": "libs/types/src/lib/dto/participant.dto.ts",
+          "hash": "3220017655135840991",
+          "deps": [
+            "npm:@nestjs/swagger"
+          ]
+        },
+        {
+          "file": "libs/types/src/lib/dto/poll-event.dto.ts",
+          "hash": "17682696231597724833",
+          "deps": [
+            "npm:@nestjs/swagger",
+            "npm:class-validator"
+          ]
+        },
+        {
+          "file": "libs/types/src/lib/dto/poll.dto.ts",
+          "hash": "11404211058558212527",
+          "deps": [
+            "npm:@nestjs/swagger"
+          ]
+        },
+        {
+          "file": "libs/types/src/lib/dto/push.dto.ts",
+          "hash": "11353309543464463479",
+          "deps": [
+            "npm:@nestjs/swagger",
+            "npm:class-validator"
+          ]
+        },
+        {
+          "file": "libs/types/src/lib/dto/statistics.dto.ts",
+          "hash": "169142150741670792",
+          "deps": [
+            "npm:@nestjs/swagger"
+          ]
+        },
+        {
+          "file": "libs/types/src/lib/index.ts",
+          "hash": "16646903265399247737"
+        },
+        {
+          "file": "libs/types/src/lib/logic/check-participant.ts",
+          "hash": "15487048157907487753",
+          "deps": [
+            "npm:@mean-stream/nestx",
+            "npm:mongoose"
+          ]
+        },
+        {
+          "file": "libs/types/src/lib/logic/index.ts",
+          "hash": "9741318397733621637"
+        },
+        {
+          "file": "libs/types/src/lib/schema/index.ts",
+          "hash": "8328827339043409872"
+        },
+        {
+          "file": "libs/types/src/lib/schema/participant.schema.ts",
+          "hash": "6231252416828892390",
+          "deps": [
+            "npm:@mean-stream/nestx",
+            "npm:@nestjs/mongoose",
+            "npm:@nestjs/swagger",
+            "npm:class-validator",
+            "npm:mongoose"
+          ]
+        },
+        {
+          "file": "libs/types/src/lib/schema/poll-event.schema.ts",
+          "hash": "586527866929414355",
+          "deps": [
+            "npm:@mean-stream/nestx",
+            "npm:@nestjs/mongoose",
+            "npm:@nestjs/swagger",
+            "npm:class-validator",
+            "npm:mongoose",
+            "npm:class-transformer"
+          ]
+        },
+        {
+          "file": "libs/types/src/lib/schema/poll.schema.ts",
+          "hash": "8877452355884114773",
+          "deps": [
+            "npm:base64-js",
+            "npm:@mean-stream/nestx",
+            "npm:@nestjs/mongoose",
+            "npm:@nestjs/swagger",
+            "npm:class-transformer",
+            "npm:class-validator",
+            "npm:mongoose"
+          ]
+        },
+        {
+          "file": "libs/types/src/lib/schema/settings.ts",
+          "hash": "12264462016452379723",
+          "deps": [
+            "npm:@nestjs/swagger",
+            "npm:class-transformer",
+            "npm:class-validator",
+            "npm:@nestjs/mongoose"
+          ]
+        },
+        {
+          "file": "libs/types/src/lib/schema/show-result-options.ts",
+          "hash": "6664987542619544190"
+        },
+        {
+          "file": "libs/types/tsconfig.json",
+          "hash": "12834038490315927699"
+        },
+        {
+          "file": "libs/types/tsconfig.lib.json",
+          "hash": "1151629112378082701"
+        },
+        {
+          "file": "libs/types/tsconfig.spec.json",
+          "hash": "6514620907549802163"
+        }
+      ],
+      "frontend-e2e": [
+        {
+          "file": "apps/frontend-e2e/.eslintrc.json",
+          "hash": "14060216369337943343"
+        },
+        {
+          "file": "apps/frontend-e2e/cypress.config.ts",
+          "hash": "9800334621523850721",
+          "deps": [
+            "npm:cypress",
+            "npm:@nx/cypress"
+          ]
+        },
+        {
+          "file": "apps/frontend-e2e/project.json",
+          "hash": "10789301093134660688"
+        },
+        {
+          "file": "apps/frontend-e2e/src/e2e/app.cy.ts",
+          "hash": "11657093000914298509"
+        },
+        {
+          "file": "apps/frontend-e2e/src/fixtures/example.json",
+          "hash": "11614668686582597233"
+        },
+        {
+          "file": "apps/frontend-e2e/src/support/app.po.ts",
+          "hash": "11157016311132186162"
+        },
+        {
+          "file": "apps/frontend-e2e/src/support/commands.ts",
+          "hash": "15488504619821270701"
+        },
+        {
+          "file": "apps/frontend-e2e/src/support/e2e.ts",
+          "hash": "3666078656922506009"
+        },
+        {
+          "file": "apps/frontend-e2e/tsconfig.json",
+          "hash": "15439127571515986436"
+        }
+      ]
+    },
+    "nonProjectFiles": [
+      {
+        "file": ".dockerignore",
+        "hash": "815227641897223276"
+      },
+      {
+        "file": ".editorconfig",
+        "hash": "5443105041930014821"
+      },
+      {
+        "file": ".eslint-overrides.json",
+        "hash": "3235265451039154122"
+      },
+      {
+        "file": ".eslintignore",
+        "hash": "7663861978715868291"
+      },
+      {
+        "file": ".eslintrc.json",
+        "hash": "18315524891129148814"
+      },
+      {
+        "file": ".github/ISSUE_TEMPLATE/bug_report.md",
+        "hash": "3100914009953534545"
+      },
+      {
+        "file": ".github/ISSUE_TEMPLATE/feature_request.md",
+        "hash": "17760223777039420571"
+      },
+      {
+        "file": ".github/dependabot.yml",
+        "hash": "14718099609860534542"
+      },
+      {
+        "file": ".github/images/choose_events_dark.png",
+        "hash": "3448195903436705928"
+      },
+      {
+        "file": ".github/images/choose_events_light.png",
+        "hash": "14258020957427855041"
+      },
+      {
+        "file": ".github/images/dashboard_dark.png",
+        "hash": "15913428724900377553"
+      },
+      {
+        "file": ".github/images/dashboard_light.png",
+        "hash": "13826629331844960368"
+      },
+      {
+        "file": ".github/images/logo.png",
+        "hash": "9809351272435020224"
+      },
+      {
+        "file": ".github/images/new_poll_dark.png",
+        "hash": "7867512511496174177"
+      },
+      {
+        "file": ".github/images/new_poll_light.png",
+        "hash": "5529921453046718326"
+      },
+      {
+        "file": ".github/images/participate_dark.png",
+        "hash": "7969707846566204238"
+      },
+      {
+        "file": ".github/images/participate_light.png",
+        "hash": "2568638157551655102"
+      },
+      {
+        "file": ".github/workflows/codeql.yml",
+        "hash": "9942829462854381107"
+      },
+      {
+        "file": ".github/workflows/deploy.sh",
+        "hash": "7224555703384247482"
+      },
+      {
+        "file": ".github/workflows/deploy.yml",
+        "hash": "14632509167080551336"
+      },
+      {
+        "file": ".github/workflows/test.yml",
+        "hash": "14877466688573224879"
+      },
+      {
+        "file": ".github/workflows/todos.yaml",
+        "hash": "6073756111772169393"
+      },
+      {
+        "file": ".gitignore",
+        "hash": "6643430237928747354"
+      },
+      {
+        "file": ".prettierignore",
+        "hash": "7505926139152980842"
+      },
+      {
+        "file": ".prettierrc",
+        "hash": "16267754514737964994"
+      },
+      {
+        "file": ".stylelintrc.json",
+        "hash": "2871489519045386215"
+      },
+      {
+        "file": ".vscode/extensions.json",
+        "hash": "235626400633494639"
+      },
+      {
+        "file": "LICENSE.md",
+        "hash": "5151627376445181000"
+      },
+      {
+        "file": "README.md",
+        "hash": "12060742310843351509"
+      },
+      {
+        "file": "apps/.gitkeep",
+        "hash": "3244421341483603138"
+      },
+      {
+        "file": "docker-compose.yml",
+        "hash": "4396609767870168257"
+      },
+      {
+        "file": "docs/bootstrap-icons/LICENSE",
+        "hash": "6875073670710683569"
+      },
+      {
+        "file": "docs/bootstrap-icons/icons/1-square.svg",
+        "hash": "7099749647791767075"
+      },
+      {
+        "file": "docs/bootstrap-icons/icons/calendar-day.svg",
+        "hash": "9108530298019206788"
+      },
+      {
+        "file": "docs/bootstrap-icons/icons/calendar-range.svg",
+        "hash": "6309123941525840756"
+      },
+      {
+        "file": "docs/bootstrap-icons/icons/calendar-week.svg",
+        "hash": "1639673202688417382"
+      },
+      {
+        "file": "docs/bootstrap-icons/icons/calendar2-week.svg",
+        "hash": "1980417977583393325"
+      },
+      {
+        "file": "docs/bootstrap-icons/icons/chat-dots.svg",
+        "hash": "12266383958185610551"
+      },
+      {
+        "file": "docs/bootstrap-icons/icons/clock-history.svg",
+        "hash": "4748867755739288058"
+      },
+      {
+        "file": "docs/bootstrap-icons/icons/copy.svg",
+        "hash": "9771067873223471280"
+      },
+      {
+        "file": "docs/bootstrap-icons/icons/eye-slash.svg",
+        "hash": "4975845613387399203"
+      },
+      {
+        "file": "docs/bootstrap-icons/icons/fast-forward.svg",
+        "hash": "4227631885803317508"
+      },
+      {
+        "file": "docs/bootstrap-icons/icons/incognito.svg",
+        "hash": "825384693081317570"
+      },
+      {
+        "file": "docs/bootstrap-icons/icons/markdown.svg",
+        "hash": "14323302191955215415"
+      },
+      {
+        "file": "docs/bootstrap-icons/icons/pencil-square.svg",
+        "hash": "6993862321932862939"
+      },
+      {
+        "file": "docs/bootstrap-icons/icons/question-square.svg",
+        "hash": "10006632254549017536"
+      },
+      {
+        "file": "docs/bootstrap-icons/icons/send.svg",
+        "hash": "8644847401315770843"
+      },
+      {
+        "file": "docs/bootstrap-icons/icons/sticky.svg",
+        "hash": "9143235526322066795"
+      },
+      {
+        "file": "docs/bootstrap-icons/icons/universal-access-circle.svg",
+        "hash": "15947770659700968873"
+      },
+      {
+        "file": "jest.config.ts",
+        "hash": "12333515226966617182"
+      },
+      {
+        "file": "jest.preset.js",
+        "hash": "9430166341120122740"
+      },
+      {
+        "file": "libs/.gitkeep",
+        "hash": "3244421341483603138"
+      },
+      {
+        "file": "nx.json",
+        "hash": "7014443534653070092"
+      },
+      {
+        "file": "package.json",
+        "hash": "11971080245294823028"
+      },
+      {
+        "file": "pnpm-lock.yaml",
+        "hash": "2952083118771844265"
+      },
+      {
+        "file": "tools/generate-features.mjs",
+        "hash": "10852369714564824586"
+      },
+      {
+        "file": "tools/tsconfig.tools.json",
+        "hash": "8515125823068239382"
+      },
+      {
+        "file": "tsconfig.base.json",
+        "hash": "4505981323798477304"
+      }
+    ]
+  }
+}
