@@ -34,12 +34,14 @@
       <i class="bi-link" ngbTooltip="Link"></i>
     </th>
     <td>
-      <a routerLink="." class="text-truncate">{{ url }}</a>
-      &nbsp;
-      <button class="btn p-0 btn-link bi-clipboard" ngbTooltip="Copy to clipboard"
-              (click)="copyToClipboard()"></button>
-      <button class="btn p-0 btn-link bi-envelope-at" ngbTooltip="Share via email"
-              (click)="draftEmail()"></button>
+      <div class="d-flex align-items-center">
+        <a routerLink="." class="break-link">{{ url }}</a>
+        &nbsp;
+        <button class="btn p-0 btn-link bi-clipboard" ngbTooltip="Copy to clipboard"
+                (click)="copyToClipboard()"></button>
+        <button class="btn p-0 btn-link bi-envelope-at" ngbTooltip="Share via email"
+                (click)="draftEmail()"></button>
+      </div>
     </td>
   </tr>
   @if (stats) {
