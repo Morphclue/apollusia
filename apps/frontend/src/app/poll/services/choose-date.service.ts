@@ -89,7 +89,7 @@ export class ChooseDateService {
     });
   }
 
-  addEvent(start: Date, end: Date) {
+  addEvent(start: Date, end: Date, note?: string) {
     this.events = [...this.events, {
       title: `${format(start, 'HH:mm')} - ${format(end, 'HH:mm')}`,
       start: start,
@@ -101,15 +101,16 @@ export class ChooseDateService {
       },
       meta: {
         tmpEvent: true,
+        note: note !== undefined ? note : undefined,
       },
     }];
   }
 
   postpone(postponeDays: number) {
     this.events = this.events.map(event => ({
-        ...event,
-        start: addDays(event.start, postponeDays),
-        end: addDays(event.end!, postponeDays),
-      }));
+      ...event,
+      start: addDays(event.start, postponeDays),
+      end: addDays(event.end!, postponeDays),
+    }));
   }
 }
