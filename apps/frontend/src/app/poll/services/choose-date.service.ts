@@ -101,7 +101,7 @@ export class ChooseDateService {
       },
       meta: {
         tmpEvent: true,
-        note: note !== undefined ? note : undefined,
+        note,
       },
     }];
   }
