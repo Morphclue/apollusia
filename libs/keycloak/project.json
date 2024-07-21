@@ -12,7 +12,14 @@
       "options": {
         "outputPath": "libs/keycloak/common/resources/css/",
         "main": "libs/keycloak/src/theme.scss",
-        "sourceMap": true
+        "sourceMap": true,
+        "assets": [
+          {
+            "glob": "**/*.{woff,woff2}",
+            "input": "../../node_modules/bootstrap-icons/font/fonts",
+            "output": "libs/keycloak/common/resources/css/fonts"
+          }
+        ]
       },
       "configurations": {
         "production": {},
@@ -26,7 +33,14 @@
         "watch": true,
         "outputPath": "libs/keycloak/common/resources/css/",
         "main": "libs/keycloak/src/theme.scss",
-        "sourceMap": true
+        "sourceMap": true,
+        "assets": [
+          {
+            "glob": "**/*.{woff,woff2}",
+            "input": "../../node_modules/bootstrap-icons/font/fonts",
+            "output": "libs/keycloak/common/resources/css/fonts"
+          }
+        ]
       }
     },
     "lint": {

@@ -18,6 +18,7 @@ export class AutofillModalComponent implements OnInit {
     duration: new FormControl('00:15', Validators.required),
     pause: new FormControl('00:00', Validators.required),
     repeat: new FormControl(1, Validators.required),
+    note: new FormControl(''),
   });
   endTime: string = '';
 
@@ -76,6 +77,7 @@ export class AutofillModalComponent implements OnInit {
     const durationValue = this.modalForm.get('duration')?.value;
     const pauseValue = this.modalForm.get('pause')?.value;
     const repeat = this.modalForm.get('repeat')?.value;
+    const note = this.modalForm.get('note')?.value ?? undefined;
 
     if (!dateValue || !repeat || !startTimeValue || !durationValue || !pauseValue) {
       return;
@@ -91,13 +93,13 @@ export class AutofillModalComponent implements OnInit {
       start.setHours(startTime[0], startTime[1], 0, 0);
       let end = new Date(start);
       end = addMinutes(end, duration);
-      this.chooseDateService.addEvent(start, end);
+      this.chooseDateService.addEvent(start, end, note);
       for (let j = 0; j < repeat - 1; j++) {
         start = new Date(end);
         start = addMinutes(start, pause);
         end = new Date(start);
         end = addMinutes(end, duration);
-        this.chooseDateService.addEvent(start, end);
+        this.chooseDateService.addEvent(start, end, note);
       }
     }
   }

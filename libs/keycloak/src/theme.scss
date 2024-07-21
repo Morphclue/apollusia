@@ -1,4 +1,26 @@
+/* Color palette */
+$french-violet: #7b2cbfff;
+$amethyst: #9d4eddff;
+$white: #ffffff;
+$facebook: #1877f2;
+$google: #ea4335;
+$github: #333333;
+$twitter: #1da1f2;
+
+/* overrides */
+$primary: $french-violet;
+
+@font-face {
+  font-family: 'bootstrap-icons';
+  src: url('fonts/bootstrap-icons.woff') format('woff'),
+  url('fonts/bootstrap-icons.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* imports */
 @import "../../../node_modules/bootstrap/scss/bootstrap";
+@import "../../../node_modules/bootstrap-icons/font/bootstrap-icons";
 
 html, body {
   height: 100%;
@@ -6,8 +28,13 @@ html, body {
 
 body {
   display: flex;
-  background: url('../img/keycloak-bg.png') no-repeat center center fixed;
+  background: url('../img/keycloak-bg.png') no-repeat center center fixed, rgba($amethyst, 0.5);
+  background-blend-mode: multiply;
   background-size: cover;
+}
+
+#kc-header-wrapper {
+  display: none;
 }
 
 .login-pf-page-header {
@@ -23,10 +50,21 @@ body {
 
 .card-pf {
   @extend .card;
+  border: none;
+  width: 50%;
+  height: auto;
+  margin: auto;
 }
 
 .login-pf-header {
   @extend .card-header;
+  background-color: $primary;
+  color: $white;
+}
+
+#kc-page-title {
+  @extend .card-title;
+  @extend .h3;
 }
 
 #kc-content {
@@ -43,4 +81,66 @@ body {
 
 .pf-c-button.pf-m-primary {
   @extend .btn-primary;
+}
+
+#kc-social-providers {
+  h2 {
+    @extend .h4;
+  }
+
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+}
+
+.kc-social-item {
+  @extend .btn;
+  @extend .btn-primary;
+  @extend .mb-3;
+  @extend .w-100;
+  @extend .border-0;
+  display: flex;
+  justify-content: flex-start;
+
+  .fa {
+    @extend .bi;
+    @extend .me-2;
+  }
+}
+
+#social-facebook {
+  @extend .kc-social-item;
+  background-color: $facebook;
+
+  .fa-facebook {
+    @extend .bi-facebook;
+  }
+}
+
+#social-github {
+  @extend .kc-social-item;
+  background-color: $github;
+
+  .fa-github {
+    @extend .bi-github;
+  }
+}
+
+#social-google {
+  @extend .kc-social-item;
+  background-color: $google;
+
+  .fa-google {
+    @extend .bi-google;
+  }
+}
+
+#social-twitter {
+  @extend .kc-social-item;
+  background-color: $twitter;
+
+  .fa-twitter {
+    @extend .bi-twitter;
+  }
 }
