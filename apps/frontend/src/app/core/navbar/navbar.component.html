@@ -18,6 +18,9 @@
                 <a ngbDropdownItem href="{{ environment.keycloak.url }}/realms/{{ environment.keycloak.realm }}/account" target="_blank" class="bi-person-gear">
                   Account Settings
                 </a>
+                <a ngbDropdownItem href="{{ environment.keycloak.url }}/realms/{{ environment.keycloak.realm }}/account#/account-security/signing-in" target="_blank" class="bi-person-lock">
+                  Change Password & 2FA
+                </a>
                 <button ngbDropdownItem (click)="logout()" class="text-warning bi-box-arrow-right">
                   Logout
                 </button>
