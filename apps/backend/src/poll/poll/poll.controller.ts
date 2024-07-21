@@ -128,8 +128,13 @@ export class PollController {
     }
 
     @Post(':id/participate')
-    async postParticipation(@Param('id', ObjectIdPipe) id: Types.ObjectId, @Body() participant: CreateParticipantDto): Promise<Participant> {
-        return this.pollService.postParticipation(id, participant);
+    @UseGuards(OptionalAuthGuard)
+    async postParticipation(
+      @Param('id', ObjectIdPipe) id: Types.ObjectId,
+      @Body() participant: CreateParticipantDto,
+      @AuthUser() user?: UserToken,
+    ): Promise<Participant> {
+        return this.pollService.postParticipation(id, participant, user);
     }
 
     @Put('mail/participate')

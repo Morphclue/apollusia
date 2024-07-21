@@ -312,7 +312,7 @@ export class PollService implements OnModuleInit {
     return this.participantModel.find({poll}).exec();
   }
 
-  async postParticipation(id: Types.ObjectId, dto: CreateParticipantDto): Promise<Participant> {
+  async postParticipation(id: Types.ObjectId, dto: CreateParticipantDto, user?: UserToken): Promise<Participant> {
     const poll = await this.pollModel.findById(id).exec();
     if (!poll) {
       throw new NotFoundException(id);
@@ -327,6 +327,7 @@ export class PollService implements OnModuleInit {
     const participant = await this.participantModel.create({
       ...dto,
       poll: new Types.ObjectId(id),
+      createdBy: user?.sub,
     });
 
     poll.adminMail && this.sendAdminInfo(poll, participant);
