@@ -53,6 +53,12 @@ export class Poll {
     @ApiProperty()
     id: string;
 
+    @ApiPropertyOptional()
+    createdAt?: Date;
+
+    @ApiPropertyOptional()
+    updatedAt?: Date;
+
     @ApiProperty({format: 'uuid'})
     @Prop({required: false, type: SchemaTypes.UUID, transform: (v: object) => v.toString()})
     @IsOptional()
