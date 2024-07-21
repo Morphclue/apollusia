@@ -5,6 +5,7 @@ import {BrowserModule, provideClientHydration} from '@angular/platform-browser';
 import {ServiceWorkerModule} from '@angular/service-worker';
 import {ModalModule, ToastModule} from '@mean-stream/ngbx';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {KeycloakAngularModule, KeycloakService} from 'keycloak-angular';
 
 import {AboutModule} from './about/about.module';
 import {AppRoutingModule} from './app-routing.module';
@@ -13,7 +14,6 @@ import {CoreModule} from './core/core.module';
 import {ParticipantTokenInterceptor} from './core/interceptors/participant-token.interceptor';
 import {TokenService} from './core/services';
 import {LegalModule} from './legal/legal.module';
-import {KeycloakAngularModule, KeycloakService} from 'keycloak-angular';
 import {environment} from '../environments/environment';
 
 function initializeKeycloak(keycloak: KeycloakService) {
