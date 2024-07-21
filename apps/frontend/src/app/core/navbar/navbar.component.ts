@@ -1,8 +1,11 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Theme, ThemeService} from '@mean-stream/ngbx';
 import {NgbOffcanvas} from '@ng-bootstrap/ng-bootstrap';
+import {KeycloakService} from 'keycloak-angular';
+import {KeycloakProfile} from 'keycloak-js';
 import {Subject} from 'rxjs';
 
+import {environment} from '../../../environments/environment';
 import {StorageService} from '../services/storage.service';
 
 @Component({
@@ -10,7 +13,8 @@ import {StorageService} from '../services/storage.service';
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss'],
 })
-export class NavbarComponent {
+export class NavbarComponent implements OnInit {
+  readonly environment = environment;
   readonly currentYear = new Date().getFullYear();
   readonly version = APP_VERSION;
   readonly changelogLink = (() => {
@@ -45,10 +49,13 @@ export class NavbarComponent {
 
   recentPolls: { id: string; title: string; location: string; visitedAt: string; }[] = [];
 
+  user?: KeycloakProfile;
+
   constructor(
     themeService: ThemeService,
     protected readonly offcanvas: NgbOffcanvas,
     private readonly storageService: StorageService,
+    private readonly keycloakService: KeycloakService,
   ) {
     this.theme$ = themeService.theme$;
   }
@@ -59,5 +66,21 @@ export class NavbarComponent {
       .sort((a, b) => Date.parse(b.visitedAt) - Date.parse(a.visitedAt))
       .slice(0, 10)
     ;
+  }
+
+  ngOnInit() {
+    this.keycloakService.loadUserProfile().then(user => {
+      this.user = user;
+    }, () => {});
+  }
+
+  login() {
+    this.keycloakService.login({
+      redirectUri: window.location.href,
+    });
+  }
+
+  logout() {
+    this.keycloakService.logout(window.location.href);
   }
 }

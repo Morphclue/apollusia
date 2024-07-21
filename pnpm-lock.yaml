@@ -122,6 +122,12 @@ dependencies:
   ical-generator:
     specifier: ^7.1.0
     version: 7.1.0(@types/node@20.14.8)
+  keycloak-angular:
+    specifier: ^15.2.1
+    version: 15.3.0(@angular/common@17.3.9)(@angular/core@17.3.9)(@angular/router@17.3.9)(keycloak-js@24.0.5)
+  keycloak-js:
+    specifier: ^24.0.4
+    version: 24.0.5
   markdown-it:
     specifier: ^14.1.0
     version: 14.1.0
@@ -11844,6 +11850,10 @@ packages:
     dev: false
     optional: true
 
+  /js-sha256@0.11.0:
+    resolution: {integrity: sha512-6xNlKayMZvds9h1Y1VWc0fQHQ82BxTXizWPEtEeGvmOUYpBRy4gbWroHLpzowe6xiQhHpelCQiE7HEdznyBL9Q==}
+    dev: false
+
   /js-stringify@1.0.2:
     resolution: {integrity: sha512-rtS5ATOo2Q5k1G+DADISilDA6lv79zIiwFd6CcjuIxGKLFm5C+RLImRscVap9k55i+MOZwgliw+NejvkLuGD5g==}
     requiresBuild: true
@@ -12053,6 +12063,11 @@ packages:
       safe-buffer: 5.2.1
     dev: false
 
+  /jwt-decode@4.0.0:
+    resolution: {integrity: sha512-+KJGIyHgkGuIq3IEBNftfhW/LfWhXUIY6OmyVWjliu5KH1y0fw7VQ8YndE2O4qZdMSd9SqbnC8GOcZEy0Om7sA==}
+    engines: {node: '>=18'}
+    dev: false
+
   /kareem@2.6.3:
     resolution: {integrity: sha512-C3iHfuGUXK2u8/ipq9LfjFfXFxAZMQJJq7vLS45r3D9Y2xQ/m4S8zaR4zMLFWh9AsNPXmcFfUDhTEO8UIC/V6Q==}
     engines: {node: '>=12.0.0'}
@@ -12063,6 +12078,28 @@ packages:
     dependencies:
       source-map-support: 0.5.21
     dev: true
+
+  /keycloak-angular@15.3.0(@angular/common@17.3.9)(@angular/core@17.3.9)(@angular/router@17.3.9)(keycloak-js@24.0.5):
+    resolution: {integrity: sha512-fejYO3bqiXOYsvV7vBh+2pj8xYDi0mL8SWo97vxM/ofx8PXFA6Ug/ujPZnuN/S2ZP759Wf1NCpznvYoWpZ2jcA==}
+    peerDependencies:
+      '@angular/common': ^17
+      '@angular/core': ^17
+      '@angular/router': ^17
+      keycloak-js: ^18 || ^19 || ^20 || ^21 || ^22 || ^23 || ^24 || ^25
+    dependencies:
+      '@angular/common': 17.3.9(@angular/core@17.3.9)(rxjs@7.8.1)
+      '@angular/core': 17.3.9(rxjs@7.8.1)(zone.js@0.14.3)
+      '@angular/router': 17.3.9(@angular/common@17.3.9)(@angular/core@17.3.9)(@angular/platform-browser@17.3.9)(rxjs@7.8.1)
+      keycloak-js: 24.0.5
+      tslib: 2.6.3
+    dev: false
+
+  /keycloak-js@24.0.5:
+    resolution: {integrity: sha512-VQOSn3j13DPB6OuavKAq+sRjDERhIKrXgBzekoHRstifPuyULILguugX6yxRUYFSpn3OMYUXmSX++tkdCupOjA==}
+    dependencies:
+      js-sha256: 0.11.0
+      jwt-decode: 4.0.0
+    dev: false
 
   /keyv@4.5.4:
     resolution: {integrity: sha512-oxVHkHR/EJf2CNXnWxRLW6mg7JyCCUcG0DtEGmL2ctUo1PNTin1PUil+r/+4r5MpVgC/fn1kjsx7mjSujKqIpw==}
