@@ -1,10 +1,19 @@
 import 'base64-js'; // FIXME needs explicit import because nx does not detect it in objectIdToBase64
-import {objectIdToBase64, RefArray} from '@mean-stream/nestx/ref';
+import {objectIdToBase64} from '@mean-stream/nestx/ref';
 import {Prop, Schema, SchemaFactory} from '@nestjs/mongoose';
 import {ApiProperty, ApiPropertyOptional} from '@nestjs/swagger';
 import {Type} from 'class-transformer';
-import {IsNotEmpty, IsObject, IsOptional, IsString, IsTimeZone, MinLength, ValidateNested} from 'class-validator';
-import {Types} from 'mongoose';
+import {
+  IsNotEmpty,
+  IsObject,
+  IsOptional,
+  IsString,
+  IsTimeZone,
+  IsUUID,
+  MinLength,
+  ValidateNested,
+} from 'class-validator';
+import {SchemaTypes, Types} from 'mongoose';
 import {Settings, SettingsSchema} from './settings';
 
 @Schema({
@@ -43,6 +52,12 @@ export class Poll {
 
     @ApiProperty()
     id: string;
+
+    @ApiProperty({format: 'uuid'})
+    @Prop({required: false, type: SchemaTypes.UUID, transform: (v: object) => v.toString()})
+    @IsOptional()
+    @IsUUID()
+    createdBy?: string;
 
     @Prop({required: true})
     @ApiProperty()

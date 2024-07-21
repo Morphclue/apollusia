@@ -26,6 +26,7 @@ import {environment} from '../../environment';
 import {renderDate} from '../../mail/helpers';
 import {MailService} from '../../mail/mail/mail.service';
 import {PushService} from '../../push/push.service';
+import {UserToken} from '@mean-stream/nestx/auth';
 
 @Injectable()
 export class PollService implements OnModuleInit {
@@ -184,8 +185,8 @@ export class PollService implements OnModuleInit {
       .exec();
   }
 
-  async postPoll(pollDto: PollDto): Promise<ReadPollDto> {
-    const poll = await this.pollModel.create(pollDto);
+  async postPoll(pollDto: PollDto, user?: UserToken): Promise<ReadPollDto> {
+    const poll = await this.pollModel.create(user ? {...pollDto, createdBy: user.sub} : pollDto);
     return this.mask(poll.toObject());
   }
 
