@@ -1,15 +1,17 @@
 import {
+  CreateParticipantDto,
   MailDto,
   Participant,
-  CreateParticipantDto,
   PollDto,
   PollEvent,
   PollEventDto,
   ReadParticipantDto,
   ReadPollDto,
+  ReadPollEventDto,
   ReadStatsPollDto,
-  UpdateParticipantDto, ReadPollEventDto,
+  UpdateParticipantDto,
 } from '@apollusia/types';
+import {AuthUser, UserToken} from '@mean-stream/nestx/auth';
 import {ObjectIdPipe} from '@mean-stream/nestx/ref';
 import {
   Body,
@@ -25,10 +27,12 @@ import {
   Post,
   Put,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import {Types} from 'mongoose';
 
 import {PollService} from './poll.service';
+import {OptionalAuthGuard} from '../../auth/optional-auth.guard';
 
 
 @Controller('poll')
@@ -59,8 +63,12 @@ export class PollController {
     }
 
     @Post()
-    async postPoll(@Body() pollDto: PollDto): Promise<ReadPollDto> {
-        return this.pollService.postPoll(pollDto);
+    @UseGuards(OptionalAuthGuard)
+    async postPoll(
+      @Body() pollDto: PollDto,
+      @AuthUser() user?: UserToken,
+    ): Promise<ReadPollDto> {
+      return this.pollService.postPoll(pollDto, user);
     }
 
     @Put(':id')
@@ -120,8 +128,13 @@ export class PollController {
     }
 
     @Post(':id/participate')
-    async postParticipation(@Param('id', ObjectIdPipe) id: Types.ObjectId, @Body() participant: CreateParticipantDto): Promise<Participant> {
-        return this.pollService.postParticipation(id, participant);
+    @UseGuards(OptionalAuthGuard)
+    async postParticipation(
+      @Param('id', ObjectIdPipe) id: Types.ObjectId,
+      @Body() participant: CreateParticipantDto,
+      @AuthUser() user?: UserToken,
+    ): Promise<Participant> {
+        return this.pollService.postParticipation(id, participant, user);
     }
 
     @Put('mail/participate')

@@ -1,6 +1,8 @@
+import {AuthModule} from '@mean-stream/nestx/auth';
 import {Module} from '@nestjs/common';
 import {MongooseModule} from '@nestjs/mongoose';
 
+import {OptionalAuthGuard} from './auth/optional-auth.guard';
 import {environment} from './environment';
 import {ImprintModule} from './imprint/imprint.module';
 import {MailModule} from './mail/mail.module';
@@ -12,6 +14,7 @@ import {TokenModule} from './token/token.module';
 @Module({
   imports: [
     MongooseModule.forRoot(environment.mongo.uri),
+    AuthModule.forRoot(environment.auth),
     PollModule,
     TokenModule,
     StatisticsModule,
@@ -19,6 +22,7 @@ import {TokenModule} from './token/token.module';
     PushModule,
     ImprintModule,
   ],
+  providers: [OptionalAuthGuard],
 })
 export class AppModule {
 }
