@@ -25,9 +25,10 @@ function initializeKeycloak(keycloak: KeycloakService) {
       config: environment.keycloak,
       initOptions: {
         onLoad: 'check-sso',
+        messageReceiveTimeout: 1000,
         silentCheckSsoRedirectUri: window.location.origin + '/assets/silent-check-sso.html',
       },
-    });
+    }).catch(console.error);
   };
 }
 
