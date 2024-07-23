@@ -17,14 +17,18 @@ import {LegalModule} from './legal/legal.module';
 import {environment} from '../environments/environment';
 
 function initializeKeycloak(keycloak: KeycloakService) {
-  return () =>
-    keycloak.init({
+  return async () => {
+    if (!globalThis.window) {
+      return true;
+    }
+    return keycloak.init({
       config: environment.keycloak,
       initOptions: {
         onLoad: 'check-sso',
-        silentCheckSsoRedirectUri: window.location.origin + '/assets/silent-check-sso.html'
-      }
+        silentCheckSsoRedirectUri: window.location.origin + '/assets/silent-check-sso.html',
+      },
     });
+  };
 }
 
 @NgModule({
