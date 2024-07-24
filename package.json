@@ -97,6 +97,8 @@
     "@nestjs/swagger": "^7.3.1",
     "@nestjs/websockets": "^10.3.10",
     "@ng-bootstrap/ng-bootstrap": "^16.0.0",
+    "@swc-node/register": "^1.10.9",
+    "@swc/core": "^1.7.0",
     "angular-calendar": "^0.31.1",
     "angularx-flatpickr": "^7.3.0",
     "axios": "^1.7.2",
