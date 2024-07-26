@@ -25,7 +25,7 @@ export class DashboardComponent implements OnInit {
     private pollService: PollService,
     private route: ActivatedRoute,
     private toastService: ToastService,
-    keycloakService: KeycloakService,
+    private keycloakService: KeycloakService,
     tokenService: TokenService,
   ) {
     this.loggedIn = keycloakService.isLoggedIn();
@@ -53,5 +53,9 @@ export class DashboardComponent implements OnInit {
       this.toastService.success('Claim Polls', 'Successfully claimed polls.');
       this.unclaimed = false;
     });
+  }
+
+  login() {
+    this.keycloakService.login();
   }
 }
