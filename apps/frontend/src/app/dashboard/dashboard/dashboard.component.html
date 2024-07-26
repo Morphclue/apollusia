@@ -58,5 +58,20 @@
         </li>
       </ul>
     </div>
+    <div class="col-md-3">
+      @if (loggedIn && unclaimed && !participated) {
+        <div class="alert alert-warning">
+          <p>
+            It looks like some of your polls are not associated with your account yet.
+          </p>
+          <p>
+            To ensure you can always manage them on all your devices, you can claim them now.
+          </p>
+          <button class="btn btn-primary" (click)="claim()">
+            Claim Polls
+          </button>
+        </div>
+      }
+    </div>
   </div>
 </div>
