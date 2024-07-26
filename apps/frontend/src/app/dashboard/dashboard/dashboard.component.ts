@@ -1,12 +1,13 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
+import {ToastService} from '@mean-stream/ngbx';
+import {KeycloakService} from 'keycloak-angular';
 import {switchMap, tap} from 'rxjs/operators';
 
+import {TokenService} from '../../core/services';
 import {ReadPoll} from '../../model';
 import {PollService} from '../../poll/services/poll.service';
-import {KeycloakService} from 'keycloak-angular';
-import {TokenService} from '../../core/services';
-import {ToastService} from '@mean-stream/ngbx';
+
 
 @Component({
   selector: 'app-dashboard',
