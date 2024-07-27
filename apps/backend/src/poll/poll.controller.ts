@@ -32,7 +32,7 @@ import {
 import {Types} from 'mongoose';
 
 import {PollService} from './poll.service';
-import {OptionalAuthGuard} from '../../auth/optional-auth.guard';
+import {OptionalAuthGuard} from '../auth/optional-auth.guard';
 
 
 @Controller('poll')
