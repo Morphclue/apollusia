@@ -58,5 +58,54 @@
         </li>
       </ul>
     </div>
+    <div class="col-md-3">
+      @if (!loggedIn) {
+        <div class="card">
+          <div class="card-body">
+            <img class="card-img" src="/assets/artwork/account.svg" alt="Account" width="100%">
+            <h5 class="card-title">
+              Sign In to Apollusia
+              <span class="badge bg-primary">New</span>
+            </h5>
+            <p class="card-text">
+              You can now log into Apollusia with an account, so you can manage your polls on all your devices and continue to use these features:
+            </p>
+            <ul class="card-text">
+              <li>Email notifications for your polls</li>
+              <li>Push notifications for your polls</li>
+              <li>Email notifications for your participations</li>
+            </ul>
+            <p class="card-text">
+              We will also add the following features built on accounts soon:
+            </p>
+            <ul>
+              <li>Additional poll admins</li>
+              <li>Push notifications for your participations</li>
+            </ul>
+            <button class="btn btn-primary w-100 mb-3" (click)="login()">
+              Sign Up
+            </button>
+            <p class="card-text small text-muted">
+              <i class="bi-info-circle"></i>
+              Accounts are free, secure and forever optional.
+              <a href="https://github.com/Morphclue/apollusia/issues/169" target="_blank">Learn more</a>
+            </p>
+          </div>
+        </div>
+      }
+      @if (loggedIn && unclaimed && !participated) {
+        <div class="alert alert-warning">
+          <p>
+            It looks like some of your polls are not associated with your account yet.
+          </p>
+          <p>
+            To ensure you can always manage them on all your devices, you can claim them now.
+          </p>
+          <button class="btn btn-primary" (click)="claim()">
+            Claim Polls
+          </button>
+        </div>
+      }
+    </div>
   </div>
 </div>

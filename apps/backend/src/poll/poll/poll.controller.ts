@@ -11,7 +11,7 @@ import {
   ReadStatsPollDto,
   UpdateParticipantDto,
 } from '@apollusia/types';
-import {AuthUser, UserToken} from '@mean-stream/nestx/auth';
+import {Auth, AuthUser, UserToken} from '@mean-stream/nestx/auth';
 import {ObjectIdPipe} from '@mean-stream/nestx/ref';
 import {
   Body,
@@ -51,6 +51,15 @@ export class PollController {
       }
       return this.pollService.getPolls(token, active !== undefined ? active === 'true' : undefined);
     }
+
+  @Post('claim/:token')
+  @Auth()
+  async claimPolls(
+    @AuthUser() user: UserToken,
+    @Param('token') token: string,
+  ): Promise<void> {
+    return this.pollService.claimPolls(token, user.sub);
+  }
 
     @Get(':id/admin/:token')
     async isAdmin(@Param('id', ObjectIdPipe) id: Types.ObjectId, @Param('token') token: string): Promise<boolean> {
