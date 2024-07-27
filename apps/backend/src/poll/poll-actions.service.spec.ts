@@ -145,7 +145,7 @@ describe('PollActionsService', () => {
 
   it('should be admin', async () => {
     const poll = await pollModel.findOne({title: 'Party (clone)'}).exec();
-    const isAdmin = await service.isAdmin(poll._id, ParticipantStub().token);
+    const isAdmin = service.isAdmin(poll, ParticipantStub().token, undefined);
     expect(isAdmin).toEqual(true);
   });
 });

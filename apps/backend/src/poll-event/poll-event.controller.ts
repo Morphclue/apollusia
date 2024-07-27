@@ -1,9 +1,22 @@
 import {PollEvent, PollEventDto, ReadPollEventDto} from '@apollusia/types';
-import {ObjectIdPipe} from '@mean-stream/nestx/ref';
-import {Body, Controller, Get, Param, ParseArrayPipe, Post} from '@nestjs/common';
-import {Types} from 'mongoose';
-import {PollActionsService} from '../poll/poll-actions.service';
 import {notFound} from '@mean-stream/nestx';
+import {AuthUser, UserToken} from '@mean-stream/nestx/auth';
+import {ObjectIdPipe} from '@mean-stream/nestx/ref';
+import {
+  Body,
+  Controller,
+  ForbiddenException,
+  Get,
+  Headers,
+  Param,
+  ParseArrayPipe,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
+import {Types} from 'mongoose';
+
+import {OptionalAuthGuard} from '../auth/optional-auth.guard';
+import {PollActionsService} from '../poll/poll-actions.service';
 
 @Controller('poll/:poll/events')
 export class PollEventController {
@@ -16,17 +29,22 @@ export class PollEventController {
   async getEvents(
     @Param('poll', ObjectIdPipe) poll: Types.ObjectId,
   ): Promise<ReadPollEventDto[]> {
-    await this.pollService.getPoll(poll) ?? notFound(poll);
+    await this.pollService.find(poll) ?? notFound(poll);
     return this.pollService.getEvents(poll);
   }
 
   @Post()
+  @UseGuards(OptionalAuthGuard)
   async postEvents(
     @Param('poll', ObjectIdPipe) poll: Types.ObjectId,
     @Body(new ParseArrayPipe({items: PollEventDto})) pollEvents: PollEventDto[],
+    @Headers('Participant-Token') token?: string,
+    @AuthUser() user?: UserToken,
   ): Promise<PollEvent[]> {
-    // FIXME anyone can edit events!
-    await this.pollService.getPoll(poll) ?? notFound(poll);
+    const pollDoc = await this.pollService.find(poll) ?? notFound(poll);
+    if (!this.pollService.isAdmin(pollDoc, token, user?.sub)) {
+      throw new ForbiddenException('You are not allowed to edit events for this poll');
+    }
     return this.pollService.postEvents(poll, pollEvents);
   }
 

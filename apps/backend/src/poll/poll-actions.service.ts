@@ -176,6 +176,11 @@ export class PollActionsService implements OnModuleInit {
       .exec();
   }
 
+  // Only for internal use
+  async find(id: Types.ObjectId): Promise<Doc<Poll>> {
+    return this.pollModel.findById(id).exec();
+  }
+
   async getPoll(id: Types.ObjectId): Promise<Doc<ReadPollDto>> {
     return this.pollModel
       .findById(id)
@@ -463,7 +468,7 @@ export class PollActionsService implements OnModuleInit {
     }).exec();
   }
 
-  async isAdmin(id: Types.ObjectId, token: string) {
-    return this.pollModel.findById(id).exec().then(poll => poll.adminToken === token);
+  isAdmin(poll: Poll, token: string | undefined, user: string | undefined) {
+    return poll.adminToken === token || poll.createdBy === user;
   }
 }

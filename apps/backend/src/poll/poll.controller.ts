@@ -1,4 +1,5 @@
 import {MailDto, PollDto, ReadPollDto, ReadStatsPollDto} from '@apollusia/types';
+import {notFound} from '@mean-stream/nestx';
 import {AuthUser, UserToken} from '@mean-stream/nestx/auth';
 import {ObjectIdPipe} from '@mean-stream/nestx/ref';
 import {
@@ -39,10 +40,16 @@ export class PollController {
       return this.pollService.getPolls(token, active !== undefined ? active === 'true' : undefined);
     }
 
-    @Get(':id/admin/:token')
-    async isAdmin(@Param('id', ObjectIdPipe) id: Types.ObjectId, @Param('token') token: string): Promise<boolean> {
-        return this.pollService.isAdmin(id, token);
-    }
+  @Get(':id/admin/:token')
+  @UseGuards(OptionalAuthGuard)
+  async isAdmin(
+    @Param('id', ObjectIdPipe) id: Types.ObjectId,
+    @Param('token') token: string,
+    @AuthUser() user?: UserToken,
+  ): Promise<boolean> {
+    const poll = await this.pollService.find(id) ?? notFound(id);
+    return this.pollService.isAdmin(poll, token, user?.sub);
+  }
 
     @Get(':id')
     async getPoll(@Param('id', ObjectIdPipe) id: Types.ObjectId): Promise<ReadPollDto> {
