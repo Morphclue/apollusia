@@ -17,9 +17,8 @@ import {
   ShowResultOptions,
   UpdateParticipantDto,
 } from '@apollusia/types';
-import {Doc} from '@mean-stream/nestx/ref';
-import {notFound} from '@mean-stream/nestx/not-found';
 import {UserToken} from '@mean-stream/nestx/auth';
+import {Doc} from '@mean-stream/nestx/ref';
 import {Injectable, Logger, NotFoundException, OnModuleInit, UnprocessableEntityException} from '@nestjs/common';
 import {InjectModel} from '@nestjs/mongoose';
 import {Document, FilterQuery, Model, Types} from 'mongoose';
