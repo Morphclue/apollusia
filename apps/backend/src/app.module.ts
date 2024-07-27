@@ -6,6 +6,7 @@ import {OptionalAuthGuard} from './auth/optional-auth.guard';
 import {environment} from './environment';
 import {ImprintModule} from './imprint/imprint.module';
 import {MailModule} from './mail/mail.module';
+import {ParticipantModule} from './participant/participant.module';
 import {PollModule} from './poll/poll.module';
 import {PushModule} from './push/push.module';
 import {StatisticsModule} from './statistics/statistics.module';
@@ -16,6 +17,7 @@ import {TokenModule} from './token/token.module';
     MongooseModule.forRoot(environment.mongo.uri),
     AuthModule.forRoot(environment.auth),
     PollModule,
+    ParticipantModule,
     TokenModule,
     StatisticsModule,
     MailModule,
