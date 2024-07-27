@@ -1,15 +1,11 @@
 import {
-  CreateParticipantDto,
   MailDto,
-  Participant,
   PollDto,
   PollEvent,
   PollEventDto,
-  ReadParticipantDto,
   ReadPollDto,
   ReadPollEventDto,
   ReadStatsPollDto,
-  UpdateParticipantDto,
 } from '@apollusia/types';
 import {AuthUser, UserToken} from '@mean-stream/nestx/auth';
 import {ObjectIdPipe} from '@mean-stream/nestx/ref';
@@ -119,45 +115,9 @@ export class PollController {
         return this.pollService.postEvents(id, pollEvents);
     }
 
-    @Get(':id/participate')
-    async getParticipants(
-        @Param('id', ObjectIdPipe) id: Types.ObjectId,
-        @Headers('Participant-Token') token: string,
-    ): Promise<ReadParticipantDto[]> {
-        return this.pollService.getParticipants(id, token);
-    }
-
-    @Post(':id/participate')
-    @UseGuards(OptionalAuthGuard)
-    async postParticipation(
-      @Param('id', ObjectIdPipe) id: Types.ObjectId,
-      @Body() participant: CreateParticipantDto,
-      @AuthUser() user?: UserToken,
-    ): Promise<Participant> {
-        return this.pollService.postParticipation(id, participant, user);
-    }
-
     @Put('mail/participate')
     async setMail(@Body() mailDto: MailDto): Promise<void> {
         return this.pollService.setMail(mailDto);
-    }
-
-    @Put(':id/participate/:participantId')
-    async editParticipation(
-        @Param('id', ObjectIdPipe) id: Types.ObjectId,
-        @Param('participantId', ObjectIdPipe) participantId: Types.ObjectId,
-        @Headers('Participant-Token') token: string,
-        @Body() participant: UpdateParticipantDto,
-    ): Promise<ReadParticipantDto | null> {
-        return this.pollService.editParticipation(id, participantId, token, participant);
-    }
-
-    @Delete(':id/participate/:participantId')
-    async deleteParticipation(
-        @Param('id', ObjectIdPipe) id: Types.ObjectId,
-        @Param('participantId', ObjectIdPipe) participantId: Types.ObjectId,
-    ): Promise<ReadParticipantDto | null> {
-        return this.pollService.deleteParticipation(id, participantId);
     }
 
   @Post(':id/book')

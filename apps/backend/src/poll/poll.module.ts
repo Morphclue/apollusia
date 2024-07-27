@@ -18,6 +18,7 @@ import {PushModule} from '../push/push.module';
         PushModule,
     ],
     providers: [PollActionsService],
+  exports: [PollActionsService],
     controllers: [PollController],
 })
 export class PollModule {
