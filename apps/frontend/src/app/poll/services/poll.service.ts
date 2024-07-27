@@ -34,6 +34,10 @@ export class PollService {
     return Date.parse(event.start) < Date.now();
   }
 
+  claim(adminToken: string) {
+    return this.http.post(`${environment.backendURL}/poll/claim/${adminToken}`, {});
+  }
+
   getOwn(active?: boolean): Observable<ReadPoll[]> {
     return this.http.get<ReadPoll[]>(`${environment.backendURL}/poll`, {
       params: active !== undefined ? {

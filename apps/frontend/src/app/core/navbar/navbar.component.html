@@ -13,7 +13,7 @@
             <div ngbDropdownMenu class="dropdown-menu dropdown-menu-end">
               @if (user) {
                 <h5 class="dropdown-header">
-                  Logged in as <strong>{{ user.username }}</strong>
+                  Signed in as <strong>{{ user.username }}</strong>
                 </h5>
                 <a ngbDropdownItem href="{{ environment.keycloak.url }}/realms/{{ environment.keycloak.realm }}/account" target="_blank" class="bi-person-gear">
                   Account Settings
@@ -22,11 +22,11 @@
                   Change Password & 2FA
                 </a>
                 <button ngbDropdownItem (click)="logout()" class="text-warning bi-box-arrow-right">
-                  Logout
+                  Sign Out
                 </button>
               } @else {
                 <button ngbDropdownItem (click)="login()" class="bi-box-arrow-in-right">
-                  Login
+                  Sign In
                 </button>
               }
               <div class="dropdown-divider"></div>

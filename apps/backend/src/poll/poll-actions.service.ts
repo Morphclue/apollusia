@@ -466,4 +466,9 @@ export class PollActionsService implements OnModuleInit {
   isAdmin(poll: Poll, token: string | undefined, user: string | undefined) {
     return poll.adminToken === token || poll.createdBy === user;
   }
+
+  async claimPolls(adminToken: string, createdBy: string): Promise<void> {
+    await this.pollModel.updateMany({adminToken}, {createdBy}).exec();
+    await this.participantModel.updateMany({token: adminToken}, {createdBy}, {timestamps: false}).exec();
+  }
 }

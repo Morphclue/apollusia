@@ -1,5 +1,5 @@
 import {MailDto, PollDto, ReadPollDto, ReadStatsPollDto} from '@apollusia/types';
-import {AuthUser, UserToken} from '@mean-stream/nestx/auth';
+import {Auth, AuthUser, UserToken} from '@mean-stream/nestx/auth';
 import {NotFound, notFound} from '@mean-stream/nestx/not-found';
 import {ObjectIdPipe} from '@mean-stream/nestx/ref';
 import {
@@ -86,6 +86,15 @@ export class PollController {
   @Put('mail/participate')
   async setMail(@Body() mailDto: MailDto): Promise<void> {
     return this.pollService.setMail(mailDto);
+  }
+
+  @Post('claim/:token')
+  @Auth()
+  async claimPolls(
+    @AuthUser() user: UserToken,
+    @Param('token') token: string,
+  ): Promise<void> {
+    return this.pollService.claimPolls(token, user.sub);
   }
 
   @Post(':id/book')
