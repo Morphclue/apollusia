@@ -24,20 +24,20 @@ import {OptionalAuthGuard} from '../auth/optional-auth.guard';
 
 @Controller('poll')
 export class PollController {
-    constructor(private readonly pollService: PollActionsService) {
-    }
+  constructor(private readonly pollService: PollActionsService) {
+  }
 
-    @Get('')
-    async getPolls(
-      @Headers('Participant-Token') token: string,
-      @Query('participated', new DefaultValuePipe(false), ParseBoolPipe) participated: boolean,
-      @Query('active') active?: string,
-    ): Promise<ReadStatsPollDto[]> {
-      if (participated) {
-        return this.pollService.getParticipatedPolls(token);
-      }
-      return this.pollService.getPolls(token, active !== undefined ? active === 'true' : undefined);
+  @Get('')
+  async getPolls(
+    @Headers('Participant-Token') token: string,
+    @Query('participated', new DefaultValuePipe(false), ParseBoolPipe) participated: boolean,
+    @Query('active') active?: string,
+  ): Promise<ReadStatsPollDto[]> {
+    if (participated) {
+      return this.pollService.getParticipatedPolls(token);
     }
+    return this.pollService.getPolls(token, active !== undefined ? active === 'true' : undefined);
+  }
 
   @Get(':id/admin/:token')
   @UseGuards(OptionalAuthGuard)
@@ -56,14 +56,14 @@ export class PollController {
     return this.pollService.getPoll(id);
   }
 
-    @Post()
-    @UseGuards(OptionalAuthGuard)
-    async postPoll(
-      @Body() pollDto: PollDto,
-      @AuthUser() user?: UserToken,
-    ): Promise<ReadPollDto> {
-      return this.pollService.postPoll(pollDto, user);
-    }
+  @Post()
+  @UseGuards(OptionalAuthGuard)
+  async postPoll(
+    @Body() pollDto: PollDto,
+    @AuthUser() user?: UserToken,
+  ): Promise<ReadPollDto> {
+    return this.pollService.postPoll(pollDto, user);
+  }
 
   @Put(':id')
   @NotFound()
@@ -83,10 +83,10 @@ export class PollController {
     return this.pollService.deletePoll(id);
   }
 
-    @Put('mail/participate')
-    async setMail(@Body() mailDto: MailDto): Promise<void> {
-        return this.pollService.setMail(mailDto);
-    }
+  @Put('mail/participate')
+  async setMail(@Body() mailDto: MailDto): Promise<void> {
+    return this.pollService.setMail(mailDto);
+  }
 
   @Post(':id/book')
   async bookEvents(
