@@ -5,8 +5,8 @@ import {Test, TestingModule} from '@nestjs/testing';
 import {Model, Types} from 'mongoose';
 
 import {PollActionsService} from './poll-actions.service';
-import {ParticipantStub, PollEventStub, PollStub} from '../../test/stubs';
 import {PollModule} from './poll.module';
+import {ParticipantStub, PollEventStub, PollStub} from '../../test/stubs';
 
 describe('PollActionsService', () => {
   let service: PollActionsService;

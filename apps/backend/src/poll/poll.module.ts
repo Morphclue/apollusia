@@ -2,8 +2,8 @@ import {Participant, ParticipantSchema, Poll, PollEvent, PollEventSchema, PollSc
 import {Module} from '@nestjs/common';
 import {MongooseModule} from '@nestjs/mongoose';
 
-import {PollController} from './poll.controller';
 import {PollActionsService} from './poll-actions.service';
+import {PollController} from './poll.controller';
 import {MailModule} from '../mail/mail.module';
 import {PushModule} from '../push/push.module';
 
