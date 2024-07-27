@@ -1,12 +1,4 @@
-import {
-  MailDto,
-  PollDto,
-  PollEvent,
-  PollEventDto,
-  ReadPollDto,
-  ReadPollEventDto,
-  ReadStatsPollDto,
-} from '@apollusia/types';
+import {MailDto, PollDto, ReadPollDto, ReadStatsPollDto} from '@apollusia/types';
 import {AuthUser, UserToken} from '@mean-stream/nestx/auth';
 import {ObjectIdPipe} from '@mean-stream/nestx/ref';
 import {
@@ -18,7 +10,6 @@ import {
   Headers,
   NotFoundException,
   Param,
-  ParseArrayPipe,
   ParseBoolPipe,
   Post,
   Put,
@@ -90,29 +81,6 @@ export class PollController {
         }
 
         return poll;
-    }
-
-    @Get(':id/events')
-    async getEvents(@Param('id', ObjectIdPipe) id: Types.ObjectId): Promise<ReadPollEventDto[]> {
-        const poll = await this.pollService.getPoll(id);
-        if (!poll) {
-            throw new NotFoundException(id);
-        }
-
-        return this.pollService.getEvents(id);
-    }
-
-    @Post(':id/events')
-    async postEvents(
-      @Param('id', ObjectIdPipe) id: Types.ObjectId,
-      @Body(new ParseArrayPipe({items: PollEventDto})) pollEvents: PollEventDto[],
-    ): Promise<PollEvent[]> {
-        const poll = await this.pollService.getPoll(id);
-        if (!poll) {
-            throw new NotFoundException(id);
-        }
-
-        return this.pollService.postEvents(id, pollEvents);
     }
 
     @Put('mail/participate')
