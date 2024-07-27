@@ -29,8 +29,8 @@ import {MailService} from '../mail/mail/mail.service';
 import {PushService} from '../push/push.service';
 
 @Injectable()
-export class PollService implements OnModuleInit {
-  private logger = new Logger(PollService.name);
+export class PollActionsService implements OnModuleInit {
+  private logger = new Logger(PollActionsService.name);
 
   constructor(
     @InjectModel(Poll.name) private pollModel: Model<Poll>,

@@ -3,7 +3,7 @@ import {Module} from '@nestjs/common';
 import {MongooseModule} from '@nestjs/mongoose';
 
 import {PollController} from './poll.controller';
-import {PollService} from './poll.service';
+import {PollActionsService} from './poll-actions.service';
 import {MailModule} from '../mail/mail.module';
 import {PushModule} from '../push/push.module';
 
@@ -17,7 +17,7 @@ import {PushModule} from '../push/push.module';
         MailModule,
         PushModule,
     ],
-    providers: [PollService],
+    providers: [PollActionsService],
     controllers: [PollController],
 })
 export class PollModule {

@@ -4,12 +4,12 @@ import {MongooseModule} from '@nestjs/mongoose';
 import {Test, TestingModule} from '@nestjs/testing';
 import {Model, Types} from 'mongoose';
 
-import {PollService} from './poll.service';
+import {PollActionsService} from './poll-actions.service';
 import {ParticipantStub, PollEventStub, PollStub} from '../../test/stubs';
 import {PollModule} from './poll.module';
 
-describe('PollService', () => {
-  let service: PollService;
+describe('PollActionsService', () => {
+  let service: PollActionsService;
   let pollModel: Model<Poll>;
   let pollEventModel: Model<PollEventDto>;
 
@@ -23,7 +23,7 @@ describe('PollService', () => {
 
     pollModel = module.get('PollModel');
     pollEventModel = module.get('PollEventModel');
-    service = module.get<PollService>(PollService);
+    service = module.get<PollActionsService>(PollActionsService);
   });
 
   let pollStubId;

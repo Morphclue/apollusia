@@ -31,13 +31,13 @@ import {
 } from '@nestjs/common';
 import {Types} from 'mongoose';
 
-import {PollService} from './poll.service';
+import {PollActionsService} from './poll-actions.service';
 import {OptionalAuthGuard} from '../auth/optional-auth.guard';
 
 
 @Controller('poll')
 export class PollController {
-    constructor(private readonly pollService: PollService) {
+    constructor(private readonly pollService: PollActionsService) {
     }
 
     @Get('')
