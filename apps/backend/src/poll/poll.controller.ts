@@ -1,6 +1,6 @@
 import {MailDto, PollDto, ReadPollDto, ReadStatsPollDto} from '@apollusia/types';
-import {notFound} from '@mean-stream/nestx';
 import {AuthUser, UserToken} from '@mean-stream/nestx/auth';
+import {NotFound, notFound} from '@mean-stream/nestx/not-found';
 import {ObjectIdPipe} from '@mean-stream/nestx/ref';
 import {
   Body,
@@ -21,7 +21,6 @@ import {Types} from 'mongoose';
 
 import {PollActionsService} from './poll-actions.service';
 import {OptionalAuthGuard} from '../auth/optional-auth.guard';
-
 
 @Controller('poll')
 export class PollController {
@@ -51,10 +50,11 @@ export class PollController {
     return this.pollService.isAdmin(poll, token, user?.sub);
   }
 
-    @Get(':id')
-    async getPoll(@Param('id', ObjectIdPipe) id: Types.ObjectId): Promise<ReadPollDto> {
-        return this.pollService.getPoll(id);
-    }
+  @Get(':id')
+  @NotFound()
+  async getPoll(@Param('id', ObjectIdPipe) id: Types.ObjectId): Promise<ReadPollDto | null> {
+    return this.pollService.getPoll(id);
+  }
 
     @Post()
     @UseGuards(OptionalAuthGuard)
@@ -65,30 +65,23 @@ export class PollController {
       return this.pollService.postPoll(pollDto, user);
     }
 
-    @Put(':id')
-    async putPoll(@Param('id', ObjectIdPipe) id: Types.ObjectId, @Body() pollDto: PollDto): Promise<ReadPollDto> {
-        return this.pollService.putPoll(id, pollDto);
-    }
+  @Put(':id')
+  @NotFound()
+  async putPoll(@Param('id', ObjectIdPipe) id: Types.ObjectId, @Body() pollDto: PollDto): Promise<ReadPollDto | null> {
+    return this.pollService.putPoll(id, pollDto);
+  }
 
-    @Post(':id/clone')
-    async clonePoll(@Param('id', ObjectIdPipe) id: Types.ObjectId): Promise<ReadPollDto> {
-        const poll = await this.pollService.getPoll(id);
-        if (!poll) {
-            throw new NotFoundException(id);
-        }
+  @Post(':id/clone')
+  @NotFound()
+  async clonePoll(@Param('id', ObjectIdPipe) id: Types.ObjectId): Promise<ReadPollDto | null> {
+    return this.pollService.clonePoll(id);
+  }
 
-        return this.pollService.clonePoll(id);
-    }
-
-    @Delete(':id')
-    async deletePoll(@Param('id', ObjectIdPipe) id: Types.ObjectId): Promise<ReadPollDto | undefined> {
-        const poll = await this.pollService.deletePoll(id);
-        if (!poll) {
-            throw new NotFoundException(id);
-        }
-
-        return poll;
-    }
+  @Delete(':id')
+  @NotFound()
+  async deletePoll(@Param('id', ObjectIdPipe) id: Types.ObjectId): Promise<ReadPollDto | null> {
+    return this.pollService.deletePoll(id);
+  }
 
     @Put('mail/participate')
     async setMail(@Body() mailDto: MailDto): Promise<void> {

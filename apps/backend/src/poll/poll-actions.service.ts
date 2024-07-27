@@ -17,7 +17,8 @@ import {
   ShowResultOptions,
   UpdateParticipantDto,
 } from '@apollusia/types';
-import {Doc} from '@mean-stream/nestx';
+import {Doc} from '@mean-stream/nestx/ref';
+import {notFound} from '@mean-stream/nestx/not-found';
 import {UserToken} from '@mean-stream/nestx/auth';
 import {Injectable, Logger, NotFoundException, OnModuleInit, UnprocessableEntityException} from '@nestjs/common';
 import {InjectModel} from '@nestjs/mongoose';
@@ -181,7 +182,7 @@ export class PollActionsService implements OnModuleInit {
     return this.pollModel.findById(id).exec();
   }
 
-  async getPoll(id: Types.ObjectId): Promise<Doc<ReadPollDto>> {
+  async getPoll(id: Types.ObjectId): Promise<Doc<ReadPollDto> | null> {
     return this.pollModel
       .findById(id)
       .select(readPollSelect)
@@ -203,16 +204,15 @@ export class PollActionsService implements OnModuleInit {
     return rest;
   }
 
-  async putPoll(id: Types.ObjectId, pollDto: PollDto): Promise<ReadPollDto> {
-    const poll = await this.pollModel.findByIdAndUpdate(id, pollDto, {new: true}).select(readPollSelect).exec();
-    if (!poll) {
-      throw new NotFoundException(id);
-    }
-    return poll;
+  async putPoll(id: Types.ObjectId, pollDto: PollDto): Promise<ReadPollDto | null> {
+    return this.pollModel.findByIdAndUpdate(id, pollDto, {new: true}).select(readPollSelect).exec();
   }
 
-  async clonePoll(id: Types.ObjectId): Promise<ReadPollDto> {
+  async clonePoll(id: Types.ObjectId): Promise<ReadPollDto | null> {
     const poll = await this.pollModel.findById(id).exec();
+    if (!poll) {
+      return null;
+    }
     const {_id, id: _, title, ...rest} = poll.toObject();
     const pollEvents = await this.pollEventModel.find({poll: new Types.ObjectId(id)}).exec();
     const clonedPoll = await this.postPoll({
@@ -228,14 +228,10 @@ export class PollActionsService implements OnModuleInit {
     return clonedPoll;
   }
 
-  async deletePoll(id: Types.ObjectId): Promise<ReadPollDto> {
+  async deletePoll(id: Types.ObjectId): Promise<ReadPollDto | null> {
     const poll = await this.pollModel.findByIdAndDelete(id, {projection: readPollSelect}).exec();
-    if (!poll) {
-      throw new NotFoundException(id);
-    }
-
-    await this.pollEventModel.deleteMany({poll: new Types.ObjectId(id)}).exec();
-    await this.participantModel.deleteMany({poll: new Types.ObjectId(id)}).exec();
+    await this.pollEventModel.deleteMany({poll: id}).exec();
+    await this.participantModel.deleteMany({poll: id}).exec();
     return poll;
   }
 

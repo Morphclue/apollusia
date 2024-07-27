@@ -1,5 +1,5 @@
 import {PollEvent, PollEventDto, ReadPollEventDto} from '@apollusia/types';
-import {notFound} from '@mean-stream/nestx';
+import {notFound} from '@mean-stream/nestx/not-found';
 import {AuthUser, UserToken} from '@mean-stream/nestx/auth';
 import {ObjectIdPipe} from '@mean-stream/nestx/ref';
 import {
