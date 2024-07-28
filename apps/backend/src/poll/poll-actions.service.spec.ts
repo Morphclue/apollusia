@@ -60,7 +60,7 @@ describe('PollActionsService', () => {
     modifiedPoll.title = 'Meeting';
     const modifiedPollId = new Types.ObjectId('9e9e9e9e9e9e9e9e9e9e9e9e');
 
-    await expect(service.putPoll(modifiedPollId, modifiedPoll)).rejects.toThrow(NotFoundException);
+    expect(await service.putPoll(modifiedPollId, modifiedPoll)).toBeNull();
     const updatedPoll = await pollModel.findById(pollStubId).exec();
     const pollCounts = await pollModel.countDocuments().exec();
 
@@ -94,7 +94,7 @@ describe('PollActionsService', () => {
     let pollCounts = await pollModel.countDocuments().exec();
     expect(pollCounts).toEqual(1);
 
-    await expect(service.deletePoll(pollStubId)).rejects.toThrow(NotFoundException);
+    expect(await service.deletePoll(pollStubId)).toBeNull();
     pollCounts = await pollModel.countDocuments().exec();
 
     expect(pollCounts).toEqual(1);
