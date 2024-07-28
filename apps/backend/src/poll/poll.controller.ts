@@ -28,15 +28,17 @@ export class PollController {
   }
 
   @Get('')
+  @UseGuards(OptionalAuthGuard)
   async getPolls(
     @Headers('Participant-Token') token: string,
     @Query('participated', new DefaultValuePipe(false), ParseBoolPipe) participated: boolean,
     @Query('active') active?: string,
+    @AuthUser() user?: UserToken,
   ): Promise<ReadStatsPollDto[]> {
     if (participated) {
       return this.pollService.getParticipatedPolls(token);
     }
-    return this.pollService.getPolls(token, active !== undefined ? active === 'true' : undefined);
+    return this.pollService.getPolls(token, user?.sub, active !== undefined ? active === 'true' : undefined);
   }
 
   @Get(':id/admin/:token')

@@ -152,10 +152,12 @@ export class PollActionsService implements OnModuleInit {
     };
   }
 
-  async getPolls(token: string, active: boolean | undefined): Promise<ReadStatsPollDto[]> {
+  async getPolls(token: string, user: string | undefined, active: boolean | undefined): Promise<ReadStatsPollDto[]> {
     return this.readPolls({
-      adminToken: token,
-      ...this.activeFilter(active),
+      $and: [
+        user ? {$or: [{createdBy: user}, {adminToken: token}]} : {adminToken: token},
+        this.activeFilter(active),
+      ],
     });
   }
 

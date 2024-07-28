@@ -42,7 +42,7 @@ describe('PollActionsService', () => {
   });
 
   it('should get all polls', async () => {
-    const polls = await service.getPolls(PollStub().adminToken, true);
+    const polls = await service.getPolls(PollStub().adminToken, undefined, true);
     expect(polls).toBeDefined();
     expect(polls.length).toEqual(1);
   });
