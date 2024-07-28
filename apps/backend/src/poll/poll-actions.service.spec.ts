@@ -4,12 +4,12 @@ import {MongooseModule} from '@nestjs/mongoose';
 import {Test, TestingModule} from '@nestjs/testing';
 import {Model, Types} from 'mongoose';
 
-import {PollService} from './poll.service';
-import {ParticipantStub, PollEventStub, PollStub} from '../../../test/stubs';
-import {PollModule} from '../poll.module';
+import {PollActionsService} from './poll-actions.service';
+import {PollModule} from './poll.module';
+import {ParticipantStub, PollEventStub, PollStub} from '../../test/stubs';
 
-describe('PollService', () => {
-  let service: PollService;
+describe('PollActionsService', () => {
+  let service: PollActionsService;
   let pollModel: Model<Poll>;
   let pollEventModel: Model<PollEventDto>;
 
@@ -23,7 +23,7 @@ describe('PollService', () => {
 
     pollModel = module.get('PollModel');
     pollEventModel = module.get('PollEventModel');
-    service = module.get<PollService>(PollService);
+    service = module.get<PollActionsService>(PollActionsService);
   });
 
   let pollStubId;
@@ -42,7 +42,7 @@ describe('PollService', () => {
   });
 
   it('should get all polls', async () => {
-    const polls = await service.getPolls(PollStub().adminToken, true);
+    const polls = await service.getPolls(PollStub().adminToken, undefined, true);
     expect(polls).toBeDefined();
     expect(polls.length).toEqual(1);
   });
@@ -60,7 +60,7 @@ describe('PollService', () => {
     modifiedPoll.title = 'Meeting';
     const modifiedPollId = new Types.ObjectId('9e9e9e9e9e9e9e9e9e9e9e9e');
 
-    await expect(service.putPoll(modifiedPollId, modifiedPoll)).rejects.toThrow(NotFoundException);
+    expect(await service.putPoll(modifiedPollId, modifiedPoll)).toBeNull();
     const updatedPoll = await pollModel.findById(pollStubId).exec();
     const pollCounts = await pollModel.countDocuments().exec();
 
@@ -94,7 +94,7 @@ describe('PollService', () => {
     let pollCounts = await pollModel.countDocuments().exec();
     expect(pollCounts).toEqual(1);
 
-    await expect(service.deletePoll(pollStubId)).rejects.toThrow(NotFoundException);
+    expect(await service.deletePoll(pollStubId)).toBeNull();
     pollCounts = await pollModel.countDocuments().exec();
 
     expect(pollCounts).toEqual(1);
@@ -145,7 +145,7 @@ describe('PollService', () => {
 
   it('should be admin', async () => {
     const poll = await pollModel.findOne({title: 'Party (clone)'}).exec();
-    const isAdmin = await service.isAdmin(poll._id, ParticipantStub().token);
+    const isAdmin = service.isAdmin(poll, ParticipantStub().token, undefined);
     expect(isAdmin).toEqual(true);
   });
 });

@@ -17,20 +17,20 @@ import {
   ShowResultOptions,
   UpdateParticipantDto,
 } from '@apollusia/types';
-import {Doc} from '@mean-stream/nestx';
 import {UserToken} from '@mean-stream/nestx/auth';
+import {Doc} from '@mean-stream/nestx/ref';
 import {Injectable, Logger, NotFoundException, OnModuleInit, UnprocessableEntityException} from '@nestjs/common';
 import {InjectModel} from '@nestjs/mongoose';
 import {Document, FilterQuery, Model, Types} from 'mongoose';
 
-import {environment} from '../../environment';
-import {renderDate} from '../../mail/helpers';
-import {MailService} from '../../mail/mail/mail.service';
-import {PushService} from '../../push/push.service';
+import {environment} from '../environment';
+import {renderDate} from '../mail/helpers';
+import {MailService} from '../mail/mail/mail.service';
+import {PushService} from '../push/push.service';
 
 @Injectable()
-export class PollService implements OnModuleInit {
-  private logger = new Logger(PollService.name);
+export class PollActionsService implements OnModuleInit {
+  private logger = new Logger(PollActionsService.name);
 
   constructor(
     @InjectModel(Poll.name) private pollModel: Model<Poll>,
@@ -152,10 +152,12 @@ export class PollService implements OnModuleInit {
     };
   }
 
-  async getPolls(token: string, active: boolean | undefined): Promise<ReadStatsPollDto[]> {
+  async getPolls(token: string, user: string | undefined, active: boolean | undefined): Promise<ReadStatsPollDto[]> {
     return this.readPolls({
-      adminToken: token,
-      ...this.activeFilter(active),
+      $and: [
+        user ? {$or: [{createdBy: user}, {adminToken: token}]} : {adminToken: token},
+        this.activeFilter(active),
+      ],
     });
   }
 
@@ -176,7 +178,12 @@ export class PollService implements OnModuleInit {
       .exec();
   }
 
-  async getPoll(id: Types.ObjectId): Promise<Doc<ReadPollDto>> {
+  // Only for internal use
+  async find(id: Types.ObjectId): Promise<Doc<Poll>> {
+    return this.pollModel.findById(id).exec();
+  }
+
+  async getPoll(id: Types.ObjectId): Promise<Doc<ReadPollDto> | null> {
     return this.pollModel
       .findById(id)
       .select(readPollSelect)
@@ -198,16 +205,15 @@ export class PollService implements OnModuleInit {
     return rest;
   }
 
-  async putPoll(id: Types.ObjectId, pollDto: PollDto): Promise<ReadPollDto> {
-    const poll = await this.pollModel.findByIdAndUpdate(id, pollDto, {new: true}).select(readPollSelect).exec();
-    if (!poll) {
-      throw new NotFoundException(id);
-    }
-    return poll;
+  async putPoll(id: Types.ObjectId, pollDto: PollDto): Promise<ReadPollDto | null> {
+    return this.pollModel.findByIdAndUpdate(id, pollDto, {new: true}).select(readPollSelect).exec();
   }
 
-  async clonePoll(id: Types.ObjectId): Promise<ReadPollDto> {
+  async clonePoll(id: Types.ObjectId): Promise<ReadPollDto | null> {
     const poll = await this.pollModel.findById(id).exec();
+    if (!poll) {
+      return null;
+    }
     const {_id, id: _, title, ...rest} = poll.toObject();
     const pollEvents = await this.pollEventModel.find({poll: new Types.ObjectId(id)}).exec();
     const clonedPoll = await this.postPoll({
@@ -223,14 +229,10 @@ export class PollService implements OnModuleInit {
     return clonedPoll;
   }
 
-  async deletePoll(id: Types.ObjectId): Promise<ReadPollDto> {
+  async deletePoll(id: Types.ObjectId): Promise<ReadPollDto | null> {
     const poll = await this.pollModel.findByIdAndDelete(id, {projection: readPollSelect}).exec();
-    if (!poll) {
-      throw new NotFoundException(id);
-    }
-
-    await this.pollEventModel.deleteMany({poll: new Types.ObjectId(id)}).exec();
-    await this.participantModel.deleteMany({poll: new Types.ObjectId(id)}).exec();
+    await this.pollEventModel.deleteMany({poll: id}).exec();
+    await this.participantModel.deleteMany({poll: id}).exec();
     return poll;
   }
 
@@ -463,8 +465,8 @@ export class PollService implements OnModuleInit {
     }).exec();
   }
 
-  async isAdmin(id: Types.ObjectId, token: string) {
-    return this.pollModel.findById(id).exec().then(poll => poll.adminToken === token);
+  isAdmin(poll: Poll, token: string | undefined, user: string | undefined) {
+    return poll.adminToken === token || poll.createdBy === user;
   }
 
   async claimPolls(adminToken: string, createdBy: string): Promise<void> {
