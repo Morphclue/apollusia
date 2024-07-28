@@ -1,6 +1,7 @@
 import { APP_BASE_HREF } from '@angular/common';
 import { CommonEngine } from '@angular/ssr';
 import express from 'express';
+import { REQUEST as SSR_REQUEST } from 'ngx-cookie-service-ssr';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -29,7 +30,7 @@ export function app(): express.Express {
   );
 
   // All regular routes use the Angular engine
-  server.get('*', (req, res, next) => {
+  server.get('**', (req, res, next) => {
     const { protocol, originalUrl, baseUrl, headers } = req;
 
     commonEngine
@@ -42,6 +43,7 @@ export function app(): express.Express {
           { provide: APP_BASE_HREF, useValue: baseUrl },
           { provide: 'BASE_URL', useValue: `${protocol}://${headers.host}` },
           // https://www.npmjs.com/package/ngx-cookie-service-ssr#server-side-rendering
+          { provide: SSR_REQUEST, useValue: req },
           { provide: 'REQUEST', useValue: req },
           { provide: 'RESPONSE', useValue: res },
         ],
