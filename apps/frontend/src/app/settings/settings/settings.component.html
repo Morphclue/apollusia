@@ -30,24 +30,30 @@
   <h2>
     Push Notifications
   </h2>
-  <button class="btn btn-primary mb-3" (click)="addPush()">
-    Enable Push Notifications for this Device
-  </button>
-  <ul class="list-group mb-3">
-    @for (info of pushInfo; track info) {
-      <li class="list-group-item">
-        <button class="btn btn-link text-danger bi-trash" ngbTooltip="Remove Device" (click)="removePush(info)">
-        </button>
-        {{ info.browser }}
-        <span class="text-muted">on</span>
-        {{ info.device }}
-      </li>
-    } @empty {
-      <li class="list-group-item text-muted">
-        No devices registered for push notifications.
-      </li>
-    }
-  </ul>
+  @if (user) {
+    <button class="btn btn-primary mb-3" (click)="addPush()">
+      Enable Push Notifications for this Device
+    </button>
+    <ul class="list-group mb-3">
+      @for (info of pushInfo; track info) {
+        <li class="list-group-item">
+          <button class="btn btn-link text-danger bi-trash" ngbTooltip="Remove Device" (click)="removePush(info)">
+          </button>
+          {{ info.browser }}
+          <span class="text-muted">on</span>
+          {{ info.device }}
+        </li>
+      } @empty {
+        <li class="list-group-item text-muted">
+          No devices registered for push notifications.
+        </li>
+      }
+    </ul>
+  } @else {
+    <div class="alert alert-warning">
+      You need to sign in to enable push notifications.
+    </div>
+  }
   <hr/>
   <button class="btn btn-primary" (click)="save()">Save</button>
 </div>
