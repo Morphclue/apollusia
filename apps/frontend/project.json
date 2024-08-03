@@ -5,14 +5,18 @@
   "prefix": "apollusia",
   "sourceRoot": "apps/frontend/src",
   "tags": [],
+  "i18n": {
+    "sourceLocale": "en-US",
+    "locales": {
+      "de-DE": "apps/frontend/src/locale/messages.de-DE.xlf"
+    }
+  },
   "targets": {
     "build": {
       "executor": "@nx/angular:application",
       "outputs": ["{options.outputPath.base}"],
       "options": {
-        "outputPath": {
-          "base": "dist/apps/frontend"
-        },
+        "outputPath": "dist/apps/frontend",
         "index": "apps/frontend/src/index.html",
         "polyfills": [
           "@angular/localize/init",
@@ -38,7 +42,9 @@
         "prerender": true,
         "ssr": {
           "entry": "apps/frontend/server.ts"
-        }
+        },
+        "localize": true,
+        "i18nMissingTranslation": "error"
       },
       "configurations": {
         "production": {
@@ -69,6 +75,12 @@
           "ssr": false,
           "prerender": false,
           "namedChunks": true
+        },
+        "en-US": {
+          "localize": ["en-US"]
+        },
+        "de-DE": {
+          "localize": ["de-DE"]
         }
       },
       "defaultConfiguration": "production"
@@ -77,10 +89,10 @@
       "executor": "@nx/angular:dev-server",
       "configurations": {
         "production": {
-          "buildTarget": "frontend:build:production"
+          "buildTarget": "frontend:build:production,en-US"
         },
         "development": {
-          "buildTarget": "frontend:build:development"
+          "buildTarget": "frontend:build:development,en-US"
         }
       },
       "defaultConfiguration": "development",
@@ -91,7 +103,9 @@
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
       "options": {
-        "buildTarget": "frontend:build"
+        "buildTarget": "frontend:build",
+        "outputPath": "apps/frontend/src/locales",
+        "format": "xlf"
       }
     },
     "lint": {
