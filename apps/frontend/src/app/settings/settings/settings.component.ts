@@ -8,7 +8,6 @@ import * as platform from 'platform';
 import {environment} from '../../../environments/environment';
 import {MailService} from '../../core/services';
 import {PushService} from '../../poll/services/push.service';
-import {Settings} from '../settings';
 
 interface PushInfo {
   device: string;
@@ -22,7 +21,7 @@ interface PushInfo {
   styleUrls: ['./settings.component.scss'],
 })
 export class SettingsComponent implements OnInit {
-  settings = new Settings();
+  email = '';
   user?: KeycloakProfile;
   pushInfo: PushInfo[] = [];
 
@@ -36,9 +35,10 @@ export class SettingsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.settings.email = this.mailService.getMail() || '';
+    this.email = this.mailService.getMail() || '';
     this.keycloakService.loadUserProfile().then((user) => {
       this.user = user;
+      this.email ||= user.email || '';
       this.pushInfo = (user.attributes?.['pushTokens'] as string[])?.map((token) => JSON.parse(token)) ?? [];
     });
   }
@@ -65,7 +65,7 @@ export class SettingsComponent implements OnInit {
   }
 
   save() {
-    this.mailService.setMail(this.settings.email);
+    this.mailService.setMail(this.email);
     this.toastService.success('Settings', 'Sucessfully saved settings.');
     this.user && this.http.post(`${environment.keycloak.url}/realms/${environment.keycloak.realm}/account`, {
       ...this.user,

@@ -2,7 +2,15 @@
   <h1>
     User Settings
   </h1>
-  <ngbx-validator-form [model]="settings"></ngbx-validator-form>
+  <div class="mb-3">
+    <label class="form-label" for="email">E-Mail</label>
+    <input type="email" class="form-control" id="email" [(ngModel)]="email" [disabled]="!!user"/>
+    @if (user) {
+      <div class="form-text">
+        Your email cannot be changed as a registered user.
+      </div>
+    }
+  </div>
   <div class="mb-3">
     <app-token></app-token>
   </div>
