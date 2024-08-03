@@ -66,16 +66,19 @@ export class SettingsComponent implements OnInit {
 
   save() {
     this.mailService.setMail(this.email);
-    this.toastService.success('Settings', 'Sucessfully saved settings.');
-    this.user && this.http.post(`${environment.keycloak.url}/realms/${environment.keycloak.realm}/account`, {
+    if (!this.user) {
+      this.toastService.success('Settings', 'Sucessfully saved settings.');
+      return;
+    }
+    this.http.post(`${environment.keycloak.url}/realms/${environment.keycloak.realm}/account`, {
       ...this.user,
       attributes: {
         ...this.user.attributes,
         pushTokens: this.pushInfo.map((info) => JSON.stringify(info)),
       },
     }).subscribe({
-      next: () => this.toastService.success('Push', 'Successfully saved push tokens.'),
-      error: error => this.toastService.error('Push', 'Failed to save push tokens.', error),
+      next: () => this.toastService.success('Settings', 'Successfully saved account settings.'),
+      error: error => this.toastService.error('Settings', 'Failed to save account settings.', error),
     });
   }
 }
