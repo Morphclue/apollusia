@@ -47,6 +47,9 @@ dependencies:
   '@angular/ssr':
     specifier: ~17.3.7
     version: 17.3.7(@angular/common@17.3.9)(@angular/core@17.3.9)
+  '@keycloak/keycloak-admin-client':
+    specifier: ^25.0.2
+    version: 25.0.2
   '@mean-stream/nestx':
     specifier: ^0.12.0
     version: 0.12.0(@nestjs/common@10.3.9)(@nestjs/core@10.3.9)(@nestjs/event-emitter@2.0.4)(@nestjs/jwt@10.2.0)(@nestjs/mongoose@10.0.6)(@nestjs/passport@10.0.3)(@nestjs/platform-express@10.3.9)(@nestjs/swagger@7.3.1)(@nestjs/websockets@10.3.10)(base64-js@1.5.1)(class-transformer@0.5.1)(class-validator@0.14.1)(mongoose@8.4.3)(passport-jwt@4.0.1)(reflect-metadata@0.1.14)(rxjs@7.8.1)(tslib@2.6.3)
@@ -4526,6 +4529,15 @@ packages:
       '@jridgewell/sourcemap-codec': 1.4.15
     dev: true
 
+  /@keycloak/keycloak-admin-client@25.0.2:
+    resolution: {integrity: sha512-rHlJ1bQYQKLA3fnIktYZqofQP9imSPTia0yX7329fTpJ49A2MoPduAEFNsTa9QJIPHcuz2TBgZ6eI5NnfaP6/w==}
+    engines: {node: '>=18'}
+    dependencies:
+      camelize-ts: 3.0.0
+      url-join: 5.0.0
+      url-template: 3.1.1
+    dev: false
+
   /@leichtgewicht/ip-codec@2.0.5:
     resolution: {integrity: sha512-Vo+PSpZG2/fmgmiNzYK9qWRh8h/CHrwD0mo1h1DzL4yzHNSfWYujGTYsWGreD000gcgmZ7K4Ys6Tx9TxtsKdDw==}
     dev: true
@@ -8214,6 +8226,11 @@ packages:
     resolution: {integrity: sha512-Gmy6FhYlCY7uOElZUSbxo2UCDH8owEk996gkbrpsgGtrJLM3J7jGxl9Ic7Qwwj4ivOE5AWZWRMecDdF7hqGjFA==}
     engines: {node: '>=10'}
     dev: true
+
+  /camelize-ts@3.0.0:
+    resolution: {integrity: sha512-cgRwKKavoDKLTjO4FQTs3dRBePZp/2Y9Xpud0FhuCOTE86M2cniKN4CCXgRnsyXNMmQMifVHcv6SPaMtTx6ofQ==}
+    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
+    dev: false
 
   /caniuse-api@3.0.0:
     resolution: {integrity: sha512-bsTwuIg/BZZK/vreVTYYbSWoe2F+71P7K5QGEX+pT250DZbfU1MQ5prOKpPR+LL6uWKK3KMwMCAS74QB3Um1uw==}
@@ -17459,12 +17476,22 @@ packages:
     resolution: {integrity: sha512-jk1+QP6ZJqyOiuEI9AEWQfju/nB2Pw466kbA0LEZljHwKeMgd9WrAEgEGxjPDD2+TNbbb37rTyhEfrCXfuKXnA==}
     dev: true
 
+  /url-join@5.0.0:
+    resolution: {integrity: sha512-n2huDr9h9yzd6exQVnH/jU5mr+Pfx08LRXXZhkLLetAMESRj+anQsTAh940iMrIetKAmry9coFuZQ2jY8/p3WA==}
+    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
+    dev: false
+
   /url-parse@1.5.10:
     resolution: {integrity: sha512-WypcfiRhfeUP9vvF0j6rw0J3hrWrw6iZv3+22h6iRMJ/8z1Tj6XfLP4DsUix5MhMPnXpiHDoKyoZ/bdCkwBCiQ==}
     dependencies:
       querystringify: 2.2.0
       requires-port: 1.0.0
     dev: true
+
+  /url-template@3.1.1:
+    resolution: {integrity: sha512-4oszoaEKE/mQOtAmdMWqIRHmkxWkUZMnXFnjQ5i01CuRSK3uluxcH1MRVVVWmhlnzT1SCDfKxxficm2G37qzCA==}
+    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
+    dev: false
 
   /util-deprecate@1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}

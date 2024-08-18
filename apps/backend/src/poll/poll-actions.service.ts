@@ -363,7 +363,7 @@ export class PollActionsService implements OnModuleInit {
   }
 
   private async sendAdminPush(poll: Poll & Document, participant: Participant & Document) {
-    await this.pushService.send(poll.adminPush, 'Updates in Poll | Apollusia', `${participant.name} participated in your poll ${poll.title}`, `${environment.origin}/poll/${poll._id}/participate`);
+    poll.createdBy && await this.pushService.send(poll.createdBy, 'Updates in Poll | Apollusia', `${participant.name} participated in your poll ${poll.title}`, `${environment.origin}/poll/${poll._id}/participate`);
   }
 
   async editParticipation(id: Types.ObjectId, participantId: Types.ObjectId, token: string, participant: UpdateParticipantDto): Promise<ReadParticipantDto | null> {
