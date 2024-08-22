@@ -2,6 +2,7 @@
   "name": "apollusia",
   "version": "0.0.0",
   "license": "MIT",
+  "type": "module",
   "scripts": {
     "serve:frontend": "nx serve frontend",
     "serve:backend": "nx serve backend",
@@ -40,6 +41,7 @@
     "@nx/webpack": "19.3.1",
     "@nx/workspace": "19.3.1",
     "@schematics/angular": "17.3.2",
+    "@swc/helpers": "~0.5.11",
     "@types/express": "^4.17.21",
     "@types/file-saver": "^2.0.7",
     "@types/jest": "^29.5.12",
