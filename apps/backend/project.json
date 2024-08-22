@@ -19,7 +19,10 @@
         "webpackConfig": "apps/backend/webpack.config.cjs"
       },
       "configurations": {
-        "development": {},
+        "development": {
+          "optimization": false,
+          "sourceMap": true
+        },
         "production": {}
       }
     },
