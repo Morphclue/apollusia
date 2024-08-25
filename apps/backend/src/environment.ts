@@ -1,4 +1,8 @@
 import {AuthModuleOptions} from '@mean-stream/nestx/auth';
+import {dirname} from 'node:path';
+import {fileURLToPath} from 'node:url';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 export const environment = {
   port: +process.env.PORT || 3000,
@@ -6,7 +10,7 @@ export const environment = {
   mongo: {
     uri: process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/nest',
   },
-  assetPath: import.meta.dirname + '/assets/',
+  assetPath: __dirname + '/assets/',
   polls: {
     activeDays: +process.env.ACTIVE_DAYS || 7, // how many days a poll is active after the deadline is reached
   },

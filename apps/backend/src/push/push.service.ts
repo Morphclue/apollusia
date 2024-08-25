@@ -3,6 +3,7 @@ import {Injectable, Logger} from '@nestjs/common';
 import {ConfigService} from '@nestjs/config';
 import * as webpush from 'web-push';
 import {PushSubscription} from 'web-push';
+
 import {KeycloakService} from '../auth/keycloak.service';
 
 @Injectable()
@@ -48,7 +49,7 @@ export class PushService {
     };
     for (const pushTokenStr of kcUser.attributes.pushTokens) {
       const sub = JSON.parse(pushTokenStr) as PushSubscription;
-      await webpush.sendNotification(sub, JSON.stringify(payload));
+      webpush.sendNotification(sub, JSON.stringify(payload));
     }
   }
 }
