@@ -19,7 +19,10 @@ module.exports = composePlugins(withNx(), (config) => {
       },
       environment: {
         module: true
-      }
+      },
+      // https://tabris.com/how-to-make-stack-traces-clickable-in-vs-code-when-using-webpack/
+      devtoolModuleFilenameTemplate: '../[resource-path]',
+      devtoolFallbackModuleFilenameTemplate: '[absolute-resource-path]',
     },
     experiments: {
       outputModule: true,
