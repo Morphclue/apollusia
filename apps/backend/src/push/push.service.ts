@@ -48,8 +48,8 @@ export class PushService {
       },
     };
     for (const pushTokenStr of kcUser.attributes.pushTokens) {
-      const sub = JSON.parse(pushTokenStr) as PushSubscription;
-      webpush.sendNotification(sub, JSON.stringify(payload));
+      const {token} = JSON.parse(pushTokenStr) as { token: PushSubscription };
+      webpush.sendNotification(token, JSON.stringify(payload));
     }
   }
 }
