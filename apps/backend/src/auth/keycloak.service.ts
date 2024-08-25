@@ -12,13 +12,18 @@ export class KeycloakService {
       baseUrl: environment.keycloak.baseUrl,
       realmName: environment.keycloak.realmName,
     });
-    await kcAdminClient.auth({
-      grantType: 'password',
-      username: environment.keycloak.adminUser,
-      password: environment.keycloak.adminPassword,
-      clientId: environment.keycloak.clientId,
-      clientSecret: environment.keycloak.clientSecret,
-    });
+    try {
+      await kcAdminClient.auth({
+        grantType: 'password',
+        username: environment.keycloak.adminUser,
+        password: environment.keycloak.adminPassword,
+        clientId: environment.keycloak.clientId,
+        clientSecret: environment.keycloak.clientSecret,
+      });
+    } catch (err) {
+      console.error(err);
+      return;
+    }
     return kcAdminClient.users.findOne({id});
   }
 }
