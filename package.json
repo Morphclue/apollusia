@@ -102,7 +102,7 @@
     "@swc/core": "^1.7.0",
     "angular-calendar": "^0.31.1",
     "angularx-flatpickr": "^7.3.0",
-    "axios": "^1.7.2",
+    "axios": "^1.7.4",
     "base64-js": "^1.5.1",
     "bootstrap": "^5.3.3",
     "bootstrap-icons": "^1.11.3",
