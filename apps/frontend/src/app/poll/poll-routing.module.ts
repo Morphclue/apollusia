@@ -1,11 +1,11 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 
+import {AutofillModalComponent, PostponeModalComponent} from '../modals';
 import {ChooseDateComponent} from './choose-date/choose-date.component';
 import {ChooseEventsComponent} from './choose-events/choose-events.component';
 import {CreateEditPollComponent} from './create-poll/create-edit-poll.component';
 import {IcalComponent} from './ical/ical.component';
-import {AutofillModalComponent, PostponeModalComponent} from '../modals';
 
 const routes: Routes = [
   {path: 'create', component: CreateEditPollComponent, title: 'Create Poll | Apollusia'},
