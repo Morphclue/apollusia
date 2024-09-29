@@ -35,7 +35,8 @@ function initializeKeycloak(keycloak: KeycloakService) {
 @NgModule({
   declarations: [AppComponent],
   bootstrap: [AppComponent],
-  imports: [BrowserModule,
+  imports: [
+    BrowserModule,
     AppRoutingModule,
     NgbModule,
     ModalModule,
