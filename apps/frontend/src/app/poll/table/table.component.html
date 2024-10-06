@@ -116,7 +116,7 @@
               @if (editDto) {
                 @for (event of pollEvents; track event) {
                   <td>
-                    <app-check-button=
+                    <app-check-button
                       [poll]="poll"
                       [(check)]="editDto.selection[event._id]"
                       (checkChange)="validateEdit()"
