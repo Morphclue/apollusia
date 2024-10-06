@@ -30,7 +30,6 @@
           @for (event of pollEvents; track event) {
             <td>
               <app-check-button
-                [style.border]="'1px solid black'"
                 [poll]="poll"
                 [(check)]="newParticipant.selection[event._id]"
                 (checkChange)="validateNew()"
@@ -117,8 +116,7 @@
               @if (editDto) {
                 @for (event of pollEvents; track event) {
                   <td>
-                    <app-check-button
-                    [style.border]="'1px solid black'"
+                    <app-check-button=
                       [poll]="poll"
                       [(check)]="editDto.selection[event._id]"
                       (checkChange)="validateEdit()"
