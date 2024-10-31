@@ -263,4 +263,4 @@ beforeEach(() => {
 
 For more detailed information, refer to the [Cypress Documentation](https://docs.cypress.io/).
 
-Happy testing! 🎉e
+Happy testing! 🎉
