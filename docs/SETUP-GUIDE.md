@@ -5,7 +5,6 @@ This guide provides instructions for setting up the Apollusia project using Dock
 ## Table of Contents
 
 - [Docker Compose Setup](#-docker-compose-setup)
-- [Local Linux Environment Setup](#-local-linux-environment-setup)
 
 ## 🐳 Docker Compose Setup
 
@@ -43,110 +42,6 @@ Once Docker Compose completes setup, verify each service is running as expected 
 ```shellscript
 docker ps
 ```
-
-## 🐧 Local Linux Environment Setup
-
-### Prerequisites
-
-- Node.js (v14 or later)
-- PNPM
-- MongoDB
-- Keycloak
-### Steps
-
-1. Clone the repository:
-
-```shellscript
-git clone --depth 1 --branch master https://github.com/Morphclue/apollusia 
-cd apollusia
-```
-
-
-2. Install dependencies:
-
-```shellscript
-pnpm install
-```
-
-
-3. Set up MongoDB:
-
-```shellscript
-sudo apt update
-sudo apt install mongodb
-sudo systemctl start mongodb
-sudo systemctl enable mongodb
-```
-
-
-4. Set up Keycloak:
-
-```shellscript
-wget https://github.com/keycloak/keycloak/releases/download/18.0.0/keycloak-18.0.0.tar.gz
-tar -xvzf keycloak-18.0.0.tar.gz
-cd keycloak-18.0.0/bin
-./standalone.sh -Djboss.socket.binding.port-offset=100
-```
-
-
-5. Configure environment variables:
-Create an `.env` file in the backend directory and add the following environment variables:
-
-```ini
-EMAIL_HOST=<smtp host>
-EMAIL_PORT=25 # optional, alternatively 587, or 465 for SSL
-EMAIL_SSL=false # optional
-EMAIL_STARTTLS=false # optional
-EMAIL_USER=<username>
-EMAIL_PASSWORD=<password>
-EMAIL_FROM=<sender email>
-EMAIL_NAME=Apollusia # optional sender display name
-VAPID_PUBLIC_KEY=<vapid public key> # for push notifications
-VAPID_PRIVATE_KEY=<vapid private key> # for push notifications
-CONTACT_OPERATOR=<contact operator>
-CONTACT_MAIL=<contact email>
-CONTACT_ADDRESS=<contact address>
-
-DATABASE_URL=mongodb://localhost:27017/nestjs
-KEYCLOAK_URL=http://localhost:8080/auth
-KEYCLOAK_REALM=apollusia
-KEYCLOAK_CLIENT_ID=apollusia-backend
-KEYCLOAK_CLIENT_SECRET=your-client-secret
-KC_HOSTNAME: localhost
-KC_HTTP_RELATIVE_PATH: /auth
-KEYCLOAK_ADMIN: admin
-KEYCLOAK_ADMIN_PASSWORD: root
-```
-
-VAPID keys can be generated using the following command:
-
-```shell
-npx web-push generate-vapid-keys
-```
-
-6. Start the backend:
-
-```shellscript
-nx serve backend
-```
-
-
-7. Start the frontend:
-
-```shellscript
-nx serve frontend
-```
-
-
-8. Access the services:
-
-1. Frontend: [http://localhost:4000](http://localhost:4000)
-2. Backend: [http://localhost:3000](http://localhost:3000)
-3. MongoDB: localhost:27017
-4. Keycloak: [http://localhost:8180](http://localhost:8180)
-
-
-
 
 
 ## 🔧 Troubleshooting

@@ -6,7 +6,7 @@ Thank you for your interest in contributing to Apollusia! We appreciate your eff
 
 > **⚠️ IMPORTANT**
 >
-> **Pull Requests _without an associated issue_ will not be accepted. Please ensure you have an assigned issue before creating a Pull Request.**
+> **Pull Requests without an associated issue may not be accepted. While it is not a strict requirement, we strongly encourage you to create or assign an issue related to your contribution before submitting a Pull Request. This helps ensure that contributions align with the project’s goals and prevents the implementation of unwanted features.**
 
 ## 🚀 Prerequisites
 
@@ -39,6 +39,9 @@ This will start the following services:
 
 Once Docker Compose completes setup, verify each service is running as expected by checking the logs or using `docker ps`.
 
+### 🛠️ Local Development
+
+For local development, it's generally better to use PNPM commands for both the frontend and backend. This approach offers faster rebuild times and smoother debugging. Therefore, we recommend starting only the database and Keycloak containers when working locally.
 
 ## 🤝 How to Contribute
 
