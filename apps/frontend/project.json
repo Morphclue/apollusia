@@ -101,7 +101,7 @@
       }
     },
     "extract-i18n": {
-      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "executor": "@nx/angular:extract-i18n",
       "options": {
         "buildTarget": "frontend:build",
         "outputPath": "apps/frontend/src/locales",
