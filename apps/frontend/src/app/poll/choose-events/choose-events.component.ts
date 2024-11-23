@@ -204,4 +204,13 @@ export class ChooseEventsComponent implements OnInit {
   private userVoted(): boolean {
     return this.participants?.some(participant => participant.token === this.token) ?? false;
   }
+
+  onTableChange() {
+    if(this.poll) {
+      this.pollService.getEvents(this.poll._id).subscribe((events)=>{
+        this.pollEvents = events;
+        this.updateHelpers();
+      })
+    }
+  }
 }
