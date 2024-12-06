@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 
 import features from './features.json';
 
-const apps = ['Apollusia', 'Doodle', 'DuD-Poll'] as const;
+const apps = ['Apollusia', 'Doodle', 'DuD-Poll', 'Calendly'] as const;
 type App = typeof apps[number];
 
 interface Feature {

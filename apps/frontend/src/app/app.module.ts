@@ -1,4 +1,4 @@
-import {HTTP_INTERCEPTORS, HttpClientModule, provideHttpClient, withFetch} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, provideHttpClient, withFetch, withInterceptorsFromDi} from '@angular/common/http';
 import {APP_INITIALIZER, isDevMode, NgModule} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 import {BrowserModule, provideClientHydration} from '@angular/platform-browser';
@@ -34,12 +34,12 @@ function initializeKeycloak(keycloak: KeycloakService) {
 
 @NgModule({
   declarations: [AppComponent],
+  bootstrap: [AppComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
     NgbModule,
     ModalModule,
-    HttpClientModule,
     ReactiveFormsModule,
     AboutModule,
     LegalModule,
@@ -71,10 +71,10 @@ function initializeKeycloak(keycloak: KeycloakService) {
       provide: APP_INITIALIZER,
       useFactory: initializeKeycloak,
       multi: true,
-      deps: [KeycloakService]
-    }
+      deps: [KeycloakService],
+    },
+    provideHttpClient(withInterceptorsFromDi()),
   ],
-  bootstrap: [AppComponent],
 })
 export class AppModule {
 }
