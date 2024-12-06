@@ -1,7 +1,7 @@
 FROM node:lts-slim as builder
 WORKDIR /app
 COPY package.json pnpm-lock.yaml ./
-RUN corepack pnpm install --frozen-lockfile
+RUN CYPRESS_INSTALL_BINARY=0 corepack pnpm install --frozen-lockfile
 COPY . .
 ARG APP_VERSION
 RUN APP_VERSION=$APP_VERSION corepack pnpm run build:frontend
