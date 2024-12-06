@@ -16,7 +16,7 @@
         "tsConfig": "apps/backend/tsconfig.app.json",
         "assets": ["apps/backend/src/assets"],
         "generatePackageJson": true,
-        "webpackConfig": "apps/backend/webpack.config.cjs"
+        "webpackConfig": "apps/backend/webpack.config.js"
       },
       "configurations": {
         "development": {
