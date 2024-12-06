@@ -1,5 +1,5 @@
 import {HTTP_INTERCEPTORS, provideHttpClient, withFetch, withInterceptorsFromDi} from '@angular/common/http';
-import {APP_INITIALIZER, isDevMode, NgModule} from '@angular/core';
+import {APP_INITIALIZER, NgModule} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 import {BrowserModule, provideClientHydration} from '@angular/platform-browser';
 import {ServiceWorkerModule} from '@angular/service-worker';
@@ -45,7 +45,7 @@ function initializeKeycloak(keycloak: KeycloakService) {
     LegalModule,
     CoreModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
-      enabled: true,
+      enabled: true, // always enabled, for push notifications
       // Register the ServiceWorker as soon as the application is stable
       // or after 30 seconds (whichever comes first).
       registrationStrategy: 'registerWhenStable:30000',
