@@ -1,10 +1,59 @@
 <div class="container">
   <h1>
-    User Settings
+    Settings
   </h1>
-  <ngbx-validator-form [model]="settings"></ngbx-validator-form>
   <div class="mb-3">
     <app-token></app-token>
   </div>
+  <h2>
+    User Settings
+  </h2>
+  <div class="mb-3">
+    <label class="form-label" for="email">E-Mail</label>
+    <input type="email" class="form-control" id="email" [(ngModel)]="email" [disabled]="!!user"/>
+    @if (user) {
+      <div class="form-text">
+        Your email cannot be changed as a registered user.
+      </div>
+    }
+  </div>
+  @if (user) {
+    <div class="mb-3">
+      <label class="form-label" for="firstName">First Name</label>
+      <input type="text" class="form-control" id="firstName" [(ngModel)]="user.firstName"/>
+    </div>
+    <div class="mb-3">
+      <label class="form-label" for="lastName">Last Name</label>
+      <input type="text" class="form-control" id="lastName" [(ngModel)]="user.lastName"/>
+    </div>
+  }
+  <h2>
+    Push Notifications
+  </h2>
+  @if (user) {
+    <button class="btn btn-primary mb-3" (click)="addPush()">
+      Enable Push Notifications for this Device
+    </button>
+    <ul class="list-group mb-3">
+      @for (info of pushInfo; track info) {
+        <li class="list-group-item">
+          <button class="btn btn-link text-danger bi-trash" ngbTooltip="Remove Device" (click)="removePush(info)">
+          </button>
+          {{ info.browser }}
+          <span class="text-muted">on</span>
+          {{ info.device }}
+        </li>
+      } @empty {
+        <li class="list-group-item text-muted">
+          No devices registered for push notifications.
+        </li>
+      }
+    </ul>
+  } @else {
+    <div class="alert alert-warning">
+      You need to sign in to enable push notifications.
+    </div>
+  }
+  <hr/>
   <button class="btn btn-primary" (click)="save()">Save</button>
 </div>
