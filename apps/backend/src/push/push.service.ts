@@ -4,6 +4,8 @@ import {ConfigService} from '@nestjs/config';
 import * as webpush from 'web-push';
 import {PushSubscription} from 'web-push';
 
+import {KeycloakService} from '../auth/keycloak.service';
+
 @Injectable()
 export class PushService {
   private logger = new Logger(PushService.name);
@@ -12,6 +14,7 @@ export class PushService {
 
   constructor(
     config: ConfigService,
+    private keycloakService: KeycloakService,
   ) {
     const publicKey = config.get('VAPID_PUBLIC_KEY');
     const privateKey = config.get('VAPID_PRIVATE_KEY');
@@ -27,7 +30,11 @@ export class PushService {
     }
   }
 
-  async send(sub: PushSubscription, title: string, body: string, url: string) {
+  async send(user: string, title: string, body: string, url: string) {
+    const kcUser = await this.keycloakService.getUser(user);
+    if (!kcUser?.attributes?.pushTokens) {
+      return;
+    }
     const payload = {
       notification: {
         title,
@@ -40,6 +47,9 @@ export class PushService {
         },
       },
     };
-    await webpush.sendNotification(sub, JSON.stringify(payload));
+    for (const pushTokenStr of kcUser.attributes.pushTokens) {
+      const {token} = JSON.parse(pushTokenStr) as { token: PushSubscription };
+      webpush.sendNotification(token, JSON.stringify(payload));
+    }
   }
 }

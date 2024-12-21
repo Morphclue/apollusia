@@ -10,6 +10,14 @@ export const environment = {
   polls: {
     activeDays: +process.env.ACTIVE_DAYS || 7, // how many days a poll is active after the deadline is reached
   },
+  keycloak: {
+    baseUrl: process.env.KEYCLOAK_BASE_URL || 'http://localhost:8080/auth',
+    realmName: process.env.KEYCLOAK_REALM || 'apollusia',
+    adminUser: process.env.KEYCLOAK_ADMIN_USER || 'admin',
+    adminPassword: process.env.KEYCLOAK_ADMIN_PASSWORD || 'root',
+    clientId: process.env.KEYCLOAK_CLIENT_ID || 'admin-cli',
+    clientSecret: process.env.KEYCLOAK_CLIENT_SECRET,
+  },
   auth: {
     publicKey: `-----BEGIN PUBLIC KEY-----\n${
       // see http://localhost:8080/auth/admin/master/console/#/apollusia/realm-settings/keys/list -> RS256 -> Public Key
