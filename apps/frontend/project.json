@@ -8,7 +8,7 @@
   "i18n": {
     "sourceLocale": "en-US",
     "locales": {
-      "de-DE": "apps/frontend/src/locale/messages.de-DE.xlf"
+      "de": "apps/frontend/src/locale/messages.de.xlf"
     }
   },
   "targets": {
@@ -19,7 +19,6 @@
         "outputPath": "dist/apps/frontend",
         "index": "apps/frontend/src/index.html",
         "polyfills": [
-          "@angular/localize/init",
           "zone.js",
           "apps/frontend/src/polyfills.ts"
         ],
@@ -79,8 +78,8 @@
         "en-US": {
           "localize": ["en-US"]
         },
-        "de-DE": {
-          "localize": ["de-DE"]
+        "de": {
+          "localize": ["de"]
         }
       },
       "defaultConfiguration": "production"
@@ -104,7 +103,7 @@
       "executor": "@nx/angular:extract-i18n",
       "options": {
         "buildTarget": "frontend:build",
-        "outputPath": "apps/frontend/src/locales",
+        "outputPath": "apps/frontend/src/locale",
         "format": "xlf"
       }
     },
