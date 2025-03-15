@@ -14,7 +14,7 @@
     "build:keycloak": "nx build keycloak"
   },
   "private": true,
-  "packageManager": "pnpm@9.15.9+sha512.68046141893c66fad01c079231128e9afb89ef87e2691d69e4d40eee228988295fd4682181bae55b58418c3a253bde65a505ec7c5f9403ece5cc3cd37dcf2531",
+  "packageManager": "pnpm@10.6.3+sha512.bb45e34d50a9a76e858a95837301bfb6bd6d35aea2c5d52094fa497a467c43f5c440103ce2511e9e0a2f89c3d6071baac3358fc68ac6fb75e2ceb3d2736065e6",
   "devDependencies": {
     "@angular-devkit/build-angular": "~18.2.6",
     "@angular-devkit/core": "~18.2.6",
@@ -132,5 +132,22 @@
   "resolutions": {
     "ws@>=8.0.0 <8.17.1": ">=8.17.1",
     "webpack@>=5.0.0-alpha.0 <5.94.0": ">=5.94.0"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@nestjs/core",
+      "@parcel/watcher",
+      "@swc/core",
+      "cypress",
+      "esbuild",
+      "lmdb",
+      "mongodb-memory-server",
+      "msgpackr-extract",
+      "nice-napi",
+      "nx"
+    ],
+    "ignoredBuiltDependencies": [
+      "@scarf/scarf"
+    ]
   }
 }
