@@ -31,5 +31,12 @@ services:
     volumes:
       - ./libs/keycloak:/opt/keycloak/themes/apollusia
 
+  maildev:
+    image: maildev/maildev
+    restart: unless-stopped
+    ports:
+      - "1025:1025"
+      - "8025:1080"
+
 volumes:
   database:
