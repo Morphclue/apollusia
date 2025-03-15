@@ -68,7 +68,7 @@ export class SettingsComponent implements OnInit {
   save() {
     this.mailService.setMail(this.email);
     if (!this.user) {
-      this.toastService.success('Settings', 'Sucessfully saved settings.');
+      this.toastService.success('Settings', 'Successfully saved settings.');
       return;
     }
     this.http.post(`${environment.keycloak.url}/realms/${environment.keycloak.realm}/account`, {
