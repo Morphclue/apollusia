@@ -100,28 +100,22 @@ All features are completely free and can be used without registration.
 
 <!-- features:end -->
 
-## Setup
+## 📄 Documentation and Contribution
 
-Create an `.env` file in the backend directory and add the following environment variables:
+- **[CONTRIBUTING.md](docs/CONTRIBUTING.md)**  
+  Learn how to contribute, submit issues, and create pull requests.
 
-```properties
-EMAIL_HOST=<smtp host>
-EMAIL_PORT=25 # optional, alternatively 587, or 465 for SSL
-EMAIL_SSL=false # optional
-EMAIL_STARTTLS=false # optional
-EMAIL_USER=<username>
-EMAIL_PASSWORD=<password>
-EMAIL_FROM=<sender email>
-EMAIL_NAME=Apollusia # optional sender display name
-VAPID_PUBLIC_KEY=<vapid public key> # for push notifications
-VAPID_PRIVATE_KEY=<vapid private key> # for push notifications
-CONTACT_OPERATOR=<contact operator>
-CONTACT_MAIL=<contact email>
-CONTACT_ADDRESS=<contact address>
-```
+- **[SETUP-GUIDE.md](docs/SETUP-GUIDE.md)**  
+  Step-by-step setup instructions for running Apollusia locally.
 
-VAPID keys can be generated using the following command:
+- **[CYPRESS-TESTING-GUIDE.md](docs/CYPRESS-TESTING-GUIDE.md)**  
+  Follow this for setting up and writing effective end-to-end tests with Cypress.
 
-```bash
-npx web-push generate-vapid-keys
-```
+- **[JEST-TESTING-GUIDE.md](docs/JEST-TESTING-GUIDE.md)**  
+  Use this guide for running and writing reliable unit and integration tests with Jest.
+
+- **[CODE-OF-CONDUCT.md](./CODE-OF-CONDUCT.md)**  
+  Review our community guidelines to foster a respectful and inclusive environment.
+
+These docs will help you get started and contribute smoothly.
+
