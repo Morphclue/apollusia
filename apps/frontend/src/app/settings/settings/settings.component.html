@@ -8,16 +8,14 @@
   <h2>
     User Settings
   </h2>
-  <div class="mb-3">
-    <label class="form-label" for="email">E-Mail</label>
-    <input type="email" class="form-control" id="email" [(ngModel)]="email" [disabled]="!!user"/>
-    @if (user) {
+  @if (user) {
+    <div class="mb-3">
+      <label class="form-label" for="email">E-Mail</label>
+      <input type="email" class="form-control" id="email" [ngModel]="user.email" [disabled]="!!user"/>
       <div class="form-text">
         Your email cannot be changed as a registered user.
       </div>
-    }
-  </div>
-  @if (user) {
+    </div>
     <div class="mb-3">
       <label class="form-label" for="firstName">First Name</label>
       <input type="text" class="form-control" id="firstName" [(ngModel)]="user.firstName"/>

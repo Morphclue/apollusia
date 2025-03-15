@@ -6,7 +6,6 @@ import {KeycloakProfile} from 'keycloak-js';
 import * as platform from 'platform';
 
 import {environment} from '../../../environments/environment';
-import {MailService} from '../../core/services';
 import {PushService} from '../../poll/services/push.service';
 
 interface PushInfo {
@@ -23,12 +22,10 @@ interface PushInfo {
   standalone: false,
 })
 export class SettingsComponent implements OnInit {
-  email = '';
   user?: KeycloakProfile;
   pushInfo: PushInfo[] = [];
 
   constructor(
-    private mailService: MailService,
     private toastService: ToastService,
     private keycloakService: KeycloakService,
     private pushService: PushService,
@@ -37,10 +34,8 @@ export class SettingsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.email = this.mailService.getMail() || '';
     this.keycloakService.loadUserProfile().then((user) => {
       this.user = user;
-      this.email ||= user.email || '';
       this.pushInfo = (user.attributes?.['pushTokens'] as string[])?.map((token) => JSON.parse(token)) ?? [];
     });
   }
@@ -75,7 +70,6 @@ export class SettingsComponent implements OnInit {
   }
 
   save() {
-    this.mailService.setMail(this.email);
     if (!this.user) {
       this.toastService.success('Account Settings', 'Successfully saved settings.');
       return;
