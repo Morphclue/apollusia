@@ -19,8 +19,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       # https://github.com/actions/setup-node/issues/480#issuecomment-1915448139
+      # https://github.com/nodejs/corepack/issues/612
       - name: Enable Corepack
-        run: corepack enable
+        run: npm install -g corepack@latest && corepack enable
       - name: Set up Node.js LTS
         uses: actions/setup-node@v4
         with:
