@@ -6,6 +6,7 @@ import {StorageService} from '../services/storage.service';
   selector: 'app-cookie-banner',
   templateUrl: './cookie-banner.component.html',
   styleUrls: ['./cookie-banner.component.scss'],
+  standalone: false,
 })
 export class CookieBannerComponent implements OnInit {
   dismissed = false;

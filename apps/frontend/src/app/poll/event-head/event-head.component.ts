@@ -6,6 +6,7 @@ import {PollEvent} from '../../model';
   selector: 'app-event-head',
   templateUrl: './event-head.component.html',
   styleUrls: ['./event-head.component.scss'],
+  standalone: false,
 })
 export class EventHeadComponent {
   @Input() event!: PollEvent;

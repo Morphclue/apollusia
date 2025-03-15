@@ -4,6 +4,7 @@ import {ReadPoll} from '../../model';
 
 @Pipe({
   name: 'search',
+  standalone: false,
 })
 export class SearchPipe implements PipeTransform {
   transform(value: ReadPoll[], search: string): ReadPoll[] {

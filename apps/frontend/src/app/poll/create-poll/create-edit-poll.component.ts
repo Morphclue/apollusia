@@ -17,6 +17,7 @@ import {PushService} from '../services/push.service';
   selector: 'app-create-edit-poll',
   templateUrl: './create-edit-poll.component.html',
   styleUrls: ['./create-edit-poll.component.scss'],
+  standalone: false,
 })
 export class CreateEditPollComponent implements OnInit {
   readonly ShowResultOptions = ShowResultOptions;

@@ -10,6 +10,7 @@ import {PollService} from '../services/poll.service';
   selector: 'apollusia-table',
   templateUrl: './table.component.html',
   styleUrl: './table.component.scss',
+  standalone: false,
 })
 export class TableComponent implements OnInit {
   @Input() poll: ReadPoll;
