@@ -136,7 +136,7 @@ To set up Keycloak, follow these steps
   - Valid Redirect URLs: `http://localhost:4200/*`
   - Valid Post Logout Redirect URLs: `+`
   - Web Origins: `+`.
-- Under Login options, configure:
+- Under "Realm Settings > Login", configure:
   - User registration: On
   - Forgot password: On
   - Remember me: On
@@ -144,7 +144,7 @@ To set up Keycloak, follow these steps
   - Login with email: On
   - Duplicate emails: Off
   - Verify email: Off
-- Under User profile, create an attribute:
+- Under "Realm Settings > User profile", create an attribute:
   - Attribute [Name]: pushTokens
   - Display Name: Push Tokens
   - Multivalued: On
@@ -155,8 +155,9 @@ To set up Keycloak, follow these steps
 You can get the Keycloak Client Secret like this:
 - Go to http://localhost:8080/auth/admin/master/console/#/apollusia/clients
 - Select admin-cli
-- Under Settings, make sure Client authentication is enabled (OIDC confidential)
-- Go to the Credentials tab and copy the Secret
+- Under Settings, make sure Client authentication is enabled
+- Hit Save
+- Go to the Credentials tab and copy the Client Secret
 
 To get the Keycloak public key, follow these steps:
 - Go to http://localhost:8080/auth/admin/master/console/#/apollusia/realm-settings/keys
