@@ -18,7 +18,7 @@ export class PushService {
   ) {
     const publicKey = config.get('VAPID_PUBLIC_KEY');
     const privateKey = config.get('VAPID_PRIVATE_KEY');
-    const emailSender = config.get('EMAIL_FROM');
+    const emailSender = config.get('EMAIL_FROM', 'info@apollusia.com');
     if (publicKey && privateKey && emailSender) {
       webpush.setVapidDetails('mailto:' + emailSender, publicKey, privateKey);
 
