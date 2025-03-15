@@ -151,6 +151,14 @@ To set up Keycloak, follow these steps
   - Attribute Group: user-metadata
   - Who can edit?: User, Admin
   - Who can view?: User, Admin
+- Create a user as follows:
+  - Username/email: admin@apollusia.com
+  - First Name: Apollusia
+  - Last Name: Admin
+  - Email Verified: On
+  - Credentials > Password: `root`
+  - Role Mapping > Assign Role > Filter by clients > Select all (the list may be long, change pagination to 100 elements to see all) > Assign
+  - Role Mapping > Assign Role > Filter by realm roles > Select all > Assign
 
 You can get the Keycloak Client Secret like this:
 - Go to http://localhost:8080/auth/admin/master/console/#/apollusia/clients
