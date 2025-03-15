@@ -105,6 +105,12 @@ importers:
       angular-calendar:
         specifier: ^0.31.1
         version: 0.31.1(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.15.0))
+      angular-draggable-droppable:
+        specifier: ^8.0.0
+        version: 8.0.0(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.15.0))
+      angular-resizable-element:
+        specifier: ^7.0.2
+        version: 7.0.2(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.15.0))
       angularx-flatpickr:
         specifier: ^7.3.0
         version: 7.3.0(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.15.0))(@angular/forms@19.2.2(@angular/common@19.2.2(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.15.0))(rxjs@7.8.2))(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.15.0))(@angular/platform-browser@19.2.2(@angular/animations@19.2.2(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.15.0)))(@angular/common@19.2.2(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.15.0))(rxjs@7.8.2))(@angular/core@19.2.2(rxjs@7.8.2)(zone.js@0.15.0)))(rxjs@7.8.2))(flatpickr@4.6.13)
