@@ -152,11 +152,12 @@ To set up Keycloak, follow these steps
   - Who can edit?: User, Admin
   - Who can view?: User, Admin
 - Create a user as follows:
+  - Email Verified: Yes
   - Username/email: admin@apollusia.com
   - First Name: Apollusia
   - Last Name: Admin
-  - Email Verified: On
-  - Credentials > Password: `root`
+  - Hit Create
+  - Credentials > Set Password: `root` 
   - Role Mapping > Assign Role > Filter by clients > Select all (the list may be long, change pagination to 100 elements to see all) > Assign
   - Role Mapping > Assign Role > Filter by realm roles > Select all > Assign
 
