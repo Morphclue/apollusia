@@ -76,4 +76,60 @@
       You need to sign in to enable push notifications.
     </div>
   }
+  <hr/>
+  <h2>
+    Notification Preferences
+  </h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th colspan="2">Event</th>
+        <th>Email</th>
+        <th>Push</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (category of notificationSettings; track category.title) {
+        <tr>
+          <th colspan="4">
+            {{ category.title }}
+            <div class="small text-muted fw-normal">
+              {{ category.description }}
+            </div>
+          </th>
+        </tr>
+        @for (type of category.types; track type.key) {
+          <tr>
+            <th class="text-center">
+              <i class="icon-lg text-primary-emphasis" [class]="type.icon"></i>
+            </th>
+            <th>
+              {{ type.title }}
+              <div class="small text-muted fw-normal">{{ type.description }}</div>
+            </th>
+            <td>
+              <div class="form-check form-switch">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  [(ngModel)]="notifications[type.key + ':email']"
+                />
+              </div>
+            </td>
+            <td>
+              <div class="form-check form-switch">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  [(ngModel)]="notifications[type.key + ':push']"
+                  [disabled]="type.push === false"
+                />
+              </div>
+            </td>
+          </tr>
+        }
+      }
+    </tbody>
+  </table>
+  <button class="btn btn-primary" (click)="saveNotificationSettings()">Save</button>
 </div>
