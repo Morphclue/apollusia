@@ -115,6 +115,8 @@ EMAIL_FROM=<sender email>
 EMAIL_NAME=Apollusia # optional sender display name
 VAPID_PUBLIC_KEY=<vapid public key> # for push notifications
 VAPID_PRIVATE_KEY=<vapid private key> # for push notifications
+KEYCLOAK_CLIENT_SECRET=<keycloak client secret>
+AUTH_PUBLIC_KEY=<keycloak public key>
 CONTACT_OPERATOR=<contact operator>
 CONTACT_MAIL=<contact email>
 CONTACT_ADDRESS=<contact address>
@@ -125,3 +127,38 @@ VAPID keys can be generated using the following command:
 ```bash
 npx web-push generate-vapid-keys
 ```
+
+To set up Keycloak, follow these steps
+- Run it with `docker compose up -d keycloak`
+- Go to `http://localhost:8080/auth`.
+- Create a new realm called `apollusia`
+- Create a client called `web` with the following options:
+  - Valid Redirect URLs: `http://localhost:4200/*`
+  - Valid Post Logout Redirect URLs: `+`
+  - Web Origins: `+`.
+- Under Login options, configure:
+  - User registration: On
+  - Forgot password: On
+  - Remember me: On
+  - Email as username: On
+  - Login with email: On
+  - Duplicate emails: Off
+  - Verify email: Off
+- Under User profile, create an attribute:
+  - Attribute [Name]: pushTokens
+  - Display Name: Push Tokens
+  - Multivalued: On
+  - Attribute Group: user-metadata
+  - Who can edit?: User, Admin
+  - Who can view?: User, Admin
+
+You can get the Keycloak Client Secret like this:
+- Go to http://localhost:8080/auth/admin/master/console/#/apollusia/clients
+- Select admin-cli
+- Under Settings, make sure Client authentication is enabled (OIDC confidential)
+- Go to the Credentials tab and copy the Secret
+
+To get the Keycloak public key, follow these steps:
+- Go to http://localhost:8080/auth/admin/master/console/#/apollusia/realm-settings/keys
+- Click on the RS256 Public Key
+- Copy the base64 key
