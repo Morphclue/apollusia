@@ -13,6 +13,7 @@ import {PollService} from '../../poll/services/poll.service';
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
+  standalone: false,
 })
 export class DashboardComponent implements OnInit {
   polls: ReadPoll[] = [];

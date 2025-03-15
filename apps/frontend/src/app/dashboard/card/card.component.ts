@@ -6,6 +6,7 @@ import {ReadPoll} from '../../model';
   selector: 'app-card',
   templateUrl: './card.component.html',
   styleUrls: ['./card.component.scss'],
+  standalone: false,
 })
 export class CardComponent {
   @Input() poll!: ReadPoll;

@@ -22,7 +22,7 @@
     "@angular-eslint/eslint-plugin": "19.2.1",
     "@angular-eslint/eslint-plugin-template": "19.2.1",
     "@angular-eslint/template-parser": "19.2.1",
-    "@angular/cli": "~18.2.15",
+    "@angular/cli": "19.2.3",
     "@angular/compiler-cli": "19.2.2",
     "@angular/language-service": "19.2.2",
     "@gitopslovers/nx-sass": "^1.5.1",
