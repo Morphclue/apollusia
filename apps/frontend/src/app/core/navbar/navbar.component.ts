@@ -8,6 +8,8 @@ import {Subject} from 'rxjs';
 import {environment} from '../../../environments/environment';
 import {StorageService} from '../services/storage.service';
 
+type RecentPoll = { id: string; title: string; location: string; visitedAt: string; };
+
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
@@ -48,7 +50,7 @@ export class NavbarComponent implements OnInit {
   ];
   theme$: Subject<Theme>;
 
-  recentPolls: { id: string; title: string; location: string; visitedAt: string; }[] = [];
+  recentPolls: RecentPoll[] = [];
 
   user?: KeycloakProfile;
 
@@ -83,5 +85,10 @@ export class NavbarComponent implements OnInit {
 
   logout() {
     this.keycloakService.logout(window.location.href);
+  }
+
+  removeRecent(poll: RecentPoll) {
+    this.recentPolls.splice(this.recentPolls.indexOf(poll), 1);
+    this.storageService.delete(`recentPolls/${poll.id}`);
   }
 }

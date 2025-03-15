@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Meta, Title} from '@angular/platform-browser';
 import {ActivatedRoute} from '@angular/router';
 import {ShowResultOptions} from '@apollusia/types/lib/schema/show-result-options';
+import {ToastService} from '@mean-stream/ngbx';
 import {forkJoin} from 'rxjs';
 import {map, switchMap, tap} from 'rxjs/operators';
 
@@ -89,6 +90,7 @@ export class ChooseEventsComponent implements OnInit {
     tokenService: TokenService,
     mailService: MailService,
     private storageService: StorageService,
+    private toastService: ToastService,
   ) {
     this.mail = mailService.getMail();
     this.token = tokenService.getToken();
@@ -115,6 +117,15 @@ export class ChooseEventsComponent implements OnInit {
       ])),
     ).subscribe(() => {
       this.updateHelpers();
+    }, error => {
+      if (error.status === 404) {
+        // Poll does not exist
+        this.title.setTitle('Poll not found - Apollusia');
+        this.closedReason = 'This poll does not exist.';
+        this.storageService.delete(`recentPolls/${this.route.snapshot.params['id']}`);
+      } else {
+        this.toastService.error('Failed to load poll', 'Please try again later.', error);
+      }
     });
   }
 

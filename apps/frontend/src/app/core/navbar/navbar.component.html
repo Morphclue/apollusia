@@ -80,6 +80,7 @@
             <i [class]="poll.location | locationIcon"></i>
             {{ poll.title }}
             <app-location-link class="small text-muted" [location]="poll.location" [shorten]="true"></app-location-link>
+            <i class="bi-x float-end" ngbTooltip="Remove from Recent Polls" (click)="removeRecent(poll)"></i>
           </a>
         </li>
       }
