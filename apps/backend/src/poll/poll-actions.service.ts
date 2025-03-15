@@ -336,14 +336,21 @@ export class PollActionsService implements OnModuleInit {
 
     if (poll.createdBy && (poll.adminMail || poll.adminPush)) {
       const adminUser = await this.keycloakService.getUser(poll.createdBy);
-      poll.adminMail && this.sendAdminInfo(poll, participant, adminUser).then();
-      poll.adminPush && this.sendAdminPush(poll, participant, adminUser).then();
+      if (poll.adminMail && adminUser.attributes?.notifications?.includes('admin:participant.new:email')) {
+        this.sendAdminInfo(poll, participant, adminUser).then();
+      }
+      if (poll.adminPush && adminUser.attributes?.notifications?.includes('admin:participant.new:push')) {
+        this.sendAdminPush(poll, participant, adminUser).then()
+      }
     }
     if (user?.email) {
-      this.mailService.sendMail(participant.name, user.email, 'Participated in Poll', 'participated', {
-        poll: poll.toObject(),
-        participant: participant.toObject(),
-      }).then();
+      const kcUser = await this.keycloakService.getUser(user.sub);
+      if (kcUser.attributes?.notifications?.includes('user:participant.new:email')) {
+        this.mailService.sendMail(participant.name, user.email, 'Participated in Poll', 'participated', {
+          poll: poll.toObject(),
+          participant: participant.toObject(),
+        }).then();
+      }
     }
     return participant;
   }
@@ -440,16 +447,20 @@ export class PollActionsService implements OnModuleInit {
       }
 
       this.keycloakService.getUser(participant.createdBy).then(kcUser => {
-        this.pushService.send(kcUser,
-          'Poll concluded | Apollusia',
-          `The poll ${poll.title} concluded with ${appointments.length} booked appointments.`,
-          `${environment.origin}/poll/${poll._id}/participate`,
-        );
-        this.mailService.sendMail(participant.name, kcUser.email, 'Poll concluded', 'book', {
-          appointments,
-          poll: poll.toObject(),
-          participant: participant.toObject(),
-        });
+        if (kcUser.attributes?.notifications?.includes('user:poll.booked:push')) {
+          this.pushService.send(kcUser,
+            'Poll concluded | Apollusia',
+            `The poll ${poll.title} concluded with ${appointments.length} booked appointments.`,
+            `${environment.origin}/poll/${poll._id}/participate`,
+          );
+        }
+        if (kcUser.attributes?.notifications?.includes('user:poll.booked:email')) {
+          this.mailService.sendMail(participant.name, kcUser.email, 'Poll concluded', 'book', {
+            appointments,
+            poll: poll.toObject(),
+            participant: participant.toObject(),
+          });
+        }
       }).catch(console.error);
     }
     return poll;
