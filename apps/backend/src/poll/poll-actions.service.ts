@@ -440,7 +440,12 @@ export class PollActionsService implements OnModuleInit {
       }
 
       this.keycloakService.getUser(participant.createdBy).then(kcUser => {
-        this.mailService.sendMail(participant.name, kcUser.email, 'Poll booked', 'book', {
+        this.pushService.send(kcUser,
+          'Poll concluded | Apollusia',
+          `The poll ${poll.title} concluded with ${appointments.length} booked appointments.`,
+          `${environment.origin}/poll/${poll._id}/participate`,
+        );
+        this.mailService.sendMail(participant.name, kcUser.email, 'Poll concluded', 'book', {
           appointments,
           poll: poll.toObject(),
           participant: participant.toObject(),
