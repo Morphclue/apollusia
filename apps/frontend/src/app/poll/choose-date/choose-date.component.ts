@@ -17,6 +17,7 @@ import {ChooseDateService} from '../services/choose-date.service';
   templateUrl: './choose-date.component.html',
   styleUrls: ['./choose-date.component.scss'],
   providers: [ChooseDateService],
+  standalone: false,
 })
 export class ChooseDateComponent implements AfterViewInit {
   viewDate = new Date();

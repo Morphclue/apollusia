@@ -15,6 +15,7 @@ import {PollService} from '../services/poll.service';
   selector: 'apollusia-ical',
   templateUrl: './ical.component.html',
   styleUrl: './ical.component.scss',
+  standalone: false,
 })
 export class IcalComponent implements OnInit {
   poll?: ReadPoll;

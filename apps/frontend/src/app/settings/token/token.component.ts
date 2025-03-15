@@ -6,6 +6,7 @@ import {TokenService} from '../../core/services';
   selector: 'app-token',
   templateUrl: './token.component.html',
   styleUrls: ['./token.component.scss'],
+  standalone: false,
 })
 export class TokenComponent implements OnInit {
   input = '';

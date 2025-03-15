@@ -1,5 +1,5 @@
 import {HTTP_INTERCEPTORS, provideHttpClient, withFetch, withInterceptorsFromDi} from '@angular/common/http';
-import {APP_INITIALIZER, isDevMode, NgModule} from '@angular/core';
+import {isDevMode, NgModule, inject, provideAppInitializer} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 import {BrowserModule, provideClientHydration} from '@angular/platform-browser';
 import {ServiceWorkerModule} from '@angular/service-worker';
@@ -66,13 +66,10 @@ function initializeKeycloak(keycloak: KeycloakService) {
       provide: 'BASE_URL',
       useValue: globalThis.document?.baseURI,
     }] : [],
-    {
-      // https://github.com/mauriciovigolo/keycloak-angular#setup
-      provide: APP_INITIALIZER,
-      useFactory: initializeKeycloak,
-      multi: true,
-      deps: [KeycloakService],
-    },
+    provideAppInitializer(() => {
+      const initializerFn = (initializeKeycloak)(inject(KeycloakService));
+      return initializerFn();
+    }),
     provideHttpClient(withInterceptorsFromDi()),
   ],
 })
