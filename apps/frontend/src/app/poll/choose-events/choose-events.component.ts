@@ -22,6 +22,7 @@ interface SortMethod {
   selector: 'app-choose-events',
   templateUrl: './choose-events.component.html',
   styleUrls: ['./choose-events.component.scss'],
+  standalone: false,
 })
 export class ChooseEventsComponent implements OnInit {
   // initial state

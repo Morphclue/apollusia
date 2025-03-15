@@ -14,6 +14,7 @@ type RecentPoll = { id: string; title: string; location: string; visitedAt: stri
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss'],
+  standalone: false,
 })
 export class NavbarComponent implements OnInit {
   readonly environment = environment;

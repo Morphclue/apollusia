@@ -1,5 +1,5 @@
 import { APP_BASE_HREF } from '@angular/common';
-import { CommonEngine } from '@angular/ssr';
+import {CommonEngine} from '@angular/ssr/node';
 import express from 'express';
 import { REQUEST as SSR_REQUEST } from 'ngx-cookie-service-ssr';
 import { dirname, join, resolve } from 'node:path';
