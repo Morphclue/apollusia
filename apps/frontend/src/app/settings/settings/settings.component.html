@@ -38,12 +38,20 @@
     </button>
     <ul class="list-group mb-3">
       @for (info of pushInfo; track info) {
-        <li class="list-group-item">
-          <button class="btn btn-link text-danger bi-trash" ngbTooltip="Remove Device" (click)="removePush(info)">
-          </button>
-          {{ info.browser }}
-          <span class="text-muted">on</span>
-          {{ info.device }}
+        <li class="list-group-item d-flex align-items-center">
+          <i class="bi-browser-{{ info.browser | lowercase }} me-3 fs-1"></i>
+          <div class="flex-grow-1">
+            {{ info.browser }}
+            <span class="text-muted">on</span>
+            {{ info.device }}
+            <br/>
+            <span class="text-muted">Added {{ info.createdAt | date:'short' }}</span>
+          </div>
+          <button
+            class="btn btn-link text-danger bi-trash ms-3"
+            ngbTooltip="Remove Device"
+            (click)="removePush(info)"
+          ></button>
         </li>
       } @empty {
         <li class="list-group-item text-muted">

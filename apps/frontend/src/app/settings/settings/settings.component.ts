@@ -12,6 +12,7 @@ import {PushService} from '../../poll/services/push.service';
 interface PushInfo {
   device: string;
   browser: string;
+  createdAt: Date;
   token: any;
 }
 
@@ -53,6 +54,7 @@ export class SettingsComponent implements OnInit {
       this.pushInfo.push({
         device: platform.os?.family ?? 'Unknown OS',
         browser: platform.name ?? 'Unknown Browser',
+        createdAt: new Date(),
         token,
       });
       this.saveUser().subscribe({
