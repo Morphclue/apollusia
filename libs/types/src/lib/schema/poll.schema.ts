@@ -4,6 +4,7 @@ import {Prop, Schema, SchemaFactory} from '@nestjs/mongoose';
 import {ApiProperty, ApiPropertyOptional} from '@nestjs/swagger';
 import {Type} from 'class-transformer';
 import {
+  IsBoolean,
   IsNotEmpty,
   IsObject,
   IsOptional,
@@ -102,11 +103,11 @@ export class Poll {
     @IsString()
     adminMail?: string;
 
-    @Prop({type: Object})
+    @Prop()
     @ApiPropertyOptional()
     @IsOptional()
-    @IsObject()
-    adminPush?: PushSubscriptionJSON;
+    @IsBoolean()
+    adminPush?: boolean;
 
     @Prop({type: SettingsSchema, default: {}})
     @ApiProperty()
