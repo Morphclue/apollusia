@@ -9,7 +9,7 @@ import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 
 import {environment} from '../../../environments/environment';
-import {MailService, TokenService} from '../../core/services';
+import {TokenService} from '../../core/services';
 import {CreatePollDto, Poll} from '../../model';
 
 @Component({
@@ -23,7 +23,6 @@ export class CreateEditPollComponent implements OnInit {
   isCollapsed: boolean = true;
   id: string = '';
   poll?: Poll;
-  mail?: string;
   isAdmin: boolean = false;
   pollForm = new FormGroup({
     title: new FormControl('', Validators.required),
@@ -91,7 +90,6 @@ export class CreateEditPollComponent implements OnInit {
     private http: HttpClient,
     private router: Router,
     private tokenService: TokenService,
-    private mailService: MailService,
     route: ActivatedRoute,
   ) {
     const routeId: Observable<string> = route.params.pipe(map(({id}) => id));
@@ -101,7 +99,6 @@ export class CreateEditPollComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.mail = this.mailService.getMail();
     this.fetchPoll();
     this.checkAdmin();
 
@@ -125,7 +122,7 @@ export class CreateEditPollComponent implements OnInit {
       description: pollForm.description ? pollForm.description : '',
       location: pollForm.location ? pollForm.location : '',
       adminToken: this.tokenService.getToken(),
-      adminMail: pollForm.emailUpdates ? this.poll?.adminMail || this.mail : undefined,
+      adminMail: !!pollForm.emailUpdates,
       adminPush: !!pollForm.pushUpdates,
       timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
       bookedEvents: {},

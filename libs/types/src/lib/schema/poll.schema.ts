@@ -100,8 +100,8 @@ export class Poll {
     @Prop()
     @ApiPropertyOptional()
     @IsOptional()
-    @IsString()
-    adminMail?: string;
+    @IsBoolean()
+    adminMail?: boolean;
 
     @Prop()
     @ApiPropertyOptional()
