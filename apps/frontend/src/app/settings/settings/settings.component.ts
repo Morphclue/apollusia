@@ -12,7 +12,7 @@ interface PushInfo {
   device: string;
   browser: string;
   createdAt: Date;
-  token: any;
+  token: PushSubscription;
 }
 
 @Component({
@@ -25,6 +25,9 @@ export class SettingsComponent implements OnInit {
   user?: KeycloakProfile;
   pushInfo: PushInfo[] = [];
 
+  pushEnabled = false;
+  existingPush?: PushSubscription;
+
   constructor(
     private toastService: ToastService,
     private keycloakService: KeycloakService,
@@ -33,19 +36,22 @@ export class SettingsComponent implements OnInit {
   ) {
   }
 
-  ngOnInit(): void {
-    this.keycloakService.loadUserProfile().then((user) => {
-      this.user = user;
-      this.pushInfo = (user.attributes?.['pushTokens'] as string[])?.map((token) => JSON.parse(token)) ?? [];
-    });
+  async ngOnInit() {
+    this.user = await this.keycloakService.loadUserProfile();
+    this.pushInfo = (this.user.attributes?.['pushTokens'] as string[])?.map((token) => JSON.parse(token)) ?? [];
+
+    this.pushEnabled = this.pushService.isEnabled();
+    if (this.pushEnabled) {
+      const existingSub = await this.pushService.getSubscription();
+      if (existingSub) {
+        this.existingPush = existingSub;
+      }
+    }
   }
 
   addPush() {
-    this.pushService.getPushToken().then(token => {
-      if (this.pushInfo.some(p => p.token.endpoint === token.endpoint)) {
-        this.toastService.warn('Add Push Device', 'This device is already registered.');
-        return;
-      }
+    this.pushService.requestSubscription().then(token => {
+      this.existingPush = token;
       this.pushInfo.push({
         device: platform.os?.family ?? 'Unknown OS',
         browser: platform.name ?? 'Unknown Browser',
@@ -61,7 +67,12 @@ export class SettingsComponent implements OnInit {
     });
   }
 
-  removePush(info: PushInfo) {
+  async removePush(info: PushInfo) {
+    if (info.token.endpoint === this.existingPush?.endpoint) {
+      await this.pushService.unsubscribe();
+      this.existingPush = undefined;
+    }
+
     this.pushInfo = this.pushInfo.filter((i) => i !== info);
     this.saveUser().subscribe({
       next: () => this.toastService.success('Push Settings', 'Successfully remove device.'),

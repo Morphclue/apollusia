@@ -36,9 +36,15 @@
     Push Notifications
   </h2>
   @if (user) {
-    <button class="btn btn-primary mb-3" (click)="addPush()">
-      Enable Push Notifications for this Device
-    </button>
+    @if (pushEnabled) {
+      <button class="btn btn-primary mb-3" (click)="addPush()" [disabled]="existingPush">
+        Enable Push Notifications for this Device
+      </button>
+    } @else {
+      <div class="alert alert-warning">
+        Push notifications are not available on this device or browser.
+      </div>
+    }
     <ul class="list-group mb-3">
       @for (info of pushInfo; track info) {
         <li class="list-group-item d-flex align-items-center">
@@ -47,6 +53,9 @@
             {{ info.browser }}
             <span class="text-muted">on</span>
             {{ info.device }}
+            @if (info.token.endpoint === existingPush?.endpoint) {
+              <span class="badge bg-primary">This Device</span>
+            }
             <br/>
             <span class="text-muted">Added {{ info.createdAt | date:'short' }}</span>
           </div>
