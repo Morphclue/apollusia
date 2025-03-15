@@ -47,7 +47,7 @@ export class SettingsComponent implements OnInit {
   addPush() {
     this.pushService.getPushToken().then(token => {
       if (this.pushInfo.some(p => p.token.endpoint === token.endpoint)) {
-        this.toastService.error('Push', 'This device is already registered.');
+        this.toastService.warn('Add Push Device', 'This device is already registered.');
         return;
       }
       this.pushInfo.push({
@@ -55,31 +55,42 @@ export class SettingsComponent implements OnInit {
         browser: platform.name ?? 'Unknown Browser',
         token,
       });
-      this.toastService.success('Push', 'Successfully registered device.');
+      this.saveUser().subscribe({
+        next: () => this.toastService.success('Add Push Device', 'Successfully registered device.'),
+        error: error => this.toastService.error('Add Push Device', 'Failed to save user data.', error),
+      })
     }, error => {
-      this.toastService.error('Push', 'Failed to register device.', error);
+      this.toastService.error('Add Push Device', 'Failed to register push device.', error);
     });
   }
 
   removePush(info: PushInfo) {
     this.pushInfo = this.pushInfo.filter((i) => i !== info);
+    this.saveUser().subscribe({
+      next: () => this.toastService.success('Push Settings', 'Successfully remove device.'),
+      error: error => this.toastService.error('Push Settings', 'Failed to remove device', error),
+    })
   }
 
   save() {
     this.mailService.setMail(this.email);
     if (!this.user) {
-      this.toastService.success('Settings', 'Successfully saved settings.');
+      this.toastService.success('Account Settings', 'Successfully saved settings.');
       return;
     }
-    this.http.post(`${environment.keycloak.url}/realms/${environment.keycloak.realm}/account`, {
+    this.saveUser().subscribe({
+      next: () => this.toastService.success('Account Settings', 'Successfully saved account settings.'),
+      error: error => this.toastService.error('Account Settings', 'Failed to save account settings.', error),
+    });
+  }
+
+  private saveUser() {
+    return this.http.post(`${environment.keycloak.url}/realms/${environment.keycloak.realm}/account`, {
       ...this.user,
       attributes: {
-        ...this.user.attributes,
+        ...this.user?.attributes,
         pushTokens: this.pushInfo.map((info) => JSON.stringify(info)),
       },
-    }).subscribe({
-      next: () => this.toastService.success('Settings', 'Successfully saved account settings.'),
-      error: error => this.toastService.error('Settings', 'Failed to save account settings.', error),
     });
   }
 }

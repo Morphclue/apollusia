@@ -27,6 +27,8 @@
       <input type="text" class="form-control" id="lastName" [(ngModel)]="user.lastName"/>
     </div>
   }
+  <button class="btn btn-primary" (click)="save()">Save</button>
+  <hr/>
   <h2>
     Push Notifications
   </h2>
@@ -54,6 +56,4 @@
       You need to sign in to enable push notifications.
     </div>
   }
-  <hr/>
-  <button class="btn btn-primary" (click)="save()">Save</button>
 </div>
