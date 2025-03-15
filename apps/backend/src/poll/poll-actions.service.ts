@@ -1,7 +1,6 @@
 import {
   checkParticipant,
   CreateParticipantDto,
-  MailDto,
   Participant,
   Poll,
   PollDto,
@@ -340,10 +339,12 @@ export class PollActionsService implements OnModuleInit {
       poll.adminMail && this.sendAdminInfo(poll, participant, adminUser).then();
       poll.adminPush && this.sendAdminPush(poll, participant, adminUser).then();
     }
-    participant.mail && this.mailService.sendMail(participant.name, participant.mail, 'Participated in Poll', 'participated', {
-      poll: poll.toObject(),
-      participant: participant.toObject(),
-    }).then();
+    if (user?.email) {
+      this.mailService.sendMail(participant.name, user.email, 'Participated in Poll', 'participated', {
+        poll: poll.toObject(),
+        participant: participant.toObject(),
+      }).then();
+    }
     return participant;
   }
 
@@ -407,8 +408,8 @@ export class PollActionsService implements OnModuleInit {
       _id: {$in: Object.keys(events).map(e => new Types.ObjectId(e))},
     });
     for await (const participant of this.participantModel.find({
-      poll: new Types.ObjectId(id),
-      mail: {$exists: true},
+      poll: id,
+      createdBy: {$exists: true},
     })) {
       const appointments = eventDocs
         .filter(event => {
@@ -438,10 +439,12 @@ export class PollActionsService implements OnModuleInit {
         continue;
       }
 
-      this.mailService.sendMail(participant.name, participant.mail, 'Poll booked', 'book', {
-        appointments,
-        poll: poll.toObject(),
-        participant: participant.toObject(),
+      this.keycloakService.getUser(participant.createdBy).then(kcUser => {
+        this.mailService.sendMail(participant.name, kcUser.email, 'Poll booked', 'book', {
+          appointments,
+          poll: poll.toObject(),
+          participant: participant.toObject(),
+        });
       }).catch(console.error);
     }
     return poll;
@@ -462,18 +465,6 @@ export class PollActionsService implements OnModuleInit {
     await this.participantModel.updateMany(filter, {
       $unset: events.reduce((acc, e) => ({...acc, ['selection.' + e._id]: true}), {})
     }, {timestamps: false}).exec();
-  }
-
-  async setMail(mailDto: MailDto) {
-    const participants = await this.participantModel.find({token: mailDto.token}).exec();
-    participants.forEach(participant => {
-      participant.mail = mailDto.mail;
-      participant.token = mailDto.token;
-    });
-    await this.participantModel.updateMany({token: mailDto.token}, {
-      mail: mailDto.mail,
-      token: mailDto.token,
-    }).exec();
   }
 
   isAdmin(poll: Poll, token: string | undefined, user: string | undefined) {

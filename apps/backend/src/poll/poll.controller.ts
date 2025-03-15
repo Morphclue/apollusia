@@ -85,11 +85,6 @@ export class PollController {
     return this.pollService.deletePoll(id);
   }
 
-  @Put('mail/participate')
-  async setMail(@Body() mailDto: MailDto): Promise<void> {
-    return this.pollService.setMail(mailDto);
-  }
-
   @Post('claim/:token')
   @Auth()
   async claimPolls(
