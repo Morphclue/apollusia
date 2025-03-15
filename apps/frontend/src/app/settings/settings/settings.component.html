@@ -5,6 +5,7 @@
   <div class="mb-3">
     <app-token></app-token>
   </div>
+  <hr/>
   <h2>
     User Settings
   </h2>
@@ -24,8 +25,12 @@
       <label class="form-label" for="lastName">Last Name</label>
       <input type="text" class="form-control" id="lastName" [(ngModel)]="user.lastName"/>
     </div>
+    <button class="btn btn-primary" (click)="save()">Save</button>
+  } @else {
+    <div class="alert alert-warning">
+      You need to sign in to change your name and email for notifications.
+    </div>
   }
-  <button class="btn btn-primary" (click)="save()">Save</button>
   <hr/>
   <h2>
     Push Notifications
