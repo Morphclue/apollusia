@@ -1,12 +1,11 @@
 import {Injectable} from '@nestjs/common';
 
-import {KeycloakUser} from './keycloak-user.interface';
 import {environment} from '../environment';
+import {KeycloakUser} from './keycloak-user.interface';
 
 @Injectable()
 export class KeycloakService {
   async getUser(id: string): Promise<KeycloakUser | undefined> {
-    // TODO auth only once
     const KeycloakAdminClient = (await import('@keycloak/keycloak-admin-client')).default;
     const kcAdminClient = new KeycloakAdminClient({
       baseUrl: environment.keycloak.baseUrl,
