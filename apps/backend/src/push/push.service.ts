@@ -5,6 +5,7 @@ import * as webpush from 'web-push';
 import {PushSubscription} from 'web-push';
 
 import {KeycloakService} from '../auth/keycloak.service';
+import {environment} from '../environment';
 
 @Injectable()
 export class PushService {
@@ -39,7 +40,7 @@ export class PushService {
       notification: {
         title,
         body,
-        // icon: 'assets/main-page-logo-small-hat.png',
+        icon: `${environment.origin}/assets/logo.png`,
         data: {
           onActionClick: {
             'default': {operation: 'openWindow', url},
@@ -49,7 +50,7 @@ export class PushService {
     };
     for (const pushTokenStr of kcUser.attributes.pushTokens) {
       const {token} = JSON.parse(pushTokenStr) as { token: PushSubscription };
-      webpush.sendNotification(token, JSON.stringify(payload));
+      webpush.sendNotification(token, JSON.stringify(payload)).catch(error => this.logger.error(error.message, error.stack));
     }
   }
 }
