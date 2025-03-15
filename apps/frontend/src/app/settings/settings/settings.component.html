@@ -1,10 +1,79 @@
 <div class="container">
   <h1>
-    User Settings
+    Settings
   </h1>
-  <ngbx-validator-form [model]="settings"></ngbx-validator-form>
   <div class="mb-3">
     <app-token></app-token>
   </div>
-  <button class="btn btn-primary" (click)="save()">Save</button>
+  <hr/>
+  <h2>
+    User Settings
+  </h2>
+  @if (user) {
+    <div class="mb-3">
+      <label class="form-label" for="email">E-Mail</label>
+      <input type="email" class="form-control" id="email" [ngModel]="user.email" [disabled]="!!user"/>
+      <div class="form-text">
+        Your email cannot be changed as a registered user.
+      </div>
+    </div>
+    <div class="mb-3">
+      <label class="form-label" for="firstName">First Name</label>
+      <input type="text" class="form-control" id="firstName" [(ngModel)]="user.firstName"/>
+    </div>
+    <div class="mb-3">
+      <label class="form-label" for="lastName">Last Name</label>
+      <input type="text" class="form-control" id="lastName" [(ngModel)]="user.lastName"/>
+    </div>
+    <button class="btn btn-primary" (click)="save()">Save</button>
+  } @else {
+    <div class="alert alert-warning">
+      You need to sign in to change your name and email for notifications.
+    </div>
+  }
+  <hr/>
+  <h2>
+    Push Notifications
+  </h2>
+  @if (user) {
+    @if (pushEnabled) {
+      <button class="btn btn-primary mb-3" (click)="addPush()" [disabled]="existingPush">
+        Enable Push Notifications for this Device
+      </button>
+    } @else {
+      <div class="alert alert-warning">
+        Push notifications are not available on this device or browser.
+      </div>
+    }
+    <ul class="list-group mb-3">
+      @for (info of pushInfo; track info) {
+        <li class="list-group-item d-flex align-items-center">
+          <i class="bi-browser-{{ info.browser | lowercase }} me-3 fs-1"></i>
+          <div class="flex-grow-1">
+            {{ info.browser }}
+            <span class="text-muted">on</span>
+            {{ info.device }}
+            @if (info.token.endpoint === existingPush?.endpoint) {
+              <span class="badge bg-primary">This Device</span>
+            }
+            <br/>
+            <span class="text-muted">Added {{ info.createdAt | date:'short' }}</span>
+          </div>
+          <button
+            class="btn btn-link text-danger bi-trash ms-3"
+            ngbTooltip="Remove Device"
+            (click)="removePush(info)"
+          ></button>
+        </li>
+      } @empty {
+        <li class="list-group-item text-muted">
+          No devices registered for push notifications.
+        </li>
+      }
+    </ul>
+  } @else {
+    <div class="alert alert-warning">
+      You need to sign in to enable push notifications.
+    </div>
+  }
 </div>

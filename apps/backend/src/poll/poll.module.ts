@@ -4,22 +4,24 @@ import {MongooseModule} from '@nestjs/mongoose';
 
 import {PollActionsService} from './poll-actions.service';
 import {PollController} from './poll.controller';
+import {KeycloakModule} from '../auth/keycloak.module';
 import {MailModule} from '../mail/mail.module';
 import {PushModule} from '../push/push.module';
 
 @Module({
-    imports: [
-        MongooseModule.forFeature([
-            {name: Poll.name, schema: PollSchema},
-            {name: PollEvent.name, schema: PollEventSchema},
-            {name: Participant.name, schema: ParticipantSchema},
-        ]),
-        MailModule,
-        PushModule,
-    ],
-    providers: [PollActionsService],
+  imports: [
+    MongooseModule.forFeature([
+      {name: Poll.name, schema: PollSchema},
+      {name: PollEvent.name, schema: PollEventSchema},
+      {name: Participant.name, schema: ParticipantSchema},
+    ]),
+    MailModule,
+    PushModule,
+    KeycloakModule,
+  ],
+  providers: [PollActionsService],
   exports: [PollActionsService],
-    controllers: [PollController],
+  controllers: [PollController],
 })
 export class PollModule {
 }

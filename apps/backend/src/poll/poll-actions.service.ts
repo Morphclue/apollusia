@@ -1,7 +1,6 @@
 import {
   checkParticipant,
   CreateParticipantDto,
-  MailDto,
   Participant,
   Poll,
   PollDto,
@@ -23,6 +22,8 @@ import {Injectable, Logger, NotFoundException, OnModuleInit, UnprocessableEntity
 import {InjectModel} from '@nestjs/mongoose';
 import {Document, FilterQuery, Model, Types} from 'mongoose';
 
+import {KeycloakUser} from '../auth/keycloak-user.interface';
+import {KeycloakService} from '../auth/keycloak.service';
 import {environment} from '../environment';
 import {renderDate} from '../mail/helpers';
 import {MailService} from '../mail/mail/mail.service';
@@ -38,6 +39,7 @@ export class PollActionsService implements OnModuleInit {
     @InjectModel(Participant.name) private participantModel: Model<Participant>,
     private mailService: MailService,
     private pushService: PushService,
+    private keycloakService: KeycloakService,
   ) {
   }
 
@@ -332,16 +334,21 @@ export class PollActionsService implements OnModuleInit {
       createdBy: user?.sub,
     });
 
-    poll.adminMail && this.sendAdminInfo(poll, participant);
-    poll.adminPush && this.sendAdminPush(poll, participant);
-    participant.mail && this.mailService.sendMail(participant.name, participant.mail, 'Participated in Poll', 'participated', {
-      poll: poll.toObject(),
-      participant: participant.toObject(),
-    }).then();
+    if (poll.createdBy && (poll.adminMail || poll.adminPush)) {
+      const adminUser = await this.keycloakService.getUser(poll.createdBy);
+      poll.adminMail && this.sendAdminInfo(poll, participant, adminUser).then();
+      poll.adminPush && this.sendAdminPush(poll, participant, adminUser).then();
+    }
+    if (user?.email) {
+      this.mailService.sendMail(participant.name, user.email, 'Participated in Poll', 'participated', {
+        poll: poll.toObject(),
+        participant: participant.toObject(),
+      }).then();
+    }
     return participant;
   }
 
-  private async sendAdminInfo(poll: Poll & Document, participant: Participant & Document) {
+  private async sendAdminInfo(poll: Poll & Document, participant: Participant & Document, adminUser: KeycloakUser) {
     const events = await this.getEvents(poll._id);
     const participation = Array(events.length).fill({});
 
@@ -354,7 +361,7 @@ export class PollActionsService implements OnModuleInit {
       };
     }
 
-    return this.mailService.sendMail('Poll Admin', poll.adminMail, 'Updates in Poll', 'participant', {
+    return this.mailService.sendMail('Poll Admin', adminUser.email, 'Updates in Poll', 'participant', {
       poll: poll.toObject(),
       participant: participant.toObject(),
       events: events.map(({start, end}) => ({start, end})),
@@ -362,8 +369,13 @@ export class PollActionsService implements OnModuleInit {
     });
   }
 
-  private async sendAdminPush(poll: Poll & Document, participant: Participant & Document) {
-    await this.pushService.send(poll.adminPush, 'Updates in Poll | Apollusia', `${participant.name} participated in your poll ${poll.title}`, `${environment.origin}/poll/${poll._id}/participate`);
+  private async sendAdminPush(poll: Poll & Document, participant: Participant & Document, adminUser: KeycloakUser) {
+    await this.pushService.send(
+      adminUser,
+      'Updates in Poll | Apollusia',
+      `${participant.name} participated in your poll ${poll.title}`,
+      `${environment.origin}/poll/${poll._id}/participate`,
+    );
   }
 
   async editParticipation(id: Types.ObjectId, participantId: Types.ObjectId, token: string, participant: UpdateParticipantDto): Promise<ReadParticipantDto | null> {
@@ -396,8 +408,8 @@ export class PollActionsService implements OnModuleInit {
       _id: {$in: Object.keys(events).map(e => new Types.ObjectId(e))},
     });
     for await (const participant of this.participantModel.find({
-      poll: new Types.ObjectId(id),
-      mail: {$exists: true},
+      poll: id,
+      createdBy: {$exists: true},
     })) {
       const appointments = eventDocs
         .filter(event => {
@@ -427,10 +439,12 @@ export class PollActionsService implements OnModuleInit {
         continue;
       }
 
-      this.mailService.sendMail(participant.name, participant.mail, 'Poll booked', 'book', {
-        appointments,
-        poll: poll.toObject(),
-        participant: participant.toObject(),
+      this.keycloakService.getUser(participant.createdBy).then(kcUser => {
+        this.mailService.sendMail(participant.name, kcUser.email, 'Poll booked', 'book', {
+          appointments,
+          poll: poll.toObject(),
+          participant: participant.toObject(),
+        });
       }).catch(console.error);
     }
     return poll;
@@ -451,18 +465,6 @@ export class PollActionsService implements OnModuleInit {
     await this.participantModel.updateMany(filter, {
       $unset: events.reduce((acc, e) => ({...acc, ['selection.' + e._id]: true}), {})
     }, {timestamps: false}).exec();
-  }
-
-  async setMail(mailDto: MailDto) {
-    const participants = await this.participantModel.find({token: mailDto.token}).exec();
-    participants.forEach(participant => {
-      participant.mail = mailDto.mail;
-      participant.token = mailDto.token;
-    });
-    await this.participantModel.updateMany({token: mailDto.token}, {
-      mail: mailDto.mail,
-      token: mailDto.token,
-    }).exec();
   }
 
   isAdmin(poll: Poll, token: string | undefined, user: string | undefined) {

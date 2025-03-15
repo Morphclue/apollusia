@@ -14,7 +14,6 @@ import {CreateEditPollComponent} from './create-poll/create-edit-poll.component'
 import {EventHeadComponent} from './event-head/event-head.component';
 import {EventListComponent} from './event-list/event-list.component';
 import {IcalComponent} from './ical/ical.component';
-import {MailAlertComponent} from './mail-alert/mail-alert.component';
 import {ParticipantInfoComponent} from './participant-info/participant-info.component';
 import {PollRoutingModule} from './poll-routing.module';
 import {ChooseDateService} from './services/choose-date.service';
@@ -33,7 +32,6 @@ import {SomePipe} from '../pipes';
     SomePipe,
     EventHeadComponent,
     CheckButtonComponent,
-    MailAlertComponent,
     TableComponent,
     EventListComponent,
     ParticipantInfoComponent,

@@ -6,7 +6,7 @@ import {ToastService} from '@mean-stream/ngbx';
 import {forkJoin} from 'rxjs';
 import {map, switchMap, tap} from 'rxjs/operators';
 
-import {MailService, TokenService} from '../../core/services';
+import {TokenService} from '../../core/services';
 import {StorageService} from '../../core/services/storage.service';
 import {Participant, ReadPoll, ReadPollEvent} from '../../model';
 import {PollService} from '../services/poll.service';
@@ -79,7 +79,6 @@ export class ChooseEventsComponent implements OnInit {
 
   // helpers
   url = globalThis.location?.href;
-  mail: string | undefined;
   token: string;
 
   constructor(
@@ -88,11 +87,9 @@ export class ChooseEventsComponent implements OnInit {
     private title: Title,
     private meta: Meta,
     tokenService: TokenService,
-    mailService: MailService,
     private storageService: StorageService,
     private toastService: ToastService,
   ) {
-    this.mail = mailService.getMail();
     this.token = tokenService.getToken();
   }
 

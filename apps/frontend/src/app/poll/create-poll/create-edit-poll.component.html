@@ -217,12 +217,8 @@
                 <i class="bi-question-circle text-muted" placement="top"
                    ngbTooltip="Stay informed about new participations via email."></i>
               </label>
-              <input class="form-check-input" type="checkbox" id="emailUpdates" formControlName="emailUpdates"
-                     [disabled]="!mail">
+              <input class="form-check-input" type="checkbox" id="emailUpdates" formControlName="emailUpdates">
             </div>
-            @if (!mail) {
-              <app-mail-alert></app-mail-alert>
-            }
             <div class="form-group form-check">
               <label class="form-check-label" for="pushUpdates">
                 Receive Updates via Push Notification

@@ -9,9 +9,8 @@ import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 
 import {environment} from '../../../environments/environment';
-import {MailService, TokenService} from '../../core/services';
+import {TokenService} from '../../core/services';
 import {CreatePollDto, Poll} from '../../model';
-import {PushService} from '../services/push.service';
 
 @Component({
   selector: 'app-create-edit-poll',
@@ -24,7 +23,6 @@ export class CreateEditPollComponent implements OnInit {
   isCollapsed: boolean = true;
   id: string = '';
   poll?: Poll;
-  mail?: string;
   isAdmin: boolean = false;
   pollForm = new FormGroup({
     title: new FormControl('', Validators.required),
@@ -91,9 +89,7 @@ export class CreateEditPollComponent implements OnInit {
     private modalService: NgbModal,
     private http: HttpClient,
     private router: Router,
-    private pushService: PushService,
     private tokenService: TokenService,
-    private mailService: MailService,
     route: ActivatedRoute,
   ) {
     const routeId: Observable<string> = route.params.pipe(map(({id}) => id));
@@ -103,7 +99,6 @@ export class CreateEditPollComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.mail = this.mailService.getMail();
     this.fetchPoll();
     this.checkAdmin();
 
@@ -122,14 +117,13 @@ export class CreateEditPollComponent implements OnInit {
   async onFormSubmit() {
     const pollForm = this.pollForm.value;
     const deadline = pollForm.deadlineDate ? new Date(pollForm.deadlineDate + ' ' + (pollForm.deadlineTime || '00:00')) : undefined;
-    const pushToken = pollForm.pushUpdates ? await this.pushService.getPushToken().catch(() => undefined) : undefined;
     const createPollDto: CreatePollDto & {adminToken: string} = {
       title: pollForm.title!,
       description: pollForm.description ? pollForm.description : '',
       location: pollForm.location ? pollForm.location : '',
       adminToken: this.tokenService.getToken(),
-      adminMail: pollForm.emailUpdates ? this.poll?.adminMail || this.mail : undefined,
-      adminPush: pollForm.pushUpdates && (this.poll?.adminPush || pushToken?.toJSON()) || undefined,
+      adminMail: !!pollForm.emailUpdates,
+      adminPush: !!pollForm.pushUpdates,
       timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
       bookedEvents: {},
       settings: {

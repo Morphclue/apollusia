@@ -19,10 +19,21 @@ export class PushService {
     this.#config = firstValueFrom(http.get<PushConfigDto>(`${environment.backendURL}/push/config`));
   }
 
-  async getPushToken(): Promise<PushSubscription> {
-    const serverPublicKey = (await this.#config).vapidPublicKey;
+  isEnabled() {
+    return this.swPush.isEnabled;
+  }
+
+  async getSubscription(): Promise<PushSubscription | null> {
+    return firstValueFrom(this.swPush.subscription);
+  }
+
+  async requestSubscription(): Promise<PushSubscription> {
     return this.swPush.requestSubscription({
-      serverPublicKey,
+      serverPublicKey: (await this.#config).vapidPublicKey,
     });
+  }
+
+  async unsubscribe() {
+    return this.swPush.unsubscribe();
   }
 }

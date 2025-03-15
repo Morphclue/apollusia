@@ -1,4 +1,4 @@
-import {MailDto, PollDto, ReadPollDto, ReadStatsPollDto} from '@apollusia/types';
+import {PollDto, ReadPollDto, ReadStatsPollDto} from '@apollusia/types';
 import {Auth, AuthUser, UserToken} from '@mean-stream/nestx/auth';
 import {NotFound, notFound} from '@mean-stream/nestx/not-found';
 import {ObjectIdPipe} from '@mean-stream/nestx/ref';
@@ -83,11 +83,6 @@ export class PollController {
   @NotFound()
   async deletePoll(@Param('id', ObjectIdPipe) id: Types.ObjectId): Promise<ReadPollDto | null> {
     return this.pollService.deletePoll(id);
-  }
-
-  @Put('mail/participate')
-  async setMail(@Body() mailDto: MailDto): Promise<void> {
-    return this.pollService.setMail(mailDto);
   }
 
   @Post('claim/:token')
