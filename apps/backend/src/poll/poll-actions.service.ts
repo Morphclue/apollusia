@@ -22,9 +22,9 @@ import {Doc} from '@mean-stream/nestx/ref';
 import {Injectable, Logger, NotFoundException, OnModuleInit, UnprocessableEntityException} from '@nestjs/common';
 import {InjectModel} from '@nestjs/mongoose';
 import {Document, FilterQuery, Model, Types} from 'mongoose';
+
 import {KeycloakUser} from '../auth/keycloak-user.interface';
 import {KeycloakService} from '../auth/keycloak.service';
-
 import {environment} from '../environment';
 import {renderDate} from '../mail/helpers';
 import {MailService} from '../mail/mail/mail.service';
