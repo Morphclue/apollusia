@@ -7,6 +7,7 @@ import {ImprintService} from '../services/imprint.service';
   selector: 'apollusia-legal',
   templateUrl: './legal.component.html',
   styleUrls: ['./legal.component.scss'],
+  standalone: false,
 })
 export class LegalComponent implements OnInit{
   imprint?: ImprintDto;

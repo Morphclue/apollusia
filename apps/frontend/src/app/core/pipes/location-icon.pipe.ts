@@ -10,6 +10,7 @@ const iconMapping = {
 
 @Pipe({
   name: 'locationIcon',
+  standalone: false,
 })
 export class LocationIconPipe implements PipeTransform {
 

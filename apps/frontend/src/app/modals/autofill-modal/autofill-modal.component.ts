@@ -9,6 +9,7 @@ import {ChooseDateService} from '../../poll/services/choose-date.service';
   selector: 'app-autofill-modal',
   templateUrl: './autofill-modal.component.html',
   styleUrls: ['./autofill-modal.component.scss'],
+  standalone: false,
 })
 export class AutofillModalComponent implements OnInit {
   selectedDates: NgbDate[] = [];

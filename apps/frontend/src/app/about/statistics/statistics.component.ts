@@ -8,6 +8,7 @@ import {Statistics} from '../../model';
   selector: 'app-statistics',
   templateUrl: './statistics.component.html',
   styleUrls: ['./statistics.component.scss'],
+  standalone: false,
 })
 export class StatisticsComponent implements OnInit {
   statistics?: Statistics;

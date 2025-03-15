@@ -7,6 +7,7 @@ import {ReadPoll} from '../../model';
   selector: 'apollusia-info-table',
   templateUrl: './info-table.component.html',
   styleUrl: './info-table.component.scss',
+  standalone: false,
 })
 export class InfoTableComponent implements OnInit {
   @Input({required: true}) poll: ReadPoll;
