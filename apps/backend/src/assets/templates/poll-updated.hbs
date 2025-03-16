@@ -1,0 +1,11 @@
+{{ style }}
+<p>Hello {{ participant.name }}!</p>
+
+<p>The poll <b>{{ poll.title }}</b> was just updated with new or changed options.</p>
+<p>To review, edit or delete your choices, you can view the poll online.</p>
+
+<p>
+    <a class="btn" href="{{ origin }}/poll/{{ poll._id }}/participate">
+        View Poll
+    </a>
+</p>

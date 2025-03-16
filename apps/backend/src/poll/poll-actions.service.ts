@@ -265,9 +265,7 @@ export class PollActionsService implements OnModuleInit {
       return oldEvent.start.valueOf() !== event.start.valueOf() || oldEvent.end.valueOf() !== event.end.valueOf();
     });
     if (updatedEvents.length > 0) {
-      for (const event of updatedEvents) {
-        await this.pollEventModel.findByIdAndUpdate(event._id, event).exec();
-      }
+      await Promise.all(updatedEvents.map(event => this.pollEventModel.findByIdAndUpdate(event._id, event)));
     }
 
     const deletedEvents = oldEvents.filter(event => !pollEvents.some(e => e._id === event._id.toString()));
