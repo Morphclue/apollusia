@@ -32,6 +32,7 @@ import {PushService} from '../push/push.service';
 @Injectable()
 export class PollActionsService implements OnModuleInit {
   private logger = new Logger(PollActionsService.name);
+  private handleError = (err: Error) => this.logger.error(err.message, err.stack);
 
   constructor(
     @InjectModel(Poll.name) private pollModel: Model<Poll>,
@@ -334,7 +335,7 @@ export class PollActionsService implements OnModuleInit {
       createdBy: user?.sub,
     });
 
-    this.sendParticipantNotifications(poll, participant, user).then();
+    this.sendParticipantNotifications(poll, participant, user).catch(this.handleError);
     return participant;
   }
 
@@ -342,10 +343,10 @@ export class PollActionsService implements OnModuleInit {
     if (poll.createdBy && (poll.adminMail || poll.adminPush)) {
       const adminUser = await this.keycloakService.getUser(poll.createdBy);
       if (poll.adminMail && adminUser && this.hasNotificationEnabled(adminUser, 'admin:participant.new:email')) {
-        this.sendAdminInfo(poll, participant, adminUser).then();
+        this.sendAdminInfo(poll, participant, adminUser).catch(this.handleError);
       }
       if (poll.adminPush && adminUser && this.hasNotificationEnabled(adminUser, 'admin:participant.new:push')) {
-        this.sendAdminPush(poll, participant, adminUser).then()
+        this.sendAdminPush(poll, participant, adminUser).catch(this.handleError);
       }
     }
     if (user?.email) {
@@ -354,7 +355,7 @@ export class PollActionsService implements OnModuleInit {
         this.mailService.sendMail(participant.name, user.email, 'Participated in Poll', 'participated', {
           poll: poll.toObject(),
           participant: participant.toObject(),
-        }).then();
+        }).catch(this.handleError);
       }
     }
   }
@@ -480,14 +481,14 @@ export class PollActionsService implements OnModuleInit {
         'Poll concluded | Apollusia',
         `The poll ${poll.title} concluded with ${appointments.length} booked appointments.`,
         `${environment.origin}/poll/${poll._id}/participate`,
-      );
+      ).catch(this.handleError);
     }
     if (sendEmail) {
       this.mailService.sendMail(participant.name, kcUser.email, 'Poll concluded', 'book', {
         appointments,
         poll: poll.toObject(),
         participant: participant.toObject(),
-      });
+      }).catch(this.handleError);
     }
   }
 
