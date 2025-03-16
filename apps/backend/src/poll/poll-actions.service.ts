@@ -254,11 +254,11 @@ export class PollActionsService implements OnModuleInit {
 
   async postEvents(poll: Types.ObjectId, pollEvents: PollEventDto[]): Promise<PollEvent[]> {
     const oldEvents = await this.pollEventModel.find({poll}).exec();
-    const newEvents = pollEvents.filter(event => !oldEvents.some(oldEvent => oldEvent._id.toString() === event._id));
+    const newEvents = pollEvents.filter(event => !oldEvents.some(oldEvent => oldEvent._id.equals(event._id)));
     await this.pollEventModel.create(newEvents.map(event => ({...event, poll})));
 
     const updatedEvents = pollEvents.filter(event => {
-      const oldEvent = oldEvents.find(e => e._id.toString() === event._id);
+      const oldEvent = oldEvents.find(e => e._id.equals(event._id));
       if (!oldEvent) {
         return false;
       }
