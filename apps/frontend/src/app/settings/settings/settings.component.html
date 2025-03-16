@@ -80,56 +80,62 @@
   <h2>
     Notification Preferences
   </h2>
-  <table class="table">
-    <thead>
-      <tr>
-        <th colspan="2">Event</th>
-        <th>Email</th>
-        <th>Push</th>
-      </tr>
-    </thead>
-    <tbody>
-      @for (category of notificationSettings; track category.title) {
+  @if (user) {
+    <table class="table">
+      <thead>
         <tr>
-          <th colspan="4">
-            {{ category.title }}
-            <div class="small text-muted fw-normal">
-              {{ category.description }}
-            </div>
-          </th>
+          <th colspan="2">Event</th>
+          <th>Email</th>
+          <th>Push</th>
         </tr>
-        @for (type of category.types; track type.key) {
+      </thead>
+      <tbody>
+        @for (category of notificationSettings; track category.title) {
           <tr>
-            <th class="text-center">
-              <i class="icon-lg text-primary-emphasis" [class]="type.icon"></i>
-            </th>
-            <th>
-              {{ type.title }}
-              <div class="small text-muted fw-normal">{{ type.description }}</div>
-            </th>
-            <td>
-              <div class="form-check form-switch">
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  [(ngModel)]="notifications[type.key + ':email']"
-                />
+            <th colspan="4">
+              {{ category.title }}
+              <div class="small text-muted fw-normal">
+                {{ category.description }}
               </div>
-            </td>
-            <td>
-              <div class="form-check form-switch">
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  [(ngModel)]="notifications[type.key + ':push']"
-                  [disabled]="type.push === false"
-                />
-              </div>
-            </td>
+            </th>
           </tr>
+          @for (type of category.types; track type.key) {
+            <tr>
+              <th class="text-center">
+                <i class="icon-lg text-primary-emphasis" [class]="type.icon"></i>
+              </th>
+              <th>
+                {{ type.title }}
+                <div class="small text-muted fw-normal">{{ type.description }}</div>
+              </th>
+              <td>
+                <div class="form-check form-switch">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    [(ngModel)]="notifications[type.key + ':email']"
+                  />
+                </div>
+              </td>
+              <td>
+                <div class="form-check form-switch">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    [(ngModel)]="notifications[type.key + ':push']"
+                    [disabled]="type.push === false"
+                  />
+                </div>
+              </td>
+            </tr>
+          }
         }
-      }
-    </tbody>
-  </table>
-  <button class="btn btn-primary" (click)="saveNotificationSettings()">Save</button>
+      </tbody>
+    </table>
+    <button class="btn btn-primary" (click)="saveNotificationSettings()">Save</button>
+  } @else {
+    <div class="alert alert-warning">
+      You need to sign in to change your notification preferences.
+    </div>
+  }
 </div>
