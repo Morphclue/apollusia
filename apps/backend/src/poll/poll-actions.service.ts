@@ -415,7 +415,9 @@ export class PollActionsService implements OnModuleInit {
       };
     }
 
-    return this.mailService.sendMail('Poll Admin', adminUser.email, 'Updates in Poll', 'participant', {
+    const name = `${adminUser.firstName} ${adminUser.lastName}`;
+    return this.mailService.sendMail(name, adminUser.email, 'Updates in Poll', 'participant', {
+      name,
       poll: poll.toObject(),
       participant: participant.toObject(),
       events: events.map(({start, end}) => ({start, end})),
