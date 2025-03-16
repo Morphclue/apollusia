@@ -290,7 +290,7 @@ export class PollActionsService implements OnModuleInit {
     }
 
     if (this.hasNotificationEnabled(kcUser, 'user:poll.updated:email')) {
-      await this.mailService.sendMail(participant.name, kcUser.email, 'Updates in Poll', 'poll-updated', {
+      await this.mailService.sendMail(participant.name, kcUser.email, `Updates in Poll: ${poll.title}`, 'poll-updated', {
         poll: poll.toObject(),
         participant: participant.toObject(),
       });
@@ -394,7 +394,7 @@ export class PollActionsService implements OnModuleInit {
     if (user?.email) {
       const kcUser = await this.keycloakService.getUser(user.sub);
       if (kcUser && this.hasNotificationEnabled(kcUser, 'user:participant.new:email')) {
-        this.mailService.sendMail(participant.name, user.email, 'Participated in Poll', 'participated', {
+        this.mailService.sendMail(participant.name, user.email, `Participated in Poll: ${poll.title}`, 'participated', {
           poll: poll.toObject(),
           participant: participant.toObject(),
         }).catch(this.handleError);
@@ -416,7 +416,7 @@ export class PollActionsService implements OnModuleInit {
     }
 
     const name = `${adminUser.firstName} ${adminUser.lastName}`;
-    return this.mailService.sendMail(name, adminUser.email, 'Updates in Poll', 'participant', {
+    return this.mailService.sendMail(name, adminUser.email, `Updates in Poll: ${poll.title}`, 'participant', {
       name,
       poll: poll.toObject(),
       participant: participant.toObject(),
@@ -428,8 +428,8 @@ export class PollActionsService implements OnModuleInit {
   private async sendAdminPush(poll: Poll & Document, participant: Participant & Document, adminUser: KeycloakUser) {
     await this.pushService.send(
       adminUser,
-      'Updates in Poll | Apollusia',
-      `${participant.name} participated in your poll ${poll.title}`,
+      `Updates in Poll: ${poll.title}`,
+      `${participant.name} participated in your poll.`,
       `${environment.origin}/poll/${poll._id}/participate`,
     );
   }
@@ -522,13 +522,13 @@ export class PollActionsService implements OnModuleInit {
 
     if (sendPush) {
       this.pushService.send(kcUser,
-        'Poll concluded | Apollusia',
-        `The poll ${poll.title} concluded with ${appointments.length} booked appointments.`,
+        `Poll concluded: ${poll.title}`,
+        `The poll concluded with ${appointments.length} booked appointments.`,
         `${environment.origin}/poll/${poll._id}/participate`,
       ).catch(this.handleError);
     }
     if (sendEmail) {
-      this.mailService.sendMail(participant.name, kcUser.email, 'Poll concluded', 'book', {
+      this.mailService.sendMail(participant.name, kcUser.email, `Poll concluded: ${poll.title}`, 'book', {
         appointments,
         poll: poll.toObject(),
         participant: participant.toObject(),
