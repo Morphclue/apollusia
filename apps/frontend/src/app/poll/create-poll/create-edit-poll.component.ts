@@ -5,6 +5,8 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {ShowResultOptions} from '@apollusia/types/lib/schema/show-result-options';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {format} from 'date-fns';
+import {KeycloakService} from 'keycloak-angular';
+import {KeycloakProfile} from 'keycloak-js';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 
@@ -85,11 +87,14 @@ export class CreateEditPollComponent implements OnInit {
   ];
   selectedPreset?: any;
 
+  userProfile?: KeycloakProfile;
+
   constructor(
     private modalService: NgbModal,
     private http: HttpClient,
     private router: Router,
     private tokenService: TokenService,
+    private keycloakService: KeycloakService,
     route: ActivatedRoute,
   ) {
     const routeId: Observable<string> = route.params.pipe(map(({id}) => id));
@@ -99,6 +104,19 @@ export class CreateEditPollComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if (this.keycloakService.isLoggedIn()) {
+      this.keycloakService.loadUserProfile().then(user => {
+        this.userProfile = user;
+        this.pollForm.patchValue({
+          emailUpdates: (user.attributes?.['notifications'] as string[])?.includes('admin:participant.new:email'),
+          pushUpdates: (user.attributes?.['notifications'] as string[])?.includes('admin:participant.new:push'),
+        });
+      });
+    } else {
+      this.pollForm.controls.emailUpdates.disable();
+      this.pollForm.controls.pushUpdates.disable();
+    }
+
     this.fetchPoll();
     this.checkAdmin();
 
