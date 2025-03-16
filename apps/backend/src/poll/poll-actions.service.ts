@@ -272,8 +272,21 @@ export class PollActionsService implements OnModuleInit {
 
     const deletedEvents = oldEvents.filter(event => !pollEvents.some(e => e._id === event._id.toString()));
     await this.pollEventModel.deleteMany({_id: {$in: deletedEvents.map(event => event._id)}}).exec();
-    await this.removeParticipations(poll, updatedEvents);
+    await this.removeParticipations(poll, [...updatedEvents, ...deletedEvents]);
     return await this.pollEventModel.find({poll}).exec();
+  }
+
+  private async removeParticipations(poll: Types.ObjectId, events: (PollEventDto | Doc<PollEvent>)[]) {
+    if (!events.length) {
+      return;
+    }
+    const filter = {
+      poll,
+      $or: events.map(e => ({['selection.' + e._id]: {$exists: true}})),
+    };
+    await this.participantModel.updateMany(filter, {
+      $unset: events.reduce((acc, e) => ({...acc, ['selection.' + e._id]: true}), {})
+    }, {timestamps: false}).exec();
   }
 
   async getParticipants(id: Types.ObjectId, token: string): Promise<ReadParticipantDto[]> {
@@ -490,19 +503,6 @@ export class PollActionsService implements OnModuleInit {
         participant: participant.toObject(),
       }).catch(this.handleError);
     }
-  }
-
-  private async removeParticipations(poll: Types.ObjectId, events: PollEventDto[]) {
-    if (!events.length) {
-      return;
-    }
-    const filter = {
-      poll,
-      $or: events.map(e => ({['selection.' + e._id]: {$exists: true}})),
-    };
-    await this.participantModel.updateMany(filter, {
-      $unset: events.reduce((acc, e) => ({...acc, ['selection.' + e._id]: true}), {})
-    }, {timestamps: false}).exec();
   }
 
   isAdmin(poll: Poll, token: string | undefined, user: string | undefined) {
