@@ -341,16 +341,16 @@ export class PollActionsService implements OnModuleInit {
   private async sendParticipantNotifications(poll: Doc<Poll>, participant: Doc<Participant>, user: UserToken | null) {
     if (poll.createdBy && (poll.adminMail || poll.adminPush)) {
       const adminUser = await this.keycloakService.getUser(poll.createdBy);
-      if (poll.adminMail && adminUser && (adminUser.attributes?.notifications?.includes('admin:participant.new:email') ?? true)) {
+      if (poll.adminMail && adminUser && this.hasNotificationEnabled(adminUser, 'admin:participant.new:email')) {
         this.sendAdminInfo(poll, participant, adminUser).then();
       }
-      if (poll.adminPush && adminUser && (adminUser.attributes?.notifications?.includes('admin:participant.new:push') ?? true)) {
+      if (poll.adminPush && adminUser && this.hasNotificationEnabled(adminUser, 'admin:participant.new:push')) {
         this.sendAdminPush(poll, participant, adminUser).then()
       }
     }
     if (user?.email) {
       const kcUser = await this.keycloakService.getUser(user.sub);
-      if (kcUser && (kcUser.attributes?.notifications?.includes('user:participant.new:email') ?? true)) {
+      if (kcUser && this.hasNotificationEnabled(kcUser, 'user:participant.new:email')) {
         this.mailService.sendMail(participant.name, user.email, 'Participated in Poll', 'participated', {
           poll: poll.toObject(),
           participant: participant.toObject(),
@@ -387,6 +387,10 @@ export class PollActionsService implements OnModuleInit {
       `${participant.name} participated in your poll ${poll.title}`,
       `${environment.origin}/poll/${poll._id}/participate`,
     );
+  }
+
+  private hasNotificationEnabled(user: KeycloakUser, key: string) {
+    return user.attributes?.notifications?.includes(key) ?? true;
   }
 
   async editParticipation(id: Types.ObjectId, participantId: Types.ObjectId, token: string, participant: UpdateParticipantDto): Promise<ReadParticipantDto | null> {
@@ -437,8 +441,8 @@ export class PollActionsService implements OnModuleInit {
       return;
     }
 
-    const sendPush = kcUser.attributes?.pushTokens?.length && (kcUser.attributes?.notifications?.includes('user:poll.booked:push') ?? true);
-    const sendEmail = kcUser.attributes?.notifications?.includes('user:poll.booked:email') ?? true;
+    const sendPush = kcUser.attributes?.pushTokens?.length && this.hasNotificationEnabled(kcUser, 'user:poll.booked:push');
+    const sendEmail = this.hasNotificationEnabled(kcUser, 'user:poll.booked:email');
     if (!sendPush && !sendEmail) {
       return;
     }
