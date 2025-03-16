@@ -334,25 +334,29 @@ export class PollActionsService implements OnModuleInit {
       createdBy: user?.sub,
     });
 
+    this.sendParticipantNotifications(poll, participant, user).then();
+    return participant;
+  }
+
+  private async sendParticipantNotifications(poll: Doc<Poll>, participant: Doc<Participant>, user: UserToken | null) {
     if (poll.createdBy && (poll.adminMail || poll.adminPush)) {
       const adminUser = await this.keycloakService.getUser(poll.createdBy);
-      if (poll.adminMail && adminUser.attributes?.notifications?.includes('admin:participant.new:email')) {
+      if (poll.adminMail && adminUser && (adminUser.attributes?.notifications?.includes('admin:participant.new:email') ?? true)) {
         this.sendAdminInfo(poll, participant, adminUser).then();
       }
-      if (poll.adminPush && adminUser.attributes?.notifications?.includes('admin:participant.new:push')) {
+      if (poll.adminPush && adminUser && (adminUser.attributes?.notifications?.includes('admin:participant.new:push') ?? true)) {
         this.sendAdminPush(poll, participant, adminUser).then()
       }
     }
     if (user?.email) {
       const kcUser = await this.keycloakService.getUser(user.sub);
-      if (kcUser.attributes?.notifications?.includes('user:participant.new:email')) {
+      if (kcUser && (kcUser.attributes?.notifications?.includes('user:participant.new:email') ?? true)) {
         this.mailService.sendMail(participant.name, user.email, 'Participated in Poll', 'participated', {
           poll: poll.toObject(),
           participant: participant.toObject(),
         }).then();
       }
     }
-    return participant;
   }
 
   private async sendAdminInfo(poll: Poll & Document, participant: Participant & Document, adminUser: KeycloakUser) {
