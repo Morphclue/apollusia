@@ -268,7 +268,7 @@ export class PollActionsService implements OnModuleInit {
       await Promise.all(updatedEvents.map(event => this.pollEventModel.findByIdAndUpdate(event._id, event)));
     }
 
-    const deletedEvents = oldEvents.filter(event => !pollEvents.some(e => e._id === event._id.toString()));
+    const deletedEvents = oldEvents.filter(event => !pollEvents.some(e => event._id.equals(e._id)));
     await this.pollEventModel.deleteMany({_id: {$in: deletedEvents.map(event => event._id)}}).exec();
     await this.removeParticipations(poll, [...updatedEvents, ...deletedEvents]);
     return await this.pollEventModel.find({poll}).exec();
