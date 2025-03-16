@@ -67,6 +67,10 @@ export class SettingsComponent implements OnInit {
     return settings;
   }
 
+  login() {
+    this.keycloakService.login();
+  }
+
   addPush() {
     this.pushService.requestSubscription().then(token => {
       this.existingPush = token;

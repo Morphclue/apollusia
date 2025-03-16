@@ -28,7 +28,7 @@
     <button class="btn btn-primary" (click)="save()">Save</button>
   } @else {
     <div class="alert alert-warning">
-      You need to sign in to change your name and email for notifications.
+      You need to <a routerLink="." (click)="login()">sign in</a> to change your name and email for notifications.
     </div>
   }
   <hr/>
@@ -73,7 +73,7 @@
     </ul>
   } @else {
     <div class="alert alert-warning">
-      You need to sign in to enable push notifications.
+      You need to <a routerLink="." (click)="login()">sign in</a> to enable push notifications.
     </div>
   }
   <hr/>
@@ -135,7 +135,7 @@
     <button class="btn btn-primary" (click)="saveNotificationSettings()">Save</button>
   } @else {
     <div class="alert alert-warning">
-      You need to sign in to change your notification preferences.
+      You need to <a routerLink="." (click)="login()">sign in</a> to change your notification preferences.
     </div>
   }
 </div>
