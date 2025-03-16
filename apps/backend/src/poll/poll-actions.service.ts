@@ -418,56 +418,69 @@ export class PollActionsService implements OnModuleInit {
       poll: id,
       createdBy: {$exists: true},
     })) {
-      const appointments = eventDocs
-        .filter(event => {
-          const booked = events[event._id.toString()];
-          // only show the events to the participant that are either
-          if (booked === true) {
-            // 1) booked entirely, or
-            return true;
-          } else if (Array.isArray(booked)) {
-            // 2) booked for the participant
-            return booked.some(id => participant._id.equals(id));
-          } else {
-            return false;
-          }
-        })
-        .map(event => {
-          let eventLine = this.renderEvent(event, undefined, poll.timeZone);
-          const selection = participant.selection[event._id.toString()];
-          if (selection === 'yes' || selection === 'maybe') {
-            eventLine += ' *';
-          }
-          return eventLine;
-        });
-
-      if (!appointments.length) {
-        // don't send them an email if there are no appointments
-        continue;
-      }
-
-      this.keycloakService.getUser(participant.createdBy).then(kcUser => {
-        if (kcUser.attributes?.notifications?.includes('user:poll.booked:push')) {
-          this.pushService.send(kcUser,
-            'Poll concluded | Apollusia',
-            `The poll ${poll.title} concluded with ${appointments.length} booked appointments.`,
-            `${environment.origin}/poll/${poll._id}/participate`,
-          );
-        }
-        if (kcUser.attributes?.notifications?.includes('user:poll.booked:email')) {
-          this.mailService.sendMail(participant.name, kcUser.email, 'Poll concluded', 'book', {
-            appointments,
-            poll: poll.toObject(),
-            participant: participant.toObject(),
-          });
-        }
-      }).catch(console.error);
+      this.sendBookNotification(poll, participant, eventDocs).catch(error => this.logger.error(error.message, error.stack));
     }
     return poll;
   }
 
   private renderEvent(event: PollEvent, locale?: string, timeZone?: string) {
     return `${renderDate(event.start, locale, timeZone)} - ${renderDate(event.end, locale, timeZone)}`;
+  }
+
+  private async sendBookNotification(poll: Doc<Poll>, participant: Doc<Participant>, events: Doc<PollEvent>[]) {
+    const kcUser = await this.keycloakService.getUser(participant.createdBy);
+    if (!kcUser) {
+      return;
+    }
+
+    const sendPush = kcUser.attributes?.pushTokens?.length && (kcUser.attributes?.notifications?.includes('user:poll.booked:push') ?? true);
+    const sendEmail = kcUser.attributes?.notifications?.includes('user:poll.booked:email') ?? true;
+    if (!sendPush && !sendEmail) {
+      return;
+    }
+
+    const appointments = events
+      .filter(event => {
+        const booked = poll.bookedEvents[event._id.toString()];
+        // only show the events to the participant that are either
+        if (booked === true) {
+          // 1) booked entirely, or
+          return true;
+        } else if (Array.isArray(booked)) {
+          // 2) booked for the participant
+          return booked.some(id => participant._id.equals(id));
+        } else {
+          return false;
+        }
+      })
+      .map(event => {
+        let eventLine = this.renderEvent(event, undefined, poll.timeZone);
+        const selection = participant.selection[event._id.toString()];
+        if (selection === 'yes' || selection === 'maybe') {
+          eventLine += ' *';
+        }
+        return eventLine;
+      });
+
+    if (!appointments.length) {
+      // don't send them an email if there are no appointments
+      return;
+    }
+
+    if (sendPush) {
+      this.pushService.send(kcUser,
+        'Poll concluded | Apollusia',
+        `The poll ${poll.title} concluded with ${appointments.length} booked appointments.`,
+        `${environment.origin}/poll/${poll._id}/participate`,
+      );
+    }
+    if (sendEmail) {
+      this.mailService.sendMail(participant.name, kcUser.email, 'Poll concluded', 'book', {
+        appointments,
+        poll: poll.toObject(),
+        participant: participant.toObject(),
+      });
+    }
   }
 
   private async removeParticipations(poll: Types.ObjectId, events: PollEventDto[]) {
