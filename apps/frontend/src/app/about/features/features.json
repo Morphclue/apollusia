@@ -172,6 +172,17 @@
       }
     },
     {
+      "icon": "bell",
+      "title": "Notifications",
+      "description": "Receive updates to polls and participations via Email and Push notifications",
+      "support": {
+        "Apollusia": true,
+        "Doodle": true,
+        "DuD-Poll": false,
+        "Calendly": true
+      }
+    },
+    {
       "icon": "universal-access-circle",
       "title": "Access Control",
       "description": "Restrict access to your poll",
