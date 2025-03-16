@@ -41,7 +41,7 @@ export class SettingsComponent implements OnInit {
   }
 
   async ngOnInit() {
-    this.user = await this.keycloakService.loadUserProfile();
+    this.user = await this.keycloakService.loadUserProfile(true);
     this.pushInfo = (this.user.attributes?.['pushTokens'] as string[])?.map((token) => JSON.parse(token)) ?? [];
     this.notifications = Object.fromEntries((this.user.attributes?.['notifications'] as string[] ?? this.getDefaultNotificationSettings()).map((n) => [n, true]));
 
