@@ -271,7 +271,38 @@ export class PollActionsService implements OnModuleInit {
     const deletedEvents = oldEvents.filter(event => !pollEvents.some(e => event._id.equals(e._id)));
     await this.pollEventModel.deleteMany({_id: {$in: deletedEvents.map(event => event._id)}}).exec();
     await this.removeParticipations(poll, [...updatedEvents, ...deletedEvents]);
-    return await this.pollEventModel.find({poll}).exec();
+
+    const pollDoc = await this.pollModel.findById(poll).exec();
+    for await (const participant of this.participantModel.find({
+      poll,
+      createdBy: {$exists: true},
+    })) {
+      this.sendPollChangeNotification(pollDoc, participant).catch(this.handleError);
+    }
+
+    return this.pollEventModel.find({poll}).exec();
+  }
+
+  private async sendPollChangeNotification(poll: Doc<Poll>, participant: Doc<Participant>) {
+    const kcUser = await this.keycloakService.getUser(participant.createdBy);
+    if (!kcUser) {
+      return;
+    }
+
+    if (this.hasNotificationEnabled(kcUser, 'user:poll.updated:email')) {
+      await this.mailService.sendMail(participant.name, kcUser.email, 'Updates in Poll', 'poll-updated', {
+        poll: poll.toObject(),
+        participant: participant.toObject(),
+      });
+    }
+    if (this.hasNotificationEnabled(kcUser, 'user:poll.updated:push')) {
+      await this.pushService.send(
+        kcUser,
+        `Updates in Poll: ${poll.title}`,
+        'The poll was updated with new or changed options. Please review your choices.',
+        `${environment.origin}/poll/${poll._id}/participate`,
+      );
+    }
   }
 
   private async removeParticipations(poll: Types.ObjectId, events: (PollEventDto | Doc<PollEvent>)[]) {

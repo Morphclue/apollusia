@@ -23,6 +23,12 @@
         "push": false
       },
       {
+        "key": "user:poll.updated",
+        "icon": "bi-pencil-square",
+        "title": "Poll updated",
+        "description": "The available options of a poll have changed and you can review your choices."
+      },
+      {
         "key": "user:poll.booked",
         "icon": "bi-calendar-event",
         "title": "Poll concluded",
