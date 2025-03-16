@@ -95,6 +95,9 @@ All features are completely free and can be used without registration.
   <img src="docs/bootstrap-icons/icons/send.svg" alt="send" align="right" height="50">
   <dt>Invite Participants</dt>
   <dd>Invite participants via email or other means</dd>
+  <img src="docs/bootstrap-icons/icons/bell.svg" alt="bell" align="right" height="50">
+  <dt>Notifications</dt>
+  <dd>Receive updates to polls and participations via Email and Push notifications</dd>
 </dl>
 
 
