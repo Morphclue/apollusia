@@ -1,8 +1,9 @@
 import {Module} from '@nestjs/common';
-import {KeycloakModule} from '../auth/keycloak.module';
+
 
 import {PushController} from './push.controller';
 import {PushService} from './push.service';
+import {KeycloakModule} from '../auth/keycloak.module';
 
 @Module({
   imports: [
