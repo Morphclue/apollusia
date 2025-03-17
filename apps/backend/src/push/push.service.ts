@@ -43,7 +43,7 @@ export class PushService {
         },
       },
     };
-    for (const pushTokenStr of kcUser.attributes.pushTokens) {
+    for (const pushTokenStr of kcUser.attributes?.pushTokens ?? []) {
       const {token} = JSON.parse(pushTokenStr) as { token: PushSubscription };
       webpush.sendNotification(token, JSON.stringify(payload)).catch(error => this.logger.error(error.message, error.stack));
     }

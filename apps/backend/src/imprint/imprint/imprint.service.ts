@@ -9,9 +9,9 @@ export class ImprintService {
 
   getImprint(): ImprintDto {
     return {
-      contactOperator: this.config.get('CONTACT_OPERATOR'),
-      contactAddress: this.config.get('CONTACT_ADDRESS'),
-      contactMail: this.config.get('CONTACT_MAIL'),
+      contactOperator: this.config.get('CONTACT_OPERATOR', ''),
+      contactAddress: this.config.get('CONTACT_ADDRESS', ''),
+      contactMail: this.config.get('CONTACT_MAIL', ''),
     };
   }
 }
