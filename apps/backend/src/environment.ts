@@ -1,6 +1,6 @@
 import {AuthModuleOptions} from '@mean-stream/nestx/auth';
-import {MailerOptions} from '@nestjs-modules/mailer';
 import {Logger} from '@nestjs/common';
+import {MailerOptions} from '@nestjs-modules/mailer';
 
 export const environment = {
   port: +(process.env.PORT || 3000),
