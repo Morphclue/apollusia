@@ -203,7 +203,7 @@ export class PollActionsService implements OnModuleInit {
   mask(poll: Poll): ReadPollDto {
     const {...rest} = poll;
     for (const key of readPollExcluded) {
-      // @ts-ignore
+      // @ts-expect-error TS2790
       delete rest[key];
     }
     return rest;
@@ -391,7 +391,7 @@ export class PollActionsService implements OnModuleInit {
       this.findAllParticipants(new Types.ObjectId(id)),
     ]);
     if (!poll) {
-      notFound(`Poll ${id}`);
+      notFound(id);
     }
 
     const errors = checkParticipant(participant, poll.toObject(), otherParticipants, participantId);
@@ -413,7 +413,7 @@ export class PollActionsService implements OnModuleInit {
       bookedEvents: events,
     }, {new: true})
       .select(readPollSelect)
-      .exec() ?? notFound(`Poll ${id}`);
+      .exec() ?? notFound(id);
     const eventDocs = await this.pollEventModel.find({
       poll: id,
       _id: {$in: Object.keys(events).map(e => new Types.ObjectId(e))},
