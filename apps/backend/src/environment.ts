@@ -1,4 +1,5 @@
 import {AuthModuleOptions} from '@mean-stream/nestx/auth';
+import {MailerOptions} from '@nestjs-modules/mailer';
 import {Logger} from '@nestjs/common';
 
 export const environment = {
@@ -28,4 +29,31 @@ export const environment = {
       issuer: process.env.AUTH_ISSUER || 'http://localhost:8080/auth/realms/apollusia',
     },
   } satisfies AuthModuleOptions,
+  contact: {
+    operator: process.env.CONTACT_OPERATOR || 'Apollusia Admins',
+    address: process.env.CONTACT_ADDRESS || 'https://github.com/Morphclue/Apollusia',
+    mail: process.env.CONTACT_MAIL || 'info@apollusia.com',
+  },
+  push: {
+    publicKey: process.env.VAPID_PUBLIC_KEY,
+    privateKey: process.env.VAPID_PRIVATE_KEY,
+  },
+  mail: {
+    transport: {
+      host: process.env.EMAIL_HOST,
+      port: process.env.EMAIL_PORT,
+      secure: process.env.EMAIL_SSL,
+      opportunisticTLS: process.env.EMAIL_STARTTLS,
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASSWORD,
+      },
+    },
+    defaults: {
+      from: {
+        name: process.env.EMAIL_NAME || 'Apollusia',
+        address: process.env.EMAIL_FROM || 'info@apollusia.com',
+      },
+    },
+  } satisfies MailerOptions,
 };
