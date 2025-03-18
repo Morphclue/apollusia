@@ -2,13 +2,14 @@ import {Ref} from '@mean-stream/nestx/ref';
 import {Prop, Schema, SchemaFactory} from '@nestjs/mongoose';
 import {ApiProperty} from '@nestjs/swagger';
 import {Type} from 'class-transformer';
-import {IsString} from 'class-validator';
+import {IsString, ValidateNested} from 'class-validator';
 import {Types} from 'mongoose';
 
 import {Participant} from './participant.schema';
 import {Poll} from './poll.schema';
 
 export class Comment {
+  @Prop()
   @IsString()
   body: string;
 }
@@ -52,9 +53,10 @@ export class PollLog {
   poll: Types.ObjectId;
 
   @Prop({type: String})
-  type?: 'comment' | 'participant.created' | 'participant.updated' | 'participant.deleted' | 'events.changed' | 'poll.booked';
+  type: 'comment' | 'participant.created' | 'participant.updated' | 'participant.deleted' | 'events.changed' | 'poll.booked';
 
   @Prop({type: Object})
+  @ValidateNested()
   @Type(() => Object, {
     keepDiscriminatorProperty: true,
     discriminator: {
