@@ -13,6 +13,27 @@
             </div>
           </div>
         }
+        @case ("participant.created") {
+          <b>Someone</b> participated in the poll &bullet; {{ log.createdAt | date: 'short' }}
+        }
+        @case ("events.changed") {
+          @let changes = $any(log.data);
+          The <b>poll owner</b> changed available options:
+          @if (changes.created) {
+            <b>added {{ changes.created }}</b> &bullet;
+          }
+          @if (changes.deleted) {
+            <b>removed {{ changes.deleted }}</b> &bullet;
+          }
+          @if (changes.changed) {
+            <b>modified {{ changes.changed }}</b> &bullet;
+          }
+          {{ log.createdAt | date: 'short' }}
+        }
+        @case ("poll.booked") {
+          @let booked = $any(log.data).booked;
+          The <b>poll owner</b> booked <b>{{ booked }}</b> {booked, plural, =1 {appointment} other {appointments}} &bullet; {{ log.createdAt | date: 'short' }}
+        }
       }
     </li>
   }
