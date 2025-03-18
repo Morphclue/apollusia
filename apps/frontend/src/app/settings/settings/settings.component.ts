@@ -16,6 +16,19 @@ interface PushInfo {
   token: PushSubscription;
 }
 
+interface NotificationSettings {
+  title: string;
+  description: string;
+  types: {
+    key: string;
+    icon: string;
+    title: string;
+    description: string;
+    email?: boolean;
+    push?: boolean;
+  }[];
+}
+
 @Component({
   selector: 'apollusia-settings',
   templateUrl: './settings.component.html',
@@ -23,7 +36,7 @@ interface PushInfo {
   standalone: false,
 })
 export class SettingsComponent implements OnInit {
-  readonly notificationSettings = notificationSettings;
+  readonly notificationSettings: NotificationSettings[] = notificationSettings;
 
   user?: KeycloakProfile;
   pushInfo: PushInfo[] = [];
@@ -56,9 +69,11 @@ export class SettingsComponent implements OnInit {
 
   private getDefaultNotificationSettings() {
     const settings: string[] = [];
-    for (const category of notificationSettings) {
+    for (const category of this.notificationSettings) {
       for (const type of category.types) {
-        settings.push(type.key + ':email');
+        if (type.email !== false) {
+          settings.push(type.key + ':email');
+        }
         if (type.push !== false) {
           settings.push(type.key + ':push');
         }
