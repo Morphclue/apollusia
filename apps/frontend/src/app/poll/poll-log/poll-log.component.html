@@ -9,7 +9,7 @@
               <b>{{ comment.name }}</b> commented &bullet; {{ log.createdAt | date: 'short' }}
             </div>
             <div class="card-body">
-              <app-markdown [text]="comment.text"></app-markdown>
+              <app-markdown [text]="comment.body"></app-markdown>
             </div>
           </div>
         }
@@ -38,3 +38,18 @@
     </li>
   }
 </ul>
+<hr/>
+<div class="card">
+  <div class="card-header">
+    <input type="text" class="form-control" placeholder="Your name" [(ngModel)]="commentName">
+  </div>
+  <textarea class="form-control card-body" placeholder="Your comment" [(ngModel)]="commentBody"></textarea>
+  <div class="card-footer d-flex align-items-center">
+    <button class="btn btn-primary bi-send" (click)="postComment()">
+      Send
+    </button>
+    <span class="ms-3 bi-info-circle">
+      Your comment will be visible to all participants.
+    </span>
+  </div>
+</div>

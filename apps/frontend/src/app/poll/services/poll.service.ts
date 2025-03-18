@@ -91,7 +91,7 @@ export class PollService {
     return this.http.get<PollLog[]>(`${environment.backendURL}/poll/${id}/log`);
   }
 
-  postComment(id: string, body: CreatePollLogDto) {
-    return this.http.post(`${environment.backendURL}/poll/${id}/log`, body);
+  postComment(id: string, body: CreatePollLogDto): Observable<PollLog> {
+    return this.http.post<PollLog>(`${environment.backendURL}/poll/${id}/log`, body);
   }
 }
