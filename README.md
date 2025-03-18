@@ -147,13 +147,19 @@ To set up Keycloak, follow these steps
   - Login with email: On
   - Duplicate emails: Off
   - Verify email: Off
-- Under "Realm Settings > User profile", create an attribute:
-  - Attribute [Name]: pushTokens
-  - Display Name: Push Tokens
-  - Multivalued: On
-  - Attribute Group: user-metadata
-  - Who can edit?: User, Admin
-  - Who can view?: User, Admin
+- Under "Realm Settings > User profile", create these attributes:
+  1. - Attribute [Name]: pushTokens
+     - Display Name: Push Tokens
+     - Multivalued: On
+     - Attribute Group: user-metadata
+     - Who can edit?: User, Admin
+     - Who can view?: User, Admin
+  2. - Attribute [Name]: notifications
+     - Display Name: Notifications
+     - Multivalued: On
+     - Attribute Group: user-metadata
+     - Who can edit?: User, Admin
+     - Who can view?: User, Admin
 - Create a user as follows:
   - Email Verified: Yes
   - Username/email: admin@apollusia.com
