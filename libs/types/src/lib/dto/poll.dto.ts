@@ -16,4 +16,7 @@ export class ReadStatsPollDto extends ReadPollDto {
 
   @ApiProperty()
   participants: number;
+
+  @ApiProperty()
+  comments: number;
 }

@@ -45,6 +45,15 @@ import {Settings, SettingsSchema} from './settings';
         count: true,
       },
     },
+    comments: {
+      options: {
+        ref: 'PollLog',
+        localField: '_id',
+        foreignField: 'poll',
+        match: {type: 'comment'},
+        count: true,
+      },
+    },
   },
 })
 export class Poll {

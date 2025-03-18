@@ -178,6 +178,7 @@ export class PollActionsService implements OnModuleInit {
       .select(readPollSelect)
       .populate<{participants: number}>('participants')
       .populate<{events: number}>('events')
+      .populate<{comments: number}>('comments')
       .sort({createdAt: -1})
       .exec();
   }
