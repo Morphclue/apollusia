@@ -105,14 +105,6 @@ All features are completely free and can be used without registration.
 Create an `.env` file in the backend directory and add the following environment variables:
 
 ```properties
-EMAIL_HOST=<smtp host>
-EMAIL_PORT=25 # optional, alternatively 587, or 465 for SSL
-EMAIL_SSL=false # optional
-EMAIL_STARTTLS=false # optional
-EMAIL_USER=<username>
-EMAIL_PASSWORD=<password>
-EMAIL_FROM=<sender email>
-EMAIL_NAME=Apollusia # optional sender display name
 VAPID_PUBLIC_KEY=<vapid public key> # for push notifications
 VAPID_PRIVATE_KEY=<vapid private key> # for push notifications
 KEYCLOAK_CLIENT_SECRET=<keycloak client secret>

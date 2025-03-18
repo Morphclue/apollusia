@@ -11,10 +11,10 @@ import {MailService} from './mail/mail.service';
         imports: [ConfigModule],
         useFactory: async (config: ConfigService) => ({
             transport: {
-                host: config.get('EMAIL_HOST'),
-                port: config.get('EMAIL_PORT'),
-                secure: config.get('EMAIL_SSL'),
-                opportunisticTLS: config.get('EMAIL_STARTTLS'),
+                host: config.get('EMAIL_HOST', 'localhost'),
+                port: +config.get('EMAIL_PORT', 1025), // maildev
+                secure: config.get('EMAIL_SSL', false),
+                opportunisticTLS: config.get('EMAIL_STARTTLS', false),
                 auth: {
                     user: config.get('EMAIL_USER'),
                     pass: config.get('EMAIL_PASSWORD'),
@@ -23,7 +23,7 @@ import {MailService} from './mail/mail.service';
             defaults: {
                 from: {
                     name: config.get('EMAIL_NAME', 'Apollusia'),
-                    address: config.get('EMAIL_FROM'),
+                    address: config.get('EMAIL_FROM', 'info@apollusia.com'),
                 },
             },
             template: {
