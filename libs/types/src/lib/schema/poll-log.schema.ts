@@ -41,7 +41,10 @@ export class PollBookedLog {
   booked: number;
 }
 
-@Schema()
+@Schema({
+  timestamps: true,
+  versionKey: false,
+})
 export class PollLog {
   @ApiProperty()
   _id: Types.ObjectId;
@@ -59,7 +62,7 @@ export class PollLog {
   poll: Types.ObjectId;
 
   @Prop({type: String})
-  type: 'comment' | 'participant.created' | 'participant.updated' | 'participant.deleted' | 'events.changed' | 'poll.booked';
+  type: 'comment' | 'participant.created' | 'events.changed' | 'poll.booked';
 
   @Prop({type: Object})
   @ValidateNested()
@@ -70,8 +73,6 @@ export class PollLog {
       subTypes: [
         {name: 'comment', value: Comment},
         {name: 'participant.created', value: ParticipantLog},
-        {name: 'participant.updated', value: ParticipantLog},
-        {name: 'participant.deleted', value: ParticipantLog},
         {name: 'events.changed', value: EventLog},
         {name: 'poll.booked', value: PollBookedLog},
       ],

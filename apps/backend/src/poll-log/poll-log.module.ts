@@ -1,5 +1,5 @@
 import {PollLog, PollLogSchema} from '@apollusia/types';
-import {Module} from '@nestjs/common';
+import {forwardRef, Module} from '@nestjs/common';
 import {MongooseModule} from '@nestjs/mongoose';
 
 import {PollLogController} from './poll-log.controller';
@@ -11,7 +11,7 @@ import {PollModule} from '../poll/poll.module';
     MongooseModule.forFeature([
       {name: PollLog.name, schema: PollLogSchema},
     ]),
-    PollModule,
+    forwardRef(() => PollModule),
   ],
   providers: [PollLogService],
   exports: [PollLogService],

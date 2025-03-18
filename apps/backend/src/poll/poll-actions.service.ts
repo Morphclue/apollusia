@@ -29,6 +29,7 @@ import {environment} from '../environment';
 import {renderDate} from '../mail/helpers';
 import {MailService} from '../mail/mail/mail.service';
 import {PushService} from '../push/push.service';
+import { PollLogService } from '../poll-log/poll-log.service';
 
 @Injectable()
 export class PollActionsService implements OnModuleInit {
@@ -41,6 +42,7 @@ export class PollActionsService implements OnModuleInit {
     @InjectModel(Participant.name) private participantModel: Model<Participant>,
     private mailService: MailService,
     private pushService: PushService,
+    private pollLogService: PollLogService,
     private keycloakService: KeycloakService,
   ) {
   }
@@ -278,6 +280,13 @@ export class PollActionsService implements OnModuleInit {
     await this.pollEventModel.deleteMany({_id: {$in: deletedEvents.map(event => event._id)}}).exec();
     await this.removeParticipations(poll, [...updatedEvents, ...deletedEvents]);
 
+    await this.pollLogService.create({
+      poll,
+      createdBy: pollDoc.createdBy, // TODO get real initiator
+      type: 'events.changed',
+      data: {created: newEvents.length, updated: updatedEvents.length, deleted: deletedEvents.length},
+    });
+
     for await (const participant of this.participantModel.find({
       poll,
       createdBy: {$exists: true},
@@ -381,6 +390,12 @@ export class PollActionsService implements OnModuleInit {
       poll: new Types.ObjectId(id),
       createdBy: user?.sub,
     });
+    await this.pollLogService.create({
+      poll: id,
+      createdBy: user?.sub,
+      type: 'participant.created',
+      data: {participant: participant._id},
+    });
 
     this.sendParticipantNotifications(poll, participant, user).catch(this.handleError);
     return participant;
@@ -479,6 +494,12 @@ export class PollActionsService implements OnModuleInit {
     const eventDocs = await this.pollEventModel.find({
       poll: id,
       _id: {$in: Object.keys(events).map(e => new Types.ObjectId(e))},
+    });
+    await this.pollLogService.create({
+      poll: id,
+      createdBy: poll.createdBy, // TODO get real initiator
+      type: 'poll.booked',
+      data: {booked: Object.keys(events).length},
     });
     for await (const participant of this.participantModel.find({
       poll: id,
