@@ -6,7 +6,7 @@
           <div class="card">
             @let comment = $any(log.data);
             <div class="card-header">
-              {{ log.createdBy }} commented &bullet; {{ log.createdAt | date: 'short' }}
+              <b>{{ comment.name }}</b> commented &bullet; {{ log.createdAt | date: 'short' }}
             </div>
             <div class="card-body">
               <app-markdown [text]="comment.text"></app-markdown>

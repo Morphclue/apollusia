@@ -21,7 +21,7 @@ export class PollLogController {
   ): Promise<PollLog[]> {
     return this.pollLogService.findAll({
       poll,
-      createdAt: createdBefore ? {$lt: new Date(createdBefore)} : undefined,
+      ...(createdBefore && {createdAt: {$lt: new Date(createdBefore)}}),
     }, {
       limit: 100,
     });

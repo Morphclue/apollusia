@@ -2,7 +2,7 @@ import {Ref} from '@mean-stream/nestx/ref';
 import {Prop, Schema, SchemaFactory} from '@nestjs/mongoose';
 import {ApiProperty} from '@nestjs/swagger';
 import {Type} from 'class-transformer';
-import {IsString, ValidateNested} from 'class-validator';
+import {IsNotEmpty, IsString, ValidateNested} from 'class-validator';
 import {Types} from 'mongoose';
 
 import {Participant} from './participant.schema';
@@ -11,6 +11,12 @@ import {Poll} from './poll.schema';
 export class Comment {
   @Prop()
   @IsString()
+  @IsNotEmpty()
+  name: string;
+
+  @Prop()
+  @IsString()
+  @IsNotEmpty()
   body: string;
 }
 
