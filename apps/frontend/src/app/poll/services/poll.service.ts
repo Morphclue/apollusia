@@ -1,6 +1,7 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import type {PollEventState} from '@apollusia/types';
+import {PollEventState, PollLog} from '@apollusia/types';
+import {CreatePollLogDto} from '@apollusia/types/lib/dto/poll-log.dto';
 import {Observable} from 'rxjs';
 
 import {environment} from '../../../environments/environment';
@@ -84,5 +85,13 @@ export class PollService {
 
   deleteParticipant(id: string, participant: string) {
     return this.http.delete(`${environment.backendURL}/poll/${id}/participate/${participant}`);
+  }
+
+  getLogs(id: string): Observable<PollLog[]> {
+    return this.http.get<PollLog[]>(`${environment.backendURL}/poll/${id}/log`);
+  }
+
+  postComment(id: string, body: CreatePollLogDto) {
+    return this.http.post(`${environment.backendURL}/poll/${id}/log`, body);
   }
 }

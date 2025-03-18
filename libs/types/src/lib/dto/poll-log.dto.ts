@@ -6,9 +6,9 @@ import {Comment, PollLog} from '../schema';
 
 export class CreatePollLogDto extends PickType(PollLog, ['type', 'data'] as const) {
   @Equals('comment')
-  type: 'comment';
+  override type: 'comment';
 
   @IsInstance(Comment)
   @Type(() => Comment)
-  data: Comment;
+  override data: Comment;
 }
