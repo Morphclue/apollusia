@@ -1,0 +1,39 @@
+[
+  {
+    "title": "Poll Admin",
+    "description": "Receive notifications for your own polls.",
+    "types": [
+      {
+        "key": "admin:participant.new",
+        "icon": "bi-person-plus",
+        "title": "New Participant",
+        "description": "Someone has participated in one of your polls."
+      }
+    ]
+  },
+  {
+    "title": "Participant",
+    "description": "Receive notifications for polls you participated in.",
+    "types": [
+      {
+        "key": "user:participant.new",
+        "icon": "bi-check-circle",
+        "title": "Own Vote",
+        "description": "You have voted in a poll.",
+        "push": false
+      },
+      {
+        "key": "user:poll.updated",
+        "icon": "bi-pencil-square",
+        "title": "Poll updated",
+        "description": "The available options of a poll have changed and you can review your choices."
+      },
+      {
+        "key": "user:poll.booked",
+        "icon": "bi-calendar-event",
+        "title": "Poll concluded",
+        "description": "The admin has concluded the poll and booked appointments."
+      }
+    ]
+  }
+]

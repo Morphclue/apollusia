@@ -95,6 +95,12 @@ All features are completely free and can be used without registration.
   <img src="docs/bootstrap-icons/icons/send.svg" alt="send" align="right" height="50">
   <dt>Invite Participants</dt>
   <dd>Invite participants via email or other means</dd>
+  <img src="docs/bootstrap-icons/icons/bell.svg" alt="bell" align="right" height="50">
+  <dt>Notifications</dt>
+  <dd>Receive quick updates to polls and participations via Push Notifications on all your devices</dd>
+  <img src="docs/bootstrap-icons/icons/envelope.svg" alt="envelope" align="right" height="50">
+  <dt>Email Updates</dt>
+  <dd>Receive detailed updates to polls and participations via Email</dd>
 </dl>
 
 
@@ -136,13 +142,19 @@ To set up Keycloak, follow these steps
   - Login with email: On
   - Duplicate emails: Off
   - Verify email: Off
-- Under "Realm Settings > User profile", create an attribute:
-  - Attribute [Name]: pushTokens
-  - Display Name: Push Tokens
-  - Multivalued: On
-  - Attribute Group: user-metadata
-  - Who can edit?: User, Admin
-  - Who can view?: User, Admin
+- Under "Realm Settings > User profile", create these attributes:
+  1. - Attribute [Name]: pushTokens
+     - Display Name: Push Tokens
+     - Multivalued: On
+     - Attribute Group: user-metadata
+     - Who can edit?: User, Admin
+     - Who can view?: User, Admin
+  2. - Attribute [Name]: notifications
+     - Display Name: Notifications
+     - Multivalued: On
+     - Attribute Group: user-metadata
+     - Who can edit?: User, Admin
+     - Who can view?: User, Admin
 - Create a user as follows:
   - Email Verified: Yes
   - Username/email: admin@apollusia.com
