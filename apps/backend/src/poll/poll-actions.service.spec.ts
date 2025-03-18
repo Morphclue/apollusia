@@ -26,7 +26,7 @@ describe('PollActionsService', () => {
     service = module.get<PollActionsService>(PollActionsService);
   });
 
-  let pollStubId;
+  let pollStubId: Types.ObjectId;
 
   it('should create poll', async () => {
     const poll = await service.postPoll(PollStub());
@@ -52,7 +52,8 @@ describe('PollActionsService', () => {
     modifiedPoll.title = 'Party';
 
     const updatedPoll = await service.putPoll(pollStubId, modifiedPoll);
-    expect(updatedPoll.title).toEqual('Party');
+    expect(updatedPoll).toBeDefined();
+    expect(updatedPoll!.title).toEqual('Party');
   });
 
   it('should not update poll', async () => {
@@ -64,7 +65,8 @@ describe('PollActionsService', () => {
     const updatedPoll = await pollModel.findById(pollStubId).exec();
     const pollCounts = await pollModel.countDocuments().exec();
 
-    expect(updatedPoll.title).not.toEqual('Meeting');
+    expect(updatedPoll).toBeDefined();
+    expect(updatedPoll!.title).not.toEqual('Meeting');
     expect(pollCounts).toEqual(1);
   });
 
@@ -76,7 +78,7 @@ describe('PollActionsService', () => {
     pollCounts = await pollModel.countDocuments().exec();
 
     expect(clonedPoll).toBeDefined();
-    expect(clonedPoll._id).not.toEqual(pollStubId);
+    expect(clonedPoll!._id).not.toEqual(pollStubId);
     expect(pollCounts).toEqual(2);
   });
 
@@ -102,37 +104,47 @@ describe('PollActionsService', () => {
 
   it('should add events to poll', async () => {
     const poll = await pollModel.findOne({title: 'Party (clone)'}).exec();
+    expect(poll).toBeDefined();
+
     let pollEventCount = await pollEventModel.countDocuments().exec();
     expect(pollEventCount).toEqual(0);
-    const event = await service.postEvents(poll._id, [PollEventStub()] as any);
+    const event = await service.postEvents(poll!._id, [PollEventStub()] as any);
 
     pollEventCount = await pollEventModel.countDocuments().exec();
-    expect(event[0].poll).toEqual(poll._id);
+    expect(event[0].poll).toEqual(poll!._id);
     expect(pollEventCount).toEqual(1);
   });
 
   it('should get events from poll', async () => {
     const poll = await pollModel.findOne({title: 'Party (clone)'}).exec();
-    const events = await service.getEvents(poll._id);
+    expect(poll).toBeDefined();
+
+    const events = await service.getEvents(poll!._id);
     expect(events.length).toEqual(1);
   });
 
   it('should delete events from poll', async () => {
     const poll = await pollModel.findOne({title: 'Party (clone)'}).exec();
-    const events = await service.postEvents(poll._id, []);
+    expect(poll).toBeDefined();
+
+    const events = await service.postEvents(poll!._id, []);
     expect(events.length).toEqual(0);
   });
 
   it('should not get participants from poll', async () => {
     const poll = await pollModel.findOne({title: 'Party (clone)'}).exec();
-    const participants = await service.getParticipants(poll._id, ParticipantStub().token);
+    expect(poll).toBeDefined();
+
+    const participants = await service.getParticipants(poll!._id, ParticipantStub().token);
     expect(participants.length).toEqual(0);
   });
 
   it('should post participation', async () => {
     const poll = await pollModel.findOne({title: 'Party (clone)'}).exec();
-    await service.postParticipation(poll._id, ParticipantStub());
-    const participants = await service.getParticipants(poll._id, ParticipantStub().token);
+    expect(poll).toBeDefined();
+
+    await service.postParticipation(poll!._id, ParticipantStub());
+    const participants = await service.getParticipants(poll!._id, ParticipantStub().token);
     expect(participants.length).toEqual(1);
   });
 
@@ -145,7 +157,9 @@ describe('PollActionsService', () => {
 
   it('should be admin', async () => {
     const poll = await pollModel.findOne({title: 'Party (clone)'}).exec();
-    const isAdmin = service.isAdmin(poll, ParticipantStub().token, undefined);
+    expect(poll).toBeDefined();
+
+    const isAdmin = service.isAdmin(poll!, ParticipantStub().token, undefined);
     expect(isAdmin).toEqual(true);
   });
 });

@@ -80,6 +80,5 @@
       "style": "scss"
     },
     "@gitopslovers/nx-sass:library": {}
-  },
-  "useLegacyCache": true
+  }
 }
