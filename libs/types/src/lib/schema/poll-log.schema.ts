@@ -66,7 +66,7 @@ export class PollLog {
   @Ref(Poll.name, {index: 1})
   poll: Types.ObjectId;
 
-  @Prop({type: String})
+  @Prop({type: String, index: 1})
   type: 'comment' | 'participant.created' | 'events.changed' | 'poll.booked';
 
   @Prop({type: Object})
