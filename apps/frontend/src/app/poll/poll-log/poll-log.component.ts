@@ -31,6 +31,12 @@ export class PollLogComponent implements OnInit {
     ).subscribe(logs => {
       this.logs = logs;
     });
+
+    this.route.params.pipe(
+      switchMap(({id}) => this.pollService.streamLogs(id)),
+    ).subscribe(log => {
+      this.addUnique(log);
+    });
   }
 
   postComment() {
@@ -41,7 +47,16 @@ export class PollLogComponent implements OnInit {
         body: this.commentBody,
       },
     }).subscribe(log => {
-      this.logs.push(log);
+      this.addUnique(log);
     });
+  }
+
+  private addUnique(log: PollLog) {
+    const index = this.logs.findIndex(l => l._id === log._id);
+    if (index >= 0) {
+      this.logs[index] = log;
+    } else {
+      this.logs.push(log);
+    }
   }
 }

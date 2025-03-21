@@ -2,7 +2,8 @@ import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {PollEventState, PollLog} from '@apollusia/types';
 import {CreatePollLogDto} from '@apollusia/types/lib/dto/poll-log.dto';
-import {Observable} from 'rxjs';
+import {fromEvent, Observable, retry} from 'rxjs';
+import {map} from 'rxjs/operators';
 
 import {environment} from '../../../environments/environment';
 import {CreateParticipantDto, Participant, Poll, ReadPoll, ReadPollEvent, UpdateParticipantDto} from '../../model';
@@ -89,6 +90,13 @@ export class PollService {
 
   getLogs(id: string): Observable<PollLog[]> {
     return this.http.get<PollLog[]>(`${environment.backendURL}/poll/${id}/log`);
+  }
+
+  streamLogs(id: string): Observable<PollLog> {
+    return fromEvent<MessageEvent>(new EventSource(`${environment.backendURL}/poll/${id}/log/events`), 'message').pipe(
+      map(event => JSON.parse(event.data)),
+      retry(),
+    );
   }
 
   postComment(id: string, body: CreatePollLogDto): Observable<PollLog> {
