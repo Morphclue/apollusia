@@ -23,7 +23,8 @@
             <i class="bi-check-circle"></i>
           </div>
           <div class="timeline-item-body">
-            <b>Someone</b> participated in the poll &bullet; {{ log.createdAt | date: 'short' }}
+            @let participant = $any(log.data);
+            <b>{{ participant.name || 'An anonymous user' }}</b> participated in the poll &bullet; {{ log.createdAt | date: 'short' }}
           </div>
         }
         @case ("events.changed") {

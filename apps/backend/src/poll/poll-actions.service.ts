@@ -394,7 +394,7 @@ export class PollActionsService implements OnModuleInit {
       poll: id,
       createdBy: user?.sub,
       type: 'participant.created',
-      data: {participant: participant._id},
+      data: {participant: participant._id, name: participant.name},
     });
 
     this.sendParticipantNotifications(poll, participant, user).catch(this.handleError);

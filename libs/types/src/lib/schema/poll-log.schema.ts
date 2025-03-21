@@ -2,7 +2,7 @@ import {Ref} from '@mean-stream/nestx/ref';
 import {Prop, Schema, SchemaFactory} from '@nestjs/mongoose';
 import {ApiProperty} from '@nestjs/swagger';
 import {Type} from 'class-transformer';
-import {IsNotEmpty, IsString, ValidateNested} from 'class-validator';
+import {IsNotEmpty, IsOptional, IsString, ValidateNested} from 'class-validator';
 import {Types} from 'mongoose';
 
 import {Participant} from './participant.schema';
@@ -21,6 +21,11 @@ export class Comment {
 }
 
 export class ParticipantLog {
+  @Prop()
+  @IsOptional()
+  @IsString()
+  name?: string;
+
   @Ref(Participant.name)
   participant: Types.ObjectId;
 }
