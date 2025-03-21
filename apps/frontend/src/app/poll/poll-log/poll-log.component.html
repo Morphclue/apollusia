@@ -10,7 +10,8 @@
             <div class="card">
               @let comment = $any(log.data);
               <div class="card-header">
-                <b>{{ comment.name }}</b> commented &bullet; {{ log.createdAt | date: 'short' }}
+                <b>{{ comment.name }}</b> commented
+                <span class="text-muted">&bullet; {{ log.createdAt | date: 'short' }}</span>
               </div>
               <div class="card-body">
                 <app-markdown [text]="comment.body"></app-markdown>
@@ -24,7 +25,8 @@
           </div>
           <div class="timeline-item-body">
             @let participant = $any(log.data);
-            <b>{{ participant.name || 'An anonymous user' }}</b> participated in the poll &bullet; {{ log.createdAt | date: 'short' }}
+            <b>{{ participant.name || 'An anonymous user' }}</b> participated in the poll
+            <span class="text-muted">&bullet; {{ log.createdAt | date: 'short' }}</span>
           </div>
         }
         @case ("events.changed") {
@@ -43,7 +45,7 @@
             @if (changes.changed) {
               <b>modified {{ changes.changed }}</b> &bullet;
             }
-            {{ log.createdAt | date: 'short' }}
+            <span class="text-muted">{{ log.createdAt | date: 'short' }}</span>
           </div>
         }
         @case ("poll.booked") {
@@ -52,7 +54,8 @@
           </div>
           <div class="timeline-item-body">
             @let booked = $any(log.data).booked;
-            The <b>poll owner</b> booked <b>{{ booked }}</b> {booked, plural, =1 {appointment} other {appointments}} &bullet; {{ log.createdAt | date: 'short' }}
+            The <b>poll owner</b> booked <b>{{ booked }}</b> {booked, plural, =1 {appointment} other {appointments}}
+            <span class="text-muted">&bullet; {{ log.createdAt | date: 'short' }}</span>
           </div>
         }
       }
