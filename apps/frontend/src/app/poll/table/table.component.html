@@ -79,16 +79,15 @@
                       }
                     }
                     @if (isAdmin) {
-                      @for (isBooked of [bookedEvents[pollEvent._id] | some:participant._id]; track isBooked // cursed_variable) {
-                        <input
-                          type="checkbox"
-                          class="ms-2 text-secondary form-check-hidden"
-                          [class.bi-star-fill]="isBooked"
-                          [class.bi-star]="!isBooked"
-                          [ngModel]="isBooked"
-                          (ngModelChange)="setBookedParticipant(pollEvent._id, participant._id, $event)"
-                        >
-                      }
+                      @let isBooked = bookedEvents[pollEvent._id] | some:participant._id;
+                      <input
+                        type="checkbox"
+                        class="ms-2 text-secondary form-check-hidden"
+                        [class.bi-star-fill]="isBooked"
+                        [class.bi-star]="!isBooked"
+                        [ngModel]="isBooked"
+                        (ngModelChange)="setBookedParticipant(pollEvent._id, participant._id, $event)"
+                      >
                     }
                   </div>
                 </td>
