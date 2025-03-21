@@ -1,43 +1,63 @@
-<ul>
+<ol class="timeline-list">
   @for (log of logs; track log._id) {
-    <li>
+    <li class="timeline-item">
       @switch (log.type) {
         @case ("comment") {
-          <div class="card">
-            @let comment = $any(log.data);
-            <div class="card-header">
-              <b>{{ comment.name }}</b> commented &bullet; {{ log.createdAt | date: 'short' }}
-            </div>
-            <div class="card-body">
-              <app-markdown [text]="comment.body"></app-markdown>
+          <div class="timeline-item-badge bg-secondary">
+            <i class="bi-chat-text"></i>
+          </div>
+          <div class="timeline-item-body">
+            <div class="card">
+              @let comment = $any(log.data);
+              <div class="card-header">
+                <b>{{ comment.name }}</b> commented &bullet; {{ log.createdAt | date: 'short' }}
+              </div>
+              <div class="card-body">
+                <app-markdown [text]="comment.body"></app-markdown>
+              </div>
             </div>
           </div>
         }
         @case ("participant.created") {
-          <b>Someone</b> participated in the poll &bullet; {{ log.createdAt | date: 'short' }}
+          <div class="timeline-item-badge bg-secondary">
+            <i class="bi-check-circle"></i>
+          </div>
+          <div class="timeline-item-body">
+            <b>Someone</b> participated in the poll &bullet; {{ log.createdAt | date: 'short' }}
+          </div>
         }
         @case ("events.changed") {
-          @let changes = $any(log.data);
-          The <b>poll owner</b> changed available options:
-          @if (changes.created) {
-            <b>added {{ changes.created }}</b> &bullet;
-          }
-          @if (changes.deleted) {
-            <b>removed {{ changes.deleted }}</b> &bullet;
-          }
-          @if (changes.changed) {
-            <b>modified {{ changes.changed }}</b> &bullet;
-          }
-          {{ log.createdAt | date: 'short' }}
+          <div class="timeline-item-badge bg-secondary">
+            <i class="bi-pencil-square"></i>
+          </div>
+          <div class="timeline-item-body">
+            @let changes = $any(log.data);
+            The <b>poll owner</b> changed available options:
+            @if (changes.created) {
+              <b>added {{ changes.created }}</b> &bullet;
+            }
+            @if (changes.deleted) {
+              <b>removed {{ changes.deleted }}</b> &bullet;
+            }
+            @if (changes.changed) {
+              <b>modified {{ changes.changed }}</b> &bullet;
+            }
+            {{ log.createdAt | date: 'short' }}
+          </div>
         }
         @case ("poll.booked") {
-          @let booked = $any(log.data).booked;
-          The <b>poll owner</b> booked <b>{{ booked }}</b> {booked, plural, =1 {appointment} other {appointments}} &bullet; {{ log.createdAt | date: 'short' }}
+          <div class="timeline-item-badge bg-secondary">
+            <i class="bi-calendar-event"></i>
+          </div>
+          <div class="timeline-item-body">
+            @let booked = $any(log.data).booked;
+            The <b>poll owner</b> booked <b>{{ booked }}</b> {booked, plural, =1 {appointment} other {appointments}} &bullet; {{ log.createdAt | date: 'short' }}
+          </div>
         }
       }
     </li>
   }
-</ul>
+</ol>
 <hr/>
 <div class="card">
   <div class="card-header">
