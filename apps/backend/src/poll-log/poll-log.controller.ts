@@ -2,7 +2,7 @@ import {PollLog} from '@apollusia/types';
 import {CreatePollLogDto} from '@apollusia/types/lib/dto/poll-log.dto';
 import {Auth, AuthUser, UserToken} from '@mean-stream/nestx/auth';
 import {ObjectIdPipe} from '@mean-stream/nestx/ref';
-import {Body, Controller, Get, MessageEvent, Param, Post, Query, Sse} from '@nestjs/common';
+import {Body, Controller, Get, MessageEvent, Param, ParseIntPipe, Post, Query, Sse} from '@nestjs/common';
 import {Types} from 'mongoose';
 import {map, Observable} from 'rxjs';
 
@@ -19,13 +19,15 @@ export class PollLogController {
   async getEvents(
     @Param('poll', ObjectIdPipe) poll: Types.ObjectId,
     @Query('createdBefore') createdBefore?: string,
+    @Query('limit', new ParseIntPipe({optional: true})) limit = 100,
   ): Promise<PollLog[]> {
-    return this.pollLogService.findAll({
+    return (await this.pollLogService.findAll({
       poll,
       ...(createdBefore && {createdAt: {$lt: new Date(createdBefore)}}),
     }, {
-      limit: 100,
-    });
+      limit,
+      sort: {createdAt: -1}, // sort by latest first to get the latest events
+    })).reverse(); // then reverse
   }
 
   @Sse('events')

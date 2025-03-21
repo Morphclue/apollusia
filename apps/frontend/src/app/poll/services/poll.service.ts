@@ -88,8 +88,11 @@ export class PollService {
     return this.http.delete(`${environment.backendURL}/poll/${id}/participate/${participant}`);
   }
 
-  getLogs(id: string): Observable<PollLog[]> {
-    return this.http.get<PollLog[]>(`${environment.backendURL}/poll/${id}/log`);
+  getLogs(id: string, params?: {
+    limit?: number;
+    createdBefore?: string;
+  }): Observable<PollLog[]> {
+    return this.http.get<PollLog[]>(`${environment.backendURL}/poll/${id}/log`, {params});
   }
 
   streamLogs(id: string): Observable<PollLog> {

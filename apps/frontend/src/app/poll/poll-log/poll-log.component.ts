@@ -3,21 +3,22 @@ import {Component, OnInit} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {ActivatedRoute} from '@angular/router';
 import {PollLog} from '@apollusia/types';
-import {CreatePollLogDto} from '@apollusia/types/lib/dto/poll-log.dto';
 import {switchMap} from 'rxjs/operators';
 import {CoreModule} from '../../core/core.module';
 import {PollService} from '../services/poll.service';
 
 @Component({
   selector: 'apollusia-poll-log',
-  imports: [CommonModule, CoreModule, FormsModule],
   templateUrl: './poll-log.component.html',
   styleUrl: './poll-log.component.scss',
+  imports: [CommonModule, CoreModule, FormsModule],
 })
 export class PollLogComponent implements OnInit {
   logs: PollLog[] = [];
   commentName = '';
   commentBody = '';
+
+  showMore = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -25,17 +26,41 @@ export class PollLogComponent implements OnInit {
   ) {
   }
 
+  /** How many items to load initially, plus one to check if there are more items */
+  private readonly limit = 11;
+
   ngOnInit() {
     this.route.params.pipe(
-      switchMap(({id}) => this.pollService.getLogs(id)),
+      switchMap(({id}) => this.pollService.getLogs(id, {limit: this.limit})),
     ).subscribe(logs => {
-      this.logs = logs;
+      if (logs.length === this.limit) {
+        this.logs = logs.slice(1);
+        this.showMore = true;
+      } else {
+        this.logs = logs;
+        this.showMore = false;
+      }
     });
 
     this.route.params.pipe(
       switchMap(({id}) => this.pollService.streamLogs(id)),
     ).subscribe(log => {
       this.addUnique(log);
+    });
+  }
+
+  loadMore() {
+    this.pollService.getLogs(this.route.snapshot.params['id'], {
+      limit: this.limit,
+      createdBefore: this.logs[0].createdAt.toString(),
+    }).subscribe(logs => {
+      if (logs.length === this.limit) {
+        this.logs.unshift(...logs.slice(1));
+        this.showMore = true;
+      } else {
+        this.logs.unshift(...logs);
+        this.showMore = false;
+      }
     });
   }
 

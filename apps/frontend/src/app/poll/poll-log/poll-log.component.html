@@ -1,4 +1,16 @@
 <ol class="timeline-list">
+  @if (showMore) {
+    <li class="timeline-item">
+      <div class="timeline-item-badge bg-secondary">
+        <i class="bi-three-dots-vertical"></i>
+      </div>
+      <div class="timeline-item-body">
+        <button class="btn btn-link m-0 p-0" (click)="loadMore()">
+          Load older items...
+        </button>
+      </div>
+    </li>
+  }
   @for (log of logs; track log._id) {
     <li class="timeline-item">
       @switch (log.type) {
