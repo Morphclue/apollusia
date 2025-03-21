@@ -28,8 +28,8 @@ import {KeycloakService} from '../auth/keycloak.service';
 import {environment} from '../environment';
 import {renderDate} from '../mail/helpers';
 import {MailService} from '../mail/mail/mail.service';
+import {PollLogService} from '../poll-log/poll-log.service';
 import {PushService} from '../push/push.service';
-import { PollLogService } from '../poll-log/poll-log.service';
 
 @Injectable()
 export class PollActionsService implements OnModuleInit {
@@ -303,13 +303,13 @@ export class PollActionsService implements OnModuleInit {
       return;
     }
 
-    if (kcUser.email && this.hasNotificationEnabled(kcUser, 'user:poll.updated:email')) {
+    if (kcUser.email && this.pushService.hasNotificationEnabled(kcUser, 'user:poll.updated:email')) {
       await this.mailService.sendMail(participant.name, kcUser.email, `Updates in Poll: ${poll.title}`, 'poll-updated', {
         poll: poll.toObject(),
         participant: participant.toObject(),
       });
     }
-    if (this.hasNotificationEnabled(kcUser, 'user:poll.updated:push')) {
+    if (this.pushService.hasNotificationEnabled(kcUser, 'user:poll.updated:push')) {
       await this.pushService.send(
         kcUser,
         `Updates in Poll: ${poll.title}`,
@@ -404,16 +404,16 @@ export class PollActionsService implements OnModuleInit {
   private async sendParticipantNotifications(poll: Doc<Poll>, participant: Doc<Participant>, user: UserToken | undefined) {
     if (poll.createdBy && (poll.adminMail || poll.adminPush)) {
       const adminUser = await this.keycloakService.getUser(poll.createdBy);
-      if (poll.adminMail && adminUser && this.hasNotificationEnabled(adminUser, 'admin:participant.new:email')) {
+      if (poll.adminMail && adminUser && this.pushService.hasNotificationEnabled(adminUser, 'admin:participant.new:email')) {
         this.sendAdminInfo(poll, participant, adminUser).catch(this.handleError);
       }
-      if (poll.adminPush && adminUser && this.hasNotificationEnabled(adminUser, 'admin:participant.new:push')) {
+      if (poll.adminPush && adminUser && this.pushService.hasNotificationEnabled(adminUser, 'admin:participant.new:push')) {
         this.sendAdminPush(poll, participant, adminUser).catch(this.handleError);
       }
     }
     if (user?.email) {
       const kcUser = await this.keycloakService.getUser(user.sub);
-      if (kcUser && this.hasNotificationEnabled(kcUser, 'user:participant.new:email')) {
+      if (kcUser && this.pushService.hasNotificationEnabled(kcUser, 'user:participant.new:email')) {
         this.mailService.sendMail(participant.name, user.email, `Participated in Poll: ${poll.title}`, 'participated', {
           poll: poll.toObject(),
           participant: participant.toObject(),
@@ -456,10 +456,6 @@ export class PollActionsService implements OnModuleInit {
       `${participant.name} participated in your poll.`,
       `${environment.origin}/poll/${poll._id}/participate`,
     );
-  }
-
-  private hasNotificationEnabled(user: KeycloakUser, key: string) {
-    return user.attributes?.notifications?.includes(key) ?? true;
   }
 
   async editParticipation(id: Types.ObjectId, participantId: Types.ObjectId, token: string, participant: UpdateParticipantDto): Promise<ReadParticipantDto | null> {
@@ -520,8 +516,8 @@ export class PollActionsService implements OnModuleInit {
       return;
     }
 
-    const sendPush = kcUser.attributes?.pushTokens?.length && this.hasNotificationEnabled(kcUser, 'user:poll.booked:push');
-    const sendEmail = kcUser.email && this.hasNotificationEnabled(kcUser, 'user:poll.booked:email');
+    const sendPush = kcUser.attributes?.pushTokens?.length && this.pushService.hasNotificationEnabled(kcUser, 'user:poll.booked:push');
+    const sendEmail = kcUser.email && this.pushService.hasNotificationEnabled(kcUser, 'user:poll.booked:email');
     if (!sendPush && !sendEmail) {
       return;
     }
