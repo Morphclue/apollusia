@@ -4,6 +4,7 @@ import {FormsModule} from '@angular/forms';
 import {ActivatedRoute} from '@angular/router';
 import {PollLog} from '@apollusia/types';
 import {switchMap} from 'rxjs/operators';
+
 import {CoreModule} from '../../core/core.module';
 import {PollService} from '../services/poll.service';
 

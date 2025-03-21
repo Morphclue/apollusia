@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+
 import { PollLogComponent } from './poll-log.component';
 
 describe('PollLogComponent', () => {
