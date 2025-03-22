@@ -69,7 +69,7 @@ export class PollLogController {
   ): Promise<PollLog> {
     const pollDoc = await this.pollService.find(poll) ?? notFound(poll);
     if (!pollDoc.settings.allowComments) {
-      throw new ForbiddenException(`Comments are not allowed in this poll`);
+      throw new ForbiddenException('Comments are not allowed in this poll');
     }
 
     const kcUser = pollDoc.createdBy && await this.keycloakService.getUser(pollDoc.createdBy);
