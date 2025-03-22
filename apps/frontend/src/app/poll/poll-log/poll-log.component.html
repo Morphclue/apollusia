@@ -74,18 +74,24 @@
     </li>
   }
 </ol>
-<hr/>
-<div class="card">
-  <div class="card-header">
-    <input type="text" class="form-control" placeholder="Your name" [(ngModel)]="commentName">
+@if (poll.settings.allowComments) {
+  <hr/>
+  <div class="card">
+    <div class="card-header">
+      <input type="text" class="form-control" placeholder="Your name" [(ngModel)]="commentName">
+    </div>
+    <textarea class="form-control card-body" placeholder="Your comment" [(ngModel)]="commentBody"></textarea>
+    <div class="card-footer d-flex align-items-center">
+      <button class="btn btn-primary bi-send" (click)="postComment()">
+        Send
+      </button>
+      <span class="ms-3 bi-info-circle">
+        Your comment will be visible to all participants.
+      </span>
+    </div>
   </div>
-  <textarea class="form-control card-body" placeholder="Your comment" [(ngModel)]="commentBody"></textarea>
-  <div class="card-footer d-flex align-items-center">
-    <button class="btn btn-primary bi-send" (click)="postComment()">
-      Send
-    </button>
-    <span class="ms-3 bi-info-circle">
-      Your comment will be visible to all participants.
-    </span>
+} @else {
+  <div class="alert alert-info">
+    Comments are disabled for this poll.
   </div>
-</div>
+}

@@ -1,11 +1,11 @@
 import {CommonModule} from '@angular/common';
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {ActivatedRoute} from '@angular/router';
 import {switchMap} from 'rxjs/operators';
 
 import {CoreModule} from '../../core/core.module';
-import {PollLog} from '../../model';
+import {PollLog, ReadPoll} from '../../model';
 import {PollService} from '../services/poll.service';
 
 @Component({
@@ -15,6 +15,8 @@ import {PollService} from '../services/poll.service';
   imports: [CommonModule, CoreModule, FormsModule],
 })
 export class PollLogComponent implements OnInit {
+  @Input({required: true}) poll: ReadPoll;
+
   logs: PollLog[] = [];
   commentName = '';
   commentBody = '';
