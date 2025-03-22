@@ -1,12 +1,20 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import {PollEventState, PollLog} from '@apollusia/types';
-import {CreatePollLogDto} from '@apollusia/types/lib/dto/poll-log.dto';
+import {PollEventState} from '@apollusia/types';
 import {fromEvent, Observable, retry} from 'rxjs';
 import {map} from 'rxjs/operators';
 
 import {environment} from '../../../environments/environment';
-import {CreateParticipantDto, Participant, Poll, ReadPoll, ReadPollEvent, UpdateParticipantDto} from '../../model';
+import {
+  CreateParticipantDto,
+  CreatePollLogDto,
+  Participant,
+  Poll,
+  PollLog,
+  ReadPoll,
+  ReadPollEvent,
+  UpdateParticipantDto,
+} from '../../model';
 
 @Injectable({
   providedIn: 'root',
