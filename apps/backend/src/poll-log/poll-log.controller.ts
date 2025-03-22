@@ -1,13 +1,14 @@
 import {PollLog} from '@apollusia/types';
 import {CreatePollLogDto} from '@apollusia/types/lib/dto/poll-log.dto';
-import {Auth, AuthUser, UserToken} from '@mean-stream/nestx/auth';
+import {AuthUser, UserToken} from '@mean-stream/nestx/auth';
 import {notFound} from '@mean-stream/nestx/not-found';
 import {ObjectIdPipe} from '@mean-stream/nestx/ref';
-import {Body, Controller, Get, MessageEvent, Param, ParseIntPipe, Post, Query, Sse} from '@nestjs/common';
+import {Body, Controller, Get, MessageEvent, Param, ParseIntPipe, Post, Query, Sse, UseGuards} from '@nestjs/common';
 import {Types} from 'mongoose';
 import {map, Observable} from 'rxjs';
 
 import {KeycloakService} from '../auth/keycloak.service';
+import {OptionalAuthGuard} from '../auth/optional-auth.guard';
 import {environment} from '../environment';
 import {PollLogService} from './poll-log.service';
 import {PollService} from '../poll/poll.service';
@@ -48,11 +49,11 @@ export class PollLogController {
   }
 
   @Post()
-  @Auth()
+  @UseGuards(OptionalAuthGuard)
   async postComment(
     @Param('poll', ObjectIdPipe) poll: Types.ObjectId,
     @Body() body: CreatePollLogDto,
-    @AuthUser() user: UserToken,
+    @AuthUser() user?: UserToken,
   ): Promise<PollLog> {
     const pollDoc = await this.pollService.find(poll) ?? notFound(poll);
     const kcUser = pollDoc.createdBy && await this.keycloakService.getUser(pollDoc.createdBy);
@@ -66,7 +67,7 @@ export class PollLogController {
     }
     return this.pollLogService.create({
       poll,
-      createdBy: user.sub,
+      createdBy: user?.sub,
       ...body,
     });
   }

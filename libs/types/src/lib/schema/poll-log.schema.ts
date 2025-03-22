@@ -2,8 +2,8 @@ import {Ref} from '@mean-stream/nestx/ref';
 import {Prop, Schema, SchemaFactory} from '@nestjs/mongoose';
 import {ApiProperty} from '@nestjs/swagger';
 import {Type} from 'class-transformer';
-import {IsNotEmpty, IsOptional, IsString, ValidateNested} from 'class-validator';
-import {Types} from 'mongoose';
+import {IsNotEmpty, IsOptional, IsString, IsUUID, ValidateNested} from 'class-validator';
+import {SchemaTypes, Types} from 'mongoose';
 
 import {Participant} from './participant.schema';
 import {Poll} from './poll.schema';
@@ -60,7 +60,10 @@ export class PollLog {
   @ApiProperty()
   updatedAt: Date;
 
-  @ApiProperty()
+  @ApiProperty({format: 'uuid'})
+  @Prop({required: false, type: SchemaTypes.UUID, transform: (v: object) => v.toString()})
+  @IsOptional()
+  @IsUUID()
   createdBy?: string;
 
   @Ref(Poll.name, {index: 1})
