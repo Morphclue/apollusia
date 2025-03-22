@@ -258,7 +258,7 @@ export class PollActionsService implements OnModuleInit {
     }));
   }
 
-  async postEvents(poll: Types.ObjectId, pollEvents: PollEventDto[]): Promise<PollEvent[]> {
+  async postEvents(poll: Types.ObjectId, pollEvents: PollEventDto[], user?: UserToken): Promise<PollEvent[]> {
     const pollDoc = await this.pollModel.findById(poll).exec() ?? notFound(poll);
 
     const oldEvents = await this.pollEventModel.find({poll}).exec();
@@ -283,7 +283,7 @@ export class PollActionsService implements OnModuleInit {
     if (pollDoc.settings.logHistory) {
       await this.pollLogService.create({
         poll,
-        createdBy: pollDoc.createdBy, // TODO get real initiator
+        createdBy: user?.sub,
         type: 'events.changed',
         data: {created: newEvents.length, updated: updatedEvents.length, deleted: deletedEvents.length},
       });
@@ -483,7 +483,7 @@ export class PollActionsService implements OnModuleInit {
     return this.participantModel.findByIdAndDelete(participantId, {projection: readParticipantSelect}).exec();
   }
 
-  async bookEvents(id: Types.ObjectId, events: Poll['bookedEvents']): Promise<ReadPollDto> {
+  async bookEvents(id: Types.ObjectId, events: Poll['bookedEvents'], user?: UserToken): Promise<ReadPollDto> {
     const poll = await this.pollModel.findByIdAndUpdate(id, {
       bookedEvents: events,
     }, {new: true})
@@ -496,7 +496,7 @@ export class PollActionsService implements OnModuleInit {
     if (poll.settings.logHistory) {
       await this.pollLogService.create({
         poll: id,
-        createdBy: poll.createdBy, // TODO get real initiator
+        createdBy: user?.sub,
         type: 'poll.booked',
         data: {booked: Object.keys(events).length},
       });
