@@ -3,7 +3,19 @@ import {CreatePollLogDto} from '@apollusia/types/lib/dto/poll-log.dto';
 import {AuthUser, UserToken} from '@mean-stream/nestx/auth';
 import {notFound} from '@mean-stream/nestx/not-found';
 import {ObjectIdPipe} from '@mean-stream/nestx/ref';
-import {Body, Controller, Get, MessageEvent, Param, ParseIntPipe, Post, Query, Sse, UseGuards} from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  ForbiddenException,
+  Get,
+  MessageEvent,
+  Param,
+  ParseIntPipe,
+  Post,
+  Query,
+  Sse,
+  UseGuards,
+} from '@nestjs/common';
 import {Types} from 'mongoose';
 import {map, Observable} from 'rxjs';
 
@@ -56,6 +68,10 @@ export class PollLogController {
     @AuthUser() user?: UserToken,
   ): Promise<PollLog> {
     const pollDoc = await this.pollService.find(poll) ?? notFound(poll);
+    if (!pollDoc.settings.allowComments) {
+      throw new ForbiddenException(`Comments are not allowed in this poll`);
+    }
+
     const kcUser = pollDoc.createdBy && await this.keycloakService.getUser(pollDoc.createdBy);
     if (kcUser && this.pushService.hasNotificationEnabled(kcUser, 'admin:comment.new:push')) {
       this.pushService.send(

@@ -280,12 +280,14 @@ export class PollActionsService implements OnModuleInit {
     await this.pollEventModel.deleteMany({_id: {$in: deletedEvents.map(event => event._id)}}).exec();
     await this.removeParticipations(poll, [...updatedEvents, ...deletedEvents]);
 
-    await this.pollLogService.create({
-      poll,
-      createdBy: pollDoc.createdBy, // TODO get real initiator
-      type: 'events.changed',
-      data: {created: newEvents.length, updated: updatedEvents.length, deleted: deletedEvents.length},
-    });
+    if (pollDoc.settings.logHistory) {
+      await this.pollLogService.create({
+        poll,
+        createdBy: pollDoc.createdBy, // TODO get real initiator
+        type: 'events.changed',
+        data: {created: newEvents.length, updated: updatedEvents.length, deleted: deletedEvents.length},
+      });
+    }
 
     for await (const participant of this.participantModel.find({
       poll,
@@ -491,12 +493,14 @@ export class PollActionsService implements OnModuleInit {
       poll: id,
       _id: {$in: Object.keys(events).map(e => new Types.ObjectId(e))},
     });
-    await this.pollLogService.create({
-      poll: id,
-      createdBy: poll.createdBy, // TODO get real initiator
-      type: 'poll.booked',
-      data: {booked: Object.keys(events).length},
-    });
+    if (poll.settings.logHistory) {
+      await this.pollLogService.create({
+        poll: id,
+        createdBy: poll.createdBy, // TODO get real initiator
+        type: 'poll.booked',
+        data: {booked: Object.keys(events).length},
+      });
+    }
     for await (const participant of this.participantModel.find({
       poll: id,
       createdBy: {$exists: true},
