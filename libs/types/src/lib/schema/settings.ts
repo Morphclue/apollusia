@@ -1,8 +1,8 @@
+import {Prop, Schema, SchemaFactory} from '@nestjs/mongoose';
 import {ApiProperty} from '@nestjs/swagger';
 import {Transform} from 'class-transformer';
 import {IsBoolean, IsDate, IsEnum, IsOptional, IsPositive} from 'class-validator';
-import {Prop, Schema, SchemaFactory} from "@nestjs/mongoose";
-import {ShowResultOptions} from "./show-result-options";
+import {ShowResultOptions} from './show-result-options';
 
 @Schema({_id: false, id: false, timestamps: false})
 export class Settings {
@@ -45,6 +45,16 @@ export class Settings {
     @ApiProperty()
     @IsBoolean()
     anonymous: boolean;
+
+    @Prop({default: true})
+    @ApiProperty()
+    @IsBoolean()
+    allowComments: boolean;
+
+    @Prop({default: true})
+    @ApiProperty()
+    @IsBoolean()
+    logHistory: boolean;
 
     @Prop({type: String, enum: ShowResultOptions})
     @ApiProperty({enum: ShowResultOptions})

@@ -42,6 +42,8 @@ export class CreateEditPollComponent implements OnInit {
     maxEventParticipantsInput: new FormControl(0),
     allowMaybe: new FormControl(false),
     allowEdit: new FormControl(false),
+    allowComments: new FormControl(true),
+    logHistory: new FormControl(true),
     anonymous: new FormControl(false),
     showResultGroup: new FormGroup({
       showResult: new FormControl(ShowResultOptions.IMMEDIATELY),
@@ -152,6 +154,8 @@ export class CreateEditPollComponent implements OnInit {
         maxParticipants: pollForm.maxParticipants && pollForm.maxParticipantsInput || undefined,
         maxParticipantEvents: pollForm.maxParticipantEvents && pollForm.maxParticipantEventsInput || undefined,
         maxEventParticipants: pollForm.maxEventParticipants && pollForm.maxEventParticipantsInput || undefined,
+        allowComments: !!pollForm.allowComments,
+        logHistory: !!pollForm.logHistory,
         showResult: pollForm.showResultGroup?.showResult ?? ShowResultOptions.IMMEDIATELY,
       },
     };
@@ -226,6 +230,8 @@ export class CreateEditPollComponent implements OnInit {
         allowMaybe: poll.settings.allowMaybe,
         allowEdit: poll.settings.allowEdit,
         anonymous: poll.settings.anonymous,
+        allowComments: poll.settings.allowComments,
+        logHistory: poll.settings.logHistory,
         showResultGroup: {
           showResult: poll.settings.showResult,
         },

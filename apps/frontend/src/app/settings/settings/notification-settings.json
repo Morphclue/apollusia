@@ -8,6 +8,13 @@
         "icon": "bi-person-plus",
         "title": "New Participant",
         "description": "Someone has participated in one of your polls."
+      },
+      {
+        "key": "admin:comment.new",
+        "icon": "bi-chat-dots",
+        "title": "New Comment",
+        "description": "Someone has commented in one of your polls.",
+        "email": false
       }
     ]
   },

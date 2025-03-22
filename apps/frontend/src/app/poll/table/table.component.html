@@ -3,7 +3,7 @@
     <thead>
     <tr>
       <th scope="col"></th>
-      @for (event of pollEvents; track event) {
+      @for (event of pollEvents; track event._id) {
         <th scope="col">
           <app-event-head
             [event]="event"
@@ -27,7 +27,7 @@
               [(ngModel)]="newParticipant.name" (change)="validateNew()"
             >
           </th>
-          @for (event of pollEvents; track event) {
+          @for (event of pollEvents; track event._id) {
             <td>
               <app-check-button
                 [poll]="poll"
@@ -55,13 +55,13 @@
           </th>
         </tr>
       }
-        @for (participant of participants; track participant) {
+        @for (participant of participants; track participant._id) {
           <tr>
             <th>
               <apollusia-participant-info [participant]="participant"></apollusia-participant-info>
             </th>
             @if (participant !== editParticipant) {
-              @for (pollEvent of pollEvents; track pollEvent; let n = $index) {
+              @for (pollEvent of pollEvents; track pollEvent._id; let n = $index) {
                 <td>
                   <div class="d-flex">
                     @switch (participant.selection[pollEvent._id]) {
@@ -79,16 +79,15 @@
                       }
                     }
                     @if (isAdmin) {
-                      @for (isBooked of [bookedEvents[pollEvent._id] | some:participant._id]; track isBooked // cursed_variable) {
-                        <input
-                          type="checkbox"
-                          class="ms-2 text-secondary form-check-hidden"
-                          [class.bi-star-fill]="isBooked"
-                          [class.bi-star]="!isBooked"
-                          [ngModel]="isBooked"
-                          (ngModelChange)="setBookedParticipant(pollEvent._id, participant._id, $event)"
-                        >
-                      }
+                      @let isBooked = bookedEvents[pollEvent._id] | some:participant._id;
+                      <input
+                        type="checkbox"
+                        class="ms-2 text-secondary form-check-hidden"
+                        [class.bi-star-fill]="isBooked"
+                        [class.bi-star]="!isBooked"
+                        [ngModel]="isBooked"
+                        (ngModelChange)="setBookedParticipant(pollEvent._id, participant._id, $event)"
+                      >
                     }
                   </div>
                 </td>
@@ -114,7 +113,7 @@
               </td>
             } @else {
               @if (editDto) {
-                @for (event of pollEvents; track event) {
+                @for (event of pollEvents; track event._id) {
                   <td>
                     <app-check-button
                       [poll]="poll"
@@ -137,7 +136,7 @@
         }
         <tr>
           <th>Sum</th>
-          @for (pollEvent of pollEvents; track pollEvent) {
+          @for (pollEvent of pollEvents; track pollEvent._id) {
             <td>
               <h5 [class]="bestOption === pollEvent.participants ? 'bi-award text-primary' : ''">
                 {{ pollEvent.participants }}
@@ -149,7 +148,7 @@
       @if (poll && isAdmin) {
         <tr>
           <th>Select Events</th>
-          @for (pollEvent of pollEvents; track pollEvent) {
+          @for (pollEvent of pollEvents; track pollEvent._id) {
             <td>
               <input
                 type="checkbox"

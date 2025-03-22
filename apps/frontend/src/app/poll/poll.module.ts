@@ -15,6 +15,7 @@ import {EventHeadComponent} from './event-head/event-head.component';
 import {EventListComponent} from './event-list/event-list.component';
 import {IcalComponent} from './ical/ical.component';
 import {ParticipantInfoComponent} from './participant-info/participant-info.component';
+import {PollLogComponent} from './poll-log/poll-log.component';
 import {PollRoutingModule} from './poll-routing.module';
 import {ChooseDateService} from './services/choose-date.service';
 import {TableComponent} from './table/table.component';
@@ -37,22 +38,23 @@ import {SomePipe} from '../pipes';
     ParticipantInfoComponent,
     IcalComponent,
   ],
-  imports: [
-    CommonModule,
-    PollRoutingModule,
-    ReactiveFormsModule,
-    FormsModule,
-    NgbModule,
-    ModalModule,
-    ToastModule,
-    CoreModule,
-    CalendarModule.forRoot({
-      provide: DateAdapter,
-      useFactory: adapterFactory,
-    }),
-    FlatpickrModule.forRoot(),
-    NgbxFormsModule,
-  ],
+    imports: [
+        CommonModule,
+        PollRoutingModule,
+        ReactiveFormsModule,
+        FormsModule,
+        NgbModule,
+        ModalModule,
+        ToastModule,
+        CoreModule,
+        CalendarModule.forRoot({
+            provide: DateAdapter,
+            useFactory: adapterFactory,
+        }),
+        FlatpickrModule.forRoot(),
+        NgbxFormsModule,
+        PollLogComponent,
+    ],
   providers: [ChooseDateService],
 })
 export class PollModule {

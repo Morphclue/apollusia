@@ -45,7 +45,7 @@ export class PollEventController {
     if (!this.pollService.isAdmin(pollDoc, token, user?.sub)) {
       throw new ForbiddenException('You are not allowed to edit events for this poll');
     }
-    return this.pollService.postEvents(poll, pollEvents);
+    return this.pollService.postEvents(poll, pollEvents, user);
   }
 
 }

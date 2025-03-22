@@ -28,6 +28,7 @@ import {KeycloakService} from '../auth/keycloak.service';
 import {environment} from '../environment';
 import {renderDate} from '../mail/helpers';
 import {MailService} from '../mail/mail/mail.service';
+import {PollLogService} from '../poll-log/poll-log.service';
 import {PushService} from '../push/push.service';
 
 @Injectable()
@@ -41,6 +42,7 @@ export class PollActionsService implements OnModuleInit {
     @InjectModel(Participant.name) private participantModel: Model<Participant>,
     private mailService: MailService,
     private pushService: PushService,
+    private pollLogService: PollLogService,
     private keycloakService: KeycloakService,
   ) {
   }
@@ -178,6 +180,7 @@ export class PollActionsService implements OnModuleInit {
       .select(readPollSelect)
       .populate<{participants: number}>('participants')
       .populate<{events: number}>('events')
+      .populate<{comments: number}>('comments')
       .sort({createdAt: -1})
       .exec();
   }
@@ -255,7 +258,7 @@ export class PollActionsService implements OnModuleInit {
     }));
   }
 
-  async postEvents(poll: Types.ObjectId, pollEvents: PollEventDto[]): Promise<PollEvent[]> {
+  async postEvents(poll: Types.ObjectId, pollEvents: PollEventDto[], user?: UserToken): Promise<PollEvent[]> {
     const pollDoc = await this.pollModel.findById(poll).exec() ?? notFound(poll);
 
     const oldEvents = await this.pollEventModel.find({poll}).exec();
@@ -277,6 +280,15 @@ export class PollActionsService implements OnModuleInit {
     await this.pollEventModel.deleteMany({_id: {$in: deletedEvents.map(event => event._id)}}).exec();
     await this.removeParticipations(poll, [...updatedEvents, ...deletedEvents]);
 
+    if (pollDoc.settings.logHistory) {
+      await this.pollLogService.create({
+        poll,
+        createdBy: user?.sub,
+        type: 'events.changed',
+        data: {created: newEvents.length, updated: updatedEvents.length, deleted: deletedEvents.length},
+      });
+    }
+
     for await (const participant of this.participantModel.find({
       poll,
       createdBy: {$exists: true},
@@ -293,13 +305,13 @@ export class PollActionsService implements OnModuleInit {
       return;
     }
 
-    if (kcUser.email && this.hasNotificationEnabled(kcUser, 'user:poll.updated:email')) {
+    if (kcUser.email && this.pushService.hasNotificationEnabled(kcUser, 'user:poll.updated:email')) {
       await this.mailService.sendMail(participant.name, kcUser.email, `Updates in Poll: ${poll.title}`, 'poll-updated', {
         poll: poll.toObject(),
         participant: participant.toObject(),
       });
     }
-    if (this.hasNotificationEnabled(kcUser, 'user:poll.updated:push')) {
+    if (this.pushService.hasNotificationEnabled(kcUser, 'user:poll.updated:push')) {
       await this.pushService.send(
         kcUser,
         `Updates in Poll: ${poll.title}`,
@@ -380,6 +392,12 @@ export class PollActionsService implements OnModuleInit {
       poll: new Types.ObjectId(id),
       createdBy: user?.sub,
     });
+    await this.pollLogService.create({
+      poll: id,
+      createdBy: user?.sub,
+      type: 'participant.created',
+      data: {participant: participant._id, name: participant.name},
+    });
 
     this.sendParticipantNotifications(poll, participant, user).catch(this.handleError);
     return participant;
@@ -388,16 +406,16 @@ export class PollActionsService implements OnModuleInit {
   private async sendParticipantNotifications(poll: Doc<Poll>, participant: Doc<Participant>, user: UserToken | undefined) {
     if (poll.createdBy && (poll.adminMail || poll.adminPush)) {
       const adminUser = await this.keycloakService.getUser(poll.createdBy);
-      if (poll.adminMail && adminUser && this.hasNotificationEnabled(adminUser, 'admin:participant.new:email')) {
+      if (poll.adminMail && adminUser && this.pushService.hasNotificationEnabled(adminUser, 'admin:participant.new:email')) {
         this.sendAdminInfo(poll, participant, adminUser).catch(this.handleError);
       }
-      if (poll.adminPush && adminUser && this.hasNotificationEnabled(adminUser, 'admin:participant.new:push')) {
+      if (poll.adminPush && adminUser && this.pushService.hasNotificationEnabled(adminUser, 'admin:participant.new:push')) {
         this.sendAdminPush(poll, participant, adminUser).catch(this.handleError);
       }
     }
     if (user?.email) {
       const kcUser = await this.keycloakService.getUser(user.sub);
-      if (kcUser && this.hasNotificationEnabled(kcUser, 'user:participant.new:email')) {
+      if (kcUser && this.pushService.hasNotificationEnabled(kcUser, 'user:participant.new:email')) {
         this.mailService.sendMail(participant.name, user.email, `Participated in Poll: ${poll.title}`, 'participated', {
           poll: poll.toObject(),
           participant: participant.toObject(),
@@ -442,10 +460,6 @@ export class PollActionsService implements OnModuleInit {
     );
   }
 
-  private hasNotificationEnabled(user: KeycloakUser, key: string) {
-    return user.attributes?.notifications?.includes(key) ?? true;
-  }
-
   async editParticipation(id: Types.ObjectId, participantId: Types.ObjectId, token: string, participant: UpdateParticipantDto): Promise<ReadParticipantDto | null> {
     const [poll, otherParticipants] = await Promise.all([
       this.getPoll(id),
@@ -469,7 +483,7 @@ export class PollActionsService implements OnModuleInit {
     return this.participantModel.findByIdAndDelete(participantId, {projection: readParticipantSelect}).exec();
   }
 
-  async bookEvents(id: Types.ObjectId, events: Poll['bookedEvents']): Promise<ReadPollDto> {
+  async bookEvents(id: Types.ObjectId, events: Poll['bookedEvents'], user?: UserToken): Promise<ReadPollDto> {
     const poll = await this.pollModel.findByIdAndUpdate(id, {
       bookedEvents: events,
     }, {new: true})
@@ -479,6 +493,14 @@ export class PollActionsService implements OnModuleInit {
       poll: id,
       _id: {$in: Object.keys(events).map(e => new Types.ObjectId(e))},
     });
+    if (poll.settings.logHistory) {
+      await this.pollLogService.create({
+        poll: id,
+        createdBy: user?.sub,
+        type: 'poll.booked',
+        data: {booked: Object.keys(events).length},
+      });
+    }
     for await (const participant of this.participantModel.find({
       poll: id,
       createdBy: {$exists: true},
@@ -498,8 +520,8 @@ export class PollActionsService implements OnModuleInit {
       return;
     }
 
-    const sendPush = kcUser.attributes?.pushTokens?.length && this.hasNotificationEnabled(kcUser, 'user:poll.booked:push');
-    const sendEmail = kcUser.email && this.hasNotificationEnabled(kcUser, 'user:poll.booked:email');
+    const sendPush = kcUser.attributes?.pushTokens?.length && this.pushService.hasNotificationEnabled(kcUser, 'user:poll.booked:push');
+    const sendEmail = kcUser.email && this.pushService.hasNotificationEnabled(kcUser, 'user:poll.booked:email');
     if (!sendPush && !sendEmail) {
       return;
     }
