@@ -6,7 +6,7 @@
     </div>
     <textarea class="form-control card-body" placeholder="Your comment" [(ngModel)]="commentBody"></textarea>
     <div class="card-footer d-flex align-items-center">
-      <button class="btn btn-primary bi-send" (click)="postComment()">
+      <button class="btn btn-primary bi-send" [disabled]="!(commentName && commentBody)" (click)="postComment()">
         Send
       </button>
       <span class="ms-3 bi-info-circle">

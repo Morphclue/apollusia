@@ -75,6 +75,7 @@ export class PollLogComponent implements OnInit {
         body: this.commentBody,
       },
     }).subscribe(log => {
+      this.commentBody = '';
       this.addUnique(log);
     });
   }
