@@ -332,18 +332,24 @@ export class PollActionsService implements OnModuleInit {
     }, {timestamps: false});
   }
 
-  async getParticipants(id: Types.ObjectId, token: string): Promise<ReadParticipantDto[]> {
+  async getParticipants(id: Types.ObjectId, token: string, user?: UserToken): Promise<ReadParticipantDto[]> {
     const poll = await this.pollService.find(id) ?? notFound(id);
     const currentParticipant = await this.participantService.findAll({
       poll: id,
-      token,
+      ...(user ? {
+        $or: [
+          {createdBy: user.sub},
+          {token},
+        ],
+      }: {
+        token,
+      }),
     });
 
     if (this.canViewResults(poll, token, currentParticipant.length > 0)) {
       const participants = await this.participantService.findAll({
         poll: id,
-        token: {$ne: token},
-        // FIXME also use createdBy
+        _id: {$nin: currentParticipant.map(p => p._id)},
       }, {
         projection: readParticipantSelect,
       });
