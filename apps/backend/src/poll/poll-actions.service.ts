@@ -194,7 +194,7 @@ export class PollActionsService implements OnModuleInit {
   async postPoll(pollDto: PollDto, user?: UserToken): Promise<ReadPollDto> {
     const poll = await this.pollService.create({
       ...pollDto,
-      id: undefined!, // FIXME maybe this can be avoided
+      id: undefined!, // required to pass type check, but ignored
       createdBy: user?.sub,
     });
     return this.mask(poll.toObject());
