@@ -15,11 +15,13 @@ export class ParticipantController {
   }
 
   @Get()
+  @UseGuards(OptionalAuthGuard)
   async findAll(
     @Param('poll', ObjectIdPipe) poll: Types.ObjectId,
     @Headers('Participant-Token') token: string,
+    @AuthUser() user?: UserToken,
   ): Promise<ReadParticipantDto[]> {
-    return this.pollService.getParticipants(poll, token);
+    return this.pollService.getParticipants(poll, token, user);
   }
 
   @Post()
