@@ -27,6 +27,10 @@ export class PushService implements OnModuleInit {
     }
   }
 
+  hasNotificationEnabled(user: KeycloakUser, key: string) {
+    return user.attributes?.notifications?.includes(key) ?? true;
+  }
+
   async send(kcUser: KeycloakUser, title: string, body: string, url: string) {
     const payload = {
       notification: {

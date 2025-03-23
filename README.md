@@ -47,6 +47,9 @@ All features are completely free and can be used without registration.
   <img src="docs/bootstrap-icons/icons/eye-slash.svg" alt="eye-slash" align="right" height="50">
   <dt>Blind participation</dt>
   <dd>Participants can't see other participants until they participate</dd>
+  <img src="docs/bootstrap-icons/icons/chat-dots.svg" alt="chat-dots" align="right" height="50">
+  <dt>Comments</dt>
+  <dd>Add comments to a poll</dd>
 </dl>
 
 ### Poll Options
@@ -101,6 +104,9 @@ All features are completely free and can be used without registration.
   <img src="docs/bootstrap-icons/icons/envelope.svg" alt="envelope" align="right" height="50">
   <dt>Email Updates</dt>
   <dd>Receive detailed updates to polls and participations via Email</dd>
+  <img src="docs/bootstrap-icons/icons/clock-history.svg" alt="clock-history" align="right" height="50">
+  <dt>History</dt>
+  <dd>See all changes to a poll</dd>
 </dl>
 
 

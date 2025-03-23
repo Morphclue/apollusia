@@ -95,9 +95,11 @@ export class PollController {
   }
 
   @Post(':id/book')
+  @UseGuards(OptionalAuthGuard)
   async bookEvents(
     @Param('id', ObjectIdPipe) id: Types.ObjectId,
     @Body() events: Record<string, string[] | true>,
+    @AuthUser() user?: UserToken,
   ): Promise<ReadPollDto> {
     const poll = await this.pollService.getPoll(id);
     if (!poll) {
@@ -109,6 +111,6 @@ export class PollController {
       .entries(events)
       .map(([key, value]) => [key, value === true ? true as const : value.map(v => new Types.ObjectId(v))]),
     );
-    return this.pollService.bookEvents(id, bookedEvents);
+    return this.pollService.bookEvents(id, bookedEvents, user);
   }
 }

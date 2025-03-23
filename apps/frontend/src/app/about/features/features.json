@@ -38,7 +38,7 @@
       "title": "Comments",
       "description": "Add comments to a poll",
       "support": {
-        "Apollusia": false,
+        "Apollusia": true,
         "Doodle": false,
         "DuD-Poll": true,
         "Calendly": false
@@ -194,22 +194,22 @@
       }
     },
     {
-      "icon": "universal-access-circle",
-      "title": "Access Control",
-      "description": "Restrict access to your poll",
+      "icon": "clock-history",
+      "title": "History",
+      "description": "See all changes to a poll",
       "support": {
-        "Apollusia": "Only for creator, but planned. See #60",
+        "Apollusia": true,
         "Doodle": false,
         "DuD-Poll": true,
         "Calendly": false
       }
     },
     {
-      "icon": "clock-history",
-      "title": "History",
-      "description": "See all changes to a poll",
+      "icon": "universal-access-circle",
+      "title": "Access Control",
+      "description": "Restrict access to your poll",
       "support": {
-        "Apollusia": false,
+        "Apollusia": "Only for creator, but planned. See #60",
         "Doodle": false,
         "DuD-Poll": true,
         "Calendly": false

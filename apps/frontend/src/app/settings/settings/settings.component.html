@@ -114,6 +114,7 @@
                     class="form-check-input"
                     type="checkbox"
                     [(ngModel)]="notifications[type.key + ':email']"
+                    [disabled]="type.email === false"
                   />
                 </div>
               </td>
