@@ -1,6 +1,8 @@
 import {Participant, ParticipantSchema, Poll, PollEvent, PollEventSchema, PollSchema} from '@apollusia/types';
 import {forwardRef, Module} from '@nestjs/common';
 import {MongooseModule} from '@nestjs/mongoose';
+import {ParticipantModule} from '../participant/participant.module';
+import {PollEventModule} from '../poll-event/poll-event.module';
 
 import {PollActionsService} from './poll-actions.service';
 import {PollController} from './poll.controller';
@@ -20,6 +22,8 @@ import {PushModule} from '../push/push.module';
     MailModule,
     PushModule,
     KeycloakModule,
+    forwardRef(() => PollEventModule),
+    forwardRef(() => ParticipantModule),
     forwardRef(() => PollLogModule),
   ],
   providers: [PollService, PollActionsService],

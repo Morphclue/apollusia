@@ -184,12 +184,6 @@ export class PollActionsService implements OnModuleInit {
     }) as any;
   }
 
-  // Only for internal use
-  // TODO remove this method
-  async find(id: Types.ObjectId): Promise<Doc<Poll> | null> {
-    return this.pollService.find(id);
-  }
-
   getPoll(id: Types.ObjectId): Promise<Doc<ReadPollDto> | null> {
     return this.pollService.find(id, {
       projection: readPollSelect,
@@ -247,8 +241,8 @@ export class PollActionsService implements OnModuleInit {
 
   async getEvents(id: Types.ObjectId): Promise<ReadPollEventDto[]> {
     const [events, participants] = await Promise.all([
-      this.pollEventService.findAll({poll: new Types.ObjectId(id)}, {sort: {start: 1}}),
-      this.participantService.findAll({poll: new Types.ObjectId(id)}),
+      this.pollEventService.findAll({poll: id}, {sort: {start: 1}}),
+      this.participantService.findAll({poll: id}),
     ]);
     return events.map(event => ({
       ...event.toObject(),
@@ -341,14 +335,15 @@ export class PollActionsService implements OnModuleInit {
   async getParticipants(id: Types.ObjectId, token: string): Promise<ReadParticipantDto[]> {
     const poll = await this.pollService.find(id) ?? notFound(id);
     const currentParticipant = await this.participantService.findAll({
-      poll: new Types.ObjectId(id),
+      poll: id,
       token,
     });
 
     if (this.canViewResults(poll, token, currentParticipant.length > 0)) {
       const participants = await this.participantService.findAll({
-        poll: new Types.ObjectId(id),
+        poll: id,
         token: {$ne: token},
+        // FIXME also use createdBy
       }, {
         projection: readParticipantSelect,
       });
@@ -374,13 +369,9 @@ export class PollActionsService implements OnModuleInit {
     }
   }
 
-  async findAllParticipants(poll: Types.ObjectId): Promise<Participant[]> {
-    return this.participantService.findAll({poll});
-  }
-
   async postParticipation(id: Types.ObjectId, dto: CreateParticipantDto, user?: UserToken): Promise<Participant> {
     const poll = await this.pollService.find(id) ?? notFound(id);
-    const otherParticipants = await this.findAllParticipants(poll._id);
+    const otherParticipants = await this.participantService.findAll(poll._id);
     const errors = checkParticipant(dto, poll.toObject(), otherParticipants);
     if (errors.length) {
       throw new UnprocessableEntityException(errors);
@@ -388,7 +379,7 @@ export class PollActionsService implements OnModuleInit {
 
     const participant = await this.participantService.create({
       ...dto,
-      poll: new Types.ObjectId(id),
+      poll: id,
       createdBy: user?.sub,
     });
     await this.pollLogService.create({
@@ -462,7 +453,7 @@ export class PollActionsService implements OnModuleInit {
   async editParticipation(id: Types.ObjectId, participantId: Types.ObjectId, token: string, participant: UpdateParticipantDto): Promise<ReadParticipantDto | null> {
     const [poll, otherParticipants] = await Promise.all([
       this.getPoll(id),
-      this.findAllParticipants(new Types.ObjectId(id)),
+      this.participantService.findAll(id),
     ]);
     if (!poll) {
       notFound(id);
