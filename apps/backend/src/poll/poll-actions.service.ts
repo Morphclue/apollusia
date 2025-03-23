@@ -10,7 +10,7 @@ import {
   readParticipantSelect,
   ReadPollDto,
   ReadPollEventDto,
-  readPollExcluded,
+  readPollExcluded, readPollPopulate,
   readPollSelect,
   ReadStatsPollDto,
   ShowResultOptions,
@@ -19,15 +19,17 @@ import {
 import {UserToken} from '@mean-stream/nestx/auth';
 import {notFound} from '@mean-stream/nestx/not-found';
 import {Doc} from '@mean-stream/nestx/ref';
-import {Injectable, Logger, NotFoundException, OnModuleInit, UnprocessableEntityException} from '@nestjs/common';
-import {InjectModel} from '@nestjs/mongoose';
-import {Document, FilterQuery, Model, Types} from 'mongoose';
+import {Injectable, Logger, OnModuleInit, UnprocessableEntityException} from '@nestjs/common';
+import {Document, FilterQuery, Types} from 'mongoose';
 
 import {KeycloakUser} from '../auth/keycloak-user.interface';
 import {KeycloakService} from '../auth/keycloak.service';
 import {environment} from '../environment';
+import {PollService} from './poll.service';
 import {renderDate} from '../mail/helpers';
 import {MailService} from '../mail/mail/mail.service';
+import {ParticipantService} from '../participant/participant.service';
+import {PollEventService} from '../poll-event/poll-event.service';
 import {PollLogService} from '../poll-log/poll-log.service';
 import {PushService} from '../push/push.service';
 
@@ -37,12 +39,12 @@ export class PollActionsService implements OnModuleInit {
   private handleError = (err: Error) => this.logger.error(err.message, err.stack);
 
   constructor(
-    @InjectModel(Poll.name) private pollModel: Model<Poll>,
-    @InjectModel(PollEvent.name) private pollEventModel: Model<PollEvent>,
-    @InjectModel(Participant.name) private participantModel: Model<Participant>,
     private mailService: MailService,
     private pushService: PushService,
+    private pollService: PollService,
+    private pollEventService: PollEventService,
     private pollLogService: PollLogService,
+    private participantService: ParticipantService,
     private keycloakService: KeycloakService,
   ) {
   }
@@ -57,12 +59,12 @@ export class PollActionsService implements OnModuleInit {
   }
 
   private async migrateSelection() {
-    const participants = await this.participantModel.find({
+    const participants = await this.participantService.findAll({
       $or: [
         {participation: {$exists: true}},
         {indeterminateParticipation: {$exists: true}},
       ],
-    }).exec();
+    });
     for (const participant of participants) {
       participant.selection ||= {};
       for (const participation of (participant as any).participation || []) {
@@ -75,12 +77,12 @@ export class PollActionsService implements OnModuleInit {
       participant.set('participation', undefined);
       participant.set('indeterminateParticipation', undefined);
     }
-    await this.participantModel.bulkSave(participants, {timestamps: false});
+    await this.participantService.model.bulkSave(participants, {timestamps: false});
     participants.length && this.logger.log(`Migrated ${participants.length} participants to the new selection format.`);
   }
 
   private async migratePollEvents() {
-    const pollEvents = await this.pollEventModel.find({
+    const pollEvents = await this.pollEventService.findAll({
       $or: [
         {start: {$type: 'string'}},
         {end: {$type: 'string'}},
@@ -94,12 +96,12 @@ export class PollActionsService implements OnModuleInit {
       pollEvent.markModified('start');
       pollEvent.markModified('end');
     }
-    await this.pollEventModel.bulkSave(pollEvents, {timestamps: false});
+    await this.pollEventService.model.bulkSave(pollEvents, {timestamps: false});
     pollEvents.length && this.logger.log(`Migrated ${pollEvents.length} poll events to the new date format.`);
   }
 
   private async migrateShowResults() {
-    const result = await this.pollModel.updateMany(
+    const result = await this.pollEventService.updateMany(
       {'settings.blindParticipation': {$exists: true}},
       [
         {
@@ -118,13 +120,13 @@ export class PollActionsService implements OnModuleInit {
         },
       ],
       {timestamps: false},
-    ).exec();
+    );
     result.modifiedCount && this.logger.log(`Migrated ${result.modifiedCount} polls to the new show result format.`);
   }
 
   private async migrateBookedEvents() {
     // migrate all Poll's bookedEvents: ObjectId[] to Record<ObjectId, true>
-    const polls = await this.pollModel.find({bookedEvents: {$type: 'array'}}).exec();
+    const polls = await this.pollService.findAll({bookedEvents: {$type: 'array'}});
     if (!polls.length) {
       return;
     }
@@ -138,7 +140,7 @@ export class PollActionsService implements OnModuleInit {
       poll.bookedEvents = newBookedEvents;
       poll.markModified('bookedEvents');
     }
-    await this.pollModel.bulkSave(polls, {timestamps: false});
+    await this.pollService.model.bulkSave(polls, {timestamps: false});
     this.logger.log(`Migrated ${polls.length} polls to the new booked events format.`);
   }
 
@@ -168,39 +170,39 @@ export class PollActionsService implements OnModuleInit {
   }
 
   async getParticipatedPolls(token: string): Promise<ReadStatsPollDto[]> {
-    const pollIds = await this.participantModel.distinct('poll', {token}).exec();
+    const pollIds = await this.participantService.distinct('poll', {token});
     return this.readPolls({
       _id: {$in: pollIds},
     });
   }
 
-  private async readPolls(filter: FilterQuery<Poll>): Promise<ReadStatsPollDto[]> {
-    return this.pollModel
-      .find(filter)
-      .select(readPollSelect)
-      .populate<{participants: number}>('participants')
-      .populate<{events: number}>('events')
-      .populate<{comments: number}>('comments')
-      .sort({createdAt: -1})
-      .exec();
+  private readPolls(filter: FilterQuery<Poll>): Promise<ReadStatsPollDto[]> {
+    return this.pollService.findAll(filter, {
+      projection: readPollSelect,
+      populate: readPollPopulate,
+      sort: {createdAt: -1},
+    }) as any;
   }
 
   // Only for internal use
+  // TODO remove this method
   async find(id: Types.ObjectId): Promise<Doc<Poll> | null> {
-    return this.pollModel.findById(id).exec();
+    return this.pollService.find(id);
   }
 
-  async getPoll(id: Types.ObjectId): Promise<Doc<ReadPollDto> | null> {
-    return this.pollModel
-      .findById(id)
-      .select(readPollSelect)
-      .populate<{participants: number}>('participants')
-      .populate<{events: number}>('events')
-      .exec();
+  getPoll(id: Types.ObjectId): Promise<Doc<ReadPollDto> | null> {
+    return this.pollService.find(id, {
+      projection: readPollSelect,
+      populate: readPollPopulate,
+    }) as any;
   }
 
   async postPoll(pollDto: PollDto, user?: UserToken): Promise<ReadPollDto> {
-    const poll = await this.pollModel.create(user ? {...pollDto, createdBy: user.sub} : pollDto);
+    const poll = await this.pollService.create({
+      ...pollDto,
+      id: undefined!, // FIXME maybe this can be avoided
+      createdBy: user?.sub,
+    });
     return this.mask(poll.toObject());
   }
 
@@ -214,21 +216,20 @@ export class PollActionsService implements OnModuleInit {
   }
 
   async putPoll(id: Types.ObjectId, pollDto: PollDto): Promise<ReadPollDto | null> {
-    return this.pollModel.findByIdAndUpdate(id, pollDto, {new: true}).select(readPollSelect).exec();
+    return this.pollService.update(id, pollDto, {
+      projection: readPollSelect,
+    });
   }
 
   async clonePoll(id: Types.ObjectId): Promise<ReadPollDto | null> {
-    const poll = await this.pollModel.findById(id).exec();
-    if (!poll) {
-      return null;
-    }
+    const poll = await this.pollService.find(id) ?? notFound(id);
     const {_id, id: _, title, ...rest} = poll.toObject();
-    const pollEvents = await this.pollEventModel.find({poll: new Types.ObjectId(id)}).exec();
+    const pollEvents = await this.pollEventService.findAll({poll: id});
     const clonedPoll = await this.postPoll({
       ...rest,
       title: `${title} (clone)`,
     });
-    await this.pollEventModel.create(pollEvents.map(({start, end, note}) => ({
+    await this.pollEventService.createMany(pollEvents.map(({start, end, note}) => ({
       poll: clonedPoll._id,
       start,
       end,
@@ -238,16 +239,16 @@ export class PollActionsService implements OnModuleInit {
   }
 
   async deletePoll(id: Types.ObjectId): Promise<ReadPollDto | null> {
-    const poll = await this.pollModel.findByIdAndDelete(id, {projection: readPollSelect}).exec();
-    await this.pollEventModel.deleteMany({poll: id}).exec();
-    await this.participantModel.deleteMany({poll: id}).exec();
+    const poll = await this.pollService.delete(id, {projection: readPollSelect});
+    await this.pollEventService.deleteMany({poll: id});
+    await this.participantService.deleteMany({poll: id});
     return poll;
   }
 
   async getEvents(id: Types.ObjectId): Promise<ReadPollEventDto[]> {
     const [events, participants] = await Promise.all([
-      this.pollEventModel.find({poll: new Types.ObjectId(id)}).sort({start: 1}).exec(),
-      this.participantModel.find({poll: new Types.ObjectId(id)}).exec(),
+      this.pollEventService.findAll({poll: new Types.ObjectId(id)}, {sort: {start: 1}}),
+      this.participantService.findAll({poll: new Types.ObjectId(id)}),
     ]);
     return events.map(event => ({
       ...event.toObject(),
@@ -259,11 +260,11 @@ export class PollActionsService implements OnModuleInit {
   }
 
   async postEvents(poll: Types.ObjectId, pollEvents: PollEventDto[], user?: UserToken): Promise<PollEvent[]> {
-    const pollDoc = await this.pollModel.findById(poll).exec() ?? notFound(poll);
+    const pollDoc = await this.pollService.find(poll) ?? notFound(poll);
 
-    const oldEvents = await this.pollEventModel.find({poll}).exec();
+    const oldEvents = await this.pollEventService.findAll({poll});
     const newEvents = pollEvents.filter(event => !oldEvents.some(oldEvent => oldEvent._id.equals(event._id)));
-    await this.pollEventModel.create(newEvents.map(event => ({...event, poll})));
+    await this.pollEventService.createMany(newEvents.map(event => ({...event, poll})));
 
     const updatedEvents = pollEvents.filter(event => {
       const oldEvent = oldEvents.find(e => e._id.equals(event._id));
@@ -273,11 +274,13 @@ export class PollActionsService implements OnModuleInit {
       return oldEvent.start.valueOf() !== event.start.valueOf() || oldEvent.end.valueOf() !== event.end.valueOf();
     });
     if (updatedEvents.length > 0) {
-      await Promise.all(updatedEvents.map(event => this.pollEventModel.findByIdAndUpdate(event._id, event)));
+      // TODO use saveAll
+      await Promise.all(updatedEvents.map(event => this.pollEventService.update(new Types.ObjectId(event._id), event)));
     }
 
+    // TODO use saveAll
     const deletedEvents = oldEvents.filter(event => !pollEvents.some(e => event._id.equals(e._id)));
-    await this.pollEventModel.deleteMany({_id: {$in: deletedEvents.map(event => event._id)}}).exec();
+    await this.pollEventService.deleteMany({_id: {$in: deletedEvents.map(event => event._id)}});
     await this.removeParticipations(poll, [...updatedEvents, ...deletedEvents]);
 
     if (pollDoc.settings.logHistory) {
@@ -289,14 +292,15 @@ export class PollActionsService implements OnModuleInit {
       });
     }
 
-    for await (const participant of this.participantModel.find({
+    for await (const participant of this.participantService.model.find({
       poll,
       createdBy: {$exists: true},
     })) {
       this.sendPollChangeNotification(pollDoc, participant).catch(this.handleError);
     }
 
-    return this.pollEventModel.find({poll}).exec();
+    // TODO use saveAll and return the updated events without re-fetch
+    return this.pollEventService.findAll({poll});
   }
 
   private async sendPollChangeNotification(poll: Doc<Poll>, participant: Doc<Participant>) {
@@ -329,26 +333,25 @@ export class PollActionsService implements OnModuleInit {
       poll,
       $or: events.map(e => ({['selection.' + e._id]: {$exists: true}})),
     };
-    await this.participantModel.updateMany(filter, {
+    await this.participantService.updateMany(filter, {
       $unset: events.reduce((acc, e) => ({...acc, ['selection.' + e._id]: true}), {})
-    }, {timestamps: false}).exec();
+    }, {timestamps: false});
   }
 
   async getParticipants(id: Types.ObjectId, token: string): Promise<ReadParticipantDto[]> {
-    const poll = await this.pollModel.findById(id).exec();
-    if (!poll) {
-      throw new NotFoundException(id);
-    }
-    const currentParticipant = await this.participantModel.find({
+    const poll = await this.pollService.find(id) ?? notFound(id);
+    const currentParticipant = await this.participantService.findAll({
       poll: new Types.ObjectId(id),
       token,
-    }).exec();
+    });
 
     if (this.canViewResults(poll, token, currentParticipant.length > 0)) {
-      const participants = await this.participantModel.find({
+      const participants = await this.participantService.findAll({
         poll: new Types.ObjectId(id),
         token: {$ne: token},
-      }).select(readParticipantSelect).exec();
+      }, {
+        projection: readParticipantSelect,
+      });
       return [...participants, ...currentParticipant];
     }
 
@@ -372,22 +375,18 @@ export class PollActionsService implements OnModuleInit {
   }
 
   async findAllParticipants(poll: Types.ObjectId): Promise<Participant[]> {
-    return this.participantModel.find({poll}).exec();
+    return this.participantService.findAll({poll});
   }
 
   async postParticipation(id: Types.ObjectId, dto: CreateParticipantDto, user?: UserToken): Promise<Participant> {
-    const poll = await this.pollModel.findById(id).exec();
-    if (!poll) {
-      throw new NotFoundException(id);
-    }
-
+    const poll = await this.pollService.find(id) ?? notFound(id);
     const otherParticipants = await this.findAllParticipants(poll._id);
     const errors = checkParticipant(dto, poll.toObject(), otherParticipants);
     if (errors.length) {
       throw new UnprocessableEntityException(errors);
     }
 
-    const participant = await this.participantModel.create({
+    const participant = await this.participantService.create({
       ...dto,
       poll: new Types.ObjectId(id),
       createdBy: user?.sub,
@@ -473,23 +472,23 @@ export class PollActionsService implements OnModuleInit {
     if (errors.length) {
       throw new UnprocessableEntityException(errors);
     }
-    return this.participantModel.findOneAndUpdate({
+    return this.participantService.updateOne({
       _id: participantId,
       token,
-    }, participant, {new: true}).exec();
+    }, participant);
   }
 
   async deleteParticipation(id: Types.ObjectId, participantId: Types.ObjectId): Promise<ReadParticipantDto | null> {
-    return this.participantModel.findByIdAndDelete(participantId, {projection: readParticipantSelect}).exec();
+    return this.participantService.delete(participantId, {projection: readParticipantSelect});
   }
 
   async bookEvents(id: Types.ObjectId, events: Poll['bookedEvents'], user?: UserToken): Promise<ReadPollDto> {
-    const poll = await this.pollModel.findByIdAndUpdate(id, {
+    const poll = await this.pollService.update(id, {
       bookedEvents: events,
-    }, {new: true})
-      .select(readPollSelect)
-      .exec() ?? notFound(id);
-    const eventDocs = await this.pollEventModel.find({
+    }, {
+      projection: readPollSelect,
+    }) ?? notFound(id);
+    const eventDocs = await this.pollEventService.findAll({
       poll: id,
       _id: {$in: Object.keys(events).map(e => new Types.ObjectId(e))},
     });
@@ -501,7 +500,7 @@ export class PollActionsService implements OnModuleInit {
         data: {booked: Object.keys(events).length},
       });
     }
-    for await (const participant of this.participantModel.find({
+    for await (const participant of this.participantService.model.find({
       poll: id,
       createdBy: {$exists: true},
     })) {
@@ -575,7 +574,7 @@ export class PollActionsService implements OnModuleInit {
   }
 
   async claimPolls(adminToken: string, createdBy: string): Promise<void> {
-    await this.pollModel.updateMany({adminToken}, {createdBy}).exec();
-    await this.participantModel.updateMany({token: adminToken}, {createdBy}, {timestamps: false}).exec();
+    await this.pollService.updateMany({adminToken}, {createdBy});
+    await this.participantService.updateMany({token: adminToken}, {createdBy}, {timestamps: false});
   }
 }
