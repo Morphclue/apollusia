@@ -37,7 +37,7 @@ export class PollLogComponent implements OnInit {
       switchMap(({id}) => this.pollService.getLogs(id, {limit: this.limit})),
     ).subscribe(logs => {
       if (logs.length === this.limit) {
-        this.logs = logs.slice(1);
+        this.logs = logs.slice(0, -1);
         this.showMore = true;
       } else {
         this.logs = logs;
@@ -55,13 +55,13 @@ export class PollLogComponent implements OnInit {
   loadMore() {
     this.pollService.getLogs(this.route.snapshot.params['id'], {
       limit: this.limit,
-      createdBefore: this.logs[0].createdAt.toString(),
+      createdBefore: this.logs.at(-1)?.createdAt.toString(),
     }).subscribe(logs => {
       if (logs.length === this.limit) {
-        this.logs.unshift(...logs.slice(1));
+        this.logs.push(...logs.slice(0, -1));
         this.showMore = true;
       } else {
-        this.logs.unshift(...logs);
+        this.logs.push(...logs);
         this.showMore = false;
       }
     });
@@ -84,7 +84,7 @@ export class PollLogComponent implements OnInit {
     if (index >= 0) {
       this.logs[index] = log;
     } else {
-      this.logs.push(log);
+      this.logs.unshift(log);
     }
   }
 }

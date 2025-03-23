@@ -48,7 +48,7 @@ export class PollLogController {
     }, {
       limit,
       sort: {createdAt: -1}, // sort by latest first to get the latest events
-    })).reverse(); // then reverse
+    }));
   }
 
   @Sse('events')

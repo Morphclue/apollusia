@@ -1,16 +1,25 @@
+@if (poll.settings.allowComments) {
+  <hr/>
+  <div class="card">
+    <div class="card-header">
+      <input type="text" class="form-control" placeholder="Your name" [(ngModel)]="commentName">
+    </div>
+    <textarea class="form-control card-body" placeholder="Your comment" [(ngModel)]="commentBody"></textarea>
+    <div class="card-footer d-flex align-items-center">
+      <button class="btn btn-primary bi-send" (click)="postComment()">
+        Send
+      </button>
+      <span class="ms-3 bi-info-circle">
+        Your comment will be visible to all participants.
+      </span>
+    </div>
+  </div>
+} @else {
+  <div class="alert alert-info">
+    Comments are disabled for this poll.
+  </div>
+}
 <ol class="timeline-list">
-  @if (showMore) {
-    <li class="timeline-item">
-      <div class="timeline-item-badge bg-secondary">
-        <i class="bi-three-dots-vertical"></i>
-      </div>
-      <div class="timeline-item-body">
-        <button class="btn btn-link m-0 p-0" (click)="loadMore()">
-          Load older items...
-        </button>
-      </div>
-    </li>
-  }
   @for (log of logs; track log._id) {
     <li class="timeline-item">
       @switch (log.type) {
@@ -73,25 +82,16 @@
       }
     </li>
   }
+  @if (showMore) {
+    <li class="timeline-item">
+      <div class="timeline-item-badge bg-secondary">
+        <i class="bi-three-dots-vertical"></i>
+      </div>
+      <div class="timeline-item-body">
+        <button class="btn btn-link m-0 p-0" (click)="loadMore()">
+          Load older items...
+        </button>
+      </div>
+    </li>
+  }
 </ol>
-@if (poll.settings.allowComments) {
-  <hr/>
-  <div class="card">
-    <div class="card-header">
-      <input type="text" class="form-control" placeholder="Your name" [(ngModel)]="commentName">
-    </div>
-    <textarea class="form-control card-body" placeholder="Your comment" [(ngModel)]="commentBody"></textarea>
-    <div class="card-footer d-flex align-items-center">
-      <button class="btn btn-primary bi-send" (click)="postComment()">
-        Send
-      </button>
-      <span class="ms-3 bi-info-circle">
-        Your comment will be visible to all participants.
-      </span>
-    </div>
-  </div>
-} @else {
-  <div class="alert alert-info">
-    Comments are disabled for this poll.
-  </div>
-}
