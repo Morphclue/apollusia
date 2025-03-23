@@ -10,7 +10,8 @@ import {
   readParticipantSelect,
   ReadPollDto,
   ReadPollEventDto,
-  readPollExcluded, readPollPopulate,
+  readPollExcluded,
+  readPollPopulate,
   readPollSelect,
   ReadStatsPollDto,
   ShowResultOptions,
@@ -25,13 +26,13 @@ import {Document, FilterQuery, Types} from 'mongoose';
 import {KeycloakUser} from '../auth/keycloak-user.interface';
 import {KeycloakService} from '../auth/keycloak.service';
 import {environment} from '../environment';
-import {PollService} from './poll.service';
 import {renderDate} from '../mail/helpers';
 import {MailService} from '../mail/mail/mail.service';
 import {ParticipantService} from '../participant/participant.service';
 import {PollEventService} from '../poll-event/poll-event.service';
 import {PollLogService} from '../poll-log/poll-log.service';
 import {PushService} from '../push/push.service';
+import {PollService} from './poll.service';
 
 @Injectable()
 export class PollActionsService implements OnModuleInit {
@@ -253,39 +254,54 @@ export class PollActionsService implements OnModuleInit {
     }));
   }
 
-  async postEvents(poll: Types.ObjectId, pollEvents: PollEventDto[], user?: UserToken): Promise<PollEvent[]> {
+  async postEvents(poll: Types.ObjectId, newEvents: PollEventDto[], user?: UserToken): Promise<PollEvent[]> {
     const pollDoc = await this.pollService.find(poll) ?? notFound(poll);
-
     const oldEvents = await this.pollEventService.findAll({poll});
-    const newEvents = pollEvents.filter(event => !oldEvents.some(oldEvent => oldEvent._id.equals(event._id)));
-    await this.pollEventService.createMany(newEvents.map(event => ({...event, poll})));
 
-    const updatedEvents = pollEvents.filter(event => {
-      const oldEvent = oldEvents.find(e => e._id.equals(event._id));
-      if (!oldEvent) {
-        return false;
+    // Step 1: collect which events are created, updated and deleted
+    const createEvents = newEvents
+      .filter(event => !oldEvents.some(oldEvent => oldEvent._id.equals(event._id)));
+    const updateEvents: Doc<PollEvent>[] = [];
+    const deleteEvents: Doc<PollEvent>[] = [];
+
+    const clearParticipation: Types.ObjectId[] = [];
+    for (const event of oldEvents) {
+      const updated = newEvents.find(e => event._id.equals(e._id));
+      if (updated) {
+        if (event.start.valueOf() !== updated.start.valueOf() || event.end.valueOf() !== updated.end.valueOf()) {
+          // The event has changed time, clear participation
+          clearParticipation.push(event._id);
+        }
+        event.set(updated);
+        updateEvents.push(event);
+      } else {
+        // mark deleted
+        clearParticipation.push(event._id);
+        deleteEvents.push(event);
       }
-      return oldEvent.start.valueOf() !== event.start.valueOf() || oldEvent.end.valueOf() !== event.end.valueOf();
-    });
-    if (updatedEvents.length > 0) {
-      // TODO use saveAll
-      await Promise.all(updatedEvents.map(event => this.pollEventService.update(new Types.ObjectId(event._id), event)));
     }
 
-    // TODO use saveAll
-    const deletedEvents = oldEvents.filter(event => !pollEvents.some(e => event._id.equals(e._id)));
-    await this.pollEventService.deleteMany({_id: {$in: deletedEvents.map(event => event._id)}});
-    await this.removeParticipations(poll, [...updatedEvents, ...deletedEvents]);
+    // Step 2: Apply changes to events
+    const createdEvents = await this.pollEventService.createMany(
+      createEvents.map(event => ({...event, poll}))
+    );
+    await this.pollEventService.saveAll(updateEvents);
+    await this.pollEventService.deleteAll(deleteEvents);
 
+    // Step 4: Clear selection of participants for relevant events
+    await this.removeParticipations(poll, clearParticipation);
+
+    // Step 5: Log the changes
     if (pollDoc.settings.logHistory) {
       await this.pollLogService.create({
         poll,
         createdBy: user?.sub,
         type: 'events.changed',
-        data: {created: newEvents.length, updated: updatedEvents.length, deleted: deletedEvents.length},
+        data: {created: createdEvents.length, updated: updateEvents.length, deleted: deleteEvents.length},
       });
     }
 
+    // Step 6: Notify participants about the changes
     for await (const participant of this.participantService.model.find({
       poll,
       createdBy: {$exists: true},
@@ -293,8 +309,8 @@ export class PollActionsService implements OnModuleInit {
       this.sendPollChangeNotification(pollDoc, participant).catch(this.handleError);
     }
 
-    // TODO use saveAll and return the updated events without re-fetch
-    return this.pollEventService.findAll({poll});
+    // Return the new list of events
+    return [...createdEvents, ...updateEvents];
   }
 
   private async sendPollChangeNotification(poll: Doc<Poll>, participant: Doc<Participant>) {
@@ -319,16 +335,16 @@ export class PollActionsService implements OnModuleInit {
     }
   }
 
-  private async removeParticipations(poll: Types.ObjectId, events: (PollEventDto | Doc<PollEvent>)[]) {
+  private async removeParticipations(poll: Types.ObjectId, events: Types.ObjectId[]) {
     if (!events.length) {
       return;
     }
     const filter = {
       poll,
-      $or: events.map(e => ({['selection.' + e._id]: {$exists: true}})),
+      $or: events.map(e => ({[`selection.${e}`]: {$exists: true}})),
     };
     await this.participantService.updateMany(filter, {
-      $unset: events.reduce((acc, e) => ({...acc, ['selection.' + e._id]: true}), {})
+      $unset: events.reduce((acc, e) => ({...acc, [`selection.${e}`]: true}), {})
     }, {timestamps: false});
   }
 
