@@ -94,7 +94,7 @@
     "@mean-stream/nestx": "^0.12.1",
     "@mean-stream/ngbx": "^0.13.0",
     "@nestjs-modules/mailer": "^2.0.2",
-    "@nestjs/common": "^10.4.15",
+    "@nestjs/common": "^11.0.12",
     "@nestjs/config": "^3.3.0",
     "@nestjs/core": "^10.4.15",
     "@nestjs/event-emitter": "^2.1.1",
