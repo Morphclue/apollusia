@@ -1,4 +1,4 @@
-import {MailDto, PollDto, ReadPollDto, ReadStatsPollDto} from '@apollusia/types';
+import {PollDto, ReadPollDto, ReadStatsPollDto} from '@apollusia/types';
 import {Auth, AuthUser, UserToken} from '@mean-stream/nestx/auth';
 import {NotFound, notFound} from '@mean-stream/nestx/not-found';
 import {ObjectIdPipe} from '@mean-stream/nestx/ref';
@@ -85,11 +85,6 @@ export class PollController {
     return this.pollService.deletePoll(id);
   }
 
-  @Put('mail/participate')
-  async setMail(@Body() mailDto: MailDto): Promise<void> {
-    return this.pollService.setMail(mailDto);
-  }
-
   @Post('claim/:token')
   @Auth()
   async claimPolls(
@@ -100,9 +95,11 @@ export class PollController {
   }
 
   @Post(':id/book')
+  @UseGuards(OptionalAuthGuard)
   async bookEvents(
     @Param('id', ObjectIdPipe) id: Types.ObjectId,
     @Body() events: Record<string, string[] | true>,
+    @AuthUser() user?: UserToken,
   ): Promise<ReadPollDto> {
     const poll = await this.pollService.getPoll(id);
     if (!poll) {
@@ -114,6 +111,6 @@ export class PollController {
       .entries(events)
       .map(([key, value]) => [key, value === true ? true as const : value.map(v => new Types.ObjectId(v))]),
     );
-    return this.pollService.bookEvents(id, bookedEvents);
+    return this.pollService.bookEvents(id, bookedEvents, user);
   }
 }

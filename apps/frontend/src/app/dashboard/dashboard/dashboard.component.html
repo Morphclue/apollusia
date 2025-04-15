@@ -54,7 +54,7 @@
         </li>
       </ul>
       <ul class="list-unstyled">
-        @for (poll of polls|search:searchText; track poll) {
+        @for (poll of polls|search:searchText; track poll._id) {
           <li class="mb-3">
             <app-card [poll]="poll" [admin]="!participated"></app-card>
           </li>

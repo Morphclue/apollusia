@@ -4,6 +4,7 @@ import {Prop, Schema, SchemaFactory} from '@nestjs/mongoose';
 import {ApiProperty, ApiPropertyOptional} from '@nestjs/swagger';
 import {Type} from 'class-transformer';
 import {
+  IsBoolean,
   IsNotEmpty,
   IsObject,
   IsOptional,
@@ -41,6 +42,15 @@ import {Settings, SettingsSchema} from './settings';
         ref: 'PollEvent',
         localField: '_id',
         foreignField: 'poll',
+        count: true,
+      },
+    },
+    comments: {
+      options: {
+        ref: 'PollLog',
+        localField: '_id',
+        foreignField: 'poll',
+        match: {type: 'comment'},
         count: true,
       },
     },
@@ -99,14 +109,14 @@ export class Poll {
     @Prop()
     @ApiPropertyOptional()
     @IsOptional()
-    @IsString()
-    adminMail?: string;
+    @IsBoolean()
+    adminMail?: boolean;
 
-    @Prop({type: Object})
+    @Prop()
     @ApiPropertyOptional()
     @IsOptional()
-    @IsObject()
-    adminPush?: PushSubscriptionJSON;
+    @IsBoolean()
+    adminPush?: boolean;
 
     @Prop({type: SettingsSchema, default: {}})
     @ApiProperty()

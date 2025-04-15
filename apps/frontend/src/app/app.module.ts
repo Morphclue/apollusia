@@ -1,5 +1,5 @@
 import {HTTP_INTERCEPTORS, provideHttpClient, withFetch, withInterceptorsFromDi} from '@angular/common/http';
-import {isDevMode, NgModule, inject, provideAppInitializer} from '@angular/core';
+import {inject, NgModule, provideAppInitializer} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 import {BrowserModule, provideClientHydration} from '@angular/platform-browser';
 import {ServiceWorkerModule} from '@angular/service-worker';
@@ -7,6 +7,7 @@ import {ModalModule, ToastModule} from '@mean-stream/ngbx';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {KeycloakAngularModule, KeycloakService} from 'keycloak-angular';
 
+import {environment} from '../environments/environment';
 import {AboutModule} from './about/about.module';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
@@ -14,7 +15,6 @@ import {CoreModule} from './core/core.module';
 import {ParticipantTokenInterceptor} from './core/interceptors/participant-token.interceptor';
 import {TokenService} from './core/services';
 import {LegalModule} from './legal/legal.module';
-import {environment} from '../environments/environment';
 
 function initializeKeycloak(keycloak: KeycloakService) {
   return async () => {
@@ -45,7 +45,7 @@ function initializeKeycloak(keycloak: KeycloakService) {
     LegalModule,
     CoreModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
-      enabled: !isDevMode(),
+      enabled: true, // always enabled, for push notifications
       // Register the ServiceWorker as soon as the application is stable
       // or after 30 seconds (whichever comes first).
       registrationStrategy: 'registerWhenStable:30000',

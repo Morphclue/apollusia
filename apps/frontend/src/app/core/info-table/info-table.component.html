@@ -61,5 +61,15 @@
         {{ poll.participants }} {poll.participants, plural, =1 {Participant} other {Participants}}
       </td>
     </tr>
+    @if (poll.comments) {
+      <tr>
+        <th>
+          <i class="bi-chat-dots"></i>
+        </th>
+        <td>
+          {{ poll.comments }} {poll.comments, plural, =1 {Comment} other {Comments}}
+        </td>
+      </tr>
+    }
   }
 </table>

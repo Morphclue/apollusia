@@ -38,4 +38,9 @@ export class StorageService {
     this.cookieService.set(key, value);
     globalThis.localStorage?.setItem(key, value);
   }
+
+  delete(key: string) {
+    this.cookieService.delete(key);
+    globalThis.localStorage?.removeItem(key);
+  }
 }

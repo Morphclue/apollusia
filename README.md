@@ -47,6 +47,9 @@ All features are completely free and can be used without registration.
   <img src="docs/bootstrap-icons/icons/eye-slash.svg" alt="eye-slash" align="right" height="50">
   <dt>Blind participation</dt>
   <dd>Participants can't see other participants until they participate</dd>
+  <img src="docs/bootstrap-icons/icons/chat-dots.svg" alt="chat-dots" align="right" height="50">
+  <dt>Comments</dt>
+  <dd>Add comments to a poll</dd>
 </dl>
 
 ### Poll Options
@@ -95,6 +98,15 @@ All features are completely free and can be used without registration.
   <img src="docs/bootstrap-icons/icons/send.svg" alt="send" align="right" height="50">
   <dt>Invite Participants</dt>
   <dd>Invite participants via email or other means</dd>
+  <img src="docs/bootstrap-icons/icons/bell.svg" alt="bell" align="right" height="50">
+  <dt>Notifications</dt>
+  <dd>Receive quick updates to polls and participations via Push Notifications on all your devices</dd>
+  <img src="docs/bootstrap-icons/icons/envelope.svg" alt="envelope" align="right" height="50">
+  <dt>Email Updates</dt>
+  <dd>Receive detailed updates to polls and participations via Email</dd>
+  <img src="docs/bootstrap-icons/icons/clock-history.svg" alt="clock-history" align="right" height="50">
+  <dt>History</dt>
+  <dd>See all changes to a poll</dd>
 </dl>
 
 
@@ -105,16 +117,10 @@ All features are completely free and can be used without registration.
 Create an `.env` file in the backend directory and add the following environment variables:
 
 ```properties
-EMAIL_HOST=<smtp host>
-EMAIL_PORT=25 # optional, alternatively 587, or 465 for SSL
-EMAIL_SSL=false # optional
-EMAIL_STARTTLS=false # optional
-EMAIL_USER=<username>
-EMAIL_PASSWORD=<password>
-EMAIL_FROM=<sender email>
-EMAIL_NAME=Apollusia # optional sender display name
 VAPID_PUBLIC_KEY=<vapid public key> # for push notifications
 VAPID_PRIVATE_KEY=<vapid private key> # for push notifications
+KEYCLOAK_CLIENT_SECRET=<keycloak client secret>
+AUTH_PUBLIC_KEY=<keycloak public key>
 CONTACT_OPERATOR=<contact operator>
 CONTACT_MAIL=<contact email>
 CONTACT_ADDRESS=<contact address>
@@ -125,3 +131,54 @@ VAPID keys can be generated using the following command:
 ```bash
 npx web-push generate-vapid-keys
 ```
+
+To set up Keycloak, follow these steps
+- Run it with `docker compose up -d keycloak`
+- Go to `http://localhost:8080/auth`.
+- Create a new realm called `apollusia`
+- Create a client called `web` with the following options:
+  - Valid Redirect URLs: `http://localhost:4200/*`
+  - Valid Post Logout Redirect URLs: `+`
+  - Web Origins: `+`.
+- Under "Realm Settings > Login", configure:
+  - User registration: On
+  - Forgot password: On
+  - Remember me: On
+  - Email as username: On
+  - Login with email: On
+  - Duplicate emails: Off
+  - Verify email: Off
+- Under "Realm Settings > User profile", create these attributes:
+  1. - Attribute [Name]: pushTokens
+     - Display Name: Push Tokens
+     - Multivalued: On
+     - Attribute Group: user-metadata
+     - Who can edit?: User, Admin
+     - Who can view?: User, Admin
+  2. - Attribute [Name]: notifications
+     - Display Name: Notifications
+     - Multivalued: On
+     - Attribute Group: user-metadata
+     - Who can edit?: User, Admin
+     - Who can view?: User, Admin
+- Create a user as follows:
+  - Email Verified: Yes
+  - Username/email: admin@apollusia.com
+  - First Name: Apollusia
+  - Last Name: Admin
+  - Hit Create
+  - Credentials > Set Password: `root` 
+  - Role Mapping > Assign Role > Filter by clients > Select all (the list may be long, change pagination to 100 elements to see all) > Assign
+  - Role Mapping > Assign Role > Filter by realm roles > Select all > Assign
+
+You can get the Keycloak Client Secret like this:
+- Go to http://localhost:8080/auth/admin/master/console/#/apollusia/clients
+- Select admin-cli
+- Under Settings, make sure Client authentication is enabled
+- Hit Save
+- Go to the Credentials tab and copy the Client Secret
+
+To get the Keycloak public key, follow these steps:
+- Go to http://localhost:8080/auth/admin/master/console/#/apollusia/realm-settings/keys
+- Click on the RS256 Public Key
+- Copy the base64 key

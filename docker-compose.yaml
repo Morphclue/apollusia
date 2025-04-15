@@ -1,11 +1,4 @@
 services:
-  database:
-    image: mongo:7
-    ports:
-      - "27017:27017"
-    volumes:
-      - database:/data/db
-
   frontend:
     build:
       dockerfile: ./apps/frontend/Dockerfile
@@ -17,6 +10,13 @@ services:
       dockerfile: ./apps/backend/Dockerfile
     ports:
       - "3000:3000"
+
+  database:
+    image: mongo:7
+    ports:
+      - "27017:27017"
+    volumes:
+      - database:/data/db
 
   keycloak:
     image: quay.io/keycloak/keycloak:24.0.3
@@ -30,6 +30,13 @@ services:
       - "8080:8080"
     volumes:
       - ./libs/keycloak:/opt/keycloak/themes/apollusia
+
+  maildev:
+    image: maildev/maildev
+    restart: unless-stopped
+    ports:
+      - "1025:1025"
+      - "8025:1080"
 
 volumes:
   database:
