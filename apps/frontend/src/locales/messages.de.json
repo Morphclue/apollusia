@@ -1,9 +1,17 @@
 {
   "locale": "de",
   "translations": {
+    "poll-location": "Ort",
+    "poll-deadline": "Frist",
+    "poll-description": "Beschreibung",
+    "poll-link": "Link",
+    "poll-copy-link": "Link kopieren",
+    "poll-share-email": "Via E-Mail teilen",
     "5091835061897478313": "{VAR_PLURAL, plural, =1 {Option} other {Optionen}}",
     "5973772121838780626": "{VAR_PLURAL, plural, =1 {Teilnehmer} other {Teilnehmer}}",
     "3094586852616580737": "{VAR_PLURAL, plural, =1 {Kommentar} other {Kommentare}}",
+    "poll-view": " Öffnen ",
+    "poll-edit": " Bearbeiten ",
     "dashboard-welcome": " Willkommen bei Apollusia! ",
     "dashboard-intro": " Du kannst Umfragen erstellen und sie mit deinen Freunden teilen. ",
     "create-poll": " Umfrage erstellen ",
