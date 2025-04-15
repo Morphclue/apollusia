@@ -93,6 +93,9 @@
         },
         "development": {
           "buildTarget": "frontend:build:development,en-US"
+        },
+        "development-de": {
+          "buildTarget": "frontend:build:development,de"
         }
       },
       "defaultConfiguration": "development",

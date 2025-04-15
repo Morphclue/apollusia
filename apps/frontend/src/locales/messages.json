@@ -3,6 +3,7 @@
   "translations": {
     "5091835061897478313": "{VAR_PLURAL, plural, =1 {Option} other {Options}}",
     "5973772121838780626": "{VAR_PLURAL, plural, =1 {Participant} other {Participants}}",
+    "3094586852616580737": "{VAR_PLURAL, plural, =1 {Comment} other {Comments}}",
     "dashboard-welcome": " Welcome to Apollusia! ",
     "dashboard-intro": " You can create polls and share them with your friends. ",
     "create-poll": " Create Poll ",
@@ -16,6 +17,7 @@
     "dashboard-no-polls": "There is nothing here.",
     "dashboard-maybe-another-search": "Maybe you can try another search?",
     "dashboard-maybe-create-poll": "Maybe you should create a poll?",
+    "843274137592095555": "{VAR_PLURAL, plural, =1 {appointment} other {appointments}}",
     "ngb.alert.close": "Close",
     "ngb.carousel.slide-number": " Slide {$INTERPOLATION} of {$INTERPOLATION_1} ",
     "ngb.carousel.previous": "Previous",
