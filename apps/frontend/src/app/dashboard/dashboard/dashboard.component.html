@@ -74,29 +74,29 @@
         <div class="card">
           <div class="card-body">
             <img class="card-img" src="/assets/artwork/account.svg" alt="Account" width="100%">
-            <h5 class="card-title">
+            <h5 class="card-title" i18n="@@dashboard-sign-in">
               Sign In to Apollusia
               <span class="badge bg-primary">New</span>
             </h5>
-            <p class="card-text">
+            <p class="card-text" i18n="@@dashboard-sign-in-text">
               You can now log into Apollusia with an account, so you can manage your polls on all your devices and continue to use these features:
             </p>
-            <ul class="card-text">
+            <ul class="card-text" i18n="@@dashboard-sign-in-features">
               <li>Email notifications for your polls</li>
               <li>Push notifications for your polls</li>
               <li>Email notifications for your participations</li>
             </ul>
-            <p class="card-text">
+            <p class="card-text" i18n="@@dashboard-sign-in-extra-features-text">
               We will also add the following features built on accounts soon:
             </p>
-            <ul>
+            <ul class="card-text" i18n="@@dashboard-sign-in-extra-features">
               <li>Additional poll admins</li>
               <li>Push notifications for your participations</li>
             </ul>
-            <button class="btn btn-primary w-100 mb-3" (click)="login()">
+            <button class="btn btn-primary w-100 mb-3" (click)="login()" i18n="@@dashboard-sign-up">
               Sign Up
             </button>
-            <p class="card-text small text-muted">
+            <p class="card-text small text-muted" i18n="@@dashboard-sign-in-info">
               <i class="bi-info-circle"></i>
               Accounts are free, secure and forever optional.
               <a href="https://github.com/Morphclue/apollusia/issues/169" target="_blank">Learn more</a>
@@ -106,13 +106,13 @@
       }}
       @if (loggedIn && unclaimed && !participated) {
         <div class="alert alert-warning">
-          <p>
+          <p i18n="@@dashboard-claim-polls-1">
             It looks like some of your polls are not associated with your account yet.
           </p>
-          <p>
+          <p i18n="@@dashboard-claim-polls-2">
             To ensure you can always manage them on all your devices, you can claim them now.
           </p>
-          <button class="btn btn-primary" (click)="claim()">
+          <button class="btn btn-primary" (click)="claim()" i18n="@@dashboard-claim-polls">
             Claim Polls
           </button>
         </div>
