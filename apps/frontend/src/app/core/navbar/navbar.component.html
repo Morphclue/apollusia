@@ -36,11 +36,16 @@
                   Settings
                 </ng-container>
               </a>
+              <h5 class="dropdown-header" i18n="@@language">Language</h5>
+              <a ngbDropdownItem href="/">🇺🇸 English</a>
+              <a ngbDropdownItem href="/de">🇩🇪 Deutsch</a>
               <h5 class="dropdown-header" i18n="@@theme">Theme</h5>
-              <button *ngFor="let theme of themes" ngbDropdownItem [class]="theme.icon" (click)="theme$.next(theme.value)">
-                {{ theme.name }}
-                <i [class.bi-check]="(theme$ | async) === theme.value"></i>
-              </button>
+              @for (theme of themes; track theme.value) {
+                <button ngbDropdownItem [class]="theme.icon" (click)="theme$.next(theme.value)">
+                  {{ theme.name }}
+                  <i [class.bi-check]="(theme$ | async) === theme.value"></i>
+                </button>
+              }
             </div>
           </div>
         </li>
