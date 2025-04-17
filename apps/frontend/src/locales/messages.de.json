@@ -53,6 +53,7 @@
     "dashboard-claim-polls-1": " Es sieht so aus, als wären einige deiner Umfragen noch nicht mit deinem Konto verknüpft. ",
     "dashboard-claim-polls-2": " Um sicherzustellen, dass du sie jederzeit auf all deinen Geräten verwalten kannst, kannst du sie jetzt beanspruchen. ",
     "dashboard-claim-polls": " Umfragen übernehmen ",
+    "dashboard-claim-polls-success": " Umfragen erfolgreich übernommen. ",
     "843274137592095555": "{VAR_PLURAL, plural, =1 {Termin} other {Termine}}",
     "ngb.alert.close": "Schließen",
     "ngb.carousel.slide-number": " Folie {$INTERPOLATION} von {$INTERPOLATION_1} ",

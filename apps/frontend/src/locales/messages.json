@@ -53,6 +53,7 @@
     "dashboard-claim-polls-1": " It looks like some of your polls are not associated with your account yet. ",
     "dashboard-claim-polls-2": " To ensure you can always manage them on all your devices, you can claim them now. ",
     "dashboard-claim-polls": " Claim Polls ",
+    "dashboard-claim-polls-success": " Successfully claimed polls. ",
     "843274137592095555": "{VAR_PLURAL, plural, =1 {appointment} other {appointments}}",
     "ngb.alert.close": "Close",
     "ngb.carousel.slide-number": " Slide {$INTERPOLATION} of {$INTERPOLATION_1} ",
