@@ -53,14 +53,3 @@ jobs:
             APP_VERSION=${{ steps.deployment.outputs.v_version }}
           cache-to: type=gha,mode=max
           cache-from: type=gha
-      # https://github.com/sekassel-research/actions-rancher-update?tab=readme-ov-file#update-service
-      - name: Deploy to Rancher
-        uses: sekassel-research/actions-rancher-update@v3.0.0
-        with:
-          rancher_url: ${{ secrets.RANCHER_URL }}
-          rancher_token: ${{ secrets.RANCHER_TOKEN }}
-          cluster_id: ${{ secrets.RANCHER_CLUSTER }}
-          project_id: ${{ secrets.RANCHER_PROJECT }}
-          namespace: apollusia
-          deployment: ${{ matrix.app }}
-          docker_image: ${{ secrets.DOCKER_REGISTRY }}/apollusia/${{ matrix.app }}:${{ steps.deployment.outputs.tag }}
