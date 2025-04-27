@@ -120,7 +120,7 @@
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
     "date-fns": "^4.1.0",
-    "express": "5.1.0",
+    "express": "4.21.2",
     "file-saver": "^2.0.5",
     "flatpickr": "^4.6.13",
     "handlebars": "^4.7.8",
