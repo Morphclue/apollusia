@@ -362,7 +362,7 @@ export class PollActionsService implements OnModuleInit {
       }),
     });
 
-    if (this.canViewResults(poll, token, currentParticipant.length > 0)) {
+    if (this.canViewResults(poll, token, user, currentParticipant.length > 0)) {
       const participants = await this.participantService.findAll({
         poll: id,
         _id: {$nin: currentParticipant.map(p => p._id)},
@@ -375,8 +375,8 @@ export class PollActionsService implements OnModuleInit {
     return currentParticipant;
   }
 
-  private canViewResults(poll: Poll, token: string, currentParticipant: boolean) {
-    if (poll.adminToken === token) {
+  private canViewResults(poll: Poll, token: string, user: UserToken | undefined, currentParticipant: boolean) {
+    if (this.isAdmin(poll, token, user?.sub)) {
       return true;
     }
     switch (poll.settings.showResult) {
