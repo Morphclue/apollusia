@@ -46,7 +46,8 @@ export class ParticipantController {
   async delete(
     @Param('poll', ObjectIdPipe) poll: Types.ObjectId,
     @Param('participant', ObjectIdPipe) participant: Types.ObjectId,
+    @Headers('Participant-Token') token: string
   ): Promise<ReadParticipantDto | null> {
-    return this.pollService.deleteParticipation(poll, participant);
+    return this.pollService.deleteParticipation(poll, participant, token);
   }
 }
