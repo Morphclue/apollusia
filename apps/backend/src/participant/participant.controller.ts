@@ -16,10 +16,10 @@ import {
 } from '@nestjs/common';
 import {Types} from 'mongoose';
 
+import {ParticipantService} from './participant.service';
 import {OptionalAuthGuard} from '../auth/optional-auth.guard';
 import {PollActionsService} from '../poll/poll-actions.service';
 import {PollService} from '../poll/poll.service';
-import {ParticipantService} from './participant.service';
 
 @Controller('poll/:poll/participate')
 export class ParticipantController {
