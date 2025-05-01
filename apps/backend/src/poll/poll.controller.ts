@@ -80,9 +80,14 @@ export class PollController {
   }
 
   @Delete(':id')
+  @UseGuards(OptionalAuthGuard)
   @NotFound()
-  async deletePoll(@Param('id', ObjectIdPipe) id: Types.ObjectId): Promise<ReadPollDto | null> {
-    return this.pollService.deletePoll(id);
+  async deletePoll(
+    @Headers('Participant-Token') token: string,
+    @Param('id', ObjectIdPipe) id: Types.ObjectId,
+    @AuthUser() user?: UserToken,
+  ): Promise<ReadPollDto | null> {
+    return this.pollService.deletePoll(id, token, user?.sub);
   }
 
   @Post('claim/:token')

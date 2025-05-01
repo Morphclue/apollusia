@@ -19,7 +19,13 @@ import {
 import {UserToken} from '@mean-stream/nestx/auth';
 import {notFound} from '@mean-stream/nestx/not-found';
 import {Doc} from '@mean-stream/nestx/ref';
-import {Injectable, Logger, NotFoundException, OnModuleInit, UnprocessableEntityException} from '@nestjs/common';
+import {
+  ForbiddenException,
+  Injectable,
+  Logger, NotFoundException,
+  OnModuleInit,
+  UnprocessableEntityException,
+} from '@nestjs/common';
 import {InjectModel} from '@nestjs/mongoose';
 import {Document, FilterQuery, Model, Types} from 'mongoose';
 
@@ -237,8 +243,13 @@ export class PollActionsService implements OnModuleInit {
     return clonedPoll;
   }
 
-  async deletePoll(id: Types.ObjectId): Promise<ReadPollDto | null> {
-    const poll = await this.pollModel.findByIdAndDelete(id, {projection: readPollSelect}).exec();
+  async deletePoll(id: Types.ObjectId, adminToken: string, userToken?: string): Promise<ReadPollDto | null> {
+    const poll = await this.pollModel.findById(id).select(readPollSelect).exec();
+    if (poll && !this.isAdmin(poll, adminToken, userToken)) {
+      throw new ForbiddenException();
+    }
+
+    await this.pollModel.deleteOne({ _id: id }).exec();
     await this.pollEventModel.deleteMany({poll: id}).exec();
     await this.participantModel.deleteMany({poll: id}).exec();
     return poll;
