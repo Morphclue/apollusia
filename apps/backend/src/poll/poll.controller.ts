@@ -9,7 +9,6 @@ import {
   Delete,
   Get,
   Headers,
-  NotFoundException,
   Param,
   ParseBoolPipe,
   Post,
