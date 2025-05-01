@@ -6,7 +6,7 @@ import {
   Body,
   Controller,
   DefaultValuePipe,
-  Delete,
+  Delete, ForbiddenException,
   Get,
   Headers,
   NotFoundException,
@@ -76,7 +76,11 @@ export class PollController {
     @Body() pollDto: PollDto,
     @AuthUser() user?: UserToken,
   ): Promise<ReadPollDto | null> {
-    return this.pollService.putPoll(id, pollDto, token, user?.sub);
+    const pollDoc = await this.pollService.find(id) ?? notFound(id);
+    if (!this.pollService.isAdmin(pollDoc, token, user?.sub)) {
+      throw new ForbiddenException('You are not allowed to edit this poll');
+    }
+    return this.pollService.putPoll(id, pollDto);
   }
 
   @Post(':id/clone')
@@ -93,7 +97,11 @@ export class PollController {
     @Param('id', ObjectIdPipe) id: Types.ObjectId,
     @AuthUser() user?: UserToken,
   ): Promise<ReadPollDto | null> {
-    return this.pollService.deletePoll(id, token, user?.sub);
+    const pollDoc = await this.pollService.find(id) ?? notFound(id);
+    if (!this.pollService.isAdmin(pollDoc, token, user?.sub)) {
+      throw new ForbiddenException('You are not allowed to delete this poll');
+    }
+    return this.pollService.deletePoll(id);
   }
 
   @Post('claim/:token')

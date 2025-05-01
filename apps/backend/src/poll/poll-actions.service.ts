@@ -219,13 +219,8 @@ export class PollActionsService implements OnModuleInit {
     return rest;
   }
 
-  async putPoll(id: Types.ObjectId, pollDto: PollDto, adminToken: string, userToken?: string): Promise<ReadPollDto | null> {
-    const poll = await this.pollModel.findById(id).select(readPollSelect).exec();
-    if (poll && !this.isAdmin(poll, adminToken, userToken)) {
-      throw new ForbiddenException('You are not allowed to edit this poll');
-    }
-
-    return this.pollModel.findByIdAndUpdate(id, pollDto, { new: true }).select(readPollSelect).exec();
+  async putPoll(id: Types.ObjectId, pollDto: PollDto): Promise<ReadPollDto | null> {
+    return this.pollModel.findByIdAndUpdate(id, pollDto, {new: true}).select(readPollSelect).exec();
   }
 
   async clonePoll(id: Types.ObjectId): Promise<ReadPollDto | null> {
@@ -248,13 +243,8 @@ export class PollActionsService implements OnModuleInit {
     return clonedPoll;
   }
 
-  async deletePoll(id: Types.ObjectId, adminToken: string, userToken?: string): Promise<ReadPollDto | null> {
-    const poll = await this.pollModel.findById(id).select(readPollSelect).exec();
-    if (poll && !this.isAdmin(poll, adminToken, userToken)) {
-      throw new ForbiddenException('You are not allowed to delete this poll');
-    }
-
-    await this.pollModel.deleteOne({ _id: id }).exec();
+  async deletePoll(id: Types.ObjectId): Promise<ReadPollDto | null> {
+    const poll = await this.pollModel.findByIdAndDelete(id, {projection: readPollSelect}).exec();
     await this.pollEventModel.deleteMany({poll: id}).exec();
     await this.participantModel.deleteMany({poll: id}).exec();
     return poll;
