@@ -219,8 +219,13 @@ export class PollActionsService implements OnModuleInit {
     return rest;
   }
 
-  async putPoll(id: Types.ObjectId, pollDto: PollDto): Promise<ReadPollDto | null> {
-    return this.pollModel.findByIdAndUpdate(id, pollDto, {new: true}).select(readPollSelect).exec();
+  async putPoll(id: Types.ObjectId, pollDto: PollDto, adminToken: string, userToken?: string): Promise<ReadPollDto | null> {
+    const poll = await this.pollModel.findById(id).select(readPollSelect).exec();
+    if (poll && !this.isAdmin(poll, adminToken, userToken)) {
+      throw new ForbiddenException();
+    }
+
+    return this.pollModel.findByIdAndUpdate(id, pollDto, { new: true }).select(readPollSelect).exec();
   }
 
   async clonePoll(id: Types.ObjectId): Promise<ReadPollDto | null> {

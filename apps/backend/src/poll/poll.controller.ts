@@ -68,9 +68,15 @@ export class PollController {
   }
 
   @Put(':id')
+  @UseGuards(OptionalAuthGuard)
   @NotFound()
-  async putPoll(@Param('id', ObjectIdPipe) id: Types.ObjectId, @Body() pollDto: PollDto): Promise<ReadPollDto | null> {
-    return this.pollService.putPoll(id, pollDto);
+  async putPoll(
+    @Headers('Participant-Token') token: string,
+    @Param('id', ObjectIdPipe) id: Types.ObjectId,
+    @Body() pollDto: PollDto,
+    @AuthUser() user?: UserToken,
+  ): Promise<ReadPollDto | null> {
+    return this.pollService.putPoll(id, pollDto, token, user?.sub);
   }
 
   @Post(':id/clone')
