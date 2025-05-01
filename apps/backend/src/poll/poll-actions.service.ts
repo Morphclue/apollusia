@@ -26,13 +26,13 @@ import {Document, FilterQuery, Types} from 'mongoose';
 import {KeycloakUser} from '../auth/keycloak-user.interface';
 import {KeycloakService} from '../auth/keycloak.service';
 import {environment} from '../environment';
+import {PollService} from './poll.service';
 import {renderDate} from '../mail/helpers';
 import {MailService} from '../mail/mail/mail.service';
 import {ParticipantService} from '../participant/participant.service';
 import {PollEventService} from '../poll-event/poll-event.service';
 import {PollLogService} from '../poll-log/poll-log.service';
 import {PushService} from '../push/push.service';
-import {PollService} from './poll.service';
 
 @Injectable()
 export class PollActionsService implements OnModuleInit {
