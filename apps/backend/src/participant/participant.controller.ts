@@ -18,20 +18,26 @@ import {Types} from 'mongoose';
 
 import {OptionalAuthGuard} from '../auth/optional-auth.guard';
 import {PollActionsService} from '../poll/poll-actions.service';
+import {PollService} from '../poll/poll.service';
+import {ParticipantService} from './participant.service';
 
 @Controller('poll/:poll/participate')
 export class ParticipantController {
   constructor(
-    private pollService: PollActionsService,
+    private readonly pollService: PollService,
+    private readonly participantService: ParticipantService,
+    private readonly pollActionsService: PollActionsService,
   ) {
   }
 
   @Get()
+  @UseGuards(OptionalAuthGuard)
   async findAll(
     @Param('poll', ObjectIdPipe) poll: Types.ObjectId,
     @Headers('Participant-Token') token: string,
+    @AuthUser() user?: UserToken,
   ): Promise<ReadParticipantDto[]> {
-    return this.pollService.getParticipants(poll, token);
+    return this.pollActionsService.getParticipants(poll, token, user);
   }
 
   @Post()
@@ -41,7 +47,7 @@ export class ParticipantController {
     @Body() dto: CreateParticipantDto,
     @AuthUser() user?: UserToken,
   ): Promise<Participant> {
-    return this.pollService.postParticipation(poll, dto, user);
+    return this.pollActionsService.postParticipation(poll, dto, user);
   }
 
   @Put(':participant')
@@ -51,7 +57,7 @@ export class ParticipantController {
     @Headers('Participant-Token') token: string,
     @Body() dto: UpdateParticipantDto,
   ): Promise<ReadParticipantDto | null> {
-    return this.pollService.editParticipation(poll, participant, token, dto);
+    return this.pollActionsService.editParticipation(poll, participant, token, dto);
   }
 
   @Delete(':participant')
@@ -63,15 +69,15 @@ export class ParticipantController {
     @AuthUser() user?: UserToken,
   ): Promise<ReadParticipantDto | null> {
     const [participantDoc, pollDoc] = await Promise.all([
-      this.pollService.findParticipant(participant),
+      this.participantService.find(participant),
       this.pollService.find(poll),
     ]);
     if (!participantDoc || !pollDoc) {
       throw new NotFoundException('Poll or participant not found');
     }
-    if (participantDoc.token !== token && !this.pollService.isAdmin(pollDoc, token, user?.sub)) {
+    if (participantDoc.token !== token && !this.pollActionsService.isAdmin(pollDoc, token, user?.sub)) {
       throw new ForbiddenException('You are not allowed to delete this participant');
     }
-    return this.pollService.deleteParticipation(participant);
+    return this.pollActionsService.deleteParticipation(participant);
   }
 }

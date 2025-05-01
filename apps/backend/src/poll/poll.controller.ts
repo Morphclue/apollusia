@@ -10,7 +10,6 @@ import {
   ForbiddenException,
   Get,
   Headers,
-  NotFoundException,
   Param,
   ParseBoolPipe,
   Post,
@@ -21,11 +20,15 @@ import {
 import {Types} from 'mongoose';
 
 import {PollActionsService} from './poll-actions.service';
+import {PollService} from './poll.service';
 import {OptionalAuthGuard} from '../auth/optional-auth.guard';
 
 @Controller('poll')
 export class PollController {
-  constructor(private readonly pollService: PollActionsService) {
+  constructor(
+    private readonly pollService: PollService,
+    private readonly pollActionsService: PollActionsService,
+  ) {
   }
 
   @Get('')
@@ -37,9 +40,9 @@ export class PollController {
     @AuthUser() user?: UserToken,
   ): Promise<ReadStatsPollDto[]> {
     if (participated) {
-      return this.pollService.getParticipatedPolls(token);
+      return this.pollActionsService.getParticipatedPolls(token);
     }
-    return this.pollService.getPolls(token, user?.sub, active !== undefined ? active === 'true' : undefined);
+    return this.pollActionsService.getPolls(token, user?.sub, active !== undefined ? active === 'true' : undefined);
   }
 
   @Get(':id/admin/:token')
@@ -50,13 +53,13 @@ export class PollController {
     @AuthUser() user?: UserToken,
   ): Promise<boolean> {
     const poll = await this.pollService.find(id) ?? notFound(id);
-    return this.pollService.isAdmin(poll, token, user?.sub);
+    return this.pollActionsService.isAdmin(poll, token, user?.sub);
   }
 
   @Get(':id')
   @NotFound()
   async getPoll(@Param('id', ObjectIdPipe) id: Types.ObjectId): Promise<ReadPollDto | null> {
-    return this.pollService.getPoll(id);
+    return this.pollActionsService.getPoll(id);
   }
 
   @Post()
@@ -65,7 +68,7 @@ export class PollController {
     @Body() pollDto: PollDto,
     @AuthUser() user?: UserToken,
   ): Promise<ReadPollDto> {
-    return this.pollService.postPoll(pollDto, user);
+    return this.pollActionsService.postPoll(pollDto, user);
   }
 
   @Put(':id')
@@ -78,16 +81,16 @@ export class PollController {
     @AuthUser() user?: UserToken,
   ): Promise<ReadPollDto | null> {
     const pollDoc = await this.pollService.find(id) ?? notFound(id);
-    if (!this.pollService.isAdmin(pollDoc, token, user?.sub)) {
+    if (!this.pollActionsService.isAdmin(pollDoc, token, user?.sub)) {
       throw new ForbiddenException('You are not allowed to edit this poll');
     }
-    return this.pollService.putPoll(id, pollDto);
+    return this.pollActionsService.putPoll(id, pollDto);
   }
 
   @Post(':id/clone')
   @NotFound()
   async clonePoll(@Param('id', ObjectIdPipe) id: Types.ObjectId): Promise<ReadPollDto | null> {
-    return this.pollService.clonePoll(id);
+    return this.pollActionsService.clonePoll(id);
   }
 
   @Delete(':id')
@@ -99,10 +102,10 @@ export class PollController {
     @AuthUser() user?: UserToken,
   ): Promise<ReadPollDto | null> {
     const pollDoc = await this.pollService.find(id) ?? notFound(id);
-    if (!this.pollService.isAdmin(pollDoc, token, user?.sub)) {
+    if (!this.pollActionsService.isAdmin(pollDoc, token, user?.sub)) {
       throw new ForbiddenException('You are not allowed to delete this poll');
     }
-    return this.pollService.deletePoll(id);
+    return this.pollActionsService.deletePoll(id);
   }
 
   @Post('claim/:token')
@@ -111,7 +114,7 @@ export class PollController {
     @AuthUser() user: UserToken,
     @Param('token') token: string,
   ): Promise<void> {
-    return this.pollService.claimPolls(token, user.sub);
+    return this.pollActionsService.claimPolls(token, user.sub);
   }
 
   @Post(':id/book')
@@ -121,9 +124,8 @@ export class PollController {
     @Body() events: Record<string, string[] | true>,
     @AuthUser() user?: UserToken,
   ): Promise<ReadPollDto> {
-    const poll = await this.pollService.getPoll(id);
-    if (!poll) {
-      throw new NotFoundException(id);
+    if (!await this.pollService.exists(id)) {
+      notFound(id);
     }
 
     // convert nested strings to ObjectIds
@@ -131,6 +133,6 @@ export class PollController {
       .entries(events)
       .map(([key, value]) => [key, value === true ? true as const : value.map(v => new Types.ObjectId(v))]),
     );
-    return this.pollService.bookEvents(id, bookedEvents, user);
+    return this.pollActionsService.bookEvents(id, bookedEvents, user);
   }
 }
