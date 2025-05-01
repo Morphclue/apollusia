@@ -1,7 +1,19 @@
 import {CreateParticipantDto, Participant, ReadParticipantDto, UpdateParticipantDto} from '@apollusia/types';
 import {AuthUser, UserToken} from '@mean-stream/nestx/auth';
 import {ObjectIdPipe} from '@mean-stream/nestx/ref';
-import {Body, Controller, Delete, Get, Headers, Param, Post, Put, UseGuards} from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  ForbiddenException,
+  Get,
+  Headers,
+  NotFoundException,
+  Param,
+  Post,
+  Put,
+  UseGuards,
+} from '@nestjs/common';
 import {Types} from 'mongoose';
 
 import {OptionalAuthGuard} from '../auth/optional-auth.guard';
@@ -50,6 +62,16 @@ export class ParticipantController {
     @Headers('Participant-Token') token: string,
     @AuthUser() user?: UserToken,
   ): Promise<ReadParticipantDto | null> {
-    return this.pollService.deleteParticipation(poll, participant, token, user?.sub);
+    const [participantDoc, pollDoc] = await Promise.all([
+      this.pollService.findParticipant(participant),
+      this.pollService.find(poll),
+    ]);
+    if (!participantDoc || !pollDoc) {
+      throw new NotFoundException('Poll or participant not found');
+    }
+    if (participant.toString() !== token && !this.pollService.isAdmin(pollDoc, token, user?.sub)) {
+      throw new ForbiddenException('You are not allowed to delete this participant');
+    }
+    return this.pollService.deleteParticipation(poll, participant);
   }
 }

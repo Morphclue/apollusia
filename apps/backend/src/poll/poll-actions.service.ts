@@ -196,6 +196,11 @@ export class PollActionsService implements OnModuleInit {
     return this.pollModel.findById(id).exec();
   }
 
+  // Only for internal use
+  async findParticipant(id: Types.ObjectId): Promise<Doc<Participant> | null> {
+    return this.participantModel.findById(id).exec();
+  }
+
   async getPoll(id: Types.ObjectId): Promise<Doc<ReadPollDto> | null> {
     return this.pollModel
       .findById(id)
@@ -485,12 +490,7 @@ export class PollActionsService implements OnModuleInit {
     }, participant, {new: true}).exec();
   }
 
-  async deleteParticipation(id: Types.ObjectId, participantId: Types.ObjectId, token: string, user?: string): Promise<ReadParticipantDto | null> {
-    const participant = await this.participantModel.findById(participantId).exec();
-    const poll = await this.pollModel.findById(id).exec();
-    if (participant && poll && participant.token !== token && !this.isAdmin(poll, token, user)) {
-      throw new ForbiddenException('You are not allowed to delete this participant');
-    }
+  async deleteParticipation(id: Types.ObjectId, participantId: Types.ObjectId): Promise<ReadParticipantDto | null> {
     return this.participantModel.findByIdAndDelete(participantId, {projection: readParticipantSelect}).exec();
   }
 
