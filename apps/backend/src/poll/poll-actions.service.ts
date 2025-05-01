@@ -495,9 +495,10 @@ export class PollActionsService implements OnModuleInit {
     }, participant, {new: true}).exec();
   }
 
-  async deleteParticipation(id: Types.ObjectId, participantId: Types.ObjectId, token: string): Promise<ReadParticipantDto | null> {
+  async deleteParticipation(id: Types.ObjectId, participantId: Types.ObjectId, token: string, user?: string): Promise<ReadParticipantDto | null> {
     const participant = await this.participantModel.findById(participantId).exec();
-    if (participant && participant.token !== token) {
+    const poll = await this.pollModel.findById(id).exec();
+    if (participant && poll && participant.token !== token && !this.isAdmin(poll, token, user)) {
       throw new ForbiddenException('You are not allowed to delete this participant');
     }
     return this.participantModel.findByIdAndDelete(participantId, {projection: readParticipantSelect}).exec();
