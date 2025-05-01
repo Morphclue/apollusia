@@ -490,7 +490,7 @@ export class PollActionsService implements OnModuleInit {
     }, participant, {new: true}).exec();
   }
 
-  async deleteParticipation(id: Types.ObjectId, participantId: Types.ObjectId): Promise<ReadParticipantDto | null> {
+  async deleteParticipation(participantId: Types.ObjectId): Promise<ReadParticipantDto | null> {
     return this.participantModel.findByIdAndDelete(participantId, {projection: readParticipantSelect}).exec();
   }
 
