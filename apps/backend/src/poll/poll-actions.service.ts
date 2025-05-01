@@ -491,7 +491,7 @@ export class PollActionsService implements OnModuleInit {
     }, participant);
   }
 
-  async deleteParticipation(id: Types.ObjectId, participantId: Types.ObjectId): Promise<ReadParticipantDto | null> {
+  async deleteParticipation(participantId: Types.ObjectId): Promise<ReadParticipantDto | null> {
     return this.participantService.delete(participantId, {projection: readParticipantSelect});
   }
 

@@ -7,6 +7,7 @@ import {
   Controller,
   DefaultValuePipe,
   Delete,
+  ForbiddenException,
   Get,
   Headers,
   Param,
@@ -71,8 +72,18 @@ export class PollController {
   }
 
   @Put(':id')
+  @UseGuards(OptionalAuthGuard)
   @NotFound()
-  async putPoll(@Param('id', ObjectIdPipe) id: Types.ObjectId, @Body() pollDto: PollDto): Promise<ReadPollDto | null> {
+  async putPoll(
+    @Headers('Participant-Token') token: string,
+    @Param('id', ObjectIdPipe) id: Types.ObjectId,
+    @Body() pollDto: PollDto,
+    @AuthUser() user?: UserToken,
+  ): Promise<ReadPollDto | null> {
+    const pollDoc = await this.pollService.find(id) ?? notFound(id);
+    if (!this.pollActionsService.isAdmin(pollDoc, token, user?.sub)) {
+      throw new ForbiddenException('You are not allowed to edit this poll');
+    }
     return this.pollActionsService.putPoll(id, pollDto);
   }
 
@@ -83,8 +94,17 @@ export class PollController {
   }
 
   @Delete(':id')
+  @UseGuards(OptionalAuthGuard)
   @NotFound()
-  async deletePoll(@Param('id', ObjectIdPipe) id: Types.ObjectId): Promise<ReadPollDto | null> {
+  async deletePoll(
+    @Headers('Participant-Token') token: string,
+    @Param('id', ObjectIdPipe) id: Types.ObjectId,
+    @AuthUser() user?: UserToken,
+  ): Promise<ReadPollDto | null> {
+    const pollDoc = await this.pollService.find(id) ?? notFound(id);
+    if (!this.pollActionsService.isAdmin(pollDoc, token, user?.sub)) {
+      throw new ForbiddenException('You are not allowed to delete this poll');
+    }
     return this.pollActionsService.deletePoll(id);
   }
 
