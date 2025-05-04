@@ -87,12 +87,6 @@ export class PollActionsService {
     }) as any;
   }
 
-  getPoll(id: Types.ObjectId): Promise<Doc<ReadPollDto> | null> {
-    return this.pollService.find(id, {
-      populate: readPollPopulate,
-    }) as any;
-  }
-
   async postPoll(pollDto: PollDto, user?: UserToken): Promise<ReadPollDto> {
     const poll = await this.pollService.create({
       ...pollDto,
@@ -109,10 +103,6 @@ export class PollActionsService {
       delete rest[key];
     }
     return rest;
-  }
-
-  async putPoll(id: Types.ObjectId, pollDto: PollDto): Promise<ReadPollDto | null> {
-    return this.pollService.update(id, pollDto);
   }
 
   async clonePoll(id: Types.ObjectId): Promise<ReadPollDto | null> {
@@ -371,7 +361,7 @@ export class PollActionsService {
 
   async editParticipation(id: Types.ObjectId, participantId: Types.ObjectId, token: string, participant: UpdateParticipantDto): Promise<ReadParticipantDto | null> {
     const [poll, otherParticipants] = await Promise.all([
-      this.getPoll(id),
+      this.pollService.find(id),
       this.participantService.findAll(id),
     ]);
     if (!poll) {
@@ -386,10 +376,6 @@ export class PollActionsService {
       _id: participantId,
       token,
     }, participant);
-  }
-
-  async deleteParticipation(participantId: Types.ObjectId): Promise<ReadParticipantDto | null> {
-    return this.participantService.delete(participantId);
   }
 
   async bookEvents(id: Types.ObjectId, events: Poll['bookedEvents'], user?: UserToken): Promise<ReadPollDto> {

@@ -3,13 +3,15 @@ import {NotFoundException} from '@nestjs/common';
 import {MongooseModule} from '@nestjs/mongoose';
 import {Test, TestingModule} from '@nestjs/testing';
 import {Model, Types} from 'mongoose';
+import {ParticipantStub, PollEventStub, PollStub} from '../../test/stubs';
 
 import {PollActionsService} from './poll-actions.service';
 import {PollModule} from './poll.module';
-import {ParticipantStub, PollEventStub, PollStub} from '../../test/stubs';
+import {PollService} from './poll.service';
 
 describe('PollActionsService', () => {
   let service: PollActionsService;
+  let pollService: PollService;
   let pollModel: Model<Poll>;
   let pollEventModel: Model<PollEventDto>;
 
@@ -24,6 +26,7 @@ describe('PollActionsService', () => {
     pollModel = module.get('PollModel');
     pollEventModel = module.get('PollEventModel');
     service = module.get<PollActionsService>(PollActionsService);
+    pollService = module.get<PollService>(PollService);
   });
 
   let pollStubId: Types.ObjectId;
@@ -36,32 +39,29 @@ describe('PollActionsService', () => {
     pollStubId = poll._id;
   });
 
-  it('should get poll', async () => {
-    const poll = await service.getPoll(pollStubId);
-    expect(poll).toBeDefined();
-  });
-
   it('should get all polls', async () => {
     const polls = await service.getPolls(PollStub().adminToken, undefined, true);
     expect(polls).toBeDefined();
     expect(polls.length).toEqual(1);
   });
 
+  // TODO this only tests the PollService
   it('should update poll', async () => {
     const modifiedPoll = PollStub();
     modifiedPoll.title = 'Party';
 
-    const updatedPoll = await service.putPoll(pollStubId, modifiedPoll);
+    const updatedPoll = await pollService.update(pollStubId, modifiedPoll);
     expect(updatedPoll).toBeDefined();
     expect(updatedPoll!.title).toEqual('Party');
   });
 
+  // TODO this only tests the PollService
   it('should not update poll', async () => {
     const modifiedPoll = PollStub();
     modifiedPoll.title = 'Meeting';
     const modifiedPollId = new Types.ObjectId('9e9e9e9e9e9e9e9e9e9e9e9e');
 
-    expect(await service.putPoll(modifiedPollId, modifiedPoll)).toBeNull();
+    expect(await pollService.update(modifiedPollId, modifiedPoll)).toBeNull();
     const updatedPoll = await pollModel.findById(pollStubId).exec();
     const pollCounts = await pollModel.countDocuments().exec();
 

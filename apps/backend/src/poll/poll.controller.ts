@@ -59,7 +59,7 @@ export class PollController {
   @Get(':id')
   @NotFound()
   async getPoll(@Param('id', ObjectIdPipe) id: Types.ObjectId): Promise<ReadPollDto | null> {
-    return this.pollActionsService.getPoll(id);
+    return this.pollService.find(id);
   }
 
   @Post()
@@ -84,7 +84,7 @@ export class PollController {
     if (!this.pollActionsService.isAdmin(pollDoc, token, user?.sub)) {
       throw new ForbiddenException('You are not allowed to edit this poll');
     }
-    return this.pollActionsService.putPoll(id, pollDto);
+    return this.pollService.update(id, pollDto);
   }
 
   @Post(':id/clone')

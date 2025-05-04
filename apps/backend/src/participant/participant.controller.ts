@@ -78,6 +78,6 @@ export class ParticipantController {
     if (participantDoc.token !== token && !this.pollActionsService.isAdmin(pollDoc, token, user?.sub)) {
       throw new ForbiddenException('You are not allowed to delete this participant');
     }
-    return this.pollActionsService.deleteParticipation(participant);
+    return this.participantService.delete(participant);
   }
 }
