@@ -39,8 +39,9 @@ describe('PollActionsService', () => {
     pollStubId = poll._id;
   });
 
+  // TODO this only tests the PollService
   it('should get all polls', async () => {
-    const polls = await service.getPolls(PollStub().adminToken, undefined, true);
+    const polls = await pollService.getPolls(PollStub().adminToken, undefined, true);
     expect(polls).toBeDefined();
     expect(polls.length).toEqual(1);
   });
@@ -155,11 +156,12 @@ describe('PollActionsService', () => {
     ).rejects.toThrow(NotFoundException);
   });
 
+  // TODO this only tests the PollService
   it('should be admin', async () => {
     const poll = await pollModel.findOne({title: 'Party (clone)'}).exec();
     expect(poll).toBeDefined();
 
-    const isAdmin = service.isAdmin(poll!, ParticipantStub().token, undefined);
+    const isAdmin = pollService.isAdmin(poll!, ParticipantStub().token, undefined);
     expect(isAdmin).toEqual(true);
   });
 });

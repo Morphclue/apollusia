@@ -75,7 +75,7 @@ export class ParticipantController {
     if (!participantDoc || !pollDoc) {
       throw new NotFoundException('Poll or participant not found');
     }
-    if (participantDoc.token !== token && !this.pollActionsService.isAdmin(pollDoc, token, user?.sub)) {
+    if (participantDoc.token !== token && !this.pollService.isAdmin(pollDoc, token, user?.sub)) {
       throw new ForbiddenException('You are not allowed to delete this participant');
     }
     return this.participantService.delete(participant);

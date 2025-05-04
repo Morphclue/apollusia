@@ -58,7 +58,7 @@ export class PollController {
     @AuthUser() user?: UserToken,
   ): Promise<boolean> {
     const poll = await this.pollService.find(id) ?? notFound(id);
-    return this.pollActionsService.isAdmin(poll, token, user?.sub);
+    return this.pollService.isAdmin(poll, token, user?.sub);
   }
 
   @Get(':id')
@@ -86,7 +86,7 @@ export class PollController {
     @AuthUser() user?: UserToken,
   ): Promise<ReadPollDto | null> {
     const pollDoc = await this.pollService.find(id) ?? notFound(id);
-    if (!this.pollActionsService.isAdmin(pollDoc, token, user?.sub)) {
+    if (!this.pollService.isAdmin(pollDoc, token, user?.sub)) {
       throw new ForbiddenException('You are not allowed to edit this poll');
     }
     return this.pollService.update(id, pollDto);
@@ -107,7 +107,7 @@ export class PollController {
     @AuthUser() user?: UserToken,
   ): Promise<ReadPollDto | null> {
     const pollDoc = await this.pollService.find(id) ?? notFound(id);
-    if (!this.pollActionsService.isAdmin(pollDoc, token, user?.sub)) {
+    if (!this.pollService.isAdmin(pollDoc, token, user?.sub)) {
       throw new ForbiddenException('You are not allowed to delete this poll');
     }
     return this.pollActionsService.deletePoll(id);
