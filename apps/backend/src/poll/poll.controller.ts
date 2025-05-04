@@ -1,4 +1,4 @@
-import {PollDto, ReadPollDto, ReadStatsPollDto} from '@apollusia/types';
+import {PollDto, ReadPollDto, readPollPopulate, ReadStatsPollDto} from '@apollusia/types';
 import {Auth, AuthUser, UserToken} from '@mean-stream/nestx/auth';
 import {NotFound, notFound} from '@mean-stream/nestx/not-found';
 import {ObjectIdPipe} from '@mean-stream/nestx/ref';
@@ -39,10 +39,15 @@ export class PollController {
     @Query('active') active?: string,
     @AuthUser() user?: UserToken,
   ): Promise<ReadStatsPollDto[]> {
+    const options = {
+      // TODO add query parameter
+      populate: readPollPopulate,
+      sort: {createdAt: -1},
+    };
     if (participated) {
-      return this.pollActionsService.getParticipatedPolls(token);
+      return this.pollActionsService.getParticipatedPolls(token, options);
     }
-    return this.pollActionsService.getPolls(token, user?.sub, active !== undefined ? active === 'true' : undefined);
+    return this.pollService.getPolls(token, user?.sub, active !== undefined ? active === 'true' : undefined, options);
   }
 
   @Get(':id/admin/:token')

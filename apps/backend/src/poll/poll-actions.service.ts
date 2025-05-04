@@ -10,7 +10,6 @@ import {
   ReadPollDto,
   ReadPollEventDto,
   readPollExcluded,
-  readPollPopulate,
   ReadStatsPollDto,
   ShowResultOptions,
   UpdateParticipantDto,
@@ -19,7 +18,7 @@ import {UserToken} from '@mean-stream/nestx/auth';
 import {notFound} from '@mean-stream/nestx/not-found';
 import {Doc} from '@mean-stream/nestx/ref';
 import {Injectable, Logger, UnprocessableEntityException} from '@nestjs/common';
-import {Document, FilterQuery, Types} from 'mongoose';
+import {Document, QueryOptions, Types} from 'mongoose';
 
 import {KeycloakUser} from '../auth/keycloak-user.interface';
 import {KeycloakService} from '../auth/keycloak.service';
@@ -48,43 +47,11 @@ export class PollActionsService {
   ) {
   }
 
-  private activeFilter(active: boolean | undefined): FilterQuery<Poll> {
-    if (active === undefined) {
-      return {};
-    }
-    const date = new Date(Date.now() - environment.polls.activeDays * 24 * 60 * 60 * 1000);
-    return active ? {
-      $or: [
-        {'settings.deadline': {$gt: date}},
-        {'settings.deadline': {$exists: false}},
-        {'settings.deadline': null},
-      ],
-    } : {
-      'settings.deadline': {$ne: null, $lte: date},
-    };
-  }
-
-  async getPolls(token: string, user: string | undefined, active: boolean | undefined): Promise<ReadStatsPollDto[]> {
-    return this.readPolls({
-      $and: [
-        user ? {$or: [{createdBy: user}, {adminToken: token}]} : {adminToken: token},
-        this.activeFilter(active),
-      ],
-    });
-  }
-
-  async getParticipatedPolls(token: string): Promise<ReadStatsPollDto[]> {
+  async getParticipatedPolls(token: string, options?: QueryOptions<Poll>): Promise<ReadStatsPollDto[]> {
     const pollIds = await this.participantService.distinct('poll', {token});
-    return this.readPolls({
+    return this.pollService.findAll({
       _id: {$in: pollIds},
-    });
-  }
-
-  private readPolls(filter: FilterQuery<Poll>): Promise<ReadStatsPollDto[]> {
-    return this.pollService.findAll(filter, {
-      populate: readPollPopulate,
-      sort: {createdAt: -1},
-    }) as any;
+    }, options) as any;
   }
 
   async postPoll(pollDto: PollDto, user?: UserToken): Promise<ReadPollDto> {
