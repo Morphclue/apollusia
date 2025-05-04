@@ -9,7 +9,6 @@ import {
   ReadParticipantDto,
   ReadPollDto,
   ReadPollEventDto,
-  readPollExcluded,
   ReadStatsPollDto,
   ShowResultOptions,
   UpdateParticipantDto,
@@ -23,13 +22,13 @@ import {Document, QueryOptions, Types} from 'mongoose';
 import {KeycloakUser} from '../auth/keycloak-user.interface';
 import {KeycloakService} from '../auth/keycloak.service';
 import {environment} from '../environment';
-import {PollService} from './poll.service';
 import {renderDate} from '../mail/helpers';
 import {MailService} from '../mail/mail/mail.service';
 import {ParticipantService} from '../participant/participant.service';
 import {PollEventService} from '../poll-event/poll-event.service';
 import {PollLogService} from '../poll-log/poll-log.service';
 import {PushService} from '../push/push.service';
+import {PollService} from './poll.service';
 
 @Injectable()
 export class PollActionsService {
@@ -55,21 +54,11 @@ export class PollActionsService {
   }
 
   async postPoll(pollDto: PollDto, user?: UserToken): Promise<ReadPollDto> {
-    const poll = await this.pollService.create({
+    return this.pollService.create({
       ...pollDto,
       id: undefined!, // required to pass type check, but ignored
       createdBy: user?.sub,
     });
-    return this.mask(poll.toObject());
-  }
-
-  mask(poll: Poll): ReadPollDto {
-    const {...rest} = poll;
-    for (const key of readPollExcluded) {
-      // @ts-expect-error TS2790
-      delete rest[key];
-    }
-    return rest;
   }
 
   async clonePoll(id: Types.ObjectId): Promise<ReadPollDto | null> {
