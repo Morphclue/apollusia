@@ -20,22 +20,22 @@ import {
 import {UserToken} from '@mean-stream/nestx/auth';
 import {notFound} from '@mean-stream/nestx/not-found';
 import {Doc} from '@mean-stream/nestx/ref';
-import {Injectable, Logger, OnModuleInit, UnprocessableEntityException} from '@nestjs/common';
+import {Injectable, Logger, UnprocessableEntityException} from '@nestjs/common';
 import {Document, FilterQuery, Types} from 'mongoose';
 
 import {KeycloakUser} from '../auth/keycloak-user.interface';
 import {KeycloakService} from '../auth/keycloak.service';
 import {environment} from '../environment';
-import {PollService} from './poll.service';
 import {renderDate} from '../mail/helpers';
 import {MailService} from '../mail/mail/mail.service';
 import {ParticipantService} from '../participant/participant.service';
 import {PollEventService} from '../poll-event/poll-event.service';
 import {PollLogService} from '../poll-log/poll-log.service';
 import {PushService} from '../push/push.service';
+import {PollService} from './poll.service';
 
 @Injectable()
-export class PollActionsService implements OnModuleInit {
+export class PollActionsService {
   private logger = new Logger(PollActionsService.name);
   private handleError = (err: Error) => this.logger.error(err.message, err.stack);
 
@@ -48,101 +48,6 @@ export class PollActionsService implements OnModuleInit {
     private participantService: ParticipantService,
     private keycloakService: KeycloakService,
   ) {
-  }
-
-  async onModuleInit() {
-    await Promise.all([
-      this.migrateSelection(),
-      this.migratePollEvents(),
-      this.migrateShowResults(),
-      this.migrateBookedEvents(),
-    ]);
-  }
-
-  private async migrateSelection() {
-    const participants = await this.participantService.findAll({
-      $or: [
-        {participation: {$exists: true}},
-        {indeterminateParticipation: {$exists: true}},
-      ],
-    });
-    for (const participant of participants) {
-      participant.selection ||= {};
-      for (const participation of (participant as any).participation || []) {
-        participant.selection[participation.toString()] = 'yes';
-      }
-      for (const participation of (participant as any).indeterminateParticipation || []) {
-        participant.selection[participation.toString()] = 'maybe';
-      }
-      participant.markModified('selection');
-      participant.set('participation', undefined);
-      participant.set('indeterminateParticipation', undefined);
-    }
-    await this.participantService.model.bulkSave(participants, {timestamps: false});
-    participants.length && this.logger.log(`Migrated ${participants.length} participants to the new selection format.`);
-  }
-
-  private async migratePollEvents() {
-    const pollEvents = await this.pollEventService.findAll({
-      $or: [
-        {start: {$type: 'string'}},
-        {end: {$type: 'string'}},
-      ],
-    });
-    for (const pollEvent of pollEvents) {
-      // NB: needs to happen here instead of aggregation pipeline, because MongoDB does not understand
-      //     the strange date format returned by Date.toString() that was sometimes used in the past.
-      pollEvent.start = new Date(pollEvent.start);
-      pollEvent.end = new Date(pollEvent.end);
-      pollEvent.markModified('start');
-      pollEvent.markModified('end');
-    }
-    await this.pollEventService.model.bulkSave(pollEvents, {timestamps: false});
-    pollEvents.length && this.logger.log(`Migrated ${pollEvents.length} poll events to the new date format.`);
-  }
-
-  private async migrateShowResults() {
-    const result = await this.pollEventService.updateMany(
-      {'settings.blindParticipation': {$exists: true}},
-      [
-        {
-          $set: {
-            'settings.showResult': {
-              $cond: {
-                if: {$eq: ['$settings.blindParticipation', true]},
-                then: ShowResultOptions.AFTER_PARTICIPATING,
-                else: ShowResultOptions.IMMEDIATELY,
-              },
-            },
-          },
-        },
-        {
-          $unset: 'settings.blindParticipation',
-        },
-      ],
-      {timestamps: false},
-    );
-    result.modifiedCount && this.logger.log(`Migrated ${result.modifiedCount} polls to the new show result format.`);
-  }
-
-  private async migrateBookedEvents() {
-    // migrate all Poll's bookedEvents: ObjectId[] to Record<ObjectId, true>
-    const polls = await this.pollService.findAll({bookedEvents: {$type: 'array'}});
-    if (!polls.length) {
-      return;
-    }
-
-    for (const poll of polls) {
-      const bookedEvents = poll.bookedEvents as unknown as Types.ObjectId[];
-      const newBookedEvents: Record<string, true> = {};
-      for (const event of bookedEvents) {
-        newBookedEvents[event.toString()] = true;
-      }
-      poll.bookedEvents = newBookedEvents;
-      poll.markModified('bookedEvents');
-    }
-    await this.pollService.model.bulkSave(polls, {timestamps: false});
-    this.logger.log(`Migrated ${polls.length} polls to the new booked events format.`);
   }
 
   private activeFilter(active: boolean | undefined): FilterQuery<Poll> {
