@@ -35,6 +35,7 @@ describe('PollActionsService', () => {
     const poll = await service.postPoll(PollStub());
     expect(poll).toBeDefined();
     expect(poll._id).toBeDefined();
+    expect((poll as any).adminToken).toBeDefined();
 
     pollStubId = poll._id;
   });

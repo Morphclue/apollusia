@@ -52,7 +52,7 @@ export class Participant {
     @Prop({type: [Types.ObjectId], default: undefined})
     indeterminateParticipation?: Types.ObjectId[];
 
-    @Prop({required: true, index: 1, transform: () => undefined})
+    @Prop({index: 1, transform: () => undefined})
     @ApiProperty()
     @IsString()
     @IsNotEmpty()
