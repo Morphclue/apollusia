@@ -100,7 +100,7 @@ export class Poll {
     @IsTimeZone()
     timeZone?: string;
 
-    @Prop({required: true, index: 1})
+    @Prop({required: true, index: 1, transform: () => undefined})
     @ApiProperty()
     @IsNotEmpty()
     @IsString()

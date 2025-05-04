@@ -5,7 +5,6 @@ export class PollDto extends OmitType(Poll, ['id', '_id'] as const) {
 }
 
 export const readPollExcluded = ['adminToken'] as const;
-export const readPollSelect = readPollExcluded.map(s => '-' + s).join(' ');
 export const readPollPopulate = ['events', 'participants', 'comments'];
 
 export class ReadPollDto extends OmitType(Poll, readPollExcluded) {

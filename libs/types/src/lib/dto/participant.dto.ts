@@ -10,7 +10,6 @@ export class UpdateParticipantDto extends (PickType(Participant, ['selection'] a
 }
 
 export const readParticipantExcluded = ['token'] as const;
-export const readParticipantSelect = readParticipantExcluded.map(s => `-${s}`);
 
 export class ReadParticipantDto extends (OmitType(Participant, readParticipantExcluded) as Type<Omit<Participant, typeof readParticipantExcluded[number]>>) {
 }

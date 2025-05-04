@@ -7,12 +7,10 @@ import {
   PollEvent,
   PollEventDto,
   ReadParticipantDto,
-  readParticipantSelect,
   ReadPollDto,
   ReadPollEventDto,
   readPollExcluded,
   readPollPopulate,
-  readPollSelect,
   ReadStatsPollDto,
   ShowResultOptions,
   UpdateParticipantDto,
@@ -84,7 +82,6 @@ export class PollActionsService {
 
   private readPolls(filter: FilterQuery<Poll>): Promise<ReadStatsPollDto[]> {
     return this.pollService.findAll(filter, {
-      projection: readPollSelect,
       populate: readPollPopulate,
       sort: {createdAt: -1},
     }) as any;
@@ -92,7 +89,6 @@ export class PollActionsService {
 
   getPoll(id: Types.ObjectId): Promise<Doc<ReadPollDto> | null> {
     return this.pollService.find(id, {
-      projection: readPollSelect,
       populate: readPollPopulate,
     }) as any;
   }
@@ -116,9 +112,7 @@ export class PollActionsService {
   }
 
   async putPoll(id: Types.ObjectId, pollDto: PollDto): Promise<ReadPollDto | null> {
-    return this.pollService.update(id, pollDto, {
-      projection: readPollSelect,
-    });
+    return this.pollService.update(id, pollDto);
   }
 
   async clonePoll(id: Types.ObjectId): Promise<ReadPollDto | null> {
@@ -139,7 +133,7 @@ export class PollActionsService {
   }
 
   async deletePoll(id: Types.ObjectId): Promise<ReadPollDto | null> {
-    const poll = await this.pollService.delete(id, {projection: readPollSelect});
+    const poll = await this.pollService.delete(id);
     await this.pollEventService.deleteMany({poll: id});
     await this.participantService.deleteMany({poll: id});
     return poll;
@@ -271,8 +265,6 @@ export class PollActionsService {
       const participants = await this.participantService.findAll({
         poll: id,
         _id: {$nin: currentParticipant.map(p => p._id)},
-      }, {
-        projection: readParticipantSelect,
       });
       return [...participants, ...currentParticipant];
     }
@@ -397,14 +389,12 @@ export class PollActionsService {
   }
 
   async deleteParticipation(participantId: Types.ObjectId): Promise<ReadParticipantDto | null> {
-    return this.participantService.delete(participantId, {projection: readParticipantSelect});
+    return this.participantService.delete(participantId);
   }
 
   async bookEvents(id: Types.ObjectId, events: Poll['bookedEvents'], user?: UserToken): Promise<ReadPollDto> {
     const poll = await this.pollService.update(id, {
       bookedEvents: events,
-    }, {
-      projection: readPollSelect,
     }) ?? notFound(id);
     const eventDocs = await this.pollEventService.findAll({
       poll: id,
