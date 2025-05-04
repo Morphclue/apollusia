@@ -23,13 +23,13 @@ import {Document, QueryOptions, Types} from 'mongoose';
 import {KeycloakUser} from '../auth/keycloak-user.interface';
 import {KeycloakService} from '../auth/keycloak.service';
 import {environment} from '../environment';
+import {PollService} from './poll.service';
 import {renderDate} from '../mail/helpers';
 import {MailService} from '../mail/mail/mail.service';
 import {ParticipantService} from '../participant/participant.service';
 import {PollEventService} from '../poll-event/poll-event.service';
 import {PollLogService} from '../poll-log/poll-log.service';
 import {PushService} from '../push/push.service';
-import {PollService} from './poll.service';
 
 @Injectable()
 export class PollActionsService {
@@ -220,7 +220,7 @@ export class PollActionsService {
   }
 
   private canViewResults(poll: Poll, token: string, user: UserToken | undefined, currentParticipant: boolean) {
-    if (this.isAdmin(poll, token, user?.sub)) {
+    if (this.pollService.isAdmin(poll, token, user?.sub)) {
       return true;
     }
     switch (poll.settings.showResult) {
@@ -418,10 +418,6 @@ export class PollActionsService {
         participant: participant.toObject(),
       }).catch(this.handleError);
     }
-  }
-
-  isAdmin(poll: Poll, token: string | undefined, user: string | undefined) {
-    return poll.adminToken === token || poll.createdBy === user;
   }
 
   async claimPolls(adminToken: string, createdBy: string): Promise<void> {

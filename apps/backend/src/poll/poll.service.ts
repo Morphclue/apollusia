@@ -42,4 +42,8 @@ export class PollService extends MongooseRepository<Poll> {
   private ownerFilter(token: string, user: string | undefined) {
     return user ? {$or: [{createdBy: user}, {adminToken: token}]} : {adminToken: token};
   }
+
+  isAdmin(poll: Poll, token: string | undefined, user: string | undefined) {
+    return poll.adminToken === token || poll.createdBy === user;
+  }
 }
