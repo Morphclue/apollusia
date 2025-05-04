@@ -239,17 +239,7 @@ export class PollActionsService {
 
   async getParticipants(id: Types.ObjectId, token: string, user?: UserToken): Promise<ReadParticipantDto[]> {
     const poll = await this.pollService.find(id) ?? notFound(id);
-    const currentParticipant = await this.participantService.findAll({
-      poll: id,
-      ...(user ? {
-        $or: [
-          {createdBy: user.sub},
-          {token},
-        ],
-      }: {
-        token,
-      }),
-    });
+    const currentParticipant = await this.participantService.getOwn(id, token, user);
 
     if (this.canViewResults(poll, token, user, currentParticipant.length > 0)) {
       const participants = await this.participantService.findAll({
