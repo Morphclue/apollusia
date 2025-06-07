@@ -8,19 +8,18 @@ $amethyst: #9d4eddff;
 $heliotrope: #c77dffff;
 $mauve: #e0aaffff;
 
-/* Overrides */
-
-$primary: $french-violet;
-$dark: $persian-indigo;
-
 /* Imports */
-@import 'bootstrap/scss/bootstrap'; // NB: @import 'bootstrap' does not allow variable overrides
-@import 'bootstrap-icons';
-@import 'angular-calendar/scss/angular-calendar';
-@import 'flatpickr';
+@use 'bootstrap/scss/bootstrap' with (
+  $purple: $purple,
+  $primary: $french-violet,
+  $dark: $persian-indigo
+);
+@use 'bootstrap-icons';
+@use 'angular-calendar/scss/angular-calendar' as *;
+@use 'flatpickr';
 
 .logo-glow {
-  filter: drop-shadow(0 0 10px $primary);
+  filter: drop-shadow(0 0 10px var(--bs-primary));
 }
 
 /* Cal-header */
@@ -107,7 +106,7 @@ $dark: $persian-indigo;
 
 .ngb-dp-today {
   @extend .fw-bold;
-  color: $primary;
+  color: var(--bs-primary);
 }
 
 .ngb-dp-day:hover {
@@ -116,7 +115,7 @@ $dark: $persian-indigo;
 }
 
 .ngb-dp-selected {
-  background-color: $primary;
+  background-color: var(--bs-primary);
   color: var(--bs-body-bg);
 }
 
