@@ -32,7 +32,7 @@ export class AppPage{
       .should('have.attr', 'aria-expanded', 'false');
   }
 
-  createPoll() {
+  createPoll(id: string) {
     cy.intercept('POST', '/api/v1/poll', {
       statusCode: 201,
       body: {
@@ -56,20 +56,20 @@ export class AppPage{
         "createdAt": "2025-06-07T16:00:00.238Z",
         "updatedAt": "2025-06-07T16:00:00.238Z",
         "__v": 0,
-        "id": "aERnsOuSeZs8WXNX"
+        "id": id
       }
     });
     cy.contains('div.d-flex > button[type="submit"]', 'Create').click();
-    cy.url().should('include', '/poll/aERnsOuSeZs8WXNX/date');
+    cy.url().should('include', `/poll/${id}/date`);
   }
 
-  selectDates() {
-    cy.intercept('POST', '/api/v1/poll/aERnsOuSeZs8WXNX/events', {
+  selectDates(id: string) {
+    cy.intercept('POST', `/api/v1/poll/${id}/events`, {
       statusCode: 200
     })
     cy.get('div.cal-hour-segment.cal-hour-start').last().click();
     cy.get('div.cal-hour-segment.cal-after-hour-start').last().click();
     cy.get('.btn-primary').contains('Update').click();
-    cy.url().should('include', '/poll/aERnsOuSeZs8WXNX/participate');
+    cy.url().should('include', `/poll/${id}/participate`);
   }
 }
