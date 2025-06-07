@@ -8,16 +8,18 @@ $amethyst: #9d4eddff;
 $heliotrope: #c77dffff;
 $mauve: #e0aaffff;
 
-/* Overrides */
-
+/* Variables */
 $primary: $french-violet;
-$dark: $persian-indigo;
 
 /* Imports */
-@import 'bootstrap/scss/bootstrap'; // NB: @import 'bootstrap' does not allow variable overrides
-@import 'bootstrap-icons';
-@import 'angular-calendar/scss/angular-calendar';
-@import 'flatpickr';
+@use 'bootstrap/scss/bootstrap' with (
+  $purple: #5a189aff,
+  $primary: #7b2cbfff,
+  $dark: #3c096cff
+);
+@use 'bootstrap-icons';
+@use 'angular-calendar/scss/angular-calendar' as *;
+@use 'flatpickr';
 
 .logo-glow {
   filter: drop-shadow(0 0 10px $primary);
