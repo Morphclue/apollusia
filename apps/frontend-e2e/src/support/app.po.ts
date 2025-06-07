@@ -19,10 +19,10 @@ export class AppPage{
     cy.get('button[type="submit"]').should('be.disabled')
   }
 
-  fillPollForm() {
-    cy.get('input[id="title"]').type('My Poll');
+  fillPollForm(poll = mockPoll) {
+    cy.get('input[id="title"]').type(poll.title);
     cy.get('button[type="submit"]').should('not.be.disabled')
-    cy.get('textarea[id="description"]').type('This is short description');
+    cy.get('textarea[id="description"]').type(poll.description);
     cy.get('.input-group-text').should('have.class', 'bi-geo');
     cy.get('input[id="location"]').type('Discord');
     cy.get('.input-group-text').should('have.class', 'bi-discord');
