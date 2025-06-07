@@ -1,8 +1,13 @@
-describe('web', () => {
-  beforeEach(() => cy.visit('/dashboard'));
+import { AppPage } from '../support/app.po';
+
+describe('Create poll', () => {
+  const page = new AppPage();
 
   it('should display the dashboard', () => {
-    cy.get('app-navbar').should('be.visible');
-    cy.get('app-dashboard').should('be.visible');
+    cy.visit('/dashboard')
+    page.acceptCookies();
+    page.expectEmptyDashboardVisible();
+    page.openCreatePollPage();
+    page.fillPollForm();
   });
 });

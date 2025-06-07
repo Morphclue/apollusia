@@ -9,6 +9,7 @@
     "build:backend": "nx build backend",
     "test:frontend": "nx test frontend",
     "test:backend": "nx test backend",
+    "test:frontend-e2e": "nx e2e frontend-e2e",
     "lint:frontend": "nx lint frontend",
     "lint:backend": "nx lint backend",
     "build:keycloak": "nx build keycloak"
