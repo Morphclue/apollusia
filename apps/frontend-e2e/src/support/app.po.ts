@@ -62,4 +62,14 @@ export class AppPage{
     cy.contains('div.d-flex > button[type="submit"]', 'Create').click();
     cy.url().should('include', '/poll/aERnsOuSeZs8WXNX/date');
   }
+
+  selectDates() {
+    cy.intercept('POST', '/api/v1/poll/aERnsOuSeZs8WXNX/events', {
+      statusCode: 200
+    })
+    cy.get('div.cal-hour-segment.cal-hour-start').last().click();
+    cy.get('div.cal-hour-segment.cal-after-hour-start').last().click();
+    cy.get('.btn-primary').contains('Update').click();
+    cy.url().should('include', '/poll/aERnsOuSeZs8WXNX/participate');
+  }
 }

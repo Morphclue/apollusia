@@ -10,5 +10,6 @@ describe('Create poll', () => {
     page.openCreatePollPage();
     page.fillPollForm();
     page.createPoll();
+    page.selectDates();
   });
 });
