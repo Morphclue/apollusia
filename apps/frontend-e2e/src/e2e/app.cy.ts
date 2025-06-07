@@ -9,5 +9,6 @@ describe('Create poll', () => {
     page.expectEmptyDashboardVisible();
     page.openCreatePollPage();
     page.fillPollForm();
+    page.createPoll();
   });
 });
