@@ -8,21 +8,18 @@ $amethyst: #9d4eddff;
 $heliotrope: #c77dffff;
 $mauve: #e0aaffff;
 
-/* Variables */
-$primary: $french-violet;
-
 /* Imports */
 @use 'bootstrap/scss/bootstrap' with (
-  $purple: #5a189aff,
-  $primary: #7b2cbfff,
-  $dark: #3c096cff
+  $purple: $purple,
+  $primary: $french-violet,
+  $dark: $persian-indigo
 );
 @use 'bootstrap-icons';
 @use 'angular-calendar/scss/angular-calendar' as *;
 @use 'flatpickr';
 
 .logo-glow {
-  filter: drop-shadow(0 0 10px $primary);
+  filter: drop-shadow(0 0 10px var(--bs-primary));
 }
 
 /* Cal-header */
@@ -109,7 +106,7 @@ $primary: $french-violet;
 
 .ngb-dp-today {
   @extend .fw-bold;
-  color: $primary;
+  color: var(--bs-primary);
 }
 
 .ngb-dp-day:hover {
@@ -118,7 +115,7 @@ $primary: $french-violet;
 }
 
 .ngb-dp-selected {
-  background-color: $primary;
+  background-color: var(--bs-primary);
   color: var(--bs-body-bg);
 }
 
