@@ -7,7 +7,6 @@ export class AppPage{
   }
 
   expectEmptyDashboardVisible(){
-    cy.get('app-navbar').should('be.visible');
     cy.get('app-dashboard').should('be.visible');
     cy.get('app-dashboard li').contains('There is nothing here.');
     cy.get('app-navbar').should('be.visible');
