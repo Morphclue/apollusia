@@ -1,47 +1,6 @@
+import { mockEvents, mockPoll} from './mocks';
+
 export class AppPage{
-  pollBody = {
-    "title": "My Poll",
-    "description": "This is short description",
-    "location": "Discord",
-    "timeZone": "Europe/Berlin",
-    "adminMail": false,
-    "adminPush": false,
-    "settings": {
-      "deadline": "2222-10-15T04:20:00.000Z",
-      "allowMaybe": true,
-      "allowEdit": true,
-      "anonymous": false,
-      "allowComments": true,
-      "logHistory": true,
-      "showResult": "immediately"
-    },
-    "bookedEvents": {},
-    "_id": "684467b0eb92799b3c597357",
-    "createdAt": "2025-06-07T16:00:00.238Z",
-    "updatedAt": "2025-06-07T16:00:00.238Z",
-    "__v": 0,
-    "id": "aERnsOuSeZs8WXNX"
-  }
-
-  pollEvents = [
-    {
-      "_id": "6844785ed2866d622a3a2ea4",
-      "poll": "684467b0eb92799b3c597357",
-      "start": "2025-06-08T20:30:00.000Z",
-      "end": "2025-06-08T20:45:00.000Z",
-      "__v": 0,
-      "participants": 0
-    },
-    {
-      "_id": "6844785ed2866d622a3a2ea3",
-      "poll": "684467b0eb92799b3c597357",
-      "start": "2025-06-08T23:30:00.000Z",
-      "end": "2025-06-08T23:45:00.000Z",
-      "__v": 0,
-      "participants": 0
-    }
-  ]
-
   acceptCookies(){
     cy.get('app-cookie-banner').should('be.visible');
     cy.get('app-cookie-banner .btn-link').click();
@@ -78,7 +37,7 @@ export class AppPage{
   createPoll(id: string) {
     cy.intercept('POST', '/api/v1/poll', {
       statusCode: 201,
-      body: this.pollBody
+      body: mockPoll
     });
     cy.contains('div.d-flex > button[type="submit"]', 'Create').click();
     cy.url().should('include', `/poll/${id}/date`);
@@ -97,7 +56,7 @@ export class AppPage{
   participateInPoll(id: string) {
     cy.intercept('GET', `/api/v1/poll/${id}/events`, {
       statusCode: 200,
-      body: this.pollEvents
+      body: mockEvents
     })
     cy.intercept('GET', `/api/v1/poll/${id}/participate`, {
       statusCode: 200,
@@ -105,7 +64,7 @@ export class AppPage{
     })
     cy.intercept('GET', `/api/v1/poll/${id}`, {
       statusCode: 200,
-      body: this.pollBody
+      body: mockPoll
     })
     cy.intercept(`GET`, `/api/v1/poll/${id}/admin/admin-token-123`, {
       statusCode: 200,
