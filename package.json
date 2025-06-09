@@ -71,7 +71,7 @@
     "sass": "1.89.1",
     "stylelint": "16.20.0",
     "stylelint-config-standard-scss": "13.1.0",
-    "ts-jest": "29.3.4",
+    "ts-jest": "29.2.3",
     "ts-node": "10.9.2",
     "typescript": "5.8.3",
     "webpack-node-externals": "^3.0.0"
