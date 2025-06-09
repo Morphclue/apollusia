@@ -29,9 +29,7 @@
         "styles": ["apps/frontend/src/styles.scss"],
         "allowedCommonJsDependencies": ["validator"],
         "scripts": [],
-        "plugins": [
-          "apps/frontend/plugins/define-version.cjs"
-        ],
+        "plugins": ["apps/frontend/plugins/define-version.cjs"],
         "serviceWorker": "apps/frontend/ngsw-config.json",
         "browser": "apps/frontend/src/main.ts",
         "server": "apps/frontend/src/main.server.ts",
@@ -86,7 +84,8 @@
       "defaultConfiguration": "development",
       "options": {
         "proxyConfig": "apps/frontend/proxy.conf.json"
-      }
+      },
+      "continuous": true
     },
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
