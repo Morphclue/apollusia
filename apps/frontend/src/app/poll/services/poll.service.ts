@@ -1,7 +1,7 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {PollEventState} from '@apollusia/types';
-import {fromEvent, Observable, retry} from 'rxjs';
+import {EMPTY, fromEvent, Observable, retry} from 'rxjs';
 import {map} from 'rxjs/operators';
 
 import {environment} from '../../../environments/environment';
@@ -104,6 +104,11 @@ export class PollService {
   }
 
   streamLogs(id: string): Observable<PollLog> {
+    if (!globalThis.EventSource) {
+      // In SSR, EventSource is not available but we also don't care about streaming logs
+      return EMPTY;
+    }
+
     return fromEvent<MessageEvent>(new EventSource(`${environment.backendURL}/poll/${id}/log/events`), 'message').pipe(
       map(event => JSON.parse(event.data)),
       retry(),
