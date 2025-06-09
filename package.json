@@ -91,7 +91,7 @@
     "@angular/service-worker": "19.2.7",
     "@angular/ssr": "19.2.8",
     "@keycloak/keycloak-admin-client": "^25.0.6",
-    "@mean-stream/nestx": "^0.12.1",
+    "@mean-stream/nestx": "^0.13.0",
     "@mean-stream/ngbx": "^0.13.0",
     "@nestjs-modules/mailer": "^2.0.2",
     "@nestjs/common": "^11.1.2",
