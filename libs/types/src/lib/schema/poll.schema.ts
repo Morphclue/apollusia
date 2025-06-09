@@ -1,5 +1,5 @@
 import 'base64-js'; // FIXME needs explicit import because nx does not detect it in objectIdToBase64
-import {objectIdToBase64} from '@mean-stream/nestx/ref';
+import {objectIdToBase64} from '@mean-stream/nestx';
 import {Prop, Schema, SchemaFactory} from '@nestjs/mongoose';
 import {ApiProperty, ApiPropertyOptional} from '@nestjs/swagger';
 import {Type} from 'class-transformer';

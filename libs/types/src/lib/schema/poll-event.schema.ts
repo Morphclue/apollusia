@@ -1,4 +1,4 @@
-import {Ref} from '@mean-stream/nestx/ref';
+import {Ref} from '@mean-stream/nestx';
 import {Prop, Schema, SchemaFactory} from '@nestjs/mongoose';
 import {ApiProperty} from '@nestjs/swagger';
 import {IsDate, IsOptional, IsString} from 'class-validator';

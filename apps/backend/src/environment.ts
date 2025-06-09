@@ -1,4 +1,4 @@
-import {AuthModuleOptions} from '@mean-stream/nestx/auth';
+import {AuthModuleOptions} from '@mean-stream/nestx';
 import {Logger} from '@nestjs/common';
 import {MailerOptions} from '@nestjs-modules/mailer';
 
