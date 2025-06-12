@@ -10,7 +10,6 @@ describe('Create poll and fill out information', () => {
         win.localStorage.setItem('token', 'admin-token-123');
       }
     })
-    cy.wait(5000); // FIXME: Improve this wait
     page.acceptCookies();
     page.expectEmptyDashboardVisible();
     page.openCreatePollPage();
