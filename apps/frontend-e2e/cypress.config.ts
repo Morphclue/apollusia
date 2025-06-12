@@ -8,4 +8,5 @@ export default defineConfig({
     injectDocumentDomain: true,
     supportFile: false,
   },
+  defaultBrowser: 'chrome'
 });
