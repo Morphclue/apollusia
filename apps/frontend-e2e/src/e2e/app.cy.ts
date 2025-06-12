@@ -1,9 +1,9 @@
 import { AppPage } from '../support/app.po';
 
-describe('Create poll', () => {
+describe('Create poll and fill out information', () => {
   const page = new AppPage();
 
-  it('should display the dashboard', () => {
+  it('Full e2e run', () => {
     const id = 'aERnsOuSeZs8WXNX'
     cy.visit('/dashboard', {
       onBeforeLoad(win) {
