@@ -34,18 +34,11 @@ export class AppPage{
   }
 
   createPoll(id: string) {
-    cy.intercept('POST', '/api/v1/poll', {
-      statusCode: 201,
-      body: mockPoll
-    });
     cy.contains('div.d-flex > button[type="submit"]', 'Create').click();
     cy.url().should('include', `/poll/${id}/date`);
   }
 
   selectDates(id: string) {
-    cy.intercept('POST', `/api/v1/poll/${id}/events`, {
-      statusCode: 200
-    })
     cy.get('div.cal-hour-segment.cal-hour-start').last().click();
     cy.get('div.cal-hour-segment.cal-after-hour-start').last().click();
     cy.get('.btn-primary').contains('Update').click();
@@ -53,25 +46,35 @@ export class AppPage{
   }
 
   participateInPoll(id: string) {
+    cy.get('input[type="checkbox"]').first().click();
+    cy.get('apollusia-table .btn-primary').contains('Submit').should('be.disabled');
+    cy.get('input[id="name"]').type('Alice');
+    cy.get('apollusia-table .btn-primary').contains('Submit').should('be.enabled');
+  }
+
+  prepareIntercepts(id: string) {
+    cy.intercept('GET', `/api/v1/poll/${id}`, {
+      statusCode: 200,
+      body: mockPoll
+    })
+    cy.intercept('POST', '/api/v1/poll', {
+      statusCode: 201,
+      body: mockPoll
+    });
     cy.intercept('GET', `/api/v1/poll/${id}/events`, {
       statusCode: 200,
       body: mockEvents
+    })
+    cy.intercept('POST', `/api/v1/poll/${id}/events`, {
+      statusCode: 200
     })
     cy.intercept('GET', `/api/v1/poll/${id}/participate`, {
       statusCode: 200,
       body: []
     })
-    cy.intercept('GET', `/api/v1/poll/${id}`, {
-      statusCode: 200,
-      body: mockPoll
-    })
     cy.intercept('GET', `/api/v1/poll/${id}/admin/admin-token-123`, {
       statusCode: 200,
       body: true
     })
-    cy.get('input[type="checkbox"]').first().click();
-    cy.get('apollusia-table .btn-primary').contains('Submit').should('be.disabled');
-    cy.get('input[id="name"]').type('Alice');
-    cy.get('apollusia-table .btn-primary').contains('Submit').should('be.enabled');
   }
 }

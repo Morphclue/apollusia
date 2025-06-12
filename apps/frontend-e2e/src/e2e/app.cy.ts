@@ -10,6 +10,7 @@ describe('Create poll and fill out information', () => {
         win.localStorage.setItem('token', 'admin-token-123');
       }
     })
+    page.prepareIntercepts(id);
     page.acceptCookies();
     page.expectEmptyDashboardVisible();
     page.openCreatePollPage();
