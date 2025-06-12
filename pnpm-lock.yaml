@@ -321,7 +321,7 @@ importers:
         specifier: ^3.0.4
         version: 3.0.4
       cypress:
-        specifier: 14.4.1
+        specifier: ^14.4.1
         version: 14.4.1
       eslint:
         specifier: ^9.8.0
