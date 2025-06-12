@@ -45,7 +45,7 @@ export class AppPage{
     cy.url().should('include', `/poll/${id}/participate`);
   }
 
-  participateInPoll(id: string) {
+  participateInPoll() {
     cy.get('input[type="checkbox"]').first().click();
     cy.get('apollusia-table .btn-primary').contains('Submit').should('be.disabled');
     cy.get('input[id="name"]').type('Alice');
