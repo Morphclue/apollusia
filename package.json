@@ -12,6 +12,7 @@
     "test:frontend-e2e": "nx e2e frontend-e2e",
     "lint:frontend": "nx lint frontend",
     "lint:backend": "nx lint backend",
+    "lint:frontend-e2e": "nx lint frontend-e2e",
     "build:keycloak": "nx build keycloak"
   },
   "private": true,
