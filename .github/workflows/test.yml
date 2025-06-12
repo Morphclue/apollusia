@@ -14,6 +14,7 @@ jobs:
       matrix:
         app:
           - frontend
+          - frontend-e2e
           - backend
     steps:
       - name: Checkout
