@@ -36,7 +36,7 @@ jobs:
           path: ~/.cache/Cypress
           key: cypress-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile ${{ matrix.app == 'frontend-e2e' && '--allow-build=cypress' || '' }}
+        run: pnpm install --frozen-lockfile
       - name: Lint
         run: pnpm run lint:${{ matrix.app }} --fix
       - name: Commit changes
