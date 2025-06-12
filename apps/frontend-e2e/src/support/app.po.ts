@@ -65,7 +65,7 @@ export class AppPage{
       statusCode: 200,
       body: mockPoll
     })
-    cy.intercept(`GET`, `/api/v1/poll/${id}/admin/admin-token-123`, {
+    cy.intercept('GET', `/api/v1/poll/${id}/admin/admin-token-123`, {
       statusCode: 200,
       body: true
     })
