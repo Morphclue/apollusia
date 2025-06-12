@@ -16,9 +16,7 @@ export default [
   },
   ...baseConfig,
   ...compat
-    .config({
-      // Optional extends
-    })
+    .config({})
     .map((config) => ({
       ...config,
       files: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx'],
@@ -26,14 +24,4 @@ export default [
         ...config.rules,
       },
     })),
-  {
-    files: ['**/*.ts', '**/*.tsx'],
-    // Override or add rules here
-    rules: {},
-  },
-  {
-    files: ['**/*.js', '**/*.jsx'],
-    // Override or add rules here
-    rules: {},
-  },
 ];
