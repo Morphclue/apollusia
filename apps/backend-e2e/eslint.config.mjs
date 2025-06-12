@@ -15,8 +15,4 @@ export default [
   },
   ...baseConfig,
   ...compat.extends('plugin:cypress/recommended'),
-  {
-    files: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx'],
-    rules: {},
-  },
 ];
