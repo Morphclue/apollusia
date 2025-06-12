@@ -72,7 +72,6 @@ export class AppPage{
     cy.get('input[type="checkbox"]').first().click();
     cy.get('apollusia-table .btn-primary').contains('Submit').should('be.disabled');
     cy.get('input[id="name"]').type('Alice');
-    cy.get('body').click(); // FIXME: Currently required to trigger validation
     cy.get('apollusia-table .btn-primary').contains('Submit').should('be.enabled');
   }
 }
