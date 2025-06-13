@@ -2,7 +2,7 @@
   @if (poll.location; as location) {
     <tr>
       <th>
-        <i [class]="location | locationIcon" ngbTooltip="Location"></i>
+        <i [class]="location | locationIcon" ngbTooltip="Location" i18n-ngbTooltip="@@poll-location"></i>
       </th>
       <td>
         <app-location-link [location]="location"></app-location-link>
@@ -12,7 +12,7 @@
   @if (poll.settings.deadline; as deadline) {
     <tr>
       <th>
-        <i class="bi-calendar" ngbTooltip="Deadline"></i>
+        <i class="bi-calendar" ngbTooltip="Deadline" i18n-ngbTooltip="@@poll-deadline"></i>
       </th>
       <td>
         {{ deadline | date: 'medium' }}
@@ -22,7 +22,7 @@
   @if (description && poll.description; as description) {
     <tr>
       <th>
-        <i class="bi-text-paragraph" ngbTooltip="Description"></i>
+        <i class="bi-text-paragraph" ngbTooltip="Description" i18n-ngbTooltip="@@poll-description"></i>
       </th>
       <td>
         <app-markdown [text]="description"></app-markdown>
@@ -31,15 +31,15 @@
   }
   <tr>
     <th>
-      <i class="bi-link" ngbTooltip="Link"></i>
+      <i class="bi-link" ngbTooltip="Link" i18n-ngbTooltip="@@poll-link"></i>
     </th>
     <td>
       <div class="d-flex align-items-center">
         <a routerLink="." class="break-link">{{ url }}</a>
         &nbsp;
-        <button class="btn p-0 btn-link bi-clipboard" ngbTooltip="Copy to clipboard"
+        <button class="btn p-0 btn-link bi-clipboard" ngbTooltip="Copy to clipboard" i18n-ngbTooltip="@@poll-copy-link"
                 (click)="copyToClipboard()"></button>
-        <button class="btn p-0 btn-link bi-envelope-at" ngbTooltip="Share via email"
+        <button class="btn p-0 btn-link bi-envelope-at" ngbTooltip="Share via email" i18n-ngbTooltip="@@poll-share-email"
                 (click)="draftEmail()"></button>
       </div>
     </td>

@@ -33,17 +33,17 @@ export class NavbarComponent implements OnInit {
 
   themes = [
     {
-      name: 'Light',
+      name: $localize`:@@theme-light:Light`,
       value: 'light',
       icon: 'bi-sun',
     },
     {
-      name: 'Dark',
+      name: $localize`:@@theme-dark:Dark`,
       value: 'dark',
       icon: 'bi-moon-stars',
     },
     {
-      name: 'Auto',
+      name: $localize`:@@theme-auto:Auto`,
       value: 'auto',
       icon: 'bi-circle-half',
     },
