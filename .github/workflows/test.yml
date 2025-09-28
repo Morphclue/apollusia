@@ -17,7 +17,7 @@ jobs:
           - backend
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       # https://github.com/actions/setup-node/issues/480#issuecomment-1915448139
       # https://github.com/nodejs/corepack/issues/612
       - name: Enable Corepack
