@@ -1,5 +1,5 @@
 import {HttpClient} from '@angular/common/http';
-import {Injectable} from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import {SwPush} from '@angular/service-worker';
 import type {PushConfigDto} from '@apollusia/types';
 import {firstValueFrom} from 'rxjs';
@@ -10,13 +10,12 @@ import {environment} from '../../../environments/environment';
   providedIn: 'root',
 })
 export class PushService {
+  private swPush = inject(SwPush);
+  http  = inject(HttpClient);
   #config: Promise<PushConfigDto>;
 
-  constructor(
-    private swPush: SwPush,
-    http: HttpClient,
-  ) {
-    this.#config = firstValueFrom(http.get<PushConfigDto>(`${environment.backendURL}/push/config`));
+  constructor() {
+    this.#config = firstValueFrom(this.http.get<PushConfigDto>(`${environment.backendURL}/push/config`));
   }
 
   isEnabled() {

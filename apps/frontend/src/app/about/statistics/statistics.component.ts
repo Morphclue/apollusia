@@ -1,5 +1,5 @@
 import {HttpClient} from '@angular/common/http';
-import {Component, OnInit} from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 
 import {environment} from '../../../environments/environment';
 import {Statistics} from '../../model';
@@ -11,6 +11,7 @@ import {Statistics} from '../../model';
   standalone: false,
 })
 export class StatisticsComponent implements OnInit {
+  private http = inject(HttpClient);
   statistics?: Statistics;
 
   columns: [keyof Statistics, string, string][] = [
@@ -19,9 +20,6 @@ export class StatisticsComponent implements OnInit {
     ['participants', 'bi-person-check', 'Persons participated'],
     ['users', 'bi-person', 'Unique Users'],
   ];
-
-  constructor(private http: HttpClient) {
-  }
 
   ngOnInit(): void {
     this.fetchStatistics();

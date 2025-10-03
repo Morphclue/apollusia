@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {saveAs} from 'file-saver';
 import {ICalCalendar, ICalCalendarMethod} from 'ical-generator';
@@ -18,6 +18,9 @@ import {PollService} from '../services/poll.service';
   standalone: false,
 })
 export class IcalComponent implements OnInit {
+  public route= inject(ActivatedRoute);
+  private pollService = inject(PollService);
+  private markdownService = inject(MarkdownService);
   poll?: ReadPoll;
   pollEvents?: ReadPollEvent[];
   participants?: Participant[];
@@ -26,13 +29,6 @@ export class IcalComponent implements OnInit {
   exampleEvent?: ReadPollEvent & {_participants: Participant[]};
 
   config = new ICalConfig();
-
-  constructor(
-    public route: ActivatedRoute,
-    private pollService: PollService,
-    private markdownService: MarkdownService,
-  ) {
-  }
 
   ngOnInit() {
     this.route.params.pipe(

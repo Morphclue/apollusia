@@ -12,6 +12,7 @@ import {AboutModule} from './about/about.module';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {CoreModule} from './core/core.module';
+import {BASE_URL} from './core/injection-tokens/base-url';
 import {ParticipantTokenInterceptor} from './core/interceptors/participant-token.interceptor';
 import {TokenService} from './core/services';
 import {LegalModule} from './legal/legal.module';
@@ -63,7 +64,7 @@ function initializeKeycloak(keycloak: KeycloakService) {
     provideClientHydration(),
     provideHttpClient(withFetch()),
     ...globalThis.document ? [{
-      provide: 'BASE_URL',
+      provide: BASE_URL,
       useValue: globalThis.document?.baseURI,
     }] : [],
     provideAppInitializer(() => {
