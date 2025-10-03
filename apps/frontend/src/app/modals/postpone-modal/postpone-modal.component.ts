@@ -9,7 +9,7 @@ import {ChooseDateService} from '../../poll/services/choose-date.service';
   standalone: false,
 })
 export class PostponeModalComponent implements OnInit {
-  private chooseDateService =inject(ChooseDateService);
+  private chooseDateService = inject(ChooseDateService);
   postponeDays: number = 0;
 
   ngOnInit(): void {

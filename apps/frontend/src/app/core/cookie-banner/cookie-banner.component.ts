@@ -9,7 +9,7 @@ import {StorageService} from '../services/storage.service';
   standalone: false,
 })
 export class CookieBannerComponent implements OnInit {
-  private storageService= inject( StorageService);
+  private storageService = inject(StorageService);
   dismissed = false;
 
   ngOnInit(): void {

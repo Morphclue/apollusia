@@ -26,12 +26,12 @@ interface SortMethod {
 })
 export class ChooseEventsComponent implements OnInit {
   public route = inject(ActivatedRoute);
-  private pollService=inject(PollService);
-  private title=inject(Title);
-  private meta=inject(Meta);
-  tokenService=inject(TokenService);
-  private storageService=inject(StorageService);
-  private toastService=inject(ToastService);
+  private pollService = inject(PollService);
+  private title = inject(Title);
+  private meta = inject(Meta);
+  tokenService = inject(TokenService);
+  private storageService = inject(StorageService);
+  private toastService = inject(ToastService);
   // initial state
   poll?: ReadPoll;
   pollEvents?: ReadPollEvent[];

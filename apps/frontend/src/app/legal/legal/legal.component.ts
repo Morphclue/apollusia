@@ -10,7 +10,7 @@ import {ImprintService} from '../services/imprint.service';
   standalone: false,
 })
 export class LegalComponent implements OnInit{
-  private imprintService  =inject(ImprintService);
+  private imprintService  = inject(ImprintService);
   imprint?: ImprintDto;
 
   ngOnInit() {

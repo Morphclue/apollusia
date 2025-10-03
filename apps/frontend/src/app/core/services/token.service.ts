@@ -12,8 +12,8 @@ import {Token} from '../../model';
   providedIn: 'root',
 })
 export class TokenService {
-  private http =inject(HttpClient);
-  private storageService =inject(StorageService);
+  private http = inject(HttpClient);
+  private storageService = inject(StorageService);
   private currentToken: string = '';
 
   getToken(): string {

@@ -18,7 +18,7 @@ import {PollService} from '../services/poll.service';
   standalone: false,
 })
 export class IcalComponent implements OnInit {
-  public route= inject(ActivatedRoute);
+  public route = inject(ActivatedRoute);
   private pollService = inject(PollService);
   private markdownService = inject(MarkdownService);
   poll?: ReadPoll;

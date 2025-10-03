@@ -12,7 +12,7 @@ import {ChooseDateService} from '../../poll/services/choose-date.service';
   standalone: false,
 })
 export class AutofillModalComponent implements OnInit {
-  private chooseDateService =inject(ChooseDateService);
+  private chooseDateService = inject(ChooseDateService);
   selectedDates: NgbDate[] = [];
   modalForm = new FormGroup({
     dates: new FormControl('', Validators.required),

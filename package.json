@@ -42,6 +42,7 @@
     "@nx/webpack": "21.6.3",
     "@nx/workspace": "21.6.3",
     "@schematics/angular": "20.3.4",
+    "@stylistic/eslint-plugin": "^5.4.0",
     "@swc/cli": "0.7.8",
     "@swc/core": "^1.7.0",
     "@swc/helpers": "~0.5.17",

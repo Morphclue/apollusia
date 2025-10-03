@@ -16,11 +16,11 @@ import {PollService} from '../../poll/services/poll.service';
   standalone: false,
 })
 export class DashboardComponent implements OnInit {
-  private pollService =inject(PollService);
-  private route =inject(ActivatedRoute);
-  private toastService =inject(ToastService);
-  private keycloakService =inject(KeycloakService);
-  tokenService =inject(TokenService);
+  private pollService = inject(PollService);
+  private route = inject(ActivatedRoute);
+  private toastService = inject(ToastService);
+  private keycloakService = inject(KeycloakService);
+  tokenService = inject(TokenService);
   polls: ReadPoll[] = [];
   participated = false;
   loggedIn = false;

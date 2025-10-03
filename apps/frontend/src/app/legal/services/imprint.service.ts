@@ -10,7 +10,7 @@ import {environment} from '../../../environments/environment';
     providedIn: 'root',
 })
 export class ImprintService {
-    private http =inject(HttpClient);
+    private http = inject(HttpClient);
 
     getImprint(): Observable<ImprintDto> {
         return this.http.get<ImprintDto>(`${environment.backendURL}/imprint`);

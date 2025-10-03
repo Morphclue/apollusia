@@ -17,10 +17,10 @@ type RecentPoll = { id: string; title: string; location: string; visitedAt: stri
   standalone: false,
 })
 export class NavbarComponent implements OnInit {
-  themeService  =inject(ThemeService);
-  protected readonly offcanvas  =inject(NgbOffcanvas);
-  private readonly storageService  =inject(StorageService);
-  private readonly keycloakService  =inject(KeycloakService);
+  themeService  = inject(ThemeService);
+  protected readonly offcanvas  = inject(NgbOffcanvas);
+  private readonly storageService  = inject(StorageService);
+  private readonly keycloakService  = inject(KeycloakService);
   readonly environment = environment;
   readonly currentYear = new Date().getFullYear();
   readonly version = APP_VERSION;
