@@ -4,7 +4,7 @@
     <img class="navbar-logo" ngSrc="/assets/logo.png" alt="Apollusia Logo" width="32" height="32">
     <a class="navbar-brand" routerLink="/">Apollusia</a>
       <ul class="ms-auto navbar-nav">
-        <a class="btn btn-primary bi-calendar-plus d-none d-sm-block" type="button" routerLink="poll/create">
+        <a class="btn btn-primary bi-calendar-plus d-none d-sm-block" type="button" routerLink="poll/create" i18n="@@create-poll">
           Create Poll
         </a>
         <li class="nav-item">
@@ -12,33 +12,40 @@
             <button type="button" class="nav-link bi-person-circle" ngbDropdownToggle></button>
             <div ngbDropdownMenu class="dropdown-menu dropdown-menu-end">
               @if (user) {
-                <h5 class="dropdown-header">
+                <h5 class="dropdown-header" i18n="@@signed-in-as">
                   Signed in as <strong>{{ user.username }}</strong>
                 </h5>
-                <a ngbDropdownItem href="{{ environment.keycloak.url }}/realms/{{ environment.keycloak.realm }}/account" target="_blank" class="bi-person-gear">
+                <a ngbDropdownItem href="{{ environment.keycloak.url }}/realms/{{ environment.keycloak.realm }}/account" target="_blank" class="bi-person-gear" i18n="@@account-settings">
                   Account Settings
                 </a>
-                <a ngbDropdownItem href="{{ environment.keycloak.url }}/realms/{{ environment.keycloak.realm }}/account#/account-security/signing-in" target="_blank" class="bi-person-lock">
+                <a ngbDropdownItem href="{{ environment.keycloak.url }}/realms/{{ environment.keycloak.realm }}/account#/account-security/signing-in" target="_blank" class="bi-person-lock" i18n="@@account-security">
                   Change Password & 2FA
                 </a>
-                <button ngbDropdownItem (click)="logout()" class="text-warning bi-box-arrow-right">
+                <button ngbDropdownItem (click)="logout()" class="text-warning bi-box-arrow-right" i18n="@@sign-out">
                   Sign Out
                 </button>
               } @else {
-                <button ngbDropdownItem (click)="login()" class="bi-box-arrow-in-right">
+                <button ngbDropdownItem (click)="login()" class="bi-box-arrow-in-right" i18n="@@sign-in">
                   Sign In
                 </button>
               }
               <div class="dropdown-divider"></div>
               <a ngbDropdownItem routerLink="settings">
                 <i class="bi-gear icon"></i>
-                Settings
+                <ng-container i18n="@@settings">
+                  Settings
+                </ng-container>
               </a>
-              <h5 class="dropdown-header">Theme</h5>
-              <button *ngFor="let theme of themes" ngbDropdownItem [class]="theme.icon" (click)="theme$.next(theme.value)">
-                {{ theme.name }}
-                <i [class.bi-check]="(theme$ | async) === theme.value"></i>
-              </button>
+              <h5 class="dropdown-header" i18n="@@language">Language</h5>
+              <a ngbDropdownItem href="/">🇺🇸 English</a>
+              <a ngbDropdownItem href="/de">🇩🇪 Deutsch</a>
+              <h5 class="dropdown-header" i18n="@@theme">Theme</h5>
+              @for (theme of themes; track theme.value) {
+                <button ngbDropdownItem [class]="theme.icon" (click)="theme$.next(theme.value)">
+                  {{ theme.name }}
+                  <i [class.bi-check]="(theme$ | async) === theme.value"></i>
+                </button>
+              }
             </div>
           </div>
         </li>
@@ -56,22 +63,22 @@
   <div class="offcanvas-body" (click)="$any($event.target)?.href && offcanvas.dismiss()">
     <ul class="nav nav-pills flex-column h-100">
       <li class="nav-item">
-        <a class="nav-item nav-link bi-house" routerLinkActive="active" routerLink="dashboard">
+        <a class="nav-item nav-link bi-house" routerLinkActive="active" routerLink="dashboard" i18n="@@dashboard">
           Dashboard
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-item nav-link bi-calendar-plus" routerLinkActive="active" routerLink="poll/create">
+        <a class="nav-item nav-link bi-calendar-plus" routerLinkActive="active" routerLink="poll/create" i18n="@@create-poll">
           Create Poll
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-item nav-link bi-gear" routerLinkActive="active" routerLink="settings">
+        <a class="nav-item nav-link bi-gear" routerLinkActive="active" routerLink="settings" i18n="@@settings">
           Settings
         </a>
       </li>
       <hr/>
-      <h6>
+      <h6 i18n="@@recent-polls">
         Recent Polls
       </h6>
       @for (poll of recentPolls; track poll.id) {
@@ -80,18 +87,23 @@
             <i [class]="poll.location | locationIcon"></i>
             {{ poll.title }}
             <app-location-link class="small text-muted" [location]="poll.location" [shorten]="true"></app-location-link>
-            <i class="bi-x float-end" ngbTooltip="Remove from Recent Polls" (click)="$event.stopImmediatePropagation(); $event.preventDefault(); removeRecent(poll)"></i>
+            <i
+              class="bi-x float-end"
+              ngbTooltip="Remove from Recent Polls"
+              i18n-ngbTooltip="@@recent-poll-remove"
+              (click)="$event.stopImmediatePropagation(); $event.preventDefault(); removeRecent(poll)"
+            ></i>
           </a>
         </li>
       }
       <hr class="mt-auto"/>
       <li class="nav-item">
-        <a class="nav-item nav-link bi-info-circle" routerLinkActive="active" routerLink="about">
+        <a class="nav-item nav-link bi-info-circle" routerLinkActive="active" routerLink="about" i18n="@@about">
           About
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-item nav-link bi-file-earmark-text" routerLinkActive="active" routerLink="legal">
+        <a class="nav-item nav-link bi-file-earmark-text" routerLinkActive="active" routerLink="legal" i18n="@@legal">
           Legal
         </a>
       </li>
@@ -101,16 +113,19 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-item nav-link bi-bug" href="https://github.com/Morphclue/apollusia/issues/new?template=bug_report.md" target="_blank">
+        <a class="nav-item nav-link bi-bug" href="https://github.com/Morphclue/apollusia/issues/new?template=bug_report.md" target="_blank" i18n="@@report-bug">
           Report a bug
         </a>
       </li>
       <li class="nav-item">
         <a class="nav-item nav-link bi-journal-text" [href]="'https://github.com/Morphclue/apollusia/' + changelogLink" target="_blank">
-          Changelog <span class="text-muted">{{ version }}</span>
+          <ng-container i18n="@@changelog">
+            Changelog
+          </ng-container>
+          <span class="text-muted">{{ version }}</span>
         </a>
       </li>
-      <div class="small text-muted text-center">
+      <div class="small text-muted text-center" i18n="@@copyright">
         Copyright © Apollusia, {{ currentYear }}
       </div>
     </ul>

@@ -52,7 +52,9 @@ export class DashboardComponent implements OnInit {
 
   claim() {
     this.pollService.claim(this.adminToken).subscribe(() => {
-      this.toastService.success('Claim Polls', 'Successfully claimed polls.');
+      this.toastService.success(
+        $localize`:@@dashboard-claim-polls: Claim Polls `,
+        $localize`:@@dashboard-claim-polls-success:Successfully claimed polls.`);
       this.unclaimed = false;
     });
   }
