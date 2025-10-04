@@ -20,7 +20,10 @@ services:
 
   keycloak:
     image: quay.io/keycloak/keycloak:24.0.3
-    command: [ 'start-dev' ]
+    command:
+      - start-dev
+      - --import-realm
+      - --features=scripts
     environment:
       KC_HOSTNAME: localhost
       KC_HTTP_RELATIVE_PATH: /auth
@@ -29,6 +32,7 @@ services:
     ports:
       - "8080:8080"
     volumes:
+      - ./realms:/opt/keycloak/data/import
       - ./libs/keycloak:/opt/keycloak/themes/apollusia
 
   maildev:
