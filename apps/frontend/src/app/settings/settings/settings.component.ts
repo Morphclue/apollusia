@@ -1,5 +1,5 @@
 import {HttpClient} from '@angular/common/http';
-import {Component, OnInit} from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import {ToastService} from '@mean-stream/ngbx';
 import {KeycloakService} from 'keycloak-angular';
 import {KeycloakProfile} from 'keycloak-js';
@@ -37,6 +37,10 @@ interface NotificationSettings {
 })
 export class SettingsComponent implements OnInit {
   readonly notificationSettings: NotificationSettings[] = notificationSettings;
+  private toastService = inject(ToastService);
+  private keycloakService = inject(KeycloakService);
+  private pushService = inject(PushService);
+  private http = inject(HttpClient);
 
   user?: KeycloakProfile;
   pushInfo: PushInfo[] = [];
@@ -44,14 +48,6 @@ export class SettingsComponent implements OnInit {
 
   pushEnabled = false;
   existingPush?: PushSubscription;
-
-  constructor(
-    private toastService: ToastService,
-    private keycloakService: KeycloakService,
-    private pushService: PushService,
-    private http: HttpClient,
-  ) {
-  }
 
   async ngOnInit() {
     this.user = await this.keycloakService.loadUserProfile(true);

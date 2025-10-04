@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {Meta, Title} from '@angular/platform-browser';
 import {ActivatedRoute} from '@angular/router';
 import {ShowResultOptions} from '@apollusia/types/lib/schema/show-result-options';
@@ -25,6 +25,13 @@ interface SortMethod {
   standalone: false,
 })
 export class ChooseEventsComponent implements OnInit {
+  public route = inject(ActivatedRoute);
+  private pollService = inject(PollService);
+  private title = inject(Title);
+  private meta = inject(Meta);
+  tokenService = inject(TokenService);
+  private storageService = inject(StorageService);
+  private toastService = inject(ToastService);
   // initial state
   poll?: ReadPoll;
   pollEvents?: ReadPollEvent[];
@@ -82,15 +89,8 @@ export class ChooseEventsComponent implements OnInit {
   token: string;
 
   constructor(
-    public route: ActivatedRoute,
-    private pollService: PollService,
-    private title: Title,
-    private meta: Meta,
-    tokenService: TokenService,
-    private storageService: StorageService,
-    private toastService: ToastService,
   ) {
-    this.token = tokenService.getToken();
+    this.token = this.tokenService.getToken();
   }
 
   ngOnInit(): void {

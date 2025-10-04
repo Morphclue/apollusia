@@ -357,7 +357,7 @@ export class PollActionsService implements OnModuleInit {
           {createdBy: user.sub},
           {token},
         ],
-      }: {
+      } : {
         token,
       }),
     });

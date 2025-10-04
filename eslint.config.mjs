@@ -5,6 +5,7 @@ import js from '@eslint/js';
 import nxEslintPlugin from '@nx/eslint-plugin';
 import importPlugin from 'eslint-plugin-import';
 import ts from '@typescript-eslint/eslint-plugin';
+import stylistic from '@stylistic/eslint-plugin';
 
 const compat = new FlatCompat({
   baseDirectory: dirname(fileURLToPath(import.meta.url)),
@@ -94,6 +95,8 @@ export default [
           },
         },
       ],
+      '@stylistic/space-infix-ops': 'warn',
+      '@stylistic/space-in-parens': 'warn',
     },
     settings: {
       'import/internal-regex': '@(angular|nestjs|apollusia)',
@@ -106,6 +109,7 @@ export default [
       import: importPlugin,
       '@typescript-eslint': ts,
       ts,
+      '@stylistic': stylistic,
     },
   },
 ];
