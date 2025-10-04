@@ -35,10 +35,12 @@
                 Settings
               </a>
               <h5 class="dropdown-header">Theme</h5>
-              <button *ngFor="let theme of themes" ngbDropdownItem [class]="theme.icon" (click)="theme$.next(theme.value)">
-                {{ theme.name }}
-                <i [class.bi-check]="(theme$ | async) === theme.value"></i>
-              </button>
+              @for (theme of themes; track theme) {
+                <button ngbDropdownItem [class]="theme.icon" (click)="theme$.next(theme.value)">
+                  {{ theme.name }}
+                  <i [class.bi-check]="(theme$ | async) === theme.value"></i>
+                </button>
+              }
             </div>
           </div>
         </li>
