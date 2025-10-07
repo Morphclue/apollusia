@@ -72,7 +72,7 @@ We use the [Conventional Commits specification](https://www.conventionalcommits.
 - `Updated README`
 - `chore: misc updates`
 
-## Making Pull Requests 💥
+## 💥 Making Pull Requests 
 
 When you submit a pull request, GitHub Actions will automatically run tests. If any tests fail, please try to resolve the issues. If you're unsure how, feel free to ask for help.
 
@@ -92,7 +92,8 @@ We value thorough testing to maintain the quality and reliability of Apollusia. 
 ## 📢 Remarks
 
 - If you find something missing or unclear in these guidelines, feel free to [create a PR](https://github.com/Morphclue/apollusia/compare) or [raise an issue](https://github.com/Morphclue/apollusia/issues).
-- Ensure your contributions adhere to our [Code of Conduct](../CODE_OF_CONDUCT.md).
+- Ensure your contributions adhere to our [Code of Conduct](CODE_OF_CONDUCT.md).
 - You can tag maintainers for assistance using `@username`.
 
+---
 Thank you for contributing to Apollusia! 🎉
