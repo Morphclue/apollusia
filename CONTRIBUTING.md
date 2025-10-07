@@ -85,10 +85,6 @@ Remember to:
 - Check "Allow edits from maintainers" to let us make minor adjustments directly.
 - Resolve any merge conflicts with the main branch as needed (see GitHub's guide on resolving merge conflicts).
 
-## 🧪 Testing Contributions
-
-We value thorough testing to maintain the quality and reliability of Apollusia. For detailed information on how to test your contributions, please refer to our [Cypress Testing Guide](CYPRESS-TESTING-GUIDE.md) or [Jest Testing Guide](JEST-TESTING-GUIDE.md).
-
 ## 📢 Remarks
 
 - If you find something missing or unclear in these guidelines, feel free to [create a PR](https://github.com/Morphclue/apollusia/compare) or [raise an issue](https://github.com/Morphclue/apollusia/issues).
