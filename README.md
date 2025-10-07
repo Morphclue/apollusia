@@ -5,7 +5,7 @@ It is a web application written in Angular with NestJS as the backend.
 A running instance of the application can be found under https://apollusia.com/.
 Feel free to check it out!
 
-:star: Star this project on GitHub — it motivates me a lot!
+:star: Star this project on GitHub — it motivates us a lot!
 
 ## Screenshots
 
@@ -182,3 +182,12 @@ To get the Keycloak public key, follow these steps:
 - Go to http://localhost:8080/auth/admin/master/console/#/apollusia/realm-settings/keys
 - Click on the RS256 Public Key
 - Copy the base64 key
+
+## 📄 Documentation and Contribution
+These docs will help you get started and contribute smoothly.
+
+- [CONTRIBUTING](CONTRIBUTING.md)
+  Learn how to contribute, submit issues, and create pull requests.
+
+- [CODE_OF_CONDUCT](CODE_OF_CONDUCT.md)  
+  Review our community guidelines to foster a respectful and inclusive environment.
