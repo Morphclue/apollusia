@@ -1,4 +1,4 @@
-# 🤝 Contributor CovenantCode of Conduct
+# 🤝 Contributor Covenant Code of Conduct
 
 ## Table of Contents
 - [Our Pledge](#-our-pledge)
