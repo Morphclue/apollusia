@@ -5,7 +5,7 @@ It is a web application written in Angular with NestJS as the backend.
 A running instance of the application can be found under https://apollusia.com/.
 Feel free to check it out!
 
-:star: Star this project on GitHub — it motivates me us lot!
+:star: Star this project on GitHub — it motivates us a lot!
 
 ## Screenshots
 
