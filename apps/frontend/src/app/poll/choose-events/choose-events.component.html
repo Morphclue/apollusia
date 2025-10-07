@@ -1,7 +1,4 @@
 <div class="container">
-  @if (!mail) {
-    <app-mail-alert></app-mail-alert>
-  }
   <h1 class="text-center">
     {{ poll?.title }}
   </h1>
@@ -88,6 +85,10 @@
         ></apollusia-event-list>
       }
     }
+  }
+  @if (poll && (poll.settings.logHistory || poll.settings.allowComments)) {
+    <h1>History</h1>
+    <apollusia-poll-log [poll]="poll"></apollusia-poll-log>
   }
 </div>
 <router-outlet></router-outlet>

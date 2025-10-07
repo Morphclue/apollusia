@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {NgbDate} from '@ng-bootstrap/ng-bootstrap';
 import {addMinutes, format} from 'date-fns';
@@ -9,8 +9,10 @@ import {ChooseDateService} from '../../poll/services/choose-date.service';
   selector: 'app-autofill-modal',
   templateUrl: './autofill-modal.component.html',
   styleUrls: ['./autofill-modal.component.scss'],
+  standalone: false,
 })
 export class AutofillModalComponent implements OnInit {
+  private chooseDateService = inject(ChooseDateService);
   selectedDates: NgbDate[] = [];
   modalForm = new FormGroup({
     dates: new FormControl('', Validators.required),
@@ -21,11 +23,6 @@ export class AutofillModalComponent implements OnInit {
     note: new FormControl(''),
   });
   endTime: string = '';
-
-  constructor(
-    private chooseDateService: ChooseDateService,
-  ) {
-  }
 
   ngOnInit(): void {
     this.updateEnd();

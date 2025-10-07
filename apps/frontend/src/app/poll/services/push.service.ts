@@ -1,5 +1,5 @@
 import {HttpClient} from '@angular/common/http';
-import {Injectable} from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import {SwPush} from '@angular/service-worker';
 import type {PushConfigDto} from '@apollusia/types';
 import {firstValueFrom} from 'rxjs';
@@ -10,19 +10,29 @@ import {environment} from '../../../environments/environment';
   providedIn: 'root',
 })
 export class PushService {
+  private swPush = inject(SwPush);
+  http  = inject(HttpClient);
   #config: Promise<PushConfigDto>;
 
-  constructor(
-    private swPush: SwPush,
-    http: HttpClient,
-  ) {
-    this.#config = firstValueFrom(http.get<PushConfigDto>(`${environment.backendURL}/push/config`));
+  constructor() {
+    this.#config = firstValueFrom(this.http.get<PushConfigDto>(`${environment.backendURL}/push/config`));
   }
 
-  async getPushToken(): Promise<PushSubscription> {
-    const serverPublicKey = (await this.#config).vapidPublicKey;
+  isEnabled() {
+    return this.swPush.isEnabled;
+  }
+
+  async getSubscription(): Promise<PushSubscription | null> {
+    return firstValueFrom(this.swPush.subscription);
+  }
+
+  async requestSubscription(): Promise<PushSubscription> {
     return this.swPush.requestSubscription({
-      serverPublicKey,
+      serverPublicKey: (await this.#config).vapidPublicKey,
     });
+  }
+
+  async unsubscribe() {
+    return this.swPush.unsubscribe();
   }
 }

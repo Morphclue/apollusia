@@ -1,4 +1,4 @@
-import {Component, ElementRef, Input, OnInit, SecurityContext} from '@angular/core';
+import {Component, inject, Input, OnInit, SecurityContext} from '@angular/core';
 import {DomSanitizer, SafeHtml} from '@angular/platform-browser';
 
 import {MarkdownService} from '../services/markdown.service';
@@ -7,18 +7,13 @@ import {MarkdownService} from '../services/markdown.service';
   selector: 'app-markdown',
   templateUrl: './markdown.component.html',
   styleUrls: ['./markdown.component.scss'],
+  standalone: false,
 })
 export class MarkdownComponent implements OnInit {
   @Input() text!: string;
-
+  private sanitizer = inject(DomSanitizer);
+  private markdownService = inject(MarkdownService);
   html!: SafeHtml;
-
-  constructor(
-    private el: ElementRef,
-    private sanitizer: DomSanitizer,
-    private markdownService: MarkdownService,
-  ) {
-  }
 
   ngOnInit(): void {
     const rendered = this.markdownService.render(this.text);

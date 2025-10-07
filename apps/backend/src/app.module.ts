@@ -9,6 +9,7 @@ import {MailModule} from './mail/mail.module';
 import {ParticipantModule} from './participant/participant.module';
 import {PollModule} from './poll/poll.module';
 import {PollEventModule} from './poll-event/poll-event.module';
+import {PollLogModule} from './poll-log/poll-log.module';
 import {PushModule} from './push/push.module';
 import {StatisticsModule} from './statistics/statistics.module';
 import {TokenModule} from './token/token.module';
@@ -19,6 +20,7 @@ import {TokenModule} from './token/token.module';
     AuthModule.forRoot(environment.auth),
     PollModule,
     PollEventModule,
+    PollLogModule,
     ParticipantModule,
     TokenModule,
     StatisticsModule,

@@ -1,5 +1,5 @@
 import {HttpClient} from '@angular/common/http';
-import {Injectable} from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import {Observable} from 'rxjs';
 import {map, tap} from 'rxjs/operators';
 import * as uuid from 'uuid';
@@ -12,13 +12,9 @@ import {Token} from '../../model';
   providedIn: 'root',
 })
 export class TokenService {
+  private http = inject(HttpClient);
+  private storageService = inject(StorageService);
   private currentToken: string = '';
-
-  constructor(
-    private http: HttpClient,
-    private storageService: StorageService,
-  ) {
-  }
 
   getToken(): string {
     if (this.currentToken) {

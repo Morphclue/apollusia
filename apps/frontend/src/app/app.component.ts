@@ -1,21 +1,24 @@
-import {Component, Inject, OnInit, Optional} from '@angular/core';
+import {
+  Component,
+  inject,
+  OnInit,
+} from '@angular/core';
 import {Meta} from '@angular/platform-browser';
 import {SwUpdate} from '@angular/service-worker';
+
+import { BASE_URL } from './core/injection-tokens/base-url';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
+  standalone: false,
 })
 export class AppComponent implements OnInit {
+  private swUpdate = inject(SwUpdate);
+  private meta = inject(Meta);
+  private baseUrl? = inject(BASE_URL, { optional: true });
   title = 'apollusia';
-
-  constructor(
-    private swUpdate: SwUpdate,
-    private meta: Meta,
-    @Optional() @Inject('BASE_URL') private baseUrl?: string,
-  ) {
-  }
 
   ngOnInit(): void {
     this.baseUrl && this.meta.updateTag({property: 'og:image', content: `${this.baseUrl}/assets/logo.png`});

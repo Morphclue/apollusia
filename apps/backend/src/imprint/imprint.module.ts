@@ -1,13 +1,10 @@
 import {Module} from '@nestjs/common';
-import {ConfigModule} from '@nestjs/config';
 
 import {ImprintController} from './imprint/imprint.controller';
 import {ImprintService} from './imprint/imprint.service';
 
 @Module({
-  imports: [
-    ConfigModule,
-  ],
+  imports: [],
   providers: [ImprintService],
   controllers: [ImprintController],
 })

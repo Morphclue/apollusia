@@ -1,5 +1,5 @@
 import {HttpClient} from '@angular/common/http';
-import {Injectable} from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import {CalendarEvent} from 'angular-calendar';
 import {WeekViewHourSegment} from 'calendar-utils';
 import {addDays, addMinutes, format} from 'date-fns';
@@ -11,9 +11,7 @@ import {PollEvent} from '../../model';
 export class ChooseDateService {
   events: CalendarEvent[] = [];
   autofillEvent?: CalendarEvent;
-
-  constructor(private http: HttpClient) {
-  }
+  private http = inject(HttpClient);
 
   floorToNearest(amount: number, precision: number): number {
     return Math.floor(amount / precision) * precision;

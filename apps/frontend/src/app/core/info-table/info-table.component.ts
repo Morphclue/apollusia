@@ -1,25 +1,28 @@
-import {Component, Inject, Input, OnInit, Optional} from '@angular/core';
+import {
+  Component,
+  inject,
+  Input,
+  OnInit,
+} from '@angular/core';
 import {ToastService} from '@mean-stream/ngbx';
 
 import {ReadPoll} from '../../model';
+import { BASE_URL } from '../injection-tokens/base-url';
 
 @Component({
   selector: 'apollusia-info-table',
   templateUrl: './info-table.component.html',
   styleUrl: './info-table.component.scss',
+  standalone: false,
 })
 export class InfoTableComponent implements OnInit {
   @Input({required: true}) poll: ReadPoll;
   @Input() description = true;
   @Input() stats = false;
+  private toastService = inject(ToastService);
+  private baseUrl? = inject(BASE_URL, { optional: true });
 
   url = '';
-
-  constructor(
-    private toastService: ToastService,
-    @Optional() @Inject('BASE_URL') private baseUrl?: string,
-  ) {
-  }
 
   ngOnInit() {
     this.url = `${this.baseUrl}poll/${this.poll.id}/participate`;

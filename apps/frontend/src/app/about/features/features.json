@@ -7,7 +7,8 @@
       "support": {
         "Apollusia": true,
         "Doodle": true,
-        "DuD-Poll": true
+        "DuD-Poll": true,
+        "Calendly": false
       }
     },
     {
@@ -17,7 +18,8 @@
       "support": {
         "Apollusia": true,
         "Doodle": true,
-        "DuD-Poll": true
+        "DuD-Poll": true,
+        "Calendly": false
       }
     },
     {
@@ -27,7 +29,8 @@
       "support": {
         "Apollusia": true,
         "Doodle": false,
-        "DuD-Poll": false
+        "DuD-Poll": false,
+        "Calendly": true
       }
     },
     {
@@ -35,9 +38,10 @@
       "title": "Comments",
       "description": "Add comments to a poll",
       "support": {
-        "Apollusia": false,
+        "Apollusia": true,
         "Doodle": false,
-        "DuD-Poll": true
+        "DuD-Poll": true,
+        "Calendly": false
       }
     }
   ],
@@ -49,7 +53,8 @@
       "support": {
         "Apollusia": true,
         "Doodle": true,
-        "DuD-Poll": false
+        "DuD-Poll": false,
+        "Calendly": false
       }
     },
     {
@@ -59,7 +64,8 @@
       "support": {
         "Apollusia": true,
         "Doodle": "Always",
-        "DuD-Poll": "Always"
+        "DuD-Poll": "Always",
+        "Calendly": false
       }
     },
     {
@@ -69,7 +75,8 @@
       "support": {
         "Apollusia": true,
         "Doodle": "Paid option",
-        "DuD-Poll": false
+        "DuD-Poll": false,
+        "Calendly": false
       }
     },
     {
@@ -79,7 +86,8 @@
       "support": {
         "Apollusia": true,
         "Doodle": false,
-        "DuD-Poll": false
+        "DuD-Poll": false,
+        "Calendly": true
       }
     },
     {
@@ -89,7 +97,8 @@
       "support": {
         "Apollusia": true,
         "Doodle": false,
-        "DuD-Poll": false
+        "DuD-Poll": false,
+        "Calendly": false
       }
     },
     {
@@ -99,7 +108,8 @@
       "support": {
         "Apollusia": true,
         "Doodle": false,
-        "DuD-Poll": false
+        "DuD-Poll": false,
+        "Calendly": false
       }
     }
   ],
@@ -111,7 +121,8 @@
       "support": {
         "Apollusia": true,
         "Doodle": false,
-        "DuD-Poll": "Repeating the time for every day is possible"
+        "DuD-Poll": "Repeating the time for every day is possible",
+        "Calendly": false
       }
     },
     {
@@ -121,7 +132,8 @@
       "support": {
         "Apollusia": true,
         "Doodle": false,
-        "DuD-Poll": false
+        "DuD-Poll": false,
+        "Calendly": false
       }
     },
     {
@@ -131,7 +143,8 @@
       "support": {
         "Apollusia": true,
         "Doodle": false,
-        "DuD-Poll": false
+        "DuD-Poll": false,
+        "Calendly": false
       }
     },
     {
@@ -141,7 +154,8 @@
       "support": {
         "Apollusia": true,
         "Doodle": "Paid option",
-        "DuD-Poll": false
+        "DuD-Poll": false,
+        "Calendly": true
       }
     }
   ],
@@ -153,7 +167,41 @@
       "support": {
         "Apollusia": true,
         "Doodle": true,
-        "DuD-Poll": true
+        "DuD-Poll": true,
+        "Calendly": true
+      }
+    },
+    {
+      "icon": "bell",
+      "title": "Notifications",
+      "description": "Receive quick updates to polls and participations via Push Notifications on all your devices",
+      "support": {
+        "Apollusia": true,
+        "Doodle": true,
+        "DuD-Poll": false,
+        "Calendly": true
+      }
+    },
+    {
+      "icon": "envelope",
+      "title": "Email Updates",
+      "description": "Receive detailed updates to polls and participations via Email",
+      "support": {
+        "Apollusia": true,
+        "Doodle": true,
+        "DuD-Poll": false,
+        "Calendly": true
+      }
+    },
+    {
+      "icon": "clock-history",
+      "title": "History",
+      "description": "See all changes to a poll",
+      "support": {
+        "Apollusia": true,
+        "Doodle": false,
+        "DuD-Poll": true,
+        "Calendly": false
       }
     },
     {
@@ -163,17 +211,8 @@
       "support": {
         "Apollusia": "Only for creator, but planned. See #60",
         "Doodle": false,
-        "DuD-Poll": true
-      }
-    },
-    {
-      "icon": "clock-history",
-      "title": "History",
-      "description": "See all changes to a poll",
-      "support": {
-        "Apollusia": false,
-        "Doodle": false,
-        "DuD-Poll": true
+        "DuD-Poll": true,
+        "Calendly": false
       }
     }
   ]

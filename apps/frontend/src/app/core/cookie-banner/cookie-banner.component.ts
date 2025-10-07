@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 
 import {StorageService} from '../services/storage.service';
 
@@ -6,14 +6,11 @@ import {StorageService} from '../services/storage.service';
   selector: 'app-cookie-banner',
   templateUrl: './cookie-banner.component.html',
   styleUrls: ['./cookie-banner.component.scss'],
+  standalone: false,
 })
 export class CookieBannerComponent implements OnInit {
+  private storageService = inject(StorageService);
   dismissed = false;
-
-  constructor(
-    private storageService: StorageService,
-  ) {
-  }
 
   ngOnInit(): void {
     this.dismissed = this.storageService.get('cookiesAllowed') === 'true';

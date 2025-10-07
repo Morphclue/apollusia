@@ -7,6 +7,7 @@ import {ReadPoll} from '../../model/index.js';
   selector: 'app-check-button',
   templateUrl: './check-button.component.html',
   styleUrls: ['./check-button.component.scss'],
+  standalone: false,
 })
 export class CheckButtonComponent {
   @Input() poll?: ReadPoll;

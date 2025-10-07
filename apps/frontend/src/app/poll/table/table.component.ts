@@ -1,4 +1,11 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  inject,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import {checkParticipant} from '@apollusia/logic';
 import type {PollEventState} from '@apollusia/types';
 import {ToastService} from '@mean-stream/ngbx';
@@ -10,6 +17,7 @@ import {PollService} from '../services/poll.service';
   selector: 'apollusia-table',
   templateUrl: './table.component.html',
   styleUrl: './table.component.scss',
+  standalone: false,
 })
 export class TableComponent implements OnInit {
   @Input() poll: ReadPoll;
@@ -19,8 +27,9 @@ export class TableComponent implements OnInit {
   @Input() canParticipate: boolean = false;
   @Input() token: string;
   @Input() bestOption: number = 1;
-
   @Output() changed = new EventEmitter<void>();
+  protected pollService  = inject(PollService);
+  private toastService  = inject(ToastService);
 
   bookedEvents: Poll['bookedEvents'] = {};
 
@@ -32,12 +41,6 @@ export class TableComponent implements OnInit {
   editParticipant?: Participant;
   editDto?: UpdateParticipantDto;
   errors: string[] = [];
-
-  constructor(
-    protected pollService: PollService,
-    private toastService: ToastService,
-  ) {
-  }
 
   ngOnInit() {
     this.bookedEvents = this.poll.bookedEvents || {};

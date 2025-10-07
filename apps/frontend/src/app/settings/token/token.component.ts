@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 
 import {TokenService} from '../../core/services';
 
@@ -6,15 +6,12 @@ import {TokenService} from '../../core/services';
   selector: 'app-token',
   templateUrl: './token.component.html',
   styleUrls: ['./token.component.scss'],
+  standalone: false,
 })
 export class TokenComponent implements OnInit {
+  private tokenService = inject(TokenService);
   input = '';
   visible = false;
-
-  constructor(
-    private tokenService: TokenService,
-  ) {
-  }
 
   ngOnInit(): void {
     this.input = this.tokenService.getToken();

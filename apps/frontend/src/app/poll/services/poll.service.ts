@@ -1,20 +1,26 @@
 import {HttpClient} from '@angular/common/http';
-import {Injectable} from '@angular/core';
-import type {PollEventState} from '@apollusia/types';
-import {Observable} from 'rxjs';
+import { inject, Injectable } from '@angular/core';
+import {PollEventState} from '@apollusia/types';
+import {EMPTY, fromEvent, Observable, retry} from 'rxjs';
+import {map} from 'rxjs/operators';
 
 import {environment} from '../../../environments/environment';
-import {CreateParticipantDto, Participant, Poll, ReadPoll, ReadPollEvent, UpdateParticipantDto} from '../../model';
+import {
+  CreateParticipantDto,
+  CreatePollLogDto,
+  Participant,
+  Poll,
+  PollLog,
+  ReadPoll,
+  ReadPollEvent,
+  UpdateParticipantDto,
+} from '../../model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PollService {
-
-  constructor(
-    private http: HttpClient,
-  ) {
-  }
+  private http = inject(HttpClient);
 
   selectAll(poll: ReadPoll, events: ReadPollEvent[], participant: CreateParticipantDto | UpdateParticipantDto, state: PollEventState) {
     for (const event of events) {
@@ -84,5 +90,28 @@ export class PollService {
 
   deleteParticipant(id: string, participant: string) {
     return this.http.delete(`${environment.backendURL}/poll/${id}/participate/${participant}`);
+  }
+
+  getLogs(id: string, params?: {
+    limit?: number;
+    createdBefore?: string;
+  }): Observable<PollLog[]> {
+    return this.http.get<PollLog[]>(`${environment.backendURL}/poll/${id}/log`, {params});
+  }
+
+  streamLogs(id: string): Observable<PollLog> {
+    if (!globalThis.EventSource) {
+      // In SSR, EventSource is not available but we also don't care about streaming logs
+      return EMPTY;
+    }
+
+    return fromEvent<MessageEvent>(new EventSource(`${environment.backendURL}/poll/${id}/log/events`), 'message').pipe(
+      map(event => JSON.parse(event.data)),
+      retry(),
+    );
+  }
+
+  postComment(id: string, body: CreatePollLogDto): Observable<PollLog> {
+    return this.http.post<PollLog>(`${environment.backendURL}/poll/${id}/log`, body);
   }
 }

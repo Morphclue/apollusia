@@ -1,5 +1,5 @@
 import {HttpClient} from '@angular/common/http';
-import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, TemplateRef} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, inject, TemplateRef} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {CalendarEvent, CalendarEventTimesChangedEvent} from 'angular-calendar';
@@ -17,8 +17,17 @@ import {ChooseDateService} from '../services/choose-date.service';
   templateUrl: './choose-date.component.html',
   styleUrls: ['./choose-date.component.scss'],
   providers: [ChooseDateService],
+  standalone: false,
 })
 export class ChooseDateComponent implements AfterViewInit {
+  private modalService = inject(NgbModal);
+  private changeDetectorRef = inject(ChangeDetectorRef);
+  private chooseDateService = inject(ChooseDateService);
+  private http = inject(HttpClient);
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
+  private activatedRoute = inject(ActivatedRoute);
+  private elementRef = inject(ElementRef);
   viewDate = new Date();
   dragToCreateActive = true;
   weekStartsOn = 1 as const;
@@ -30,16 +39,8 @@ export class ChooseDateComponent implements AfterViewInit {
   segments = 4;
 
   constructor(
-    private modalService: NgbModal,
-    private changeDetectorRef: ChangeDetectorRef,
-    private chooseDateService: ChooseDateService,
-    private http: HttpClient,
-    private router: Router,
-    private route: ActivatedRoute,
-    private activatedRoute: ActivatedRoute,
-    private elementRef: ElementRef,
   ) {
-    route.params.subscribe(({id}) => {
+    this.route.params.subscribe(({id}) => {
       this.id = id;
       this.chooseDateService.updateEvents(id);
     });

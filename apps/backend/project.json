@@ -3,6 +3,7 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/backend/src",
   "projectType": "application",
+  "tags": [],
   "targets": {
     "build": {
       "executor": "@nx/webpack:webpack",
@@ -19,7 +20,10 @@
         "webpackConfig": "apps/backend/webpack.config.js"
       },
       "configurations": {
-        "development": {},
+        "development": {
+          "optimization": false,
+          "sourceMap": true
+        },
         "production": {}
       }
     },
@@ -49,6 +53,5 @@
         "jestConfig": "apps/backend/jest.config.ts"
       }
     }
-  },
-  "tags": []
+  }
 }

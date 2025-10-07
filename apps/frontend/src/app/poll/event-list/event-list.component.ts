@@ -6,6 +6,7 @@ import {Participant, ReadPoll, ReadPollEvent} from '../../model';
   selector: 'apollusia-event-list',
   templateUrl: './event-list.component.html',
   styleUrl: './event-list.component.scss',
+  standalone: false,
 })
 export class EventListComponent {
   @Input() poll!: ReadPoll;

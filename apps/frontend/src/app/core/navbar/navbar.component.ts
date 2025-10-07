@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {Theme, ThemeService} from '@mean-stream/ngbx';
 import {NgbOffcanvas} from '@ng-bootstrap/ng-bootstrap';
 import {KeycloakService} from 'keycloak-angular';
@@ -8,12 +8,19 @@ import {Subject} from 'rxjs';
 import {environment} from '../../../environments/environment';
 import {StorageService} from '../services/storage.service';
 
+type RecentPoll = { id: string; title: string; location: string; visitedAt: string; };
+
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss'],
+  standalone: false,
 })
 export class NavbarComponent implements OnInit {
+  themeService  = inject(ThemeService);
+  protected readonly offcanvas  = inject(NgbOffcanvas);
+  private readonly storageService  = inject(StorageService);
+  private readonly keycloakService  = inject(KeycloakService);
   readonly environment = environment;
   readonly currentYear = new Date().getFullYear();
   readonly version = APP_VERSION;
@@ -47,17 +54,11 @@ export class NavbarComponent implements OnInit {
   ];
   theme$: Subject<Theme>;
 
-  recentPolls: { id: string; title: string; location: string; visitedAt: string; }[] = [];
-
+  recentPolls: RecentPoll[] = [];
   user?: KeycloakProfile;
 
-  constructor(
-    themeService: ThemeService,
-    protected readonly offcanvas: NgbOffcanvas,
-    private readonly storageService: StorageService,
-    private readonly keycloakService: KeycloakService,
-  ) {
-    this.theme$ = themeService.theme$;
+  constructor() {
+    this.theme$ = this.themeService.theme$;
   }
 
   loadRecentPolls() {
@@ -82,5 +83,10 @@ export class NavbarComponent implements OnInit {
 
   logout() {
     this.keycloakService.logout(window.location.href);
+  }
+
+  removeRecent(poll: RecentPoll) {
+    this.recentPolls.splice(this.recentPolls.indexOf(poll), 1);
+    this.storageService.delete(`recentPolls/${poll.id}`);
   }
 }

@@ -1,14 +1,11 @@
-import {Injectable} from '@angular/core';
-import {SsrCookieService} from 'ngx-cookie-service-ssr';
+import { inject, Injectable } from '@angular/core';
+import { SsrCookieService } from 'ngx-cookie-service-ssr';
 
 @Injectable({
   providedIn: 'root',
 })
 export class StorageService {
-  constructor(
-    private cookieService: SsrCookieService,
-  ) {
-  }
+  private cookieService = inject(SsrCookieService);
 
   getAll(prefix = ''): Record<string, string> {
     const result = this.cookieService.getAll();
@@ -37,5 +34,10 @@ export class StorageService {
   set(key: string, value: string) {
     this.cookieService.set(key, value);
     globalThis.localStorage?.setItem(key, value);
+  }
+
+  delete(key: string) {
+    this.cookieService.delete(key);
+    globalThis.localStorage?.removeItem(key);
   }
 }
