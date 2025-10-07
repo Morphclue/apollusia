@@ -1,5 +1,5 @@
 import {HttpClient} from '@angular/common/http';
-import {Component, OnInit} from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ShowResultOptions} from '@apollusia/types/lib/schema/show-result-options';
@@ -22,6 +22,12 @@ import {CreatePollDto, Poll} from '../../model';
 })
 export class CreateEditPollComponent implements OnInit {
   readonly ShowResultOptions = ShowResultOptions;
+  private modalService = inject(NgbModal);
+  private http = inject(HttpClient);
+  private router = inject(Router);
+  private tokenService = inject(TokenService);
+  private keycloakService = inject(KeycloakService);
+  route =  inject(ActivatedRoute);
   isCollapsed: boolean = true;
   id: string = '';
   poll?: Poll;
@@ -92,14 +98,8 @@ export class CreateEditPollComponent implements OnInit {
   userProfile?: KeycloakProfile;
 
   constructor(
-    private modalService: NgbModal,
-    private http: HttpClient,
-    private router: Router,
-    private tokenService: TokenService,
-    private keycloakService: KeycloakService,
-    route: ActivatedRoute,
   ) {
-    const routeId: Observable<string> = route.params.pipe(map(({id}) => id));
+    const routeId: Observable<string> = this.route.params.pipe(map(({id}) => id));
     routeId.subscribe((id: string) => {
       this.id = id;
     });

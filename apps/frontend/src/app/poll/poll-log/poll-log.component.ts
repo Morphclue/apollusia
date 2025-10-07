@@ -1,5 +1,5 @@
 import {CommonModule} from '@angular/common';
-import {Component, Input, OnInit} from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {ActivatedRoute} from '@angular/router';
 import {switchMap} from 'rxjs/operators';
@@ -16,18 +16,14 @@ import {PollService} from '../services/poll.service';
 })
 export class PollLogComponent implements OnInit {
   @Input({required: true}) poll: ReadPoll;
+  private route = inject(ActivatedRoute);
+  private pollService = inject(PollService);
 
   logs: PollLog[] = [];
   commentName = '';
   commentBody = '';
 
   showMore = false;
-
-  constructor(
-    private route: ActivatedRoute,
-    private pollService: PollService,
-  ) {
-  }
 
   /** How many items to load initially, plus one to check if there are more items */
   private readonly limit = 11;

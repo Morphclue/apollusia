@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {ToastService} from '@mean-stream/ngbx';
 import {KeycloakService} from 'keycloak-angular';
@@ -16,6 +16,11 @@ import {PollService} from '../../poll/services/poll.service';
   standalone: false,
 })
 export class DashboardComponent implements OnInit {
+  private pollService = inject(PollService);
+  private route = inject(ActivatedRoute);
+  private toastService = inject(ToastService);
+  private keycloakService = inject(KeycloakService);
+  tokenService = inject(TokenService);
   polls: ReadPoll[] = [];
   participated = false;
   loggedIn = false;
@@ -24,14 +29,9 @@ export class DashboardComponent implements OnInit {
   searchText = '';
 
   constructor(
-    private pollService: PollService,
-    private route: ActivatedRoute,
-    private toastService: ToastService,
-    private keycloakService: KeycloakService,
-    tokenService: TokenService,
   ) {
-    this.loggedIn = keycloakService.isLoggedIn();
-    this.adminToken = tokenService.getToken();
+    this.loggedIn = this.keycloakService.isLoggedIn();
+    this.adminToken = this.tokenService.getToken();
   }
 
   ngOnInit(): void {
