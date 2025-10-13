@@ -33,7 +33,7 @@ jobs:
       - name: Lint
         run: pnpm run lint:${{ matrix.app }} --fix
       - name: Commit changes
-        uses: stefanzweifel/git-auto-commit-action@v6
+        uses: stefanzweifel/git-auto-commit-action@v7
         with:
           commit_message: 'chore: Fix lint problems'
       - name: Test
