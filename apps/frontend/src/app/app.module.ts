@@ -63,10 +63,10 @@ function initializeKeycloak(keycloak: KeycloakService) {
     },
     provideClientHydration(),
     provideHttpClient(withFetch()),
-    ...globalThis.document ? [{
+    {
       provide: BASE_URL,
-      useValue: globalThis.document?.baseURI,
-    }] : [],
+      useFactory: () => window.location.origin + '/',
+    },
     provideAppInitializer(() => {
       const initializerFn = (initializeKeycloak)(inject(KeycloakService));
       return initializerFn();
