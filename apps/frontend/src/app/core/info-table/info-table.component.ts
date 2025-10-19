@@ -25,7 +25,7 @@ export class InfoTableComponent implements OnInit {
   url = '';
 
   ngOnInit() {
-    this.url = `${this.baseUrl}poll/${this.poll.id}/participate`;
+    this.url = `${this.baseUrl}/poll/${this.poll.id}/participate`;
   }
 
   copyToClipboard() {

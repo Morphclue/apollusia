@@ -66,7 +66,7 @@ function initializeKeycloak(keycloak: KeycloakService) {
     ...(typeof window !== 'undefined'
       ? [{
         provide: BASE_URL,
-        useFactory: () => window.location.origin + '/',
+        useFactory: () => window.location.origin,
       }]
       : []),
     provideAppInitializer(() => {
