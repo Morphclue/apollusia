@@ -1,8 +1,7 @@
 import {HttpClient} from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {map, tap} from 'rxjs/operators';
-import * as uuid from 'uuid';
 
 import {StorageService} from './storage.service';
 import {environment} from '../../../environments/environment';
@@ -25,7 +24,7 @@ export class TokenService {
       this.currentToken = stored;
       return stored;
     }
-    const newToken = uuid.v4();
+    const newToken = crypto.randomUUID();
     this.setToken(newToken);
     return newToken;
   }
