@@ -4,6 +4,7 @@ import express from 'express';
 import {dirname, join, resolve} from 'node:path';
 import {fileURLToPath} from 'node:url';
 
+import {BASE_URL} from './src/app/core/injection-tokens/base-url';
 import AppServerModule from './src/main.server';
 
 // The Express app is exported so that it can be used by serverless Functions.
@@ -40,7 +41,7 @@ export function app(): express.Express {
         publicPath: browserDistFolder,
         providers: [
           { provide: APP_BASE_HREF, useValue: baseUrl },
-          { provide: 'BASE_URL', useValue: `${protocol}://${headers.host}` },
+          { provide: BASE_URL, useValue: `${protocol}://${headers.host}` },
           // https://www.npmjs.com/package/ngx-cookie-service-ssr#server-side-rendering
           { provide: 'REQUEST', useValue: req },
           { provide: 'RESPONSE', useValue: res },
