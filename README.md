@@ -136,7 +136,9 @@ To set up Keycloak, follow these steps:
 
 - Run it with `docker compose up -d keycloak`
 - Go to [http://localhost:8080/auth](http://localhost:8080/auth)
-- Login
+- Login using default admin credentials:
+  - Username: `admin`
+  - Password: `root`
 - You can get the Keycloak Client Secret like this:
   - [Go to: **Clients** page > **admin-cli** > **Credentials** tab > Copy the **Client Secret**](http://localhost:8080/auth/admin/master/console/#/apollusia/clients/apollusia-client-admin-cli/credentials)
 - To get the Keycloak public key, follow these steps:
