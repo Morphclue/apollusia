@@ -1,5 +1,5 @@
-import { inject, Injectable } from '@angular/core';
-import { SsrCookieService } from 'ngx-cookie-service-ssr';
+import {inject, Injectable} from '@angular/core';
+import {SsrCookieService} from 'ngx-cookie-service-ssr';
 
 @Injectable({
   providedIn: 'root',

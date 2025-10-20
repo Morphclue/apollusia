@@ -1,5 +1,5 @@
 import {HttpClient} from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import {ImprintDto} from '@apollusia/types';
 import {Observable} from 'rxjs';
 

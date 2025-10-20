@@ -7,7 +7,7 @@ import {
 import {ToastService} from '@mean-stream/ngbx';
 
 import {ReadPoll} from '../../model';
-import { BASE_URL } from '../injection-tokens/base-url';
+import {BASE_URL} from '../injection-tokens/base-url';
 
 @Component({
   selector: 'apollusia-info-table',
@@ -20,7 +20,7 @@ export class InfoTableComponent implements OnInit {
   @Input() description = true;
   @Input() stats = false;
   private toastService = inject(ToastService);
-  private baseUrl? = inject(BASE_URL, { optional: true });
+  private baseUrl? = inject(BASE_URL, {optional: true});
 
   url = '';
 

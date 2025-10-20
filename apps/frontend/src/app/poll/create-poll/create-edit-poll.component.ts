@@ -1,5 +1,5 @@
 import {HttpClient} from '@angular/common/http';
-import { Component, inject, OnInit } from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ShowResultOptions} from '@apollusia/types/lib/schema/show-result-options';

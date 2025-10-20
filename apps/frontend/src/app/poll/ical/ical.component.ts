@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {saveAs} from 'file-saver';
 import {ICalCalendar, ICalCalendarMethod} from 'ical-generator';

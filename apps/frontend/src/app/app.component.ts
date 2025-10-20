@@ -6,7 +6,7 @@ import {
 import {Meta} from '@angular/platform-browser';
 import {SwUpdate} from '@angular/service-worker';
 
-import { BASE_URL } from './core/injection-tokens/base-url';
+import {BASE_URL} from './core/injection-tokens/base-url';
 
 @Component({
   selector: 'app-root',
@@ -17,7 +17,7 @@ import { BASE_URL } from './core/injection-tokens/base-url';
 export class AppComponent implements OnInit {
   private swUpdate = inject(SwUpdate);
   private meta = inject(Meta);
-  private baseUrl? = inject(BASE_URL, { optional: true });
+  private baseUrl? = inject(BASE_URL, {optional: true});
   title = 'apollusia';
 
   ngOnInit(): void {

@@ -1,7 +1,7 @@
-import { FlatCompat } from '@eslint/eslintrc';
+import {FlatCompat} from '@eslint/eslintrc';
 import js from '@eslint/js';
-import { dirname } from 'path';
-import { fileURLToPath } from 'url';
+import {dirname} from 'path';
+import {fileURLToPath} from 'url';
 
 import baseConfig from '../../eslint.config.mjs';
 
