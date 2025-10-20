@@ -132,56 +132,17 @@ VAPID keys can be generated using the following command:
 npx web-push generate-vapid-keys
 ```
 
-To set up Keycloak, follow these steps
+To set up Keycloak, follow these steps:
+
 - Run it with `docker compose up -d keycloak`
-- Go to `http://localhost:8080/auth`.
-- Create a new realm called `apollusia`
-- Create a client called `web` with the following options:
-  - Valid Redirect URLs: `http://localhost:4200/*`
-  - Valid Post Logout Redirect URLs: `+`
-  - Web Origins: `+`.
-- Under "Realm Settings > Login", configure:
-  - User registration: On
-  - Forgot password: On
-  - Remember me: On
-  - Email as username: On
-  - Login with email: On
-  - Duplicate emails: Off
-  - Verify email: Off
-- Under "Realm Settings > User profile", create these attributes:
-  1. - Attribute [Name]: pushTokens
-     - Display Name: Push Tokens
-     - Multivalued: On
-     - Attribute Group: user-metadata
-     - Who can edit?: User, Admin
-     - Who can view?: User, Admin
-  2. - Attribute [Name]: notifications
-     - Display Name: Notifications
-     - Multivalued: On
-     - Attribute Group: user-metadata
-     - Who can edit?: User, Admin
-     - Who can view?: User, Admin
-- Create a user as follows:
-  - Email Verified: Yes
-  - Username/email: admin@apollusia.com
-  - First Name: Apollusia
-  - Last Name: Admin
-  - Hit Create
-  - Credentials > Set Password: `root` 
-  - Role Mapping > Assign Role > Filter by clients > Select all (the list may be long, change pagination to 100 elements to see all) > Assign
-  - Role Mapping > Assign Role > Filter by realm roles > Select all > Assign
-
-You can get the Keycloak Client Secret like this:
-- Go to http://localhost:8080/auth/admin/master/console/#/apollusia/clients
-- Select admin-cli
-- Under Settings, make sure Client authentication is enabled
-- Hit Save
-- Go to the Credentials tab and copy the Client Secret
-
-To get the Keycloak public key, follow these steps:
-- Go to http://localhost:8080/auth/admin/master/console/#/apollusia/realm-settings/keys
-- Click on the RS256 Public Key
-- Copy the base64 key
+- Go to [http://localhost:8080/auth](http://localhost:8080/auth)
+- Login using default admin credentials:
+  - Username: `admin`
+  - Password: `root`
+- You can get the Keycloak Client Secret like this:
+  - [Go to: **Clients** page > **admin-cli** > **Credentials** tab > Copy the **Client Secret**](http://localhost:8080/auth/admin/master/console/#/apollusia/clients/apollusia-client-admin-cli/credentials)
+- To get the Keycloak public key, follow these steps:
+  - [Go to: **Realm settings** page > **Keys** tab > **RS256** row > Click on the **Public Key** button > Copy the base64 key](http://localhost:8080/auth/admin/master/console/#/apollusia/realm-settings/keys)
 
 ## 📄 Documentation and Contribution
 These docs will help you get started and contribute smoothly.
