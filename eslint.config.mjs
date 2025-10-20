@@ -97,6 +97,7 @@ export default [
       ],
       '@stylistic/space-infix-ops': 'warn',
       '@stylistic/space-in-parens': 'warn',
+      '@stylistic/object-curly-spacing': ['warn', 'never'],
     },
     settings: {
       'import/internal-regex': '@(angular|nestjs|apollusia)',
