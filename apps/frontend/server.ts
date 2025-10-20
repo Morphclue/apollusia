@@ -1,11 +1,11 @@
 import {APP_BASE_HREF} from '@angular/common';
-import {CommonEngine} from '@angular/ssr/node';
+import {CommonEngine, createNodeRequestHandler} from '@angular/ssr/node';
 import express from 'express';
 import {dirname, join, resolve} from 'node:path';
 import {fileURLToPath} from 'node:url';
 
 import {BASE_URL} from './src/app/core/injection-tokens/base-url';
-import AppServerModule from './src/main.server';
+import bootstrap from './src/main.server';
 
 // The Express app is exported so that it can be used by serverless Functions.
 export function app(): express.Express {
@@ -35,7 +35,7 @@ export function app(): express.Express {
 
     commonEngine
       .render({
-        bootstrap: AppServerModule,
+        bootstrap,
         documentFilePath: indexHtml,
         url: `${protocol}://${headers.host}${originalUrl}`,
         publicPath: browserDistFolder,
@@ -54,7 +54,7 @@ export function app(): express.Express {
   return server;
 }
 
-function run(): void {
+function run(): express.Express {
   const port = process.env['PORT'] || 4000;
 
   // Start up the Node server
@@ -62,6 +62,13 @@ function run(): void {
   server.listen(port, () => {
     console.log(`Node Express server listening on http://localhost:${port}`);
   });
+
+  return server;
 }
 
-run();
+const serverApp = run();
+
+/**
+ * Request handler used by the Angular CLI (for dev-server and during build) or Firebase Cloud Functions.
+ */
+export const reqHandler = createNodeRequestHandler(serverApp);

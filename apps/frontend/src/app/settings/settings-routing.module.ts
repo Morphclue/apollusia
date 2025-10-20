@@ -1,11 +1,7 @@
-import {NgModule} from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
+import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
 
-import {SettingsComponent} from './settings/settings.component';
-
-const routes: Routes = [
-  {path: '', component: SettingsComponent},
-];
+import { routes } from './settings.routes';
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
