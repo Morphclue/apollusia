@@ -1,7 +1,7 @@
-import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import {NgModule} from '@angular/core';
+import {RouterModule} from '@angular/router';
 
-import { routes } from './settings.routes';
+import {routes} from './settings.routes';
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

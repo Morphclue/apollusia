@@ -1,11 +1,16 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ModalModule } from '@mean-stream/ngbx';
-import { NgbDate, NgbDatepicker, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
-import { addMinutes, format } from 'date-fns';
+import {Component, inject, OnInit} from '@angular/core';
+import {
+  FormControl,
+  FormGroup,
+  Validators,
+  FormsModule,
+  ReactiveFormsModule
+} from '@angular/forms';
+import {ModalModule} from '@mean-stream/ngbx';
+import {NgbDate, NgbDatepicker, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {addMinutes, format} from 'date-fns';
 
-import { ChooseDateService } from '../../poll/services/choose-date.service';
-
+import {ChooseDateService} from '../../poll/services/choose-date.service';
 
 @Component({
   selector: 'app-autofill-modal',

@@ -1,11 +1,11 @@
-import { KeyValuePipe } from '@angular/common';
-import { Component } from '@angular/core';
-import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import {KeyValuePipe} from '@angular/common';
+import {Component} from '@angular/core';
+import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 
 import features from './features.json';
 
 const apps = ['Apollusia', 'Doodle', 'DuD-Poll', 'Calendly'] as const;
-type App = typeof apps[number];
+type App = (typeof apps)[number];
 
 interface Feature {
   icon?: string;

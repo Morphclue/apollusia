@@ -1,9 +1,9 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { PollEventState } from '@apollusia/types';
-import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {FormsModule} from '@angular/forms';
+import {PollEventState} from '@apollusia/types';
+import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 
-import { ReadPoll } from '../../model/index.js';
+import {ReadPoll} from '../../model/index.js';
 
 @Component({
   selector: 'app-check-button',

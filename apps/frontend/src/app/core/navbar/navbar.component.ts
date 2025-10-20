@@ -1,16 +1,24 @@
-import { NgOptimizedImage, AsyncPipe } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
-import { Theme, ThemeService } from '@mean-stream/ngbx';
-import { NgbOffcanvas, NgbDropdown, NgbDropdownToggle, NgbDropdownMenu, NgbDropdownItem, NgbDropdownButtonItem, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
-import { KeycloakService } from 'keycloak-angular';
-import { KeycloakProfile } from 'keycloak-js';
-import { Subject } from 'rxjs';
+import {NgOptimizedImage, AsyncPipe} from '@angular/common';
+import {Component, inject, OnInit} from '@angular/core';
+import {RouterLink, RouterLinkActive} from '@angular/router';
+import {Theme, ThemeService} from '@mean-stream/ngbx';
+import {
+  NgbOffcanvas,
+  NgbDropdown,
+  NgbDropdownToggle,
+  NgbDropdownMenu,
+  NgbDropdownItem,
+  NgbDropdownButtonItem,
+  NgbTooltip
+} from '@ng-bootstrap/ng-bootstrap';
+import {KeycloakService} from 'keycloak-angular';
+import {KeycloakProfile} from 'keycloak-js';
+import {Subject} from 'rxjs';
 
-import { environment } from '../../../environments/environment';
-import { LocationLinkComponent } from '../location-link/location-link.component';
-import { LocationIconPipe } from '../pipes/location-icon.pipe';
-import { StorageService } from '../services/storage.service';
+import {environment} from '../../../environments/environment';
+import {LocationLinkComponent} from '../location-link/location-link.component';
+import {LocationIconPipe} from '../pipes/location-icon.pipe';
+import {StorageService} from '../services/storage.service';
 
 type RecentPoll = { id: string; title: string; location: string; visitedAt: string; };
 
@@ -34,10 +42,10 @@ type RecentPoll = { id: string; title: string; location: string; visitedAt: stri
   ],
 })
 export class NavbarComponent implements OnInit {
-  themeService  = inject(ThemeService);
-  protected readonly offcanvas  = inject(NgbOffcanvas);
-  private readonly storageService  = inject(StorageService);
-  private readonly keycloakService  = inject(KeycloakService);
+  themeService = inject(ThemeService);
+  protected readonly offcanvas = inject(NgbOffcanvas);
+  private readonly storageService = inject(StorageService);
+  private readonly keycloakService = inject(KeycloakService);
   readonly environment = environment;
   readonly currentYear = new Date().getFullYear();
   readonly version = APP_VERSION;

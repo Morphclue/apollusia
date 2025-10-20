@@ -2,7 +2,7 @@ import {Pipe, PipeTransform} from '@angular/core';
 
 // reference: https://stackoverflow.com/questions/44669340/how-to-truncate-text-in-angular2
 
-@Pipe({ name: 'truncate', })
+@Pipe({name: 'truncate'})
 export class TruncatePipe implements PipeTransform {
   transform(value: string | undefined, args: any[]): string {
     if (!value) {

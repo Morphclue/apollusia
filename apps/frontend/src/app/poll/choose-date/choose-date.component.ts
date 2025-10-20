@@ -1,17 +1,39 @@
 import {HttpClient} from '@angular/common/http';
 import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, inject, TemplateRef} from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { ActivatedRoute, Router, RouterLink, RouterOutlet } from '@angular/router';
-import { NgbModal, NgbDropdown, NgbDropdownToggle, NgbDropdownMenu, NgbDropdownButtonItem, NgbDropdownItem, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
-import { CalendarEvent, CalendarEventTimesChangedEvent, CalendarPreviousViewDirective, CalendarTodayDirective, CalendarNextViewDirective, CalendarWeekViewComponent, CalendarEventTitleComponent, CalendarDatePipe } from 'angular-calendar';
-import { WeekViewHourSegment } from 'calendar-utils';
-import { addMinutes, differenceInMinutes, endOfWeek, format } from 'date-fns';
-import { fromEvent } from 'rxjs';
-import { finalize, takeUntil } from 'rxjs/operators';
+import {FormsModule} from '@angular/forms';
+import {
+  ActivatedRoute,
+  Router,
+  RouterLink,
+  RouterOutlet
+} from '@angular/router';
+import {
+  NgbModal,
+  NgbDropdown,
+  NgbDropdownToggle,
+  NgbDropdownMenu,
+  NgbDropdownButtonItem,
+  NgbDropdownItem,
+  NgbTooltip
+} from '@ng-bootstrap/ng-bootstrap';
+import {
+  CalendarEvent,
+  CalendarEventTimesChangedEvent,
+  CalendarPreviousViewDirective,
+  CalendarTodayDirective,
+  CalendarNextViewDirective,
+  CalendarWeekViewComponent,
+  CalendarEventTitleComponent,
+  CalendarDatePipe
+} from 'angular-calendar';
+import {WeekViewHourSegment} from 'calendar-utils';
+import {addMinutes, differenceInMinutes, endOfWeek, format} from 'date-fns';
+import {fromEvent} from 'rxjs';
+import {finalize, takeUntil} from 'rxjs/operators';
 
-import { environment } from '../../../environments/environment';
-import { CreatePollEventDto } from '../../model';
-import { ChooseDateService } from '../services/choose-date.service';
+import {environment} from '../../../environments/environment';
+import {CreatePollEventDto} from '../../model';
+import {ChooseDateService} from '../services/choose-date.service';
 
 @Component({
   selector: 'app-choose-date',

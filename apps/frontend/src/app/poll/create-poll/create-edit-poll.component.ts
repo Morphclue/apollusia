@@ -1,19 +1,25 @@
-import { HttpClient } from '@angular/common/http';
-import { Component, inject, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { ShowResultOptions } from '@apollusia/types/lib/schema/show-result-options';
-import { NgbModal, NgbTooltip, NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
-import { format } from 'date-fns';
-import { KeycloakService } from 'keycloak-angular';
-import { KeycloakProfile } from 'keycloak-js';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import {HttpClient} from '@angular/common/http';
+import {Component, inject, OnInit} from '@angular/core';
+import {
+  FormControl,
+  FormGroup,
+  Validators,
+  FormsModule,
+  ReactiveFormsModule
+} from '@angular/forms';
+import {ActivatedRoute, Router, RouterLink} from '@angular/router';
+import {ShowResultOptions} from '@apollusia/types/lib/schema/show-result-options';
+import {NgbModal, NgbTooltip, NgbCollapse} from '@ng-bootstrap/ng-bootstrap';
+import {format} from 'date-fns';
+import {KeycloakService} from 'keycloak-angular';
+import {KeycloakProfile} from 'keycloak-js';
+import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 
-import { environment } from '../../../environments/environment';
-import { LocationIconPipe } from '../../core/pipes/location-icon.pipe';
-import { TokenService } from '../../core/services';
-import { CreatePollDto, Poll } from '../../model';
+import {environment} from '../../../environments/environment';
+import {LocationIconPipe} from '../../core/pipes/location-icon.pipe';
+import {TokenService} from '../../core/services';
+import {CreatePollDto, Poll} from '../../model';
 
 @Component({
   selector: 'app-create-edit-poll',
@@ -35,7 +41,7 @@ export class CreateEditPollComponent implements OnInit {
   private router = inject(Router);
   private tokenService = inject(TokenService);
   private keycloakService = inject(KeycloakService);
-  route =  inject(ActivatedRoute);
+  route = inject(ActivatedRoute);
   isCollapsed: boolean = true;
   id: string = '';
   poll?: Poll;

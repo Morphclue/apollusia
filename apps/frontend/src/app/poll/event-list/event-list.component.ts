@@ -1,9 +1,9 @@
-import { DatePipe } from '@angular/common';
-import { Component, Input } from '@angular/core';
-import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import {DatePipe} from '@angular/common';
+import {Component, Input} from '@angular/core';
+import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 
-import { Participant, ReadPoll, ReadPollEvent } from '../../model';
-import { ParticipantInfoComponent } from '../participant-info/participant-info.component';
+import {Participant, ReadPoll, ReadPollEvent} from '../../model';
+import {ParticipantInfoComponent} from '../participant-info/participant-info.component';
 
 @Component({
   selector: 'apollusia-event-list',

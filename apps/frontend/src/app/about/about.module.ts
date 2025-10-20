@@ -20,7 +20,7 @@ import {StatisticsComponent} from './statistics/statistics.component';
     StatisticsComponent,
     FeaturesComponent,
     InformationComponent,
-    PromisesComponent
+    PromisesComponent,
   ],
 })
 export class AboutModule {

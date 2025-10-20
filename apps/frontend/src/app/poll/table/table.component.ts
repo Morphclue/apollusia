@@ -6,18 +6,25 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { checkParticipant } from '@apollusia/logic';
-import type { PollEventState } from '@apollusia/types';
-import { ToastService } from '@mean-stream/ngbx';
-import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import {FormsModule} from '@angular/forms';
+import {checkParticipant} from '@apollusia/logic';
+import type {PollEventState} from '@apollusia/types';
+import {ToastService} from '@mean-stream/ngbx';
+import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 
-import { CreateParticipantDto, Participant, Poll, ReadPoll, ReadPollEvent, UpdateParticipantDto } from '../../model';
-import { SomePipe } from '../../pipes/some.pipe';
-import { CheckButtonComponent } from '../check-button/check-button.component';
-import { EventHeadComponent } from '../event-head/event-head.component';
-import { ParticipantInfoComponent } from '../participant-info/participant-info.component';
-import { PollService } from '../services/poll.service';
+import {
+  CreateParticipantDto,
+  Participant,
+  Poll,
+  ReadPoll,
+  ReadPollEvent,
+  UpdateParticipantDto
+} from '../../model';
+import {SomePipe} from '../../pipes/some.pipe';
+import {CheckButtonComponent} from '../check-button/check-button.component';
+import {EventHeadComponent} from '../event-head/event-head.component';
+import {ParticipantInfoComponent} from '../participant-info/participant-info.component';
+import {PollService} from '../services/poll.service';
 
 @Component({
   selector: 'apollusia-table',
@@ -41,8 +48,8 @@ export class TableComponent implements OnInit {
   @Input() token: string;
   @Input() bestOption: number = 1;
   @Output() changed = new EventEmitter<void>();
-  protected pollService  = inject(PollService);
-  private toastService  = inject(ToastService);
+  protected pollService = inject(PollService);
+  private toastService = inject(ToastService);
 
   bookedEvents: Poll['bookedEvents'] = {};
 

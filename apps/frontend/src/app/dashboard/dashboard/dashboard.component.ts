@@ -1,17 +1,16 @@
-import { NgOptimizedImage } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { ActivatedRoute, RouterLink, RouterLinkActive } from '@angular/router';
-import { ToastService } from '@mean-stream/ngbx';
-import { KeycloakService } from 'keycloak-angular';
-import { switchMap, tap } from 'rxjs/operators';
+import {NgOptimizedImage} from '@angular/common';
+import {Component, inject, OnInit} from '@angular/core';
+import {FormsModule} from '@angular/forms';
+import {ActivatedRoute, RouterLink, RouterLinkActive} from '@angular/router';
+import {ToastService} from '@mean-stream/ngbx';
+import {KeycloakService} from 'keycloak-angular';
+import {switchMap, tap} from 'rxjs/operators';
 
-import { TokenService } from '../../core/services';
-import { ReadPoll } from '../../model';
-import { PollService } from '../../poll/services/poll.service';
-import { CardComponent } from '../card/card.component';
-import { SearchPipe } from '../pipes/search.pipe';
-
+import {TokenService} from '../../core/services';
+import {ReadPoll} from '../../model';
+import {PollService} from '../../poll/services/poll.service';
+import {CardComponent} from '../card/card.component';
+import {SearchPipe} from '../pipes/search.pipe';
 
 @Component({
   selector: 'app-dashboard',

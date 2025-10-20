@@ -1,8 +1,8 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import {Component, inject, OnInit} from '@angular/core';
+import {FormsModule} from '@angular/forms';
+import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 
-import { TokenService } from '../../core/services';
+import {TokenService} from '../../core/services';
 
 @Component({
   selector: 'app-token',

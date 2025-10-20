@@ -1,19 +1,33 @@
-import { HTTP_INTERCEPTORS, provideHttpClient, withFetch, withInterceptorsFromDi } from '@angular/common/http';
-import { ApplicationConfig, provideAppInitializer, inject, importProvidersFrom } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
-import { provideClientHydration, BrowserModule } from '@angular/platform-browser';
-import { provideRouter, withEnabledBlockingInitialNavigation, withRouterConfig } from '@angular/router';
-import { ServiceWorkerModule } from '@angular/service-worker';
-import { ModalModule, ToastModule } from '@mean-stream/ngbx';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { KeycloakService, KeycloakAngularModule } from 'keycloak-angular';
+import {
+  HTTP_INTERCEPTORS,
+  provideHttpClient,
+  withFetch,
+  withInterceptorsFromDi
+} from '@angular/common/http';
+import {
+  ApplicationConfig,
+  provideAppInitializer,
+  inject,
+  importProvidersFrom
+} from '@angular/core';
+import {ReactiveFormsModule} from '@angular/forms';
+import {provideClientHydration, BrowserModule} from '@angular/platform-browser';
+import {
+  provideRouter,
+  withEnabledBlockingInitialNavigation,
+  withRouterConfig
+} from '@angular/router';
+import {ServiceWorkerModule} from '@angular/service-worker';
+import {ModalModule, ToastModule} from '@mean-stream/ngbx';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {KeycloakService, KeycloakAngularModule} from 'keycloak-angular';
 
-import { routes } from './app.routes';
-import { CoreModule } from './core/core.module';
-import { BASE_URL } from './core/injection-tokens/base-url';
-import { ParticipantTokenInterceptor } from './core/interceptors/participant-token.interceptor';
-import { TokenService } from './core/services';
-import { environment } from '../environments/environment';
+import {routes} from './app.routes';
+import {CoreModule} from './core/core.module';
+import {BASE_URL} from './core/injection-tokens/base-url';
+import {ParticipantTokenInterceptor} from './core/interceptors/participant-token.interceptor';
+import {TokenService} from './core/services';
+import {environment} from '../environments/environment';
 
 function initializeKeycloak(keycloak: KeycloakService) {
   return async () => {
@@ -69,7 +83,7 @@ export const appConfig: ApplicationConfig = {
         }]
       : []),
     provideAppInitializer(() => {
-      const initializerFn = (initializeKeycloak)(inject(KeycloakService));
+      const initializerFn = initializeKeycloak(inject(KeycloakService));
       return initializerFn();
     }),
     provideHttpClient(withInterceptorsFromDi()),

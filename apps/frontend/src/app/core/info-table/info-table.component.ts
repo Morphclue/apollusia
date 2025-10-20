@@ -1,19 +1,14 @@
-import { DatePipe } from '@angular/common';
-import {
-  Component,
-  inject,
-  Input,
-  OnInit,
-} from '@angular/core';
-import { RouterLink } from '@angular/router';
-import { ToastService } from '@mean-stream/ngbx';
-import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import {DatePipe} from '@angular/common';
+import {Component, inject, Input, OnInit} from '@angular/core';
+import {RouterLink} from '@angular/router';
+import {ToastService} from '@mean-stream/ngbx';
+import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 
-import { ReadPoll } from '../../model';
-import { BASE_URL } from '../injection-tokens/base-url';
-import { LocationLinkComponent } from '../location-link/location-link.component';
-import { MarkdownComponent } from '../markdown/markdown.component';
-import { LocationIconPipe } from '../pipes/location-icon.pipe';
+import {ReadPoll} from '../../model';
+import {BASE_URL} from '../injection-tokens/base-url';
+import {LocationLinkComponent} from '../location-link/location-link.component';
+import {MarkdownComponent} from '../markdown/markdown.component';
+import {LocationIconPipe} from '../pipes/location-icon.pipe';
 
 @Component({
   selector: 'apollusia-info-table',

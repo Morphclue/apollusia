@@ -1,7 +1,7 @@
-import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import {NgModule} from '@angular/core';
+import {RouterModule} from '@angular/router';
 
-import { routes } from './dashboard.routes';
+import {routes} from './dashboard.routes';
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

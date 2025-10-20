@@ -1,7 +1,7 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { NgbAlert } from '@ng-bootstrap/ng-bootstrap';
+import {Component, inject, OnInit} from '@angular/core';
+import {NgbAlert} from '@ng-bootstrap/ng-bootstrap';
 
-import { StorageService } from '../services/storage.service';
+import {StorageService} from '../services/storage.service';
 
 @Component({
   selector: 'app-cookie-banner',

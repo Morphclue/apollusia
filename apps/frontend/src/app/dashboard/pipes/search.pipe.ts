@@ -2,7 +2,7 @@ import {Pipe, PipeTransform} from '@angular/core';
 
 import {ReadPoll} from '../../model';
 
-@Pipe({ name: 'search', })
+@Pipe({name: 'search'})
 export class SearchPipe implements PipeTransform {
   transform(value: ReadPoll[], search: string): ReadPoll[] {
     search = search.toLowerCase();

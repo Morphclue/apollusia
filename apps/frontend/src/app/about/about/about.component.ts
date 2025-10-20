@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
-import { FeaturesComponent } from '../features/features.component';
-import { InformationComponent } from '../information/information.component';
-import { PromisesComponent } from '../promises/promises.component';
-import { StatisticsComponent } from '../statistics/statistics.component';
+import {FeaturesComponent} from '../features/features.component';
+import {InformationComponent} from '../information/information.component';
+import {PromisesComponent} from '../promises/promises.component';
+import {StatisticsComponent} from '../statistics/statistics.component';
 
 @Component({
   selector: 'app-about',

@@ -1,17 +1,12 @@
-import {
-  Component,
-  inject,
-  OnInit,
-} from '@angular/core';
-import { Meta } from '@angular/platform-browser';
-import { RouterOutlet } from '@angular/router';
-import { SwUpdate } from '@angular/service-worker';
-import { ToastModule } from '@mean-stream/ngbx';
+import {Component, inject, OnInit} from '@angular/core';
+import {Meta} from '@angular/platform-browser';
+import {RouterOutlet} from '@angular/router';
+import {SwUpdate} from '@angular/service-worker';
+import {ToastModule} from '@mean-stream/ngbx';
 
-import { CookieBannerComponent } from './core/cookie-banner/cookie-banner.component';
-import { BASE_URL } from './core/injection-tokens/base-url';
-import { NavbarComponent } from './core/navbar/navbar.component';
-
+import {CookieBannerComponent} from './core/cookie-banner/cookie-banner.component';
+import {BASE_URL} from './core/injection-tokens/base-url';
+import {NavbarComponent} from './core/navbar/navbar.component';
 
 @Component({
   selector: 'app-root',

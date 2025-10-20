@@ -1,6 +1,6 @@
-import { DatePipe } from '@angular/common';
-import { Component, Input } from '@angular/core';
-import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import {DatePipe} from '@angular/common';
+import {Component, Input} from '@angular/core';
+import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 
 import {Participant} from '../../model';
 

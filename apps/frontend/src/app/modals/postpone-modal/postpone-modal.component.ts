@@ -1,8 +1,8 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { ModalModule } from '@mean-stream/ngbx';
+import {Component, inject, OnInit} from '@angular/core';
+import {FormsModule} from '@angular/forms';
+import {ModalModule} from '@mean-stream/ngbx';
 
-import { ChooseDateService } from '../../poll/services/choose-date.service';
+import {ChooseDateService} from '../../poll/services/choose-date.service';
 
 @Component({
   selector: 'app-postpone-modal',
