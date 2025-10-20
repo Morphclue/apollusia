@@ -11,14 +11,17 @@ import {PromisesComponent} from './promises/promises.component';
 import {StatisticsComponent} from './statistics/statistics.component';
 
 @NgModule({
-  declarations: [
+  imports: [
+    CommonModule,
+    AboutRoutingModule,
+    CountUpModule,
+    NgbTooltipModule,
     AboutComponent,
     StatisticsComponent,
     FeaturesComponent,
     InformationComponent,
-    PromisesComponent,
+    PromisesComponent
   ],
-  imports: [CommonModule, AboutRoutingModule, CountUpModule, NgbTooltipModule],
 })
 export class AboutModule {
 }

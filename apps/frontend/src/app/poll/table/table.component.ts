@@ -6,18 +6,31 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import {checkParticipant} from '@apollusia/logic';
-import type {PollEventState} from '@apollusia/types';
-import {ToastService} from '@mean-stream/ngbx';
+import { FormsModule } from '@angular/forms';
+import { checkParticipant } from '@apollusia/logic';
+import type { PollEventState } from '@apollusia/types';
+import { ToastService } from '@mean-stream/ngbx';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 
-import {CreateParticipantDto, Participant, Poll, ReadPoll, ReadPollEvent, UpdateParticipantDto} from '../../model';
-import {PollService} from '../services/poll.service';
+import { CreateParticipantDto, Participant, Poll, ReadPoll, ReadPollEvent, UpdateParticipantDto } from '../../model';
+import { SomePipe } from '../../pipes/some.pipe';
+import { CheckButtonComponent } from '../check-button/check-button.component';
+import { EventHeadComponent } from '../event-head/event-head.component';
+import { ParticipantInfoComponent } from '../participant-info/participant-info.component';
+import { PollService } from '../services/poll.service';
 
 @Component({
   selector: 'apollusia-table',
   templateUrl: './table.component.html',
   styleUrl: './table.component.scss',
-  standalone: false,
+  imports: [
+    EventHeadComponent,
+    FormsModule,
+    CheckButtonComponent,
+    NgbTooltip,
+    ParticipantInfoComponent,
+    SomePipe,
+  ],
 })
 export class TableComponent implements OnInit {
   @Input() poll: ReadPoll;

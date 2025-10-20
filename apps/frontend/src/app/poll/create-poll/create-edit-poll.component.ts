@@ -1,24 +1,32 @@
-import {HttpClient} from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Component, inject, OnInit } from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {ActivatedRoute, Router} from '@angular/router';
-import {ShowResultOptions} from '@apollusia/types/lib/schema/show-result-options';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {format} from 'date-fns';
-import {KeycloakService} from 'keycloak-angular';
-import {KeycloakProfile} from 'keycloak-js';
-import {Observable} from 'rxjs';
-import {map} from 'rxjs/operators';
+import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ShowResultOptions } from '@apollusia/types/lib/schema/show-result-options';
+import { NgbModal, NgbTooltip, NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
+import { format } from 'date-fns';
+import { KeycloakService } from 'keycloak-angular';
+import { KeycloakProfile } from 'keycloak-js';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
-import {environment} from '../../../environments/environment';
-import {TokenService} from '../../core/services';
-import {CreatePollDto, Poll} from '../../model';
+import { environment } from '../../../environments/environment';
+import { LocationIconPipe } from '../../core/pipes/location-icon.pipe';
+import { TokenService } from '../../core/services';
+import { CreatePollDto, Poll } from '../../model';
 
 @Component({
   selector: 'app-create-edit-poll',
   templateUrl: './create-edit-poll.component.html',
   styleUrls: ['./create-edit-poll.component.scss'],
-  standalone: false,
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    RouterLink,
+    NgbTooltip,
+    NgbCollapse,
+    LocationIconPipe,
+  ],
 })
 export class CreateEditPollComponent implements OnInit {
   readonly ShowResultOptions = ShowResultOptions;

@@ -24,7 +24,22 @@ import {AutofillModalComponent, PostponeModalComponent} from '../modals';
 import {SomePipe} from '../pipes';
 
 @NgModule({
-  declarations: [
+  imports: [
+    CommonModule,
+    PollRoutingModule,
+    ReactiveFormsModule,
+    FormsModule,
+    NgbModule,
+    ModalModule,
+    ToastModule,
+    CoreModule,
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory,
+    }),
+    FlatpickrModule.forRoot(),
+    NgbxFormsModule,
+    PollLogComponent,
     CreateEditPollComponent,
     ChooseDateComponent,
     ChooseEventsComponent,
@@ -38,23 +53,6 @@ import {SomePipe} from '../pipes';
     ParticipantInfoComponent,
     IcalComponent,
   ],
-    imports: [
-        CommonModule,
-        PollRoutingModule,
-        ReactiveFormsModule,
-        FormsModule,
-        NgbModule,
-        ModalModule,
-        ToastModule,
-        CoreModule,
-        CalendarModule.forRoot({
-            provide: DateAdapter,
-            useFactory: adapterFactory,
-        }),
-        FlatpickrModule.forRoot(),
-        NgbxFormsModule,
-        PollLogComponent,
-    ],
   providers: [ChooseDateService],
 })
 export class PollModule {

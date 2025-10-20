@@ -1,15 +1,23 @@
 import { Component, inject, OnInit } from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {NgbDate} from '@ng-bootstrap/ng-bootstrap';
-import {addMinutes, format} from 'date-fns';
+import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ModalModule } from '@mean-stream/ngbx';
+import { NgbDate, NgbDatepicker, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { addMinutes, format } from 'date-fns';
 
-import {ChooseDateService} from '../../poll/services/choose-date.service';
+import { ChooseDateService } from '../../poll/services/choose-date.service';
+
 
 @Component({
   selector: 'app-autofill-modal',
   templateUrl: './autofill-modal.component.html',
   styleUrls: ['./autofill-modal.component.scss'],
-  standalone: false,
+  imports: [
+    ModalModule,
+    FormsModule,
+    ReactiveFormsModule,
+    NgbDatepicker,
+    NgbTooltip,
+  ],
 })
 export class AutofillModalComponent implements OnInit {
   private chooseDateService = inject(ChooseDateService);

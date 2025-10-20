@@ -1,12 +1,14 @@
 import { Component, inject, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 
-import {TokenService} from '../../core/services';
+import { TokenService } from '../../core/services';
 
 @Component({
   selector: 'app-token',
   templateUrl: './token.component.html',
   styleUrls: ['./token.component.scss'],
-  standalone: false,
+  imports: [FormsModule, NgbTooltip],
 })
 export class TokenComponent implements OnInit {
   private tokenService = inject(TokenService);

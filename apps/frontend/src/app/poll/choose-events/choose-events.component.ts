@@ -1,15 +1,21 @@
-import {Component, inject, OnInit} from '@angular/core';
-import {Meta, Title} from '@angular/platform-browser';
-import {ActivatedRoute} from '@angular/router';
-import {ShowResultOptions} from '@apollusia/types/lib/schema/show-result-options';
-import {ToastService} from '@mean-stream/ngbx';
-import {forkJoin} from 'rxjs';
-import {map, switchMap, tap} from 'rxjs/operators';
+import { AsyncPipe } from '@angular/common';
+import { Component, inject, OnInit } from '@angular/core';
+import { Meta, Title } from '@angular/platform-browser';
+import { ActivatedRoute, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { ShowResultOptions } from '@apollusia/types/lib/schema/show-result-options';
+import { ToastService } from '@mean-stream/ngbx';
+import { NgbTooltip, NgbDropdown, NgbDropdownToggle, NgbDropdownMenu, NgbDropdownButtonItem, NgbDropdownItem } from '@ng-bootstrap/ng-bootstrap';
+import { forkJoin } from 'rxjs';
+import { map, switchMap, tap } from 'rxjs/operators';
 
-import {TokenService} from '../../core/services';
-import {StorageService} from '../../core/services/storage.service';
-import {Participant, ReadPoll, ReadPollEvent} from '../../model';
-import {PollService} from '../services/poll.service';
+import { InfoTableComponent } from '../../core/info-table/info-table.component';
+import { TokenService } from '../../core/services';
+import { StorageService } from '../../core/services/storage.service';
+import { Participant, ReadPoll, ReadPollEvent } from '../../model';
+import { EventListComponent } from '../event-list/event-list.component';
+import { PollLogComponent } from '../poll-log/poll-log.component';
+import { PollService } from '../services/poll.service';
+import { TableComponent } from '../table/table.component';
 
 interface SortMethod {
   name: string;
@@ -22,7 +28,22 @@ interface SortMethod {
   selector: 'app-choose-events',
   templateUrl: './choose-events.component.html',
   styleUrls: ['./choose-events.component.scss'],
-  standalone: false,
+  imports: [
+    InfoTableComponent,
+    NgbTooltip,
+    RouterLink,
+    RouterLinkActive,
+    NgbDropdown,
+    NgbDropdownToggle,
+    NgbDropdownMenu,
+    NgbDropdownButtonItem,
+    NgbDropdownItem,
+    TableComponent,
+    EventListComponent,
+    PollLogComponent,
+    RouterOutlet,
+    AsyncPipe,
+  ],
 })
 export class ChooseEventsComponent implements OnInit {
   public route = inject(ActivatedRoute);

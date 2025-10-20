@@ -8,10 +8,7 @@ const iconMapping = {
   'zoom.us': 'bi-camera-video bi-zoom',
 } as const;
 
-@Pipe({
-  name: 'locationIcon',
-  standalone: false,
-})
+@Pipe({ name: 'locationIcon', })
 export class LocationIconPipe implements PipeTransform {
 
   transform(location: string): string {

@@ -1,14 +1,15 @@
-import {HttpClient} from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Component, inject, OnInit } from '@angular/core';
+import { CountUpModule } from 'ngx-countup';
 
-import {environment} from '../../../environments/environment';
-import {Statistics} from '../../model';
+import { environment } from '../../../environments/environment';
+import { Statistics } from '../../model';
 
 @Component({
   selector: 'app-statistics',
   templateUrl: './statistics.component.html',
   styleUrls: ['./statistics.component.scss'],
-  standalone: false,
+  imports: [CountUpModule],
 })
 export class StatisticsComponent implements OnInit {
   private http = inject(HttpClient);

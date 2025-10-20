@@ -1,21 +1,28 @@
+import { DatePipe } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
-import {saveAs} from 'file-saver';
-import {ICalCalendar, ICalCalendarMethod} from 'ical-generator';
-import {forkJoin} from 'rxjs';
-import {switchMap, tap} from 'rxjs/operators';
+import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ModalModule, FormsModule } from '@mean-stream/ngbx';
+import { saveAs } from 'file-saver';
+import { ICalCalendar, ICalCalendarMethod } from 'ical-generator';
+import { forkJoin } from 'rxjs';
+import { switchMap, tap } from 'rxjs/operators';
 
-import {ICalConfig} from './ical-config';
-import {MarkdownService} from '../../core/services/markdown.service';
-import {Participant, ReadPoll, ReadPollEvent} from '../../model';
-import {PollService} from '../services/poll.service';
+import { ICalConfig } from './ical-config';
+import { MarkdownService } from '../../core/services/markdown.service';
+import { Participant, ReadPoll, ReadPollEvent } from '../../model';
+import { PollService } from '../services/poll.service';
 
 
 @Component({
   selector: 'apollusia-ical',
   templateUrl: './ical.component.html',
   styleUrl: './ical.component.scss',
-  standalone: false,
+  imports: [
+    ModalModule,
+    FormsModule,
+    RouterLink,
+    DatePipe,
+  ],
 })
 export class IcalComponent implements OnInit {
   public route = inject(ActivatedRoute);

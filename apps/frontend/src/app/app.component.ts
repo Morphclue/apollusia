@@ -3,16 +3,26 @@ import {
   inject,
   OnInit,
 } from '@angular/core';
-import {Meta} from '@angular/platform-browser';
-import {SwUpdate} from '@angular/service-worker';
+import { Meta } from '@angular/platform-browser';
+import { RouterOutlet } from '@angular/router';
+import { SwUpdate } from '@angular/service-worker';
+import { ToastModule } from '@mean-stream/ngbx';
 
+import { CookieBannerComponent } from './core/cookie-banner/cookie-banner.component';
 import { BASE_URL } from './core/injection-tokens/base-url';
+import { NavbarComponent } from './core/navbar/navbar.component';
+
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  standalone: false,
+  imports: [
+    NavbarComponent,
+    RouterOutlet,
+    CookieBannerComponent,
+    ToastModule,
+  ],
 })
 export class AppComponent implements OnInit {
   private swUpdate = inject(SwUpdate);
