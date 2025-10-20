@@ -1,5 +1,5 @@
 import {HttpClient} from '@angular/common/http';
-import { Component, inject, OnInit } from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {ToastService} from '@mean-stream/ngbx';
 import {KeycloakService} from 'keycloak-angular';
 import {KeycloakProfile} from 'keycloak-js';

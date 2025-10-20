@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 
 import {ChooseDateService} from '../../poll/services/choose-date.service';
 

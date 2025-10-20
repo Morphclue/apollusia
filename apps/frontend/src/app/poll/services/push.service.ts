@@ -1,5 +1,5 @@
 import {HttpClient} from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import {SwPush} from '@angular/service-worker';
 import type {PushConfigDto} from '@apollusia/types';
 import {firstValueFrom} from 'rxjs';

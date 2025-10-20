@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {NgbDate} from '@ng-bootstrap/ng-bootstrap';
 import {addMinutes, format} from 'date-fns';

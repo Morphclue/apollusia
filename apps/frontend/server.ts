@@ -31,7 +31,7 @@ export function app(): express.Express {
 
   // All regular routes use the Angular engine
   server.get('**', (req, res, next) => {
-    const { protocol, originalUrl, baseUrl, headers } = req;
+    const {protocol, originalUrl, baseUrl, headers} = req;
 
     commonEngine
       .render({
@@ -40,11 +40,11 @@ export function app(): express.Express {
         url: `${protocol}://${headers.host}${originalUrl}`,
         publicPath: browserDistFolder,
         providers: [
-          { provide: APP_BASE_HREF, useValue: baseUrl },
-          { provide: BASE_URL, useValue: `${protocol}://${headers.host}` },
+          {provide: APP_BASE_HREF, useValue: baseUrl},
+          {provide: BASE_URL, useValue: `${protocol}://${headers.host}`},
           // https://www.npmjs.com/package/ngx-cookie-service-ssr#server-side-rendering
-          { provide: 'REQUEST', useValue: req },
-          { provide: 'RESPONSE', useValue: res },
+          {provide: 'REQUEST', useValue: req},
+          {provide: 'RESPONSE', useValue: res},
         ],
       })
       .then((html) => res.send(html))

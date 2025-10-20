@@ -8,7 +8,7 @@ import {Subject} from 'rxjs';
 import {environment} from '../../../environments/environment';
 import {StorageService} from '../services/storage.service';
 
-type RecentPoll = { id: string; title: string; location: string; visitedAt: string; };
+type RecentPoll = {id: string; title: string; location: string; visitedAt: string;};
 
 @Component({
   selector: 'app-navbar',
