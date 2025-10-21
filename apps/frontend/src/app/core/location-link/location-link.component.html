@@ -1,7 +1,7 @@
-@if (location.startsWith('http')) {
-  <a [href]="location" target="_blank" (click)="$event.stopPropagation()">
+@if (location().startsWith('http')) {
+  <a [href]="location()" target="_blank" (click)="$event.stopPropagation()">
     {{ shortLink }}
   </a>
 } @else {
-  {{ location }}
+  {{ location() }}
 }

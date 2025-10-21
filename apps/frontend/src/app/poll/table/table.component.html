@@ -3,7 +3,7 @@
     <thead>
     <tr>
       <th scope="col"></th>
-      @for (event of pollEvents; track event._id) {
+      @for (event of pollEvents(); track event._id) {
         <th scope="col">
           <app-event-head
             [event]="event"
@@ -15,7 +15,7 @@
     </tr>
     </thead>
     <tbody>
-      @if (canParticipate) {
+      @if (canParticipate()) {
         <tr>
           <th style="min-width: 240px" scope="row">
             <input
@@ -23,14 +23,14 @@
               type="text"
               id="name"
               placeholder="Your name"
-              [disabled]="poll.settings.anonymous"
+              [disabled]="poll()!.settings.anonymous"
               [(ngModel)]="newParticipant.name" (change)="validateNew()"
             >
           </th>
-          @for (event of pollEvents; track event._id) {
+          @for (event of pollEvents(); track event._id) {
             <td>
               <app-check-button
-                [poll]="poll"
+                [poll]="poll()"
                 [(check)]="newParticipant.selection[event._id]"
                 (checkChange)="validateNew()"
                 [isFull]="!newParticipant.selection[event._id]"
@@ -42,7 +42,7 @@
             <div class="d-flex align-items-center">
               <div class="text-center ms-1" ngbTooltip="Select All" style="flex-basis: 2rem">
                 <app-check-button
-                  [poll]="poll"
+                  [poll]="poll()"
                   (checkChange)="selectAll($event)"
                 ></app-check-button>
               </div>
@@ -55,13 +55,13 @@
           </th>
         </tr>
       }
-        @for (participant of participants; track participant._id) {
+        @for (participant of participants(); track participant._id) {
           <tr>
             <th>
               <apollusia-participant-info [participant]="participant"></apollusia-participant-info>
             </th>
             @if (participant !== editParticipant) {
-              @for (pollEvent of pollEvents; track pollEvent._id; let n = $index) {
+              @for (pollEvent of pollEvents(); track pollEvent._id; let n = $index) {
                 <td>
                   <div class="d-flex">
                     @switch (participant.selection[pollEvent._id]) {
@@ -78,7 +78,7 @@
                         <h5 class="p-unset bi-question" ngbTooltip="Unspecified"></h5>
                       }
                     }
-                    @if (isAdmin) {
+                    @if (isAdmin()) {
                       @let isBooked = bookedEvents[pollEvent._id] | some:participant._id;
                       <input
                         type="checkbox"
@@ -93,7 +93,7 @@
                 </td>
               }
               <td class="border-0 text-start">
-                @if (poll.settings.allowEdit && token === participant.token) {
+                @if (poll()!.settings.allowEdit && token() === participant.token) {
                   <button
                     class="btn btn-primary btn-sm ms-1 bi-pencil"
                     placement="top"
@@ -101,7 +101,7 @@
                     (click)="setEditParticipant(participant)">
                   </button>
                 }
-                @if (isAdmin || token === participant.token) {
+                @if (isAdmin() || token() === participant.token) {
                   <button
                     class="btn btn-sm btn-danger ms-1 bi-trash"
                     type="button"
@@ -113,10 +113,10 @@
               </td>
             } @else {
               @if (editDto) {
-                @for (event of pollEvents; track event._id) {
+                @for (event of pollEvents(); track event._id) {
                   <td>
                     <app-check-button
-                      [poll]="poll"
+                      [poll]="poll()"
                       [(check)]="editDto.selection[event._id]"
                       (checkChange)="validateEdit()"
                       [isPastEvent]="pollService.isPastEvent(event)"
@@ -136,19 +136,19 @@
         }
         <tr>
           <th>Sum</th>
-          @for (pollEvent of pollEvents; track pollEvent._id) {
+          @for (pollEvent of pollEvents(); track pollEvent._id) {
             <td>
-              <h5 [class]="bestOption === pollEvent.participants ? 'bi-award text-primary' : ''">
+              <h5 [class]="bestOption() === pollEvent.participants ? 'bi-award text-primary' : ''">
                 {{ pollEvent.participants }}
               </h5>
             </td>
           }
           <td class="border-0"></td>
         </tr>
-      @if (poll && isAdmin) {
+      @if (poll() && isAdmin()) {
         <tr>
           <th>Select Events</th>
-          @for (pollEvent of pollEvents; track pollEvent._id) {
+          @for (pollEvent of pollEvents(); track pollEvent._id) {
             <td>
               <input
                 type="checkbox"
