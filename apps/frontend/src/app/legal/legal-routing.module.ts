@@ -1,12 +1,7 @@
 import {NgModule} from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
+import {RouterModule} from '@angular/router';
 
-import {LegalComponent} from './legal/legal.component';
-
-const routes: Routes = [
-  {path: '', component: LegalComponent, title: 'Legal | Apollusia'},
-  {path: '**', pathMatch: 'full', redirectTo: ''},
-];
+import {routes} from './legal.routes';
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

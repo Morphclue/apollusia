@@ -1,6 +1,10 @@
+import {LowerCasePipe, DatePipe} from '@angular/common';
 import {HttpClient} from '@angular/common/http';
-import { Component, inject, OnInit } from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
+import {FormsModule} from '@angular/forms';
+import {RouterLink} from '@angular/router';
 import {ToastService} from '@mean-stream/ngbx';
+import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {KeycloakService} from 'keycloak-angular';
 import {KeycloakProfile} from 'keycloak-js';
 import * as platform from 'platform';
@@ -8,6 +12,7 @@ import * as platform from 'platform';
 import notificationSettings from './notification-settings.json';
 import {environment} from '../../../environments/environment';
 import {PushService} from '../../poll/services/push.service';
+import {TokenComponent} from '../token/token.component';
 
 interface PushInfo {
   device: string;
@@ -33,7 +38,14 @@ interface NotificationSettings {
   selector: 'apollusia-settings',
   templateUrl: './settings.component.html',
   styleUrls: ['./settings.component.scss'],
-  standalone: false,
+  imports: [
+    TokenComponent,
+    FormsModule,
+    RouterLink,
+    NgbTooltip,
+    LowerCasePipe,
+    DatePipe,
+  ],
 })
 export class SettingsComponent implements OnInit {
   readonly notificationSettings: NotificationSettings[] = notificationSettings;

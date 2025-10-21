@@ -1,5 +1,5 @@
 import {HttpClient} from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import {CalendarEvent} from 'angular-calendar';
 import {WeekViewHourSegment} from 'calendar-utils';
 import {addDays, addMinutes, format} from 'date-fns';
