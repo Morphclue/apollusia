@@ -25,6 +25,12 @@ import {TokenService} from './core/services';
 import {provideKeycloakSSR} from './provide-keycloak-ssr';
 import {environment} from '../environments/environment';
 
+// Add safe browser-only constant
+const isBrowser = typeof window !== 'undefined';
+const silentCheckSsoRedirectUri = isBrowser
+  ? window.location.origin + '/assets/silent-check-sso.html'
+  : undefined;
+
 export const appConfig: ApplicationConfig = {
   providers: [
     importProvidersFrom(
@@ -48,7 +54,7 @@ export const appConfig: ApplicationConfig = {
       multi: true,
     },
     provideHttpClient(withFetch(), withInterceptorsFromDi()),
-    ...(typeof window !== 'undefined'
+    ...(isBrowser
       ? [{
           provide: BASE_URL,
           useFactory: () => window.location.origin,
@@ -64,11 +70,11 @@ export const appConfig: ApplicationConfig = {
     // }),
     provideKeycloakSSR({
       config: environment.keycloak,
-      initOptions: {
+      initOptions: isBrowser ? {
         onLoad: 'check-sso',
         messageReceiveTimeout: 1000,
-        silentCheckSsoRedirectUri: window.location.origin + '/assets/silent-check-sso.html',
-      },
+        silentCheckSsoRedirectUri,
+      } : undefined,
     }),
     provideRouter(
       routes,
