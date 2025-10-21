@@ -1,5 +1,5 @@
 import {CommonModule} from '@angular/common';
-import {Component, inject, Input, OnInit} from '@angular/core';
+import {Component, inject, OnInit, input} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {ActivatedRoute} from '@angular/router';
 import {switchMap} from 'rxjs/operators';
@@ -15,7 +15,7 @@ import {PollService} from '../services/poll.service';
   imports: [CommonModule, CoreModule, FormsModule],
 })
 export class PollLogComponent implements OnInit {
-  @Input({required: true}) poll: ReadPoll;
+  readonly poll = input.required<ReadPoll>();
   private route = inject(ActivatedRoute);
   private pollService = inject(PollService);
 

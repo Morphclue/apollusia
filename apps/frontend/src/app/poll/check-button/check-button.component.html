@@ -1,14 +1,14 @@
-<div class="p-{{check || 'unset'}}"
+<div class="p-{{check() || 'unset'}}"
      [ngbTooltip]="
-     isPastEvent ? 'This option is in the past'
-     : isFull ? 'This option has reached it\'s maximum number of participants'
+     isPastEvent() ? 'This option is in the past'
+     : isFull() ? 'This option has reached it\'s maximum number of participants'
      : null"
 >
   <input
     type="checkbox"
-    [disabled]="isFull || isPastEvent"
-    [ngModel]="check && check !== 'no'"
-    [indeterminate]="check === 'maybe'"
+    [disabled]="isFull() || isPastEvent()"
+    [ngModel]="check() && check() !== 'no'"
+    [indeterminate]="check() === 'maybe'"
     class="form-check-input"
     (ngModelChange)="toggle()"
   >
