@@ -1,13 +1,13 @@
 <div class="card">
   <div class="card-header text-white bg-primary">
     <div class="d-flex justify-content-between">
-      <h5 class="card-title">{{ poll.title }}</h5>
+      <h5 class="card-title">{{ poll().title }}</h5>
       <div class="d-flex">
-        <a class="btn btn-flash-border-primary bi-person" [routerLink]="['/poll', poll.id, 'participate']">
+        <a class="btn btn-flash-border-primary bi-person" [routerLink]="['/poll', poll().id, 'participate']">
           View
         </a>
-        @if (admin) {
-          <a class="btn btn-flash-border-primary bi-pencil-square" [routerLink]="['/poll', poll.id]">
+        @if (admin()) {
+          <a class="btn btn-flash-border-primary bi-pencil-square" [routerLink]="['/poll', poll().id]">
             Edit
           </a>
         }
@@ -15,6 +15,6 @@
     </div>
   </div>
   <div class="card-body">
-    <apollusia-info-table [poll]="poll" [description]="!small" [stats]="true"></apollusia-info-table>
+    <apollusia-info-table [poll]="poll()" [description]="!small()" [stats]="true"></apollusia-info-table>
   </div>
 </div>
