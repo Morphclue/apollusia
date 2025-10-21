@@ -11,7 +11,7 @@ import {environment} from '../../../environments/environment';
 })
 export class PushService {
   private swPush = inject(SwPush);
-  http  = inject(HttpClient);
+  http = inject(HttpClient);
   #config: Promise<PushConfigDto>;
 
   constructor() {

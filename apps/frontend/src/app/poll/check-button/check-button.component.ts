@@ -1,5 +1,7 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {FormsModule} from '@angular/forms';
 import {PollEventState} from '@apollusia/types';
+import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 
 import {ReadPoll} from '../../model/index.js';
 
@@ -7,7 +9,7 @@ import {ReadPoll} from '../../model/index.js';
   selector: 'app-check-button',
   templateUrl: './check-button.component.html',
   styleUrls: ['./check-button.component.scss'],
-  standalone: false,
+  imports: [NgbTooltip, FormsModule],
 })
 export class CheckButtonComponent {
   @Input() poll?: ReadPoll;

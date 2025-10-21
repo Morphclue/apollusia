@@ -1,8 +1,31 @@
 import {HttpClient} from '@angular/common/http';
 import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, inject, TemplateRef} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {CalendarEvent, CalendarEventTimesChangedEvent} from 'angular-calendar';
+import {FormsModule} from '@angular/forms';
+import {
+  ActivatedRoute,
+  Router,
+  RouterLink,
+  RouterOutlet
+} from '@angular/router';
+import {
+  NgbModal,
+  NgbDropdown,
+  NgbDropdownToggle,
+  NgbDropdownMenu,
+  NgbDropdownButtonItem,
+  NgbDropdownItem,
+  NgbTooltip
+} from '@ng-bootstrap/ng-bootstrap';
+import {
+  CalendarEvent,
+  CalendarEventTimesChangedEvent,
+  CalendarPreviousViewDirective,
+  CalendarTodayDirective,
+  CalendarNextViewDirective,
+  CalendarWeekViewComponent,
+  CalendarEventTitleComponent,
+  CalendarDatePipe
+} from 'angular-calendar';
 import {WeekViewHourSegment} from 'calendar-utils';
 import {addMinutes, differenceInMinutes, endOfWeek, format} from 'date-fns';
 import {fromEvent} from 'rxjs';
@@ -17,7 +40,23 @@ import {ChooseDateService} from '../services/choose-date.service';
   templateUrl: './choose-date.component.html',
   styleUrls: ['./choose-date.component.scss'],
   providers: [ChooseDateService],
-  standalone: false,
+  imports: [
+    CalendarPreviousViewDirective,
+    CalendarTodayDirective,
+    CalendarNextViewDirective,
+    NgbDropdown,
+    NgbDropdownToggle,
+    NgbDropdownMenu,
+    NgbDropdownButtonItem,
+    NgbDropdownItem,
+    RouterLink,
+    CalendarWeekViewComponent,
+    CalendarEventTitleComponent,
+    NgbTooltip,
+    FormsModule,
+    RouterOutlet,
+    CalendarDatePipe,
+  ],
 })
 export class ChooseDateComponent implements AfterViewInit {
   private modalService = inject(NgbModal);
