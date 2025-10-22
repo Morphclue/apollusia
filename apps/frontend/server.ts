@@ -1,67 +1,63 @@
-import {APP_BASE_HREF} from '@angular/common';
-import {CommonEngine, createNodeRequestHandler} from '@angular/ssr/node';
+import {AngularNodeAppEngine, createNodeRequestHandler, isMainModule, writeResponseToNodeResponse} from '@angular/ssr/node';
 import express from 'express';
-import {dirname, join, resolve} from 'node:path';
+import {dirname, resolve} from 'node:path';
 import {fileURLToPath} from 'node:url';
-
-import {BASE_URL} from './src/app/core/injection-tokens/base-url';
-import bootstrap from './src/main.server';
 
 // The Express app is exported so that it can be used by serverless Functions.
 export function app(): express.Express {
   const server = express();
+  const angularApp = new AngularNodeAppEngine();
   const serverDistFolder = dirname(fileURLToPath(import.meta.url));
   const browserDistFolder = resolve(serverDistFolder, '../browser');
-  const indexHtml = join(serverDistFolder, 'index.server.html');
-
-  const commonEngine = new CommonEngine();
 
   server.set('view engine', 'html');
   server.set('views', browserDistFolder);
 
-  // Example Express Rest API endpoints
-  // server.get('/api/**', (req, res) => { });
-  // Serve static files from /browser
-  server.get(
-    '*.*',
+  // server.use(
+  //   '/api',
+  //   createProxyMiddleware({
+  //     target: 'http://localhost:3000',
+  //     secure: false,
+  //     changeOrigin: true,
+  //   })
+  // );
+
+  /**
+   * Serve static files from /browser
+   */
+  server.use(
     express.static(browserDistFolder, {
       maxAge: '1y',
+      index: false,
+      redirect: false,
     }),
   );
 
-  // All regular routes use the Angular engine
-  server.get('**', (req, res, next) => {
-    const { protocol, originalUrl, baseUrl, headers } = req;
-
-    commonEngine
-      .render({
-        bootstrap,
-        documentFilePath: indexHtml,
-        url: `${protocol}://${headers.host}${originalUrl}`,
-        publicPath: browserDistFolder,
-        providers: [
-          { provide: APP_BASE_HREF, useValue: baseUrl },
-          { provide: BASE_URL, useValue: `${protocol}://${headers.host}` },
-          // https://www.npmjs.com/package/ngx-cookie-service-ssr#server-side-rendering
-          { provide: 'REQUEST', useValue: req },
-          { provide: 'RESPONSE', useValue: res },
-        ],
-      })
-      .then((html) => res.send(html))
-      .catch((err) => next(err));
+  /**
+   * Handle all other requests by rendering the Angular application.
+   */
+  server.use((req, res, next) => {
+    angularApp
+      .handle(req)
+      .then((response) =>
+        response ? writeResponseToNodeResponse(response, res) : next(),
+      )
+      .catch(next);
   });
 
   return server;
 }
 
 function run(): express.Express {
-  const port = process.env['PORT'] || 4000;
-
   // Start up the Node server
   const server = app();
-  server.listen(port, () => {
-    console.log(`Node Express server listening on http://localhost:${port}`);
-  });
+  if (isMainModule(import.meta.url)) {
+    const port = process.env['PORT'] || 4000;
+
+    server.listen(port, () => {
+      console.log(`Node Express server listening on http://localhost:${port}`);
+    });
+  }
 
   return server;
 }
