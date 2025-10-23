@@ -5,8 +5,7 @@ import {FormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
 import {ToastService} from '@mean-stream/ngbx';
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
-import {KeycloakService} from 'keycloak-angular';
-import {KeycloakProfile} from 'keycloak-js';
+import Keycloak, {type KeycloakProfile} from 'keycloak-js';
 import * as platform from 'platform';
 
 import notificationSettings from './notification-settings.json';
@@ -50,7 +49,7 @@ interface NotificationSettings {
 export class SettingsComponent implements OnInit {
   readonly notificationSettings: NotificationSettings[] = notificationSettings;
   private toastService = inject(ToastService);
-  private keycloakService = inject(KeycloakService);
+  private keycloak = inject(Keycloak);
   private pushService = inject(PushService);
   private http = inject(HttpClient);
 
@@ -62,7 +61,7 @@ export class SettingsComponent implements OnInit {
   existingPush?: PushSubscription;
 
   async ngOnInit() {
-    this.user = await this.keycloakService.loadUserProfile(true);
+    this.user = await this.keycloak.loadUserProfile();
     this.pushInfo = (this.user.attributes?.['pushTokens'] as string[])?.map((token) => JSON.parse(token)) ?? [];
     this.notifications = Object.fromEntries((this.user.attributes?.['notifications'] as string[] ?? this.getDefaultNotificationSettings()).map((n) => [n, true]));
 
@@ -91,7 +90,7 @@ export class SettingsComponent implements OnInit {
   }
 
   login() {
-    this.keycloakService.login();
+    this.keycloak.login();
   }
 
   addPush() {

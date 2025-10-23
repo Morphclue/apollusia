@@ -11,8 +11,7 @@ import {
   NgbDropdownButtonItem,
   NgbTooltip
 } from '@ng-bootstrap/ng-bootstrap';
-import {KeycloakService} from 'keycloak-angular';
-import {KeycloakProfile} from 'keycloak-js';
+import Keycloak, {type KeycloakProfile} from 'keycloak-js';
 import {Subject} from 'rxjs';
 
 import {environment} from '../../../environments/environment';
@@ -45,7 +44,7 @@ export class NavbarComponent implements OnInit {
   themeService = inject(ThemeService);
   protected readonly offcanvas = inject(NgbOffcanvas);
   private readonly storageService = inject(StorageService);
-  private readonly keycloakService = inject(KeycloakService);
+  private readonly keycloak = inject(Keycloak);
   readonly environment = environment;
   readonly currentYear = new Date().getFullYear();
   readonly version = APP_VERSION;
@@ -95,19 +94,19 @@ export class NavbarComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.keycloakService.loadUserProfile().then(user => {
+    this.keycloak.loadUserProfile().then(user => {
       this.user = user;
     }, () => {});
   }
 
   login() {
-    this.keycloakService.login({
+    this.keycloak.login({
       redirectUri: window.location.href,
     });
   }
 
   logout() {
-    this.keycloakService.logout(window.location.href);
+    this.keycloak.logout({redirectUri: window.location.href});
   }
 
   removeRecent(poll: RecentPoll) {
