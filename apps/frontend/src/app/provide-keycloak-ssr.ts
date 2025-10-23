@@ -17,25 +17,9 @@ import {
 import Keycloak, { KeycloakConfig, KeycloakInitOptions } from 'keycloak-js';
 
 export type ProvideKeycloakOptions = {
-  /**
-   * Keycloak configuration, including the server URL, realm, and client ID.
-   */
   config: KeycloakConfig;
-
-  /**
-   * Optional initialization options for the Keycloak instance.
-   * If not provided, Keycloak will not initialize automatically.
-   */
   initOptions?: KeycloakInitOptions;
-
-  /**
-   * Optional array of additional Angular providers or environment providers.
-   */
   providers?: Array<Provider | EnvironmentProviders>;
-
-  /**
-   * Optional array of Keycloak features to extend the functionality of the Keycloak integration.
-   */
   features?: Array<KeycloakFeature>;
 };
 
@@ -52,7 +36,6 @@ const provideKeycloakInAppInitializer = (
   return provideAppInitializer(async () => {
     const platform = inject(PLATFORM_ID);
 
-    // only init keycloak in the browser
     if (isPlatformBrowser(platform)) {
       const injector = inject(EnvironmentInjector);
       runInInjectionContext(injector, () =>

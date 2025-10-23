@@ -15,7 +15,6 @@ import {
 import {ServiceWorkerModule} from '@angular/service-worker';
 import {ModalModule, ToastModule} from '@mean-stream/ngbx';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-// import {provideKeycloak} from 'keycloak-angular';
 
 import {routes} from './app.routes';
 import {CoreModule} from './core/core.module';
@@ -25,7 +24,6 @@ import {TokenService} from './core/services';
 import {provideKeycloakSSR} from './provide-keycloak-ssr';
 import {environment} from '../environments/environment';
 
-// Add safe browser-only constant
 const isBrowser = typeof window !== 'undefined';
 const silentCheckSsoRedirectUri = isBrowser
   ? window.location.origin + '/assets/silent-check-sso.html'
@@ -60,14 +58,6 @@ export const appConfig: ApplicationConfig = {
           useFactory: () => window.location.origin,
         }]
       : []),
-    // provideKeycloak({
-    //   config: environment.keycloak,
-    //   initOptions: {
-    //     onLoad: 'check-sso',
-    //     messageReceiveTimeout: 1000,
-    //     silentCheckSsoRedirectUri: window.location.origin + '/assets/silent-check-sso.html',
-    //   },
-    // }),
     provideKeycloakSSR({
       config: environment.keycloak,
       initOptions: isBrowser ? {
