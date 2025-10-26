@@ -15,6 +15,12 @@ import {
 import {ServiceWorkerModule} from '@angular/service-worker';
 import {ModalModule, ToastModule} from '@mean-stream/ngbx';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {
+  createInterceptorCondition,
+  INCLUDE_BEARER_TOKEN_INTERCEPTOR_CONFIG,
+  IncludeBearerTokenCondition,
+  includeBearerTokenInterceptor,
+} from 'keycloak-angular';
 
 import {routes} from './app.routes';
 import {CoreModule} from './core/core.module';
@@ -23,12 +29,6 @@ import {ParticipantTokenInterceptor} from './core/interceptors/participant-token
 import {TokenService} from './core/services';
 import {provideKeycloakSSR} from './provide-keycloak-ssr';
 import {environment} from '../environments/environment';
-import {
-  createInterceptorCondition,
-  INCLUDE_BEARER_TOKEN_INTERCEPTOR_CONFIG,
-  IncludeBearerTokenCondition,
-  includeBearerTokenInterceptor,
-} from 'keycloak-angular';
 
 const isBrowser = typeof window !== 'undefined';
 const silentCheckSsoRedirectUri = isBrowser
