@@ -153,6 +153,9 @@ importers:
       handlebars:
         specifier: ^4.7.8
         version: 4.7.8
+      http-proxy-middleware:
+        specifier: ^3.0.5
+        version: 3.0.5
       ical-generator:
         specifier: ^9.0.0
         version: 9.0.0(@types/node@24.8.1)(dayjs@1.11.18)(luxon@3.7.2)
