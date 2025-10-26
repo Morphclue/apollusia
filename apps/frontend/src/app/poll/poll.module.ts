@@ -3,8 +3,6 @@ import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {FormsModule as NgbxFormsModule, ModalModule, ToastModule} from '@mean-stream/ngbx';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import {CalendarModule, DateAdapter} from 'angular-calendar';
-import {adapterFactory} from 'angular-calendar/date-adapters/date-fns';
 import {FlatpickrModule} from 'angularx-flatpickr';
 
 import {CheckButtonComponent} from './check-button/check-button.component';
@@ -33,10 +31,6 @@ import {SomePipe} from '../pipes';
     ModalModule,
     ToastModule,
     CoreModule,
-    CalendarModule.forRoot({
-      provide: DateAdapter,
-      useFactory: adapterFactory,
-    }),
     FlatpickrModule.forRoot(),
     NgbxFormsModule,
     PollLogComponent,

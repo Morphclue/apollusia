@@ -14,7 +14,7 @@ import {
   NgbDropdownMenu,
   NgbDropdownButtonItem,
   NgbDropdownItem,
-  NgbTooltip
+  NgbTooltip,
 } from '@ng-bootstrap/ng-bootstrap';
 import {
   CalendarEvent,
@@ -24,8 +24,11 @@ import {
   CalendarNextViewDirective,
   CalendarWeekViewComponent,
   CalendarEventTitleComponent,
-  CalendarDatePipe
+  CalendarDatePipe,
+  DateAdapter,
+  provideCalendar,
 } from 'angular-calendar';
+import {adapterFactory} from 'angular-calendar/date-adapters/date-fns';
 import {WeekViewHourSegment} from 'calendar-utils';
 import {addMinutes, differenceInMinutes, endOfWeek, format} from 'date-fns';
 import {fromEvent} from 'rxjs';
@@ -39,7 +42,13 @@ import {ChooseDateService} from '../services/choose-date.service';
   selector: 'app-choose-date',
   templateUrl: './choose-date.component.html',
   styleUrls: ['./choose-date.component.scss'],
-  providers: [ChooseDateService],
+  providers: [
+    ChooseDateService,
+    provideCalendar({
+      provide: DateAdapter,
+      useFactory: adapterFactory,
+    })
+  ],
   imports: [
     CalendarPreviousViewDirective,
     CalendarTodayDirective,
