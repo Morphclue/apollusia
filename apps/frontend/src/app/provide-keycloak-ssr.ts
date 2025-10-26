@@ -1,4 +1,4 @@
-import { isPlatformBrowser } from '@angular/common';
+import {isPlatformBrowser} from '@angular/common';
 import {
   EnvironmentInjector,
   EnvironmentProviders,
@@ -14,7 +14,7 @@ import {
   KEYCLOAK_EVENT_SIGNAL,
   KeycloakFeature,
 } from 'keycloak-angular';
-import Keycloak, { KeycloakConfig, KeycloakInitOptions } from 'keycloak-js';
+import Keycloak, {KeycloakConfig, KeycloakInitOptions} from 'keycloak-js';
 
 export type ProvideKeycloakOptions = {
   config: KeycloakConfig;
@@ -27,7 +27,7 @@ const provideKeycloakInAppInitializer = (
   keycloak: Keycloak,
   options: ProvideKeycloakOptions
 ): EnvironmentProviders | Provider[] => {
-  const { initOptions, features = [] } = options;
+  const {initOptions, features = []} = options;
 
   if (!initOptions) {
     return [];

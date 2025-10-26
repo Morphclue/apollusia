@@ -19,7 +19,12 @@ import {LocationLinkComponent} from '../location-link/location-link.component';
 import {LocationIconPipe} from '../pipes/location-icon.pipe';
 import {StorageService} from '../services/storage.service';
 
-type RecentPoll = { id: string; title: string; location: string; visitedAt: string; };
+interface RecentPoll {
+  id: string;
+  title: string;
+  location: string;
+  visitedAt: string;
+}
 
 @Component({
   selector: 'app-navbar',

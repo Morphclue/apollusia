@@ -22,7 +22,7 @@ import {NavbarComponent} from './core/navbar/navbar.component';
 export class AppComponent implements OnInit {
   private swUpdate = inject(SwUpdate);
   private meta = inject(Meta);
-  private baseUrl? = inject(BASE_URL, { optional: true });
+  private baseUrl? = inject(BASE_URL, {optional: true});
   title = 'apollusia';
 
   ngOnInit(): void {
