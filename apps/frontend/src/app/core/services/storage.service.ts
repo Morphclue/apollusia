@@ -1,14 +1,17 @@
-import {inject, Injectable} from '@angular/core';
+import {isPlatformBrowser} from '@angular/common';
+import {inject, Injectable, PLATFORM_ID} from '@angular/core';
 import {SsrCookieService} from 'ngx-cookie-service-ssr';
 
 @Injectable({
   providedIn: 'root',
 })
 export class StorageService {
+  private isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
   private cookieService = inject(SsrCookieService);
 
   getAll(prefix = ''): Record<string, string> {
     const result = this.cookieService.getAll();
+    if (!this.isBrowser) return this.filterPrefix(result, prefix);
     for (const key of Object.keys(result)) {
       if (!key.startsWith(prefix)) {
         delete result[key];
@@ -39,5 +42,10 @@ export class StorageService {
   delete(key: string) {
     this.cookieService.delete(key);
     globalThis.localStorage?.removeItem(key);
+  }
+
+  private filterPrefix(obj: Record<string, string>, prefix: string) {
+    Object.keys(obj).forEach(k => !k.startsWith(prefix) && delete obj[k]);
+    return obj;
   }
 }
