@@ -25,7 +25,7 @@ app.use(
 app.use(
   '/auth',
   createProxyMiddleware({
-    target: 'http://127.0.0.1:8080', // TODO: use keycloak URL
+    target: 'http://keycloak:8080',
     changeOrigin: true,
     pathRewrite: (path) => `/auth${path}`,
   }),
