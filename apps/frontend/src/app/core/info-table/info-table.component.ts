@@ -28,7 +28,7 @@ export class InfoTableComponent implements OnInit {
   @Input() description = true;
   @Input() stats = false;
   private toastService = inject(ToastService);
-  private baseUrl? = inject(BASE_URL, { optional: true });
+  private baseUrl? = inject(BASE_URL, {optional: true});
 
   url = '';
 

@@ -150,5 +150,5 @@ These docs will help you get started and contribute smoothly.
 - [CONTRIBUTING](CONTRIBUTING.md)
   Learn how to contribute, submit issues, and create pull requests.
 
-- [CODE_OF_CONDUCT](CODE_OF_CONDUCT.md)  
+- [CODE_OF_CONDUCT](CODE_OF_CONDUCT.md)
   Review our community guidelines to foster a respectful and inclusive environment.
