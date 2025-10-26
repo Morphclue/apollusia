@@ -1,7 +1,7 @@
 import {
   HTTP_INTERCEPTORS,
   provideHttpClient,
-  withFetch,
+  withFetch, withInterceptors,
   withInterceptorsFromDi
 } from '@angular/common/http';
 import {ApplicationConfig, importProvidersFrom} from '@angular/core';
@@ -23,11 +23,21 @@ import {ParticipantTokenInterceptor} from './core/interceptors/participant-token
 import {TokenService} from './core/services';
 import {provideKeycloakSSR} from './provide-keycloak-ssr';
 import {environment} from '../environments/environment';
+import {
+  createInterceptorCondition,
+  INCLUDE_BEARER_TOKEN_INTERCEPTOR_CONFIG,
+  IncludeBearerTokenCondition,
+  includeBearerTokenInterceptor,
+} from 'keycloak-angular';
 
 const isBrowser = typeof window !== 'undefined';
 const silentCheckSsoRedirectUri = isBrowser
   ? window.location.origin + '/assets/silent-check-sso.html'
   : undefined;
+
+const pollApiCondition = createInterceptorCondition<IncludeBearerTokenCondition>({
+  urlPattern: /\/api\/v1\/poll(\/.*)?$/i
+});
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -51,7 +61,11 @@ export const appConfig: ApplicationConfig = {
       useClass: ParticipantTokenInterceptor,
       multi: true,
     },
-    provideHttpClient(withFetch(), withInterceptorsFromDi()),
+    provideHttpClient(
+      withFetch(),
+      withInterceptorsFromDi(),
+      withInterceptors([includeBearerTokenInterceptor])
+    ),
     ...(isBrowser
       ? [{
           provide: BASE_URL,
@@ -65,6 +79,12 @@ export const appConfig: ApplicationConfig = {
         messageReceiveTimeout: 1000,
         silentCheckSsoRedirectUri,
       } : undefined,
+      providers: [
+        {
+          provide: INCLUDE_BEARER_TOKEN_INTERCEPTOR_CONFIG,
+          useValue: [pollApiCondition]
+        }
+      ]
     }),
     provideRouter(
       routes,
