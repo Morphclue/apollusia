@@ -16,9 +16,18 @@ const angularApp = new AngularNodeAppEngine();
 app.use(
   '/api',
   createProxyMiddleware({
-    target: 'http://backend:3000', // FIXME: Use environment variable for DEV/PROD backend URL
+    target: 'http://localhost:3000', // FIXME: Use environment variable for DEV/PROD backend URL
     changeOrigin: true,
     pathRewrite: (path) => `/api${path}`,
+  }),
+);
+
+app.use(
+  '/auth',
+  createProxyMiddleware({
+    target: 'http://localhost:8080',
+    changeOrigin: true,
+    pathRewrite: (path) => `/auth${path}`,
   }),
 );
 
