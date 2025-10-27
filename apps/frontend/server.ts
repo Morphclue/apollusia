@@ -16,7 +16,7 @@ const angularApp = new AngularNodeAppEngine();
 app.use(
   '/api',
   createProxyMiddleware({
-    target: 'http://localhost:3000', // FIXME: Use environment variable for DEV/PROD backend URL
+    target: 'http://backend:3000', // FIXME: Use environment variable for DEV/PROD backend URL
     changeOrigin: true,
     pathRewrite: (path) => `/api${path}`,
   }),
@@ -25,7 +25,7 @@ app.use(
 app.use(
   '/auth',
   createProxyMiddleware({
-    target: 'http://localhost:8080',
+    target: 'http://keycloak:8080', // FIXME: Use environment variable for DEV/PROD keycloak URL
     changeOrigin: true,
     pathRewrite: (path) => `/auth${path}`,
   }),
