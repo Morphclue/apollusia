@@ -52,11 +52,11 @@ importers:
         specifier: 20.3.6
         version: 20.3.6(0d40a14c6dd5ca56a7ff97b579d302e5)
       '@keycloak/keycloak-admin-client':
-        specifier: ^26.4.1
-        version: 26.4.1
+        specifier: ^26.4.2
+        version: 26.4.2
       '@mean-stream/nestx':
         specifier: ^0.13.0
-        version: 0.13.0(ed0f8b971b18d21bd3d96a9b2c56cd15)
+        version: 0.13.0(d9d32c972cf77092e8bdc2709ea11fa1)
       '@mean-stream/ngbx':
         specifier: ^0.14.0
         version: 0.14.0(e12793aeb834ed2200aac93de187da58)
@@ -83,7 +83,7 @@ importers:
         version: 11.1.6(@nestjs/common@11.1.6(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.6)(@nestjs/websockets@11.1.6)(reflect-metadata@0.2.2)(rxjs@7.8.2)
       '@nestjs/mongoose':
         specifier: ^11.0.3
-        version: 11.0.3(@nestjs/common@11.1.6(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.6)(mongoose@8.19.1(socks@2.8.7))(rxjs@7.8.2)
+        version: 11.0.3(@nestjs/common@11.1.6(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.6)(mongoose@8.19.2(socks@2.8.7))(rxjs@7.8.2)
       '@nestjs/passport':
         specifier: ^11.0.5
         version: 11.0.5(@nestjs/common@11.1.6(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(passport@0.7.0)
@@ -169,8 +169,8 @@ importers:
         specifier: ^14.1.0
         version: 14.1.0
       mongoose:
-        specifier: ^8.19.1
-        version: 8.19.1(socks@2.8.7)
+        specifier: ^8.19.2
+        version: 8.19.2(socks@2.8.7)
       ngx-cookie-service-ssr:
         specifier: ^20.1.0
         version: 20.1.0(@angular/common@20.3.6(@angular/core@20.3.6(@angular/compiler@20.3.6)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@20.3.6(@angular/compiler@20.3.6)(rxjs@7.8.2)(zone.js@0.15.1))(@angular/ssr@20.3.6(0d40a14c6dd5ca56a7ff97b579d302e5))
@@ -2402,8 +2402,8 @@ packages:
     peerDependencies:
       tslib: '2'
 
-  '@keycloak/keycloak-admin-client@26.4.1':
-    resolution: {integrity: sha512-xJkU4eNkVaHBolNMnR5lWWEX3nXBjGUJblGnRSOpzn4QKr3HDu67s590a7db4CCQYHzyTj21kuD/i6DqNTxXbQ==}
+  '@keycloak/keycloak-admin-client@26.4.2':
+    resolution: {integrity: sha512-BDZuV+s9XoYSElHmG/Ul6r/uHzbExRSC3jybBR9CHZ9JDad1PcVwpSVSBTqiJhF7P1OtMm1gnLLS1TMO/QY+8Q==}
     engines: {node: '>=18'}
 
   '@keyv/bigmap@1.1.0':
@@ -7882,6 +7882,7 @@ packages:
 
   mailsplit@5.4.6:
     resolution: {integrity: sha512-M+cqmzaPG/mEiCDmqQUz8L177JZLZmXAUpq38owtpq2xlXlTSw+kntnxRt2xsxVFFV6+T8Mj/U0l5s7s6e0rNw==}
+    deprecated: This package has been renamed to @zone-eu/mailsplit. Please update your dependencies.
 
   make-dir@2.1.0:
     resolution: {integrity: sha512-LS9X+dc8KLxXCb8dni79fLIIUA5VyZoyjSMCwTluaXA0o27cCK0bhXkpgw+sTXVpPy/lSO57ilRixqk0vDmtRA==}
@@ -8250,8 +8251,8 @@ packages:
       socks:
         optional: true
 
-  mongoose@8.19.1:
-    resolution: {integrity: sha512-oB7hGQJn4f8aebqE7mhE54EReb5cxVgpCxQCQj0K/cK3q4J3Tg08nFP6sM52nJ4Hlm8jsDnhVYpqIITZUAhckQ==}
+  mongoose@8.19.2:
+    resolution: {integrity: sha512-ww2T4dBV+suCbOfG5YPwj9pLCfUVyj8FEA1D3Ux1HHqutpLxGyOYEPU06iPRBW4cKr3PJfOSYsIpHWPTkz5zig==}
     engines: {node: '>=16.20.1'}
 
   mpath@0.9.0:
@@ -13883,7 +13884,7 @@ snapshots:
       '@jsonjoy.com/codegen': 1.0.0(tslib@2.8.1)
       tslib: 2.8.1
 
-  '@keycloak/keycloak-admin-client@26.4.1':
+  '@keycloak/keycloak-admin-client@26.4.2':
     dependencies:
       camelize-ts: 3.0.0
       url-join: 5.0.0
@@ -13931,7 +13932,7 @@ snapshots:
 
   '@mattlewis92/dom-autoscroller@2.4.2': {}
 
-  '@mean-stream/nestx@0.13.0(ed0f8b971b18d21bd3d96a9b2c56cd15)':
+  '@mean-stream/nestx@0.13.0(d9d32c972cf77092e8bdc2709ea11fa1)':
     dependencies:
       '@nestjs/common': 11.1.6(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2)
       '@nestjs/core': 11.1.6(@nestjs/common@11.1.6(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/microservices@11.1.6)(@nestjs/platform-express@11.1.6)(@nestjs/websockets@11.1.6)(reflect-metadata@0.2.2)(rxjs@7.8.2)
@@ -13944,13 +13945,13 @@ snapshots:
       '@nestjs/event-emitter': 3.0.1(@nestjs/common@11.1.6(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.6)
       '@nestjs/jwt': 11.0.1(@nestjs/common@11.1.6(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))
       '@nestjs/microservices': 11.1.6(@nestjs/common@11.1.6(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.6)(@nestjs/websockets@11.1.6)(reflect-metadata@0.2.2)(rxjs@7.8.2)
-      '@nestjs/mongoose': 11.0.3(@nestjs/common@11.1.6(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.6)(mongoose@8.19.1(socks@2.8.7))(rxjs@7.8.2)
+      '@nestjs/mongoose': 11.0.3(@nestjs/common@11.1.6(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.6)(mongoose@8.19.2(socks@2.8.7))(rxjs@7.8.2)
       '@nestjs/passport': 11.0.5(@nestjs/common@11.1.6(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(passport@0.7.0)
       '@nestjs/platform-express': 11.1.6(@nestjs/common@11.1.6(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.6)
       '@nestjs/swagger': 11.2.1(@nestjs/common@11.1.6(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.6)(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)
       '@nestjs/websockets': 11.1.6(@nestjs/common@11.1.6(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.6)(reflect-metadata@0.2.2)(rxjs@7.8.2)
       base64-js: 1.5.1
-      mongoose: 8.19.1(socks@2.8.7)
+      mongoose: 8.19.2(socks@2.8.7)
       passport-jwt: 4.0.1
 
   '@mean-stream/ngbx@0.14.0(e12793aeb834ed2200aac93de187da58)':
@@ -14561,11 +14562,11 @@ snapshots:
     optionalDependencies:
       '@nestjs/websockets': 11.1.6(@nestjs/common@11.1.6(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.6)(reflect-metadata@0.2.2)(rxjs@7.8.2)
 
-  '@nestjs/mongoose@11.0.3(@nestjs/common@11.1.6(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.6)(mongoose@8.19.1(socks@2.8.7))(rxjs@7.8.2)':
+  '@nestjs/mongoose@11.0.3(@nestjs/common@11.1.6(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.6)(mongoose@8.19.2(socks@2.8.7))(rxjs@7.8.2)':
     dependencies:
       '@nestjs/common': 11.1.6(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2)
       '@nestjs/core': 11.1.6(@nestjs/common@11.1.6(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/microservices@11.1.6)(@nestjs/platform-express@11.1.6)(@nestjs/websockets@11.1.6)(reflect-metadata@0.2.2)(rxjs@7.8.2)
-      mongoose: 8.19.1(socks@2.8.7)
+      mongoose: 8.19.2(socks@2.8.7)
       rxjs: 7.8.2
 
   '@nestjs/passport@11.0.5(@nestjs/common@11.1.6(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(passport@0.7.0)':
@@ -21423,7 +21424,7 @@ snapshots:
     optionalDependencies:
       socks: 2.8.7
 
-  mongoose@8.19.1(socks@2.8.7):
+  mongoose@8.19.2(socks@2.8.7):
     dependencies:
       bson: 6.10.4
       kareem: 2.6.3
