@@ -20,7 +20,7 @@ import {
   ReadPollEvent,
   UpdateParticipantDto
 } from '../../model';
-import {SomePipe} from '../../pipes/some.pipe';
+import {SomePipe} from '../../pipes';
 import {CheckButtonComponent} from '../check-button/check-button.component';
 import {EventHeadComponent} from '../event-head/event-head.component';
 import {ParticipantInfoComponent} from '../participant-info/participant-info.component';
