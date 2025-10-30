@@ -1,5 +1,5 @@
 import {DatePipe} from '@angular/common';
-import {Component, Input} from '@angular/core';
+import {Component, input} from '@angular/core';
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 
 import {Participant, ReadPoll, ReadPollEvent} from '../../model';
@@ -16,8 +16,8 @@ import {ParticipantInfoComponent} from '../participant-info/participant-info.com
   ],
 })
 export class EventListComponent {
-  @Input() poll!: ReadPoll;
-  @Input() pollEvents!: ReadPollEvent[];
-  @Input() participants!: Participant[];
-  @Input() bestOption!: number;
+  readonly poll = input.required<ReadPoll>();
+  readonly pollEvents = input.required<ReadPollEvent[]>();
+  readonly participants = input.required<Participant[]>();
+  readonly bestOption = input.required<number>();
 }

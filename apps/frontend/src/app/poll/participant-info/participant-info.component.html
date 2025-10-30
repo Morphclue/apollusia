@@ -1,11 +1,11 @@
-{{ participant.name }}
-@if (participant.createdAt) {
-  <span class="small text-muted" [ngbTooltip]="participant.createdAt | date:'medium'">
-    {{ participant.createdAt | date: 'shortTime' }}
+{{ participant().name }}
+@if (participant().createdAt) {
+  <span class="small text-muted" [ngbTooltip]="participant().createdAt | date:'medium'">
+    {{ participant().createdAt | date: 'shortTime' }}
   </span>
 }
-@if (participant.updatedAt !== participant.createdAt) {
-  <span class="small text-muted" [ngbTooltip]="participant.updatedAt | date:'medium'">
+@if (participant().updatedAt !== participant().createdAt) {
+  <span class="small text-muted" [ngbTooltip]="participant().updatedAt | date:'medium'">
     &bull; edited
   </span>
 }

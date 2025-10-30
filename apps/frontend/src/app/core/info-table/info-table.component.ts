@@ -1,5 +1,5 @@
 import {DatePipe} from '@angular/common';
-import {Component, inject, Input, OnInit} from '@angular/core';
+import {Component, inject, OnInit, input} from '@angular/core';
 import {RouterLink} from '@angular/router';
 import {ToastService} from '@mean-stream/ngbx';
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
@@ -24,16 +24,16 @@ import {LocationIconPipe} from '../pipes/location-icon.pipe';
   ],
 })
 export class InfoTableComponent implements OnInit {
-  @Input({required: true}) poll: ReadPoll;
-  @Input() description = true;
-  @Input() stats = false;
+  readonly poll = input.required<ReadPoll>();
+  readonly description = input(true);
+  readonly stats = input(false);
   private toastService = inject(ToastService);
   private baseUrl? = inject(BASE_URL, {optional: true});
 
   url = '';
 
   ngOnInit() {
-    this.url = `${this.baseUrl}/poll/${this.poll.id}/participate`;
+    this.url = `${this.baseUrl}/poll/${this.poll().id}/participate`;
   }
 
   copyToClipboard() {
@@ -45,7 +45,7 @@ export class InfoTableComponent implements OnInit {
   }
 
   draftEmail() {
-    const subject = `Poll Invitation: ${this.poll!.title}`;
+    const subject = `Poll Invitation: ${this.poll()!.title}`;
     const body = `Hello,
 
 I would like to invite you to participate in a poll.

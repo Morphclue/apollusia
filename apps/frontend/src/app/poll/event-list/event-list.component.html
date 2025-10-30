@@ -1,18 +1,18 @@
-@for (event of pollEvents; track event._id) {
+@for (event of pollEvents(); track event._id) {
   <h5>
     {{ event.start | date:'fullDate' }} at {{ event.start | date:'shortTime' }} - {{ event.end | date:'shortTime' }}
     @if (event.note) {
       <i class="bi-sticky-fill text-secondary" ngbTooltip="{{event.note}}" placement="top"></i>
     }
     <span
-      [class]="bestOption === event.participants ? 'bi-award text-primary' : 'bi-person-check text-primary-emphasis'"
-      [ngbTooltip]="bestOption === event.participants ? 'Best Option' : 'Sum'"
+      [class]="bestOption() === event.participants ? 'bi-award text-primary' : 'bi-person-check text-primary-emphasis'"
+      [ngbTooltip]="bestOption() === event.participants ? 'Best Option' : 'Sum'"
     >
       {{ event.participants }}
     </span>
   </h5>
   <ul class="list-unstyled">
-    @for (participant of participants; track participant._id) {
+    @for (participant of participants(); track participant._id) {
       @switch (participant.selection[event._id]) {
         @case ('yes') {
           <li>
