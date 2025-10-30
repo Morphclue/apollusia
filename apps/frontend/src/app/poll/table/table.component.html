@@ -25,6 +25,7 @@
               placeholder="Your name"
               [disabled]="poll.settings.anonymous"
               [(ngModel)]="newParticipant.name" (change)="validateNew()"
+              (input)="nameChange.next()"
             >
           </th>
           @for (event of pollEvents; track event._id) {

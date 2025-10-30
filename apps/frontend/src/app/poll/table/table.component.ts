@@ -3,6 +3,7 @@ import {
   EventEmitter,
   inject,
   Input,
+  OnDestroy,
   OnInit,
   Output,
 } from '@angular/core';
@@ -11,6 +12,7 @@ import {checkParticipant} from '@apollusia/logic';
 import type {PollEventState} from '@apollusia/types';
 import {ToastService} from '@mean-stream/ngbx';
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {debounceTime, Subject} from 'rxjs';
 
 import {
   CreateParticipantDto,
@@ -20,7 +22,7 @@ import {
   ReadPollEvent,
   UpdateParticipantDto
 } from '../../model';
-import {SomePipe} from '../../pipes/some.pipe';
+import {SomePipe} from '../../pipes';
 import {CheckButtonComponent} from '../check-button/check-button.component';
 import {EventHeadComponent} from '../event-head/event-head.component';
 import {ParticipantInfoComponent} from '../participant-info/participant-info.component';
@@ -39,7 +41,7 @@ import {PollService} from '../services/poll.service';
     SomePipe,
   ],
 })
-export class TableComponent implements OnInit {
+export class TableComponent implements OnInit, OnDestroy {
   @Input() poll: ReadPoll;
   @Input() pollEvents: ReadPollEvent[] = [];
   @Input() participants: Participant[] = [];
@@ -48,6 +50,7 @@ export class TableComponent implements OnInit {
   @Input() token: string;
   @Input() bestOption: number = 1;
   @Output() changed = new EventEmitter<void>();
+  protected nameChange = new Subject<void>();
   protected pollService = inject(PollService);
   private toastService = inject(ToastService);
 
@@ -67,6 +70,11 @@ export class TableComponent implements OnInit {
     this.newParticipant.token = this.token;
     this.clearSelection();
     this.validateNew();
+    this.nameChange.pipe(debounceTime(300)).subscribe(() => this.validateNew());
+  }
+
+  ngOnDestroy() {
+    this.nameChange.complete()
   }
 
   submit() {
