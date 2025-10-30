@@ -79,7 +79,7 @@ export class TableComponent implements OnInit {
       },
       error: error => {
         this.toastService.error('Submit', 'Failed to submit your participation', error);
-      }
+      },
     });
   }
 
