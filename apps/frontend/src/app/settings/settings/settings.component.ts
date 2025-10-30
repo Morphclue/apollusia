@@ -1,4 +1,4 @@
-import {LowerCasePipe, DatePipe} from '@angular/common';
+import {DatePipe, LowerCasePipe} from '@angular/common';
 import {HttpClient} from '@angular/common/http';
 import {Component, inject, OnInit} from '@angular/core';
 import {FormsModule} from '@angular/forms';
@@ -130,8 +130,17 @@ export class SettingsComponent implements OnInit {
       return;
     }
     this.saveUser().subscribe({
-      next: () => this.toastService.success('Account Settings', 'Successfully saved account settings.'),
-      error: error => this.toastService.error('Account Settings', 'Failed to save account settings.', error),
+      next: () =>
+        this.toastService.success(
+          'Account Settings',
+          'Successfully saved account settings.',
+        ),
+      error: (error) =>
+        this.toastService.error(
+          'Account Settings',
+          'Failed to save account settings.',
+          error,
+        ),
     });
   }
 
@@ -140,8 +149,7 @@ export class SettingsComponent implements OnInit {
       return;
     }
 
-    const notifications = Object.keys(this.notifications).filter((key) => this.notifications[key]);
-    (this.user.attributes ??= {})['notifications'] = notifications;
+    (this.user.attributes ??= {})['notifications'] = Object.keys(this.notifications).filter((key) => this.notifications[key]);
     this.saveUser().subscribe({
       next: () => this.toastService.success('Notification Settings', 'Successfully saved notification settings.'),
       error: error => this.toastService.error('Notification Settings', 'Failed to save notification settings.', error),
