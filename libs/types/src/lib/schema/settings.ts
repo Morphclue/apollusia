@@ -3,7 +3,7 @@ import {ApiProperty} from '@nestjs/swagger';
 import {Transform} from 'class-transformer';
 import {IsBoolean, IsDate, IsEnum, IsOptional, IsPositive} from 'class-validator';
 
-import {ShowResultOptions} from '@apollusia/types/lib';
+import {ShowResultOptions} from './show-result-options';
 
 @Schema({_id: false, id: false, timestamps: false})
 export class Settings {
