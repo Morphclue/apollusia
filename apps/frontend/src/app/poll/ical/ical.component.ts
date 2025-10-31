@@ -75,7 +75,10 @@ export class IcalComponent implements OnInit {
           return false;
         }
         const bookedEvent = poll.bookedEvents[event._id];
-        return !(config.onlyBookedEvents && Array.isArray(bookedEvent) && !bookedEvent.includes(p._id));
+        if (config.onlyBookedEvents && Array.isArray(bookedEvent) && !bookedEvent.includes(p._id)) {
+          return false;
+        }
+        return true;
       });
 
       let summary = config.customTitle || poll.title;
@@ -112,7 +115,10 @@ export class IcalComponent implements OnInit {
       if (!this.config.emptyEvents && !e.participants) {
         return false;
       }
-      return !(this.config.onlyBookedEvents && !this.poll?.bookedEvents[e._id]);
+      if (this.config.onlyBookedEvents && !this.poll?.bookedEvents[e._id]) {
+        return false;
+      }
+      return true;
     }) ?? [];
   }
 }
