@@ -1,4 +1,4 @@
-import {LowerCasePipe, DatePipe} from '@angular/common';
+import {DatePipe, LowerCasePipe} from '@angular/common';
 import {HttpClient} from '@angular/common/http';
 import {Component, inject, OnInit} from '@angular/core';
 import {FormsModule} from '@angular/forms';
@@ -131,7 +131,7 @@ export class SettingsComponent implements OnInit {
     }
     this.saveUser().subscribe({
       next: () => this.toastService.success('Account Settings', 'Successfully saved account settings.'),
-      error: error => this.toastService.error('Account Settings', 'Failed to save account settings.', error),
+      error: (error) => this.toastService.error('Account Settings', 'Failed to save account settings.', error),
     });
   }
 
