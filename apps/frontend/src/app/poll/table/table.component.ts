@@ -78,13 +78,16 @@ export class TableComponent implements OnInit, OnDestroy {
   }
 
   submit() {
-    this.pollService.participate(this.poll._id, this.newParticipant).subscribe(participant => {
-      this.participants.unshift(participant);
-      this.poll.participants++;
-      this.onChange();
-      this.clearSelection();
-    }, error => {
-      this.toastService.error('Submit', 'Failed to submit your participation', error);
+    this.pollService.participate(this.poll._id, this.newParticipant).subscribe({
+      next: participant => {
+        this.participants.unshift(participant);
+        this.poll.participants++;
+        this.onChange();
+        this.clearSelection();
+      },
+      error: error => {
+        this.toastService.error('Submit', 'Failed to submit your participation', error);
+      },
     });
   }
 
