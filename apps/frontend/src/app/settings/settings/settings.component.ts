@@ -130,17 +130,8 @@ export class SettingsComponent implements OnInit {
       return;
     }
     this.saveUser().subscribe({
-      next: () =>
-        this.toastService.success(
-          'Account Settings',
-          'Successfully saved account settings.',
-        ),
-      error: (error) =>
-        this.toastService.error(
-          'Account Settings',
-          'Failed to save account settings.',
-          error,
-        ),
+      next: () => this.toastService.success('Account Settings', 'Successfully saved account settings.'),
+      error: (error) => this.toastService.error('Account Settings', 'Failed to save account settings.', error),
     });
   }
 
