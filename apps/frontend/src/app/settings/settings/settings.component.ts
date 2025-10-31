@@ -140,7 +140,8 @@ export class SettingsComponent implements OnInit {
       return;
     }
 
-    (this.user.attributes ??= {})['notifications'] = Object.keys(this.notifications).filter((key) => this.notifications[key]);
+    const notifications = Object.keys(this.notifications).filter((key) => this.notifications[key]);
+    (this.user.attributes ??= {})['notifications'] = notifications;
     this.saveUser().subscribe({
       next: () => this.toastService.success('Notification Settings', 'Successfully saved notification settings.'),
       error: error => this.toastService.error('Notification Settings', 'Failed to save notification settings.', error),
