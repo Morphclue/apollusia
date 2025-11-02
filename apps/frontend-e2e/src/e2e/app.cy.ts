@@ -1,4 +1,4 @@
-import { AppPage } from '../support/app.po';
+import {AppPage} from '../support/app.po';
 
 describe('Create poll and fill out information', () => {
   const page = new AppPage();

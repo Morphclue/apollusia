@@ -15,7 +15,7 @@ export default [
         cy: 'readonly',
       },
     },
-    plugins: { cypress },
+    plugins: {cypress},
     ...cypress.configs.recommended,
   },
 ];

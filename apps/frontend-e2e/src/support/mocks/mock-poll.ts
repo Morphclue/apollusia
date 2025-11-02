@@ -1,5 +1,5 @@
-import { ReadPollDto, ShowResultOptions } from '@apollusia/types';
-import { Types } from 'mongoose';
+import {ReadPollDto, ShowResultOptions} from '@apollusia/types';
+import {Types} from 'mongoose';
 
 export const mockPoll: ReadPollDto = {
   title: 'My Poll',

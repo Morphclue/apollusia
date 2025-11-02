@@ -1,4 +1,4 @@
-import { mockEvents, mockPoll} from './mocks';
+import {mockEvents, mockPoll} from './mocks';
 
 export class AppPage{
   acceptCookies(){

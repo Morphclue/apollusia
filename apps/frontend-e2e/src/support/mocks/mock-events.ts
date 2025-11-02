@@ -1,5 +1,5 @@
-import { ReadPollEventDto } from '@apollusia/types';
-import { Types } from 'mongoose';
+import {ReadPollEventDto} from '@apollusia/types';
+import {Types} from 'mongoose';
 
 export const mockEvents: ReadPollEventDto[] = [
   {
