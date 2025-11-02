@@ -3,23 +3,45 @@ import {
   EventEmitter,
   inject,
   Input,
+  OnDestroy,
   OnInit,
   Output,
 } from '@angular/core';
+import {FormsModule} from '@angular/forms';
 import {checkParticipant} from '@apollusia/logic';
 import type {PollEventState} from '@apollusia/types';
 import {ToastService} from '@mean-stream/ngbx';
+import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {debounceTime, Subject} from 'rxjs';
 
-import {CreateParticipantDto, Participant, Poll, ReadPoll, ReadPollEvent, UpdateParticipantDto} from '../../model';
+import {
+  CreateParticipantDto,
+  Participant,
+  Poll,
+  ReadPoll,
+  ReadPollEvent,
+  UpdateParticipantDto
+} from '../../model';
+import {SomePipe} from '../../pipes';
+import {CheckButtonComponent} from '../check-button/check-button.component';
+import {EventHeadComponent} from '../event-head/event-head.component';
+import {ParticipantInfoComponent} from '../participant-info/participant-info.component';
 import {PollService} from '../services/poll.service';
 
 @Component({
   selector: 'apollusia-table',
   templateUrl: './table.component.html',
   styleUrl: './table.component.scss',
-  standalone: false,
+  imports: [
+    EventHeadComponent,
+    FormsModule,
+    CheckButtonComponent,
+    NgbTooltip,
+    ParticipantInfoComponent,
+    SomePipe,
+  ],
 })
-export class TableComponent implements OnInit {
+export class TableComponent implements OnInit, OnDestroy {
   @Input() poll: ReadPoll;
   @Input() pollEvents: ReadPollEvent[] = [];
   @Input() participants: Participant[] = [];
@@ -28,8 +50,9 @@ export class TableComponent implements OnInit {
   @Input() token: string;
   @Input() bestOption: number = 1;
   @Output() changed = new EventEmitter<void>();
-  protected pollService  = inject(PollService);
-  private toastService  = inject(ToastService);
+  protected nameChange = new Subject<void>();
+  protected pollService = inject(PollService);
+  private toastService = inject(ToastService);
 
   bookedEvents: Poll['bookedEvents'] = {};
 
@@ -47,16 +70,24 @@ export class TableComponent implements OnInit {
     this.newParticipant.token = this.token;
     this.clearSelection();
     this.validateNew();
+    this.nameChange.pipe(debounceTime(300)).subscribe(() => this.validateNew());
+  }
+
+  ngOnDestroy() {
+    this.nameChange.complete()
   }
 
   submit() {
-    this.pollService.participate(this.poll._id, this.newParticipant).subscribe(participant => {
-      this.participants.unshift(participant);
-      this.poll.participants++;
-      this.onChange();
-      this.clearSelection();
-    }, error => {
-      this.toastService.error('Submit', 'Failed to submit your participation', error);
+    this.pollService.participate(this.poll._id, this.newParticipant).subscribe({
+      next: participant => {
+        this.participants.unshift(participant);
+        this.poll.participants++;
+        this.onChange();
+        this.clearSelection();
+      },
+      error: error => {
+        this.toastService.error('Submit', 'Failed to submit your participation', error);
+      },
     });
   }
 

@@ -1,5 +1,5 @@
 import {HttpClient} from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import {SwPush} from '@angular/service-worker';
 import type {PushConfigDto} from '@apollusia/types';
 import {firstValueFrom} from 'rxjs';
@@ -11,7 +11,7 @@ import {environment} from '../../../environments/environment';
 })
 export class PushService {
   private swPush = inject(SwPush);
-  http  = inject(HttpClient);
+  http = inject(HttpClient);
   #config: Promise<PushConfigDto>;
 
   constructor() {

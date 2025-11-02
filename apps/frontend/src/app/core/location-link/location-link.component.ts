@@ -4,7 +4,6 @@ import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
   selector: 'app-location-link',
   templateUrl: './location-link.component.html',
   styleUrls: ['./location-link.component.scss'],
-  standalone: false,
 })
 export class LocationLinkComponent implements OnChanges {
   @Input() location!: string;

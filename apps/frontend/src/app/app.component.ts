@@ -1,23 +1,28 @@
-import {
-  Component,
-  inject,
-  OnInit,
-} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {Meta} from '@angular/platform-browser';
+import {RouterOutlet} from '@angular/router';
 import {SwUpdate} from '@angular/service-worker';
+import {ToastModule} from '@mean-stream/ngbx';
 
-import { BASE_URL } from './core/injection-tokens/base-url';
+import {CookieBannerComponent} from './core/cookie-banner/cookie-banner.component';
+import {BASE_URL} from './core/injection-tokens/base-url';
+import {NavbarComponent} from './core/navbar/navbar.component';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  standalone: false,
+  imports: [
+    NavbarComponent,
+    RouterOutlet,
+    CookieBannerComponent,
+    ToastModule,
+  ],
 })
 export class AppComponent implements OnInit {
   private swUpdate = inject(SwUpdate);
   private meta = inject(Meta);
-  private baseUrl? = inject(BASE_URL, { optional: true });
+  private baseUrl? = inject(BASE_URL, {optional: true});
   title = 'apollusia';
 
   ngOnInit(): void {

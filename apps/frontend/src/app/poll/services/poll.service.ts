@@ -1,5 +1,5 @@
 import {HttpClient} from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import {PollEventState} from '@apollusia/types';
 import {EMPTY, fromEvent, Observable, retry} from 'rxjs';
 import {map} from 'rxjs/operators';

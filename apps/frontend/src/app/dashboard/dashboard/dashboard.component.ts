@@ -1,25 +1,35 @@
+import {NgOptimizedImage} from '@angular/common';
 import {Component, inject, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {FormsModule} from '@angular/forms';
+import {ActivatedRoute, RouterLink, RouterLinkActive} from '@angular/router';
 import {ToastService} from '@mean-stream/ngbx';
-import {KeycloakService} from 'keycloak-angular';
+import Keycloak from 'keycloak-js';
 import {switchMap, tap} from 'rxjs/operators';
 
 import {TokenService} from '../../core/services';
 import {ReadPoll} from '../../model';
 import {PollService} from '../../poll/services/poll.service';
-
+import {CardComponent} from '../card/card.component';
+import {SearchPipe} from '../pipes/search.pipe';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
-  standalone: false,
+  imports: [
+    NgOptimizedImage,
+    RouterLink,
+    RouterLinkActive,
+    FormsModule,
+    CardComponent,
+    SearchPipe,
+  ],
 })
 export class DashboardComponent implements OnInit {
   private pollService = inject(PollService);
   private route = inject(ActivatedRoute);
   private toastService = inject(ToastService);
-  private keycloakService = inject(KeycloakService);
+  private keycloak = inject(Keycloak);
   tokenService = inject(TokenService);
   polls: ReadPoll[] = [];
   participated = false;
@@ -30,7 +40,7 @@ export class DashboardComponent implements OnInit {
 
   constructor(
   ) {
-    this.loggedIn = this.keycloakService.isLoggedIn();
+    this.loggedIn = this.keycloak.authenticated;
     this.adminToken = this.tokenService.getToken();
   }
 
@@ -58,6 +68,6 @@ export class DashboardComponent implements OnInit {
   }
 
   login() {
-    this.keycloakService.login();
+    this.keycloak.login();
   }
 }

@@ -1,15 +1,33 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, inject, OnInit} from '@angular/core';
 import {Meta, Title} from '@angular/platform-browser';
-import {ActivatedRoute} from '@angular/router';
+import {
+  ActivatedRoute,
+  RouterLink,
+  RouterLinkActive,
+  RouterOutlet
+} from '@angular/router';
 import {ShowResultOptions} from '@apollusia/types/lib/schema/show-result-options';
 import {ToastService} from '@mean-stream/ngbx';
+import {
+  NgbTooltip,
+  NgbDropdown,
+  NgbDropdownToggle,
+  NgbDropdownMenu,
+  NgbDropdownButtonItem,
+  NgbDropdownItem
+} from '@ng-bootstrap/ng-bootstrap';
 import {forkJoin} from 'rxjs';
 import {map, switchMap, tap} from 'rxjs/operators';
 
+import {InfoTableComponent} from '../../core/info-table/info-table.component';
 import {TokenService} from '../../core/services';
 import {StorageService} from '../../core/services/storage.service';
 import {Participant, ReadPoll, ReadPollEvent} from '../../model';
+import {EventListComponent} from '../event-list/event-list.component';
+import {PollLogComponent} from '../poll-log/poll-log.component';
 import {PollService} from '../services/poll.service';
+import {TableComponent} from '../table/table.component';
 
 interface SortMethod {
   name: string;
@@ -22,7 +40,22 @@ interface SortMethod {
   selector: 'app-choose-events',
   templateUrl: './choose-events.component.html',
   styleUrls: ['./choose-events.component.scss'],
-  standalone: false,
+  imports: [
+    InfoTableComponent,
+    NgbTooltip,
+    RouterLink,
+    RouterLinkActive,
+    NgbDropdown,
+    NgbDropdownToggle,
+    NgbDropdownMenu,
+    NgbDropdownButtonItem,
+    NgbDropdownItem,
+    TableComponent,
+    EventListComponent,
+    PollLogComponent,
+    RouterOutlet,
+    AsyncPipe,
+  ],
 })
 export class ChooseEventsComponent implements OnInit {
   public route = inject(ActivatedRoute);
@@ -112,17 +145,17 @@ export class ChooseEventsComponent implements OnInit {
         this.pollService.getParticipants(id).pipe(tap(participants => this.participants = participants)),
         this.pollService.isAdmin(id, this.token).pipe(tap(isAdmin => this.isAdmin = isAdmin)),
       ])),
-    ).subscribe(() => {
-      this.updateHelpers();
-    }, error => {
-      if (error.status === 404) {
-        // Poll does not exist
-        this.title.setTitle('Poll not found - Apollusia');
-        this.closedReason = 'This poll does not exist.';
-        this.storageService.delete(`recentPolls/${this.route.snapshot.params['id']}`);
-      } else {
-        this.toastService.error('Failed to load poll', 'Please try again later.', error);
-      }
+    ).subscribe({
+      next: () => this.updateHelpers(),
+      error: error => {
+        if (error.status === 404) {
+          this.title.setTitle('Poll not found - Apollusia');
+          this.closedReason = 'This poll does not exist.';
+          this.storageService.delete(`recentPolls/${this.route.snapshot.params['id']}`);
+        } else {
+          this.toastService.error('Failed to load poll', 'Please try again later.', error);
+        }
+      },
     });
   }
 

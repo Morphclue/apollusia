@@ -1,5 +1,5 @@
 import {CommonModule} from '@angular/common';
-import { Component, inject, Input, OnInit } from '@angular/core';
+import {Component, inject, Input, OnInit} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {ActivatedRoute} from '@angular/router';
 import {switchMap} from 'rxjs/operators';

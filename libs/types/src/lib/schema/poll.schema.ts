@@ -15,6 +15,7 @@ import {
   ValidateNested,
 } from 'class-validator';
 import {SchemaTypes, Types} from 'mongoose';
+
 import {Settings, SettingsSchema} from './settings';
 
 @Schema({

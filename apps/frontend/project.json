@@ -32,14 +32,14 @@
         "plugins": ["apps/frontend/plugins/define-version.cjs"],
         "serviceWorker": "apps/frontend/ngsw-config.json",
         "browser": "apps/frontend/src/main.ts",
-        "server": "apps/frontend/src/main.server.ts",
-        "prerender": true,
-        "ssr": {
-          "entry": "apps/frontend/server.ts"
-        }
+        "server": "apps/frontend/src/main.server.ts"
       },
       "configurations": {
         "production": {
+          "outputMode": "server",
+          "ssr": {
+            "entry": "apps/frontend/server.ts"
+          },
           "budgets": [
             {
               "type": "initial",

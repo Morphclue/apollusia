@@ -1,11 +1,11 @@
 import {Ref} from '@mean-stream/nestx/ref';
 import {Prop, Schema, SchemaFactory} from '@nestjs/mongoose';
 import {ApiProperty} from '@nestjs/swagger';
+import {Transform} from 'class-transformer';
 import {IsDate, IsOptional, IsString} from 'class-validator';
 import {Types} from 'mongoose';
 
 import {Poll} from './poll.schema';
-import {Transform} from "class-transformer";
 
 @Schema()
 export class PollEvent {
