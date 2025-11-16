@@ -1,42 +1,51 @@
-@for (event of pollEvents; track event._id) {
+<div class="form-check">
+  <input class="form-check-input" type="checkbox" id="showNoVotes" [(ngModel)]="showNoVotes">
+  <label class="form-check-label" for="showNoVotes">
+    Show "No" Votes
+  </label>
+</div>
+@for (group of eventsGroupedByDate; track group[0]) {
   <h5>
-    {{ event.start | date:'fullDate' }} at {{ event.start | date:'shortTime' }} - {{ event.end | date:'shortTime' }}
-    @if (event.note) {
-      <i class="bi-sticky-fill text-secondary" ngbTooltip="{{event.note}}" placement="top"></i>
-    }
-    <span
-      [class]="bestOption === event.participants ? 'bi-award text-primary' : 'bi-person-check text-primary-emphasis'"
-      [ngbTooltip]="bestOption === event.participants ? 'Best Option' : 'Sum'"
-    >
-      {{ event.participants }}
-    </span>
+    {{ group[0] | date:'fullDate' }}
   </h5>
-  <ul class="list-unstyled">
-    @for (participant of participants; track participant._id) {
-      @switch (participant.selection[event._id]) {
-        @case ('yes') {
-          <li>
-            <span class="p-yes bi-check-lg me-2" ngbTooltip="Yes"></span>
-            <apollusia-participant-info [participant]="participant"></apollusia-participant-info>
-          </li>
-        }
-        @case ('maybe') {
-          <li>
-            <span class="p-maybe bi-question me-2" ngbTooltip="Maybe"></span>
-            <apollusia-participant-info [participant]="participant"></apollusia-participant-info>
-          </li>
-        }
-        <!--
-        TODO Maybe add an option to show No votes as well.
-             Or make it dependent on the maxEventParticipants poll setting.
-        @case ('no') {
-          <span class="p-no bi-x-lg" ngbTooltip="No"></span>
-        }
-        @default {
-          <span class="p-unset bi-question" ngbTooltip="Unspecified"></span>
-        }
-        -->
+  @for (event of group[1]; track event._id) {
+    <h6>
+      {{ event.start | date:'shortTime' }} - {{ event.end | date:'shortTime' }}
+      @if (event.note) {
+        <i class="bi-sticky-fill text-secondary" ngbTooltip="{{event.note}}" placement="top"></i>
       }
-    }
-  </ul>
+      <span
+        [class]="bestOption === event.participants ? 'bi-award text-primary' : 'bi-person-check text-primary-emphasis'"
+        [ngbTooltip]="bestOption === event.participants ? 'Best Option' : 'Number of Votes'"
+      >
+        {{ event.participants }}
+      </span>
+    </h6>
+    <ul class="list-unstyled">
+      @for (participant of participants; track participant._id) {
+        @switch (participant.selection[event._id]) {
+          @case ('yes') {
+            <li>
+              <span class="p-yes bi-check-lg me-2" ngbTooltip="Yes"></span>
+              <apollusia-participant-info [participant]="participant"></apollusia-participant-info>
+            </li>
+          }
+          @case ('maybe') {
+            <li>
+              <span class="p-maybe bi-question me-2" ngbTooltip="Maybe"></span>
+              <apollusia-participant-info [participant]="participant"></apollusia-participant-info>
+            </li>
+          }
+          @case ('no') {
+            @if (showNoVotes) {
+              <li>
+                <span class="p-no bi-x-lg me-2" ngbTooltip="No"></span>
+                <apollusia-participant-info [participant]="participant"></apollusia-participant-info>
+              </li>
+            }
+          }
+        }
+      }
+    </ul>
+  }
 }
