@@ -90,7 +90,7 @@
     "@angular/platform-server": "20.3.6",
     "@angular/pwa": "20.3.6",
     "@angular/router": "20.3.6",
-    "@angular/service-worker": "20.1.8",
+    "@angular/service-worker": "20.3.12",
     "@angular/ssr": "20.3.6",
     "@keycloak/keycloak-admin-client": "^26.4.1",
     "@mean-stream/nestx": "^0.13.0",
