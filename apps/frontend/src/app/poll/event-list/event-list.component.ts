@@ -1,5 +1,6 @@
 import {DatePipe} from '@angular/common';
 import {Component, Input} from '@angular/core';
+import {FormsModule} from '@angular/forms';
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 
 import {Participant, ReadPoll, ReadPollEvent} from '../../model';
@@ -13,6 +14,7 @@ import {ParticipantInfoComponent} from '../participant-info/participant-info.com
     NgbTooltip,
     ParticipantInfoComponent,
     DatePipe,
+    FormsModule,
   ],
 })
 export class EventListComponent {
@@ -20,4 +22,6 @@ export class EventListComponent {
   @Input() pollEvents!: ReadPollEvent[];
   @Input() participants!: Participant[];
   @Input() bestOption!: number;
+
+  protected showNoVotes = false;
 }

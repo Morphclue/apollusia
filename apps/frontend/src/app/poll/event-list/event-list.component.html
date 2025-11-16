@@ -1,3 +1,9 @@
+<div class="form-check">
+  <input class="form-check-input" type="checkbox" id="showNoVotes" [(ngModel)]="showNoVotes">
+  <label class="form-check-label" for="showNoVotes">
+    Show "No" Votes
+  </label>
+</div>
 @for (event of pollEvents; track event._id) {
   <h5>
     {{ event.start | date:'fullDate' }} at {{ event.start | date:'shortTime' }} - {{ event.end | date:'shortTime' }}
@@ -26,16 +32,14 @@
             <apollusia-participant-info [participant]="participant"></apollusia-participant-info>
           </li>
         }
-        <!--
-        TODO Maybe add an option to show No votes as well.
-             Or make it dependent on the maxEventParticipants poll setting.
         @case ('no') {
-          <span class="p-no bi-x-lg" ngbTooltip="No"></span>
+          @if (showNoVotes) {
+            <li>
+              <span class="p-no bi-x-lg me-2" ngbTooltip="No"></span>
+              <apollusia-participant-info [participant]="participant"></apollusia-participant-info>
+            </li>
+          }
         }
-        @default {
-          <span class="p-unset bi-question" ngbTooltip="Unspecified"></span>
-        }
-        -->
       }
     }
   </ul>
