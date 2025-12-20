@@ -1,4 +1,4 @@
-import { provideZoneChangeDetection } from "@angular/core";
+import {provideZoneChangeDetection} from '@angular/core';
 import {
   bootstrapApplication,
   BootstrapContext,
