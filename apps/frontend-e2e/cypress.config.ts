@@ -5,8 +5,8 @@ export default defineConfig({
   e2e: {
     ...nxE2EPreset(__dirname),
     baseUrl: 'http://localhost:4200',
-    // Please ensure you use `cy.origin()` when navigating between domains and remove this option.
-    // See https://docs.cypress.io/app/references/migration-guide#Changes-to-cyorigin
     injectDocumentDomain: true,
+    supportFile: false,
   },
+  defaultBrowser: 'chrome'
 });
