@@ -21,7 +21,7 @@ import {UserToken} from '@mean-stream/nestx/auth';
 import {notFound} from '@mean-stream/nestx/not-found';
 import {Doc} from '@mean-stream/nestx/ref';
 import {Injectable, Logger, OnModuleInit, UnprocessableEntityException} from '@nestjs/common';
-import {Document, FilterQuery, Types} from 'mongoose';
+import {Document, QueryFilter, Types} from 'mongoose';
 
 import {KeycloakUser} from '../auth/keycloak-user.interface';
 import {KeycloakService} from '../auth/keycloak.service';
@@ -120,7 +120,7 @@ export class PollActionsService implements OnModuleInit {
           $unset: 'settings.blindParticipation',
         },
       ],
-      {timestamps: false},
+      {timestamps: false, updatePipeline: true},
     );
     result.modifiedCount && this.logger.log(`Migrated ${result.modifiedCount} polls to the new show result format.`);
   }
@@ -145,7 +145,7 @@ export class PollActionsService implements OnModuleInit {
     this.logger.log(`Migrated ${polls.length} polls to the new booked events format.`);
   }
 
-  private activeFilter(active: boolean | undefined): FilterQuery<Poll> {
+  private activeFilter(active: boolean | undefined): QueryFilter<Poll> {
     if (active === undefined) {
       return {};
     }
@@ -177,7 +177,7 @@ export class PollActionsService implements OnModuleInit {
     });
   }
 
-  private readPolls(filter: FilterQuery<Poll>): Promise<ReadStatsPollDto[]> {
+  private readPolls(filter: QueryFilter<Poll>): Promise<ReadStatsPollDto[]> {
     return this.pollService.findAll(filter, {
       projection: readPollSelect,
       populate: readPollPopulate,
