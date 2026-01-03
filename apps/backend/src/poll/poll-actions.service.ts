@@ -120,7 +120,7 @@ export class PollActionsService implements OnModuleInit {
           $unset: 'settings.blindParticipation',
         },
       ],
-      {timestamps: false},
+      {timestamps: false, updatePipeline: true},
     );
     result.modifiedCount && this.logger.log(`Migrated ${result.modifiedCount} polls to the new show result format.`);
   }
