@@ -130,7 +130,7 @@
     "ical-generator": "^10.0.0",
     "keycloak-angular": "^21.0.0",
     "keycloak-js": "^26.2.3",
-    "markdown-it": "^14.1.0",
+    "markdown-it": "^14.1.1",
     "mongoose": "^9.1.6",
     "ngx-cookie-service-ssr": "^21.1.0",
     "ngx-countup": "^21.0.0",
