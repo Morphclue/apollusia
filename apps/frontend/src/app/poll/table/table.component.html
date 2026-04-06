@@ -136,7 +136,7 @@
           </tr>
         }
         <tr>
-          <th>Sum</th>
+          <th>Votes</th>
           @for (pollEvent of pollEvents; track pollEvent._id) {
             <td>
               <h5 [class]="bestOption === pollEvent.participants ? 'bi-award text-primary' : ''">
