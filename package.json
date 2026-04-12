@@ -114,7 +114,7 @@
     "angular-draggable-droppable": "^9.0.1",
     "angular-resizable-element": "^8.0.3",
     "angularx-flatpickr": "^8.1.0",
-    "axios": "^1.13.6",
+    "axios": "^1.15.0",
     "base64-js": "^1.5.1",
     "bootstrap": "^5.3.8",
     "bootstrap-icons": "^1.13.1",
