@@ -124,7 +124,7 @@ export class PollController {
     @Body() events: Record<string, string[] | true>,
     @AuthUser() user?: UserToken,
   ): Promise<ReadPollDto> {
-    if (!await this.pollService.exists(id)) {
+    if (!await this.pollService.exists({_id: id})) {
       notFound(id);
     }
 

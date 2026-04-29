@@ -31,7 +31,7 @@ export class PollEventController {
   async getEvents(
     @Param('poll', ObjectIdPipe) poll: Types.ObjectId,
   ): Promise<ReadPollEventDto[]> {
-    if (!await this.pollService.exists(poll)) {
+    if (!await this.pollService.exists({_id: poll})) {
       notFound(poll);
     }
     return this.pollActionsService.getEvents(poll);
