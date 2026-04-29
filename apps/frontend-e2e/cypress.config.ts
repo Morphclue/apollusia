@@ -3,10 +3,9 @@ import {defineConfig} from 'cypress';
 
 export default defineConfig({
   e2e: {
-    ...nxE2EPreset(__dirname),
+    ...nxE2EPreset(__filename, {bundler: 'vite'}),
     baseUrl: 'http://localhost:4200',
-    injectDocumentDomain: true,
-    supportFile: false,
+    allowCypressEnv: false,
   },
   defaultBrowser: 'chrome'
 });
