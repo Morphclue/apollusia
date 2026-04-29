@@ -3,53 +3,53 @@
     <button class="btn btn-primary bi-list" (click)="loadRecentPolls(); offcanvas.open(content)"></button>
     <img class="navbar-logo" ngSrc="/assets/logo.png" alt="Apollusia Logo" width="32" height="32">
     <a class="navbar-brand" routerLink="/">Apollusia</a>
-      <ul class="ms-auto navbar-nav">
-        <a class="btn btn-primary bi-calendar-plus d-none d-sm-block" type="button" routerLink="poll/create" i18n="@@create-poll">
-          Create Poll
-        </a>
-        <li class="nav-item">
-          <div ngbDropdown>
-            <button type="button" class="nav-link bi-person-circle" ngbDropdownToggle></button>
-            <div ngbDropdownMenu class="dropdown-menu dropdown-menu-end">
-              @if (user) {
-                <h5 class="dropdown-header" i18n="@@signed-in-as">
-                  Signed in as <strong>{{ user.username }}</strong>
-                </h5>
-                <a ngbDropdownItem href="{{ environment.keycloak.url }}/realms/{{ environment.keycloak.realm }}/account" target="_blank" class="bi-person-gear" i18n="@@account-settings">
-                  Account Settings
-                </a>
-                <a ngbDropdownItem href="{{ environment.keycloak.url }}/realms/{{ environment.keycloak.realm }}/account#/account-security/signing-in" target="_blank" class="bi-person-lock" i18n="@@account-security">
-                  Change Password & 2FA
-                </a>
-                <button ngbDropdownItem (click)="logout()" class="text-warning bi-box-arrow-right" i18n="@@sign-out">
-                  Sign Out
-                </button>
-              } @else {
-                <button ngbDropdownItem (click)="login()" class="bi-box-arrow-in-right" i18n="@@sign-in">
-                  Sign In
-                </button>
-              }
-              <div class="dropdown-divider"></div>
-              <a ngbDropdownItem routerLink="settings">
-                <i class="bi-gear icon"></i>
-                <ng-container i18n="@@settings">
-                  Settings
-                </ng-container>
+    <ul class="ms-auto navbar-nav">
+      <a class="btn btn-primary bi-calendar-plus d-none d-sm-block" type="button" routerLink="poll/create">
+        Create Poll
+      </a>
+      <li class="nav-item">
+        <div ngbDropdown>
+          <button type="button" class="nav-link bi-person-circle" ngbDropdownToggle></button>
+          <div ngbDropdownMenu class="dropdown-menu dropdown-menu-end">
+            @if (user) {
+              <h5 class="dropdown-header" i18n="@@signed-in-as">
+                Signed in as <strong>{{ user.username }}</strong>
+              </h5>
+              <a ngbDropdownItem href="{{ environment.keycloak.url }}/realms/{{ environment.keycloak.realm }}/account" target="_blank" class="bi-person-gear">
+                Account Settings
               </a>
-              <h5 class="dropdown-header" i18n="@@language">Language</h5>
-              <a ngbDropdownItem href="/">🇺🇸 English</a>
-              <a ngbDropdownItem href="/de">🇩🇪 Deutsch</a>
-              <h5 class="dropdown-header" i18n="@@theme">Theme</h5>
-              @for (theme of themes; track theme.value) {
-                <button ngbDropdownItem [class]="theme.icon" (click)="theme$.next(theme.value)">
-                  {{ theme.name }}
-                  <i [class.bi-check]="(theme$ | async) === theme.value"></i>
-                </button>
-              }
-            </div>
+              <a ngbDropdownItem href="{{ environment.keycloak.url }}/realms/{{ environment.keycloak.realm }}/account#/account-security/signing-in" target="_blank" class="bi-person-lock">
+                Change Password & 2FA
+              </a>
+              <button ngbDropdownItem (click)="logout()" class="text-warning bi-box-arrow-right">
+                Sign Out
+              </button>
+            } @else {
+              <button ngbDropdownItem (click)="login()" class="bi-box-arrow-in-right">
+                Sign In
+              </button>
+            }
+            <div class="dropdown-divider"></div>
+            <a ngbDropdownItem routerLink="settings">
+              <i class="bi-gear icon"></i>
+              <ng-container i18n="@@settings">
+                Settings
+              </ng-container>
+            </a>
+            <h5 class="dropdown-header" i18n="@@language">Language</h5>
+            <a ngbDropdownItem href="/">🇺🇸 English</a>
+            <a ngbDropdownItem href="/de">🇩🇪 Deutsch</a>
+            <h5 class="dropdown-header" i18n="@@theme">Theme</h5>
+            @for (theme of themes; track theme) {
+              <button ngbDropdownItem [class]="theme.icon" (click)="theme$.next(theme.value)">
+                {{ theme.name }}
+                <i [class.bi-check]="(theme$ | async) === theme.value"></i>
+              </button>
+            }
           </div>
-        </li>
-      </ul>
+        </div>
+      </li>
+    </ul>
   </div>
 </nav>
 <ng-template #content let-offcanvas>

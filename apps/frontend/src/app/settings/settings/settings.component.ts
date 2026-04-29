@@ -1,13 +1,17 @@
+import {DatePipe, LowerCasePipe} from '@angular/common';
 import {HttpClient} from '@angular/common/http';
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
+import {FormsModule} from '@angular/forms';
+import {RouterLink} from '@angular/router';
 import {ToastService} from '@mean-stream/ngbx';
-import {KeycloakService} from 'keycloak-angular';
-import {KeycloakProfile} from 'keycloak-js';
+import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import Keycloak, {type KeycloakProfile} from 'keycloak-js';
 import * as platform from 'platform';
 
 import notificationSettings from './notification-settings.json';
 import {environment} from '../../../environments/environment';
 import {PushService} from '../../poll/services/push.service';
+import {TokenComponent} from '../token/token.component';
 
 interface PushInfo {
   device: string;
@@ -33,10 +37,21 @@ interface NotificationSettings {
   selector: 'apollusia-settings',
   templateUrl: './settings.component.html',
   styleUrls: ['./settings.component.scss'],
-  standalone: false,
+  imports: [
+    TokenComponent,
+    FormsModule,
+    RouterLink,
+    NgbTooltip,
+    LowerCasePipe,
+    DatePipe,
+  ],
 })
 export class SettingsComponent implements OnInit {
   readonly notificationSettings: NotificationSettings[] = notificationSettings;
+  private toastService = inject(ToastService);
+  private keycloak = inject(Keycloak);
+  private pushService = inject(PushService);
+  private http = inject(HttpClient);
 
   user?: KeycloakProfile;
   pushInfo: PushInfo[] = [];
@@ -45,16 +60,8 @@ export class SettingsComponent implements OnInit {
   pushEnabled = false;
   existingPush?: PushSubscription;
 
-  constructor(
-    private toastService: ToastService,
-    private keycloakService: KeycloakService,
-    private pushService: PushService,
-    private http: HttpClient,
-  ) {
-  }
-
   async ngOnInit() {
-    this.user = await this.keycloakService.loadUserProfile(true);
+    this.user = await this.keycloak.loadUserProfile();
     this.pushInfo = (this.user.attributes?.['pushTokens'] as string[])?.map((token) => JSON.parse(token)) ?? [];
     this.notifications = Object.fromEntries((this.user.attributes?.['notifications'] as string[] ?? this.getDefaultNotificationSettings()).map((n) => [n, true]));
 
@@ -83,7 +90,7 @@ export class SettingsComponent implements OnInit {
   }
 
   login() {
-    this.keycloakService.login();
+    this.keycloak.login();
   }
 
   addPush() {
@@ -124,7 +131,7 @@ export class SettingsComponent implements OnInit {
     }
     this.saveUser().subscribe({
       next: () => this.toastService.success('Account Settings', 'Successfully saved account settings.'),
-      error: error => this.toastService.error('Account Settings', 'Failed to save account settings.', error),
+      error: (error) => this.toastService.error('Account Settings', 'Failed to save account settings.', error),
     });
   }
 

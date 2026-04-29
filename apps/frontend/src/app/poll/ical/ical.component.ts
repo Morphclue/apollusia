@@ -1,5 +1,7 @@
-import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {DatePipe} from '@angular/common';
+import {Component, inject, OnInit} from '@angular/core';
+import {ActivatedRoute, RouterLink} from '@angular/router';
+import {FormsModule, ModalModule} from '@mean-stream/ngbx';
 import {saveAs} from 'file-saver';
 import {ICalCalendar, ICalCalendarMethod} from 'ical-generator';
 import {forkJoin} from 'rxjs';
@@ -10,14 +12,21 @@ import {MarkdownService} from '../../core/services/markdown.service';
 import {Participant, ReadPoll, ReadPollEvent} from '../../model';
 import {PollService} from '../services/poll.service';
 
-
 @Component({
   selector: 'apollusia-ical',
   templateUrl: './ical.component.html',
   styleUrl: './ical.component.scss',
-  standalone: false,
+  imports: [
+    ModalModule,
+    FormsModule,
+    RouterLink,
+    DatePipe,
+  ],
 })
 export class IcalComponent implements OnInit {
+  public route = inject(ActivatedRoute);
+  private pollService = inject(PollService);
+  private markdownService = inject(MarkdownService);
   poll?: ReadPoll;
   pollEvents?: ReadPollEvent[];
   participants?: Participant[];
@@ -26,13 +35,6 @@ export class IcalComponent implements OnInit {
   exampleEvent?: ReadPollEvent & {_participants: Participant[]};
 
   config = new ICalConfig();
-
-  constructor(
-    public route: ActivatedRoute,
-    private pollService: PollService,
-    private markdownService: MarkdownService,
-  ) {
-  }
 
   ngOnInit() {
     this.route.params.pipe(

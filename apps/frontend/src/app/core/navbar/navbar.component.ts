@@ -1,22 +1,55 @@
-import {Component, OnInit} from '@angular/core';
+import {NgOptimizedImage, AsyncPipe} from '@angular/common';
+import {Component, inject, OnInit} from '@angular/core';
+import {RouterLink, RouterLinkActive} from '@angular/router';
 import {Theme, ThemeService} from '@mean-stream/ngbx';
-import {NgbOffcanvas} from '@ng-bootstrap/ng-bootstrap';
-import {KeycloakService} from 'keycloak-angular';
-import {KeycloakProfile} from 'keycloak-js';
+import {
+  NgbOffcanvas,
+  NgbDropdown,
+  NgbDropdownToggle,
+  NgbDropdownMenu,
+  NgbDropdownItem,
+  NgbDropdownButtonItem,
+  NgbTooltip
+} from '@ng-bootstrap/ng-bootstrap';
+import Keycloak, {type KeycloakProfile} from 'keycloak-js';
 import {Subject} from 'rxjs';
 
 import {environment} from '../../../environments/environment';
+import {LocationLinkComponent} from '../location-link/location-link.component';
+import {LocationIconPipe} from '../pipes/location-icon.pipe';
 import {StorageService} from '../services/storage.service';
 
-type RecentPoll = { id: string; title: string; location: string; visitedAt: string; };
+interface RecentPoll {
+  id: string;
+  title: string;
+  location: string;
+  visitedAt: string;
+}
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss'],
-  standalone: false,
+  imports: [
+    NgOptimizedImage,
+    RouterLink,
+    NgbDropdown,
+    NgbDropdownToggle,
+    NgbDropdownMenu,
+    NgbDropdownItem,
+    NgbDropdownButtonItem,
+    RouterLinkActive,
+    LocationLinkComponent,
+    NgbTooltip,
+    AsyncPipe,
+    LocationIconPipe,
+  ],
 })
 export class NavbarComponent implements OnInit {
+  themeService = inject(ThemeService);
+  protected readonly offcanvas = inject(NgbOffcanvas);
+  private readonly storageService = inject(StorageService);
+  private readonly keycloak = inject(Keycloak);
   readonly environment = environment;
   readonly currentYear = new Date().getFullYear();
   readonly version = APP_VERSION;
@@ -51,16 +84,10 @@ export class NavbarComponent implements OnInit {
   theme$: Subject<Theme>;
 
   recentPolls: RecentPoll[] = [];
-
   user?: KeycloakProfile;
 
-  constructor(
-    themeService: ThemeService,
-    protected readonly offcanvas: NgbOffcanvas,
-    private readonly storageService: StorageService,
-    private readonly keycloakService: KeycloakService,
-  ) {
-    this.theme$ = themeService.theme$;
+  constructor() {
+    this.theme$ = this.themeService.theme$;
   }
 
   loadRecentPolls() {
@@ -72,19 +99,19 @@ export class NavbarComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.keycloakService.loadUserProfile().then(user => {
+    this.keycloak.loadUserProfile().then(user => {
       this.user = user;
     }, () => {});
   }
 
   login() {
-    this.keycloakService.login({
+    this.keycloak.login({
       redirectUri: window.location.href,
     });
   }
 
   logout() {
-    this.keycloakService.logout(window.location.href);
+    this.keycloak.logout({redirectUri: window.location.href});
   }
 
   removeRecent(poll: RecentPoll) {

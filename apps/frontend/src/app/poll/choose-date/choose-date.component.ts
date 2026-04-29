@@ -1,8 +1,34 @@
 import {HttpClient} from '@angular/common/http';
-import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, TemplateRef} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {CalendarEvent, CalendarEventTimesChangedEvent} from 'angular-calendar';
+import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, inject, TemplateRef} from '@angular/core';
+import {FormsModule} from '@angular/forms';
+import {
+  ActivatedRoute,
+  Router,
+  RouterLink,
+  RouterOutlet
+} from '@angular/router';
+import {
+  NgbModal,
+  NgbDropdown,
+  NgbDropdownToggle,
+  NgbDropdownMenu,
+  NgbDropdownButtonItem,
+  NgbDropdownItem,
+  NgbTooltip,
+} from '@ng-bootstrap/ng-bootstrap';
+import {
+  CalendarEvent,
+  CalendarEventTimesChangedEvent,
+  CalendarPreviousViewDirective,
+  CalendarTodayDirective,
+  CalendarNextViewDirective,
+  CalendarWeekViewComponent,
+  CalendarEventTitleComponent,
+  CalendarDatePipe,
+  DateAdapter,
+  provideCalendar,
+} from 'angular-calendar';
+import {adapterFactory} from 'angular-calendar/date-adapters/date-fns';
 import {WeekViewHourSegment} from 'calendar-utils';
 import {addMinutes, differenceInMinutes, endOfWeek, format} from 'date-fns';
 import {fromEvent} from 'rxjs';
@@ -16,10 +42,40 @@ import {ChooseDateService} from '../services/choose-date.service';
   selector: 'app-choose-date',
   templateUrl: './choose-date.component.html',
   styleUrls: ['./choose-date.component.scss'],
-  providers: [ChooseDateService],
-  standalone: false,
+  providers: [
+    ChooseDateService,
+    provideCalendar({
+      provide: DateAdapter,
+      useFactory: adapterFactory,
+    })
+  ],
+  imports: [
+    CalendarPreviousViewDirective,
+    CalendarTodayDirective,
+    CalendarNextViewDirective,
+    NgbDropdown,
+    NgbDropdownToggle,
+    NgbDropdownMenu,
+    NgbDropdownButtonItem,
+    NgbDropdownItem,
+    RouterLink,
+    CalendarWeekViewComponent,
+    CalendarEventTitleComponent,
+    NgbTooltip,
+    FormsModule,
+    RouterOutlet,
+    CalendarDatePipe,
+  ],
 })
 export class ChooseDateComponent implements AfterViewInit {
+  private modalService = inject(NgbModal);
+  private changeDetectorRef = inject(ChangeDetectorRef);
+  private chooseDateService = inject(ChooseDateService);
+  private http = inject(HttpClient);
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
+  private activatedRoute = inject(ActivatedRoute);
+  private elementRef = inject(ElementRef);
   viewDate = new Date();
   dragToCreateActive = true;
   weekStartsOn = 1 as const;
@@ -31,16 +87,8 @@ export class ChooseDateComponent implements AfterViewInit {
   segments = 4;
 
   constructor(
-    private modalService: NgbModal,
-    private changeDetectorRef: ChangeDetectorRef,
-    private chooseDateService: ChooseDateService,
-    private http: HttpClient,
-    private router: Router,
-    private route: ActivatedRoute,
-    private activatedRoute: ActivatedRoute,
-    private elementRef: ElementRef,
   ) {
-    route.params.subscribe(({id}) => {
+    this.route.params.subscribe(({id}) => {
       this.id = id;
       this.chooseDateService.updateEvents(id);
     });

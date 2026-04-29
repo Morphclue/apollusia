@@ -3,8 +3,6 @@ import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {FormsModule as NgbxFormsModule, ModalModule, ToastModule} from '@mean-stream/ngbx';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import {CalendarModule, DateAdapter} from 'angular-calendar';
-import {adapterFactory} from 'angular-calendar/date-adapters/date-fns';
 import {FlatpickrModule} from 'angularx-flatpickr';
 
 import {CheckButtonComponent} from './check-button/check-button.component';
@@ -24,7 +22,18 @@ import {AutofillModalComponent, PostponeModalComponent} from '../modals';
 import {SomePipe} from '../pipes';
 
 @NgModule({
-  declarations: [
+  imports: [
+    CommonModule,
+    PollRoutingModule,
+    ReactiveFormsModule,
+    FormsModule,
+    NgbModule,
+    ModalModule,
+    ToastModule,
+    CoreModule,
+    FlatpickrModule.forRoot(),
+    NgbxFormsModule,
+    PollLogComponent,
     CreateEditPollComponent,
     ChooseDateComponent,
     ChooseEventsComponent,
@@ -38,23 +47,6 @@ import {SomePipe} from '../pipes';
     ParticipantInfoComponent,
     IcalComponent,
   ],
-    imports: [
-        CommonModule,
-        PollRoutingModule,
-        ReactiveFormsModule,
-        FormsModule,
-        NgbModule,
-        ModalModule,
-        ToastModule,
-        CoreModule,
-        CalendarModule.forRoot({
-            provide: DateAdapter,
-            useFactory: adapterFactory,
-        }),
-        FlatpickrModule.forRoot(),
-        NgbxFormsModule,
-        PollLogComponent,
-    ],
   providers: [ChooseDateService],
 })
 export class PollModule {

@@ -1,5 +1,5 @@
 import {PollEvent, PollEventSchema} from '@apollusia/types';
-import {Module} from '@nestjs/common';
+import {forwardRef, Module} from '@nestjs/common';
 import {MongooseModule} from '@nestjs/mongoose';
 
 import {PollEventController} from './poll-event.controller';
@@ -15,7 +15,7 @@ import {PushModule} from '../push/push.module';
     ]),
     MailModule,
     PushModule,
-    PollModule,
+    forwardRef(() => PollModule),
   ],
   providers: [PollEventService],
   exports: [PollEventService],

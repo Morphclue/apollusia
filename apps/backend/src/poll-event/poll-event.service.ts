@@ -7,7 +7,7 @@ import {Model} from 'mongoose';
 @Injectable()
 export class PollEventService extends MongooseRepository<PollEvent> {
   constructor(
-    @InjectModel(PollEvent.name) model: Model<PollEvent>,
+    @InjectModel(PollEvent.name) public model: Model<PollEvent>,
   ) {
     super(model);
   }
