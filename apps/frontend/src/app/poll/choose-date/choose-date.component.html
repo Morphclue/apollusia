@@ -92,6 +92,9 @@
         <button ngbDropdownToggle type="button" class="btn-no-style" id="dropdownButton"></button>
         <div ngbDropdownMenu>
           <button ngbDropdownItem (click)="openNoteModal(noteContent, weekEvent.event)">Add Note</button>
+          <button ngbDropdownItem (click)="toggleAllDay(weekEvent.event)">
+            {{ weekEvent.event.allDay ? 'Set time interval' : 'Set as full day' }}
+          </button>
           <button ngbDropdownItem (click)="autofill(weekEvent.event)">Autofill</button>
           @if (weekEvent.event.meta.note !== undefined) {
             <button ngbDropdownItem (click)="deleteNote(weekEvent.event)">Delete Note</button>

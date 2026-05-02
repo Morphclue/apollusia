@@ -10,9 +10,17 @@
 <span class="d-md-block text-muted ">
   {{ event.start | date:'MMM' }}
 </span>
-<span class="d-md-block">
-  {{ event.start | date:'shortTime' }} -
-</span>
-<span class="d-md-block">
-  {{ event.end | date:'shortTime' }}
+<span class="d-md-block event-time-block">
+  @if (event.allDay) {
+    <span class="d-md-block small text-muted fw-bold">
+      All day
+    </span>
+  } @else {
+    <span class="d-md-block">
+      {{ event.start | date:'shortTime' }} -
+    </span>
+    <span class="d-md-block">
+      {{ event.end | date:'shortTime' }}
+    </span>
+  }
 </span>

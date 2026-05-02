@@ -97,6 +97,7 @@ export class IcalComponent implements OnInit {
         timezone: poll.timeZone,
         start: new Date(event.start),
         end: new Date(event.end),
+        allDay: event.allDay,
         summary,
         description: {
           plain: description,

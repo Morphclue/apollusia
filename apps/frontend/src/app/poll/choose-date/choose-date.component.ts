@@ -30,7 +30,7 @@ import {
 } from 'angular-calendar';
 import {adapterFactory} from 'angular-calendar/date-adapters/date-fns';
 import {WeekViewHourSegment} from 'calendar-utils';
-import {addMinutes, differenceInMinutes, endOfWeek, format} from 'date-fns';
+import {addMinutes, differenceInMinutes, endOfWeek} from 'date-fns';
 import {fromEvent} from 'rxjs';
 import {finalize, takeUntil} from 'rxjs/operators';
 
@@ -123,7 +123,7 @@ export class ChooseDateComponent implements AfterViewInit {
     fromEvent(document, 'mousemove')
       .pipe(
         finalize(() => {
-          delete dragToSelectEvent.meta.tmpEvent;
+          delete dragToSelectEvent.meta?.tmpEvent;
           this.dragToCreateActive = false;
           this.refresh();
         }),
@@ -135,24 +135,22 @@ export class ChooseDateComponent implements AfterViewInit {
           dragToSelectEvent.end = newEnd;
           this.previousEventDuration = differenceInMinutes(dragToSelectEvent.end, dragToSelectEvent.start);
         }
-        this.updateTime(dragToSelectEvent);
+        this.chooseDateService.updateEventTime(dragToSelectEvent, dragToSelectEvent.start, dragToSelectEvent.end!, false);
         this.refresh();
       });
 
     if (!dragToSelectEvent.end) {
       dragToSelectEvent.end = addMinutes(dragToSelectEvent.start, this.previousEventDuration);
     }
-    this.updateTime(dragToSelectEvent);
+    this.chooseDateService.updateEventTime(dragToSelectEvent, dragToSelectEvent.start, dragToSelectEvent.end, false);
   }
 
-  eventTimesChanged({event, newStart, newEnd}: CalendarEventTimesChangedEvent): void {
-    if (!newEnd) {
+  eventTimesChanged({event, newStart, newEnd, allDay}: CalendarEventTimesChangedEvent): void {
+    if (!newEnd && !allDay && !event.allDay) {
       return;
     }
 
-    event.start = newStart;
-    event.end = newEnd;
-    event.title = `${format(newStart, 'HH:mm')} - ${format(newEnd, 'HH:mm')}`;
+    this.chooseDateService.updateEventTime(event, newStart, newEnd ?? newStart, allDay ?? event.allDay);
     this.refresh();
   }
 
@@ -169,9 +167,9 @@ export class ChooseDateComponent implements AfterViewInit {
     const events: CreatePollEventDto[] = this.chooseDateService.events.map((event: CalendarEvent) => ({
       _id: event.id?.toString(),
       start: event.start.toISOString(),
-      end: event.end!.toISOString(),
+      end: (event.end ?? event.start).toISOString(),
       note: event.meta.note,
-      allDay: false,
+      allDay: !!event.allDay,
     }));
     this.http.post(`${environment.backendURL}/poll/${this.id}/events`, events).subscribe(() => {
       this.router.navigate([`poll/${this.id}/participate`]).then();
@@ -211,7 +209,8 @@ export class ChooseDateComponent implements AfterViewInit {
     this.router.navigate(['autofill'], {relativeTo: this.activatedRoute}).then();
   }
 
-  private updateTime(event: CalendarEvent) {
-    event.title = `${format(event.start, 'HH:mm')} - ${format(event.end!, 'HH:mm')}`;
+  toggleAllDay(event: CalendarEvent) {
+    this.chooseDateService.toggleAllDay(event, this.previousEventDuration);
+    this.refresh();
   }
 }

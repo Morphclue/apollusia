@@ -2,15 +2,20 @@ import {HttpClient} from '@angular/common/http';
 import {inject, Injectable} from '@angular/core';
 import {CalendarEvent} from 'angular-calendar';
 import {WeekViewHourSegment} from 'calendar-utils';
-import {addDays, addMinutes, format} from 'date-fns';
+import {addDays, addMinutes, endOfDay, format, startOfDay} from 'date-fns';
 
 import {environment} from '../../../environments/environment';
 import {PollEvent} from '../../model';
 
+interface ChooseDateEventMeta {
+  tmpEvent?: boolean;
+  note?: string;
+}
+
 @Injectable()
 export class ChooseDateService {
-  events: CalendarEvent[] = [];
-  autofillEvent?: CalendarEvent;
+  events: CalendarEvent<ChooseDateEventMeta>[] = [];
+  autofillEvent?: CalendarEvent<ChooseDateEventMeta>;
   private http = inject(HttpClient);
 
   floorToNearest(amount: number, precision: number): number {
@@ -21,10 +26,11 @@ export class ChooseDateService {
     return Math.ceil(amount / precision) * precision;
   }
 
-  createDragSelectEvent(segment: WeekViewHourSegment): CalendarEvent {
-    const dragToSelectEvent: CalendarEvent = {
+  createDragSelectEvent(segment: WeekViewHourSegment): CalendarEvent<ChooseDateEventMeta> {
+    const dragToSelectEvent: CalendarEvent<ChooseDateEventMeta> = {
       title: `${format(segment.date, 'HH:mm')}`,
       start: segment.date,
+      allDay: false,
       draggable: true,
       resizable: {
         beforeStart: true,
@@ -64,35 +70,50 @@ export class ChooseDateService {
         return;
       }
 
-      this.events = events.map((event: PollEvent) => {
-        const startDate: Date = new Date(event.start);
-        const endDate: Date = event.end ? new Date(event.end) : new Date();
-
-        return {
-          id: event._id,
-          title: `${format(startDate, 'HH:mm')} - ${format(endDate, 'HH:mm')}`,
-          draggable: true,
-          resizable: {
-            beforeStart: true,
-            afterEnd: true,
-          },
-          meta: {
-            tmpEvent: true,
-            note: event.note,
-          },
-          start: startDate,
-          end: endDate,
-        };
-      });
+      this.events = events.map((event: PollEvent) => this.createEvent(
+        new Date(event.start),
+        event.end ? new Date(event.end) : new Date(event.start),
+        event.note,
+        event.allDay,
+        event._id,
+      ));
     });
   }
 
-  addEvent(start: Date, end: Date, note?: string) {
-    this.events = [...this.events, {
-      title: `${format(start, 'HH:mm')} - ${format(end, 'HH:mm')}`,
-      start: start,
-      end: end,
+  addEvent(start: Date, end: Date, note?: string, allDay = false) {
+    this.events = [...this.events, this.createEvent(start, end, note, allDay)];
+  }
+
+  updateEventTime(event: CalendarEvent<ChooseDateEventMeta>, start: Date, end: Date, allDay = false) {
+    if (allDay) {
+      event.start = startOfDay(start);
+      event.end = endOfDay(end);
+    } else {
+      event.start = start;
+      event.end = end;
+    }
+    event.allDay = allDay;
+    event.title = this.getEventTitle(event);
+  }
+
+  toggleAllDay(event: CalendarEvent<ChooseDateEventMeta>, timedDurationInMinutes: number) {
+    if (event.allDay) {
+      const start = new Date(event.start);
+      start.setHours(12, 0, 0, 0);
+      this.updateEventTime(event, start, addMinutes(start, timedDurationInMinutes), false);
+      return;
+    }
+
+    this.updateEventTime(event, event.start, event.end ?? event.start, true);
+  }
+
+  private createEvent(start: Date, end: Date, note?: string, allDay = false, id?: string) {
+    const event: CalendarEvent<ChooseDateEventMeta> = {
+      id,
+      start,
+      end,
       draggable: true,
+      allDay,
       resizable: {
         beforeStart: true,
         afterEnd: true,
@@ -101,7 +122,14 @@ export class ChooseDateService {
         tmpEvent: true,
         note,
       },
-    }];
+      title: '',
+    };
+    this.updateEventTime(event, start, end, allDay);
+    return event;
+  }
+
+  private getEventTitle(event: CalendarEvent<ChooseDateEventMeta>) {
+    return event.allDay ? 'All day' : `${format(event.start, 'HH:mm')} - ${format(event.end!, 'HH:mm')}`;
   }
 
   postpone(postponeDays: number) {
@@ -109,6 +137,11 @@ export class ChooseDateService {
       ...event,
       start: addDays(event.start, postponeDays),
       end: addDays(event.end!, postponeDays),
+      title: this.getEventTitle({
+        ...event,
+        start: addDays(event.start, postponeDays),
+        end: addDays(event.end!, postponeDays),
+      }),
     }));
   }
 }
