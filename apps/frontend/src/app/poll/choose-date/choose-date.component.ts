@@ -180,6 +180,11 @@ export class ChooseDateComponent implements AfterViewInit {
     return this.chooseDateService.events.length > 0;
   }
 
+  createAllDayEvent(date: Date) {
+    this.chooseDateService.addEvent(date, date, undefined, true);
+    this.refresh();
+  }
+
   deleteEvent(event: CalendarEvent) {
     this.chooseDateService.deleteEvent(event);
   }
