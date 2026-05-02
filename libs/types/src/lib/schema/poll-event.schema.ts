@@ -32,7 +32,7 @@ export class PollEvent {
     @IsString()
     note?: string;
 
-    @Prop()
+    @Prop({default: false})
     @IsBoolean()
     allDay: boolean;
 }
