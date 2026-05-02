@@ -1,10 +1,21 @@
 import 'base64-js'; // FIXME needs explicit import because nx does not detect it in objectIdToBase64
-import {objectIdToBase64, RefArray} from '@mean-stream/nestx/ref';
+import {objectIdToBase64} from '@mean-stream/nestx/ref';
 import {Prop, Schema, SchemaFactory} from '@nestjs/mongoose';
 import {ApiProperty, ApiPropertyOptional} from '@nestjs/swagger';
 import {Type} from 'class-transformer';
-import {IsNotEmpty, IsObject, IsOptional, IsString, IsTimeZone, MinLength, ValidateNested} from 'class-validator';
-import {Types} from 'mongoose';
+import {
+  IsBoolean,
+  IsNotEmpty,
+  IsObject,
+  IsOptional,
+  IsString,
+  IsTimeZone,
+  IsUUID,
+  MinLength,
+  ValidateNested,
+} from 'class-validator';
+import {SchemaTypes, Types} from 'mongoose';
+
 import {Settings, SettingsSchema} from './settings';
 
 @Schema({
@@ -35,6 +46,15 @@ import {Settings, SettingsSchema} from './settings';
         count: true,
       },
     },
+    comments: {
+      options: {
+        ref: 'PollLog',
+        localField: '_id',
+        foreignField: 'poll',
+        match: {type: 'comment'},
+        count: true,
+      },
+    },
   },
 })
 export class Poll {
@@ -43,6 +63,18 @@ export class Poll {
 
     @ApiProperty()
     id: string;
+
+    @ApiPropertyOptional()
+    createdAt?: Date;
+
+    @ApiPropertyOptional()
+    updatedAt?: Date;
+
+    @ApiProperty({format: 'uuid'})
+    @Prop({required: false, type: SchemaTypes.UUID, transform: (v: object) => v.toString()})
+    @IsOptional()
+    @IsUUID()
+    createdBy?: string;
 
     @Prop({required: true})
     @ApiProperty()
@@ -78,14 +110,14 @@ export class Poll {
     @Prop()
     @ApiPropertyOptional()
     @IsOptional()
-    @IsString()
-    adminMail?: string;
+    @IsBoolean()
+    adminMail?: boolean;
 
-    @Prop({type: Object})
+    @Prop()
     @ApiPropertyOptional()
     @IsOptional()
-    @IsObject()
-    adminPush?: PushSubscriptionJSON;
+    @IsBoolean()
+    adminPush?: boolean;
 
     @Prop({type: SettingsSchema, default: {}})
     @ApiProperty()

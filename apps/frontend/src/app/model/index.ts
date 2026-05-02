@@ -15,4 +15,7 @@ export type Participant = DTO<types.Participant>;
 export type CreateParticipantDto = DTO<types.CreateParticipantDto>;
 export type UpdateParticipantDto = DTO<types.UpdateParticipantDto>;
 
+export type PollLog = DTO<types.PollLog>;
+export type CreatePollLogDto = DTO<types.CreatePollLogDto>;
+
 export type Statistics = DTO<types.StatisticsDto>;

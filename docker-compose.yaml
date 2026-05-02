@@ -1,0 +1,45 @@
+services:
+  frontend:
+    build:
+      dockerfile: ./apps/frontend/Dockerfile
+    ports:
+      - "4000:4000"
+
+  backend:
+    build:
+      dockerfile: ./apps/backend/Dockerfile
+    ports:
+      - "3000:3000"
+
+  database:
+    image: mongo:7
+    ports:
+      - "27017:27017"
+    volumes:
+      - database:/data/db
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:24.0.3
+    command:
+      - start-dev
+      - --import-realm
+    environment:
+      KC_HOSTNAME: localhost
+      KC_HTTP_RELATIVE_PATH: /auth
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: root
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./realms:/opt/keycloak/data/import
+      - ./libs/keycloak:/opt/keycloak/themes/apollusia
+
+  maildev:
+    image: maildev/maildev
+    restart: unless-stopped
+    ports:
+      - "1025:1025"
+      - "8025:1080"
+
+volumes:
+  database:

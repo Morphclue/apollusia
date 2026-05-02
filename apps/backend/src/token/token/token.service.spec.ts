@@ -39,7 +39,7 @@ describe('TokenService', () => {
     const newToken = await service.regenerateToken(pollStub.adminToken);
     const newPoll = await pollModel.findOne({adminToken: newToken.token}).exec();
     expect(newPoll).toBeDefined();
-    expect(newPoll._id).toEqual(pollStub._id);
-    expect(newPoll.adminToken).not.toEqual(pollStub.adminToken);
+    expect(newPoll!._id).toEqual(pollStub._id);
+    expect(newPoll!.adminToken).not.toEqual(pollStub.adminToken);
   });
 });

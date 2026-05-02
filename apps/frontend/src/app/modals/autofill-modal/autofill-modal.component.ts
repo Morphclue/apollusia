@@ -1,6 +1,13 @@
-import {Component, OnInit} from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {NgbDate} from '@ng-bootstrap/ng-bootstrap';
+import {Component, inject, OnInit} from '@angular/core';
+import {
+  FormControl,
+  FormGroup,
+  Validators,
+  FormsModule,
+  ReactiveFormsModule
+} from '@angular/forms';
+import {ModalModule} from '@mean-stream/ngbx';
+import {NgbDate, NgbDatepicker, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {addMinutes, format} from 'date-fns';
 
 import {ChooseDateService} from '../../poll/services/choose-date.service';
@@ -9,8 +16,16 @@ import {ChooseDateService} from '../../poll/services/choose-date.service';
   selector: 'app-autofill-modal',
   templateUrl: './autofill-modal.component.html',
   styleUrls: ['./autofill-modal.component.scss'],
+  imports: [
+    ModalModule,
+    FormsModule,
+    ReactiveFormsModule,
+    NgbDatepicker,
+    NgbTooltip,
+  ],
 })
 export class AutofillModalComponent implements OnInit {
+  private chooseDateService = inject(ChooseDateService);
   selectedDates: NgbDate[] = [];
   modalForm = new FormGroup({
     dates: new FormControl('', Validators.required),
@@ -18,13 +33,9 @@ export class AutofillModalComponent implements OnInit {
     duration: new FormControl('00:15', Validators.required),
     pause: new FormControl('00:00', Validators.required),
     repeat: new FormControl(1, Validators.required),
+    note: new FormControl(''),
   });
   endTime: string = '';
-
-  constructor(
-    private chooseDateService: ChooseDateService,
-  ) {
-  }
 
   ngOnInit(): void {
     this.updateEnd();
@@ -76,6 +87,7 @@ export class AutofillModalComponent implements OnInit {
     const durationValue = this.modalForm.get('duration')?.value;
     const pauseValue = this.modalForm.get('pause')?.value;
     const repeat = this.modalForm.get('repeat')?.value;
+    const note = this.modalForm.get('note')?.value ?? undefined;
 
     if (!dateValue || !repeat || !startTimeValue || !durationValue || !pauseValue) {
       return;
@@ -91,13 +103,13 @@ export class AutofillModalComponent implements OnInit {
       start.setHours(startTime[0], startTime[1], 0, 0);
       let end = new Date(start);
       end = addMinutes(end, duration);
-      this.chooseDateService.addEvent(start, end);
+      this.chooseDateService.addEvent(start, end, note);
       for (let j = 0; j < repeat - 1; j++) {
         start = new Date(end);
         start = addMinutes(start, pause);
         end = new Date(start);
         end = addMinutes(end, duration);
-        this.chooseDateService.addEvent(start, end);
+        this.chooseDateService.addEvent(start, end, note);
       }
     }
   }
