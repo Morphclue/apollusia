@@ -75,10 +75,7 @@ export class IcalComponent implements OnInit {
           return false;
         }
         const bookedEvent = poll.bookedEvents[event._id];
-        if (config.onlyBookedEvents && Array.isArray(bookedEvent) && !bookedEvent.includes(p._id)) {
-          return false;
-        }
-        return true;
+        return !(config.onlyBookedEvents && Array.isArray(bookedEvent) && !bookedEvent.includes(p._id));
       });
 
       let summary = config.customTitle || poll.title;
@@ -97,6 +94,7 @@ export class IcalComponent implements OnInit {
         timezone: poll.timeZone,
         start: new Date(event.start),
         end: new Date(event.end),
+        allDay: event.allDay,
         summary,
         description: {
           plain: description,
@@ -115,10 +113,7 @@ export class IcalComponent implements OnInit {
       if (!this.config.emptyEvents && !e.participants) {
         return false;
       }
-      if (this.config.onlyBookedEvents && !this.poll?.bookedEvents[e._id]) {
-        return false;
-      }
-      return true;
+      return !(this.config.onlyBookedEvents && !this.poll?.bookedEvents[e._id]);
     }) ?? [];
   }
 }

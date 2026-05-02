@@ -17,39 +17,47 @@
         </div>
         <div class="col-md">
           <div class="mb-3 ">
-            <label for="startTime">Start time</label>
-            <input class="form-control"
-                   id="startTime"
+            <div class="form-check">
+              <input class="form-check-input" id="allDay" formControlName="allDay" type="checkbox">
+              <label class="form-check-label" for="allDay">Create full-day events</label>
+            </div>
+          </div>
+          @if (!modalForm.get('allDay')?.value) {
+            <div class="mb-3 ">
+              <label for="startTime">Start time</label>
+              <input class="form-control"
+                     id="startTime"
                    formControlName="startTime"
                    type="time"
-            >
-          </div>
-          <div class="mb-3 ">
-            <label for="duration">Duration</label>
-            <input class="form-control"
-                   id="duration"
+              >
+            </div>
+            <div class="mb-3 ">
+              <label for="duration">Duration</label>
+              <input class="form-control"
+                     id="duration"
                    formControlName="duration"
                    type="time"
-            >
-          </div>
-          <div class="mb-3">
-            <label for="pause">Break between Events</label>
-            <input class="form-control"
-                   id="pause"
+              >
+            </div>
+            <div class="mb-3">
+              <label for="pause">Break between Events</label>
+              <input class="form-control"
+                     id="pause"
                    formControlName="pause"
                    type="time"
-            >
-          </div>
-          <div class="mb-3">
-            <label for="repeat">Repeat x times</label>
-            <input class="form-control"
-                   id="repeat"
+              >
+            </div>
+            <div class="mb-3">
+              <label for="repeat">Repeat x times</label>
+              <input class="form-control"
+                     id="repeat"
                    formControlName="repeat"
                    type="number"
                    autocomplete="off"
-                   min="1"
-            >
-          </div>
+                     min="1"
+              >
+            </div>
+          }
           <div class="mb-3">
             <label for="note">Note</label>
             <textarea class="form-control"
