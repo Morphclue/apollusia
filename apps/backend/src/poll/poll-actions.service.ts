@@ -84,16 +84,16 @@ export class PollActionsService implements OnModuleInit {
   }
 
   private async migrateDailyEvents() {
-    const pollEvents = await this.pollEventService.model.find({allDay: {$exists: false}}).exec();
-    if (!pollEvents.length) {
+    const result = await this.pollEventService.model.updateMany(
+      {allDay: {$exists: false}},
+      {$set: {allDay: false}},
+      {timestamps: false},
+    );
+    if (!result.modifiedCount) {
       return;
     }
 
-    for (const pollEvent of pollEvents) {
-      pollEvent.allDay = false;
-    }
-    await this.pollEventService.model.bulkSave(pollEvents, {timestamps: false});
-    this.logger.log(`Migrated ${pollEvents.length} poll events to the new all day format.`);
+    this.logger.log(`Migrated ${result.modifiedCount} poll events to the new all day format.`);
   }
 
   private async migratePollEvents() {
