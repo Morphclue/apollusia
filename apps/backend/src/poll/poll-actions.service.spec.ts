@@ -155,41 +155,39 @@ describe('PollActionsService', () => {
     ).rejects.toThrow(NotFoundException);
   });
 
-  it('should be admin with matching token', async () => {
-    const poll = await pollModel.findOne({title: 'Party (clone)'}).exec();
-    expect(poll).toBeDefined();
-
-    const isAdmin = service.isAdmin(poll!, ParticipantStub().token, undefined);
+  it('should be admin with matching token', () => {
+    const poll = PollStub() as Poll;
+    const isAdmin = service.isAdmin(poll, ParticipantStub().token, undefined);
     expect(isAdmin).toEqual(true);
   });
 
-  it('should be admin when user created poll', async () => {
-    const poll = await pollModel.findOne({title: 'Party (clone)'}).exec();
-    expect(poll).toBeDefined();
-
-    poll!.createdBy = 'creator-id';
-    const isAdmin = service.isAdmin(poll!, undefined, 'creator-id');
-
-    expect(isAdmin).toEqual(true);
-  });
-
-  it('should be admin when user is in editableBy', async () => {
-    const poll = await pollModel.findOne({title: 'Party (clone)'}).exec();
-    expect(poll).toBeDefined();
-
-    poll!.editableBy = ['editor-id'];
-    const isAdmin = service.isAdmin(poll!, undefined, 'editor-id');
+  it('should be admin when user created poll', () => {
+    const poll = {
+      ...PollStub(),
+      createdBy: 'creator-id',
+    } as Poll;
+    const isAdmin = service.isAdmin(poll, undefined, 'creator-id');
 
     expect(isAdmin).toEqual(true);
   });
 
-  it('should not be admin without matching token or user', async () => {
-    const poll = await pollModel.findOne({title: 'Party (clone)'}).exec();
-    expect(poll).toBeDefined();
+  it('should be admin when user is in editableBy', () => {
+    const poll = {
+      ...PollStub(),
+      editableBy: ['editor-id'],
+    } as Poll;
+    const isAdmin = service.isAdmin(poll, undefined, 'editor-id');
 
-    poll!.createdBy = 'creator-id';
-    poll!.editableBy = ['editor-id'];
-    const isAdmin = service.isAdmin(poll!, 'wrong-token', 'other-user');
+    expect(isAdmin).toEqual(true);
+  });
+
+  it('should not be admin without matching token or user', () => {
+    const poll = {
+      ...PollStub(),
+      createdBy: 'creator-id',
+      editableBy: ['editor-id'],
+    } as Poll;
+    const isAdmin = service.isAdmin(poll, 'wrong-token', 'other-user');
 
     expect(isAdmin).toEqual(false);
   });
