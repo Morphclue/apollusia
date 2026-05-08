@@ -55,8 +55,10 @@
             <i class="bi-pencil-square"></i>
           </div>
           <div class="timeline-item-body">
+            @let user = log.createdBy ? (log.createdBy | kcUser | async) : undefined;
+            <b>{{ user ? user.firstName + ' ' + user.lastName : 'The poll owner' }}</b>
+            changed available options:
             @let changes = $any(log.data);
-            The <b>poll owner</b> changed available options:
             @if (changes.created) {
               <b>added {{ changes.created }}</b> &bullet;
             }
@@ -74,8 +76,10 @@
             <i class="bi-calendar-event"></i>
           </div>
           <div class="timeline-item-body">
+            @let user = log.createdBy ? (log.createdBy | kcUser | async) : undefined;
+            <b>{{ user ? user.firstName + ' ' + user.lastName : 'The poll owner' }}</b>
             @let booked = $any(log.data).booked;
-            The <b>poll owner</b> booked <b>{{ booked }}</b> {booked, plural, =1 {appointment} other {appointments}}
+            booked <b>{{ booked }}</b> {booked, plural, =1 {appointment} other {appointments}}
             <span class="text-muted">&bullet; {{ log.createdAt | date: 'short' }}</span>
           </div>
         }
