@@ -9,7 +9,7 @@ import {debounceTime, distinctUntilChanged, EMPTY, filter, Observable, OperatorF
 import {switchMap} from 'rxjs/operators';
 import {LocationIconPipe} from '../../core/pipes/location-icon.pipe';
 import {TokenService} from '../../core/services';
-import {Poll, EditPoll, ReadPoll} from '../../model';
+import {EditPoll, ReadPoll} from '../../model';
 import {KeycloakService} from '../services/keycloak.service';
 import {PollService} from '../services/poll.service';
 
