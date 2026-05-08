@@ -4,7 +4,7 @@ import * as types from '@apollusia/types';
 import {DTO} from '@mean-stream/nestx/ref';
 
 export type Poll = DTO<types.Poll>;
-export type PollDto = DTO<types.PollDto>;
+export type EditPoll = DTO<types.PollDto>;
 export type ReadPoll = DTO<types.ReadStatsPollDto>;
 
 export type PollEvent = DTO<types.PollEvent>;

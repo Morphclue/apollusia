@@ -164,7 +164,14 @@ export class PollActionsService implements OnModuleInit {
   async getPolls(token: string, user: string | undefined, active: boolean | undefined): Promise<ReadStatsPollDto[]> {
     return this.readPolls({
       $and: [
-        user ? {$or: [{createdBy: user}, {adminToken: token}]} : {adminToken: token},
+        // This is the same logic as isAdmin
+        user ? {
+          $or: [
+            {createdBy: user},
+            {editableBy: user},
+            {adminToken: token},
+          ],
+        } : {adminToken: token},
         this.activeFilter(active),
       ],
     });
@@ -583,6 +590,7 @@ export class PollActionsService implements OnModuleInit {
   }
 
   isAdmin(poll: Poll, token: string | undefined, user: string | undefined) {
+    // When updating, also make sure to update getPolls
     if (token && poll.adminToken === token) {
       return true;
     }

@@ -9,7 +9,7 @@ import {debounceTime, distinctUntilChanged, EMPTY, filter, Observable, OperatorF
 import {switchMap} from 'rxjs/operators';
 import {LocationIconPipe} from '../../core/pipes/location-icon.pipe';
 import {TokenService} from '../../core/services';
-import {Poll, PollDto} from '../../model';
+import {Poll, EditPoll, ReadPoll} from '../../model';
 import {KeycloakService} from '../services/keycloak.service';
 import {PollService} from '../services/poll.service';
 
@@ -38,7 +38,7 @@ export class CreateEditPollComponent implements OnInit {
   private readonly pollService = inject(PollService);
 
   isCollapsed: boolean = true;
-  poll?: {id?: string; adminToken?: string} & (PollDto | Poll);
+  poll?: {id?: string} & (EditPoll | ReadPoll);
   isAdmin: boolean = false;
 
   pollForm = new FormGroup({
@@ -148,7 +148,7 @@ export class CreateEditPollComponent implements OnInit {
   async onFormSubmit() {
     const pollForm = this.pollForm.value;
     const deadline = pollForm.deadlineDate ? new Date(pollForm.deadlineDate + ' ' + (pollForm.deadlineTime || '00:00')) : undefined;
-    const createPollDto: PollDto & {adminToken: string} = {
+    const createPollDto: EditPoll & {adminToken: string} = {
       title: pollForm.title!,
       description: pollForm.description ? pollForm.description : '',
       location: pollForm.location ? pollForm.location : '',
@@ -205,20 +205,21 @@ export class CreateEditPollComponent implements OnInit {
     this.pollForm.markAsDirty();
   }
 
-  private updatePoll(poll: PollDto) {
+  private updatePoll(poll: EditPoll) {
     this.pollService.update(this.route.snapshot.params['id'], poll).subscribe(() => {
       this.router.navigate(['dashboard']).then();
     });
   }
 
-  private postPoll(poll: PollDto) {
-    this.pollService.create(poll).subscribe((res: Poll) => {
+  private postPoll(poll: EditPoll) {
+    this.pollService.create(poll).subscribe(res => {
       this.router.navigate([`poll/${res.id}/date`]).then();
     });
   }
 
   private fetchPoll() {
     const poll$ = this.route.params.pipe(
+      filter(({id}) => !!id),
       switchMap(({id}) => this.pollService.get(id)),
       share(),
     );

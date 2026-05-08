@@ -1,11 +1,11 @@
 import {HttpClient} from '@angular/common/http';
 import {inject, Injectable} from '@angular/core';
-import type {PollEventState} from '@apollusia/types';
+import {PollEventState} from '@apollusia/types';
 import {EMPTY, fromEvent, Observable, retry} from 'rxjs';
 import {map} from 'rxjs/operators';
 
 import {environment} from '../../../environments/environment';
-import type {PollDto} from '../../model';
+import type {EditPoll} from '../../model';
 import {
   CreateParticipantDto,
   CreatePollLogDto,
@@ -77,16 +77,16 @@ export class PollService {
     return this.http.get<boolean>(`${environment.backendURL}/poll/${id}/admin/${adminToken}`);
   }
 
-  update(id: string, poll: PollDto) {
-    return this.http.put<Poll>(`${environment.backendURL}/poll/${id}`, poll);
+  update(id: string, poll: EditPoll) {
+    return this.http.put<ReadPoll>(`${environment.backendURL}/poll/${id}`, poll);
   }
 
-  create(poll: PollDto) {
-    return this.http.post<Poll>(`${environment.backendURL}/poll`, poll)
+  create(poll: EditPoll) {
+    return this.http.post<ReadPoll>(`${environment.backendURL}/poll`, poll);
   }
 
   clone(id: string) {
-    return this.http.post<Poll>(`${environment.backendURL}/poll/${id}/clone`, {});
+    return this.http.post<ReadPoll>(`${environment.backendURL}/poll/${id}/clone`, {});
   }
 
   delete(id: string): Observable<void> {

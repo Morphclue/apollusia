@@ -268,6 +268,7 @@
                   <li>
                     {{ user.firstName }} {{ user.lastName }} ({{ user.email }})
                     <button
+                      type="button"
                       class="btn btn-link m-0 p-0 bi-x-lg text-danger"
                       ngbTooltip="Remove"
                       (click)="editableBy.splice($index, 1)"
