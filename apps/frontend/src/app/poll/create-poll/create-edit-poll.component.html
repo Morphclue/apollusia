@@ -1,7 +1,7 @@
-@if (!id || isAdmin) {
+@if (!poll?.id || isAdmin) {
   <div class="container mt-3">
     <form [formGroup]="pollForm" (ngSubmit)="onFormSubmit()">
-      @if (id) {
+      @if (poll?.id) {
         <div class="mb-3 d-flex justify-content-end">
           <button
             type="button"
@@ -283,12 +283,13 @@
       </div>
       <div class="d-flex justify-content-end">
         <button type="button" class="btn btn-outline-secondary me-2" (click)="onCancel()">Cancel</button>
-        @if (!id) {
-          <button class="btn btn-primary" type="submit" [disabled]="!pollForm.valid">Create</button>
-        }
-        @if (id) {
+        @if (poll?.id) {
           <button class="btn btn-primary" type="submit" [disabled]="!pollForm.valid || !pollForm.dirty">
             Update
+          </button>
+        } @else {
+          <button class="btn btn-primary" type="submit" [disabled]="!pollForm.valid">
+            Create
           </button>
         }
       </div>

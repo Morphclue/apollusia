@@ -1,19 +1,17 @@
-import {HttpClient} from '@angular/common/http';
-import {Component, inject, OnInit} from '@angular/core';
+import {Component, inject, OnInit, TemplateRef} from '@angular/core';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {ShowResultOptions} from '@apollusia/types/lib/schema/show-result-options';
 import {NgbCollapse, NgbModal, NgbTooltip, NgbTypeahead} from '@ng-bootstrap/ng-bootstrap';
 import {format} from 'date-fns';
-import {KeycloakService} from '../services/keycloak.service';
 import Keycloak, {type KeycloakProfile} from 'keycloak-js';
-import {debounceTime, distinctUntilChanged, filter, Observable, OperatorFunction} from 'rxjs';
-import {map, switchMap} from 'rxjs/operators';
-
-import {environment} from '../../../environments/environment';
+import {debounceTime, distinctUntilChanged, filter, Observable, OperatorFunction, share} from 'rxjs';
+import {switchMap} from 'rxjs/operators';
 import {LocationIconPipe} from '../../core/pipes/location-icon.pipe';
 import {TokenService} from '../../core/services';
-import {CreatePollDto, Poll} from '../../model';
+import {Poll, PollDto} from '../../model';
+import {KeycloakService} from '../services/keycloak.service';
+import {PollService} from '../services/poll.service';
 
 @Component({
   selector: 'app-create-edit-poll',
@@ -32,16 +30,15 @@ import {CreatePollDto, Poll} from '../../model';
 export class CreateEditPollComponent implements OnInit {
   readonly ShowResultOptions = ShowResultOptions;
   private modalService = inject(NgbModal);
-  private http = inject(HttpClient);
   private router = inject(Router);
   private tokenService = inject(TokenService);
   private keycloak = inject(Keycloak);
-  route = inject(ActivatedRoute);
+  private readonly route = inject(ActivatedRoute);
   private readonly userService = inject(KeycloakService);
+  private readonly pollService = inject(PollService);
 
   isCollapsed: boolean = true;
-  id: string = '';
-  poll?: Poll;
+  poll?: {id?: string; adminToken?: string} & (PollDto | Poll);
   isAdmin: boolean = false;
 
   pollForm = new FormGroup({
@@ -119,14 +116,6 @@ export class CreateEditPollComponent implements OnInit {
 
   formatter = (user: KeycloakProfile) => `${user.firstName} ${user.lastName} (${user.email})`;
 
-  constructor(
-  ) {
-    const routeId: Observable<string> = this.route.params.pipe(map(({id}) => id));
-    routeId.subscribe((id: string) => {
-      this.id = id;
-    });
-  }
-
   ngOnInit(): void {
     if (this.keycloak.authenticated) {
       this.keycloak.loadUserProfile().then(user => {
@@ -159,7 +148,7 @@ export class CreateEditPollComponent implements OnInit {
   async onFormSubmit() {
     const pollForm = this.pollForm.value;
     const deadline = pollForm.deadlineDate ? new Date(pollForm.deadlineDate + ' ' + (pollForm.deadlineTime || '00:00')) : undefined;
-    const createPollDto: CreatePollDto & {adminToken: string} = {
+    const createPollDto: PollDto & {adminToken: string} = {
       title: pollForm.title!,
       description: pollForm.description ? pollForm.description : '',
       location: pollForm.location ? pollForm.location : '',
@@ -182,21 +171,20 @@ export class CreateEditPollComponent implements OnInit {
       },
     };
 
-    if (!this.id) {
+    if (this.route.snapshot.params['id']) {
+      this.updatePoll(createPollDto);
+    } else {
       this.postPoll(createPollDto);
-      return;
     }
-
-    this.updatePoll(createPollDto);
   }
 
   onCancel() {
     this.router.navigate(['dashboard']).then();
   }
 
-  open(content: any) {
+  open(content: TemplateRef<unknown>) {
     this.modalService.open(content).result.then(() => {
-      this.http.delete(`${environment.backendURL}/poll/${this.id}`).subscribe(() => {
+      this.pollService.delete(this.route.snapshot.params['id']).subscribe(() => {
         this.router.navigate(['dashboard']).then();
       });
     }).catch(() => {
@@ -204,7 +192,7 @@ export class CreateEditPollComponent implements OnInit {
   }
 
   clonePoll() {
-    this.http.post(`${environment.backendURL}/poll/${this.id}/clone`, {}).subscribe(() => {
+    this.pollService.clone(this.route.snapshot.params['id']).subscribe(() => {
       this.router.navigate(['dashboard']).then();
     });
   }
@@ -216,25 +204,26 @@ export class CreateEditPollComponent implements OnInit {
     this.pollForm.markAsDirty();
   }
 
-  private updatePoll(poll: CreatePollDto) {
-    this.http.put<Poll>(`${environment.backendURL}/poll/${this.id}`, poll).subscribe(() => {
+  private updatePoll(poll: PollDto) {
+    this.pollService.update(this.route.snapshot.params['id'], poll).subscribe(() => {
       this.router.navigate(['dashboard']).then();
     });
   }
 
-  private postPoll(poll: CreatePollDto) {
-    this.http.post<Poll>(`${environment.backendURL}/poll`, poll).subscribe((res: Poll) => {
+  private postPoll(poll: PollDto) {
+    this.pollService.create(poll).subscribe((res: Poll) => {
       this.router.navigate([`poll/${res.id}/date`]).then();
     });
   }
 
   private fetchPoll() {
-    if (!this.id) {
-      return;
-    }
+    const poll$ = this.route.params.pipe(
+      switchMap(({id}) => this.pollService.get(id)),
+      share(),
+    );
 
-    this.http.get<Poll>(`${environment.backendURL}/poll/${this.id}`).subscribe((poll: Poll) => {
-      this.poll = poll;
+    poll$.subscribe(poll => {
+      this.poll = {...poll, adminToken: ''};
       this.pollForm.patchValue({
         title: poll.title,
         description: poll.description,
@@ -262,12 +251,13 @@ export class CreateEditPollComponent implements OnInit {
   }
 
   private checkAdmin() {
-    if (!this.id) {
+    const admin = this.route.snapshot.params['id'];
+    if (!admin) {
       return;
     }
 
     const adminToken = this.tokenService.getToken();
-    this.http.get<boolean>(`${environment.backendURL}/poll/${this.id}/admin/${adminToken}`).subscribe(isAdmin => {
+    this.pollService.isAdmin(admin, adminToken).subscribe(isAdmin => {
       this.isAdmin = isAdmin;
     });
   }
