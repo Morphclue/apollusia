@@ -38,6 +38,9 @@ const silentCheckSsoRedirectUri = isBrowser
 const pollApiCondition = createInterceptorCondition<IncludeBearerTokenCondition>({
   urlPattern: /\/api\/v1\/poll(\/.*)?$/i
 });
+const keycloakApiCondition = createInterceptorCondition<IncludeBearerTokenCondition>({
+  urlPattern: new RegExp(`^${environment.keycloak.url.replaceAll('.', '\\.')}`),
+});
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -82,8 +85,8 @@ export const appConfig: ApplicationConfig = {
       providers: [
         {
           provide: INCLUDE_BEARER_TOKEN_INTERCEPTOR_CONFIG,
-          useValue: [pollApiCondition]
-        }
+          useValue: [pollApiCondition, keycloakApiCondition],
+        },
       ]
     }),
     provideRouter(

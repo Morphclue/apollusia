@@ -1,19 +1,14 @@
 import {HttpClient} from '@angular/common/http';
 import {Component, inject, OnInit} from '@angular/core';
-import {
-  FormControl,
-  FormGroup,
-  Validators,
-  FormsModule,
-  ReactiveFormsModule
-} from '@angular/forms';
+import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {ShowResultOptions} from '@apollusia/types/lib/schema/show-result-options';
-import {NgbModal, NgbTooltip, NgbCollapse} from '@ng-bootstrap/ng-bootstrap';
+import {NgbCollapse, NgbModal, NgbTooltip, NgbTypeahead} from '@ng-bootstrap/ng-bootstrap';
 import {format} from 'date-fns';
+import {KeycloakService} from '../services/keycloak.service';
 import Keycloak, {type KeycloakProfile} from 'keycloak-js';
-import {Observable} from 'rxjs';
-import {map} from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged, filter, Observable, OperatorFunction} from 'rxjs';
+import {map, switchMap} from 'rxjs/operators';
 
 import {environment} from '../../../environments/environment';
 import {LocationIconPipe} from '../../core/pipes/location-icon.pipe';
@@ -31,6 +26,7 @@ import {CreatePollDto, Poll} from '../../model';
     NgbTooltip,
     NgbCollapse,
     LocationIconPipe,
+    NgbTypeahead,
   ],
 })
 export class CreateEditPollComponent implements OnInit {
@@ -41,10 +37,13 @@ export class CreateEditPollComponent implements OnInit {
   private tokenService = inject(TokenService);
   private keycloak = inject(Keycloak);
   route = inject(ActivatedRoute);
+  private readonly userService = inject(KeycloakService);
+
   isCollapsed: boolean = true;
   id: string = '';
   poll?: Poll;
   isAdmin: boolean = false;
+
   pollForm = new FormGroup({
     title: new FormControl('', Validators.required),
     description: new FormControl(''),
@@ -105,10 +104,20 @@ export class CreateEditPollComponent implements OnInit {
         showResult: ShowResultOptions.NEVER,
       },
     },
-  ];
-  selectedPreset?: any;
+  ] as const;
+  selectedPreset?: (typeof this.presets)[number];
 
   userProfile?: KeycloakProfile;
+  editableBy: KeycloakProfile[] = [];
+
+  search: OperatorFunction<string, KeycloakProfile[]> = (text$: Observable<string>) => text$.pipe(
+    debounceTime(200),
+    distinctUntilChanged(),
+    filter(term => term.length >= 2),
+    switchMap(term => this.userService.getUsers({search: term, briefRepresentation: true})),
+  );
+
+  formatter = (user: KeycloakProfile) => `${user.firstName} ${user.lastName} (${user.email})`;
 
   constructor(
   ) {
