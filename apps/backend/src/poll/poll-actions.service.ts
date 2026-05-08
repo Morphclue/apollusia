@@ -583,7 +583,13 @@ export class PollActionsService implements OnModuleInit {
   }
 
   isAdmin(poll: Poll, token: string | undefined, user: string | undefined) {
-    return poll.adminToken === token || poll.createdBy === user;
+    if (token && poll.adminToken === token) {
+      return true;
+    }
+    if (user && (poll.createdBy === user || poll.editableBy?.includes(user))) {
+      return true;
+    }
+    return false;
   }
 
   async claimPolls(adminToken: string, createdBy: string): Promise<void> {

@@ -4,6 +4,7 @@ import {Prop, Schema, SchemaFactory} from '@nestjs/mongoose';
 import {ApiProperty, ApiPropertyOptional} from '@nestjs/swagger';
 import {Type} from 'class-transformer';
 import {
+  IsArray,
   IsBoolean,
   IsNotEmpty,
   IsObject,
@@ -75,6 +76,13 @@ export class Poll {
     @IsOptional()
     @IsUUID()
     createdBy?: string;
+
+    @ApiProperty({format: 'uuid'})
+    @Prop({required: false, type: [SchemaTypes.UUID], transform: (v: object[]) => v.map(x => x.toString())})
+    @IsOptional()
+    @IsArray()
+    @IsUUID(undefined, {each: true})
+    editableBy?: string[];
 
     @Prop({required: true})
     @ApiProperty()
