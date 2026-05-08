@@ -1,6 +1,6 @@
-import { FlatCompat } from '@eslint/eslintrc';
-import { dirname } from 'path';
-import { fileURLToPath } from 'url';
+import {FlatCompat} from '@eslint/eslintrc';
+import {dirname} from 'path';
+import {fileURLToPath} from 'url';
 import js from '@eslint/js';
 import nxEslintPlugin from '@nx/eslint-plugin';
 import importPlugin from 'eslint-plugin-import';
@@ -14,7 +14,7 @@ const compat = new FlatCompat({
 
 export default [
   {
-    ignores: ['**/dist'],
+    ignores: ['**/dist', '**/.angular'],
   },
   { plugins: { '@nx': nxEslintPlugin } },
   {
@@ -81,20 +81,6 @@ export default [
         { ignoreRestSiblings: true },
       ],
       quotes: ['error', 'single'],
-      'import/order': [
-        'error',
-        {
-          'newlines-between': 'always',
-          groups: [
-            ['external', 'internal', 'builtin'],
-            ['parent', 'sibling', 'index'],
-          ],
-          alphabetize: {
-            order: 'asc',
-            caseInsensitive: true,
-          },
-        },
-      ],
       '@stylistic/space-infix-ops': 'warn',
       '@stylistic/space-in-parens': 'warn',
       '@stylistic/object-curly-spacing': ['warn', 'never'],
