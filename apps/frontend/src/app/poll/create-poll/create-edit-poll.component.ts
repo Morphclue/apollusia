@@ -5,7 +5,7 @@ import {ShowResultOptions} from '@apollusia/types/lib/schema/show-result-options
 import {NgbCollapse, NgbModal, NgbTooltip, NgbTypeahead} from '@ng-bootstrap/ng-bootstrap';
 import {format} from 'date-fns';
 import Keycloak, {type KeycloakProfile} from 'keycloak-js';
-import {debounceTime, distinctUntilChanged, filter, Observable, OperatorFunction, share} from 'rxjs';
+import {debounceTime, distinctUntilChanged, EMPTY, filter, Observable, OperatorFunction, share} from 'rxjs';
 import {switchMap} from 'rxjs/operators';
 import {LocationIconPipe} from '../../core/pipes/location-icon.pipe';
 import {TokenService} from '../../core/services';
@@ -157,6 +157,7 @@ export class CreateEditPollComponent implements OnInit {
       adminPush: !!pollForm.pushUpdates,
       timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
       bookedEvents: {},
+      editableBy: this.editableBy.map(u => u.id!),
       settings: {
         deadline: deadline?.toISOString(),
         allowMaybe: !!pollForm.allowMaybe,
@@ -222,6 +223,12 @@ export class CreateEditPollComponent implements OnInit {
       share(),
     );
 
+    poll$.pipe(
+      switchMap(({editableBy}) => editableBy ? this.userService.getUsersByIds(editableBy) : EMPTY),
+    ).subscribe(users => {
+      this.editableBy = users;
+    });
+
     poll$.subscribe(poll => {
       this.poll = {...poll, adminToken: ''};
       this.pollForm.patchValue({
@@ -260,5 +267,16 @@ export class CreateEditPollComponent implements OnInit {
     this.pollService.isAdmin(admin, adminToken).subscribe(isAdmin => {
       this.isAdmin = isAdmin;
     });
+  }
+
+  addAdmin(user: KeycloakProfile) {
+    if (this.userProfile?.id === user.id) {
+      // can't add yourself again
+      return;
+    }
+    if (!this.editableBy.some(e => e.id === user.id)) {
+      // prevent duplicates
+      this.editableBy.push(user);
+    }
   }
 }

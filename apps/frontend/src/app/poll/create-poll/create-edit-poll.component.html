@@ -249,26 +249,26 @@
               <input class="form-check-input" type="checkbox" id="logHistory" formControlName="logHistory">
             </div>
             <div class="form-group mt-3">
-              <label class="form-label" for="pollManagers">
+              <label class="form-label" for="otherAdmins">
                 Other Admins
                 <i class="bi-question-circle text-muted" placement="top"
                    ngbTooltip="Add additional admins who can edit this poll and view results"></i>
               </label>
               <input
                 class="form-control"
-                type="text"
-                id="pollManagers"
+                type="search"
+                id="otherAdmins"
                 placeholder="Type to search..."
                 [ngbTypeahead]="search"
                 [resultFormatter]="formatter"
-                (selectItem)="editableBy.push($event.item)"
+                (selectItem)="addAdmin($event.item); $event.preventDefault()"
               >
               <ul class="rounded border p-3 list-unstyled mt-2">
                 @for (user of editableBy; track user.id) {
                   <li>
                     {{ user.firstName }} {{ user.lastName }} ({{ user.email }})
                     <button
-                      class="btn btn-link m-0 p-0 bi-trash text-danger"
+                      class="btn btn-link m-0 p-0 bi-x-lg text-danger"
                       ngbTooltip="Remove"
                       (click)="editableBy.splice($index, 1)"
                     ></button>
@@ -284,7 +284,7 @@
       <div class="d-flex justify-content-end">
         <button type="button" class="btn btn-outline-secondary me-2" (click)="onCancel()">Cancel</button>
         @if (poll?.id) {
-          <button class="btn btn-primary" type="submit" [disabled]="!pollForm.valid || !pollForm.dirty">
+          <button class="btn btn-primary" type="submit" [disabled]="!pollForm.valid">
             Update
           </button>
         } @else {
