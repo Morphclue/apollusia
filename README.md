@@ -107,6 +107,9 @@ All features are completely free and can be used without registration.
   <img src="docs/bootstrap-icons/icons/clock-history.svg" alt="clock-history" align="right" height="50">
   <dt>History</dt>
   <dd>See all changes to a poll</dd>
+  <img src="docs/bootstrap-icons/icons/universal-access-circle.svg" alt="universal-access-circle" align="right" height="50">
+  <dt>Access Control</dt>
+  <dd>Restrict access to your poll</dd>
 </dl>
 
 
