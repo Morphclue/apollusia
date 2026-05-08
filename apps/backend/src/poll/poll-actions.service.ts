@@ -21,6 +21,7 @@ import {UserToken} from '@mean-stream/nestx/auth';
 import {notFound} from '@mean-stream/nestx/not-found';
 import {Doc} from '@mean-stream/nestx/ref';
 import {Injectable, Logger, OnModuleInit, UnprocessableEntityException} from '@nestjs/common';
+import {subDays} from 'date-fns/subDays';
 import {Document, QueryFilter, Types} from 'mongoose';
 
 import {KeycloakUser} from '../auth/keycloak-user.interface';
@@ -149,7 +150,7 @@ export class PollActionsService implements OnModuleInit {
     if (active === undefined) {
       return {};
     }
-    const date = new Date(Date.now() - environment.polls.activeDays * 24 * 60 * 60 * 1000);
+    const date = subDays(new Date(), environment.polls.activeDays);
     return active ? {
       $or: [
         {'settings.deadline': {$gt: date}},
@@ -168,7 +169,7 @@ export class PollActionsService implements OnModuleInit {
         user ? {
           $or: [
             {createdBy: user},
-            {editableBy: user},
+            {editableBy: new Types.UUID(user) as any},
             {adminToken: token},
           ],
         } : {adminToken: token},
