@@ -39,7 +39,6 @@ export class CreateEditPollComponent implements OnInit {
 
   isCollapsed: boolean = true;
   poll?: {id?: string} & (EditPoll | ReadPoll);
-  isAdmin: boolean = false;
 
   pollForm = new FormGroup({
     title: new FormControl('', Validators.required),
@@ -131,7 +130,6 @@ export class CreateEditPollComponent implements OnInit {
     }
 
     this.fetchPoll();
-    this.checkAdmin();
 
     this.pollForm.valueChanges.subscribe(value => {
       this.selectedPreset = this.presets.find(preset => {
@@ -254,18 +252,6 @@ export class CreateEditPollComponent implements OnInit {
           showResult: poll.settings.showResult,
         },
       });
-    });
-  }
-
-  private checkAdmin() {
-    const admin = this.route.snapshot.params['id'];
-    if (!admin) {
-      return;
-    }
-
-    const adminToken = this.tokenService.getToken();
-    this.pollService.isAdmin(admin, adminToken).subscribe(isAdmin => {
-      this.isAdmin = isAdmin;
     });
   }
 

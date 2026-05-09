@@ -1,4 +1,3 @@
-@if (!poll?.id || isAdmin) {
   <div class="container mt-3">
     <form [formGroup]="pollForm" (ngSubmit)="onFormSubmit()">
       @if (poll?.id) {
@@ -296,7 +295,6 @@
       </div>
     </form>
   </div>
-}
 
 <ng-template #content let-modal>
   <div class="modal-header">
