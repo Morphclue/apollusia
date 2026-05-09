@@ -17,21 +17,32 @@ export class StatisticsService {
             polls,
             pollEvents,
             participants,
-            pollTokens,
-            participantTokens,
+            userCount,
         ] = await Promise.all([
             this.pollModel.countDocuments().exec(),
             this.pollEventModel.countDocuments().exec(),
             this.participantModel.countDocuments().exec(),
-            this.pollModel.distinct('token').exec(),
-            this.participantModel.distinct('token').exec(),
+            this.pollModel.aggregate<{users: number}>([
+                {$match: {token: {$exists: true, $ne: null}}},
+                {$project: {_id: 0, token: 1}},
+                {
+                    $unionWith: {
+                        coll: this.participantModel.collection.name,
+                        pipeline: [
+                            {$match: {token: {$exists: true, $ne: null}}},
+                            {$project: {_id: 0, token: 1}},
+                        ],
+                    },
+                },
+                {$group: {_id: '$token'}},
+                {$count: 'users'},
+            ]).exec(),
         ]);
         return {
             polls,
             pollEvents,
             participants,
-            // TODO this may be inefficient with large number of users
-            users: new Set([...pollTokens, ...participantTokens]).size,
+            users: userCount[0]?.users ?? 0,
         };
     }
 }

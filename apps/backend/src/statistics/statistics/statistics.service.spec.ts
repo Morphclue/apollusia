@@ -38,13 +38,25 @@ describe('StatisticsService', () => {
 
   it('should get statistics', async () => {
     const pollStub = await pollModel.create(PollStub());
+    const sharedToken = 'shared-token';
+    const pollOnlyToken = 'poll-only-token';
+    const participantOnlyToken = 'participant-only-token';
+
+    await pollModel.collection.insertOne({...PollStub(), token: sharedToken});
+    await pollModel.collection.insertOne({...PollStub(), token: pollOnlyToken});
     await pollEventModel.create({poll: pollStub._id, ...PollEventStub()});
-    await participantModel.create({poll: pollStub._id, ...ParticipantStub()});
+    await participantModel.create({poll: pollStub._id, ...ParticipantStub(), token: sharedToken});
+    await participantModel.create({
+      poll: pollStub._id,
+      ...ParticipantStub(),
+      name: 'Second Participant',
+      token: participantOnlyToken,
+    });
 
     const statistics = await service.getStats();
-    expect(statistics.polls).toEqual(1);
+    expect(statistics.polls).toEqual(3);
     expect(statistics.pollEvents).toEqual(1);
-    expect(statistics.participants).toEqual(1);
-    expect(statistics.users).toEqual(1);
+    expect(statistics.participants).toEqual(2);
+    expect(statistics.users).toEqual(3);
   });
 });
