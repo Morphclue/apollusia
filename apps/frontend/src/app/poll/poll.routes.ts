@@ -5,7 +5,7 @@ import {ChooseDateComponent} from './choose-date/choose-date.component';
 import {ChooseEventsComponent} from './choose-events/choose-events.component';
 import {CreateEditPollComponent} from './create-poll/create-edit-poll.component';
 import {IcalComponent} from './ical/ical.component';
-import { PollAdminGuard } from './guards/poll-admin.guard';
+import {PollAdminGuard} from './guards/poll-admin.guard';
 
 export const routes: Routes = [
   {

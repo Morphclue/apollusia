@@ -1,12 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  inject,
-  Input,
-  OnDestroy,
-  OnInit,
-  Output,
-} from '@angular/core';
+import {Component, EventEmitter, inject, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {checkParticipant} from '@apollusia/logic';
 import type {BookedEvents, PollEventState} from '@apollusia/types';
@@ -15,14 +7,7 @@ import {ToastService} from '@mean-stream/ngbx';
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {debounceTime, Subject} from 'rxjs';
 
-import {
-  CreateParticipantDto,
-  Participant,
-  Poll,
-  ReadPoll,
-  ReadPollEvent,
-  UpdateParticipantDto
-} from '../../model';
+import {CreateParticipantDto, Participant, ReadPoll, ReadPollEvent, UpdateParticipantDto} from '../../model';
 import {SomePipe} from '../../pipes';
 import {CheckButtonComponent} from '../check-button/check-button.component';
 import {EventHeadComponent} from '../event-head/event-head.component';
