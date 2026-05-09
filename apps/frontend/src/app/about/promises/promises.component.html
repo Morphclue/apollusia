@@ -12,10 +12,12 @@
         <div class="card h-100 border-primary shadow thick-border">
           <div class="card-body">
             <div class="d-flex align-items-center justify-content-center">
-              <i class="bi fs-1 my-5" [class]=promise.icon></i>
+              <i class="bi fs-1 my-4 me-4" [class]=promise.icon></i>
+              <div>
+                <h5 class="card-title text-start">{{ promise.title }}</h5>
+                <div class="card-text text-start">{{ promise.description }}</div>
+              </div>
             </div>
-            <h5 class="card-title text-start">{{ promise.title }}</h5>
-            <p class="card-text text-start">{{ promise.description }}</p>
           </div>
         </div>
       </div>
