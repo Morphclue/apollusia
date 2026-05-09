@@ -8,6 +8,7 @@ import {map} from 'rxjs/operators';
 import {environment} from '../../../environments/environment';
 import {
   CreateParticipantDto,
+  CreatePoll,
   CreatePollLogDto,
   EditPoll,
   Participant,
@@ -81,7 +82,7 @@ export class PollService {
     return this.http.put<ReadPoll>(`${environment.backendURL}/poll/${id}`, poll);
   }
 
-  create(poll: EditPoll) {
+  create(poll: CreatePoll) {
     return this.http.post<ReadPoll>(`${environment.backendURL}/poll`, poll);
   }
 

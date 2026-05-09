@@ -10,7 +10,7 @@ export class CreatePollDto extends OmitType(Poll, [
 ] as const) {
 }
 
-export class UpdatePollDto extends PartialType(Poll) {
+export class UpdatePollDto extends PartialType(CreatePollDto) {
 }
 
 export const readPollExcluded = ['adminToken'] as const;

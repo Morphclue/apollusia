@@ -77,7 +77,7 @@ export class Poll {
     @IsUUID()
     createdBy?: string;
 
-    @ApiProperty({format: 'uuid'})
+    @ApiPropertyOptional({format: 'uuid', isArray: true})
     @Prop({required: false, type: [SchemaTypes.UUID], transform: (v: object[]) => v.map(x => x.toString())})
     @IsOptional()
     @IsArray()
@@ -134,7 +134,8 @@ export class Poll {
     settings: Settings;
 
     @Prop({type: Object, default: {}})
-    @ApiProperty()
+    @ApiPropertyOptional()
+    @IsOptional()
     @IsObject()
     bookedEvents?: BookedEvents;
 }
