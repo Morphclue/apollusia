@@ -37,15 +37,14 @@ describe('StatisticsService', () => {
   });
 
   it('should get statistics', async () => {
-    const pollStub = await pollModel.create(PollStub());
-    const sharedTokenPoll = await pollModel.create(PollStub());
-    const pollOnlyTokenPoll = await pollModel.create(PollStub());
     const sharedToken = 'shared-token';
     const pollOnlyToken = 'poll-only-token';
     const participantOnlyToken = 'participant-only-token';
+    const pollStub = await pollModel.create({...PollStub(), adminToken: sharedToken});
 
-    await pollModel.updateOne({_id: sharedTokenPoll._id}, {$set: {token: sharedToken}}, {strict: false});
-    await pollModel.updateOne({_id: pollOnlyTokenPoll._id}, {$set: {token: pollOnlyToken}}, {strict: false});
+    await pollModel.create({...PollStub(), adminToken: sharedToken});
+    await pollModel.create({...PollStub(), adminToken: pollOnlyToken});
+
     await pollEventModel.create({poll: pollStub._id, ...PollEventStub()});
     await participantModel.create({poll: pollStub._id, ...ParticipantStub(), token: sharedToken});
     await participantModel.create({

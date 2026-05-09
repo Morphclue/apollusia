@@ -23,8 +23,8 @@ export class StatisticsService {
             this.pollEventModel.countDocuments().exec(),
             this.participantModel.countDocuments().exec(),
             this.pollModel.aggregate<{users: number}>([
-                {$match: {token: {$exists: true, $ne: null}}},
-                {$project: {_id: 0, token: 1}},
+                {$match: {adminToken: {$exists: true, $ne: null}}},
+                {$project: {_id: 0, token: '$adminToken'}},
                 {
                     $unionWith: {
                         coll: this.participantModel.collection.name,
