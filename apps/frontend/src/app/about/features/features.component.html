@@ -7,13 +7,7 @@
     </p>
   </div>
   <table class="table shadow">
-    <colgroup>
-      <col>
-      <col>
-      <col class="outlined">
-      <col>
-    </colgroup>
-    <thead>
+    <thead class="sticky-top">
     <tr>
       <th scope="col" colspan="2">Feature</th>
       @for (app of apps; track app) {
@@ -23,7 +17,7 @@
     </thead>
     <tbody>
       @for (kv of features|keyvalue; track kv) {
-        <tr>
+        <tr class="sticky-top">
           <td colspan="2">
             <h4>{{ kv.key }}</h4>
           </td>
@@ -42,7 +36,7 @@
             @for (app of apps; track app) {
               @switch (feature.support[app]) {
                 @case (true) {
-                  <td class="p-yes icon-lg bi-check-lg"></td>
+                  <td class="{{ app === 'Apollusia' ? 'p-primary' : 'p-yes'}} icon-lg bi-check-lg"></td>
                 }
                 @case (false) {
                   <td class="p-no icon-lg bi-x-lg"></td>
@@ -63,4 +57,10 @@
       }
     </tbody>
   </table>
+  <div class="text-end small text-muted fst-italic">
+    Did we make a mistake, or do you want to add a tool?
+    <a href="https://github.com/Morphclue/apollusia/edit/master/apps/frontend/src/app/about/features/features.json" target="_blank">
+      Edit this data.
+    </a>
+  </div>
 </div>
