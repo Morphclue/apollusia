@@ -1,16 +1,16 @@
 import {HttpClient} from '@angular/common/http';
 import {inject, Injectable} from '@angular/core';
-import {PollEventState} from '@apollusia/types';
+import {BookedEvents, PollEventState} from '@apollusia/types';
+import {DTO} from '@mean-stream/nestx/ref';
 import {EMPTY, fromEvent, Observable, retry} from 'rxjs';
 import {map} from 'rxjs/operators';
 
 import {environment} from '../../../environments/environment';
-import type {EditPoll} from '../../model';
 import {
   CreateParticipantDto,
   CreatePollLogDto,
+  EditPoll,
   Participant,
-  Poll,
   PollLog,
   ReadPoll,
   ReadPollEvent,
@@ -93,7 +93,7 @@ export class PollService {
     return this.http.delete<void>(`${environment.backendURL}/poll/${id}`);
   }
 
-  book(id: string, events: Poll['bookedEvents']) {
+  book(id: string, events: DTO<BookedEvents>) {
     return this.http.post(`${environment.backendURL}/poll/${id}/book`, events);
   }
 

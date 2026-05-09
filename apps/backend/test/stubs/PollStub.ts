@@ -1,6 +1,6 @@
-import {PollDto, ShowResultOptions} from '@apollusia/types';
+import {CreatePollDto, ShowResultOptions} from '@apollusia/types';
 
-export const PollStub = (): PollDto => {
+export const PollStub = (): CreatePollDto => {
   return {
     title: 'Test',
     settings: {

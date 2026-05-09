@@ -1,4 +1,4 @@
-import {PollDto, ReadPollDto, ReadStatsPollDto} from '@apollusia/types';
+import {CreatePollDto, ReadPollDto, ReadStatsPollDto, UpdatePollDto} from '@apollusia/types';
 import {Auth, AuthUser, UserToken} from '@mean-stream/nestx/auth';
 import {NotFound, notFound} from '@mean-stream/nestx/not-found';
 import {ObjectIdPipe} from '@mean-stream/nestx/ref';
@@ -18,10 +18,10 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import {Types} from 'mongoose';
+import {OptionalAuthGuard} from '../auth/optional-auth.guard';
 
 import {PollActionsService} from './poll-actions.service';
 import {PollService} from './poll.service';
-import {OptionalAuthGuard} from '../auth/optional-auth.guard';
 
 @Controller('poll')
 export class PollController {
@@ -65,7 +65,7 @@ export class PollController {
   @Post()
   @UseGuards(OptionalAuthGuard)
   async postPoll(
-    @Body() pollDto: PollDto,
+    @Body() pollDto: CreatePollDto,
     @AuthUser() user?: UserToken,
   ): Promise<ReadPollDto> {
     return this.pollActionsService.postPoll(pollDto, user);
@@ -77,7 +77,7 @@ export class PollController {
   async putPoll(
     @Headers('Participant-Token') token: string,
     @Param('id', ObjectIdPipe) id: Types.ObjectId,
-    @Body() pollDto: PollDto,
+    @Body() pollDto: UpdatePollDto,
     @AuthUser() user?: UserToken,
   ): Promise<ReadPollDto | null> {
     const pollDoc = await this.pollService.find(id) ?? notFound(id);

@@ -9,7 +9,7 @@ import {debounceTime, distinctUntilChanged, EMPTY, filter, Observable, OperatorF
 import {switchMap} from 'rxjs/operators';
 import {LocationIconPipe} from '../../core/pipes/location-icon.pipe';
 import {TokenService} from '../../core/services';
-import {EditPoll, ReadPoll} from '../../model';
+import {CreatePoll, EditPoll, ReadPoll} from '../../model';
 import {KeycloakService} from '../services/keycloak.service';
 import {PollService} from '../services/poll.service';
 
@@ -148,7 +148,7 @@ export class CreateEditPollComponent implements OnInit {
   async onFormSubmit() {
     const pollForm = this.pollForm.value;
     const deadline = pollForm.deadlineDate ? new Date(pollForm.deadlineDate + ' ' + (pollForm.deadlineTime || '00:00')) : undefined;
-    const createPollDto: EditPoll & {adminToken: string} = {
+    const createPollDto: CreatePoll & {adminToken: string} = {
       title: pollForm.title!,
       description: pollForm.description ? pollForm.description : '',
       location: pollForm.location ? pollForm.location : '',
@@ -156,7 +156,6 @@ export class CreateEditPollComponent implements OnInit {
       adminMail: !!pollForm.emailUpdates,
       adminPush: !!pollForm.pushUpdates,
       timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-      bookedEvents: {},
       editableBy: this.editableBy.map(u => u.id!),
       settings: {
         deadline: deadline?.toISOString(),
@@ -211,7 +210,7 @@ export class CreateEditPollComponent implements OnInit {
     });
   }
 
-  private postPoll(poll: EditPoll) {
+  private postPoll(poll: CreatePoll) {
     this.pollService.create(poll).subscribe(res => {
       this.router.navigate([`poll/${res.id}/date`]).then();
     });

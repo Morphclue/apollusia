@@ -133,10 +133,12 @@ export class Poll {
     @ValidateNested()
     settings: Settings;
 
-    @Prop({type: Object})
+    @Prop({type: Object, default: {}})
     @ApiProperty()
     @IsObject()
-    bookedEvents: Record<string, Types.ObjectId[] | true>;
+    bookedEvents?: BookedEvents;
 }
+
+export type BookedEvents = Record<string, Types.ObjectId[] | true>;
 
 export const PollSchema = SchemaFactory.createForClass(Poll);

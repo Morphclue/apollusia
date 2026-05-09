@@ -45,7 +45,7 @@ export class IcalComponent implements OnInit {
       ])),
     ).subscribe(([poll, events, participants]) => {
       this.url = new URL(`/poll/${poll.id}/participate`, window.location.origin).href;
-      this.config.onlyBookedEvents = Object.keys(poll.bookedEvents).length > 0;
+      this.config.onlyBookedEvents = !!poll.bookedEvents && Object.keys(poll.bookedEvents).length > 0;
 
       const exampleEvent = events.find(e => e.participants > 0) ?? events[0];
       this.exampleEvent = {
@@ -74,7 +74,7 @@ export class IcalComponent implements OnInit {
         if (p.selection[event._id] !== 'yes' && p.selection[event._id] !== 'maybe') {
           return false;
         }
-        const bookedEvent = poll.bookedEvents[event._id];
+        const bookedEvent = poll.bookedEvents?.[event._id];
         if (config.onlyBookedEvents && Array.isArray(bookedEvent) && !bookedEvent.includes(p._id)) {
           return false;
         }
@@ -115,7 +115,7 @@ export class IcalComponent implements OnInit {
       if (!this.config.emptyEvents && !e.participants) {
         return false;
       }
-      if (this.config.onlyBookedEvents && !this.poll?.bookedEvents[e._id]) {
+      if (this.config.onlyBookedEvents && !this.poll?.bookedEvents?.[e._id]) {
         return false;
       }
       return true;
