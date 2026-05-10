@@ -263,14 +263,14 @@
                 (selectItem)="addAdmin($event.item); $event.preventDefault()"
               >
               <ul class="rounded border p-3 list-unstyled mt-2">
-                @for (user of editableBy; track user.id) {
+                @for (user of adminProfiles; track user.id) {
                   <li>
                     {{ user.firstName }} {{ user.lastName }} ({{ user.email }})
                     <button
                       type="button"
                       class="btn btn-link m-0 p-0 bi-x-lg text-danger"
                       ngbTooltip="Remove"
-                      (click)="editableBy.splice($index, 1)"
+                      (click)="adminProfiles.splice($index, 1)"
                     ></button>
                   </li>
                 } @empty {

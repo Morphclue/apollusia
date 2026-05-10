@@ -4,7 +4,6 @@ import {Prop, Schema, SchemaFactory} from '@nestjs/mongoose';
 import {ApiProperty, ApiPropertyOptional} from '@nestjs/swagger';
 import {Type} from 'class-transformer';
 import {
-  IsArray,
   IsBoolean,
   IsNotEmpty,
   IsObject,
@@ -77,12 +76,11 @@ export class Poll {
     @IsUUID()
     createdBy?: string;
 
-    @ApiPropertyOptional({format: 'uuid', isArray: true})
-    @Prop({required: false, type: [SchemaTypes.UUID], transform: (v: object[]) => v.map(x => x.toString())})
+    @ApiPropertyOptional()
+    @Prop({required: false, type: Object})
     @IsOptional()
-    @IsArray()
-    @IsUUID(undefined, {each: true})
-    editableBy?: string[];
+    @IsObject()
+    adminRoles?: AdminRoles;
 
     @Prop({required: true})
     @ApiProperty()
@@ -141,5 +139,9 @@ export class Poll {
 }
 
 export type BookedEvents = Record<string, Types.ObjectId[] | true>;
+export type AdminRoles = Record<string, PollRole>;
+// TODO Implement admin roles.
+//   Currently every admin can do everything the poll owner can do.
+export type PollRole = 'edit' | 'edit-settings' | 'edit-events' | 'view-results';
 
 export const PollSchema = SchemaFactory.createForClass(Poll);

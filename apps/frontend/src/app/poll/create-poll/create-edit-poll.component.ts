@@ -104,7 +104,7 @@ export class CreateEditPollComponent implements OnInit {
   selectedPreset?: (typeof this.presets)[number];
 
   userProfile?: KeycloakProfile;
-  editableBy: KeycloakProfile[] = [];
+  adminProfiles: KeycloakProfile[] = [];
 
   search: OperatorFunction<string, KeycloakProfile[]> = (text$: Observable<string>) => text$.pipe(
     debounceTime(200),
@@ -154,7 +154,7 @@ export class CreateEditPollComponent implements OnInit {
       adminMail: !!pollForm.emailUpdates,
       adminPush: !!pollForm.pushUpdates,
       timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-      editableBy: this.editableBy.map(u => u.id!),
+      adminRoles: Object.fromEntries(this.adminProfiles.map(u => [u.id!, 'edit'])),
       settings: {
         deadline: deadline?.toISOString(),
         allowMaybe: !!pollForm.allowMaybe,
@@ -222,9 +222,9 @@ export class CreateEditPollComponent implements OnInit {
     );
 
     poll$.pipe(
-      switchMap(({editableBy}) => editableBy ? this.userService.getUsersByIds(editableBy) : EMPTY),
+      switchMap(({adminRoles}) => adminRoles ? this.userService.getUsersByIds(Object.keys(adminRoles)) : EMPTY),
     ).subscribe(users => {
-      this.editableBy = users;
+      this.adminProfiles = users;
     });
 
     poll$.subscribe(poll => {
@@ -260,9 +260,9 @@ export class CreateEditPollComponent implements OnInit {
       // can't add yourself again
       return;
     }
-    if (!this.editableBy.some(e => e.id === user.id)) {
+    if (!this.adminProfiles.some(e => e.id === user.id)) {
       // prevent duplicates
-      this.editableBy.push(user);
+      this.adminProfiles.push(user);
     }
   }
 }

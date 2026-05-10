@@ -185,7 +185,7 @@ export class PollActionsService implements OnModuleInit {
         user ? {
           $or: [
             {createdBy: user},
-            {editableBy: new Types.UUID(user) as any},
+            {[`adminRoles.${user}`]: {$exists: true}},
             {adminToken: token},
           ],
         } : {adminToken: token},
@@ -622,7 +622,7 @@ export class PollActionsService implements OnModuleInit {
     if (token && poll.adminToken === token) {
       return true;
     }
-    if (user && (poll.createdBy === user || poll.editableBy?.includes(user))) {
+    if (user && (poll.createdBy === user || poll.adminRoles?.[user])) {
       return true;
     }
     return false;

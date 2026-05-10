@@ -171,10 +171,10 @@ describe('PollActionsService', () => {
     expect(isAdmin).toEqual(true);
   });
 
-  it('should be admin when user is in editableBy', () => {
+  it('should be admin when user is in adminRoles', () => {
     const poll = {
       ...PollStub(),
-      editableBy: ['editor-id'],
+      adminRoles: {'editor-id': 'edit'},
     } as Poll;
     const isAdmin = service.isAdmin(poll, undefined, 'editor-id');
 
@@ -184,8 +184,7 @@ describe('PollActionsService', () => {
   it('should not be admin without matching token or user', () => {
     const poll = {
       ...PollStub(),
-      createdBy: 'creator-id',
-      editableBy: ['editor-id'],
+      adminRoles: {'editor-id': 'edit'},
     } as Poll;
     const isAdmin = service.isAdmin(poll, 'wrong-token', 'other-user');
 
