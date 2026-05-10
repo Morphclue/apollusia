@@ -3,4 +3,11 @@
     font-size: x-large;
     margin-bottom: 0;
   }
+
+  .event-time-block {
+    min-height: 3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
 }

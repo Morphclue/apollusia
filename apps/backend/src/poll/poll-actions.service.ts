@@ -56,6 +56,7 @@ export class PollActionsService implements OnModuleInit {
       this.migratePollEvents(),
       this.migrateShowResults(),
       this.migrateBookedEvents(),
+      this.migrateDailyEvents(),
     ]);
   }
 
@@ -80,6 +81,19 @@ export class PollActionsService implements OnModuleInit {
     }
     await this.participantService.model.bulkSave(participants as any, {timestamps: false});
     participants.length && this.logger.log(`Migrated ${participants.length} participants to the new selection format.`);
+  }
+
+  private async migrateDailyEvents() {
+    const result = await this.pollEventService.model.updateMany(
+      {allDay: {$exists: false}},
+      {$set: {allDay: false}},
+      {timestamps: false},
+    );
+    if (!result.modifiedCount) {
+      return;
+    }
+
+    this.logger.log(`Migrated ${result.modifiedCount} poll events to the new all day format.`);
   }
 
   private async migratePollEvents() {
@@ -224,11 +238,12 @@ export class PollActionsService implements OnModuleInit {
       ...rest,
       title: `${title} (clone)`,
     });
-    await this.pollEventService.createMany(pollEvents.map(({start, end, note}) => ({
+    await this.pollEventService.createMany(pollEvents.map(({start, end, note, allDay}) => ({
       poll: clonedPoll._id,
       start,
       end,
       note,
+      allDay,
     })));
     return clonedPoll;
   }
@@ -268,7 +283,11 @@ export class PollActionsService implements OnModuleInit {
     for (const event of oldEvents) {
       const updated = newEvents.find(e => event._id.equals(e._id));
       if (updated) {
-        if (event.start.valueOf() !== updated.start.valueOf() || event.end.valueOf() !== updated.end.valueOf()) {
+        if (
+          event.start.valueOf() !== updated.start.valueOf()
+          || event.end.valueOf() !== updated.end.valueOf()
+          || event.allDay !== updated.allDay
+        ) {
           // The event has changed time, clear participation
           clearParticipation.push(event._id);
         }
@@ -523,6 +542,12 @@ export class PollActionsService implements OnModuleInit {
   }
 
   private renderEvent(event: PollEvent, locale?: string, timeZone?: string) {
+    if (event.allDay) {
+      const start = new Date(event.start).toLocaleDateString(locale, {timeZone});
+      const end = new Date(event.end).toLocaleDateString(locale, {timeZone});
+      return start === end ? start : `${start} - ${end}`;
+    }
+
     return `${renderDate(event.start, locale, timeZone)} - ${renderDate(event.end, locale, timeZone)}`;
   }
 
