@@ -2,6 +2,7 @@ import {CommonModule} from '@angular/common';
 import {Component, inject, Input, OnInit} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {ActivatedRoute} from '@angular/router';
+import {NgbPopover} from '@ng-bootstrap/ng-bootstrap';
 import {switchMap} from 'rxjs/operators';
 
 import {CoreModule} from '../../core/core.module';
@@ -13,7 +14,7 @@ import {PollService} from '../services/poll.service';
   selector: 'apollusia-poll-log',
   templateUrl: './poll-log.component.html',
   styleUrl: './poll-log.component.scss',
-  imports: [CommonModule, CoreModule, FormsModule, KcUserPipe],
+  imports: [CommonModule, CoreModule, FormsModule, KcUserPipe, NgbPopover],
 })
 export class PollLogComponent implements OnInit {
   @Input({required: true}) poll: ReadPoll;

@@ -83,6 +83,26 @@
             <span class="text-muted">&bullet; {{ log.createdAt | date: 'short' }}</span>
           </div>
         }
+        @case ("poll.changed") {
+          <div class="timeline-item-badge bg-secondary">
+            <i class="bi-pencil"></i>
+          </div>
+          <div class="timeline-item-body">
+            @let user = log.createdBy ? (log.createdBy | kcUser | async) : undefined;
+            <b>{{ user ? user.firstName + ' ' + user.lastName : 'The poll owner' }}</b>
+            @let diff = $any(log.data).diff | keyvalue;
+            edited the poll:
+            <span class="text-decoration-underline" [ngbPopover]="changes">
+              {{ diff?.length }} {diff?.length, plural, one {change} other {changes}}
+            </span>
+            <ng-template #changes>
+              @for (kv of diff; track kv.key) {
+                {{ kv.key }}: {{ kv.value }}
+              }
+            </ng-template>
+            <span class="text-muted">&bullet; {{ log.createdAt | date: 'short' }}</span>
+          </div>
+        }
       }
     </li>
   }
