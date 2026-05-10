@@ -2,7 +2,14 @@ import {Component, inject, OnInit, TemplateRef} from '@angular/core';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {ShowResultOptions} from '@apollusia/types/lib/schema/show-result-options';
-import {NgbCollapse, NgbModal, NgbTooltip, NgbTypeahead} from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbCollapse,
+  NgbDropdown, NgbDropdownItem, NgbDropdownMenu,
+  NgbDropdownToggle,
+  NgbModal,
+  NgbTooltip,
+  NgbTypeahead,
+} from '@ng-bootstrap/ng-bootstrap';
 import {format} from 'date-fns';
 import Keycloak, {type KeycloakProfile} from 'keycloak-js';
 import {debounceTime, distinctUntilChanged, EMPTY, filter, Observable, OperatorFunction, share} from 'rxjs';
@@ -25,6 +32,10 @@ import {PollService} from '../services/poll.service';
     NgbCollapse,
     LocationIconPipe,
     NgbTypeahead,
+    NgbDropdown,
+    NgbDropdownToggle,
+    NgbDropdownMenu,
+    NgbDropdownItem,
   ],
 })
 export class CreateEditPollComponent implements OnInit {
