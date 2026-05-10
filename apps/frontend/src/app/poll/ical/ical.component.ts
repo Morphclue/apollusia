@@ -1,7 +1,7 @@
 import {DatePipe} from '@angular/common';
 import {Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute, RouterLink} from '@angular/router';
-import {ModalModule, FormsModule} from '@mean-stream/ngbx';
+import {FormsModule, ModalModule} from '@mean-stream/ngbx';
 import {saveAs} from 'file-saver';
 import {ICalCalendar, ICalCalendarMethod} from 'ical-generator';
 import {forkJoin} from 'rxjs';

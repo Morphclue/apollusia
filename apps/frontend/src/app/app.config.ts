@@ -24,11 +24,11 @@ import {
 
 import {routes} from './app.routes';
 import {CoreModule} from './core/core.module';
+import {environment} from '../environments/environment';
 import {BASE_URL} from './core/injection-tokens/base-url';
 import {ParticipantTokenInterceptor} from './core/interceptors/participant-token.interceptor';
 import {TokenService} from './core/services';
 import {provideKeycloakSSR} from './provide-keycloak-ssr';
-import {environment} from '../environments/environment';
 
 const isBrowser = typeof window !== 'undefined';
 const silentCheckSsoRedirectUri = isBrowser

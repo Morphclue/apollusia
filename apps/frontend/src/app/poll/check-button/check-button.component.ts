@@ -3,7 +3,7 @@ import {FormsModule} from '@angular/forms';
 import {PollEventState} from '@apollusia/types';
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 
-import {ReadPoll} from '../../model/index.js';
+import {ReadPoll} from '../../model';
 
 @Component({
   selector: 'app-check-button',

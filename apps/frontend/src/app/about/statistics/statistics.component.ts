@@ -1,6 +1,6 @@
 import {HttpClient} from '@angular/common/http';
 import {Component, inject, OnInit} from '@angular/core';
-import {CountUpModule} from 'ngx-countup';
+import {CountUpDirective} from 'ngx-countup';
 
 import {environment} from '../../../environments/environment';
 import {Statistics} from '../../model';
@@ -9,7 +9,9 @@ import {Statistics} from '../../model';
   selector: 'app-statistics',
   templateUrl: './statistics.component.html',
   styleUrls: ['./statistics.component.scss'],
-  imports: [CountUpModule],
+  imports: [
+    CountUpDirective,
+  ],
 })
 export class StatisticsComponent implements OnInit {
   private http = inject(HttpClient);

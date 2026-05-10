@@ -21,7 +21,7 @@ import {UserToken} from '@mean-stream/nestx/auth';
 import {notFound} from '@mean-stream/nestx/not-found';
 import {Doc} from '@mean-stream/nestx/ref';
 import {Injectable, Logger, OnModuleInit, UnprocessableEntityException} from '@nestjs/common';
-import {Document, FilterQuery, Types} from 'mongoose';
+import {Document, QueryFilter, Types} from 'mongoose';
 
 import {KeycloakUser} from '../auth/keycloak-user.interface';
 import {KeycloakService} from '../auth/keycloak.service';
@@ -78,7 +78,7 @@ export class PollActionsService implements OnModuleInit {
       participant.set('participation', undefined);
       participant.set('indeterminateParticipation', undefined);
     }
-    await this.participantService.model.bulkSave(participants, {timestamps: false});
+    await this.participantService.model.bulkSave(participants as any, {timestamps: false});
     participants.length && this.logger.log(`Migrated ${participants.length} participants to the new selection format.`);
   }
 
@@ -97,7 +97,7 @@ export class PollActionsService implements OnModuleInit {
       pollEvent.markModified('start');
       pollEvent.markModified('end');
     }
-    await this.pollEventService.model.bulkSave(pollEvents, {timestamps: false});
+    await this.pollEventService.model.bulkSave(pollEvents as any, {timestamps: false});
     pollEvents.length && this.logger.log(`Migrated ${pollEvents.length} poll events to the new date format.`);
   }
 
@@ -120,7 +120,7 @@ export class PollActionsService implements OnModuleInit {
           $unset: 'settings.blindParticipation',
         },
       ],
-      {timestamps: false},
+      {timestamps: false, updatePipeline: true},
     );
     result.modifiedCount && this.logger.log(`Migrated ${result.modifiedCount} polls to the new show result format.`);
   }
@@ -141,11 +141,11 @@ export class PollActionsService implements OnModuleInit {
       poll.bookedEvents = newBookedEvents;
       poll.markModified('bookedEvents');
     }
-    await this.pollService.model.bulkSave(polls, {timestamps: false});
+    await this.pollService.model.bulkSave(polls as any, {timestamps: false});
     this.logger.log(`Migrated ${polls.length} polls to the new booked events format.`);
   }
 
-  private activeFilter(active: boolean | undefined): FilterQuery<Poll> {
+  private activeFilter(active: boolean | undefined): QueryFilter<Poll> {
     if (active === undefined) {
       return {};
     }
@@ -177,7 +177,7 @@ export class PollActionsService implements OnModuleInit {
     });
   }
 
-  private readPolls(filter: FilterQuery<Poll>): Promise<ReadStatsPollDto[]> {
+  private readPolls(filter: QueryFilter<Poll>): Promise<ReadStatsPollDto[]> {
     return this.pollService.findAll(filter, {
       projection: readPollSelect,
       populate: readPollPopulate,

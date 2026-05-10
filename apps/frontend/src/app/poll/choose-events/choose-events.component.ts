@@ -145,17 +145,17 @@ export class ChooseEventsComponent implements OnInit {
         this.pollService.getParticipants(id).pipe(tap(participants => this.participants = participants)),
         this.pollService.isAdmin(id, this.token).pipe(tap(isAdmin => this.isAdmin = isAdmin)),
       ])),
-    ).subscribe(() => {
-      this.updateHelpers();
-    }, error => {
-      if (error.status === 404) {
-        // Poll does not exist
-        this.title.setTitle('Poll not found - Apollusia');
-        this.closedReason = 'This poll does not exist.';
-        this.storageService.delete(`recentPolls/${this.route.snapshot.params['id']}`);
-      } else {
-        this.toastService.error('Failed to load poll', 'Please try again later.', error);
-      }
+    ).subscribe({
+      next: () => this.updateHelpers(),
+      error: error => {
+        if (error.status === 404) {
+          this.title.setTitle('Poll not found - Apollusia');
+          this.closedReason = 'This poll does not exist.';
+          this.storageService.delete(`recentPolls/${this.route.snapshot.params['id']}`);
+        } else {
+          this.toastService.error('Failed to load poll', 'Please try again later.', error);
+        }
+      },
     });
   }
 

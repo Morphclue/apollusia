@@ -19,10 +19,10 @@ import {
 import {Types} from 'mongoose';
 import {map, Observable} from 'rxjs';
 
+import {PollLogService} from './poll-log.service';
 import {KeycloakService} from '../auth/keycloak.service';
 import {OptionalAuthGuard} from '../auth/optional-auth.guard';
 import {environment} from '../environment';
-import {PollLogService} from './poll-log.service';
 import {PollService} from '../poll/poll.service';
 import {PushService} from '../push/push.service';
 

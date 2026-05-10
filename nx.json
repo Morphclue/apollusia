@@ -133,5 +133,6 @@
     "@schematics/angular:resolver": {
       "typeSeparator": "."
     }
-  }
+  },
+  "analytics": false
 }
