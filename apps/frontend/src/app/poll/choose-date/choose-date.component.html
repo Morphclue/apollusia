@@ -85,7 +85,7 @@
       [event]="weekEvent.tempEvent || weekEvent.event"
       [view]="daysInWeek === 1 ? 'day' : 'week'"
     ></mwl-calendar-event-title>
-    @if (weekEvent.event.meta.note !== undefined && weekEvent.event.meta.note.length > 0) {
+    @if (weekEvent.event.meta.note) {
       <i class="bi-sticky-fill text-light" placement="top" ngbTooltip="{{weekEvent.event.meta.note}}"></i>
     }
     <div class="click-cursor">
@@ -97,7 +97,7 @@
             {{ weekEvent.event.allDay ? 'Set time interval' : 'Set as full day' }}
           </button>
           <button ngbDropdownItem (click)="autofill(weekEvent.event)">Autofill</button>
-          @if (weekEvent.event.meta.note !== undefined) {
+          @if (weekEvent.event.meta.note) {
             <button ngbDropdownItem (click)="deleteNote(weekEvent.event)">Delete Note</button>
           }
         </div>
