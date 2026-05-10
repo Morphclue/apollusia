@@ -1,5 +1,6 @@
 import {Component, inject, OnInit} from '@angular/core';
 import {FormsModule} from '@angular/forms';
+import {ToastService} from '@mean-stream/ngbx';
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 
 import {TokenService} from '../../core/services';
@@ -12,6 +13,8 @@ import {TokenService} from '../../core/services';
 })
 export class TokenComponent implements OnInit {
   private tokenService = inject(TokenService);
+  private readonly toastService = inject(ToastService);
+
   input = '';
   visible = false;
 
@@ -20,7 +23,10 @@ export class TokenComponent implements OnInit {
   }
 
   copyToClipboard() {
-    navigator.clipboard.writeText(this.input).then().catch(e => console.log(e));
+    navigator.clipboard.writeText(this.input).then(
+      () => this.toastService.success('Copy Token', 'Token copied to clipboard. Don\' share this with others!'),
+      err => this.toastService.error('Copy Token', 'Failed to copy Token to clipboard.', err),
+    );
   }
 
   toggleVisibility() {
