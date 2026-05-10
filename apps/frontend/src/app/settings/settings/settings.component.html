@@ -11,6 +11,13 @@
   </h2>
   @if (user) {
     <div class="mb-3">
+      <label class="form-label" for="user-id">User ID</label>
+      <input type="email" class="form-control" id="userid" [ngModel]="user.id" [disabled]="!!user"/>
+      <div class="form-text">
+        Give this to your friends to let them add you to their polls as an admin.
+      </div>
+    </div>
+    <div class="mb-3">
       <label class="form-label" for="email">E-Mail</label>
       <input type="email" class="form-control" id="email" [ngModel]="user.email" [disabled]="!!user"/>
       <div class="form-text">

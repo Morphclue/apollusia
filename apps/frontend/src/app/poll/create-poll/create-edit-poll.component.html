@@ -257,7 +257,7 @@
                 class="form-control"
                 type="search"
                 id="otherAdmins"
-                placeholder="Type to search..."
+                placeholder="Paste a User ID (XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX)"
                 [ngbTypeahead]="search"
                 [resultFormatter]="formatter"
                 (selectItem)="addAdmin($event.item); $event.preventDefault()"

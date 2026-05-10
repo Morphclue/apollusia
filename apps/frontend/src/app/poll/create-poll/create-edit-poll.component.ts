@@ -4,7 +4,9 @@ import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {ShowResultOptions} from '@apollusia/types/lib/schema/show-result-options';
 import {
   NgbCollapse,
-  NgbDropdown, NgbDropdownItem, NgbDropdownMenu,
+  NgbDropdown,
+  NgbDropdownItem,
+  NgbDropdownMenu,
   NgbDropdownToggle,
   NgbModal,
   NgbTooltip,
@@ -12,8 +14,8 @@ import {
 } from '@ng-bootstrap/ng-bootstrap';
 import {format} from 'date-fns';
 import Keycloak, {type KeycloakProfile} from 'keycloak-js';
-import {debounceTime, distinctUntilChanged, EMPTY, filter, Observable, OperatorFunction, share} from 'rxjs';
-import {switchMap} from 'rxjs/operators';
+import {EMPTY, Observable, OperatorFunction} from 'rxjs';
+import {debounceTime, distinctUntilChanged, filter, map, share, switchMap} from 'rxjs/operators';
 import {LocationIconPipe} from '../../core/pipes/location-icon.pipe';
 import {TokenService} from '../../core/services';
 import {CreatePoll, EditPoll, ReadPoll} from '../../model';
@@ -120,8 +122,9 @@ export class CreateEditPollComponent implements OnInit {
   search: OperatorFunction<string, KeycloakProfile[]> = (text$: Observable<string>) => text$.pipe(
     debounceTime(200),
     distinctUntilChanged(),
-    filter(term => term.length >= 2),
-    switchMap(term => this.userService.getUsers({search: term, briefRepresentation: true})),
+    filter(id => id.length === 36), // length of a UUID
+    switchMap(id => this.userService.getUser(id)),
+    map(user => [user]),
   );
 
   formatter = (user: KeycloakProfile) => `${user.firstName} ${user.lastName} (${user.email})`;
