@@ -4,7 +4,7 @@
     Show "No" Votes
   </label>
 </div>
-@for (group of eventsGroupedByDate(); track group[0]) {
+@for (group of eventsGroupedByDate; track group[0]) {
   <h5>
     {{ group[0] | date:'fullDate' }}
   </h5>
