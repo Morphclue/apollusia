@@ -12,7 +12,10 @@
   @if (user) {
     <div class="mb-3">
       <label class="form-label" for="user-id">User ID</label>
-      <input type="email" class="form-control" id="userid" [ngModel]="user.id" [disabled]="!!user"/>
+      <div class="input-group">
+        <input type="email" class="form-control" id="userid" [ngModel]="user.id" [disabled]="!!user"/>
+        <button class="btn btn-outline-secondary bi-clipboard" (click)="copy(user.id)"></button>
+      </div>
       <div class="form-text">
         Give this to your friends to let them add you to their polls as an admin.
       </div>
