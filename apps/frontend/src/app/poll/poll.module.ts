@@ -3,7 +3,7 @@ import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {FormsModule as NgbxFormsModule, ModalModule, ToastModule} from '@mean-stream/ngbx';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import {FlatpickrModule} from 'angularx-flatpickr';
+import {FlatpickrDirective, provideFlatpickrDefaults} from 'angularx-flatpickr';
 
 import {CheckButtonComponent} from './check-button/check-button.component';
 import {ChooseDateComponent} from './choose-date/choose-date.component';
@@ -31,7 +31,7 @@ import {SomePipe} from '../pipes';
     ModalModule,
     ToastModule,
     CoreModule,
-    FlatpickrModule.forRoot(),
+    FlatpickrDirective,
     NgbxFormsModule,
     PollLogComponent,
     CreateEditPollComponent,
@@ -47,7 +47,10 @@ import {SomePipe} from '../pipes';
     ParticipantInfoComponent,
     IcalComponent,
   ],
-  providers: [ChooseDateService],
+  providers: [
+    ChooseDateService,
+    provideFlatpickrDefaults(),
+  ],
 })
 export class PollModule {
 }
