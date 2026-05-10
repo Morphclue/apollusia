@@ -10,7 +10,11 @@
   </h5>
   @for (event of group[1]; track event._id) {
     <h6>
-      {{ event.start | date:'shortTime' }} - {{ event.end | date:'shortTime' }}
+      @if (event.allDay) {
+        All day
+      } @else {
+        {{ event.start | date:'shortTime' }} - {{ event.end | date:'shortTime' }}
+      }
       @if (event.note) {
         <i class="bi-sticky-fill text-secondary" ngbTooltip="{{event.note}}" placement="top"></i>
       }

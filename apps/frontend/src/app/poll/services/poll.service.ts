@@ -39,6 +39,10 @@ export class PollService {
   }
 
   isPastEvent(event: ReadPollEvent) {
+    if (event.allDay) {
+      return Date.parse(event.end) < Date.now();
+    }
+
     return Date.parse(event.start) < Date.now();
   }
 
