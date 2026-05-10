@@ -57,18 +57,26 @@
           <div class="timeline-item-body">
             @let user = log.createdBy ? (log.createdBy | kcUser | async) : undefined;
             <b>{{ user ? user.firstName + ' ' + user.lastName : 'The poll owner' }}</b>
-            changed available options:
-            @let changes = $any(log.data);
-            @if (changes.created) {
-              <b>added {{ changes.created }}</b> &bullet;
-            }
-            @if (changes.deleted) {
-              <b>removed {{ changes.deleted }}</b> &bullet;
-            }
-            @if (changes.changed) {
-              <b>modified {{ changes.changed }}</b> &bullet;
-            }
-            <span class="text-muted">{{ log.createdAt | date: 'short' }}</span>
+            @let data = $any(log.data);
+            @let total = data.created + data.updated + data.deleted;
+            changed
+            <a [ngbPopover]="changes" routerLink=".">
+              {{ total }} {total, plural, one {option} other {options}}
+            </a>
+            <ng-template #changes>
+              <ul>
+                @if (data.created) {
+                  <li>added {{ data.created }}</li>
+                }
+                @if (data.updated) {
+                  <li>modified {{ data.updated }}</li>
+                }
+                @if (data.deleted) {
+                  <li>removed {{ data.deleted }}</li>
+                }
+              </ul>
+            </ng-template>
+            <span class="text-muted">&bullet; {{ log.createdAt | date: 'short' }}</span>
           </div>
         }
         @case ("poll.booked") {
@@ -92,9 +100,9 @@
             <b>{{ user ? user.firstName + ' ' + user.lastName : 'The poll owner' }}</b>
             @let diff = $any(log.data).diff | keyvalue;
             edited the poll:
-            <span class="text-decoration-underline" [ngbPopover]="changes">
+            <a routerLink="." [ngbPopover]="changes">
               {{ diff?.length }} {diff?.length, plural, one {change} other {changes}}
-            </span>
+            </a>
             <ng-template #changes>
               @for (kv of diff; track kv.key) {
                 {{ kv.key }}: {{ kv.value }}
