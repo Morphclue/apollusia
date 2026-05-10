@@ -43,7 +43,7 @@ import {PollService} from '../services/poll.service';
   ],
 })
 export class TableComponent implements OnInit, OnDestroy {
-  readonly poll = input<ReadPoll>();
+  readonly poll = input.required<ReadPoll>();
   readonly pollEvents = input<ReadPollEvent[]>([]);
   readonly participants = model<Participant[]>([]);
   readonly isAdmin = input<boolean>(false);
@@ -67,7 +67,7 @@ export class TableComponent implements OnInit, OnDestroy {
   errors: string[] = [];
 
   ngOnInit() {
-    this.bookedEvents = this.poll()?.bookedEvents || {};
+    this.bookedEvents = this.poll().bookedEvents || {};
     this.newParticipant.token = this.token() || '';
     this.clearSelection();
     this.validateNew();
@@ -79,10 +79,10 @@ export class TableComponent implements OnInit, OnDestroy {
   }
 
   submit() {
-    this.pollService.participate(this.poll()!._id, this.newParticipant).subscribe({
+    this.pollService.participate(this.poll()._id, this.newParticipant).subscribe({
       next: participant => {
         this.participants().unshift(participant);
-        this.poll()!.participants++;
+        this.poll().participants++;
         this.onChange();
         this.clearSelection();
       },
@@ -109,7 +109,7 @@ export class TableComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.pollService.editParticipant(this.poll()!._id, this.editParticipant._id, this.editDto).subscribe(participant => {
+    this.pollService.editParticipant(this.poll()._id, this.editParticipant._id, this.editDto).subscribe(participant => {
       this.cancelEdit();
       this.participants.set(this.participants().map(p => p._id === participant._id ? participant : p));
       this.onChange();
@@ -117,28 +117,28 @@ export class TableComponent implements OnInit, OnDestroy {
   }
 
   deleteParticipation(participantId: string) {
-    this.pollService.deleteParticipant(this.poll()!._id, participantId).subscribe(() => {
+    this.pollService.deleteParticipant(this.poll()._id, participantId).subscribe(() => {
       this.participants.set(this.participants().filter(p => p._id !== participantId));
-      this.poll()!.participants--;
+      this.poll().participants--;
       this.onChange();
     });
   }
 
   validateNew() {
-    this.errors = checkParticipant(this.newParticipant, this.poll()!, this.participants());
+    this.errors = checkParticipant(this.newParticipant, this.poll(), this.participants());
   }
 
   validateEdit() {
-    this.errors = checkParticipant(this.editDto!, this.poll()!, this.participants(), this.editParticipant!._id);
+    this.errors = checkParticipant(this.editDto!, this.poll(), this.participants(), this.editParticipant!._id);
   }
 
   clearSelection() {
-    this.newParticipant.name = this.poll()!.settings.anonymous ? 'Anonymous' : '';
+    this.newParticipant.name = this.poll().settings.anonymous ? 'Anonymous' : '';
     this.selectAll('no');
   }
 
   selectAll(state: PollEventState = 'yes') {
-    this.pollService.selectAll(this.poll()!, this.pollEvents(), this.newParticipant, state);
+    this.pollService.selectAll(this.poll(), this.pollEvents(), this.newParticipant, state);
   }
 
   setBooked(eventId: string, state: boolean) {
@@ -150,7 +150,7 @@ export class TableComponent implements OnInit, OnDestroy {
   }
 
   book() {
-    this.pollService.book(this.poll()!._id, this.bookedEvents).subscribe(() => {
+    this.pollService.book(this.poll()._id, this.bookedEvents).subscribe(() => {
       this.toastService.success('Booking', 'Booked events successfully');
     });
   }
