@@ -247,9 +247,6 @@ importers:
       '@eslint/js':
         specifier: ~10.0.1
         version: 10.0.1(eslint@10.3.0(jiti@2.7.0))
-      '@gitopslovers/nx-sass':
-        specifier: ^1.5.1
-        version: 1.5.1
       '@nestjs/schematics':
         specifier: 11.1.0
         version: 11.1.0(chokidar@3.6.0)(prettier@3.8.3)(typescript@5.9.3)
@@ -1952,9 +1949,6 @@ packages:
   '@gar/promise-retry@1.0.3':
     resolution: {integrity: sha512-GmzA9ckNokPypTg10pgpeHNQe7ph+iIKKmhKu3Ob9ANkswreCx7R3cKmY781K8QK3AqVL3xVh9A42JvIAbkkSA==}
     engines: {node: ^20.17.0 || >=22.9.0}
-
-  '@gitopslovers/nx-sass@1.5.1':
-    resolution: {integrity: sha512-LBIRrFdWZxS8Ft5RiEaSb4vLpW1jC3mBiWV5QG5q6fJRAeIqR/XqsW+AGIivQMXrbNugLJR4JT0tyf9sNOfx0A==}
 
   '@harperfast/extended-iterable@1.0.3':
     resolution: {integrity: sha512-sSAYhQca3rDWtQUHSAPeO7axFIUJOI6hn1gjRC5APVE1a90tuyT8f5WIgRsFhhWA7htNkju2veB9eWL6YHi/Lw==}
@@ -13049,8 +13043,6 @@ snapshots:
       levn: 0.4.1
 
   '@gar/promise-retry@1.0.3': {}
-
-  '@gitopslovers/nx-sass@1.5.1': {}
 
   '@harperfast/extended-iterable@1.0.3':
     optional: true
