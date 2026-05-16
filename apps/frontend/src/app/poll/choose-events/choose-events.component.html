@@ -40,7 +40,9 @@
         Settings
       </a>
     }
-    <a class="btn btn-outline-secondary bi-calendar ms-2" ngbTooltip="Export iCal" routerLink="ical"></a>
+    <a class="btn btn-outline-secondary bi-calendar ms-2" ngbTooltip="Export an iCal calendar" routerLink="ical">
+      Export
+    </a>
     <div class="btn-group ms-2" role="group">
       @for (view of views; track view.id) {
         <a
@@ -52,7 +54,7 @@
       }
     </div>
     <div ngbDropdown class="d-inline-block ms-2">
-      <button type="button" class="btn btn-outline-secondary" id="sort-dropdown" ngbDropdownToggle>
+      <button type="button" class="btn btn-outline-secondary bi-sort-down" id="sort-dropdown" ngbDropdownToggle>
         Sort
       </button>
       <div ngbDropdownMenu aria-labelledby="sort-dropdown">

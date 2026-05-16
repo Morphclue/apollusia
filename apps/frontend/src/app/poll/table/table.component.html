@@ -45,7 +45,7 @@
               ></app-check-button>
             </td>
           }
-          <th class="border-0 text-start" scope="col">
+          <th class="border-0 text-start" scope="row">
             <div class="d-inline-block ms-1" [ngbTooltip]="errors.join(', ')">
               <button class="btn btn-primary btn-sm" [disabled]="errors.length" (click)="submit()">
                 Submit
@@ -161,7 +161,7 @@
           }
           <td class="border-0 text-start">
             <button
-              class="btn btn-sm btn-primary"
+              class="btn btn-sm btn-primary ms-1"
               type="button"
               (click)="book()">
               Book
