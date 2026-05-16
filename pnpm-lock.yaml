@@ -177,6 +177,9 @@ importers:
       keycloak-js:
         specifier: ^26.2.4
         version: 26.2.4
+      lodash:
+        specifier: ^4.18.1
+        version: 4.18.1
       markdown-it:
         specifier: ^14.1.1
         version: 14.1.1
