@@ -59,23 +59,22 @@
             <b>{{ user ? user.firstName + ' ' + user.lastName : 'The poll owner' }}</b>
             @let data = $any(log.data);
             @let total = data.created + data.updated + data.deleted;
-            changed
-            <a [ngbPopover]="changes" routerLink=".">
-              {{ total }} {total, plural, one {option} other {options}}
-            </a>
-            <ng-template #changes>
-              <ul>
-                @if (data.created) {
-                  <li>added {{ data.created }}</li>
-                }
-                @if (data.updated) {
-                  <li>modified {{ data.updated }}</li>
-                }
-                @if (data.deleted) {
-                  <li>removed {{ data.deleted }}</li>
-                }
-              </ul>
-            </ng-template>
+            @if (data.created) {
+              added <b>{{ data.created }}</b>&#20;
+            }
+            @if (data.updated) {
+              @if (data.created) {
+                and
+              }
+              modified <b>{{ data.updated }}</b>&#20;
+            }
+            @if (data.deleted) {
+              @if (data.created || data.updated) {
+                and
+              }
+              removed <b>{{ data.deleted }}</b>&#20;
+            }
+            {total, plural, one {option} other {options}}
             <span class="text-muted">&bullet; {{ log.createdAt | date: 'short' }}</span>
           </div>
         }
