@@ -21,113 +21,84 @@
 }
 <ol class="timeline-list">
   @for (log of logs; track log._id) {
-    <li class="timeline-item">
-      @switch (log.type) {
-        @case ("comment") {
-          <div class="timeline-item-badge bg-secondary">
-            <i class="bi-chat-text"></i>
-          </div>
-          <div class="timeline-item-body">
-            <div class="card">
-              @let comment = $any(log.data);
-              <div class="card-header">
-                <b>{{ comment.name }}</b> commented
-                <span class="text-muted">&bullet; {{ log.createdAt | date: 'short' }}</span>
-              </div>
-              <div class="card-body">
-                <app-markdown [text]="comment.body"></app-markdown>
-              </div>
+    @switch (log.type) {
+      @case ("comment") {
+        <apollusia-poll-log-item [log]="log" icon="bi-chat-text" showUser="" [showTimestamp]="false">
+          <div class="card">
+            @let comment = $any(log.data);
+            <div class="card-header">
+              <b>{{ comment.name }}</b> commented
+              <span class="text-muted">&bullet; {{ log.createdAt | date: 'short' }}</span>
+            </div>
+            <div class="card-body">
+              <app-markdown [text]="comment.body"></app-markdown>
             </div>
           </div>
-        }
-        @case ("participant.created") {
-          <div class="timeline-item-badge bg-secondary">
-            <i class="bi-check-circle"></i>
-          </div>
-          <div class="timeline-item-body">
-            @let participant = $any(log.data);
-            <b>{{ participant.name || 'An anonymous user' }}</b> participated in the poll
-            <span class="text-muted">&bullet; {{ log.createdAt | date: 'short' }}</span>
-          </div>
-        }
-        @case ("events.changed") {
-          <div class="timeline-item-badge bg-secondary">
-            <i class="bi-pencil-square"></i>
-          </div>
-          <div class="timeline-item-body">
-            @let user = log.createdBy ? (log.createdBy | kcUser | async) : undefined;
-            <b>{{ user ? user.firstName + ' ' + user.lastName : 'The poll owner' }}</b>
-            @let data = $any(log.data);
-            @let total = data.created + data.updated + data.deleted;
-            @if (data.created) {
-              added <b>{{ data.created }}</b>&#20;
-            }
-            @if (data.updated) {
-              @if (data.created) {
-                and
-              }
-              modified <b>{{ data.updated }}</b>&#20;
-            }
-            @if (data.deleted) {
-              @if (data.created || data.updated) {
-                and
-              }
-              removed <b>{{ data.deleted }}</b>&#20;
-            }
-            {total, plural, one {option} other {options}}
-            <span class="text-muted">&bullet; {{ log.createdAt | date: 'short' }}</span>
-          </div>
-        }
-        @case ("poll.booked") {
-          <div class="timeline-item-badge bg-secondary">
-            <i class="bi-calendar-event"></i>
-          </div>
-          <div class="timeline-item-body">
-            @let user = log.createdBy ? (log.createdBy | kcUser | async) : undefined;
-            <b>{{ user ? user.firstName + ' ' + user.lastName : 'The poll owner' }}</b>
-            @let booked = $any(log.data).booked;
-            booked <b>{{ booked }}</b> {booked, plural, =1 {appointment} other {appointments}}
-            <span class="text-muted">&bullet; {{ log.createdAt | date: 'short' }}</span>
-          </div>
-        }
-        @case ("poll.changed") {
-          <div class="timeline-item-badge bg-secondary">
-            <i class="bi-pencil"></i>
-          </div>
-          <div class="timeline-item-body">
-            @let user = log.createdBy ? (log.createdBy | kcUser | async) : undefined;
-            <b>{{ user ? user.firstName + ' ' + user.lastName : 'The poll owner' }}</b>
-            @let diff = $any(log.data).diff | keyvalue;
-            edited the poll:
-            <a routerLink="." [ngbPopover]="changes">
-              {{ diff?.length }} {diff?.length, plural, one {change} other {changes}}
-            </a>
-            <ng-template #changes>
-              <ul>
-                @for (kv of diff; track kv.key) {
-                  <li>
-                    {{ changeDisplayKey[kv.key] ?? kv.key }}:
-                    <b>{{ changeDisplayValues[kv.value] ?? kv.value }}</b>
-                  </li>
-                }
-              </ul>
-            </ng-template>
-            <span class="text-muted">&bullet; {{ log.createdAt | date: 'short' }}</span>
-          </div>
-        }
+        </apollusia-poll-log-item>
       }
-    </li>
+      @case ("participant.created") {
+        <apollusia-poll-log-item
+          [log]="log"
+          icon="bi-check-circle"
+          [showUser]="$any(log.data)['name'] || 'An anonymous user'"
+        >
+          participated in the poll
+        </apollusia-poll-log-item>
+      }
+      @case ("events.changed") {
+        <apollusia-poll-log-item [log]="log" icon="bi-pencil-square">
+          @let data = $any(log.data);
+          @let total = data.created + data.updated + data.deleted;
+          @if (data.created) {
+            added <b>{{ data.created }}</b>&#20;
+          }
+          @if (data.updated) {
+            @if (data.created) {
+              and
+            }
+            modified <b>{{ data.updated }}</b>&#20;
+          }
+          @if (data.deleted) {
+            @if (data.created || data.updated) {
+              and
+            }
+            removed <b>{{ data.deleted }}</b>&#20;
+          }
+          {total, plural, one {option} other {options}}
+        </apollusia-poll-log-item>
+      }
+      @case ("poll.booked") {
+        <apollusia-poll-log-item [log]="log" icon="bi-calendar-event">
+          @let booked = $any(log.data).booked;
+          booked <b>{{ booked }}</b> {booked, plural, =1 {appointment} other {appointments}}
+        </apollusia-poll-log-item>
+      }
+      @case ("poll.changed") {
+        <apollusia-poll-log-item [log]="log" icon="bi-pencil">
+          edited the poll with
+          @let diff = $any(log.data).diff | keyvalue;
+          <a routerLink="." [ngbPopover]="changes">
+            {{ diff?.length }} {diff?.length, plural, one {change} other {changes}}
+          </a>
+          <ng-template #changes>
+            <ul>
+              @for (kv of diff; track kv.key) {
+                <li>
+                  {{ changeDisplayKey[kv.key] ?? kv.key }}:
+                  <b>{{ changeDisplayValues[kv.value] ?? kv.value }}</b>
+                </li>
+              }
+            </ul>
+          </ng-template>
+        </apollusia-poll-log-item>
+      }
+    }
   }
   @if (showMore) {
-    <li class="timeline-item">
-      <div class="timeline-item-badge bg-secondary">
-        <i class="bi-three-dots-vertical"></i>
-      </div>
-      <div class="timeline-item-body">
-        <button class="btn btn-link m-0 p-0" (click)="loadMore()">
-          Load older items...
-        </button>
-      </div>
-    </li>
+    <apollusia-poll-log-item icon="bi-three-dots-vertical" [showTimestamp]="false" showUser="">
+      <button class="btn btn-link m-0 p-0" (click)="loadMore()">
+        Load older items...
+      </button>
+    </apollusia-poll-log-item>
   }
 </ol>

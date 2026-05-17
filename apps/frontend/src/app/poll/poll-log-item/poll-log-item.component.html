@@ -1,0 +1,15 @@
+<li class="timeline-item">
+  <div class="timeline-item-badge bg-secondary">
+    <i [class]="icon()"></i>
+  </div>
+  <div class="timeline-item-body">
+    @if (showUser(); as fallback) {
+      @let usr = user();
+      <b>{{ usr ? usr.firstName + ' ' + usr.lastName : fallback }}</b>
+    }
+    <ng-content></ng-content>
+    @if (showTimestamp()) {
+      <span class="text-muted">&bullet; {{ log()?.createdAt | date: 'short' }}</span>
+    }
+  </div>
+</li>
