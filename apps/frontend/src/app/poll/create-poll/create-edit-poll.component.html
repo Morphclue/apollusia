@@ -1,28 +1,30 @@
   <div class="container mt-3">
     <form [formGroup]="pollForm" (ngSubmit)="onFormSubmit()">
       @if (poll?.id) {
-        <div class="mb-3 d-flex justify-content-end">
-          <button
-            type="button"
-            class="btn btn-primary rounded-0 bi-pencil-square btn-mini"
+        <div class="mb-3 d-flex align-items-center">
+          <h1 class="mb-0 me-auto">
+            Edit Poll: {{ poll?.title }}
+          </h1>
+          <a
+            class="btn btn-primary bi-pencil-square ms-2"
             routerLink="date"
-            placement="top"
-            ngbTooltip="Customize events"
-          ></button>
+          >
+            Customize Events
+          </a>
           <button
             type="button"
-            class="btn btn-secondary rounded-0 bi-layers"
+            class="btn btn-secondary bi-layers ms-2"
             (click)="clonePoll()"
-            placement="top"
-            ngbTooltip="Clone"
-          ></button>
+          >
+            Clone
+          </button>
           <button
             type="button"
-            class="btn btn-danger rounded-0 bi-trash"
-            (click)="open(content)"
-            placement="top"
-            ngbTooltip="Delete poll"
-          ></button>
+            class="btn btn-danger bi-trash ms-2"
+            (click)="open(deleteModal)"
+          >
+            Delete
+          </button>
         </div>
       }
       <div class="mb-3 p-3 border border-primary shadow">
@@ -311,7 +313,7 @@
     </form>
   </div>
 
-<ng-template #content let-modal>
+<ng-template #deleteModal let-modal>
   <div class="modal-header">
     <h4 class="modal-title" id="modal-title">Delete poll</h4>
     <button type="button" class="btn-close" aria-describedby="modal-title"

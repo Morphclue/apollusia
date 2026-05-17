@@ -5,43 +5,16 @@
   "sourceRoot": "libs/keycloak",
   "targets": {
     "build": {
-      "executor": "@gitopslovers/nx-sass:compiler",
       "outputs": [
-        "{options.outputPath}"
+        "{projectRoot}/common/resources/css"
       ],
-      "options": {
-        "outputPath": "libs/keycloak/common/resources/css/",
-        "main": "libs/keycloak/src/theme.scss",
-        "sourceMap": true,
-        "assets": [
-          {
-            "glob": "**/*.{woff,woff2}",
-            "input": "../../node_modules/bootstrap-icons/font/fonts",
-            "output": "libs/keycloak/common/resources/css/fonts"
-          }
-        ]
-      },
-      "configurations": {
-        "production": {},
-        "development": {}
-      },
-      "defaultConfiguration": "production"
+      "command": "pnpm exec sass libs/keycloak/src/theme.scss libs/keycloak/common/resources/css/styles.css --source-map",
+      "forwardAllArgs": false
     },
     "serve": {
-      "executor": "@gitopslovers/nx-sass:compiler",
-      "options": {
-        "watch": true,
-        "outputPath": "libs/keycloak/common/resources/css/",
-        "main": "libs/keycloak/src/theme.scss",
-        "sourceMap": true,
-        "assets": [
-          {
-            "glob": "**/*.{woff,woff2}",
-            "input": "../../node_modules/bootstrap-icons/font/fonts",
-            "output": "libs/keycloak/common/resources/css/fonts"
-          }
-        ]
-      }
+      "command": "pnpm exec sass --watch libs/keycloak/src/theme.scss libs/keycloak/common/resources/css/styles.css --source-map",
+      "continuous": true,
+      "forwardAllArgs": false
     },
     "lint": {
       "executor": "nx-stylelint:lint",
