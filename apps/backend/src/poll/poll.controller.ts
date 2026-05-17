@@ -84,7 +84,7 @@ export class PollController {
     if (!this.pollActionsService.isAdmin(pollDoc, token, user?.sub)) {
       throw new ForbiddenException('You are not allowed to edit this poll');
     }
-    return this.pollActionsService.putPoll(id, pollDto);
+    return this.pollActionsService.putPoll(id, pollDto, user);
   }
 
   @Post(':id/clone')

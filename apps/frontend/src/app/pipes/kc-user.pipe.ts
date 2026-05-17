@@ -1,10 +1,11 @@
-import {inject, Pipe, PipeTransform} from '@angular/core';
+import {inject, Injectable, Pipe, PipeTransform} from '@angular/core';
 import {KeycloakProfile} from 'keycloak-js';
 import {Observable, of} from 'rxjs';
 import {catchError, tap} from 'rxjs/operators';
 import {KeycloakService} from '../poll/services/keycloak.service';
 
 @Pipe({name: 'kcUser'})
+@Injectable({providedIn: 'root'})
 export class KcUserPipe implements PipeTransform {
   private readonly keycloakService = inject(KeycloakService);
 

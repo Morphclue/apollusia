@@ -9,7 +9,6 @@ import {KcUserPipe} from '../../pipes';
   imports: [
     DatePipe,
   ],
-  providers: [KcUserPipe],
   templateUrl: './poll-log-item.component.html',
   styleUrl: './poll-log-item.component.scss',
 })
