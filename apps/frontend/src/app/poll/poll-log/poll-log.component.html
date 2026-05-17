@@ -1,4 +1,4 @@
-@if (poll.settings.allowComments) {
+@if (poll().settings.allowComments) {
   <hr/>
   <div class="card">
     <div class="card-header">
@@ -6,7 +6,7 @@
     </div>
     <textarea class="form-control card-body" placeholder="Your comment" [(ngModel)]="commentBody"></textarea>
     <div class="card-footer d-flex align-items-center">
-      <button class="btn btn-primary bi-send" [disabled]="!(commentName && commentBody)" (click)="postComment()">
+      <button class="btn btn-primary bi-send" [disabled]="!(commentName() && commentBody())" (click)="postComment()">
         Send
       </button>
       <span class="ms-3 bi-info-circle">
@@ -20,7 +20,7 @@
   </div>
 }
 <ol class="timeline-list">
-  @for (log of logs; track log._id) {
+  @for (log of logs(); track log._id) {
     @switch (log.type) {
       @case ("comment") {
         <apollusia-poll-log-item [log]="log" icon="bi-chat-text" showUser="" [showTimestamp]="false">
@@ -94,7 +94,7 @@
       }
     }
   }
-  @if (showMore) {
+  @if (showMore()) {
     <apollusia-poll-log-item icon="bi-three-dots-vertical" [showTimestamp]="false" showUser="">
       <button class="btn btn-link m-0 p-0" (click)="loadMore()">
         Load older items...
