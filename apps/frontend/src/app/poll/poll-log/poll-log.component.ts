@@ -2,12 +2,13 @@ import {CommonModule} from '@angular/common';
 import {Component, inject, Input, OnInit} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {ActivatedRoute} from '@angular/router';
+import {ShowResultOptions} from '@apollusia/types/lib/schema/show-result-options';
 import {NgbPopover} from '@ng-bootstrap/ng-bootstrap';
 import {switchMap} from 'rxjs/operators';
 
 import {CoreModule} from '../../core/core.module';
 import {PollLog, ReadPoll} from '../../model';
-import {KcUserPipe} from '../../pipes/kc-user.pipe';
+import {KcUserPipe} from '../../pipes';
 import {PollService} from '../services/poll.service';
 
 @Component({
@@ -29,6 +30,33 @@ export class PollLogComponent implements OnInit {
 
   /** How many items to load initially, plus one to check if there are more items */
   private readonly limit = 11;
+
+  /** A record of all fields and values and how they are displayed in "poll changed" events */
+  protected readonly changeDisplayKey: Record<string | symbol, string> = {
+    title: 'Title',
+    description: 'Description',
+    location: 'Location',
+    timeZone: 'Timezone',
+    'settings.deadline': 'Deadline',
+    'settings.maxParticipants': 'Maximum number of participants',
+    'settings.maxParticipantEvents': 'Maximum number of choices per participant',
+    'settings.maxEventParticipants': 'Maximum number of participants per event',
+    'settings.allowMaybe': 'Allow Maybe option',
+    'settings.allowEdit': 'Allow editing',
+    'settings.anonymous': 'Anonymous participation',
+    'settings.allowComments': 'Allow Comments',
+    'settings.logHistory': 'Enable Change History',
+    'settings.showResult': 'Show results to participants',
+  };
+  protected readonly changeDisplayValues: Record<string | symbol, string> = {
+    // values of showResult:
+    [ShowResultOptions.IMMEDIATELY]: 'Immediately',
+    [ShowResultOptions.AFTER_PARTICIPATING]: 'After participating',
+    [ShowResultOptions.AFTER_DEADLINE]: 'After deadline',
+    [ShowResultOptions.NEVER]: 'Never',
+    true: 'Yes',
+    false: 'No',
+  };
 
   ngOnInit() {
     this.route.params.pipe(

@@ -104,9 +104,14 @@
               {{ diff?.length }} {diff?.length, plural, one {change} other {changes}}
             </a>
             <ng-template #changes>
-              @for (kv of diff; track kv.key) {
-                {{ kv.key }}: {{ kv.value }}
-              }
+              <ul>
+                @for (kv of diff; track kv.key) {
+                  <li>
+                    {{ changeDisplayKey[kv.key] ?? kv.key }}:
+                    <b>{{ changeDisplayValues[kv.value] ?? kv.value }}</b>
+                  </li>
+                }
+              </ul>
             </ng-template>
             <span class="text-muted">&bullet; {{ log.createdAt | date: 'short' }}</span>
           </div>
