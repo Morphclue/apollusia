@@ -30,7 +30,7 @@ export class ParticipantLog {
   participant: Types.ObjectId;
 }
 
-export class EventLog {
+export class EventsChangedLog {
   @Prop()
   created?: number;
 
@@ -81,12 +81,12 @@ export class PollLog {
       subTypes: [
         {name: 'comment', value: Comment},
         {name: 'participant.created', value: ParticipantLog},
-        {name: 'events.changed', value: EventLog},
+        {name: 'events.changed', value: EventsChangedLog},
         {name: 'poll.booked', value: PollBookedLog},
       ],
     },
   })
-  data: Comment | ParticipantLog | EventLog | PollBookedLog;
+  data: Comment | ParticipantLog | EventsChangedLog | PollBookedLog;
 }
 
 export const PollLogSchema = SchemaFactory.createForClass(PollLog);
