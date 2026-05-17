@@ -14,9 +14,11 @@ import {
   readPollExcluded,
   readPollPopulate,
   readPollSelect,
-  ReadStatsPollDto, Settings,
+  ReadStatsPollDto,
+  Settings,
   ShowResultOptions,
-  UpdateParticipantDto, updatePollDiff,
+  UpdateParticipantDto,
+  updatePollDiff,
   UpdatePollDto,
 } from '@apollusia/types';
 import {UserToken} from '@mean-stream/nestx/auth';

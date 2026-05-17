@@ -8,7 +8,6 @@ import {switchMap} from 'rxjs/operators';
 
 import {CoreModule} from '../../core/core.module';
 import {PollLog, ReadPoll} from '../../model';
-import {KcUserPipe} from '../../pipes';
 import {PollLogItemComponent} from '../poll-log-item/poll-log-item.component';
 import {PollService} from '../services/poll.service';
 
@@ -16,7 +15,7 @@ import {PollService} from '../services/poll.service';
   selector: 'apollusia-poll-log',
   templateUrl: './poll-log.component.html',
   styleUrl: './poll-log.component.scss',
-  imports: [CommonModule, CoreModule, FormsModule, KcUserPipe, NgbPopover, PollLogItemComponent],
+  imports: [CommonModule, CoreModule, FormsModule, NgbPopover, PollLogItemComponent],
 })
 export class PollLogComponent implements OnInit {
   @Input({required: true}) poll: ReadPoll;
