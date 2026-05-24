@@ -62,8 +62,12 @@ export class SettingsComponent implements OnInit {
 
   async ngOnInit() {
     this.user = await this.keycloak.loadUserProfile();
-    this.pushInfo = (this.user.attributes?.['pushTokens'] as string[])?.map((token) => JSON.parse(token)) ?? [];
-    this.notifications = Object.fromEntries((this.user.attributes?.['notifications'] as string[] ?? this.getDefaultNotificationSettings()).map((n) => [n, true]));
+
+    const pushTokens = this.user.attributes?.['pushTokens'] as string[];
+    this.pushInfo = pushTokens?.map((token) => JSON.parse(token)) ?? [];
+
+    const notifications = this.user.attributes?.['notifications'] as string[] ?? this.getDefaultNotificationSettings();
+    this.notifications = Object.fromEntries(notifications.map((n) => [n, true]));
 
     this.pushEnabled = this.pushService.isEnabled();
     if (this.pushEnabled) {
@@ -90,12 +94,20 @@ export class SettingsComponent implements OnInit {
   }
 
   copy(id: string | undefined) {
-    if (id) {
-      navigator.clipboard.writeText(id).then(
-        () => this.toastService.success('Copy User ID', 'User ID copied to clipboard'),
-        err => this.toastService.error('Copy User ID', 'Failed to copy User ID', err),
-      );
+    if (!id) {
+      return;
     }
+    navigator.clipboard.writeText(id).then(
+      () => this.toastService.success(
+        $localize`:@@settings-copy-user-id:Copy User ID`,
+        $localize`:@@settings-copy-user-id-success:User ID copied to clipboard`,
+      ),
+      err => this.toastService.error(
+        $localize`:@@settings-copy-user-id:Copy User ID`,
+        $localize`:@@settings-copy-user-id-error:Failed to copy User ID`,
+        err,
+      ),
+    );
   }
 
   login() {
@@ -112,11 +124,22 @@ export class SettingsComponent implements OnInit {
         token,
       });
       this.saveUser().subscribe({
-        next: () => this.toastService.success('Add Push Device', 'Successfully registered device.'),
-        error: error => this.toastService.error('Add Push Device', 'Failed to save user data.', error),
+        next: () => this.toastService.success(
+          $localize`:@@settings-push-notifications-add-device:Add Push Device`,
+          $localize`:@@settings-push-notifications-add-device-success:Successfully registered device.`,
+          ),
+        error: error => this.toastService.error(
+          $localize`:@@settings-push-notifications-add-device:Add Push Device`,
+          $localize`:@@settings-push-notifications-add-device-failed-save:Failed to save user data.`,
+          error,
+        ),
       })
     }, error => {
-      this.toastService.error('Add Push Device', 'Failed to register push device.', error);
+      this.toastService.error(
+        $localize`:@@settings-push-notifications-add-device:Add Push Device`,
+        $localize`:@@settings-push-notifications-add-device-failed-register:Failed to register push device.`,
+        error,
+      );
     });
   }
 
@@ -128,19 +151,32 @@ export class SettingsComponent implements OnInit {
 
     this.pushInfo = this.pushInfo.filter((i) => i !== info);
     this.saveUser().subscribe({
-      next: () => this.toastService.success('Push Settings', 'Successfully remove device.'),
-      error: error => this.toastService.error('Push Settings', 'Failed to remove device', error),
+      next: () => this.toastService.success(
+        $localize`:@@settings-push-notifications-remove-device:Remove Push Device`,
+        $localize`:@@settings-push-notifications-remove-device-success:Successfully removed device.`,
+      ),
+      error: error => this.toastService.error(
+        $localize`:@@settings-push-notifications-remove-device:Remove Push Device`,
+        $localize`:@@settings-push-notifications-remove-device-failed:Failed to remove device`,
+        error,
+      ),
     })
   }
 
   save() {
     if (!this.user) {
-      this.toastService.success('Account Settings', 'Successfully saved settings.');
       return;
     }
     this.saveUser().subscribe({
-      next: () => this.toastService.success('Account Settings', 'Successfully saved account settings.'),
-      error: (error) => this.toastService.error('Account Settings', 'Failed to save account settings.', error),
+      next: () => this.toastService.success(
+        $localize`:@@settings-user-settings-save:Save User Settings`,
+        $localize`:@@settings-user-settings-save-success:Successfully saved user settings.`,
+      ),
+      error: (error) => this.toastService.error(
+        $localize`:@@settings-user-settings-save:Save User Settings`,
+        $localize`:@@settings-user-settings-save-failed:Failed to save user settings.`,
+        error,
+      ),
     });
   }
 
@@ -152,8 +188,15 @@ export class SettingsComponent implements OnInit {
     const notifications = Object.keys(this.notifications).filter((key) => this.notifications[key]);
     (this.user.attributes ??= {})['notifications'] = notifications;
     this.saveUser().subscribe({
-      next: () => this.toastService.success('Notification Settings', 'Successfully saved notification settings.'),
-      error: error => this.toastService.error('Notification Settings', 'Failed to save notification settings.', error),
+      next: () => this.toastService.success(
+        $localize`:@@settings-notification-preferences:Notification Preferences`,
+        $localize`:@@settings-notification-preferences-success:Successfully saved notification preferences.`,
+      ),
+      error: error => this.toastService.error(
+        $localize`:@@settings-notification-preferences:Notification Preferences`,
+        $localize`:@@settings-notification-preferences-failed:Failed to save notification settings.`,
+        error,
+      ),
     });
   }
 
