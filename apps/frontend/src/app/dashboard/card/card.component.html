@@ -9,10 +9,10 @@
           View
         </a>
         @if (admin) {
-          <a class="btn btn-flash-border-primary bi-calendar-week" [routerLink]="['/poll', poll.id, 'date']">
+          <a class="btn btn-flash-border-primary bi-calendar-week" [routerLink]="['/poll', poll.id, 'date']" i18n="@@poll-edit-events">
             Events
           </a>
-          <a class="btn btn-flash-border-primary bi-pencil-square" [routerLink]="['/poll', poll.id]" i18n="@@poll-edit">
+          <a class="btn btn-flash-border-primary bi-pencil-square" [routerLink]="['/poll', poll.id]" i18n="@@poll-edit-settings">
             Settings
           </a>
         }
