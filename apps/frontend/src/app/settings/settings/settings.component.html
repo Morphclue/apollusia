@@ -14,7 +14,13 @@
       <label class="form-label" for="userid" i18n="@@settings-user-id">User ID</label>
       <div class="input-group">
         <input type="text" class="form-control" id="userid" [ngModel]="user.id" [disabled]="!!user"/>
-        <button class="btn btn-outline-secondary bi-clipboard" (click)="copy(user.id)"></button>
+        <button
+          class="btn btn-outline-secondary bi-clipboard"
+          (click)="copy(user.id)"
+          i18n-ngbTooltip="@@copy-to-clipboard"
+          ngbTooltip="Copy to clipboard"
+          container="body"
+        ></button>
       </div>
       <div class="form-text" i18n="@@settings-user-id-description">
         Give this to your friends to let them add you to their polls as an admin.
