@@ -14,7 +14,7 @@
   "targets": {
     "build": {
       "executor": "@nx/angular:application",
-      "outputs": ["{options.outputPath.base}"],
+      "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/apps/frontend",
         "index": "apps/frontend/src/index.html",
