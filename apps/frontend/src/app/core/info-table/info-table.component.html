@@ -37,10 +37,18 @@
       <div class="d-flex align-items-center">
         <a routerLink="." class="break-link">{{ url }}</a>
         &nbsp;
-        <button class="btn p-0 btn-link bi-clipboard" ngbTooltip="Copy to clipboard" i18n-ngbTooltip="@@poll-copy-link"
-                (click)="copyToClipboard()"></button>
-        <button class="btn p-0 btn-link bi-envelope-at" ngbTooltip="Share via email" i18n-ngbTooltip="@@poll-share-email"
-                (click)="draftEmail()"></button>
+        <button
+          class="btn p-0 btn-link bi-clipboard"
+          ngbTooltip="Copy to clipboard"
+          i18n-ngbTooltip="@@copy-to-clipboard"
+          (click)="copyToClipboard()"
+        ></button>
+        <button
+          class="btn p-0 btn-link bi-envelope-at"
+          ngbTooltip="Share via email"
+          i18n-ngbTooltip="@@poll-share-email"
+          (click)="draftEmail()"
+        ></button>
       </div>
     </td>
   </tr>

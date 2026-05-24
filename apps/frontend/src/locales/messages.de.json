@@ -5,7 +5,7 @@
     "poll-deadline": "Frist",
     "poll-description": "Beschreibung",
     "poll-link": "Link",
-    "poll-copy-link": "Link kopieren",
+    "copy-to-clipboard": "In Zwischenablage kopieren",
     "poll-share-email": "Via E-Mail teilen",
     "5091835061897478313": "{VAR_PLURAL, plural, =1 {Option} other {Optionen}}",
     "5973772121838780626": "{VAR_PLURAL, plural, =1 {Teilnehmer} other {Teilnehmer}}",

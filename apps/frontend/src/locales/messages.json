@@ -5,7 +5,7 @@
     "poll-deadline": "Deadline",
     "poll-description": "Description",
     "poll-link": "Link",
-    "poll-copy-link": "Copy to clipboard",
+    "copy-to-clipboard": "Copy to clipboard",
     "poll-share-email": "Share via email",
     "5091835061897478313": "{VAR_PLURAL, plural, =1 {Option} other {Options}}",
     "5973772121838780626": "{VAR_PLURAL, plural, =1 {Participant} other {Participants}}",
