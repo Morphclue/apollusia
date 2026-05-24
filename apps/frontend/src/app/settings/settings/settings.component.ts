@@ -89,6 +89,15 @@ export class SettingsComponent implements OnInit {
     return settings;
   }
 
+  copy(id: string | undefined) {
+    if (id) {
+      navigator.clipboard.writeText(id).then(
+        () => this.toastService.success('Copy User ID', 'User ID copied to clipboard'),
+        err => this.toastService.error('Copy User ID', 'Failed to copy User ID', err),
+      );
+    }
+  }
+
   login() {
     this.keycloak.login();
   }

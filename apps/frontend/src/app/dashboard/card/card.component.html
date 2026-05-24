@@ -1,14 +1,19 @@
 <div class="card">
   <div class="card-header text-white bg-primary">
     <div class="d-flex justify-content-between">
-      <h5 class="card-title">{{ poll.title }}</h5>
+      <h5 class="card-title mb-0">
+        {{ poll.title }}
+      </h5>
       <div class="d-flex">
         <a class="btn btn-flash-border-primary bi-person" [routerLink]="['/poll', poll.id, 'participate']" i18n="@@poll-view">
           View
         </a>
         @if (admin) {
+          <a class="btn btn-flash-border-primary bi-calendar-week" [routerLink]="['/poll', poll.id, 'date']">
+            Events
+          </a>
           <a class="btn btn-flash-border-primary bi-pencil-square" [routerLink]="['/poll', poll.id]" i18n="@@poll-edit">
-            Edit
+            Settings
           </a>
         }
       </div>

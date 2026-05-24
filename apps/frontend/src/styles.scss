@@ -57,6 +57,16 @@ $mauve: #e0aaffff;
   height: 100%;
 }
 
+.p-primary {
+  color: var(--bs-primary-text-emphasis) !important;
+  background-color: var(--bs-primary-bg-subtle) !important;
+
+  & > .form-check-input:checked {
+    background-color: var(--bs-primary);
+    border-color: var(--bs-primary);
+  }
+}
+
 .p-yes {
   color: var(--bs-success-text-emphasis) !important;
   background-color: var(--bs-success-bg-subtle) !important;

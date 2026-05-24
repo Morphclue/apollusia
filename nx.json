@@ -81,7 +81,6 @@
       "style": "scss",
       "type": "component"
     },
-    "@gitopslovers/nx-sass:library": {},
     "@schematics/angular:component": {
       "type": "component"
     },

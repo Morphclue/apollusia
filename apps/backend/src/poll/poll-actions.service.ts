@@ -1,9 +1,10 @@
 import {
+  BookedEvents,
   checkParticipant,
   CreateParticipantDto,
+  CreatePollDto,
   Participant,
   Poll,
-  PollDto,
   PollEvent,
   PollEventDto,
   ReadParticipantDto,
@@ -16,23 +17,25 @@ import {
   ReadStatsPollDto,
   ShowResultOptions,
   UpdateParticipantDto,
+  UpdatePollDto,
 } from '@apollusia/types';
 import {UserToken} from '@mean-stream/nestx/auth';
 import {notFound} from '@mean-stream/nestx/not-found';
 import {Doc} from '@mean-stream/nestx/ref';
 import {Injectable, Logger, OnModuleInit, UnprocessableEntityException} from '@nestjs/common';
+import {subDays} from 'date-fns/subDays';
 import {Document, QueryFilter, Types} from 'mongoose';
 
 import {KeycloakUser} from '../auth/keycloak-user.interface';
 import {KeycloakService} from '../auth/keycloak.service';
 import {environment} from '../environment';
-import {PollService} from './poll.service';
 import {renderDate} from '../mail/helpers';
 import {MailService} from '../mail/mail/mail.service';
 import {ParticipantService} from '../participant/participant.service';
 import {PollEventService} from '../poll-event/poll-event.service';
 import {PollLogService} from '../poll-log/poll-log.service';
 import {PushService} from '../push/push.service';
+import {PollService} from './poll.service';
 
 @Injectable()
 export class PollActionsService implements OnModuleInit {
@@ -56,6 +59,7 @@ export class PollActionsService implements OnModuleInit {
       this.migratePollEvents(),
       this.migrateShowResults(),
       this.migrateBookedEvents(),
+      this.migrateDailyEvents(),
     ]);
   }
 
@@ -80,6 +84,19 @@ export class PollActionsService implements OnModuleInit {
     }
     await this.participantService.model.bulkSave(participants as any, {timestamps: false});
     participants.length && this.logger.log(`Migrated ${participants.length} participants to the new selection format.`);
+  }
+
+  private async migrateDailyEvents() {
+    const result = await this.pollEventService.model.updateMany(
+      {allDay: {$exists: false}},
+      {$set: {allDay: false}},
+      {timestamps: false},
+    );
+    if (!result.modifiedCount) {
+      return;
+    }
+
+    this.logger.log(`Migrated ${result.modifiedCount} poll events to the new all day format.`);
   }
 
   private async migratePollEvents() {
@@ -149,7 +166,7 @@ export class PollActionsService implements OnModuleInit {
     if (active === undefined) {
       return {};
     }
-    const date = new Date(Date.now() - environment.polls.activeDays * 24 * 60 * 60 * 1000);
+    const date = subDays(new Date(), environment.polls.activeDays);
     return active ? {
       $or: [
         {'settings.deadline': {$gt: date}},
@@ -164,7 +181,14 @@ export class PollActionsService implements OnModuleInit {
   async getPolls(token: string, user: string | undefined, active: boolean | undefined): Promise<ReadStatsPollDto[]> {
     return this.readPolls({
       $and: [
-        user ? {$or: [{createdBy: user}, {adminToken: token}]} : {adminToken: token},
+        // This is the same logic as isAdmin
+        user ? {
+          $or: [
+            {createdBy: user},
+            {[`adminRoles.${user}`]: {$exists: true}},
+            {adminToken: token},
+          ],
+        } : {adminToken: token},
         this.activeFilter(active),
       ],
     });
@@ -192,7 +216,7 @@ export class PollActionsService implements OnModuleInit {
     }) as any;
   }
 
-  async postPoll(pollDto: PollDto, user?: UserToken): Promise<ReadPollDto> {
+  async postPoll(pollDto: CreatePollDto, user?: UserToken): Promise<ReadPollDto> {
     const poll = await this.pollService.create({
       ...pollDto,
       id: undefined!, // required to pass type check, but ignored
@@ -210,7 +234,7 @@ export class PollActionsService implements OnModuleInit {
     return rest;
   }
 
-  async putPoll(id: Types.ObjectId, pollDto: PollDto): Promise<ReadPollDto | null> {
+  async putPoll(id: Types.ObjectId, pollDto: UpdatePollDto): Promise<ReadPollDto | null> {
     return this.pollService.update(id, pollDto, {
       projection: readPollSelect,
     });
@@ -224,11 +248,12 @@ export class PollActionsService implements OnModuleInit {
       ...rest,
       title: `${title} (clone)`,
     });
-    await this.pollEventService.createMany(pollEvents.map(({start, end, note}) => ({
+    await this.pollEventService.createMany(pollEvents.map(({start, end, note, allDay}) => ({
       poll: clonedPoll._id,
       start,
       end,
       note,
+      allDay,
     })));
     return clonedPoll;
   }
@@ -268,7 +293,11 @@ export class PollActionsService implements OnModuleInit {
     for (const event of oldEvents) {
       const updated = newEvents.find(e => event._id.equals(e._id));
       if (updated) {
-        if (event.start.valueOf() !== updated.start.valueOf() || event.end.valueOf() !== updated.end.valueOf()) {
+        if (
+          event.start.valueOf() !== updated.start.valueOf()
+          || event.end.valueOf() !== updated.end.valueOf()
+          || event.allDay !== updated.allDay
+        ) {
           // The event has changed time, clear participation
           clearParticipation.push(event._id);
         }
@@ -495,7 +524,7 @@ export class PollActionsService implements OnModuleInit {
     return this.participantService.delete(participantId, {projection: readParticipantSelect});
   }
 
-  async bookEvents(id: Types.ObjectId, events: Poll['bookedEvents'], user?: UserToken): Promise<ReadPollDto> {
+  async bookEvents(id: Types.ObjectId, events: BookedEvents, user?: UserToken): Promise<ReadPollDto> {
     const poll = await this.pollService.update(id, {
       bookedEvents: events,
     }, {
@@ -523,6 +552,12 @@ export class PollActionsService implements OnModuleInit {
   }
 
   private renderEvent(event: PollEvent, locale?: string, timeZone?: string) {
+    if (event.allDay) {
+      const start = new Date(event.start).toLocaleDateString(locale, {timeZone});
+      const end = new Date(event.end).toLocaleDateString(locale, {timeZone});
+      return start === end ? start : `${start} - ${end}`;
+    }
+
     return `${renderDate(event.start, locale, timeZone)} - ${renderDate(event.end, locale, timeZone)}`;
   }
 
@@ -540,7 +575,7 @@ export class PollActionsService implements OnModuleInit {
 
     const appointments = events
       .filter(event => {
-        const booked = poll.bookedEvents[event._id.toString()];
+        const booked = poll.bookedEvents?.[event._id.toString()];
         // only show the events to the participant that are either
         if (booked === true) {
           // 1) booked entirely, or
@@ -583,7 +618,14 @@ export class PollActionsService implements OnModuleInit {
   }
 
   isAdmin(poll: Poll, token: string | undefined, user: string | undefined) {
-    return poll.adminToken === token || poll.createdBy === user;
+    // When updating, also make sure to update getPolls
+    if (token && poll.adminToken === token) {
+      return true;
+    }
+    if (user && (poll.createdBy === user || poll.adminRoles?.[user])) {
+      return true;
+    }
+    return false;
   }
 
   async claimPolls(adminToken: string, createdBy: string): Promise<void> {
