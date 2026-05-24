@@ -86,7 +86,7 @@
     "settings-push-notifications-device-info": " {$INTERPOLATION} {$START_TAG_SPAN}on{$CLOSE_TAG_SPAN} {$INTERPOLATION_1} ",
     "settings-push-notifications-this-device": " This Device ",
     "settings-push-notifications-added-on": " Added {$INTERPOLATION} ",
-    "settings-push-notifications-remove-device": "Remove Device",
+    "settings-push-notifications-remove-device": "Remove Push Device",
     "settings-push-notifications-no-devices": " No devices registered for push notifications. ",
     "settings-push-notifications-alert-sign-in": " You need to {$START_LINK}sign in{$CLOSE_LINK} to enable push notifications. ",
     "settings-notification-preferences": " Notification Preferences ",

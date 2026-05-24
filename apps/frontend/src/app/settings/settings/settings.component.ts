@@ -176,11 +176,11 @@ export class SettingsComponent implements OnInit {
     (this.user.attributes ??= {})['notifications'] = notifications;
     this.saveUser().subscribe({
       next: () => this.toastService.success(
-        $localize`:@@settings-notification-preferences:Notification Preferences`,
+        $localize`:@@settings-notification-preferences: Notification Preferences `,
         $localize`:@@settings-notification-preferences-success:Successfully saved notification preferences.`,
       ),
       error: error => this.toastService.error(
-        $localize`:@@settings-notification-preferences:Notification Preferences`,
+        $localize`:@@settings-notification-preferences: Notification Preferences `,
         $localize`:@@settings-notification-preferences-failed:Failed to save notification settings.`,
         error,
       ),
