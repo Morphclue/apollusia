@@ -1,57 +1,59 @@
 <div class="container my-3">
-  <h1>
+  <h1 i18n="@@settings">
     Settings
   </h1>
   <div class="mb-3">
     <app-token></app-token>
   </div>
   <hr/>
-  <h2>
+  <h2 i18n="@@settings-user">
     User Settings
   </h2>
   @if (user) {
     <div class="mb-3">
-      <label class="form-label" for="userid">User ID</label>
+      <label class="form-label" for="userid" i18n="@@settings-user-id">User ID</label>
       <div class="input-group">
         <input type="text" class="form-control" id="userid" [ngModel]="user.id" [disabled]="!!user"/>
         <button class="btn btn-outline-secondary bi-clipboard" (click)="copy(user.id)"></button>
       </div>
-      <div class="form-text">
+      <div class="form-text" i18n="@@settings-user-id-description">
         Give this to your friends to let them add you to their polls as an admin.
       </div>
     </div>
     <div class="mb-3">
-      <label class="form-label" for="email">E-Mail</label>
+      <label class="form-label" for="email" i18n="@@settings-email">E-Mail</label>
       <input type="email" class="form-control" id="email" [ngModel]="user.email" [disabled]="!!user"/>
-      <div class="form-text">
+      <div class="form-text" i18n="@@settings-email-description">
         Your email cannot be changed as a registered user.
       </div>
     </div>
     <div class="mb-3">
-      <label class="form-label" for="firstName">First Name</label>
+      <label class="form-label" for="firstName" i18n="@@settings-first-name">First Name</label>
       <input type="text" class="form-control" id="firstName" [(ngModel)]="user.firstName"/>
     </div>
     <div class="mb-3">
-      <label class="form-label" for="lastName">Last Name</label>
+      <label class="form-label" for="lastName" i18n="@@settings-last-name">Last Name</label>
       <input type="text" class="form-control" id="lastName" [(ngModel)]="user.lastName"/>
     </div>
-    <button class="btn btn-primary" (click)="save()">Save</button>
+    <button class="btn btn-primary" (click)="save()" i18n="@@settings-save">
+      Save
+    </button>
   } @else {
-    <div class="alert alert-warning">
-      You need to <a routerLink="." (click)="login()">sign in</a> to change your name and email for notifications.
+    <div class="alert alert-warning" i18n="@@settings-alert-sign-in">
+      You need to <a routerLink="." (click)="login()">sign in</a> to change your name and email.
     </div>
   }
   <hr/>
-  <h2>
+  <h2 i18n="@@settings-push-notifications">
     Push Notifications
   </h2>
   @if (user) {
     @if (pushEnabled) {
-      <button class="btn btn-primary mb-3" (click)="addPush()" [disabled]="existingPush">
+      <button class="btn btn-primary mb-3" (click)="addPush()" [disabled]="existingPush" i18n="@@settings-enable-push-notifications">
         Enable Push Notifications for this Device
       </button>
     } @else {
-      <div class="alert alert-warning">
+      <div class="alert alert-warning" i18n="@@settings-push-notifications-not-available">
         Push notifications are not available on this device or browser.
       </div>
     }
@@ -60,43 +62,50 @@
         <li class="list-group-item d-flex align-items-center">
           <i class="bi-browser-{{ info.browser | lowercase }} me-3 fs-1"></i>
           <div class="flex-grow-1">
-            {{ info.browser }}
-            <span class="text-muted">on</span>
-            {{ info.device }}
+            <ng-container i18n="@@settings-push-notifications-device-info">
+              {{ info.browser }}
+              <span class="text-muted">on</span>
+              {{ info.device }}
+            </ng-container>
             @if (info.token.endpoint === existingPush?.endpoint) {
-              <span class="badge bg-primary">This Device</span>
+              <span class="badge bg-primary" i18n="@@settings-push-notifications-this-device">
+                This Device
+              </span>
             }
             <br/>
-            <span class="text-muted">Added {{ info.createdAt | date:'short' }}</span>
+            <span class="text-muted" i18n="@@settings-push-notifications-added-on">
+              Added {{ info.createdAt | date:'short' }}
+            </span>
           </div>
           <button
             class="btn btn-link text-danger bi-trash ms-3"
+            i18n-ngbTooltip="@@settings-push-notifications-remove-device"
             ngbTooltip="Remove Device"
             (click)="removePush(info)"
           ></button>
         </li>
       } @empty {
-        <li class="list-group-item text-muted">
+        <li class="list-group-item text-muted" i18n="@@settings-push-notifications-no-devices">
           No devices registered for push notifications.
         </li>
       }
     </ul>
   } @else {
-    <div class="alert alert-warning">
+    <div class="alert alert-warning" i18n="@@settings-push-notifications-alert-sign-in">
       You need to <a routerLink="." (click)="login()">sign in</a> to enable push notifications.
     </div>
   }
   <hr/>
-  <h2>
+  <h2 i18n="@@settings-notification-preferences">
     Notification Preferences
   </h2>
   @if (user) {
     <table class="table">
       <thead>
         <tr>
-          <th colspan="2">Event</th>
-          <th>Email</th>
-          <th>Push</th>
+          <th colspan="2" i18n="@@settings-notification-event">Event</th>
+          <th i18n="@@settings-notification-email">Email</th>
+          <th i18n="@@settings-notification-push">Push</th>
         </tr>
       </thead>
       <tbody>
@@ -143,9 +152,11 @@
         }
       </tbody>
     </table>
-    <button class="btn btn-primary" (click)="saveNotificationSettings()">Save</button>
+    <button class="btn btn-primary" (click)="saveNotificationSettings()" i18n="@@settings-save">
+      Save
+    </button>
   } @else {
-    <div class="alert alert-warning">
+    <div class="alert alert-warning" i18n="@@settings-notifications-alert-sign-in">
       You need to <a routerLink="." (click)="login()">sign in</a> to change your notification preferences.
     </div>
   }
