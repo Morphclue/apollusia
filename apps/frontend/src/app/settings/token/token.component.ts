@@ -24,8 +24,15 @@ export class TokenComponent implements OnInit {
 
   copyToClipboard() {
     navigator.clipboard.writeText(this.input).then(
-      () => this.toastService.success('Copy Token', 'Token copied to clipboard. Don\'t share this with others!'),
-      err => this.toastService.error('Copy Token', 'Failed to copy Token to clipboard.', err),
+      () => this.toastService.success(
+        $localize`:@@settings-copy-token:Copy Token`,
+        $localize`:@@settings-copy-token-success:Token copied to clipboard. Don't share this with others!`,
+      ),
+      err => this.toastService.error(
+        $localize`:@@settings-copy-token:Copy Token`,
+        $localize`:@@settings-copy-token-failed:Failed to copy Token to clipboard.`,
+        err,
+      ),
     );
   }
 
