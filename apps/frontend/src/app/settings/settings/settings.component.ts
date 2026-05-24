@@ -8,7 +8,7 @@ import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import Keycloak, {type KeycloakProfile} from 'keycloak-js';
 import * as platform from 'platform';
 
-import notificationSettings from './notification-settings.json';
+import notificationSettings, {NotificationSettings} from './notification-settings';
 import {environment} from '../../../environments/environment';
 import {PushService} from '../../poll/services/push.service';
 import {TokenComponent} from '../token/token.component';
@@ -18,19 +18,6 @@ interface PushInfo {
   browser: string;
   createdAt: Date;
   token: PushSubscription;
-}
-
-interface NotificationSettings {
-  title: string;
-  description: string;
-  types: {
-    key: string;
-    icon: string;
-    title: string;
-    description: string;
-    email?: boolean;
-    push?: boolean;
-  }[];
 }
 
 @Component({
