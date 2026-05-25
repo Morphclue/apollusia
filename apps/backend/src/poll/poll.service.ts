@@ -2,7 +2,7 @@ import {Poll, ReadStatsPollDto} from '@apollusia/types';
 import {MongooseRepository} from '@mean-stream/nestx/resource';
 import {Injectable} from '@nestjs/common';
 import {InjectModel} from '@nestjs/mongoose';
-import {FilterQuery, Model, QueryOptions} from 'mongoose';
+import {Model, QueryFilter, QueryOptions} from 'mongoose';
 
 import {environment} from '../environment';
 
@@ -23,7 +23,7 @@ export class PollService extends MongooseRepository<Poll> {
     }, options) as any;
   }
 
-  private activeFilter(active: boolean | undefined): FilterQuery<Poll> {
+  private activeFilter(active: boolean | undefined): QueryFilter<Poll> {
     if (active === undefined) {
       return {};
     }
@@ -39,11 +39,25 @@ export class PollService extends MongooseRepository<Poll> {
     };
   }
 
-  private ownerFilter(token: string, user: string | undefined) {
-    return user ? {$or: [{createdBy: user}, {adminToken: token}]} : {adminToken: token};
+  private ownerFilter(token: string, user: string | undefined): QueryFilter<Poll> {
+    // This is the same logic as isAdmin
+    return user ? {
+      $or: [
+        {createdBy: user},
+        {[`adminRoles.${user}`]: {$exists: true}},
+        {adminToken: token},
+      ],
+    } : {adminToken: token};
   }
 
   isAdmin(poll: Poll, token: string | undefined, user: string | undefined) {
-    return poll.adminToken === token || poll.createdBy === user;
+    // When updating, also make sure to update getPolls
+    if (token && poll.adminToken === token) {
+      return true;
+    }
+    if (user && (poll.createdBy === user || poll.adminRoles?.[user])) {
+      return true;
+    }
+    return false;
   }
 }
