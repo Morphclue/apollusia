@@ -52,21 +52,18 @@ export class PollController {
     return this.pollService.getPolls(token, user?.sub, active !== undefined ? active === 'true' : undefined, options);
   }
 
-  @Get(':id/admin/:token')
-  @UseGuards(OptionalAuthGuard)
-  async isAdmin(
-    @Param('id', ObjectIdPipe) id: Types.ObjectId,
-    @Param('token') token: string,
-    @AuthUser() user?: UserToken,
-  ): Promise<boolean> {
-    const poll = await this.pollService.find(id) ?? notFound(id);
-    return this.pollService.isAdmin(poll, token, user?.sub);
-  }
-
   @Get(':id')
   @NotFound()
-  async getPoll(@Param('id', ObjectIdPipe) id: Types.ObjectId): Promise<ReadPollDto | null> {
-    return this.pollService.find(id);
+  async getPoll(
+    @Param('id', ObjectIdPipe) id: Types.ObjectId,
+    @Headers('Participant-Token') token?: string,
+    @AuthUser() user?: UserToken,
+  ): Promise<ReadPollDto | null> {
+    const result = await this.pollService.find(id);
+    return result && {
+      ...result.toJSON(),
+      adminRole: this.pollService.isAdmin(result, token, user?.sub) ? 'edit' : undefined,
+    };
   }
 
   @Post()
