@@ -1,5 +1,7 @@
-import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {DatePipe} from '@angular/common';
+import {Component, inject, OnInit} from '@angular/core';
+import {ActivatedRoute, RouterLink} from '@angular/router';
+import {FormsModule, ModalModule} from '@mean-stream/ngbx';
 import {saveAs} from 'file-saver';
 import {ICalCalendar, ICalCalendarMethod} from 'ical-generator';
 import {forkJoin} from 'rxjs';
@@ -10,14 +12,21 @@ import {MarkdownService} from '../../core/services/markdown.service';
 import {Participant, ReadPoll, ReadPollEvent} from '../../model';
 import {PollService} from '../services/poll.service';
 
-
 @Component({
   selector: 'apollusia-ical',
   templateUrl: './ical.component.html',
   styleUrl: './ical.component.scss',
-  standalone: false,
+  imports: [
+    ModalModule,
+    FormsModule,
+    RouterLink,
+    DatePipe,
+  ],
 })
 export class IcalComponent implements OnInit {
+  public route = inject(ActivatedRoute);
+  private pollService = inject(PollService);
+  private markdownService = inject(MarkdownService);
   poll?: ReadPoll;
   pollEvents?: ReadPollEvent[];
   participants?: Participant[];
@@ -26,13 +35,6 @@ export class IcalComponent implements OnInit {
   exampleEvent?: ReadPollEvent & {_participants: Participant[]};
 
   config = new ICalConfig();
-
-  constructor(
-    public route: ActivatedRoute,
-    private pollService: PollService,
-    private markdownService: MarkdownService,
-  ) {
-  }
 
   ngOnInit() {
     this.route.params.pipe(
@@ -43,7 +45,7 @@ export class IcalComponent implements OnInit {
       ])),
     ).subscribe(([poll, events, participants]) => {
       this.url = new URL(`/poll/${poll.id}/participate`, window.location.origin).href;
-      this.config.onlyBookedEvents = Object.keys(poll.bookedEvents).length > 0;
+      this.config.onlyBookedEvents = !!poll.bookedEvents && Object.keys(poll.bookedEvents).length > 0;
 
       const exampleEvent = events.find(e => e.participants > 0) ?? events[0];
       this.exampleEvent = {
@@ -72,7 +74,7 @@ export class IcalComponent implements OnInit {
         if (p.selection[event._id] !== 'yes' && p.selection[event._id] !== 'maybe') {
           return false;
         }
-        const bookedEvent = poll.bookedEvents[event._id];
+        const bookedEvent = poll.bookedEvents?.[event._id];
         if (config.onlyBookedEvents && Array.isArray(bookedEvent) && !bookedEvent.includes(p._id)) {
           return false;
         }
@@ -95,6 +97,7 @@ export class IcalComponent implements OnInit {
         timezone: poll.timeZone,
         start: new Date(event.start),
         end: new Date(event.end),
+        allDay: event.allDay,
         summary,
         description: {
           plain: description,
@@ -113,7 +116,7 @@ export class IcalComponent implements OnInit {
       if (!this.config.emptyEvents && !e.participants) {
         return false;
       }
-      if (this.config.onlyBookedEvents && !this.poll?.bookedEvents[e._id]) {
+      if (this.config.onlyBookedEvents && !this.poll?.bookedEvents?.[e._id]) {
         return false;
       }
       return true;

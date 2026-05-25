@@ -13,14 +13,6 @@ import {NavbarComponent} from './navbar/navbar.component';
 import {LocationIconPipe} from './pipes/location-icon.pipe';
 
 @NgModule({
-  declarations: [
-    NavbarComponent,
-    MarkdownComponent,
-    LocationLinkComponent,
-    LocationIconPipe,
-    CookieBannerComponent,
-    InfoTableComponent,
-  ],
   imports: [
     CommonModule,
     NgbCollapseModule,
@@ -32,6 +24,12 @@ import {LocationIconPipe} from './pipes/location-icon.pipe';
     NgOptimizedImage,
     NgbDropdownModule,
     NgbxDarkmodeModule,
+    NavbarComponent,
+    MarkdownComponent,
+    LocationLinkComponent,
+    LocationIconPipe,
+    CookieBannerComponent,
+    InfoTableComponent,
   ],
   exports: [
     RouterModule,

@@ -1,66 +1,58 @@
-import {APP_BASE_HREF} from '@angular/common';
-import {CommonEngine} from '@angular/ssr/node';
+import {
+  AngularNodeAppEngine,
+  createNodeRequestHandler,
+  isMainModule,
+  writeResponseToNodeResponse,
+} from '@angular/ssr/node';
 import express from 'express';
-import {dirname, join, resolve} from 'node:path';
-import {fileURLToPath} from 'node:url';
+import {createProxyMiddleware} from 'http-proxy-middleware';
+import {join} from 'node:path';
 
-import AppServerModule from './src/main.server';
+const browserDistFolder = join(import.meta.dirname, '../browser');
 
-// The Express app is exported so that it can be used by serverless Functions.
-export function app(): express.Express {
-  const server = express();
-  const serverDistFolder = dirname(fileURLToPath(import.meta.url));
-  const browserDistFolder = resolve(serverDistFolder, '../browser');
-  const indexHtml = join(serverDistFolder, 'index.server.html');
+const app = express();
+const angularApp = new AngularNodeAppEngine();
 
-  const commonEngine = new CommonEngine();
+app.use(
+  '/api',
+  createProxyMiddleware({
+    target: 'http://backend:3000', // FIXME: Use environment variable for DEV/PROD backend URL
+    changeOrigin: true,
+    pathRewrite: (path) => `/api${path}`,
+  }),
+);
 
-  server.set('view engine', 'html');
-  server.set('views', browserDistFolder);
+app.use(
+  '/auth',
+  createProxyMiddleware({
+    target: 'http://keycloak:8080', // FIXME: Use environment variable for DEV/PROD keycloak URL
+    changeOrigin: true,
+    pathRewrite: (path) => `/auth${path}`,
+  }),
+);
 
-  // Example Express Rest API endpoints
-  // server.get('/api/**', (req, res) => { });
-  // Serve static files from /browser
-  server.get(
-    '*.*',
-    express.static(browserDistFolder, {
-      maxAge: '1y',
-    }),
-  );
+app.use(
+  express.static(browserDistFolder, {
+    maxAge: '1y',
+    index: false,
+    redirect: false,
+  }),
+);
 
-  // All regular routes use the Angular engine
-  server.get('**', (req, res, next) => {
-    const { protocol, originalUrl, baseUrl, headers } = req;
+app.use((req, res, next) => {
+  angularApp
+    .handle(req)
+    .then((response) =>
+      response ? writeResponseToNodeResponse(response, res) : next(),
+    )
+    .catch(next);
+});
 
-    commonEngine
-      .render({
-        bootstrap: AppServerModule,
-        documentFilePath: indexHtml,
-        url: `${protocol}://${headers.host}${originalUrl}`,
-        publicPath: browserDistFolder,
-        providers: [
-          { provide: APP_BASE_HREF, useValue: baseUrl },
-          { provide: 'BASE_URL', useValue: `${protocol}://${headers.host}` },
-          // https://www.npmjs.com/package/ngx-cookie-service-ssr#server-side-rendering
-          { provide: 'REQUEST', useValue: req },
-          { provide: 'RESPONSE', useValue: res },
-        ],
-      })
-      .then((html) => res.send(html))
-      .catch((err) => next(err));
-  });
-
-  return server;
-}
-
-function run(): void {
+if (isMainModule(import.meta.url)) {
   const port = process.env['PORT'] || 4000;
-
-  // Start up the Node server
-  const server = app();
-  server.listen(port, () => {
+  app.listen(port, () => {
     console.log(`Node Express server listening on http://localhost:${port}`);
   });
 }
 
-run();
+export const reqHandler = createNodeRequestHandler(app);

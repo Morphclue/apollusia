@@ -6,16 +6,14 @@ import {LegalRoutingModule} from './legal-routing.module';
 import {ImprintService} from './services/imprint.service';
 
 @NgModule({
-    declarations: [
-        LegalComponent,
-    ],
-    imports: [
-        CommonModule,
-        LegalRoutingModule,
-    ],
-    providers: [
-        ImprintService,
-    ],
+  imports: [
+    CommonModule,
+    LegalRoutingModule,
+    LegalComponent,
+  ],
+  providers: [
+    ImprintService,
+  ],
 })
 export class LegalModule {
 }

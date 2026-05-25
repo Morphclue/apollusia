@@ -1,0 +1,29 @@
+{
+  "realm" : "apollusia",
+  "users" : [
+    {
+      "username" : "admin@apollusia.com",
+      "firstName" : "Apollusia",
+      "lastName" : "Admin",
+      "email" : "admin@apollusia.com",
+      "emailVerified" : true,
+      "enabled" : true,
+      "credentials" : [ {
+        "id" : "4bff865a-023b-4df7-b975-34345c931561",
+        "type" : "password",
+        "userLabel" : "My password",
+        "createdDate" : 1759559551182,
+        "secretData" : "{\"value\":\"VRi5tYHtVuClHp6WTuYcVvs9wVX4MdqVpd4Ni9+RYa1hyJE9RCqlKjk6geUkdB9bR/aoaGS4P3y+IjSfgO4t3g==\",\"salt\":\"lXoA2AmlS5rMD/pDjqstEg==\",\"additionalParameters\":{}}",
+        "credentialData" : "{\"hashIterations\":210000,\"algorithm\":\"pbkdf2-sha512\",\"additionalParameters\":{}}"
+      } ],
+      "requiredActions" : [ "UPDATE_PASSWORD" ],
+      "realmRoles" : [ "uma_authorization", "default-roles-apollusia", "offline_access" ],
+      "clientRoles" : {
+        "realm-management" : [ "realm-admin", "view-realm", "query-groups", "manage-clients", "manage-users", "view-events", "manage-authorization", "view-identity-providers", "manage-realm", "manage-identity-providers", "query-clients", "impersonation", "manage-events", "query-realms", "view-clients", "create-client", "view-users", "query-users", "view-authorization" ],
+        "broker" : [ "read-token" ],
+        "account" : [ "view-profile", "manage-account", "view-applications", "view-consent", "delete-account", "view-groups", "manage-account-links", "manage-consent" ]
+      },
+      "groups" : [ ]
+    }
+  ]
+}

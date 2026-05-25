@@ -1,17 +1,17 @@
 /* Color palette */
 $french-violet: #7b2cbfff;
 $amethyst: #9d4eddff;
-$white: #ffffff;
+$white: #fff;
 $facebook: #1877f2;
 $google: #ea4335;
-$github: #333333;
+$github: #333;
 $twitter: #1da1f2;
 
 /* overrides */
 $primary: $french-violet;
 
 @font-face {
-  font-family: 'bootstrap-icons';
+  font-family: bootstrap-icons;
   src: url('fonts/bootstrap-icons.woff') format('woff'),
   url('fonts/bootstrap-icons.woff2') format('woff2');
   font-weight: normal;
@@ -50,6 +50,7 @@ body {
 
 .card-pf {
   @extend .card;
+
   border: none;
   width: 50%;
   height: auto;
@@ -58,6 +59,7 @@ body {
 
 .login-pf-header {
   @extend .card-header;
+
   background-color: $primary;
   color: $white;
 }
@@ -100,6 +102,7 @@ body {
   @extend .mb-3;
   @extend .w-100;
   @extend .border-0;
+
   display: flex;
   justify-content: flex-start;
 
@@ -111,6 +114,7 @@ body {
 
 #social-facebook {
   @extend .kc-social-item;
+
   background-color: $facebook;
 
   .fa-facebook {
@@ -120,6 +124,7 @@ body {
 
 #social-github {
   @extend .kc-social-item;
+
   background-color: $github;
 
   .fa-github {
@@ -129,6 +134,7 @@ body {
 
 #social-google {
   @extend .kc-social-item;
+
   background-color: $google;
 
   .fa-google {
@@ -138,6 +144,7 @@ body {
 
 #social-twitter {
   @extend .kc-social-item;
+
   background-color: $twitter;
 
   .fa-twitter {

@@ -1,6 +1,7 @@
-import type {CreateParticipantDto, ReadParticipantDto, ReadPollDto, UpdateParticipantDto} from "@apollusia/types";
-import {DTO} from "@mean-stream/nestx";
-import type {Types} from "mongoose";
+import {DTO} from '@mean-stream/nestx';
+import type {Types} from 'mongoose';
+
+import {CreateParticipantDto, ReadParticipantDto, ReadPollDto, UpdateParticipantDto} from '../dto';
 
 export function checkParticipant(
   participant: CreateParticipantDto | DTO<CreateParticipantDto> | UpdateParticipantDto | DTO<UpdateParticipantDto>,

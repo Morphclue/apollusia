@@ -1,8 +1,7 @@
 import {HttpClient} from '@angular/common/http';
-import {Injectable} from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {map, tap} from 'rxjs/operators';
-import * as uuid from 'uuid';
 
 import {StorageService} from './storage.service';
 import {environment} from '../../../environments/environment';
@@ -12,13 +11,9 @@ import {Token} from '../../model';
   providedIn: 'root',
 })
 export class TokenService {
+  private http = inject(HttpClient);
+  private storageService = inject(StorageService);
   private currentToken: string = '';
-
-  constructor(
-    private http: HttpClient,
-    private storageService: StorageService,
-  ) {
-  }
 
   getToken(): string {
     if (this.currentToken) {
@@ -29,7 +24,7 @@ export class TokenService {
       this.currentToken = stored;
       return stored;
     }
-    const newToken = uuid.v4();
+    const newToken = crypto.randomUUID();
     this.setToken(newToken);
     return newToken;
   }

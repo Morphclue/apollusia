@@ -1,15 +1,17 @@
 import {HttpClient} from '@angular/common/http';
-import {Injectable} from '@angular/core';
-import {PollEventState} from '@apollusia/types';
-import {fromEvent, Observable, retry} from 'rxjs';
+import {inject, Injectable} from '@angular/core';
+import {BookedEvents, PollEventState} from '@apollusia/types';
+import {DTO} from '@mean-stream/nestx/ref';
+import {EMPTY, fromEvent, Observable, retry} from 'rxjs';
 import {map} from 'rxjs/operators';
 
 import {environment} from '../../../environments/environment';
 import {
   CreateParticipantDto,
+  CreatePoll,
   CreatePollLogDto,
+  EditPoll,
   Participant,
-  Poll,
   PollLog,
   ReadPoll,
   ReadPollEvent,
@@ -20,11 +22,7 @@ import {
   providedIn: 'root',
 })
 export class PollService {
-
-  constructor(
-    private http: HttpClient,
-  ) {
-  }
+  private http = inject(HttpClient);
 
   selectAll(poll: ReadPoll, events: ReadPollEvent[], participant: CreateParticipantDto | UpdateParticipantDto, state: PollEventState) {
     for (const event of events) {
@@ -41,6 +39,10 @@ export class PollService {
   }
 
   isPastEvent(event: ReadPollEvent) {
+    if (event.allDay) {
+      return Date.parse(event.end) < Date.now();
+    }
+
     return Date.parse(event.start) < Date.now();
   }
 
@@ -80,7 +82,23 @@ export class PollService {
     return this.http.get<boolean>(`${environment.backendURL}/poll/${id}/admin/${adminToken}`);
   }
 
-  book(id: string, events: Poll['bookedEvents']) {
+  update(id: string, poll: EditPoll) {
+    return this.http.put<ReadPoll>(`${environment.backendURL}/poll/${id}`, poll);
+  }
+
+  create(poll: CreatePoll) {
+    return this.http.post<ReadPoll>(`${environment.backendURL}/poll`, poll);
+  }
+
+  clone(id: string) {
+    return this.http.post<ReadPoll>(`${environment.backendURL}/poll/${id}/clone`, {});
+  }
+
+  delete(id: string): Observable<void> {
+    return this.http.delete<void>(`${environment.backendURL}/poll/${id}`);
+  }
+
+  book(id: string, events: DTO<BookedEvents>) {
     return this.http.post(`${environment.backendURL}/poll/${id}/book`, events);
   }
 
@@ -104,6 +122,11 @@ export class PollService {
   }
 
   streamLogs(id: string): Observable<PollLog> {
+    if (!globalThis.EventSource) {
+      // In SSR, EventSource is not available but we also don't care about streaming logs
+      return EMPTY;
+    }
+
     return fromEvent<MessageEvent>(new EventSource(`${environment.backendURL}/poll/${id}/log/events`), 'message').pipe(
       map(event => JSON.parse(event.data)),
       retry(),

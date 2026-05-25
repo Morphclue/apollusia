@@ -1,7 +1,14 @@
-import {Component, OnInit} from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {NgbDate} from '@ng-bootstrap/ng-bootstrap';
-import {addMinutes, format} from 'date-fns';
+import {Component, inject, OnInit} from '@angular/core';
+import {
+  FormControl,
+  FormGroup,
+  Validators,
+  FormsModule,
+  ReactiveFormsModule
+} from '@angular/forms';
+import {ModalModule} from '@mean-stream/ngbx';
+import {NgbDate, NgbDatepicker, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {addMinutes, differenceInMinutes, endOfDay, format, startOfDay} from 'date-fns';
 
 import {ChooseDateService} from '../../poll/services/choose-date.service';
 
@@ -9,12 +16,20 @@ import {ChooseDateService} from '../../poll/services/choose-date.service';
   selector: 'app-autofill-modal',
   templateUrl: './autofill-modal.component.html',
   styleUrls: ['./autofill-modal.component.scss'],
-  standalone: false,
+  imports: [
+    ModalModule,
+    FormsModule,
+    ReactiveFormsModule,
+    NgbDatepicker,
+    NgbTooltip,
+  ],
 })
 export class AutofillModalComponent implements OnInit {
+  private chooseDateService = inject(ChooseDateService);
   selectedDates: NgbDate[] = [];
   modalForm = new FormGroup({
     dates: new FormControl('', Validators.required),
+    allDay: new FormControl(false),
     startTime: new FormControl('12:00', Validators.required),
     duration: new FormControl('00:15', Validators.required),
     pause: new FormControl('00:00', Validators.required),
@@ -23,17 +38,12 @@ export class AutofillModalComponent implements OnInit {
   });
   endTime: string = '';
 
-  constructor(
-    private chooseDateService: ChooseDateService,
-  ) {
-  }
-
   ngOnInit(): void {
     this.updateEnd();
     this.modalForm.valueChanges.subscribe(() => this.updateEnd());
 
     const event = this.chooseDateService.autofillEvent;
-    if (!event || !event.end) {
+    if (!event) {
       return;
     }
 
@@ -45,10 +55,25 @@ export class AutofillModalComponent implements OnInit {
     );
 
     this.onDateSelect(ngbDate);
+    this.modalForm.patchValue({
+      allDay: !!event.allDay,
+      note: event.meta?.note ?? '',
+    });
+    if (event.end && !event.allDay) {
+      this.modalForm.patchValue({
+        startTime: format(event.start, 'HH:mm'),
+        duration: this.formatMinutes(differenceInMinutes(event.end, event.start)),
+      });
+    }
     this.chooseDateService.autofillEvent = undefined;
   }
 
   updateEnd() {
+    if (this.modalForm.get('allDay')?.value) {
+      this.endTime = 'All day';
+      return;
+    }
+
     const startTimeValue = this.modalForm.get('startTime')?.value;
     const durationValue = this.modalForm.get('duration')?.value;
     const pauseValue = this.modalForm.get('pause')?.value;
@@ -79,12 +104,25 @@ export class AutofillModalComponent implements OnInit {
     const pauseValue = this.modalForm.get('pause')?.value;
     const repeat = this.modalForm.get('repeat')?.value;
     const note = this.modalForm.get('note')?.value ?? undefined;
+    const allDay = this.modalForm.get('allDay')?.value;
 
-    if (!dateValue || !repeat || !startTimeValue || !durationValue || !pauseValue) {
+    if (!dateValue) {
       return;
     }
 
     const dates = dateValue.split(',');
+    if (allDay) {
+      for (const item of dates) {
+        const date = new Date(item);
+        this.chooseDateService.addEvent(startOfDay(date), endOfDay(date), note, true);
+      }
+      return;
+    }
+
+    if (!repeat || !startTimeValue || !durationValue || !pauseValue) {
+      return;
+    }
+
     const startTime = startTimeValue.split(':').map((value: string) => parseInt(value, 10));
     const duration = this.parseMinutes(durationValue);
     const pause = this.parseMinutes(pauseValue);
@@ -110,9 +148,16 @@ export class AutofillModalComponent implements OnInit {
     return parseInt(values[0], 10) * 60 + parseInt(values[1], 10);
   }
 
+  private formatMinutes(value: number): string {
+    const hours = Math.floor(value / 60).toString().padStart(2, '0');
+    const minutes = (value % 60).toString().padStart(2, '0');
+    return `${hours}:${minutes}`;
+  }
+
   onDateSelect(date: NgbDate) {
     if (this.isSelected(date)) {
       this.selectedDates = this.selectedDates.filter((d: NgbDate) => !d.equals(date));
+      this.fillDates();
       return;
     }
 

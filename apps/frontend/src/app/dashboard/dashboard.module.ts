@@ -11,12 +11,6 @@ import {CoreModule} from '../core/core.module';
 import {TruncatePipe} from '../pipes';
 
 @NgModule({
-  declarations: [
-    DashboardComponent,
-    CardComponent,
-    TruncatePipe,
-    SearchPipe,
-  ],
   imports: [
     CommonModule,
     DashboardRoutingModule,
@@ -25,6 +19,10 @@ import {TruncatePipe} from '../pipes';
     CoreModule,
     NgbNavModule,
     NgOptimizedImage,
+    DashboardComponent,
+    CardComponent,
+    TruncatePipe,
+    SearchPipe,
   ],
 })
 export class DashboardModule {

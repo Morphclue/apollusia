@@ -1,9 +1,10 @@
 import {
+  BookedEvents,
   checkParticipant,
   CreateParticipantDto,
+  CreatePollDto,
   Participant,
   Poll,
-  PollDto,
   PollEvent,
   PollEventDto,
   ReadParticipantDto,
@@ -17,7 +18,7 @@ import {UserToken} from '@mean-stream/nestx/auth';
 import {notFound} from '@mean-stream/nestx/not-found';
 import {Doc} from '@mean-stream/nestx/ref';
 import {Injectable, Logger, UnprocessableEntityException} from '@nestjs/common';
-import {Document, QueryOptions, Types} from 'mongoose';
+import {Document, Types} from 'mongoose';
 
 import {KeycloakUser} from '../auth/keycloak-user.interface';
 import {KeycloakService} from '../auth/keycloak.service';
@@ -53,12 +54,48 @@ export class PollActionsService {
     }, options) as any;
   }
 
-  async postPoll(pollDto: PollDto, user?: UserToken): Promise<ReadPollDto> {
+  async postPoll(pollDto: CreatePollDto, user?: UserToken): Promise<ReadPollDto> {
     return this.pollService.create({
       ...pollDto,
       id: undefined!, // required to pass type check, but ignored
       createdBy: user?.sub,
     });
+  }
+
+  async putPoll(id: Types.ObjectId, pollDto: UpdatePollDto, user?: UserToken): Promise<ReadPollDto | null> {
+    const original = await this.pollService.find(id, {projection: readPollSelect});
+    const updated = await this.pollService.update(id, pollDto, {
+      projection: readPollSelect,
+    });
+
+    // LogHistory was enabled either before or now
+    if (original && updated && (original?.settings.logHistory || updated?.settings.logHistory)) {
+      const diff: Record<string, unknown> = {};
+      for (const property of updatePollDiff) {
+        if (property === 'settings') {
+          const originalSettings = original.settings instanceof Document ? original.settings.toObject() : original.settings;
+          const updatedSettings = updated.settings instanceof Document ? updated.settings.toObject() : updated.settings;
+          for (const setting of new Set([...Object.keys(originalSettings), ...Object.keys(updatedSettings)] as (keyof Settings)[])) {
+            if (originalSettings?.[setting] !== updatedSettings?.[setting]) {
+              diff[`settings.${setting}`] = updatedSettings?.[setting];
+            }
+          }
+        } else if (original[property] !== updated[property]) {
+          diff[property] = updated[property];
+        }
+      }
+
+      if (Object.keys(diff).length) {
+        await this.pollLogService.create({
+          poll: id,
+          createdBy: user?.sub,
+          type: 'poll.changed',
+          data: {diff},
+        });
+      }
+    }
+
+    return updated;
   }
 
   async clonePoll(id: Types.ObjectId): Promise<ReadPollDto | null> {
@@ -69,11 +106,12 @@ export class PollActionsService {
       ...rest,
       title: `${title} (clone)`,
     });
-    await this.pollEventService.createMany(pollEvents.map(({start, end, note}) => ({
+    await this.pollEventService.createMany(pollEvents.map(({start, end, note, allDay}) => ({
       poll: clonedPoll._id,
       start,
       end,
       note,
+      allDay,
     })));
     return clonedPoll;
   }
@@ -113,7 +151,11 @@ export class PollActionsService {
     for (const event of oldEvents) {
       const updated = newEvents.find(e => event._id.equals(e._id));
       if (updated) {
-        if (event.start.valueOf() !== updated.start.valueOf() || event.end.valueOf() !== updated.end.valueOf()) {
+        if (
+          event.start.valueOf() !== updated.start.valueOf()
+          || event.end.valueOf() !== updated.end.valueOf()
+          || event.allDay !== updated.allDay
+        ) {
           // The event has changed time, clear participation
           clearParticipation.push(event._id);
         }
@@ -324,7 +366,7 @@ export class PollActionsService {
     }, participant);
   }
 
-  async bookEvents(id: Types.ObjectId, events: Poll['bookedEvents'], user?: UserToken): Promise<ReadPollDto> {
+  async bookEvents(id: Types.ObjectId, events: BookedEvents, user?: UserToken): Promise<ReadPollDto> {
     const poll = await this.pollService.update(id, {
       bookedEvents: events,
     }) ?? notFound(id);
@@ -350,6 +392,12 @@ export class PollActionsService {
   }
 
   private renderEvent(event: PollEvent, locale?: string, timeZone?: string) {
+    if (event.allDay) {
+      const start = new Date(event.start).toLocaleDateString(locale, {timeZone});
+      const end = new Date(event.end).toLocaleDateString(locale, {timeZone});
+      return start === end ? start : `${start} - ${end}`;
+    }
+
     return `${renderDate(event.start, locale, timeZone)} - ${renderDate(event.end, locale, timeZone)}`;
   }
 
@@ -367,7 +415,7 @@ export class PollActionsService {
 
     const appointments = events
       .filter(event => {
-        const booked = poll.bookedEvents[event._id.toString()];
+        const booked = poll.bookedEvents?.[event._id.toString()];
         // only show the events to the participant that are either
         if (booked === true) {
           // 1) booked entirely, or

@@ -10,10 +10,6 @@ import {TokenComponent} from './token/token.component';
 import {CoreModule} from '../core/core.module';
 
 @NgModule({
-  declarations: [
-    SettingsComponent,
-    TokenComponent,
-  ],
   imports: [
     CommonModule,
     SettingsRoutingModule,
@@ -22,6 +18,8 @@ import {CoreModule} from '../core/core.module';
     FormsModule,
     NgbxFormsModule,
     NgbTooltip,
+    SettingsComponent,
+    TokenComponent,
   ],
 })
 export class SettingsModule {

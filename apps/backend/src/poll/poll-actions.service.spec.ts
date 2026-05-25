@@ -3,8 +3,8 @@ import {NotFoundException} from '@nestjs/common';
 import {MongooseModule} from '@nestjs/mongoose';
 import {Test, TestingModule} from '@nestjs/testing';
 import {Model, Types} from 'mongoose';
-import {ParticipantStub, PollEventStub, PollStub} from '../../test/stubs';
 
+import {ParticipantStub, PollEventStub, PollStub} from '../../test/stubs';
 import {PollActionsService} from './poll-actions.service';
 import {PollModule} from './poll.module';
 import {PollService} from './poll.service';
@@ -158,11 +158,38 @@ describe('PollActionsService', () => {
   });
 
   // TODO this only tests the PollService
-  it('should be admin', async () => {
-    const poll = await pollModel.findOne({title: 'Party (clone)'}).exec();
-    expect(poll).toBeDefined();
-
-    const isAdmin = pollService.isAdmin(poll!, ParticipantStub().token, undefined);
+  it('should be admin with matching token', () => {
+    const poll = PollStub() as Poll;
+    const isAdmin = service.isAdmin(poll, ParticipantStub().token, undefined);
     expect(isAdmin).toEqual(true);
+  });
+
+  it('should be admin when user created poll', () => {
+    const poll = {
+      ...PollStub(),
+      createdBy: 'creator-id',
+    } as Poll;
+    const isAdmin = pollService.isAdmin(poll, undefined, 'creator-id');
+    expect(isAdmin).toEqual(true);
+  });
+
+  it('should be admin when user is in adminRoles', () => {
+    const poll = {
+      ...PollStub(),
+      adminRoles: {'editor-id': 'edit'},
+    } as Poll;
+    const isAdmin = service.isAdmin(poll, undefined, 'editor-id');
+
+    expect(isAdmin).toEqual(true);
+  });
+
+  it('should not be admin without matching token or user', () => {
+    const poll = {
+      ...PollStub(),
+      adminRoles: {'editor-id': 'edit'},
+    } as Poll;
+    const isAdmin = service.isAdmin(poll, 'wrong-token', 'other-user');
+
+    expect(isAdmin).toEqual(false);
   });
 });

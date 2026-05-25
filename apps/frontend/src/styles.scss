@@ -8,19 +8,18 @@ $amethyst: #9d4eddff;
 $heliotrope: #c77dffff;
 $mauve: #e0aaffff;
 
-/* Overrides */
-
-$primary: $french-violet;
-$dark: $persian-indigo;
-
 /* Imports */
-@import 'bootstrap/scss/bootstrap'; // NB: @import 'bootstrap' does not allow variable overrides
-@import 'bootstrap-icons';
-@import 'angular-calendar/scss/angular-calendar';
-@import 'flatpickr';
+@use 'bootstrap/scss/bootstrap' with (
+  $purple: $purple,
+  $primary: $french-violet,
+  $dark: $persian-indigo
+);
+@use 'bootstrap-icons';
+@use 'angular-calendar/scss/angular-calendar' as *;
+@use 'flatpickr';
 
 .logo-glow {
-  filter: drop-shadow(0 0 10px $primary);
+  filter: drop-shadow(0 0 10px var(--bs-primary));
 }
 
 /* Cal-header */
@@ -56,6 +55,16 @@ $dark: $persian-indigo;
 
 .cal-day-columns {
   height: 100%;
+}
+
+.p-primary {
+  color: var(--bs-primary-text-emphasis) !important;
+  background-color: var(--bs-primary-bg-subtle) !important;
+
+  & > .form-check-input:checked {
+    background-color: var(--bs-primary);
+    border-color: var(--bs-primary);
+  }
 }
 
 .p-yes {
@@ -107,7 +116,7 @@ $dark: $persian-indigo;
 
 .ngb-dp-today {
   @extend .fw-bold;
-  color: $primary;
+  color: var(--bs-primary);
 }
 
 .ngb-dp-day:hover {
@@ -116,7 +125,7 @@ $dark: $persian-indigo;
 }
 
 .ngb-dp-selected {
-  background-color: $primary;
+  background-color: var(--bs-primary);
   color: var(--bs-body-bg);
 }
 
@@ -155,4 +164,62 @@ $dark: $persian-indigo;
   color: transparent;
   background-repeat: no-repeat;
   background-image: escape-svg(url('data:image/svg+xml,<svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M24 48C10.7452 48 0 37.2548 0 24C0 10.7452 10.7452 0 24 0C37.2548 0 48 10.7452 48 24C48 37.2548 37.2548 48 24 48ZM8.34783 16.4873V27.7567C8.34783 30.2923 10.4242 32.3478 12.9833 32.3478H29.4186C29.8838 32.3478 30.2609 31.9737 30.2609 31.5127V20.2433C30.2609 17.7077 28.1845 15.6522 25.6254 15.6522H9.19007C8.72491 15.6522 8.34783 16.0263 8.34783 16.4873ZM31.3043 20.884V27.135L38.087 32.0837C38.5669 32.4503 39.1304 32.5637 39.1304 31.5628V16.4563C39.1304 15.5638 38.6782 15.4517 38.087 15.9353L31.3043 20.884Z" fill="black"/></svg>'));
+}
+
+/*
+ * Timeline (poll change log)
+ */
+
+.timeline-list {
+  list-style: none;
+  padding-inline-start: 0;
+}
+
+.timeline-item {
+  position: relative;
+  display: flex;
+  padding: 8px 0;
+  margin-left: 16px;
+}
+
+.timeline-item:not(.gu-mirror):before {
+  display: block;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 2px;
+
+  content: "";
+
+  background-color: var(--bs-tertiary-bg);
+}
+
+.timeline-item-badge {
+  position: relative;
+  z-index: 1;
+  width: 32px;
+  height: 32px;
+  margin-right: 8px;
+  margin-left: -15px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  color: var(--bs-badge-color);
+  border: 2px solid var(--bs-tertiary-color);
+  border-radius: 50%;
+}
+
+.timeline-item-body {
+  min-width: 0;
+  max-width: 100%;
+  flex: auto;
+  align-self: center;
+}
+
+.timeline-item-active > .timeline-item-badge {
+  background-color: var(--bs-primary-bg) !important;
 }

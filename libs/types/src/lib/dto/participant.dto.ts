@@ -1,7 +1,7 @@
+import {Type} from '@nestjs/common';
 import {OmitType, PickType} from '@nestjs/swagger';
 
 import {Participant} from '../schema';
-import {Type} from '@nestjs/common';
 
 export class CreateParticipantDto extends (OmitType(Participant, ['_id', 'poll'] as const) as Type<Omit<Participant, '_id' | 'poll'>>) {
 }

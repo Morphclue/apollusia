@@ -209,7 +209,7 @@
       "title": "Access Control",
       "description": "Restrict access to your poll",
       "support": {
-        "Apollusia": "Only for creator, but planned. See #60",
+        "Apollusia": true,
         "Doodle": false,
         "DuD-Poll": true,
         "Calendly": false

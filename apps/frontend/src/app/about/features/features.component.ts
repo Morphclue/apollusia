@@ -1,9 +1,11 @@
+import {KeyValuePipe} from '@angular/common';
 import {Component} from '@angular/core';
+import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 
 import features from './features.json';
 
 const apps = ['Apollusia', 'Doodle', 'DuD-Poll', 'Calendly'] as const;
-type App = typeof apps[number];
+type App = (typeof apps)[number];
 
 interface Feature {
   icon?: string;
@@ -17,7 +19,7 @@ interface Feature {
   selector: 'app-features',
   templateUrl: './features.component.html',
   styleUrls: ['./features.component.scss'],
-  standalone: false,
+  imports: [NgbTooltip, KeyValuePipe],
 })
 export class FeaturesComponent {
   readonly apps = apps;

@@ -1,4 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
+import {FormsModule} from '@angular/forms';
+import {ModalModule} from '@mean-stream/ngbx';
 
 import {ChooseDateService} from '../../poll/services/choose-date.service';
 
@@ -6,15 +8,11 @@ import {ChooseDateService} from '../../poll/services/choose-date.service';
   selector: 'app-postpone-modal',
   templateUrl: './postpone-modal.component.html',
   styleUrls: ['./postpone-modal.component.scss'],
-  standalone: false,
+  imports: [ModalModule, FormsModule],
 })
 export class PostponeModalComponent implements OnInit {
+  private chooseDateService = inject(ChooseDateService);
   postponeDays: number = 0;
-
-  constructor(
-    private chooseDateService: ChooseDateService,
-  ) {
-  }
 
   ngOnInit(): void {
   }
