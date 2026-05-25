@@ -1,4 +1,4 @@
-import {ApiProperty, OmitType, PartialType} from '@nestjs/swagger';
+import {ApiProperty, ApiPropertyOptional, OmitType, PartialType} from '@nestjs/swagger';
 
 import {Poll, PollRole} from '../schema';
 
@@ -27,7 +27,7 @@ export const updatePollDiff: (keyof Poll)[] = [
 
 export class ReadPollDto extends OmitType(Poll, readPollExcluded) {
   /** This is injected by the backend for determining your role */
-  @ApiProperty()
+  @ApiPropertyOptional()
   adminRole?: PollRole;
 }
 

@@ -222,7 +222,7 @@ export class ChooseEventsComponent implements OnInit {
   private updateHiddenReason() {
     switch (this.poll?.settings.showResult) {
       case ShowResultOptions.NEVER:
-        this.hiddenReason = this.poll.adminRole ? undefined : 'The results of this poll are hidden. You will only be able to see your own votes.';
+        this.hiddenReason = this.poll?.adminRole ? undefined : 'The results of this poll are hidden. You will only be able to see your own votes.';
         break;
       case ShowResultOptions.AFTER_PARTICIPATING:
         this.hiddenReason = this.poll.adminRole || this.userVoted() ? undefined : 'This is a blind poll. You can\'t see results or other user\'s votes until you participate yourself.';

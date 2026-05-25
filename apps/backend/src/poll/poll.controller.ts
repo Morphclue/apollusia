@@ -54,6 +54,7 @@ export class PollController {
 
   @Get(':id')
   @NotFound()
+  @UseGuards(OptionalAuthGuard)
   async getPoll(
     @Param('id', ObjectIdPipe) id: Types.ObjectId,
     @Headers('Participant-Token') token?: string,
