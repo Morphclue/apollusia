@@ -11,6 +11,7 @@ import {
   Get,
   Headers,
   Param,
+  ParseArrayPipe,
   ParseBoolPipe,
   Post,
   Put,
@@ -37,12 +38,13 @@ export class PollController {
     @Headers('Participant-Token') token: string,
     @Query('participated', new DefaultValuePipe(false), ParseBoolPipe) participated: boolean,
     @Query('active') active?: string,
+    @Query('populate', new ParseArrayPipe({optional: true})) populate = readPollPopulate,
+    @Query('sort') sort = '-createdAt',
     @AuthUser() user?: UserToken,
   ): Promise<ReadStatsPollDto[]> {
     const options = {
-      // TODO add query parameter
-      populate: readPollPopulate,
-      sort: {createdAt: -1},
+      populate,
+      sort,
     };
     if (participated) {
       return this.pollActionsService.getParticipatedPolls(token, options);
