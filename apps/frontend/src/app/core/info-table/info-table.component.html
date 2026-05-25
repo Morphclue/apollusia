@@ -1,5 +1,5 @@
 <table class="w-100">
-  @if (poll.location; as location) {
+  @if (poll().location; as location) {
     <tr>
       <th>
         <i [class]="location | locationIcon" ngbTooltip="Location"></i>
@@ -9,7 +9,7 @@
       </td>
     </tr>
   }
-  @if (poll.settings.deadline; as deadline) {
+  @if (poll().settings.deadline; as deadline) {
     <tr>
       <th>
         <i class="bi-calendar" ngbTooltip="Deadline"></i>
@@ -19,7 +19,7 @@
       </td>
     </tr>
   }
-  @if (description && poll.description; as description) {
+  @if (description() && poll().description; as description) {
     <tr>
       <th>
         <i class="bi-text-paragraph" ngbTooltip="Description"></i>
@@ -44,13 +44,13 @@
       </div>
     </td>
   </tr>
-  @if (stats) {
+  @if (stats()) {
     <tr>
       <th>
         <i class="bi-calendar-check"></i>
       </th>
       <td>
-        {{ poll.events }} {poll.events, plural, =1 {Option} other {Options}}
+        {{ poll().events }} {poll().events, plural, =1 {Option} other {Options}}
       </td>
     </tr>
     <tr>
@@ -58,16 +58,16 @@
         <i class="bi-person-check"></i>
       </th>
       <td>
-        {{ poll.participants }} {poll.participants, plural, =1 {Participant} other {Participants}}
+        {{ poll().participants }} {poll().participants, plural, =1 {Participant} other {Participants}}
       </td>
     </tr>
-    @if (poll.comments) {
+    @if (poll().comments) {
       <tr>
         <th>
           <i class="bi-chat-dots"></i>
         </th>
         <td>
-          {{ poll.comments }} {poll.comments, plural, =1 {Comment} other {Comments}}
+          {{ poll().comments }} {poll().comments, plural, =1 {Comment} other {Comments}}
         </td>
       </tr>
     }

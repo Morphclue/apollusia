@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, input} from '@angular/core';
 import {RouterLink} from '@angular/router';
 
 import {InfoTableComponent} from '../../core/info-table/info-table.component';
@@ -11,7 +11,7 @@ import {ReadPoll} from '../../model';
   imports: [RouterLink, InfoTableComponent],
 })
 export class CardComponent {
-  @Input() poll!: ReadPoll;
-  @Input() small = false;
-  @Input() admin = false;
+  readonly poll = input.required<ReadPoll>();
+  readonly small = input(false);
+  readonly admin = input(false);
 }

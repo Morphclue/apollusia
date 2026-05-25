@@ -1,5 +1,5 @@
 import {DatePipe} from '@angular/common';
-import {Component, Input} from '@angular/core';
+import {Component, input} from '@angular/core';
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 
 import {PollEvent} from '../../model';
@@ -11,5 +11,5 @@ import {PollEvent} from '../../model';
   imports: [NgbTooltip, DatePipe],
 })
 export class EventHeadComponent {
-  @Input() event!: PollEvent;
+  readonly event = input.required<PollEvent>();
 }
