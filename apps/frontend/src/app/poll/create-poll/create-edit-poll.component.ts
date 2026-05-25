@@ -1,24 +1,26 @@
-import {HttpClient} from '@angular/common/http';
-import {Component, inject, OnInit} from '@angular/core';
-import {
-  FormControl,
-  FormGroup,
-  Validators,
-  FormsModule,
-  ReactiveFormsModule
-} from '@angular/forms';
+import {Component, inject, OnInit, TemplateRef} from '@angular/core';
+import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {ShowResultOptions} from '@apollusia/types/lib/schema/show-result-options';
-import {NgbModal, NgbTooltip, NgbCollapse} from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbCollapse,
+  NgbDropdown,
+  NgbDropdownItem,
+  NgbDropdownMenu,
+  NgbDropdownToggle,
+  NgbModal,
+  NgbTooltip,
+  NgbTypeahead,
+} from '@ng-bootstrap/ng-bootstrap';
 import {format} from 'date-fns';
 import Keycloak, {type KeycloakProfile} from 'keycloak-js';
-import {Observable} from 'rxjs';
-import {map} from 'rxjs/operators';
-
-import {environment} from '../../../environments/environment';
+import {EMPTY, Observable, OperatorFunction} from 'rxjs';
+import {debounceTime, distinctUntilChanged, filter, map, share, switchMap} from 'rxjs/operators';
 import {LocationIconPipe} from '../../core/pipes/location-icon.pipe';
 import {TokenService} from '../../core/services';
-import {CreatePollDto, Poll} from '../../model';
+import {CreatePoll, EditPoll, ReadPoll} from '../../model';
+import {KeycloakService} from '../services/keycloak.service';
+import {PollService} from '../services/poll.service';
 
 @Component({
   selector: 'app-create-edit-poll',
@@ -31,20 +33,26 @@ import {CreatePollDto, Poll} from '../../model';
     NgbTooltip,
     NgbCollapse,
     LocationIconPipe,
+    NgbTypeahead,
+    NgbDropdown,
+    NgbDropdownToggle,
+    NgbDropdownMenu,
+    NgbDropdownItem,
   ],
 })
 export class CreateEditPollComponent implements OnInit {
   readonly ShowResultOptions = ShowResultOptions;
   private modalService = inject(NgbModal);
-  private http = inject(HttpClient);
   private router = inject(Router);
   private tokenService = inject(TokenService);
   private keycloak = inject(Keycloak);
-  route = inject(ActivatedRoute);
+  private readonly route = inject(ActivatedRoute);
+  private readonly userService = inject(KeycloakService);
+  private readonly pollService = inject(PollService);
+
   isCollapsed: boolean = true;
-  id: string = '';
-  poll?: Poll;
-  isAdmin: boolean = false;
+  poll?: {id?: string} & (EditPoll | ReadPoll);
+
   pollForm = new FormGroup({
     title: new FormControl('', Validators.required),
     description: new FormControl(''),
@@ -105,18 +113,21 @@ export class CreateEditPollComponent implements OnInit {
         showResult: ShowResultOptions.NEVER,
       },
     },
-  ];
-  selectedPreset?: any;
+  ] as const;
+  selectedPreset?: (typeof this.presets)[number];
 
   userProfile?: KeycloakProfile;
+  adminProfiles: KeycloakProfile[] = [];
 
-  constructor(
-  ) {
-    const routeId: Observable<string> = this.route.params.pipe(map(({id}) => id));
-    routeId.subscribe((id: string) => {
-      this.id = id;
-    });
-  }
+  search: OperatorFunction<string, KeycloakProfile[]> = (text$: Observable<string>) => text$.pipe(
+    debounceTime(200),
+    distinctUntilChanged(),
+    filter(id => id.length === 36), // length of a UUID
+    switchMap(id => this.userService.getUser(id)),
+    map(user => [user]),
+  );
+
+  formatter = (user: KeycloakProfile) => `${user.firstName} ${user.lastName} (${user.email})`;
 
   ngOnInit(): void {
     if (this.keycloak.authenticated) {
@@ -133,7 +144,6 @@ export class CreateEditPollComponent implements OnInit {
     }
 
     this.fetchPoll();
-    this.checkAdmin();
 
     this.pollForm.valueChanges.subscribe(value => {
       this.selectedPreset = this.presets.find(preset => {
@@ -150,7 +160,7 @@ export class CreateEditPollComponent implements OnInit {
   async onFormSubmit() {
     const pollForm = this.pollForm.value;
     const deadline = pollForm.deadlineDate ? new Date(pollForm.deadlineDate + ' ' + (pollForm.deadlineTime || '00:00')) : undefined;
-    const createPollDto: CreatePollDto & {adminToken: string} = {
+    const createPollDto: CreatePoll & {adminToken: string} = {
       title: pollForm.title!,
       description: pollForm.description ? pollForm.description : '',
       location: pollForm.location ? pollForm.location : '',
@@ -158,7 +168,7 @@ export class CreateEditPollComponent implements OnInit {
       adminMail: !!pollForm.emailUpdates,
       adminPush: !!pollForm.pushUpdates,
       timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-      bookedEvents: {},
+      adminRoles: Object.fromEntries(this.adminProfiles.map(u => [u.id!, 'edit'])),
       settings: {
         deadline: deadline?.toISOString(),
         allowMaybe: !!pollForm.allowMaybe,
@@ -173,21 +183,20 @@ export class CreateEditPollComponent implements OnInit {
       },
     };
 
-    if (!this.id) {
+    if (this.route.snapshot.params['id']) {
+      this.updatePoll(createPollDto);
+    } else {
       this.postPoll(createPollDto);
-      return;
     }
-
-    this.updatePoll(createPollDto);
   }
 
   onCancel() {
     this.router.navigate(['dashboard']).then();
   }
 
-  open(content: any) {
+  open(content: TemplateRef<unknown>) {
     this.modalService.open(content).result.then(() => {
-      this.http.delete(`${environment.backendURL}/poll/${this.id}`).subscribe(() => {
+      this.pollService.delete(this.route.snapshot.params['id']).subscribe(() => {
         this.router.navigate(['dashboard']).then();
       });
     }).catch(() => {
@@ -195,7 +204,7 @@ export class CreateEditPollComponent implements OnInit {
   }
 
   clonePoll() {
-    this.http.post(`${environment.backendURL}/poll/${this.id}/clone`, {}).subscribe(() => {
+    this.pollService.clone(this.route.snapshot.params['id']).subscribe(() => {
       this.router.navigate(['dashboard']).then();
     });
   }
@@ -207,25 +216,33 @@ export class CreateEditPollComponent implements OnInit {
     this.pollForm.markAsDirty();
   }
 
-  private updatePoll(poll: CreatePollDto) {
-    this.http.put<Poll>(`${environment.backendURL}/poll/${this.id}`, poll).subscribe(() => {
+  private updatePoll(poll: EditPoll) {
+    this.pollService.update(this.route.snapshot.params['id'], poll).subscribe(() => {
       this.router.navigate(['dashboard']).then();
     });
   }
 
-  private postPoll(poll: CreatePollDto) {
-    this.http.post<Poll>(`${environment.backendURL}/poll`, poll).subscribe((res: Poll) => {
+  private postPoll(poll: CreatePoll) {
+    this.pollService.create(poll).subscribe(res => {
       this.router.navigate([`poll/${res.id}/date`]).then();
     });
   }
 
   private fetchPoll() {
-    if (!this.id) {
-      return;
-    }
+    const poll$ = this.route.params.pipe(
+      filter(({id}) => !!id),
+      switchMap(({id}) => this.pollService.get(id)),
+      share(),
+    );
 
-    this.http.get<Poll>(`${environment.backendURL}/poll/${this.id}`).subscribe((poll: Poll) => {
-      this.poll = poll;
+    poll$.pipe(
+      switchMap(({adminRoles}) => adminRoles ? this.userService.getUsersByIds(Object.keys(adminRoles)) : EMPTY),
+    ).subscribe(users => {
+      this.adminProfiles = users;
+    });
+
+    poll$.subscribe(poll => {
+      this.poll = {...poll, adminToken: ''};
       this.pollForm.patchValue({
         title: poll.title,
         description: poll.description,
@@ -252,14 +269,14 @@ export class CreateEditPollComponent implements OnInit {
     });
   }
 
-  private checkAdmin() {
-    if (!this.id) {
+  addAdmin(user: KeycloakProfile) {
+    if (this.userProfile?.id === user.id) {
+      // can't add yourself again
       return;
     }
-
-    const adminToken = this.tokenService.getToken();
-    this.http.get<boolean>(`${environment.backendURL}/poll/${this.id}/admin/${adminToken}`).subscribe(isAdmin => {
-      this.isAdmin = isAdmin;
-    });
+    if (!this.adminProfiles.some(e => e.id === user.id)) {
+      // prevent duplicates
+      this.adminProfiles.push(user);
+    }
   }
 }

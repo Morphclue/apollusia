@@ -1,9 +1,10 @@
 import {
+  BookedEvents,
   checkParticipant,
   CreateParticipantDto,
+  CreatePollDto,
   Participant,
   Poll,
-  PollDto,
   PollEvent,
   PollEventDto,
   ReadParticipantDto,
@@ -14,25 +15,29 @@ import {
   readPollPopulate,
   readPollSelect,
   ReadStatsPollDto,
+  Settings,
   ShowResultOptions,
   UpdateParticipantDto,
+  updatePollDiff,
+  UpdatePollDto,
 } from '@apollusia/types';
 import {UserToken} from '@mean-stream/nestx/auth';
 import {notFound} from '@mean-stream/nestx/not-found';
 import {Doc} from '@mean-stream/nestx/ref';
 import {Injectable, Logger, OnModuleInit, UnprocessableEntityException} from '@nestjs/common';
+import {subDays} from 'date-fns/subDays';
 import {Document, QueryFilter, Types} from 'mongoose';
 
 import {KeycloakUser} from '../auth/keycloak-user.interface';
 import {KeycloakService} from '../auth/keycloak.service';
 import {environment} from '../environment';
-import {PollService} from './poll.service';
 import {renderDate} from '../mail/helpers';
 import {MailService} from '../mail/mail/mail.service';
 import {ParticipantService} from '../participant/participant.service';
 import {PollEventService} from '../poll-event/poll-event.service';
 import {PollLogService} from '../poll-log/poll-log.service';
 import {PushService} from '../push/push.service';
+import {PollService} from './poll.service';
 
 @Injectable()
 export class PollActionsService implements OnModuleInit {
@@ -163,7 +168,7 @@ export class PollActionsService implements OnModuleInit {
     if (active === undefined) {
       return {};
     }
-    const date = new Date(Date.now() - environment.polls.activeDays * 24 * 60 * 60 * 1000);
+    const date = subDays(new Date(), environment.polls.activeDays);
     return active ? {
       $or: [
         {'settings.deadline': {$gt: date}},
@@ -178,7 +183,14 @@ export class PollActionsService implements OnModuleInit {
   async getPolls(token: string, user: string | undefined, active: boolean | undefined): Promise<ReadStatsPollDto[]> {
     return this.readPolls({
       $and: [
-        user ? {$or: [{createdBy: user}, {adminToken: token}]} : {adminToken: token},
+        // This is the same logic as isAdmin
+        user ? {
+          $or: [
+            {createdBy: user},
+            {[`adminRoles.${user}`]: {$exists: true}},
+            {adminToken: token},
+          ],
+        } : {adminToken: token},
         this.activeFilter(active),
       ],
     });
@@ -206,7 +218,7 @@ export class PollActionsService implements OnModuleInit {
     }) as any;
   }
 
-  async postPoll(pollDto: PollDto, user?: UserToken): Promise<ReadPollDto> {
+  async postPoll(pollDto: CreatePollDto, user?: UserToken): Promise<ReadPollDto> {
     const poll = await this.pollService.create({
       ...pollDto,
       id: undefined!, // required to pass type check, but ignored
@@ -224,10 +236,40 @@ export class PollActionsService implements OnModuleInit {
     return rest;
   }
 
-  async putPoll(id: Types.ObjectId, pollDto: PollDto): Promise<ReadPollDto | null> {
-    return this.pollService.update(id, pollDto, {
+  async putPoll(id: Types.ObjectId, pollDto: UpdatePollDto, user?: UserToken): Promise<ReadPollDto | null> {
+    const original = await this.pollService.find(id, {projection: readPollSelect});
+    const updated = await this.pollService.update(id, pollDto, {
       projection: readPollSelect,
     });
+
+    // LogHistory was enabled either before or now
+    if (original && updated && (original?.settings.logHistory || updated?.settings.logHistory)) {
+      const diff: Record<string, unknown> = {};
+      for (const property of updatePollDiff) {
+        if (property === 'settings') {
+          const originalSettings = original.settings instanceof Document ? original.settings.toObject() : original.settings;
+          const updatedSettings = updated.settings instanceof Document ? updated.settings.toObject() : updated.settings;
+          for (const setting of new Set([...Object.keys(originalSettings), ...Object.keys(updatedSettings)] as (keyof Settings)[])) {
+            if (originalSettings?.[setting] !== updatedSettings?.[setting]) {
+              diff[`settings.${setting}`] = updatedSettings?.[setting];
+            }
+          }
+        } else if (original[property] !== updated[property]) {
+          diff[property] = updated[property];
+        }
+      }
+
+      if (Object.keys(diff).length) {
+        await this.pollLogService.create({
+          poll: id,
+          createdBy: user?.sub,
+          type: 'poll.changed',
+          data: {diff},
+        });
+      }
+    }
+
+    return updated;
   }
 
   async clonePoll(id: Types.ObjectId): Promise<ReadPollDto | null> {
@@ -514,7 +556,7 @@ export class PollActionsService implements OnModuleInit {
     return this.participantService.delete(participantId, {projection: readParticipantSelect});
   }
 
-  async bookEvents(id: Types.ObjectId, events: Poll['bookedEvents'], user?: UserToken): Promise<ReadPollDto> {
+  async bookEvents(id: Types.ObjectId, events: BookedEvents, user?: UserToken): Promise<ReadPollDto> {
     const poll = await this.pollService.update(id, {
       bookedEvents: events,
     }, {
@@ -565,7 +607,7 @@ export class PollActionsService implements OnModuleInit {
 
     const appointments = events
       .filter(event => {
-        const booked = poll.bookedEvents[event._id.toString()];
+        const booked = poll.bookedEvents?.[event._id.toString()];
         // only show the events to the participant that are either
         if (booked === true) {
           // 1) booked entirely, or
@@ -608,7 +650,14 @@ export class PollActionsService implements OnModuleInit {
   }
 
   isAdmin(poll: Poll, token: string | undefined, user: string | undefined) {
-    return poll.adminToken === token || poll.createdBy === user;
+    // When updating, also make sure to update getPolls
+    if (token && poll.adminToken === token) {
+      return true;
+    }
+    if (user && (poll.createdBy === user || poll.adminRoles?.[user])) {
+      return true;
+    }
+    return false;
   }
 
   async claimPolls(adminToken: string, createdBy: string): Promise<void> {

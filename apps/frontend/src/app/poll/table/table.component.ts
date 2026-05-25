@@ -1,28 +1,13 @@
-import {
-  Component,
-  EventEmitter,
-  inject,
-  OnDestroy,
-  OnInit,
-  Output,
-  input,
-  model
-} from '@angular/core';
+import {Component, EventEmitter, inject, input, model, OnDestroy, OnInit, Output} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {checkParticipant} from '@apollusia/logic';
-import type {PollEventState} from '@apollusia/types';
+import type {BookedEvents, PollEventState} from '@apollusia/types';
+import {DTO} from '@mean-stream/nestx/ref';
 import {ToastService} from '@mean-stream/ngbx';
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {debounceTime, Subject} from 'rxjs';
 
-import {
-  CreateParticipantDto,
-  Participant,
-  Poll,
-  ReadPoll,
-  ReadPollEvent,
-  UpdateParticipantDto
-} from '../../model';
+import {CreateParticipantDto, Participant, ReadPoll, ReadPollEvent, UpdateParticipantDto} from '../../model';
 import {SomePipe} from '../../pipes';
 import {CheckButtonComponent} from '../check-button/check-button.component';
 import {EventHeadComponent} from '../event-head/event-head.component';
@@ -55,7 +40,7 @@ export class TableComponent implements OnInit, OnDestroy {
   protected pollService = inject(PollService);
   private toastService = inject(ToastService);
 
-  bookedEvents: Poll['bookedEvents'] = {};
+  bookedEvents: DTO<BookedEvents> = {};
 
   newParticipant: CreateParticipantDto = {
     name: '',

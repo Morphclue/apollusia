@@ -1,13 +1,30 @@
-import {ApiProperty, OmitType} from '@nestjs/swagger';
+import {ApiProperty, OmitType, PartialType} from '@nestjs/swagger';
 
 import {Poll} from '../schema';
 
-export class PollDto extends OmitType(Poll, ['id', '_id'] as const) {
+export class CreatePollDto extends OmitType(Poll, [
+  'id',
+  '_id',
+  'createdAt',
+  'updatedAt',
+] as const) {
+}
+
+export class UpdatePollDto extends PartialType(CreatePollDto) {
 }
 
 export const readPollExcluded = ['adminToken'] as const;
 export const readPollSelect = readPollExcluded.map(s => '-' + s).join(' ');
 export const readPollPopulate = ['events', 'participants', 'comments'];
+
+// which properties should be included in poll.changed log event:
+export const updatePollDiff: (keyof Poll)[] = [
+  'title',
+  'description',
+  'location',
+  'timeZone',
+  'settings',
+];
 
 export class ReadPollDto extends OmitType(Poll, readPollExcluded) {
 }

@@ -1,15 +1,17 @@
 import {HttpClient} from '@angular/common/http';
 import {inject, Injectable} from '@angular/core';
-import {PollEventState} from '@apollusia/types';
+import {BookedEvents, PollEventState} from '@apollusia/types';
+import {DTO} from '@mean-stream/nestx/ref';
 import {EMPTY, fromEvent, Observable, retry} from 'rxjs';
 import {map} from 'rxjs/operators';
 
 import {environment} from '../../../environments/environment';
 import {
   CreateParticipantDto,
+  CreatePoll,
   CreatePollLogDto,
+  EditPoll,
   Participant,
-  Poll,
   PollLog,
   ReadPoll,
   ReadPollEvent,
@@ -80,7 +82,23 @@ export class PollService {
     return this.http.get<boolean>(`${environment.backendURL}/poll/${id}/admin/${adminToken}`);
   }
 
-  book(id: string, events: Poll['bookedEvents']) {
+  update(id: string, poll: EditPoll) {
+    return this.http.put<ReadPoll>(`${environment.backendURL}/poll/${id}`, poll);
+  }
+
+  create(poll: CreatePoll) {
+    return this.http.post<ReadPoll>(`${environment.backendURL}/poll`, poll);
+  }
+
+  clone(id: string) {
+    return this.http.post<ReadPoll>(`${environment.backendURL}/poll/${id}/clone`, {});
+  }
+
+  delete(id: string): Observable<void> {
+    return this.http.delete<void>(`${environment.backendURL}/poll/${id}`);
+  }
+
+  book(id: string, events: DTO<BookedEvents>) {
     return this.http.post(`${environment.backendURL}/poll/${id}/book`, events);
   }
 
