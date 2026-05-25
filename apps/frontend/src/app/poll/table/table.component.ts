@@ -1,4 +1,4 @@
-import {Component, EventEmitter, inject, input, model, OnDestroy, OnInit, Output} from '@angular/core';
+import {Component, inject, input, model, OnDestroy, OnInit, output} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {checkParticipant} from '@apollusia/logic';
 import type {BookedEvents, PollEventState} from '@apollusia/types';
@@ -35,7 +35,8 @@ export class TableComponent implements OnInit, OnDestroy {
   readonly canParticipate = input<boolean>(false);
   readonly token = input<string>();
   readonly bestOption = input<number>(1);
-  @Output() changed = new EventEmitter<void>();
+  readonly changed = output<void>();
+
   protected nameChange = new Subject<void>();
   protected pollService = inject(PollService);
   private toastService = inject(ToastService);
@@ -150,7 +151,7 @@ export class TableComponent implements OnInit, OnDestroy {
   }
 
   private onChange() {
-    this.changed.next();
+    this.changed.emit();
   }
 
   setBookedParticipant(eventId: string, participantId: string, state: boolean) {
