@@ -11,14 +11,17 @@ import {
   ReadPollDto,
   ReadPollEventDto,
   ReadStatsPollDto,
+  Settings,
   ShowResultOptions,
   UpdateParticipantDto,
+  updatePollDiff,
+  UpdatePollDto,
 } from '@apollusia/types';
 import {UserToken} from '@mean-stream/nestx/auth';
 import {notFound} from '@mean-stream/nestx/not-found';
 import {Doc} from '@mean-stream/nestx/ref';
 import {Injectable, Logger, UnprocessableEntityException} from '@nestjs/common';
-import {Document, Types} from 'mongoose';
+import {Document, QueryOptions, Types} from 'mongoose';
 
 import {KeycloakUser} from '../auth/keycloak-user.interface';
 import {KeycloakService} from '../auth/keycloak.service';
@@ -63,10 +66,8 @@ export class PollActionsService {
   }
 
   async putPoll(id: Types.ObjectId, pollDto: UpdatePollDto, user?: UserToken): Promise<ReadPollDto | null> {
-    const original = await this.pollService.find(id, {projection: readPollSelect});
-    const updated = await this.pollService.update(id, pollDto, {
-      projection: readPollSelect,
-    });
+    const original = await this.pollService.find(id);
+    const updated = await this.pollService.update(id, pollDto);
 
     // LogHistory was enabled either before or now
     if (original && updated && (original?.settings.logHistory || updated?.settings.logHistory)) {
