@@ -7,11 +7,9 @@ import {Model, Types} from 'mongoose';
 import {ParticipantStub, PollEventStub, PollStub} from '../../test/stubs';
 import {PollActionsService} from './poll-actions.service';
 import {PollModule} from './poll.module';
-import {PollService} from './poll.service';
 
-describe('PollActionsService', () => {
+describe(PollActionsService.name, () => {
   let service: PollActionsService;
-  let pollService: PollService;
   let pollModel: Model<Poll>;
   let pollEventModel: Model<PollEventDto>;
 
@@ -26,7 +24,6 @@ describe('PollActionsService', () => {
     pollModel = module.get('PollModel');
     pollEventModel = module.get('PollEventModel');
     service = module.get<PollActionsService>(PollActionsService);
-    pollService = module.get<PollService>(PollService);
   });
 
   let pollStubId: Types.ObjectId;
@@ -40,30 +37,21 @@ describe('PollActionsService', () => {
     pollStubId = poll._id;
   });
 
-  // TODO this only tests the PollService
-  it('should get all polls', async () => {
-    const polls = await pollService.getPolls(PollStub().adminToken, undefined, true);
-    expect(polls).toBeDefined();
-    expect(polls.length).toEqual(1);
-  });
-
-  // TODO this only tests the PollService
   it('should update poll', async () => {
     const modifiedPoll = PollStub();
     modifiedPoll.title = 'Party';
 
-    const updatedPoll = await pollService.update(pollStubId, modifiedPoll);
+    const updatedPoll = await service.putPoll(pollStubId, modifiedPoll);
     expect(updatedPoll).toBeDefined();
     expect(updatedPoll!.title).toEqual('Party');
   });
 
-  // TODO this only tests the PollService
   it('should not update poll', async () => {
     const modifiedPoll = PollStub();
     modifiedPoll.title = 'Meeting';
     const modifiedPollId = new Types.ObjectId('9e9e9e9e9e9e9e9e9e9e9e9e');
 
-    expect(await pollService.update(modifiedPollId, modifiedPoll)).toBeNull();
+    expect(await service.putPoll(modifiedPollId, modifiedPoll)).toBeNull();
     const updatedPoll = await pollModel.findById(pollStubId).exec();
     const pollCounts = await pollModel.countDocuments().exec();
 
@@ -155,41 +143,5 @@ describe('PollActionsService', () => {
       new Types.ObjectId('5f1f9b9b9b9b942b9b9b9b9b'),
       ParticipantStub())
     ).rejects.toThrow(NotFoundException);
-  });
-
-  // TODO this only tests the PollService
-  it('should be admin with matching token', () => {
-    const poll = PollStub() as Poll;
-    const isAdmin = service.isAdmin(poll, ParticipantStub().token, undefined);
-    expect(isAdmin).toEqual(true);
-  });
-
-  it('should be admin when user created poll', () => {
-    const poll = {
-      ...PollStub(),
-      createdBy: 'creator-id',
-    } as Poll;
-    const isAdmin = pollService.isAdmin(poll, undefined, 'creator-id');
-    expect(isAdmin).toEqual(true);
-  });
-
-  it('should be admin when user is in adminRoles', () => {
-    const poll = {
-      ...PollStub(),
-      adminRoles: {'editor-id': 'edit'},
-    } as Poll;
-    const isAdmin = service.isAdmin(poll, undefined, 'editor-id');
-
-    expect(isAdmin).toEqual(true);
-  });
-
-  it('should not be admin without matching token or user', () => {
-    const poll = {
-      ...PollStub(),
-      adminRoles: {'editor-id': 'edit'},
-    } as Poll;
-    const isAdmin = service.isAdmin(poll, 'wrong-token', 'other-user');
-
-    expect(isAdmin).toEqual(false);
   });
 });
