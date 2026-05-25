@@ -17,6 +17,15 @@ export const readPollExcluded = ['adminToken'] as const;
 export const readPollSelect = readPollExcluded.map(s => '-' + s).join(' ');
 export const readPollPopulate = ['events', 'participants', 'comments'];
 
+// which properties should be included in poll.changed log event:
+export const updatePollDiff: (keyof Poll)[] = [
+  'title',
+  'description',
+  'location',
+  'timeZone',
+  'settings',
+];
+
 export class ReadPollDto extends OmitType(Poll, readPollExcluded) {
 }
 
