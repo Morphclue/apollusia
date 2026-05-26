@@ -94,8 +94,13 @@ export class PollController {
 
   @Post(':id/clone')
   @NotFound()
-  async clonePoll(@Param('id', ObjectIdPipe) id: Types.ObjectId): Promise<ReadPollDto | null> {
-    return this.pollActionsService.clonePoll(id);
+  @UseGuards(OptionalAuthGuard)
+  async clonePoll(
+    @Param('id', ObjectIdPipe) id: Types.ObjectId,
+    @Headers('Participant-Token') token: string,
+    @AuthUser() user?: UserToken,
+  ): Promise<ReadPollDto | null> {
+    return this.pollActionsService.clonePoll(id, token, user);
   }
 
   @Delete(':id')

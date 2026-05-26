@@ -63,11 +63,13 @@ describe(PollActionsService.name, () => {
 
   it('should clone poll', async () => {
     const pollCounts = await pollModel.countDocuments().exec();
-    const clonedPoll = await service.clonePoll(pollStubId);
+    const clonedPoll = await service.clonePoll(pollStubId, 'admin-token-clone');
 
     const pollCounts2 = await pollModel.countDocuments().exec();
     expect(clonedPoll).toBeDefined();
     expect(clonedPoll!._id).not.toEqual(pollStubId);
+    // @ts-expect-error TS2339
+    expect(clonedPoll!.adminToken).toEqual('admin-token-clone');
     expect(pollCounts2).toEqual(pollCounts + 1);
   });
 

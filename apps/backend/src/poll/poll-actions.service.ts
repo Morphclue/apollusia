@@ -99,13 +99,16 @@ export class PollActionsService {
     return updated;
   }
 
-  async clonePoll(id: Types.ObjectId): Promise<ReadPollDto | null> {
+  async clonePoll(id: Types.ObjectId, token: string, user?: UserToken): Promise<ReadPollDto | null> {
     const poll = await this.pollService.find(id) ?? notFound(id);
     const {_id, id: _, title, ...rest} = poll.toObject();
     const pollEvents = await this.pollEventService.findAll({poll: id});
     const clonedPoll = await this.postPoll({
       ...rest,
       title: `${title} (clone)`,
+      // NB: someone can clone a poll that is not theirs, so we need to override these with the actor.
+      adminToken: token,
+      createdBy: user?.sub,
     });
     await this.pollEventService.createMany(pollEvents.map(({start, end, note, allDay}) => ({
       poll: clonedPoll._id,
