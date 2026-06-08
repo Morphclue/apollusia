@@ -64,8 +64,8 @@ importers:
         specifier: 21.2.10
         version: 21.2.10(654db7c77aa83aec27345cfcd503a8c0)
       '@keycloak/keycloak-admin-client':
-        specifier: ^26.6.2
-        version: 26.6.2
+        specifier: ^26.6.3
+        version: 26.6.3
       '@mean-stream/nestx':
         specifier: ^0.15.0
         version: 0.15.0(6ce82fd97bc40e9cbb21e7377913ddc4)
@@ -119,7 +119,7 @@ importers:
         version: 1.15.40(@swc/helpers@0.5.23)
       angular-calendar:
         specifier: ^0.32.2
-        version: 0.32.2(@angular/core@21.2.12(@angular/compiler@21.2.12)(rxjs@7.8.2)(zone.js@0.16.2))(angular-draggable-droppable@9.0.1(@angular/core@21.2.12(@angular/compiler@21.2.12)(rxjs@7.8.2)(zone.js@0.16.2)))(angular-resizable-element@8.0.3(@angular/core@21.2.12(@angular/compiler@21.2.12)(rxjs@7.8.2)(zone.js@0.16.2)))(date-fns@4.3.0)(luxon@3.7.2)
+        version: 0.32.2(@angular/core@21.2.12(@angular/compiler@21.2.12)(rxjs@7.8.2)(zone.js@0.16.2))(angular-draggable-droppable@9.0.1(@angular/core@21.2.12(@angular/compiler@21.2.12)(rxjs@7.8.2)(zone.js@0.16.2)))(angular-resizable-element@8.0.3(@angular/core@21.2.12(@angular/compiler@21.2.12)(rxjs@7.8.2)(zone.js@0.16.2)))(date-fns@4.4.0)(luxon@3.7.2)
       angular-draggable-droppable:
         specifier: ^9.0.1
         version: 9.0.1(@angular/core@21.2.12(@angular/compiler@21.2.12)(rxjs@7.8.2)(zone.js@0.16.2))
@@ -130,8 +130,8 @@ importers:
         specifier: ^8.1.0
         version: 8.1.0(@angular/core@21.2.12(@angular/compiler@21.2.12)(rxjs@7.8.2)(zone.js@0.16.2))(@angular/forms@21.2.12(@angular/common@21.2.12(@angular/core@21.2.12(@angular/compiler@21.2.12)(rxjs@7.8.2)(zone.js@0.16.2))(rxjs@7.8.2))(@angular/core@21.2.12(@angular/compiler@21.2.12)(rxjs@7.8.2)(zone.js@0.16.2))(@angular/platform-browser@21.2.12(@angular/animations@21.2.12(@angular/core@21.2.12(@angular/compiler@21.2.12)(rxjs@7.8.2)(zone.js@0.16.2)))(@angular/common@21.2.12(@angular/core@21.2.12(@angular/compiler@21.2.12)(rxjs@7.8.2)(zone.js@0.16.2))(rxjs@7.8.2))(@angular/core@21.2.12(@angular/compiler@21.2.12)(rxjs@7.8.2)(zone.js@0.16.2)))(rxjs@7.8.2))(flatpickr@4.6.13)
       axios:
-        specifier: ^1.16.1
-        version: 1.16.1
+        specifier: ^1.17.0
+        version: 1.17.0
       base64-js:
         specifier: ^1.5.1
         version: 1.5.1
@@ -143,7 +143,7 @@ importers:
         version: 1.13.1
       calendar-utils:
         specifier: ^0.12.5
-        version: 0.12.5(date-fns@4.3.0)(luxon@3.7.2)
+        version: 0.12.5(date-fns@4.4.0)(luxon@3.7.2)
       class-transformer:
         specifier: ^0.5.1
         version: 0.5.1
@@ -151,8 +151,8 @@ importers:
         specifier: ^0.15.1
         version: 0.15.1
       date-fns:
-        specifier: ^4.3.0
-        version: 4.3.0
+        specifier: ^4.4.0
+        version: 4.4.0
       express:
         specifier: 5.2.1
         version: 5.2.1
@@ -2899,8 +2899,8 @@ packages:
     peerDependencies:
       tslib: '2'
 
-  '@keycloak/keycloak-admin-client@26.6.2':
-    resolution: {integrity: sha512-CEqQ/fzJPkWOTM0LaUeH5KAKlCQGkqlydhpnxFM9Vx1rLyjr9AIqrENPNzt0owYDPIqrl6OYaFZJBAoH8woDpA==}
+  '@keycloak/keycloak-admin-client@26.6.3':
+    resolution: {integrity: sha512-hHSdEl9Hxww7w1Q+SbMPshhHxjvZZsNEfsL+7PXGxi0fYPggSQUyd/PC1ko1/UX7gNyDmDI89sOYSBoFQ/bcaQ==}
     engines: {node: '>=18'}
 
   '@keyv/bigmap@1.3.1':
@@ -3028,23 +3028,23 @@ packages:
       reflect-metadata:
         optional: true
 
-  '@microsoft/kiota-abstractions@1.0.0-preview.100':
-    resolution: {integrity: sha512-3s2WYKQ6WLB/0pyDmmv9bigH/3LZ0Mm4ldHskNLBj0U8DYjFzfG729snnEij+hZN0l2XHr37pGBr1MZK8vM7zQ==}
+  '@microsoft/kiota-abstractions@1.0.0-preview.102':
+    resolution: {integrity: sha512-WL+S7X+W6zpDO6vFk+FClb5hoUJMV1ZcMHo1H52r2Q49xTuYx9esJqmwh/0EXsftmxKwOOIOoPfO7+Tp5QAddw==}
 
-  '@microsoft/kiota-http-fetchlibrary@1.0.0-preview.100':
-    resolution: {integrity: sha512-uS2rhKKjbYiT8JWG8GGVOALB+s4HdDc9hg5tTZMVf3qY5b/us1OKLQ6WgW6USq/kZAuKKWkIq/BQgPCWbHtFTQ==}
+  '@microsoft/kiota-http-fetchlibrary@1.0.0-preview.102':
+    resolution: {integrity: sha512-oXfrPOWkIR2/Gs700n00EY3VDc+Qgz6y7ZiA/f8FHJsnwSjZ017xcWFw2PLzJItczVsad0pq/N5DYnoF6Co11Q==}
 
-  '@microsoft/kiota-serialization-form@1.0.0-preview.100':
-    resolution: {integrity: sha512-SR/yWBtvKYhN2ARR4wVMFb91XgN32DBmLLQmtemdKgL1YWBxVCNAUP/qHbZhrTX7q4kh7jl/S9yrr1S8ySS7AA==}
+  '@microsoft/kiota-serialization-form@1.0.0-preview.102':
+    resolution: {integrity: sha512-1w70XAA/F4RgbyNbRAaZCjLAOiKQjdiQDYlNZC9x8g7xgd7tNqYqowt/auQS1A9SZOrT626q6+Gr2xKKyW3wOg==}
 
-  '@microsoft/kiota-serialization-json@1.0.0-preview.100':
-    resolution: {integrity: sha512-4qatf5j0Aeaakdw24jMuIX7W6mf/W2rU9UyAjkIrSjaB7W5n8gsUvhoTcRpPTAFN7pvzQkCbO7Z0paRfdYzhIw==}
+  '@microsoft/kiota-serialization-json@1.0.0-preview.102':
+    resolution: {integrity: sha512-YpIt5pXNX13ND736oJFf0wBYPAafCv+CAE17Fa1HcS1drCdXx8ELPQ5GxGDbQG7J5LIMDgUtBOUmf5R/FrMQ6A==}
 
-  '@microsoft/kiota-serialization-multipart@1.0.0-preview.100':
-    resolution: {integrity: sha512-zwWoLZH6+KsAl05Ijd8HpbU+mct5wb0//ZCGdCkQ/UqsAaoe2xYSoKicxQbVGv9VvSTq0as7iVLwqDeqEI9rDw==}
+  '@microsoft/kiota-serialization-multipart@1.0.0-preview.102':
+    resolution: {integrity: sha512-tjwt0m+8+OqZizZU6gBARTcA8suPYS0onD9IUbhKsvRrAJpBIyp07hnyOTXBgE+gurGGbeT3TTl9AUK2ic6DiA==}
 
-  '@microsoft/kiota-serialization-text@1.0.0-preview.100':
-    resolution: {integrity: sha512-x2Epz0StHLBkVJKeEmwrXSh6SJuxZ72VVBNO53uHUNZ/Y7X8tZuSQR7X74EO69mEi4zAF21X2jbkF9/dhlARog==}
+  '@microsoft/kiota-serialization-text@1.0.0-preview.102':
+    resolution: {integrity: sha512-ZCihyrXKYGfTz/frqNQvwKsD+EgjhjfclB5/XDrSGNXduisL/f1MbyvjsgmrZnLmtCwX8/v+Mc3vlz716KWYbg==}
 
   '@microsoft/tsdoc@0.16.0':
     resolution: {integrity: sha512-xgAyonlVVS+q7Vc7qLW0UrJU7rSFcETRWsqdXZtjzRU8dF+6CkozTK4V4y1LwOX7j8r/vHphjDeMeGI4tNGeGA==}
@@ -5393,8 +5393,8 @@ packages:
   aws4@1.13.2:
     resolution: {integrity: sha512-lHe62zvbTB5eEABUVi/AwVh0ZKY9rMMDhmm+eeyuuUQbQ3+J+fONVQOZyj+DdrvD4BY33uYniyRJ4UJIaSKAfw==}
 
-  axios@1.16.1:
-    resolution: {integrity: sha512-caYkukvroVPO8KrzuJEb50Hm07KwfBZPEC3VeFHTsqWHvKTsy54hjJz9BS/cdaypROE2rH6xvm9mHX4fgWkr3A==}
+  axios@1.17.0:
+    resolution: {integrity: sha512-J8SwNxprqqpbfenehxWYXE7CW+wM1BB4w3+N+g+/Wx40xM4rsLrfPmHHxSWIxJLYDgSY/HqlFPIYb2/S3rxafw==}
 
   axobject-query@4.1.0:
     resolution: {integrity: sha512-qIj0G9wZbMGNLjLmg1PT6v2mE9AH2zlnADJD/2tC6E00hgmhUOfEB6greHPAfLRSufHqROIUTkw6E+M3lH0PTQ==}
@@ -6259,8 +6259,8 @@ packages:
     resolution: {integrity: sha512-BS8PfmtDGnrgYdOonGZQdLZslWIeCGFP9tpan0hi1Co2Zr2NKADsvGYA8XxuG/4UWgJ6Cjtv+YJnB6MM69QGlQ==}
     engines: {node: '>= 0.4'}
 
-  date-fns@4.3.0:
-    resolution: {integrity: sha512-OYcL+3N/jyWbYdFGqoMAhytDgxP9pbYPUUiRCOgn4Fewaadk9l/Wam4Avciiyp2BgkpfQyBV9B+ehnVJych+eQ==}
+  date-fns@4.4.0:
+    resolution: {integrity: sha512-+1UMbeh68lH1SegH83CGWwpb6OHHbpSgr3+s5Eww5M4CAgswBpoWS0AjTOfEJ33HiYKz1hdj/KTFprzXHmq/6w==}
 
   dayjs@1.11.21:
     resolution: {integrity: sha512-98IT+HOahAisibz/yjKbzuOBwYcjJ7BCLPzARyHiyEBmRz4fatF+KPJszEHXsGYjUG234aH/cOjW1wwTbKUZlA==}
@@ -7344,6 +7344,10 @@ packages:
 
   hasown@2.0.3:
     resolution: {integrity: sha512-ej4AhfhfL2Q2zpMmLo7U1Uv9+PyhIZpgQLGT1F9miIGmiCJIoCgSmczFdrc97mWT4kVY72KA+WnnhJ5pghSvSg==}
+    engines: {node: '>= 0.4'}
+
+  hasown@2.0.4:
+    resolution: {integrity: sha512-T2UbfbBEF32wiepXIsMlTW9+dDYC6wMh/t/vYA4tuOMKqWz/n3vr1NFSxQiyP+zk2mXsoMA/i/7qV6LKut1t1A==}
     engines: {node: '>= 0.4'}
 
   he@1.2.0:
@@ -10031,8 +10035,8 @@ packages:
   react-is@18.3.1:
     resolution: {integrity: sha512-/LLMVyas0ljjAtoYiPqYiL8VWXzUUdThrmU5+n20DZv+a+ClRoevUzw5JxU+Ieh5/c87ytoTBV9G1FiKfNJdmg==}
 
-  react-is@19.2.6:
-    resolution: {integrity: sha512-XjBR15BhXuylgWGuslhDKqlSayuqvqBX91BP8pauG8kd1zY8kotkNWbXksTCNRarse4kuGbe2kIY05ARtwNIvw==}
+  react-is@19.2.7:
+    resolution: {integrity: sha512-kZFnouyVv7eP/Phmrlo9FK+zcAdriZJvzxXHF1Sl1P377WSGe2G/JxVolhTrB/jeV47lKImhNUsijjHAAbcl/A==}
 
   react-refresh@0.17.0:
     resolution: {integrity: sha512-z6F7K9bV85EfseRCp2bzrpyQ0Gkw1uLoCel9XBVWPg/TjRj94SkJzUTGfOa4bs7iJvBWtQG0Wq7wnI0syw3EBQ==}
@@ -14933,14 +14937,14 @@ snapshots:
       '@jsonjoy.com/codegen': 17.67.0(tslib@2.8.1)
       tslib: 2.8.1
 
-  '@keycloak/keycloak-admin-client@26.6.2':
+  '@keycloak/keycloak-admin-client@26.6.3':
     dependencies:
-      '@microsoft/kiota-abstractions': 1.0.0-preview.100
-      '@microsoft/kiota-http-fetchlibrary': 1.0.0-preview.100
-      '@microsoft/kiota-serialization-form': 1.0.0-preview.100
-      '@microsoft/kiota-serialization-json': 1.0.0-preview.100
-      '@microsoft/kiota-serialization-multipart': 1.0.0-preview.100
-      '@microsoft/kiota-serialization-text': 1.0.0-preview.100
+      '@microsoft/kiota-abstractions': 1.0.0-preview.102
+      '@microsoft/kiota-http-fetchlibrary': 1.0.0-preview.102
+      '@microsoft/kiota-serialization-form': 1.0.0-preview.102
+      '@microsoft/kiota-serialization-json': 1.0.0-preview.102
+      '@microsoft/kiota-serialization-multipart': 1.0.0-preview.102
+      '@microsoft/kiota-serialization-text': 1.0.0-preview.102
       camelize-ts: 3.0.0
       url-template: 3.1.1
 
@@ -15021,37 +15025,37 @@ snapshots:
       class-validator: 0.15.1
       reflect-metadata: 0.2.2
 
-  '@microsoft/kiota-abstractions@1.0.0-preview.100':
+  '@microsoft/kiota-abstractions@1.0.0-preview.102':
     dependencies:
       '@opentelemetry/api': 1.9.1
       '@std-uritemplate/std-uritemplate': 2.0.10
       tinyduration: 3.4.1
       tslib: 2.8.1
 
-  '@microsoft/kiota-http-fetchlibrary@1.0.0-preview.100':
+  '@microsoft/kiota-http-fetchlibrary@1.0.0-preview.102':
     dependencies:
-      '@microsoft/kiota-abstractions': 1.0.0-preview.100
+      '@microsoft/kiota-abstractions': 1.0.0-preview.102
       '@opentelemetry/api': 1.9.1
       tslib: 2.8.1
 
-  '@microsoft/kiota-serialization-form@1.0.0-preview.100':
+  '@microsoft/kiota-serialization-form@1.0.0-preview.102':
     dependencies:
-      '@microsoft/kiota-abstractions': 1.0.0-preview.100
+      '@microsoft/kiota-abstractions': 1.0.0-preview.102
       tslib: 2.8.1
 
-  '@microsoft/kiota-serialization-json@1.0.0-preview.100':
+  '@microsoft/kiota-serialization-json@1.0.0-preview.102':
     dependencies:
-      '@microsoft/kiota-abstractions': 1.0.0-preview.100
+      '@microsoft/kiota-abstractions': 1.0.0-preview.102
       tslib: 2.8.1
 
-  '@microsoft/kiota-serialization-multipart@1.0.0-preview.100':
+  '@microsoft/kiota-serialization-multipart@1.0.0-preview.102':
     dependencies:
-      '@microsoft/kiota-abstractions': 1.0.0-preview.100
+      '@microsoft/kiota-abstractions': 1.0.0-preview.102
       tslib: 2.8.1
 
-  '@microsoft/kiota-serialization-text@1.0.0-preview.100':
+  '@microsoft/kiota-serialization-text@1.0.0-preview.102':
     dependencies:
-      '@microsoft/kiota-abstractions': 1.0.0-preview.100
+      '@microsoft/kiota-abstractions': 1.0.0-preview.102
       tslib: 2.8.1
 
   '@microsoft/tsdoc@0.16.0': {}
@@ -17663,17 +17667,17 @@ snapshots:
       '@algolia/requester-fetch': 5.48.1
       '@algolia/requester-node-http': 5.48.1
 
-  angular-calendar@0.32.2(@angular/core@21.2.12(@angular/compiler@21.2.12)(rxjs@7.8.2)(zone.js@0.16.2))(angular-draggable-droppable@9.0.1(@angular/core@21.2.12(@angular/compiler@21.2.12)(rxjs@7.8.2)(zone.js@0.16.2)))(angular-resizable-element@8.0.3(@angular/core@21.2.12(@angular/compiler@21.2.12)(rxjs@7.8.2)(zone.js@0.16.2)))(date-fns@4.3.0)(luxon@3.7.2):
+  angular-calendar@0.32.2(@angular/core@21.2.12(@angular/compiler@21.2.12)(rxjs@7.8.2)(zone.js@0.16.2))(angular-draggable-droppable@9.0.1(@angular/core@21.2.12(@angular/compiler@21.2.12)(rxjs@7.8.2)(zone.js@0.16.2)))(angular-resizable-element@8.0.3(@angular/core@21.2.12(@angular/compiler@21.2.12)(rxjs@7.8.2)(zone.js@0.16.2)))(date-fns@4.4.0)(luxon@3.7.2):
     dependencies:
       '@angular/core': 21.2.12(@angular/compiler@21.2.12)(rxjs@7.8.2)(zone.js@0.16.2)
       '@scarf/scarf': 1.4.0
       angular-draggable-droppable: 9.0.1(@angular/core@21.2.12(@angular/compiler@21.2.12)(rxjs@7.8.2)(zone.js@0.16.2))
       angular-resizable-element: 8.0.3(@angular/core@21.2.12(@angular/compiler@21.2.12)(rxjs@7.8.2)(zone.js@0.16.2))
-      calendar-utils: 0.12.5(date-fns@4.3.0)(luxon@3.7.2)
+      calendar-utils: 0.12.5(date-fns@4.4.0)(luxon@3.7.2)
       positioning: 3.0.1
       tslib: 2.8.1
     optionalDependencies:
-      date-fns: 4.3.0
+      date-fns: 4.4.0
     transitivePeerDependencies:
       - luxon
 
@@ -17874,7 +17878,7 @@ snapshots:
 
   aws4@1.13.2: {}
 
-  axios@1.16.1:
+  axios@1.17.0:
     dependencies:
       follow-redirects: 1.16.0(debug@4.4.3)
       form-data: 4.0.5
@@ -17884,7 +17888,7 @@ snapshots:
       - debug
       - supports-color
 
-  axios@1.16.1(supports-color@7.2.0):
+  axios@1.17.0(supports-color@7.2.0):
     dependencies:
       follow-redirects: 1.16.0(debug@4.4.3)
       form-data: 4.0.5
@@ -18335,9 +18339,9 @@ snapshots:
 
   cachedir@2.4.0: {}
 
-  calendar-utils@0.12.5(date-fns@4.3.0)(luxon@3.7.2):
+  calendar-utils@0.12.5(date-fns@4.4.0)(luxon@3.7.2):
     optionalDependencies:
-      date-fns: 4.3.0
+      date-fns: 4.4.0
       luxon: 3.7.2
 
   call-bind-apply-helpers@1.0.2:
@@ -18999,7 +19003,7 @@ snapshots:
       es-errors: 1.3.0
       is-data-view: 1.0.2
 
-  date-fns@4.3.0: {}
+  date-fns@4.4.0: {}
 
   dayjs@1.11.21: {}
 
@@ -20089,7 +20093,7 @@ snapshots:
       asynckit: 0.4.0
       combined-stream: 1.0.8
       es-set-tostringtag: 2.1.0
-      hasown: 2.0.3
+      hasown: 2.0.4
       mime-types: 2.1.35
 
   forwarded@0.2.0: {}
@@ -20357,6 +20361,10 @@ snapshots:
       function-bind: 1.1.2
 
   hasown@2.0.3:
+    dependencies:
+      function-bind: 1.1.2
+
+  hasown@2.0.4:
     dependencies:
       function-bind: 1.1.2
 
@@ -20730,7 +20738,7 @@ snapshots:
 
   is-core-module@2.16.2:
     dependencies:
-      hasown: 2.0.3
+      hasown: 2.0.4
 
   is-data-view@1.0.2:
     dependencies:
@@ -23093,7 +23101,7 @@ snapshots:
       ansi-styles: 4.3.0
       argparse: 2.0.1
       asynckit: 0.4.0
-      axios: 1.16.1(supports-color@7.2.0)
+      axios: 1.17.0(supports-color@7.2.0)
       balanced-match: 4.0.3
       base64-js: 1.5.1
       bl: 4.1.0
@@ -24133,7 +24141,7 @@ snapshots:
       '@jest/schemas': 30.4.1
       ansi-styles: 5.2.0
       react-is-18: react-is@18.3.1
-      react-is-19: react-is@19.2.6
+      react-is-19: react-is@19.2.7
 
   pretty-ms@9.3.0:
     dependencies:
@@ -24323,7 +24331,7 @@ snapshots:
 
   react-is@18.3.1: {}
 
-  react-is@19.2.6: {}
+  react-is@19.2.7: {}
 
   react-refresh@0.17.0: {}
 
