@@ -32,7 +32,7 @@
         The poll owner is in <b>{{ poll.timeZone }}</b>.
       </div>
     }
-    @if (isAdmin) {
+    @if (poll?.adminRole) {
       <a routerLink="../date" class="btn btn-outline-secondary bi-calendar-week ms-2">
         Events
       </a>
@@ -79,7 +79,7 @@
           [poll]="poll"
           [pollEvents]="pollEvents"
           [participants]="participants"
-          [isAdmin]="isAdmin"
+          [isAdmin]="!!poll.adminRole"
           [canParticipate]="!closedReason"
           [token]="token"
           [bestOption]="bestOption"

@@ -8,12 +8,8 @@ import {
   PollEvent,
   PollEventDto,
   ReadParticipantDto,
-  readParticipantSelect,
   ReadPollDto,
   ReadPollEventDto,
-  readPollExcluded,
-  readPollPopulate,
-  readPollSelect,
   ReadStatsPollDto,
   Settings,
   ShowResultOptions,
@@ -24,9 +20,8 @@ import {
 import {UserToken} from '@mean-stream/nestx/auth';
 import {notFound} from '@mean-stream/nestx/not-found';
 import {Doc} from '@mean-stream/nestx/ref';
-import {Injectable, Logger, OnModuleInit, UnprocessableEntityException} from '@nestjs/common';
-import {subDays} from 'date-fns/subDays';
-import {Document, QueryFilter, Types} from 'mongoose';
+import {Injectable, Logger, UnprocessableEntityException} from '@nestjs/common';
+import {Document, QueryOptions, Types} from 'mongoose';
 
 import {KeycloakUser} from '../auth/keycloak-user.interface';
 import {KeycloakService} from '../auth/keycloak.service';
@@ -40,7 +35,7 @@ import {PushService} from '../push/push.service';
 import {PollService} from './poll.service';
 
 @Injectable()
-export class PollActionsService implements OnModuleInit {
+export class PollActionsService {
   private logger = new Logger(PollActionsService.name);
   private handleError = (err: Error) => this.logger.error(err.message, err.stack);
 
@@ -55,192 +50,24 @@ export class PollActionsService implements OnModuleInit {
   ) {
   }
 
-  async onModuleInit() {
-    await Promise.all([
-      this.migrateSelection(),
-      this.migratePollEvents(),
-      this.migrateShowResults(),
-      this.migrateBookedEvents(),
-      this.migrateDailyEvents(),
-    ]);
-  }
-
-  private async migrateSelection() {
-    const participants = await this.participantService.findAll({
-      $or: [
-        {participation: {$exists: true}},
-        {indeterminateParticipation: {$exists: true}},
-      ],
-    });
-    for (const participant of participants) {
-      participant.selection ||= {};
-      for (const participation of (participant as any).participation || []) {
-        participant.selection[participation.toString()] = 'yes';
-      }
-      for (const participation of (participant as any).indeterminateParticipation || []) {
-        participant.selection[participation.toString()] = 'maybe';
-      }
-      participant.markModified('selection');
-      participant.set('participation', undefined);
-      participant.set('indeterminateParticipation', undefined);
-    }
-    await this.participantService.model.bulkSave(participants as any, {timestamps: false});
-    participants.length && this.logger.log(`Migrated ${participants.length} participants to the new selection format.`);
-  }
-
-  private async migrateDailyEvents() {
-    const result = await this.pollEventService.model.updateMany(
-      {allDay: {$exists: false}},
-      {$set: {allDay: false}},
-      {timestamps: false},
-    );
-    if (!result.modifiedCount) {
-      return;
-    }
-
-    this.logger.log(`Migrated ${result.modifiedCount} poll events to the new all day format.`);
-  }
-
-  private async migratePollEvents() {
-    const pollEvents = await this.pollEventService.findAll({
-      $or: [
-        {start: {$type: 'string'}},
-        {end: {$type: 'string'}},
-      ],
-    });
-    for (const pollEvent of pollEvents) {
-      // NB: needs to happen here instead of aggregation pipeline, because MongoDB does not understand
-      //     the strange date format returned by Date.toString() that was sometimes used in the past.
-      pollEvent.start = new Date(pollEvent.start);
-      pollEvent.end = new Date(pollEvent.end);
-      pollEvent.markModified('start');
-      pollEvent.markModified('end');
-    }
-    await this.pollEventService.model.bulkSave(pollEvents as any, {timestamps: false});
-    pollEvents.length && this.logger.log(`Migrated ${pollEvents.length} poll events to the new date format.`);
-  }
-
-  private async migrateShowResults() {
-    const result = await this.pollEventService.updateMany(
-      {'settings.blindParticipation': {$exists: true}},
-      [
-        {
-          $set: {
-            'settings.showResult': {
-              $cond: {
-                if: {$eq: ['$settings.blindParticipation', true]},
-                then: ShowResultOptions.AFTER_PARTICIPATING,
-                else: ShowResultOptions.IMMEDIATELY,
-              },
-            },
-          },
-        },
-        {
-          $unset: 'settings.blindParticipation',
-        },
-      ],
-      {timestamps: false, updatePipeline: true},
-    );
-    result.modifiedCount && this.logger.log(`Migrated ${result.modifiedCount} polls to the new show result format.`);
-  }
-
-  private async migrateBookedEvents() {
-    // migrate all Poll's bookedEvents: ObjectId[] to Record<ObjectId, true>
-    const polls = await this.pollService.findAll({bookedEvents: {$type: 'array'}});
-    if (!polls.length) {
-      return;
-    }
-
-    for (const poll of polls) {
-      const bookedEvents = poll.bookedEvents as unknown as Types.ObjectId[];
-      const newBookedEvents: Record<string, true> = {};
-      for (const event of bookedEvents) {
-        newBookedEvents[event.toString()] = true;
-      }
-      poll.bookedEvents = newBookedEvents;
-      poll.markModified('bookedEvents');
-    }
-    await this.pollService.model.bulkSave(polls as any, {timestamps: false});
-    this.logger.log(`Migrated ${polls.length} polls to the new booked events format.`);
-  }
-
-  private activeFilter(active: boolean | undefined): QueryFilter<Poll> {
-    if (active === undefined) {
-      return {};
-    }
-    const date = subDays(new Date(), environment.polls.activeDays);
-    return active ? {
-      $or: [
-        {'settings.deadline': {$gt: date}},
-        {'settings.deadline': {$exists: false}},
-        {'settings.deadline': null},
-      ],
-    } : {
-      'settings.deadline': {$ne: null, $lte: date},
-    };
-  }
-
-  async getPolls(token: string, user: string | undefined, active: boolean | undefined): Promise<ReadStatsPollDto[]> {
-    return this.readPolls({
-      $and: [
-        // This is the same logic as isAdmin
-        user ? {
-          $or: [
-            {createdBy: user},
-            {[`adminRoles.${user}`]: {$exists: true}},
-            {adminToken: token},
-          ],
-        } : {adminToken: token},
-        this.activeFilter(active),
-      ],
-    });
-  }
-
-  async getParticipatedPolls(token: string): Promise<ReadStatsPollDto[]> {
+  async getParticipatedPolls(token: string, options?: QueryOptions<Poll>): Promise<ReadStatsPollDto[]> {
     const pollIds = await this.participantService.distinct('poll', {token});
-    return this.readPolls({
+    return this.pollService.findAll({
       _id: {$in: pollIds},
-    });
-  }
-
-  private readPolls(filter: QueryFilter<Poll>): Promise<ReadStatsPollDto[]> {
-    return this.pollService.findAll(filter, {
-      projection: readPollSelect,
-      populate: readPollPopulate,
-      sort: {createdAt: -1},
-    }) as any;
-  }
-
-  getPoll(id: Types.ObjectId): Promise<Doc<ReadPollDto> | null> {
-    return this.pollService.find(id, {
-      projection: readPollSelect,
-      populate: readPollPopulate,
-    }) as any;
+    }, options) as any;
   }
 
   async postPoll(pollDto: CreatePollDto, user?: UserToken): Promise<ReadPollDto> {
-    const poll = await this.pollService.create({
+    return this.pollService.create({
       ...pollDto,
       id: undefined!, // required to pass type check, but ignored
       createdBy: user?.sub,
     });
-    return this.mask(poll.toObject());
-  }
-
-  mask(poll: Poll): ReadPollDto {
-    const {...rest} = poll;
-    for (const key of readPollExcluded) {
-      // @ts-expect-error TS2790
-      delete rest[key];
-    }
-    return rest;
   }
 
   async putPoll(id: Types.ObjectId, pollDto: UpdatePollDto, user?: UserToken): Promise<ReadPollDto | null> {
-    const original = await this.pollService.find(id, {projection: readPollSelect});
-    const updated = await this.pollService.update(id, pollDto, {
-      projection: readPollSelect,
-    });
+    const original = await this.pollService.find(id);
+    const updated = await this.pollService.update(id, pollDto);
 
     // LogHistory was enabled either before or now
     if (original && updated && (original?.settings.logHistory || updated?.settings.logHistory)) {
@@ -272,13 +99,16 @@ export class PollActionsService implements OnModuleInit {
     return updated;
   }
 
-  async clonePoll(id: Types.ObjectId): Promise<ReadPollDto | null> {
+  async clonePoll(id: Types.ObjectId, token: string, user?: UserToken): Promise<ReadPollDto | null> {
     const poll = await this.pollService.find(id) ?? notFound(id);
     const {_id, id: _, title, ...rest} = poll.toObject();
     const pollEvents = await this.pollEventService.findAll({poll: id});
     const clonedPoll = await this.postPoll({
       ...rest,
       title: `${title} (clone)`,
+      // NB: someone can clone a poll that is not theirs, so we need to override these with the actor.
+      adminToken: token,
+      createdBy: user?.sub,
     });
     await this.pollEventService.createMany(pollEvents.map(({start, end, note, allDay}) => ({
       poll: clonedPoll._id,
@@ -291,7 +121,7 @@ export class PollActionsService implements OnModuleInit {
   }
 
   async deletePoll(id: Types.ObjectId): Promise<ReadPollDto | null> {
-    const poll = await this.pollService.delete(id, {projection: readPollSelect});
+    const poll = await this.pollService.delete(id);
     await this.pollEventService.deleteMany({poll: id});
     await this.participantService.deleteMany({poll: id});
     return poll;
@@ -411,24 +241,12 @@ export class PollActionsService implements OnModuleInit {
 
   async getParticipants(id: Types.ObjectId, token: string, user?: UserToken): Promise<ReadParticipantDto[]> {
     const poll = await this.pollService.find(id) ?? notFound(id);
-    const currentParticipant = await this.participantService.findAll({
-      poll: id,
-      ...(user ? {
-        $or: [
-          {createdBy: user.sub},
-          {token},
-        ],
-      } : {
-        token,
-      }),
-    });
+    const currentParticipant = await this.participantService.getOwn(id, token, user);
 
     if (this.canViewResults(poll, token, user, currentParticipant.length > 0)) {
       const participants = await this.participantService.findAll({
         poll: id,
         _id: {$nin: currentParticipant.map(p => p._id)},
-      }, {
-        projection: readParticipantSelect,
       });
       return [...participants, ...currentParticipant];
     }
@@ -437,7 +255,7 @@ export class PollActionsService implements OnModuleInit {
   }
 
   private canViewResults(poll: Poll, token: string, user: UserToken | undefined, currentParticipant: boolean) {
-    if (this.isAdmin(poll, token, user?.sub)) {
+    if (this.pollService.isAdmin(poll, token, user?.sub)) {
       return true;
     }
     switch (poll.settings.showResult) {
@@ -535,7 +353,7 @@ export class PollActionsService implements OnModuleInit {
 
   async editParticipation(id: Types.ObjectId, participantId: Types.ObjectId, token: string, participant: UpdateParticipantDto): Promise<ReadParticipantDto | null> {
     const [poll, otherParticipants] = await Promise.all([
-      this.getPoll(id),
+      this.pollService.find(id),
       this.participantService.findAll(id),
     ]);
     if (!poll) {
@@ -552,15 +370,9 @@ export class PollActionsService implements OnModuleInit {
     }, participant);
   }
 
-  async deleteParticipation(participantId: Types.ObjectId): Promise<ReadParticipantDto | null> {
-    return this.participantService.delete(participantId, {projection: readParticipantSelect});
-  }
-
   async bookEvents(id: Types.ObjectId, events: BookedEvents, user?: UserToken): Promise<ReadPollDto> {
     const poll = await this.pollService.update(id, {
       bookedEvents: events,
-    }, {
-      projection: readPollSelect,
     }) ?? notFound(id);
     const eventDocs = await this.pollEventService.findAll({
       poll: id,
@@ -647,17 +459,6 @@ export class PollActionsService implements OnModuleInit {
         participant: participant.toObject(),
       }).catch(this.handleError);
     }
-  }
-
-  isAdmin(poll: Poll, token: string | undefined, user: string | undefined) {
-    // When updating, also make sure to update getPolls
-    if (token && poll.adminToken === token) {
-      return true;
-    }
-    if (user && (poll.createdBy === user || poll.adminRoles?.[user])) {
-      return true;
-    }
-    return false;
   }
 
   async claimPolls(adminToken: string, createdBy: string): Promise<void> {
