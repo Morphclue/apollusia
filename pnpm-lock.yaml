@@ -166,8 +166,8 @@ importers:
         specifier: ^4.7.9
         version: 4.7.9
       http-proxy-middleware:
-        specifier: ^4.0.0
-        version: 4.0.0
+        specifier: ^4.1.1
+        version: 4.1.1
       ical-generator:
         specifier: ^10.2.0
         version: 10.2.0(@types/node@25.9.2)(dayjs@1.11.21)(luxon@3.7.2)
@@ -598,6 +598,7 @@ packages:
   '@angular/animations@21.2.12':
     resolution: {integrity: sha512-91mgQI15qStL38LijoKyAvNo61wB5rUpwqDVHoJQeISUChVYOY4hiofO6hW6ERg8MHQKUTyOrPDg5cN4yTcp9A==}
     engines: {node: ^20.19.0 || ^22.12.0 || >=24.0.0}
+    deprecated: '@angular/animations is deprecated. Use `animate.enter` and `animate.leave` instead. For more information see: https://v22.angular.dev/guide/animations.'
     peerDependencies:
       '@angular/core': 21.2.12
 
@@ -711,6 +712,7 @@ packages:
   '@angular/platform-browser-dynamic@21.2.12':
     resolution: {integrity: sha512-9WBflv/ewh7yjeXL3YrSQcrsquvBYSBzgpKpX39zH9YBDnSNAv7ic0psmfyLkb1bjrWM+CFJBbR543CLTCOCRA==}
     engines: {node: ^20.19.0 || ^22.12.0 || >=24.0.0}
+    deprecated: '@angular/platform-browser-dynamic is deprecated. Use `@angular/platform-browser` instead.'
     peerDependencies:
       '@angular/common': 21.2.12
       '@angular/compiler': 21.2.12
@@ -7458,8 +7460,8 @@ packages:
     resolution: {integrity: sha512-T1gkAiYYDWYx3V5Bmyu7HcfcvL7mUrTWiM6yOfa3PIphViJ/gFPbvidQ+veqSOHci/PxBcDabeUNCzpOODJZig==}
     engines: {node: '>= 14'}
 
-  http-proxy-middleware@2.0.9:
-    resolution: {integrity: sha512-c1IyJYLYppU574+YI7R4QyX2ystMtVXZwIdzazUIPIJsHuWNd+mho2j+bKoHftndicGj9yh+xjd+l0yj7VeT1Q==}
+  http-proxy-middleware@2.0.10:
+    resolution: {integrity: sha512-RKzRWNPxUZqbuk3BC5mGVJbBnWgr+diEnjJexIOytFbBzDy88Fbh/YvBr3DsNrl1jYAfjWfpATEv0NO35FDuPQ==}
     engines: {node: '>=12.0.0'}
     peerDependencies:
       '@types/express': ^4.17.13
@@ -7471,12 +7473,12 @@ packages:
     resolution: {integrity: sha512-GLZZm1X38BPY4lkXA01jhwxvDoOkkXqjgVyUzVxiEK4iuRu03PZoYHhHRwxnfhQMDuaxi3vVri0YgSro/1oWqg==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
 
-  http-proxy-middleware@3.0.6:
-    resolution: {integrity: sha512-jhO3QfahaHWfQjEnyGW0vpYIYaXcnA6FEfehrBthOokGppvmI6zcV+1yb6TWn3vyeh8yQUoEqH51DNHOCjivxg==}
+  http-proxy-middleware@3.0.7:
+    resolution: {integrity: sha512-iwbQltVlx8bCrqePUM8C+hllHvdawVhQJaLrj1X7qllkvFQdXFsr16pW/mo9+JDVjN+QO2XUx9jd8SmoFkE5qw==}
     engines: {node: ^14.18.0 || ^16.10.0 || >=18.0.0}
 
-  http-proxy-middleware@4.0.0:
-    resolution: {integrity: sha512-wuHwaUtmC0XzJNHqRp41zXtt5ojpHbusXGhq6781VvnjWUYPu7opmOF3eomGNujT07kEOnHWZyV9UZzKimVCKA==}
+  http-proxy-middleware@4.1.1:
+    resolution: {integrity: sha512-KX5ZofGXLFXqFAkQoOWZ+rTtaLTut7m0gyL+QzJrdejtIZ+F4bPPDoe7reISg2+v0CAz5OfVwEJEhty7X+e57g==}
     engines: {node: ^22.15.0 || ^24.0.0 || >=26.0.0}
 
   http-proxy@1.18.1:
@@ -7508,8 +7510,8 @@ packages:
     resolution: {integrity: sha512-vK9P5/iUfdl95AI+JVyUuIcVtd4ofvtrOr3HNtM2yxC9bnMbEdp3x01OhQNnjb8IJYi38VlTE3mBXwcfvywuSw==}
     engines: {node: '>= 14'}
 
-  httpxy@0.5.1:
-    resolution: {integrity: sha512-JPhqYiixe1A1I+MXDewWDZqeudBGU8Q9jCHYN8ML+779RQzLjTi78HBvWz4jMxUD6h2/vUL12g4q/mFM0OUw1A==}
+  httpxy@0.5.3:
+    resolution: {integrity: sha512-SMS9V6Sn7VWaS11lYhoAr0ceoaiolTWf4jYdJn0NJhCdKMu9R2H9Fh0LBDWBHQF6HRLI1PmaePYsjanSpE5PEw==}
 
   human-signals@1.1.1:
     resolution: {integrity: sha512-SEQu7vl8KjNL2eoGBLF3+wAjpsNfA9XMlXAYj/3EdaNfAlxKthD1xjEQfGOUhllCGGJVNY34bRr6lPINhNjyZw==}
@@ -15897,7 +15899,7 @@ snapshots:
       '@nx/web': 22.7.1(6588dc8e127bcd38da2b34d7c2e29840)
       '@rspack/core': 1.6.8(@swc/helpers@0.5.23)
       express: 4.22.1
-      http-proxy-middleware: 3.0.6
+      http-proxy-middleware: 3.0.7
       picocolors: 1.1.1
       tslib: 2.8.1
       webpack: 5.107.2(@swc/core@1.15.40(@swc/helpers@0.5.23))(cssnano@7.1.9(postcss@8.5.15))(postcss@8.5.15)
@@ -16036,7 +16038,7 @@ snapshots:
       css-loader: 6.11.0(@rspack/core@1.6.8(@swc/helpers@0.5.23))(webpack@5.107.2(@swc/core@1.15.40(@swc/helpers@0.5.23))(cssnano@7.1.9(postcss@8.5.15))(postcss@8.5.15))
       enquirer: 2.3.6
       express: 4.22.1
-      http-proxy-middleware: 3.0.6
+      http-proxy-middleware: 3.0.7
       less-loader: 12.3.3(@rspack/core@1.6.8(@swc/helpers@0.5.23))(less@4.5.1)(webpack@5.107.2(@swc/core@1.15.40(@swc/helpers@0.5.23))(cssnano@7.1.9(postcss@8.5.15))(postcss@8.5.15))
       license-webpack-plugin: 4.0.2(webpack@5.107.2(@swc/core@1.15.40(@swc/helpers@0.5.23))(cssnano@7.1.9(postcss@8.5.15))(postcss@8.5.15))
       loader-utils: 2.0.4
@@ -16619,7 +16621,7 @@ snapshots:
       connect-history-api-fallback: 2.0.0
       express: 4.22.1
       graceful-fs: 4.2.11
-      http-proxy-middleware: 2.0.9(@types/express@4.17.25)
+      http-proxy-middleware: 2.0.10(@types/express@4.17.25)
       ipaddr.js: 2.4.0
       launch-editor: 2.14.1
       open: 10.2.0
@@ -20494,7 +20496,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  http-proxy-middleware@2.0.9(@types/express@4.17.25):
+  http-proxy-middleware@2.0.10(@types/express@4.17.25):
     dependencies:
       '@types/http-proxy': 1.17.17
       http-proxy: 1.18.1(debug@4.4.3)
@@ -20517,7 +20519,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  http-proxy-middleware@3.0.6:
+  http-proxy-middleware@3.0.7:
     dependencies:
       '@types/http-proxy': 1.17.17
       debug: 4.4.3(supports-color@8.1.1)
@@ -20528,10 +20530,10 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  http-proxy-middleware@4.0.0:
+  http-proxy-middleware@4.1.1:
     dependencies:
       debug: 4.4.3(supports-color@8.1.1)
-      httpxy: 0.5.1
+      httpxy: 0.5.3
       is-glob: 4.0.3
       is-plain-obj: 4.1.0
       micromatch: 4.0.8
@@ -20599,7 +20601,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  httpxy@0.5.1: {}
+  httpxy@0.5.3: {}
 
   human-signals@1.1.1: {}
 
@@ -26121,7 +26123,7 @@ snapshots:
       connect-history-api-fallback: 2.0.0
       express: 4.22.2
       graceful-fs: 4.2.11
-      http-proxy-middleware: 2.0.9(@types/express@4.17.25)
+      http-proxy-middleware: 2.0.10(@types/express@4.17.25)
       ipaddr.js: 2.4.0
       launch-editor: 2.14.1
       open: 10.2.0
@@ -26160,7 +26162,7 @@ snapshots:
       connect-history-api-fallback: 2.0.0
       express: 4.22.1
       graceful-fs: 4.2.11
-      http-proxy-middleware: 2.0.9(@types/express@4.17.25)
+      http-proxy-middleware: 2.0.10(@types/express@4.17.25)
       ipaddr.js: 2.4.0
       launch-editor: 2.13.2
       open: 10.2.0
