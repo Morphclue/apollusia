@@ -125,7 +125,7 @@
     "file-saver": "^2.0.5",
     "flatpickr": "^4.6.13",
     "handlebars": "^4.7.9",
-    "http-proxy-middleware": "^4.0.0",
+    "http-proxy-middleware": "^4.1.1",
     "ical-generator": "^10.2.0",
     "keycloak-angular": "^21.0.0",
     "keycloak-js": "^26.2.4",
