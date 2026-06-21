@@ -1,6 +1,6 @@
-import {ApiProperty, OmitType, PartialType} from '@nestjs/swagger';
+import {ApiProperty, ApiPropertyOptional, OmitType, PartialType} from '@nestjs/swagger';
 
-import {Poll} from '../schema';
+import {Poll, PollRole} from '../schema';
 
 export class CreatePollDto extends OmitType(Poll, [
   'id',
@@ -14,7 +14,6 @@ export class UpdatePollDto extends PartialType(CreatePollDto) {
 }
 
 export const readPollExcluded = ['adminToken'] as const;
-export const readPollSelect = readPollExcluded.map(s => '-' + s).join(' ');
 export const readPollPopulate = ['events', 'participants', 'comments'];
 
 // which properties should be included in poll.changed log event:
@@ -27,6 +26,9 @@ export const updatePollDiff: (keyof Poll)[] = [
 ];
 
 export class ReadPollDto extends OmitType(Poll, readPollExcluded) {
+  /** This is injected by the backend for determining your role */
+  @ApiPropertyOptional()
+  adminRole?: PollRole;
 }
 
 export class ReadStatsPollDto extends ReadPollDto {

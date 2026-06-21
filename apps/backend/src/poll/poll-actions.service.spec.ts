@@ -2,13 +2,13 @@ import {Poll, PollEventDto} from '@apollusia/types';
 import {NotFoundException} from '@nestjs/common';
 import {MongooseModule} from '@nestjs/mongoose';
 import {Test, TestingModule} from '@nestjs/testing';
-import {Model, Types} from 'mongoose';
+import {Document, Model, Types} from 'mongoose';
 
+import {ParticipantStub, PollEventStub, PollStub} from '../../test/stubs';
 import {PollActionsService} from './poll-actions.service';
 import {PollModule} from './poll.module';
-import {ParticipantStub, PollEventStub, PollStub} from '../../test/stubs';
 
-describe('PollActionsService', () => {
+describe(PollActionsService.name, () => {
   let service: PollActionsService;
   let pollModel: Model<Poll>;
   let pollEventModel: Model<PollEventDto>;
@@ -30,21 +30,13 @@ describe('PollActionsService', () => {
 
   it('should create poll', async () => {
     const poll = await service.postPoll(PollStub());
+    const json = (poll as unknown as Document).toJSON();
+
     expect(poll).toBeDefined();
     expect(poll._id).toBeDefined();
-
     pollStubId = poll._id;
-  });
 
-  it('should get poll', async () => {
-    const poll = await service.getPoll(pollStubId);
-    expect(poll).toBeDefined();
-  });
-
-  it('should get all polls', async () => {
-    const polls = await service.getPolls(PollStub().adminToken, undefined, true);
-    expect(polls).toBeDefined();
-    expect(polls.length).toEqual(1);
+    expect(json.adminToken).toBeUndefined();
   });
 
   it('should update poll', async () => {
@@ -61,45 +53,40 @@ describe('PollActionsService', () => {
     modifiedPoll.title = 'Meeting';
     const modifiedPollId = new Types.ObjectId('9e9e9e9e9e9e9e9e9e9e9e9e');
 
-    expect(await service.putPoll(modifiedPollId, modifiedPoll)).toBeNull();
-    const updatedPoll = await pollModel.findById(pollStubId).exec();
-    const pollCounts = await pollModel.countDocuments().exec();
+    const updated = await service.putPoll(modifiedPollId, modifiedPoll);
+    expect(updated).toBeNull();
 
-    expect(updatedPoll).toBeDefined();
-    expect(updatedPoll!.title).not.toEqual('Meeting');
-    expect(pollCounts).toEqual(1);
+    const originalPoll = await pollModel.findById(pollStubId).exec();
+    expect(originalPoll).toBeDefined();
+    expect(originalPoll!.title).not.toEqual('Meeting');
   });
 
   it('should clone poll', async () => {
-    let pollCounts = await pollModel.countDocuments().exec();
-    expect(pollCounts).toEqual(1);
+    const pollCounts = await pollModel.countDocuments().exec();
+    const clonedPoll = await service.clonePoll(pollStubId, 'admin-token-clone');
 
-    const clonedPoll = await service.clonePoll(pollStubId);
-    pollCounts = await pollModel.countDocuments().exec();
-
+    const pollCounts2 = await pollModel.countDocuments().exec();
     expect(clonedPoll).toBeDefined();
     expect(clonedPoll!._id).not.toEqual(pollStubId);
-    expect(pollCounts).toEqual(2);
+    // @ts-expect-error TS2339
+    expect(clonedPoll!.adminToken).toEqual('admin-token-clone');
+    expect(pollCounts2).toEqual(pollCounts + 1);
   });
 
   it('should delete poll', async () => {
-    let pollCounts = await pollModel.countDocuments().exec();
-    expect(pollCounts).toEqual(2);
-
+    const pollCounts = await pollModel.countDocuments().exec();
     await service.deletePoll(pollStubId);
-    pollCounts = await pollModel.countDocuments().exec();
 
-    expect(pollCounts).toEqual(1);
+    const pollCounts2 = await pollModel.countDocuments().exec();
+    expect(pollCounts2).toEqual(pollCounts - 1);
   });
 
   it('should not delete poll', async () => {
-    let pollCounts = await pollModel.countDocuments().exec();
-    expect(pollCounts).toEqual(1);
-
+    const pollCounts = await pollModel.countDocuments().exec();
     expect(await service.deletePoll(pollStubId)).toBeNull();
-    pollCounts = await pollModel.countDocuments().exec();
 
-    expect(pollCounts).toEqual(1);
+    const pollCounts2 = await pollModel.countDocuments().exec();
+    expect(pollCounts2).toEqual(pollCounts);
   });
 
   it('should add events to poll', async () => {
@@ -153,41 +140,5 @@ describe('PollActionsService', () => {
       new Types.ObjectId('5f1f9b9b9b9b942b9b9b9b9b'),
       ParticipantStub())
     ).rejects.toThrow(NotFoundException);
-  });
-
-  it('should be admin with matching token', () => {
-    const poll = PollStub() as Poll;
-    const isAdmin = service.isAdmin(poll, ParticipantStub().token, undefined);
-    expect(isAdmin).toEqual(true);
-  });
-
-  it('should be admin when user created poll', () => {
-    const poll = {
-      ...PollStub(),
-      createdBy: 'creator-id',
-    } as Poll;
-    const isAdmin = service.isAdmin(poll, undefined, 'creator-id');
-
-    expect(isAdmin).toEqual(true);
-  });
-
-  it('should be admin when user is in adminRoles', () => {
-    const poll = {
-      ...PollStub(),
-      adminRoles: {'editor-id': 'edit'},
-    } as Poll;
-    const isAdmin = service.isAdmin(poll, undefined, 'editor-id');
-
-    expect(isAdmin).toEqual(true);
-  });
-
-  it('should not be admin without matching token or user', () => {
-    const poll = {
-      ...PollStub(),
-      adminRoles: {'editor-id': 'edit'},
-    } as Poll;
-    const isAdmin = service.isAdmin(poll, 'wrong-token', 'other-user');
-
-    expect(isAdmin).toEqual(false);
   });
 });

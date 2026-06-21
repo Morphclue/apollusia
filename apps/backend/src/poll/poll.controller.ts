@@ -1,4 +1,4 @@
-import {CreatePollDto, ReadPollDto, ReadStatsPollDto, UpdatePollDto} from '@apollusia/types';
+import {CreatePollDto, ReadPollDto, readPollPopulate, ReadStatsPollDto, UpdatePollDto} from '@apollusia/types';
 import {Auth, AuthUser, UserToken} from '@mean-stream/nestx/auth';
 import {NotFound, notFound} from '@mean-stream/nestx/not-found';
 import {ObjectIdPipe} from '@mean-stream/nestx/ref';
@@ -11,6 +11,7 @@ import {
   Get,
   Headers,
   Param,
+  ParseArrayPipe,
   ParseBoolPipe,
   Post,
   Put,
@@ -37,29 +38,33 @@ export class PollController {
     @Headers('Participant-Token') token: string,
     @Query('participated', new DefaultValuePipe(false), ParseBoolPipe) participated: boolean,
     @Query('active') active?: string,
+    @Query('populate', new ParseArrayPipe({optional: true})) populate = readPollPopulate,
+    @Query('sort') sort = '-createdAt',
     @AuthUser() user?: UserToken,
   ): Promise<ReadStatsPollDto[]> {
+    const options = {
+      populate,
+      sort,
+    };
     if (participated) {
-      return this.pollActionsService.getParticipatedPolls(token);
+      return this.pollActionsService.getParticipatedPolls(token, options);
     }
-    return this.pollActionsService.getPolls(token, user?.sub, active !== undefined ? active === 'true' : undefined);
-  }
-
-  @Get(':id/admin/:token')
-  @UseGuards(OptionalAuthGuard)
-  async isAdmin(
-    @Param('id', ObjectIdPipe) id: Types.ObjectId,
-    @Param('token') token: string,
-    @AuthUser() user?: UserToken,
-  ): Promise<boolean> {
-    const poll = await this.pollService.find(id) ?? notFound(id);
-    return this.pollActionsService.isAdmin(poll, token, user?.sub);
+    return this.pollService.getPolls(token, user?.sub, active !== undefined ? active === 'true' : undefined, options);
   }
 
   @Get(':id')
   @NotFound()
-  async getPoll(@Param('id', ObjectIdPipe) id: Types.ObjectId): Promise<ReadPollDto | null> {
-    return this.pollActionsService.getPoll(id);
+  @UseGuards(OptionalAuthGuard)
+  async getPoll(
+    @Param('id', ObjectIdPipe) id: Types.ObjectId,
+    @Headers('Participant-Token') token?: string,
+    @AuthUser() user?: UserToken,
+  ): Promise<ReadPollDto | null> {
+    const result = await this.pollService.find(id);
+    return result && {
+      ...result.toJSON(),
+      adminRole: this.pollService.isAdmin(result, token, user?.sub) ? 'edit' : undefined,
+    };
   }
 
   @Post()
@@ -81,16 +86,21 @@ export class PollController {
     @AuthUser() user?: UserToken,
   ): Promise<ReadPollDto | null> {
     const pollDoc = await this.pollService.find(id) ?? notFound(id);
-    if (!this.pollActionsService.isAdmin(pollDoc, token, user?.sub)) {
+    if (!this.pollService.isAdmin(pollDoc, token, user?.sub)) {
       throw new ForbiddenException('You are not allowed to edit this poll');
     }
-    return this.pollActionsService.putPoll(id, pollDto, user);
+    return this.pollService.update(id, pollDto, user);
   }
 
   @Post(':id/clone')
   @NotFound()
-  async clonePoll(@Param('id', ObjectIdPipe) id: Types.ObjectId): Promise<ReadPollDto | null> {
-    return this.pollActionsService.clonePoll(id);
+  @UseGuards(OptionalAuthGuard)
+  async clonePoll(
+    @Param('id', ObjectIdPipe) id: Types.ObjectId,
+    @Headers('Participant-Token') token: string,
+    @AuthUser() user?: UserToken,
+  ): Promise<ReadPollDto | null> {
+    return this.pollActionsService.clonePoll(id, token, user);
   }
 
   @Delete(':id')
@@ -102,7 +112,7 @@ export class PollController {
     @AuthUser() user?: UserToken,
   ): Promise<ReadPollDto | null> {
     const pollDoc = await this.pollService.find(id) ?? notFound(id);
-    if (!this.pollActionsService.isAdmin(pollDoc, token, user?.sub)) {
+    if (!this.pollService.isAdmin(pollDoc, token, user?.sub)) {
       throw new ForbiddenException('You are not allowed to delete this poll');
     }
     return this.pollActionsService.deletePoll(id);

@@ -1,8 +1,10 @@
-import {Poll} from '@apollusia/types';
+import {Poll, ReadStatsPollDto} from '@apollusia/types';
 import {MongooseRepository} from '@mean-stream/nestx/resource';
 import {Injectable} from '@nestjs/common';
 import {InjectModel} from '@nestjs/mongoose';
-import {Model} from 'mongoose';
+import {Model, QueryFilter, QueryOptions} from 'mongoose';
+
+import {environment} from '../environment';
 
 @Injectable()
 export class PollService extends MongooseRepository<Poll> {
@@ -10,5 +12,52 @@ export class PollService extends MongooseRepository<Poll> {
     @InjectModel(Poll.name) public model: Model<Poll>,
   ) {
     super(model);
+  }
+
+  async getPolls(token: string, user: string | undefined, active: boolean | undefined, options?: QueryOptions<Poll>): Promise<ReadStatsPollDto[]> {
+    return this.findAll({
+      $and: [
+        this.ownerFilter(token, user),
+        this.activeFilter(active),
+      ],
+    }, options) as any;
+  }
+
+  private activeFilter(active: boolean | undefined): QueryFilter<Poll> {
+    if (active === undefined) {
+      return {};
+    }
+    const date = new Date(Date.now() - environment.polls.activeDays * 24 * 60 * 60 * 1000);
+    return active ? {
+      $or: [
+        {'settings.deadline': {$gt: date}},
+        {'settings.deadline': {$exists: false}},
+        {'settings.deadline': null},
+      ],
+    } : {
+      'settings.deadline': {$ne: null, $lte: date},
+    };
+  }
+
+  private ownerFilter(token: string, user: string | undefined): QueryFilter<Poll> {
+    // This is the same logic as isAdmin
+    return user ? {
+      $or: [
+        {createdBy: user},
+        {[`adminRoles.${user}`]: {$exists: true}},
+        {adminToken: token},
+      ],
+    } : {adminToken: token};
+  }
+
+  isAdmin(poll: Poll, token: string | undefined, user: string | undefined) {
+    // When updating, also make sure to update getPolls
+    if (token && poll.adminToken === token) {
+      return true;
+    }
+    if (user && (poll.createdBy === user || poll.adminRoles?.[user])) {
+      return true;
+    }
+    return false;
   }
 }

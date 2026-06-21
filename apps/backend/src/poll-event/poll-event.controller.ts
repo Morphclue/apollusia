@@ -46,7 +46,7 @@ export class PollEventController {
     @AuthUser() user?: UserToken,
   ): Promise<PollEvent[]> {
     const pollDoc = await this.pollService.find(poll) ?? notFound(poll);
-    if (!this.pollActionsService.isAdmin(pollDoc, token, user?.sub)) {
+    if (!this.pollService.isAdmin(pollDoc, token, user?.sub)) {
       throw new ForbiddenException('You are not allowed to edit events for this poll');
     }
     return this.pollActionsService.postEvents(poll, pollEvents, user);
