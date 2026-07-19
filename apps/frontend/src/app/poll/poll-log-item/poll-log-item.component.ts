@@ -1,5 +1,5 @@
 import {DatePipe} from '@angular/common';
-import {Component, inject, input, OnInit, signal} from '@angular/core';
+import {Component, inject, input, OnInit, signal, ChangeDetectionStrategy} from '@angular/core';
 import {KeycloakProfile} from 'keycloak-js';
 import {PollLog} from '../../model';
 import {KcUserPipe} from '../../pipes';
@@ -10,6 +10,7 @@ import {KcUserPipe} from '../../pipes';
     DatePipe,
   ],
   templateUrl: './poll-log-item.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './poll-log-item.component.scss',
 })
 export class PollLogItemComponent implements OnInit {

@@ -1,4 +1,4 @@
-import {Component, inject, input, model, OnDestroy, OnInit, output} from '@angular/core';
+import {Component, inject, input, model, OnDestroy, OnInit, output, ChangeDetectionStrategy} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {checkParticipant} from '@apollusia/logic';
 import type {BookedEvents, PollEventState} from '@apollusia/types';
@@ -18,6 +18,7 @@ import {PollService} from '../services/poll.service';
   selector: 'apollusia-table',
   templateUrl: './table.component.html',
   styleUrl: './table.component.scss',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     EventHeadComponent,
     FormsModule,

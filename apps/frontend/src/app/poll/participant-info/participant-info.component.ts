@@ -1,5 +1,5 @@
 import {DatePipe} from '@angular/common';
-import {Component, input} from '@angular/core';
+import {Component, input, ChangeDetectionStrategy} from '@angular/core';
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 
 import {Participant} from '../../model';
@@ -8,6 +8,7 @@ import {Participant} from '../../model';
   selector: 'apollusia-participant-info',
   templateUrl: './participant-info.component.html',
   styleUrl: './participant-info.component.scss',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [NgbTooltip, DatePipe],
 })
 export class ParticipantInfoComponent {

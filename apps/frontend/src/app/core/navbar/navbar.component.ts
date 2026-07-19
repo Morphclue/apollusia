@@ -1,5 +1,5 @@
 import {NgOptimizedImage, AsyncPipe} from '@angular/common';
-import {Component, inject, OnInit} from '@angular/core';
+import {Component, inject, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {RouterLink, RouterLinkActive} from '@angular/router';
 import {Theme, ThemeService} from '@mean-stream/ngbx';
 import {
@@ -30,6 +30,7 @@ interface RecentPoll {
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     NgOptimizedImage,
     RouterLink,

@@ -1,5 +1,5 @@
 import {DatePipe} from '@angular/common';
-import {Component, inject, OnInit, input} from '@angular/core';
+import {Component, inject, OnInit, input, ChangeDetectionStrategy} from '@angular/core';
 import {RouterLink} from '@angular/router';
 import {ToastService} from '@mean-stream/ngbx';
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
@@ -14,6 +14,7 @@ import {LocationIconPipe} from '../pipes/location-icon.pipe';
   selector: 'apollusia-info-table',
   templateUrl: './info-table.component.html',
   styleUrl: './info-table.component.scss',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     NgbTooltip,
     LocationLinkComponent,

@@ -1,4 +1,4 @@
-import {Component, input, model} from '@angular/core';
+import {Component, input, model, ChangeDetectionStrategy} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {PollEventState} from '@apollusia/types';
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
@@ -9,6 +9,7 @@ import {ReadPoll} from '../../model';
   selector: 'app-check-button',
   templateUrl: './check-button.component.html',
   styleUrls: ['./check-button.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [NgbTooltip, FormsModule],
 })
 export class CheckButtonComponent {

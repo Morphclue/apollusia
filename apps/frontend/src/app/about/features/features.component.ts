@@ -1,5 +1,5 @@
 import {KeyValuePipe} from '@angular/common';
-import {Component} from '@angular/core';
+import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 
 import features from './features.json';
@@ -19,6 +19,7 @@ interface Feature {
   selector: 'app-features',
   templateUrl: './features.component.html',
   styleUrls: ['./features.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [NgbTooltip, KeyValuePipe],
 })
 export class FeaturesComponent {

@@ -1,5 +1,5 @@
 import {CommonModule} from '@angular/common';
-import {Component, inject, input, OnInit, signal} from '@angular/core';
+import {Component, inject, input, OnInit, signal, ChangeDetectionStrategy} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {ActivatedRoute} from '@angular/router';
 import {ShowResultOptions} from '@apollusia/types/lib/schema/show-result-options';
@@ -15,6 +15,7 @@ import {PollService} from '../services/poll.service';
   selector: 'apollusia-poll-log',
   templateUrl: './poll-log.component.html',
   styleUrl: './poll-log.component.scss',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [CommonModule, CoreModule, FormsModule, NgbPopover, PollLogItemComponent],
 })
 export class PollLogComponent implements OnInit {

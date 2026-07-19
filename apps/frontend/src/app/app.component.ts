@@ -1,4 +1,4 @@
-import {Component, inject, OnInit} from '@angular/core';
+import {Component, inject, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {Meta} from '@angular/platform-browser';
 import {RouterOutlet} from '@angular/router';
 import {SwUpdate} from '@angular/service-worker';
@@ -12,6 +12,7 @@ import {NavbarComponent} from './core/navbar/navbar.component';
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     NavbarComponent,
     RouterOutlet,

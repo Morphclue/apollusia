@@ -1,4 +1,4 @@
-import {Component, inject, OnInit, SecurityContext, input} from '@angular/core';
+import {Component, inject, OnInit, SecurityContext, input, ChangeDetectionStrategy} from '@angular/core';
 import {DomSanitizer, SafeHtml} from '@angular/platform-browser';
 
 import {MarkdownService} from '../services/markdown.service';
@@ -6,6 +6,7 @@ import {MarkdownService} from '../services/markdown.service';
 @Component({
   selector: 'app-markdown',
   templateUrl: './markdown.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./markdown.component.scss'],
 })
 export class MarkdownComponent implements OnInit {

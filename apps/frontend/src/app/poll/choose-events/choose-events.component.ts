@@ -1,5 +1,5 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, inject, OnInit} from '@angular/core';
+import {Component, inject, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {Meta, Title} from '@angular/platform-browser';
 import {
   ActivatedRoute,
@@ -40,6 +40,7 @@ interface SortMethod {
   selector: 'app-choose-events',
   templateUrl: './choose-events.component.html',
   styleUrls: ['./choose-events.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     InfoTableComponent,
     NgbTooltip,

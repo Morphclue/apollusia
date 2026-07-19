@@ -1,4 +1,4 @@
-import {Component, input} from '@angular/core';
+import {Component, input, ChangeDetectionStrategy} from '@angular/core';
 import {RouterLink} from '@angular/router';
 
 import {InfoTableComponent} from '../../core/info-table/info-table.component';
@@ -8,6 +8,7 @@ import {ReadPoll} from '../../model';
   selector: 'app-card',
   templateUrl: './card.component.html',
   styleUrls: ['./card.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [RouterLink, InfoTableComponent],
 })
 export class CardComponent {

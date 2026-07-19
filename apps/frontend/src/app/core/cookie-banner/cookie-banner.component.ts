@@ -1,4 +1,4 @@
-import {Component, inject, OnInit} from '@angular/core';
+import {Component, inject, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {NgbAlert} from '@ng-bootstrap/ng-bootstrap';
 
 import {StorageService} from '../services/storage.service';
@@ -7,6 +7,7 @@ import {StorageService} from '../services/storage.service';
   selector: 'app-cookie-banner',
   templateUrl: './cookie-banner.component.html',
   styleUrls: ['./cookie-banner.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [NgbAlert],
 })
 export class CookieBannerComponent implements OnInit {

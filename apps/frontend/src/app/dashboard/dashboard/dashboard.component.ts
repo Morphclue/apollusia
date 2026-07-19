@@ -1,5 +1,5 @@
 import {NgOptimizedImage} from '@angular/common';
-import {Component, inject, OnInit} from '@angular/core';
+import {Component, inject, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {ActivatedRoute, RouterLink, RouterLinkActive} from '@angular/router';
 import {ToastService} from '@mean-stream/ngbx';
@@ -16,6 +16,7 @@ import {SearchPipe} from '../pipes/search.pipe';
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     NgOptimizedImage,
     RouterLink,

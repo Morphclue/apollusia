@@ -1,6 +1,6 @@
 import {DatePipe, LowerCasePipe} from '@angular/common';
 import {HttpClient} from '@angular/common/http';
-import {Component, inject, OnInit} from '@angular/core';
+import {Component, inject, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
 import {ToastService} from '@mean-stream/ngbx';
@@ -37,6 +37,7 @@ interface NotificationSettings {
   selector: 'apollusia-settings',
   templateUrl: './settings.component.html',
   styleUrls: ['./settings.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     TokenComponent,
     FormsModule,

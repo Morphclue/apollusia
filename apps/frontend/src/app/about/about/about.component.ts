@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
 
 import {FeaturesComponent} from '../features/features.component';
 import {InformationComponent} from '../information/information.component';
@@ -9,6 +9,7 @@ import {StatisticsComponent} from '../statistics/statistics.component';
   selector: 'app-about',
   templateUrl: './about.component.html',
   styleUrls: ['./about.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     InformationComponent,
     PromisesComponent,

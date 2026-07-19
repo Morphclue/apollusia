@@ -1,8 +1,9 @@
-import {Component, OnChanges, SimpleChanges, input} from '@angular/core';
+import {Component, OnChanges, SimpleChanges, input, ChangeDetectionStrategy} from '@angular/core';
 
 @Component({
   selector: 'app-location-link',
   templateUrl: './location-link.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./location-link.component.scss'],
 })
 export class LocationLinkComponent implements OnChanges {
