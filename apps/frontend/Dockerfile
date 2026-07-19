@@ -9,6 +9,7 @@ RUN APP_VERSION=$APP_VERSION corepack pnpm run build:frontend
 
 FROM node:26-slim
 WORKDIR /app
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 RUN npm install -g corepack && corepack enable
 COPY --from=builder /app/dist ./dist
 EXPOSE 4000
