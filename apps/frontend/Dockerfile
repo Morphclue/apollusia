@@ -1,6 +1,6 @@
 FROM node:23-slim as builder
 WORKDIR /app
-COPY package.json pnpm-lock.yaml ./
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 RUN CYPRESS_INSTALL_BINARY=0 corepack pnpm install --frozen-lockfile
 COPY . .
 ARG APP_VERSION
