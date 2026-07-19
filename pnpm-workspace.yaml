@@ -1,2 +1,38 @@
 minimumReleaseAge: 1440
 blockExoticSubdeps: true
+allowBuilds:
+  '@nestjs/core': true
+  '@parcel/watcher': true
+  '@swc/core': true
+  cypress: true
+  esbuild: true
+  lmdb: true
+  mongodb-memory-server: true
+  msgpackr-extract: true
+  nice-napi: true
+  nx: true
+  less: true
+  unrs-resolver: true
+  '@scarf/scarf': false
+minimumReleaseAgeExclude:
+  - webpack-dev-server@5.2.4 || 5.2.5
+  - ws@8.20.1 || 8.21.0
+  - uuid@11.1.1
+  - esbuild@0.28.1
+  - nodemailer@8.0.8 || 8.0.9 || 9.0.1
+  - undici@7.28.0
+  - linkify-it@5.0.1
+  - adm-zip@0.6.0
+overrides:
+  adm-zip@<0.6.0: ^0.6.0
+  linkify-it@<=5.0.0: ^5.0.1
+  nodemailer@<=8.0.7: ^8.0.8
+  nodemailer@<=8.0.8: ^8.0.9
+  nodemailer@<=9.0.0: ^9.0.1
+  undici@>=7.0.0 <7.28.0: ^7.28.0
+  undici@>=7.23.0 <7.28.0: ^7.28.0
+  uuid@<11.1.1: ^11.1.1
+  webpack-dev-server@<5.2.5: ^5.2.5
+  webpack-dev-server@<=5.2.3: ^5.2.4
+  ws@>=8.0.0 <8.20.1: ^8.20.1
+  ws@>=8.0.0 <8.21.0: ^8.21.0
