@@ -1,12 +1,14 @@
-FROM node:23-slim AS builder
+FROM node:26-slim AS builder
 WORKDIR /app
-COPY package.json pnpm-lock.yaml pnpm-workspace.yaml pnpm-workspace.yaml ./
+RUN npm install -g corepack && corepack enable
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 RUN CYPRESS_INSTALL_BINARY=0 corepack pnpm install --frozen-lockfile
 COPY . .
 RUN corepack pnpm run build:backend
 
-FROM node:23-slim
+FROM node:26-slim
 WORKDIR /app
+RUN npm install -g corepack && corepack enable
 COPY --from=builder /app/dist/apps/backend/ ./
 ENV NODE_ENV=production
 RUN CYPRESS_INSTALL_BINARY=0 corepack pnpm install --frozen-lockfile
