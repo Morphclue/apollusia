@@ -135,7 +135,7 @@
     "keycloak-js": "^26.2.4",
     "lodash": "^4.18.1",
     "markdown-it": "^15.0.0",
-    "mongoose": "^9.9.1",
+    "mongoose": "^9.9.2",
     "ngx-cookie-service-ssr": "^22.0.0",
     "ngx-countup": "^21.0.0",
     "passport-jwt": "^4.0.1",
