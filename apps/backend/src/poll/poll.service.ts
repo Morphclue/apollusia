@@ -50,7 +50,7 @@ export class PollService extends MongooseRepository<Poll> {
     } : {adminToken: token};
   }
 
-  isAdmin(poll: Poll, token: string | undefined, user: string | undefined) {
+  isAdmin(poll: Pick<Poll, 'adminToken' | 'createdBy' | 'adminRoles'>, token: string | undefined, user: string | undefined) {
     // When updating, also make sure to update getPolls
     if (token && poll.adminToken === token) {
       return true;

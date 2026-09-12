@@ -8,17 +8,22 @@ import {PollModule} from './poll.module';
 import {PollService} from './poll.service';
 
 describe(PollService.name, () => {
+  let module: TestingModule;
   let pollService: PollService;
 
   beforeAll(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    module = await Test.createTestingModule({
       imports: [
-        MongooseModule.forRoot(process.env.MONGO_URI + 'PollService'),
+        MongooseModule.forRoot(process.env.MONGO_URI + PollService.name),
         PollModule,
       ],
     }).compile();
 
     pollService = module.get<PollService>(PollService);
+  });
+
+  afterAll(async () => {
+    await module.close();
   });
 
   let pollStubId: Types.ObjectId;
@@ -57,8 +62,8 @@ describe(PollService.name, () => {
   it('should be admin when user is in adminRoles', () => {
     const poll = {
       ...PollStub(),
-      adminRoles: {'editor-id': 'edit'},
-    } as Poll;
+      adminRoles: {'editor-id': 'edit' as const},
+    };
     const isAdmin = pollService.isAdmin(poll, undefined, 'editor-id');
 
     expect(isAdmin).toEqual(true);
@@ -67,8 +72,8 @@ describe(PollService.name, () => {
   it('should not be admin without matching token or user', () => {
     const poll = {
       ...PollStub(),
-      adminRoles: {'editor-id': 'edit'},
-    } as Poll;
+      adminRoles: {'editor-id': 'edit' as const},
+    };
     const isAdmin = pollService.isAdmin(poll, 'wrong-token', 'other-user');
 
     expect(isAdmin).toEqual(false);
