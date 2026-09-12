@@ -17,9 +17,24 @@ updates:
       - dependency-name: "nx"
       - dependency-name: "@nx/*"
       - dependency-name: "@nestjs/*"
+        update-types: [ version-update:semver-major ]
       - dependency-name: "@angular/*"
+        update-types: [ version-update:semver-major, version-update:semver-minor ]
+      - dependency-name: "@angular-devkit/*"
+        update-types: [ version-update:semver-major, version-update:semver-minor ]
+      - dependency-name: "@schematics/angular"
+        update-types: [ version-update:semver-major, version-update:semver-minor ]
+      - dependency-name: "*eslint*"
+        update-types: [ version-update:semver-major ]
+      - dependency-name: "*jest*"
+        update-types: [ version-update:semver-major ]
+      - dependency-name: "typescript"
+        update-types: [ version-update:semver-major, version-update:semver-minor ]
+      # Generally not kept updated by mongoose and minor updates often create problems
+      - dependency-name: "mongodb"
+        update-types: [ version-update:semver-major, version-update:semver-minor ]
     groups:
-      production:
-        dependency-type: production
-      development:
-        dependency-type: development
+      major:
+        update-types: [ major ]
+      minor-patch:
+        update-types: [ minor, patch ]
