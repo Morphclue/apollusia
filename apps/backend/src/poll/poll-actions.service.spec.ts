@@ -12,11 +12,12 @@ describe(PollActionsService.name, () => {
   let service: PollActionsService;
   let pollModel: Model<Poll>;
   let pollEventModel: Model<PollEventDto>;
+  let module: TestingModule;
 
   beforeAll(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    module = await Test.createTestingModule({
       imports: [
-        MongooseModule.forRoot(process.env.MONGO_URI + 'PollService'),
+        MongooseModule.forRoot(process.env.MONGO_URI + PollActionsService.name),
         PollModule,
       ],
     }).compile();
@@ -24,6 +25,10 @@ describe(PollActionsService.name, () => {
     pollModel = module.get('PollModel');
     pollEventModel = module.get('PollEventModel');
     service = module.get<PollActionsService>(PollActionsService);
+  });
+
+  afterAll(async () => {
+    await module.close();
   });
 
   let pollStubId: Types.ObjectId;

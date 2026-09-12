@@ -48,6 +48,7 @@ export class PollActionsService {
     private participantService: ParticipantService,
     private keycloakService: KeycloakService,
   ) {
+    console.log(mailService);
   }
 
   async getParticipatedPolls(token: string, options?: QueryOptions<Poll>): Promise<ReadStatsPollDto[]> {
