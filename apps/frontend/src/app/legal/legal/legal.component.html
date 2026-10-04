@@ -1,40 +1,46 @@
 <div class="container mt-5 mb-5">
-  <h2>Privacy Policy</h2>
-  <p class="text-muted">Last updated: August 19, 2023</p>
-  <p>
+  <h2 i18n="@@legal-privacy-title">Privacy Policy</h2>
+  <p class="text-muted" i18n="@@legal-updated">Last updated: August 19, 2023</p>
+  <p i18n="@@legal-intro">
     This Privacy Policy describes the use and disclosure of your information when you are using this service.
     We use your information to provide and improve the service. By using the service, you agree to the collection and
     use of information in accordance with this policy. Apollusia is an open source project and is not responsible for
     the privacy policies of other hosting entities or instances. Each hosting entity or instance is responsible for
     their own privacy policies. The original Apollusia project is hosted at <a href="https://apollusia.com">apollusia.com</a>.
   </p>
-  <h3>Purpose of Data Collection</h3>
-  <p>
+  <h3 i18n="@@legal-purpose-title">Purpose of Data Collection</h3>
+  <p i18n="@@legal-purpose">
     We collect certain types of personal information to improve our service and to provide you with a better
     experience. The types of personal information we collect are described below.
   </p>
   <ul>
     <li>
-      <p><strong>Name</strong>
+      <p><strong i18n="@@legal-data-name">Name</strong>
+        <ng-container i18n="@@legal-data-name-description">
         By participating in a poll, you may be asked to provide your name. This name may used to identify you in the
         poll results by the poll creator.
+        </ng-container>
       </p>
     </li>
     <li>
-      <p><strong>Email Address</strong>
+      <p><strong i18n="@@legal-data-email">Email Address</strong>
+        <ng-container i18n="@@legal-data-email-description">
         You have the option to provide an email address when using Apollusia. This email address is used to send you
         notifications about the poll you are participating in. You can opt-out of these notifications at any time.
+        </ng-container>
       </p>
     </li>
     <li>
-      <p><strong>Available times</strong>
+      <p><strong i18n="@@legal-data-times">Available times</strong>
+        <ng-container i18n="@@legal-data-times-description">
         When participating in a poll, you may be asked to provide your available times. This information is used to
         determine the best time for an event.
+        </ng-container>
       </p>
     </li>
   </ul>
-  <h3>Legal Basis for Data Processing</h3>
-  <p>
+  <h3 i18n="@@legal-basis-title">Legal Basis for Data Processing</h3>
+  <p i18n="@@legal-basis">
     Apollusia operates in compliance with the data protection regulations applicable in Germany, where our platform is
     hosted. The collection and processing of personal information is carried out based on the legal grounds of user
     consent. When you voluntarily provide your personal information by participating in a poll and utilizing our
@@ -42,14 +48,14 @@
     are providing your explicit consent for us to process the information for the purposes outlined in this Privacy
     Policy.
   </p>
-  <h3>Statistics</h3>
-  <p>
+  <h3 i18n="@@legal-statistics-title">Statistics</h3>
+  <p i18n="@@legal-statistics">
     Apollusia collects certain anonymized statistics to improve our service and better understand user interactions.
     These statistics include the number of polls created, general usage patterns and trends. Please note that these
     statistics are aggregated and anonymized, ensuring that individual users cannot be identified through this data.
   </p>
-  <h3>Cookies</h3>
-  <p>
+  <h3 i18n="@@legal-cookies-title">Cookies</h3>
+  <p i18n="@@legal-cookies">
     At Apollusia, we utilize cookies to enhance your experience and offer convenient functionality, especially for
     users accessing our platform on different end devices. Cookies are small text files stored on your device, which
     contain data such as a unique token. The specific purpose of the cookies we employ is to allow users to seamlessly
@@ -57,8 +63,8 @@
     you with a consistent experience across sessions. By continuing to use our platform, you consent to the use of
     cookies as described.
   </p>
-  <h3>Security Measures</h3>
-  <p>
+  <h3 i18n="@@legal-security-title">Security Measures</h3>
+  <p i18n="@@legal-security">
     Our website operates over HTTPS (Hypertext Transfer Protocol Secure), which provides a secure and encrypted
     connection between your browser and our servers. This encryption helps protect the data you exchange with our
     platform, including any personal information you provide. Furthermore, we regularly update our security measures
@@ -66,32 +72,38 @@
     note that no method of data transmission over the internet is entirely foolproof. Therefore, while we implement
     robust security measures, we cannot guarantee absolute security of your data.
   </p>
-  <h3>User Rights</h3>
-  <p>
+  <h3 i18n="@@legal-rights-title">User Rights</h3>
+  <p i18n="@@legal-rights">
     As a user of Apollusia, you have certain rights regarding your personal information, which we are committed to
     respecting and facilitating:
   </p>
   <ul>
     <li>
-      <p><strong>Access</strong>
+      <p><strong i18n="@@legal-right-access">Access</strong>
+        <ng-container i18n="@@legal-right-access-description">
         You have the right to request information about the personal data we hold about you and how it is being used.
+        </ng-container>
       </p>
     </li>
     <li>
-      <p><strong>Correction</strong>
+      <p><strong i18n="@@legal-right-correction">Correction</strong>
+        <ng-container i18n="@@legal-right-correction-description">
         If you believe that any of the personal information we have about you is inaccurate or incomplete, you have the
         right to request corrections to it.
+        </ng-container>
       </p>
     </li>
     <li>
-      <p><strong>Deletion</strong>
+      <p><strong i18n="@@legal-right-deletion">Deletion</strong>
+        <ng-container i18n="@@legal-right-deletion-description">
         You have the right to request that we delete your personal information.
+        </ng-container>
       </p>
     </li>
   </ul>
   @if (imprint) {
     <div>
-      <h3>Contact Us</h3>
+      <h3 i18n="@@legal-contact-title">Contact Us</h3>
       <p>
         {{ imprint.contactOperator }}<br>
         {{ imprint.contactAddress }}<br>

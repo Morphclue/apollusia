@@ -1,7 +1,8 @@
 import {KeyValuePipe} from '@angular/common';
-import {Component, ChangeDetectionStrategy} from '@angular/core';
+import {Component, ChangeDetectionStrategy, inject, LOCALE_ID} from '@angular/core';
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 
+import featuresDe from './features.de.json';
 import features from './features.json';
 
 const apps = ['Apollusia', 'Doodle', 'DuD-Poll', 'Calendly'] as const;
@@ -24,5 +25,7 @@ interface Feature {
 })
 export class FeaturesComponent {
   readonly apps = apps;
-  readonly features: Record<string, Feature[]> = features;
+  readonly features: Record<string, Feature[]> = inject(LOCALE_ID) === 'de' ? featuresDe : features;
+  readonly alwaysOption = $localize`:@@about-feature-always:Always`;
+  readonly paidOption = $localize`:@@about-feature-paid:Paid option`;
 }

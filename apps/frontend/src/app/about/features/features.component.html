@@ -1,7 +1,7 @@
 <div class="container">
   <div class="col-md-6">
-    <h2>Feature Rich</h2>
-    <p>
+    <h2 i18n="@@about-features-title">Feature Rich</h2>
+    <p i18n="@@about-features-intro">
       Experience the unparalleled feature set of Apollusia, setting it apart as the market's foremost platform for
       modern event polls.
     </p>
@@ -9,7 +9,7 @@
   <table class="table shadow">
     <thead class="sticky-top">
     <tr>
-      <th scope="col" colspan="2">Feature</th>
+      <th scope="col" colspan="2" i18n="@@about-feature-heading">Feature</th>
       @for (app of apps; track app) {
         <th scope="col">{{ app }}</th>
       }
@@ -42,10 +42,10 @@
                   <td class="p-no icon-lg bi-x-lg"></td>
                 }
                 @case ('Paid option') {
-                  <td class="p-maybe icon-lg bi-currency-dollar" ngbTooltip="Paid option" container="body"></td>
+                  <td class="p-maybe icon-lg bi-currency-dollar" [ngbTooltip]="paidOption" container="body"></td>
                 }
                 @case ('Always') {
-                  <td class="p-maybe icon-lg bi-slash-square" ngbTooltip="Always" container="body"></td>
+                  <td class="p-maybe icon-lg bi-slash-square" [ngbTooltip]="alwaysOption" container="body"></td>
                 }
                 @default {
                   <td class="p-maybe bi-flag icon-lg" [ngbTooltip]="''+feature.support[app]" container="body"></td>
@@ -58,8 +58,12 @@
     </tbody>
   </table>
   <div class="text-end small text-muted fst-italic">
-    Did we make a mistake, or do you want to add a tool?
-    <a href="https://github.com/Morphclue/apollusia/edit/master/apps/frontend/src/app/about/features/features.json" target="_blank">
+    <ng-container i18n="@@about-features-edit">Did we make a mistake, or do you want to add a tool?</ng-container>
+    <a
+      href="https://github.com/Morphclue/apollusia/edit/master/apps/frontend/src/app/about/features/features.json"
+      target="_blank"
+      i18n="@@about-features-edit-link"
+    >
       Edit this data.
     </a>
   </div>
