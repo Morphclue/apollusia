@@ -15,6 +15,7 @@ services:
     environment:
       MONGO_URI: mongodb://database:27017
       EMAIL_HOST: maildev
+      KEYCLOAK_BASE_URL: http://keycloak:8080/auth
 
   database:
     image: mongo:7

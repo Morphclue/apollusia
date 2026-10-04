@@ -66,14 +66,14 @@
         Sort
       </button>
       <div ngbDropdownMenu aria-labelledby="sort-dropdown">
-        @for (sortMethod of sortMethods; track sortMethod) {
+        @for (sortMethod of sortMethods; track sortMethod.id) {
           <button
             ngbDropdownItem
             (click)="sort(sortMethod)"
             class="d-flex align-items-center"
           >
             {{ sortMethod.name }}
-            <i class="ms-1" [class]="sortMethod.name === currentSort ? (currentSortDirection === 1 ? 'bi-sort-down-alt' : 'bi-sort-up') : ''"></i>
+            <i class="ms-1" [class]="sortMethod.id === currentSort ? (currentSortDirection === 1 ? 'bi-sort-down-alt' : 'bi-sort-up') : ''"></i>
             <i class="ms-auto hover-info bi-question-circle" [ngbTooltip]="sortMethod.description"></i>
           </button>
         }

@@ -30,6 +30,7 @@ import {PollService} from '../services/poll.service';
 import {TableComponent} from '../table/table.component';
 
 interface SortMethod {
+  id: string;
   name: string;
   description: string;
   defaultDirection: 1 | -1;
@@ -83,33 +84,38 @@ export class ChooseEventsComponent implements OnInit {
     {id: 'events', name: $localize`:@@poll-view-event-list:List of Events`, icon: 'bi-list-ol'},
   ];
 
-  currentSort = 'Created';
+  currentSort = 'created';
   currentSortDirection: 1 | -1 = 1;
   sortMethods = [
     {
+      id: 'created',
       name: $localize`:@@poll-sort-created:Created`,
       description: $localize`:@@poll-sort-created-description:View the participants in the order they joined the poll.`,
       defaultDirection: 1,
       by: p => p.createdAt,
     },
     {
+      id: 'updated',
       name: $localize`:@@poll-sort-updated:Updated`,
       description: $localize`:@@poll-sort-updated-description:View the participants in the order they last updated their vote.`,
       defaultDirection: 1,
       by: p => p.updatedAt,
     },
     {
+      id: 'name',
       name: $localize`:@@poll-sort-name:Name`,
       description: $localize`:@@poll-sort-name-description:View the participants in alphabetical order.`,
       defaultDirection: 1,
       by: p => p.name,
     },
     {
+      id: 'yes-votes',
       name: $localize`:@@poll-sort-yes-votes:Yes Votes`,
       description: $localize`:@@poll-sort-yes-votes-description:View the participants with the most "yes" or "maybe" votes.`,
       defaultDirection: -1,
       by: p => Object.values(p.selection).filter(s => s === 'yes' || s === 'maybe').length},
     {
+      id: 'first-event',
       name: $localize`:@@poll-sort-first-event:First Event`,
       description: $localize`:@@poll-sort-first-event-description:View the participants in the order of the events they selected.`,
       defaultDirection: 1,
@@ -185,10 +191,10 @@ export class ChooseEventsComponent implements OnInit {
   // Primary Actions
 
   sort(sortMethod: SortMethod) {
-    if (this.currentSort === sortMethod.name) {
+    if (this.currentSort === sortMethod.id) {
       this.currentSortDirection *= -1;
     } else {
-      this.currentSort = sortMethod.name;
+      this.currentSort = sortMethod.id;
       this.currentSortDirection = sortMethod.defaultDirection;
     }
     this.participants?.sort((a, b) => {
