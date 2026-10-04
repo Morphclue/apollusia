@@ -17,7 +17,7 @@ export class PollLogItemComponent implements OnInit {
   readonly icon = input<string>();
   readonly log = input<PollLog>();
   /** Show the user from createdBy. The value provides the default. Hidden if set to an empty string. */
-  readonly showUser = input<string>('The poll owner');
+  readonly showUser = input<string>($localize`:@@poll-owner:The poll owner`);
   readonly showTimestamp = input<boolean>(true);
 
   // Use pipe instead of KeycloakService for caching

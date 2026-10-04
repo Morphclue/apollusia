@@ -20,41 +20,49 @@
     </div>
   }
   @if (!closedReason && poll?.settings?.maxParticipantEvents; as limit) {
-    <div class="alert alert-info">
+    <div class="alert alert-info" i18n="@@poll-limited">
       This poll is limited.
       You can select up to {{ limit }} choices.
     </div>
   }
   <div class="btn-toolbar align-items-center justify-content-end mb-3" role="toolbar">
     @if (poll && timeZone !== poll.timeZone) {
-      <div class="text-muted me-auto bi-info-circle">
+      <div class="text-muted me-auto bi-info-circle" i18n="@@poll-time-zones">
         All times are displayed in <b>{{ timeZone }}</b>.
         The poll owner is in <b>{{ poll.timeZone }}</b>.
       </div>
     }
     @if (poll?.adminRole) {
-      <a routerLink="../date" class="btn btn-outline-secondary bi-calendar-week ms-2">
+      <a routerLink="../date" class="btn btn-outline-secondary bi-calendar-week ms-2" i18n="@@poll-events">
         Events
       </a>
-      <a routerLink=".." class="btn btn-outline-secondary bi-pencil-square ms-2">
+      <a routerLink=".." class="btn btn-outline-secondary bi-pencil-square ms-2" i18n="@@poll-settings">
         Settings
       </a>
     }
-    <a class="btn btn-outline-secondary bi-calendar ms-2" ngbTooltip="Export an iCal calendar" routerLink="ical">
+    <a class="btn btn-outline-secondary bi-calendar ms-2" ngbTooltip="Export an iCal calendar" i18n-ngbTooltip="@@poll-export-calendar" routerLink="ical" i18n="@@poll-export-link">
       Export
     </a>
     <div class="btn-group ms-2" role="group">
       @for (view of views; track view.id) {
         <a
           class="btn btn-outline-secondary {{ view.icon }}"
-          ngbTooltip="View as {{ view.name }}" container="body"
+          ngbTooltip="View as {{ view.name }}"
+          i18n-ngbTooltip="@@poll-view-as"
+          container="body"
           routerLink="." [queryParams]="{view: view.id}"
           routerLinkActive="active"
         ></a>
       }
     </div>
     <div ngbDropdown class="d-inline-block ms-2">
-      <button type="button" class="btn btn-outline-secondary bi-sort-down" id="sort-dropdown" ngbDropdownToggle>
+      <button
+        type="button"
+        class="btn btn-outline-secondary bi-sort-down"
+        id="sort-dropdown"
+        ngbDropdownToggle
+        i18n="@@poll-sort"
+      >
         Sort
       </button>
       <div ngbDropdownMenu aria-labelledby="sort-dropdown">
@@ -97,7 +105,7 @@
     }
   }
   @if (poll && (poll.settings.logHistory || poll.settings.allowComments)) {
-    <h1>History</h1>
+    <h1 i18n="@@poll-history">History</h1>
     <apollusia-poll-log [poll]="poll"></apollusia-poll-log>
   }
 </div>

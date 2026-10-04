@@ -53,6 +53,20 @@ export class TableComponent implements OnInit, OnDestroy {
   editDto?: UpdateParticipantDto;
   errors: string[] = [];
 
+  // TODO bad practice
+  protected get errorMessage(): string {
+    const translations: Record<string, string> = {
+      'deadline is over': $localize`:@@poll-error-deadline:Deadline is over`,
+      'name is required': $localize`:@@poll-error-name-required:Name is required`,
+      'editing is not allowed': $localize`:@@poll-error-edit-not-allowed:Editing is not allowed`,
+      'maybe is not allowed': $localize`:@@poll-error-maybe-not-allowed:Maybe is not allowed`,
+      'max participants reached': $localize`:@@poll-error-max-participants:Maximum number of participants reached`,
+      'too many events selected': $localize`:@@poll-error-too-many-events:Too many events selected`,
+      'max participants for an event reached': $localize`:@@poll-error-max-event-participants:Maximum number of participants for an event reached`,
+    };
+    return this.errors.map(error => translations[error] ?? error).join(', ');
+  }
+
   ngOnInit() {
     this.bookedEvents = this.poll().bookedEvents || {};
     this.newParticipant.token = this.token() || '';
@@ -80,8 +94,8 @@ export class TableComponent implements OnInit, OnDestroy {
         },
         error: (error) => {
           this.toastService.error(
-            'Submit',
-            'Failed to submit your participation',
+            $localize`:@@poll-submit-title:Submit`,
+            $localize`:@@poll-submit-failed:Failed to submit your participation`,
             error,
           );
         },
@@ -147,7 +161,10 @@ export class TableComponent implements OnInit, OnDestroy {
 
   book() {
     this.pollService.book(this.poll()._id, this.bookedEvents).subscribe(() => {
-      this.toastService.success('Booking', 'Booked events successfully');
+      this.toastService.success(
+        $localize`:@@poll-booking:Booking`,
+        $localize`:@@poll-booked-success:Booked events successfully`,
+      );
     });
   }
 

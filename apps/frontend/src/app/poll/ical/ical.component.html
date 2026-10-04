@@ -1,13 +1,13 @@
 <ngbx-modal #modal [back]="['..']">
-  <ng-container modal-title>
+  <ng-container modal-title i18n="@@poll-ical-export">
     iCal Export
   </ng-container>
   <ng-container modal-body>
-    <h5>
+    <h5 i18n="@@poll-options">
       Options
     </h5>
     <ngbx-validator-form [model]="config"></ngbx-validator-form>
-    <h5>
+    <h5 i18n="@@poll-preview">
       Preview
     </h5>
     <div class="card">
@@ -47,10 +47,12 @@
               {{ poll?.description }}<br>
               <br>
               @if (exampleEvent?.note) {
-                Note: {{ exampleEvent?.note }}<br>
+                <ng-container i18n="@@poll-note-label">Note:</ng-container>
+                {{ noteLabel }} {{ exampleEvent?.note }}<br>
                 <br>
               }
-              Participants:<br>
+              <ng-container i18n="@@poll-participants-label">Participants:</ng-container>
+              <br>
               @for (participant of exampleEvent?._participants; track participant._id) {
                 - {{ participant.name }} ({{ participant.selection[exampleEvent!._id] }})<br>
               }
@@ -67,12 +69,12 @@
         </table>
       </div>
     </div>
-    <div class="text-muted text-center">
+    <div class="text-muted text-center" i18n="@@poll-total-events">
       Total: {{ getExportedEvents().length }} Events
     </div>
   </ng-container>
   <ng-container modal-footer>
-    <button class="btn btn-secondary" (click)="modal.close()">Close</button>
-    <button class="btn btn-primary" (click)="export()">Export</button>
+    <button class="btn btn-secondary" (click)="modal.close()" i18n="@@poll-close">Close</button>
+    <button class="btn btn-primary" (click)="export()" i18n="@@poll-export">Export</button>
   </ng-container>
 </ngbx-modal>
