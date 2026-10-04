@@ -82,7 +82,7 @@
     "dashboard-claim-polls-success": "Successfully claimed polls.",
     "legal-page-title": "Legal | Apollusia",
     "legal-privacy-title": "Privacy Policy",
-    "legal-updated": "Last updated: August 19, 2023",
+    "legal-updated": "Last updated: {$INTERPOLATION}",
     "legal-intro": " This Privacy Policy describes the use and disclosure of your information when you are using this service. We use your information to provide and improve the service. By using the service, you agree to the collection and use of information in accordance with this policy. Apollusia is an open source project and is not responsible for the privacy policies of other hosting entities or instances. Each hosting entity or instance is responsible for their own privacy policies. The original Apollusia project is hosted at {$START_LINK}apollusia.com{$CLOSE_LINK}. ",
     "legal-purpose-title": "Purpose of Data Collection",
     "legal-purpose": " We collect certain types of personal information to improve our service and to provide you with a better experience. The types of personal information we collect are described below. ",

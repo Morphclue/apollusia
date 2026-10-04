@@ -50,7 +50,7 @@
     "about-features-edit-link": " Daten bearbeiten. ",
     "legal-page-title": "Rechtliche Informationen | Apollusia",
     "legal-privacy-title": "Datenschutzerklärung",
-    "legal-updated": "Zuletzt aktualisiert: 19. August 2023",
+    "legal-updated": "Zuletzt aktualisiert: {$INTERPOLATION}",
     "legal-intro": "Diese Datenschutzerklärung beschreibt, wie deine Daten bei der Nutzung dieses Dienstes verwendet und offengelegt werden. Wir verwenden deine Daten, um den Dienst bereitzustellen und zu verbessern. Mit der Nutzung des Dienstes stimmst du der Erhebung und Verwendung von Daten gemäß dieser Erklärung zu. Apollusia ist ein Open-Source-Projekt und nicht für die Datenschutzrichtlinien anderer Hosting-Anbieter oder Instanzen verantwortlich. Jeder Hosting-Anbieter und jede Instanz ist für die eigene Datenschutzrichtlinie verantwortlich. Das ursprüngliche Apollusia-Projekt wird unter {$START_LINK}apollusia.com{$CLOSE_LINK} gehostet.",
     "legal-purpose-title": "Zweck der Datenerhebung",
     "legal-purpose": "Wir erheben bestimmte Arten personenbezogener Daten, um unseren Dienst zu verbessern und dir eine bessere Nutzung zu ermöglichen. Die Arten der erhobenen personenbezogenen Daten sind nachfolgend beschrieben.",
