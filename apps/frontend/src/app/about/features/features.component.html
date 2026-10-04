@@ -19,7 +19,7 @@
       @for (category of features; track category.title) {
         <tr class="sticky-top">
           <td colspan="2">
-            <h4>{{ category.title }}</h4>
+            <h4>{{ category.title[locale] }}</h4>
           </td>
         </tr>
         @for (feature of category.features; track feature) {
@@ -28,9 +28,9 @@
               <i [class]="['icon-lg', 'bi-' + feature.icon, feature.support['Apollusia'] === true ? 'text-primary-emphasis' : 'text-muted']"></i>
             </th>
             <th scope="row">
-              {{ feature.title }}
+              {{ feature.title[locale] }}
               <div class="small text-muted fw-normal">
-                {{ feature.description }}
+                {{ feature.description[locale] }}
               </div>
             </th>
             @for (app of apps; track app) {
@@ -42,13 +42,13 @@
                   <td class="p-no icon-lg bi-x-lg"></td>
                 }
                 @case ('Paid option') {
-                  <td class="p-maybe icon-lg bi-currency-dollar" [ngbTooltip]="paidOption" container="body"></td>
+                  <td class="p-maybe icon-lg bi-currency-dollar" ngbTooltip="Paid option" i18n-ngbTooltip="@@about-feature-paid" container="body"></td>
                 }
                 @case ('Always') {
-                  <td class="p-maybe icon-lg bi-slash-square" [ngbTooltip]="alwaysOption" container="body"></td>
+                  <td class="p-maybe icon-lg bi-slash-square" ngbTooltip="Always" i18n-ngbTooltip="@@about-feature-always" container="body"></td>
                 }
                 @default {
-                  <td class="p-maybe bi-flag icon-lg" [ngbTooltip]="''+feature.support[app]" container="body"></td>
+                  <td class="p-maybe bi-flag icon-lg" [ngbTooltip]="$any(feature.support)[app][locale]" container="body"></td>
                 }
               }
             }
@@ -58,7 +58,9 @@
     </tbody>
   </table>
   <div class="text-end small text-muted fst-italic">
-    <ng-container i18n="@@about-features-edit">Did we make a mistake, or do you want to add a tool?</ng-container>
+    <ng-container i18n="@@about-features-edit">
+      Did we make a mistake, or do you want to add a tool?
+    </ng-container>
     <a
       href="https://github.com/Morphclue/apollusia/edit/master/apps/frontend/src/app/about/features/features.json"
       target="_blank"
