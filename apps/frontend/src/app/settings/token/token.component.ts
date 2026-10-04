@@ -1,4 +1,4 @@
-import {Component, inject, OnInit} from '@angular/core';
+import {Component, inject, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {ToastService} from '@mean-stream/ngbx';
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
@@ -9,6 +9,7 @@ import {TokenService} from '../../core/services';
   selector: 'app-token',
   templateUrl: './token.component.html',
   styleUrls: ['./token.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [FormsModule, NgbTooltip],
 })
 export class TokenComponent implements OnInit {

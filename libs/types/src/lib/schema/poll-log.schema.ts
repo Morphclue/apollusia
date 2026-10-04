@@ -46,6 +46,11 @@ export class PollBookedLog {
   booked: number;
 }
 
+export class PollChangedLog {
+  @Prop({type: Object})
+  diff: Record<string, unknown>;
+}
+
 @Schema({
   timestamps: true,
   versionKey: false,
@@ -70,7 +75,7 @@ export class PollLog {
   poll: Types.ObjectId;
 
   @Prop({type: String, index: 1})
-  type: 'comment' | 'participant.created' | 'events.changed' | 'poll.booked';
+  type: 'comment' | 'participant.created' | 'events.changed' | 'poll.booked' | 'poll.changed';
 
   @Prop({type: Object})
   @ValidateNested()
@@ -83,10 +88,11 @@ export class PollLog {
         {name: 'participant.created', value: ParticipantLog},
         {name: 'events.changed', value: EventsChangedLog},
         {name: 'poll.booked', value: PollBookedLog},
+        {name: 'poll.changed', value: PollChangedLog},
       ],
     },
   })
-  data: Comment | ParticipantLog | EventsChangedLog | PollBookedLog;
+  data: Comment | ParticipantLog | EventsChangedLog | PollBookedLog | PollChangedLog;
 }
 
 export const PollLogSchema = SchemaFactory.createForClass(PollLog);

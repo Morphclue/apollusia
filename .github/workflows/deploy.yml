@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - master
+    tags:
+      - '*'
 
 jobs:
   deploy:
@@ -19,7 +21,7 @@ jobs:
           - backend
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
       - name: Set Deployment Options
         id: deployment
         run: .github/workflows/deploy.sh

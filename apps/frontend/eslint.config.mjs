@@ -1,31 +1,17 @@
-import {FlatCompat} from '@eslint/eslintrc';
-import js from '@eslint/js';
-import {dirname} from 'path';
-import {fileURLToPath} from 'url';
-
 import baseConfig from '../../eslint.config.mjs';
+import angular from 'angular-eslint';
 
-
-const compat = new FlatCompat({
-  baseDirectory: dirname(fileURLToPath(import.meta.url)),
-  recommendedConfig: js.configs.recommended,
-});
 
 export default [
   {
     ignores: ['**/dist'],
   },
   ...baseConfig,
-  ...compat
-    .config({
-      extends: [
-        'plugin:@nx/angular',
-        'plugin:@angular-eslint/template/process-inline-templates',
-      ],
-    })
+  ...angular.configs.tsRecommended
     .map((config) => ({
       ...config,
       files: ['**/*.ts'],
+      processor: angular.processInlineTemplates,
       rules: {
         ...config.rules,
         '@angular-eslint/directive-selector': [
@@ -39,12 +25,10 @@ export default [
         '@typescript-eslint/no-empty-function': 'off',
         '@angular-eslint/no-empty-lifecycle-method': 'off',
         '@angular-eslint/prefer-standalone': 'off',
+        '@angular-eslint/prefer-on-push-component-change-detection': 'off',
       },
     })),
-  ...compat
-    .config({
-      extends: ['plugin:@nx/angular-template'],
-    })
+  ...angular.configs.templateRecommended
     .map((config) => ({
       ...config,
       files: ['**/*.html'],

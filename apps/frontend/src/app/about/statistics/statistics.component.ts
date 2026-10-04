@@ -1,5 +1,5 @@
 import {HttpClient} from '@angular/common/http';
-import {Component, inject, OnInit} from '@angular/core';
+import {Component, inject, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {CountUpDirective} from 'ngx-countup';
 
 import {environment} from '../../../environments/environment';
@@ -9,6 +9,7 @@ import {Statistics} from '../../model';
   selector: 'app-statistics',
   templateUrl: './statistics.component.html',
   styleUrls: ['./statistics.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     CountUpDirective,
   ],

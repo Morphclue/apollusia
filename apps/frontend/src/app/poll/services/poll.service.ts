@@ -78,10 +78,6 @@ export class PollService {
     return this.http.get<Participant[]>(`${environment.backendURL}/poll/${id}/participate`);
   }
 
-  isAdmin(id: string, adminToken: string) {
-    return this.http.get<boolean>(`${environment.backendURL}/poll/${id}/admin/${adminToken}`);
-  }
-
   update(id: string, poll: EditPoll) {
     return this.http.put<ReadPoll>(`${environment.backendURL}/poll/${id}`, poll);
   }

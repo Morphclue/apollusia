@@ -1,5 +1,5 @@
 import {DatePipe} from '@angular/common';
-import {Component, inject, OnInit} from '@angular/core';
+import {Component, inject, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {ActivatedRoute, RouterLink} from '@angular/router';
 import {FormsModule, ModalModule} from '@mean-stream/ngbx';
 import {saveAs} from 'file-saver';
@@ -16,6 +16,7 @@ import {PollService} from '../services/poll.service';
   selector: 'apollusia-ical',
   templateUrl: './ical.component.html',
   styleUrl: './ical.component.scss',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     ModalModule,
     FormsModule,

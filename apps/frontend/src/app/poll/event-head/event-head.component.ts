@@ -1,5 +1,5 @@
 import {DatePipe} from '@angular/common';
-import {Component, Input} from '@angular/core';
+import {Component, input, ChangeDetectionStrategy} from '@angular/core';
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 
 import {PollEvent} from '../../model';
@@ -8,8 +8,9 @@ import {PollEvent} from '../../model';
   selector: 'app-event-head',
   templateUrl: './event-head.component.html',
   styleUrls: ['./event-head.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [NgbTooltip, DatePipe],
 })
 export class EventHeadComponent {
-  @Input() event!: PollEvent;
+  readonly event = input.required<PollEvent>();
 }

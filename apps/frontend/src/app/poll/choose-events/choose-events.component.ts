@@ -1,5 +1,5 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, inject, OnInit} from '@angular/core';
+import {Component, inject, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {Meta, Title} from '@angular/platform-browser';
 import {
   ActivatedRoute,
@@ -40,6 +40,7 @@ interface SortMethod {
   selector: 'app-choose-events',
   templateUrl: './choose-events.component.html',
   styleUrls: ['./choose-events.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     InfoTableComponent,
     NgbTooltip,
@@ -69,7 +70,6 @@ export class ChooseEventsComponent implements OnInit {
   poll?: ReadPoll;
   pollEvents?: ReadPollEvent[];
   participants?: Participant[];
-  isAdmin: boolean = false;
   timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
   closedReason?: string;
@@ -143,7 +143,6 @@ export class ChooseEventsComponent implements OnInit {
         })),
         this.pollService.getEvents(id).pipe(tap(events => this.pollEvents = events)),
         this.pollService.getParticipants(id).pipe(tap(participants => this.participants = participants)),
-        this.pollService.isAdmin(id, this.token).pipe(tap(isAdmin => this.isAdmin = isAdmin)),
       ])),
     ).subscribe({
       next: () => this.updateHelpers(),
@@ -224,14 +223,14 @@ export class ChooseEventsComponent implements OnInit {
   private updateHiddenReason() {
     switch (this.poll?.settings.showResult) {
       case ShowResultOptions.NEVER:
-        this.hiddenReason = this.isAdmin ? undefined : 'The results of this poll are hidden. You will only be able to see your own votes.';
+        this.hiddenReason = this.poll?.adminRole ? undefined : 'The results of this poll are hidden. You will only be able to see your own votes.';
         break;
       case ShowResultOptions.AFTER_PARTICIPATING:
-        this.hiddenReason = this.isAdmin || this.userVoted() ? undefined : 'This is a blind poll. You can\'t see results or other user\'s votes until you participate yourself.';
+        this.hiddenReason = this.poll.adminRole || this.userVoted() ? undefined : 'This is a blind poll. You can\'t see results or other user\'s votes until you participate yourself.';
         break;
       case ShowResultOptions.AFTER_DEADLINE: {
         const deadline = this.poll.settings.deadline;
-        if (this.isAdmin || !deadline || new Date(deadline) < new Date()) {
+        if (this.poll.adminRole || !deadline || new Date(deadline) < new Date()) {
           this.hiddenReason = undefined;
         } else {
           this.hiddenReason = 'The results of this poll are hidden until the deadline is over. You can only see your own votes.';

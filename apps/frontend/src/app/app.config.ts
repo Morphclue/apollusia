@@ -6,7 +6,7 @@ import {
 } from '@angular/common/http';
 import {ApplicationConfig, importProvidersFrom} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
-import {provideClientHydration, BrowserModule} from '@angular/platform-browser';
+import {provideClientHydration, BrowserModule, withNoIncrementalHydration} from '@angular/platform-browser';
 import {
   provideRouter,
   withEnabledBlockingInitialNavigation,
@@ -94,6 +94,6 @@ export const appConfig: ApplicationConfig = {
       withEnabledBlockingInitialNavigation(),
       withRouterConfig({paramsInheritanceStrategy: 'always'})
     ),
-    provideClientHydration(),
+    provideClientHydration(withNoIncrementalHydration()),
   ]
 };

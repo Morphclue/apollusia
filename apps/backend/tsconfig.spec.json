@@ -5,6 +5,7 @@
     "types": ["jest", "node"],
     "module": "esnext",
     "moduleResolution": "node",
+    "ignoreDeprecations": "6.0",
     "isolatedModules": true
   },
   "include": [

@@ -1,5 +1,5 @@
 import {HttpClient} from '@angular/common/http';
-import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, inject, TemplateRef} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, inject, TemplateRef, ChangeDetectionStrategy} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {
   ActivatedRoute,
@@ -49,6 +49,7 @@ import {ChooseDateService} from '../services/choose-date.service';
       useFactory: adapterFactory,
     })
   ],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     CalendarPreviousViewDirective,
     CalendarTodayDirective,

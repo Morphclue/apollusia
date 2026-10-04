@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, input, model, ChangeDetectionStrategy} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {PollEventState} from '@apollusia/types';
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
@@ -9,18 +9,17 @@ import {ReadPoll} from '../../model';
   selector: 'app-check-button',
   templateUrl: './check-button.component.html',
   styleUrls: ['./check-button.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [NgbTooltip, FormsModule],
 })
 export class CheckButtonComponent {
-  @Input() poll?: ReadPoll;
-  @Input() isFull = false;
-  @Input() isPastEvent = false;
-  @Input() check?: PollEventState;
-  @Output() checkChange = new EventEmitter<PollEventState>();
+  readonly poll = input<ReadPoll>();
+  readonly isFull = input(false);
+  readonly isPastEvent = input(false);
+  readonly check = model<PollEventState>();
 
   toggle(): void {
-    this.check = this.nextState(this.check || 'no');
-    this.checkChange.next(this.check);
+    this.check.set(this.nextState(this.check() || 'no'));
   }
 
   private nextState(state: PollEventState): PollEventState {
@@ -30,7 +29,7 @@ export class CheckButtonComponent {
       case 'no':
         return 'yes';
       case 'yes':
-        if (this.poll?.settings.allowMaybe) {
+        if (this.poll()?.settings.allowMaybe) {
           return 'maybe';
         }
         return 'no';

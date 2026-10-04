@@ -1,6 +1,6 @@
 import {inject} from '@angular/core';
 import {CanActivateFn} from '@angular/router';
-import {TokenService} from '../../core/services';
+import {map} from 'rxjs/operators';
 import {PollService} from '../services/poll.service';
 
 export const PollAdminGuard: CanActivateFn  = (route) => {
@@ -9,9 +9,8 @@ export const PollAdminGuard: CanActivateFn  = (route) => {
     return true;
   }
 
-  const tokenService = inject(TokenService);
   const pollService = inject(PollService);
-
-  const adminToken = tokenService.getToken();
-  return pollService.isAdmin(id, adminToken);
+  return pollService.get(id).pipe(
+    map(poll => !!poll.adminRole),
+  );
 }
