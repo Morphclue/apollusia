@@ -16,13 +16,13 @@
     </tr>
     </thead>
     <tbody>
-      @for (kv of features|keyvalue; track kv) {
+      @for (category of features; track category.title) {
         <tr class="sticky-top">
           <td colspan="2">
-            <h4>{{ kv.key }}</h4>
+            <h4>{{ category.title }}</h4>
           </td>
         </tr>
-        @for (feature of kv.value; track feature) {
+        @for (feature of category.features; track feature) {
           <tr>
             <th class="text-center">
               <i [class]="['icon-lg', 'bi-' + feature.icon, feature.support['Apollusia'] === true ? 'text-primary-emphasis' : 'text-muted']"></i>

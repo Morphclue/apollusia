@@ -1,19 +1,26 @@
-import {KeyValuePipe} from '@angular/common';
 import {Component, ChangeDetectionStrategy, inject, LOCALE_ID} from '@angular/core';
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 
-import featuresDe from './features.de.json';
 import features from './features.json';
 
 const apps = ['Apollusia', 'Doodle', 'DuD-Poll', 'Calendly'] as const;
 type App = (typeof apps)[number];
+type Locale = 'en' | 'de';
+type LocalizedText = Record<Locale, string>;
 
 interface Feature {
-  icon?: string;
-  title: string;
-  description: string;
-  apollusiaIssue?: number;
-  support: Record<App, boolean | 'Always' | 'Paid option' | string>;
+  icon: string;
+  title: LocalizedText;
+  description: LocalizedText;
+  support: Record<App, boolean | string | LocalizedText>;
+}
+
+const localized = (value: string | LocalizedText, locale: Locale): string =>
+  typeof value === 'string' ? value : value[locale];
+
+interface FeatureCategory {
+  title: LocalizedText;
+  features: Feature[];
 }
 
 @Component({
@@ -21,11 +28,22 @@ interface Feature {
   templateUrl: './features.component.html',
   styleUrls: ['./features.component.scss'],
   changeDetection: ChangeDetectionStrategy.Eager,
-  imports: [NgbTooltip, KeyValuePipe],
+  imports: [NgbTooltip],
 })
 export class FeaturesComponent {
   readonly apps = apps;
-  readonly features: Record<string, Feature[]> = inject(LOCALE_ID) === 'de' ? featuresDe : features;
+  private readonly locale: Locale = inject(LOCALE_ID) === 'de' ? 'de' : 'en';
+  readonly features = (features as FeatureCategory[]).map(category => ({
+    title: category.title[this.locale],
+    features: category.features.map(feature => ({
+      ...feature,
+      title: feature.title[this.locale],
+      description: feature.description[this.locale],
+      support: Object.fromEntries(
+        Object.entries(feature.support).map(([app, value]) => [app, typeof value === 'boolean' ? value : localized(value, this.locale)]),
+      ) as Record<App, boolean | string>,
+    })),
+  }));
   readonly alwaysOption = $localize`:@@about-feature-always:Always`;
   readonly paidOption = $localize`:@@about-feature-paid:Paid option`;
 }
