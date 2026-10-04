@@ -58,25 +58,33 @@
         </apollusia-poll-log-item>
       }
       @case ("events.changed") {
-        <apollusia-poll-log-item [log]="log" icon="bi-pencil-square" i18n="@@poll-log-events-changed">
+        <apollusia-poll-log-item [log]="log" icon="bi-pencil-square">
           @let data = $any(log.data);
-          @let total = data.created + data.updated + data.deleted;
           @if (data.created) {
-            added <b>{{ data.created }}</b>&#20;
+            <ng-container i18n="@@poll-log-events-added">
+              {data.created, plural, =1 {added one option} other {added {{ data.created }} options}}
+            </ng-container>
+          }
+          @if (data.created && (data.updated || data.deleted)) {
+            <ng-container i18n="@@poll-log-events-and">
+              and
+            </ng-container>
           }
           @if (data.updated) {
-            @if (data.created) {
+            <ng-container i18n="@@poll-log-events-updated">
+              {data.updated, plural, =1 {updated one option} other {updated {{ data.updated }} options}}
+            </ng-container>
+          }
+          @if (data.updated && data.deleted) {
+            <ng-container i18n="@@poll-log-events-and">
               and
-            }
-            modified <b>{{ data.updated }}</b>&#20;
+            </ng-container>
           }
           @if (data.deleted) {
-            @if (data.created || data.updated) {
-              and
-            }
-            removed <b>{{ data.deleted }}</b>&#20;
+            <ng-container i18n="@@poll-log-events-deleted">
+              {data.deleted, plural, =1 {removed one option} other {removed {{ data.deleted }} options}}
+            </ng-container>
           }
-          {total, plural, one {option} other {options}}
         </apollusia-poll-log-item>
       }
       @case ("poll.booked") {
