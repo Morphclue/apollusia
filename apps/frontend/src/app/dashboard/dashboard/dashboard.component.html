@@ -5,13 +5,13 @@
         <div class="card-body">
           <img class="float-end logo-glow ms-2 mb-2" ngSrc="/assets/logo.png" alt="Apollusia Logo" width="64"
                height="64">
-          <h5 class="card-title">
+          <h5 class="card-title" i18n="@@dashboard-welcome">
             Welcome to Apollusia!
           </h5>
-          <p class="card-text">
+          <p class="card-text" i18n="@@dashboard-intro">
             You can create polls and share them with your friends.
           </p>
-          <a class="btn btn-primary bi-calendar-plus icon" type="button" routerLink="/poll/create">
+          <a class="btn btn-primary bi-calendar-plus icon" type="button" routerLink="/poll/create" i18n="@@create-poll">
             Create Poll
           </a>
         </div>
@@ -19,30 +19,37 @@
     </div>
     <div class="col-md-6">
       <h1 class="mb-4">
-        My {{ participated ? 'Participations' : 'Polls' }}
+        @if (participated) {
+          <ng-container i18n="@@my-participations">My Participations</ng-container>
+        } @else {
+          <ng-container i18n="@@my-polls">My Polls</ng-container>
+        }
       </h1>
       <ul class="nav nav-pills sticky-top py-3 bg-body" style="margin-top: -1rem">
         <li class="nav-item">
-          <a class="nav-link bi-calendar" routerLink="." [queryParams]="{active: null}" routerLinkActive="active"
-             [routerLinkActiveOptions]="{exact: true}">
+          <a class="nav-link bi-calendar" routerLink="." [queryParams]="{active: null}"
+             routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+             i18n="@@active">
             Active
           </a>
         </li>
         <li class="nav-item">
           <a class="nav-link bi-hourglass-bottom" routerLink="." [queryParams]="{active: false}"
-             routerLinkActive="active">
+             routerLinkActive="active" i18n="@@inactive">
             Inactive
           </a>
         </li>
         <li class="nav-item">
           <a class="nav-link bi-person-check" routerLink="." [queryParams]="{active: null, participated: true}"
-             routerLinkActive="active">
+             routerLinkActive="active" i18n="@@participations">
             Participations
           </a>
         </li>
         <li class="me-auto"></li>
         <li class="nav-item">
-          <input class="form-control" type="search" placeholder="Type to search..." aria-label="Search"
+          <input class="form-control" type="search"
+                 placeholder="Type to search..." i18n-placeholder="@@type-to-search"
+                 aria-label="Search" i18n-aria-label="@@search"
                  [(ngModel)]="searchText">
         </li>
       </ul>
@@ -53,8 +60,12 @@
           </li>
         }
         <li class="text-center text-muted if-empty">
-          There is nothing here.
-          Maybe you {{ searchText ? 'can try another search' : 'should create a poll' }}?
+          <ng-container i18n="@@dashboard-no-polls">There is nothing here.</ng-container>
+          @if (searchText) {
+            <ng-container i18n="@@dashboard-maybe-another-search">Maybe you can try another search?</ng-container>
+          } @else {
+            <ng-container i18n="@@dashboard-maybe-create-poll">Maybe you should create a poll?</ng-container>
+          }
         </li>
       </ul>
     </div>
@@ -63,29 +74,29 @@
         <div class="card">
           <div class="card-body">
             <img class="card-img" src="/assets/artwork/account.svg" alt="Account" width="100%">
-            <h5 class="card-title">
+            <h5 class="card-title" i18n="@@dashboard-sign-in">
               Sign In to Apollusia
               <span class="badge bg-primary">New</span>
             </h5>
-            <p class="card-text">
+            <p class="card-text" i18n="@@dashboard-sign-in-text">
               You can now log into Apollusia with an account, so you can manage your polls on all your devices and continue to use these features:
             </p>
-            <ul class="card-text">
+            <ul class="card-text" i18n="@@dashboard-sign-in-features">
               <li>Email notifications for your polls</li>
               <li>Push notifications for your polls</li>
               <li>Email notifications for your participations</li>
             </ul>
-            <p class="card-text">
+            <p class="card-text" i18n="@@dashboard-sign-in-extra-features-text">
               We will also add the following features built on accounts soon:
             </p>
-            <ul>
+            <ul class="card-text" i18n="@@dashboard-sign-in-extra-features">
               <li>Additional poll admins</li>
               <li>Push notifications for your participations</li>
             </ul>
-            <button class="btn btn-primary w-100 mb-3" (click)="login()">
+            <button class="btn btn-primary w-100 mb-3" (click)="login()" i18n="@@dashboard-sign-up">
               Sign Up
             </button>
-            <p class="card-text small text-muted">
+            <p class="card-text small text-muted" i18n="@@dashboard-sign-in-info">
               <i class="bi-info-circle"></i>
               Accounts are free, secure and forever optional.
               <a href="https://github.com/Morphclue/apollusia/issues/169" target="_blank">Learn more</a>
@@ -95,13 +106,13 @@
       }}
       @if (loggedIn && unclaimed && !participated) {
         <div class="alert alert-warning">
-          <p>
+          <p i18n="@@dashboard-claim-polls-1">
             It looks like some of your polls are not associated with your account yet.
           </p>
-          <p>
+          <p i18n="@@dashboard-claim-polls-2">
             To ensure you can always manage them on all your devices, you can claim them now.
           </p>
-          <button class="btn btn-primary" (click)="claim()">
+          <button class="btn btn-primary" (click)="claim()" i18n="@@dashboard-claim-polls">
             Claim Polls
           </button>
         </div>
