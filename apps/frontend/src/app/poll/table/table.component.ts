@@ -1,4 +1,4 @@
-import {Component, inject, input, model, OnDestroy, OnInit, output, ChangeDetectionStrategy} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, input, model, OnDestroy, OnInit, output} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {checkParticipant} from '@apollusia/logic';
 import type {BookedEvents, PollEventState} from '@apollusia/types';
@@ -52,20 +52,6 @@ export class TableComponent implements OnInit, OnDestroy {
   editParticipant?: Participant;
   editDto?: UpdateParticipantDto;
   errors: string[] = [];
-
-  // TODO bad practice
-  protected get errorMessage(): string {
-    const translations: Record<string, string> = {
-      'deadline is over': $localize`:@@poll-error-deadline:Deadline is over`,
-      'name is required': $localize`:@@poll-error-name-required:Name is required`,
-      'editing is not allowed': $localize`:@@poll-error-edit-not-allowed:Editing is not allowed`,
-      'maybe is not allowed': $localize`:@@poll-error-maybe-not-allowed:Maybe is not allowed`,
-      'max participants reached': $localize`:@@poll-error-max-participants:Maximum number of participants reached`,
-      'too many events selected': $localize`:@@poll-error-too-many-events:Too many events selected`,
-      'max participants for an event reached': $localize`:@@poll-error-max-event-participants:Maximum number of participants for an event reached`,
-    };
-    return this.errors.map(error => translations[error] ?? error).join(', ');
-  }
 
   ngOnInit() {
     this.bookedEvents = this.poll().bookedEvents || {};

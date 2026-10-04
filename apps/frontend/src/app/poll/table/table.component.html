@@ -46,7 +46,7 @@
             </td>
           }
           <th class="border-0 text-start" scope="row">
-            <div class="d-inline-block ms-1" [ngbTooltip]="errorMessage">
+            <div class="d-inline-block ms-1" [ngbTooltip]="errors.length ? errorMessage : null">
               <button class="btn btn-primary btn-sm" [disabled]="errors.length" (click)="submit()" i18n="@@poll-submit-button">
                 Submit
               </button>
@@ -125,7 +125,7 @@
               }
               <td class="border-0 text-start">
                 <button class="btn btn-primary btn-sm ms-1 bi-x" type="button" (click)="cancelEdit()"></button>
-                <div class="d-inline-block" [ngbTooltip]="errorMessage">
+                <div class="d-inline-block" [ngbTooltip]="errors.length ? errorMessage : null">
                   <button class="btn btn-secondary btn-sm ms-1 bi-check" type="button" [disabled]="errors.length"
                           (click)="confirmEdit()"></button>
                 </div>
@@ -174,3 +174,37 @@
     </tbody>
   </table>
 </div>
+
+<ng-template #errorMessage>
+  <ul>
+    @for (error of errors; track error) {
+      <li>
+        @switch (error) {
+          @case ('deadline is over') {
+            <ng-container i18n="@@poll-error-deadline">Deadline is over</ng-container>
+          }
+          @case ('name is required') {
+            <ng-container i18n="@@poll-error-name-required">Name is required</ng-container>
+          }
+          @case ('editing is not allowed') {
+            <ng-container i18n="@@poll-error-edit-not-allowed">Editing is not allowed</ng-container>
+          }
+          @case ('maybe is not allowed') {
+            <ng-container i18n="@@poll-error-maybe-not-allowed">Maybe is not allowed</ng-container>
+          }
+          @case ('max participants reached') {
+            <ng-container i18n="@@poll-error-max-participants">Maximum number of participants reached</ng-container>
+          }
+          @case ('too many events selected') {
+            <ng-container i18n="@@poll-error-too-many-events">Too many events selected</ng-container>
+          }
+          @case ('max participants for an event reached') {
+            <ng-container i18n="@@poll-error-max-event-participants">Maximum number of participants for an event
+              reached
+            </ng-container>
+          }
+        }
+      </li>
+    }
+  </ul>
+</ng-template>
