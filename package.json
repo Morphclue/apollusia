@@ -91,7 +91,7 @@
     "@angular/platform-browser-dynamic": "22.1.7",
     "@angular/platform-server": "22.1.8",
     "@angular/pwa": "22.1.9",
-    "@angular/router": "22.1.8",
+    "@angular/router": "22.2.0",
     "@angular/service-worker": "22.1.8",
     "@angular/ssr": "22.1.9",
     "@keycloak/keycloak-admin-client": "^26.8.0",
