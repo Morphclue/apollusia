@@ -1,4 +1,4 @@
-import {Component, inject, input, model, OnDestroy, OnInit, output, ChangeDetectionStrategy} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, input, model, OnDestroy, OnInit, output} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {checkParticipant} from '@apollusia/logic';
 import type {BookedEvents, PollEventState} from '@apollusia/types';
@@ -80,8 +80,8 @@ export class TableComponent implements OnInit, OnDestroy {
         },
         error: (error) => {
           this.toastService.error(
-            'Submit',
-            'Failed to submit your participation',
+            $localize`:@@poll-submit-title:Submit`,
+            $localize`:@@poll-submit-failed:Failed to submit your participation`,
             error,
           );
         },
@@ -147,7 +147,10 @@ export class TableComponent implements OnInit, OnDestroy {
 
   book() {
     this.pollService.book(this.poll()._id, this.bookedEvents).subscribe(() => {
-      this.toastService.success('Booking', 'Booked events successfully');
+      this.toastService.success(
+        $localize`:@@poll-booking:Booking`,
+        $localize`:@@poll-booked-success:Booked events successfully`,
+      );
     });
   }
 

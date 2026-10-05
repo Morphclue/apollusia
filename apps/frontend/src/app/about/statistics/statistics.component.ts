@@ -19,10 +19,10 @@ export class StatisticsComponent implements OnInit {
   statistics?: Statistics;
 
   columns: [keyof Statistics, string, string][] = [
-    ['polls', 'bi-calendar', 'Polls created'],
-    ['pollEvents', 'bi-calendar-week', 'Events created'],
-    ['participants', 'bi-person-check', 'Persons participated'],
-    ['users', 'bi-person', 'Unique Users'],
+    ['polls', 'bi-calendar', $localize`:@@about-statistics-polls:Polls created`],
+    ['pollEvents', 'bi-calendar-week', $localize`:@@about-statistics-events:Events created`],
+    ['participants', 'bi-person-check', $localize`:@@about-statistics-participants:Persons participated`],
+    ['users', 'bi-person', $localize`:@@about-statistics-users:Unique Users`],
   ];
 
   ngOnInit(): void {

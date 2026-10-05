@@ -6,9 +6,15 @@
   "sourceRoot": "apps/frontend/src",
   "tags": [],
   "i18n": {
-    "sourceLocale": "en-US",
+    "sourceLocale": {
+      "code": "en-US",
+      "subPath": ""
+    },
     "locales": {
-      "de": "apps/frontend/src/locales/messages.de.json"
+      "de": {
+        "translation": "apps/frontend/src/locales/messages.de.json",
+        "subPath": "de"
+      }
     }
   },
   "targets": {

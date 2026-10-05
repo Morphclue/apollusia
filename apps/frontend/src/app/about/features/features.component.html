@@ -1,7 +1,7 @@
 <div class="container">
   <div class="col-md-6">
-    <h2>Feature Rich</h2>
-    <p>
+    <h2 i18n="@@about-features-title">Feature Rich</h2>
+    <p i18n="@@about-features-intro">
       Experience the unparalleled feature set of Apollusia, setting it apart as the market's foremost platform for
       modern event polls.
     </p>
@@ -9,28 +9,28 @@
   <table class="table shadow">
     <thead class="sticky-top">
     <tr>
-      <th scope="col" colspan="2">Feature</th>
+      <th scope="col" colspan="2" i18n="@@about-feature-heading">Feature</th>
       @for (app of apps; track app) {
         <th scope="col">{{ app }}</th>
       }
     </tr>
     </thead>
     <tbody>
-      @for (kv of features|keyvalue; track kv) {
+      @for (category of features; track category.title) {
         <tr class="sticky-top">
           <td colspan="2">
-            <h4>{{ kv.key }}</h4>
+            <h4>{{ category.title[locale] }}</h4>
           </td>
         </tr>
-        @for (feature of kv.value; track feature) {
+        @for (feature of category.features; track feature) {
           <tr>
             <th class="text-center">
               <i [class]="['icon-lg', 'bi-' + feature.icon, feature.support['Apollusia'] === true ? 'text-primary-emphasis' : 'text-muted']"></i>
             </th>
             <th scope="row">
-              {{ feature.title }}
+              {{ feature.title[locale] }}
               <div class="small text-muted fw-normal">
-                {{ feature.description }}
+                {{ feature.description[locale] }}
               </div>
             </th>
             @for (app of apps; track app) {
@@ -42,13 +42,13 @@
                   <td class="p-no icon-lg bi-x-lg"></td>
                 }
                 @case ('Paid option') {
-                  <td class="p-maybe icon-lg bi-currency-dollar" ngbTooltip="Paid option" container="body"></td>
+                  <td class="p-maybe icon-lg bi-currency-dollar" ngbTooltip="Paid option" i18n-ngbTooltip="@@about-feature-paid" container="body"></td>
                 }
                 @case ('Always') {
-                  <td class="p-maybe icon-lg bi-slash-square" ngbTooltip="Always" container="body"></td>
+                  <td class="p-maybe icon-lg bi-slash-square" ngbTooltip="Always" i18n-ngbTooltip="@@about-feature-always" container="body"></td>
                 }
                 @default {
-                  <td class="p-maybe bi-flag icon-lg" [ngbTooltip]="''+feature.support[app]" container="body"></td>
+                  <td class="p-maybe bi-flag icon-lg" [ngbTooltip]="$any(feature.support)[app][locale]" container="body"></td>
                 }
               }
             }
@@ -58,8 +58,14 @@
     </tbody>
   </table>
   <div class="text-end small text-muted fst-italic">
-    Did we make a mistake, or do you want to add a tool?
-    <a href="https://github.com/Morphclue/apollusia/edit/master/apps/frontend/src/app/about/features/features.json" target="_blank">
+    <ng-container i18n="@@about-features-edit">
+      Did we make a mistake, or do you want to add a tool?
+    </ng-container>
+    <a
+      href="https://github.com/Morphclue/apollusia/edit/master/apps/frontend/src/app/about/features/features.json"
+      target="_blank"
+      i18n="@@about-features-edit-link"
+    >
       Edit this data.
     </a>
   </div>

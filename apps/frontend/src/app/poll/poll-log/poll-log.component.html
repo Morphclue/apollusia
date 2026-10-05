@@ -2,20 +2,31 @@
   <hr/>
   <div class="card">
     <div class="card-header">
-      <input type="text" class="form-control" placeholder="Your name" [(ngModel)]="commentName">
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Your name"
+        i18n-placeholder="@@poll-your-name"
+        [(ngModel)]="commentName"
+      >
     </div>
-    <textarea class="form-control card-body" placeholder="Your comment" [(ngModel)]="commentBody"></textarea>
+    <textarea
+      class="form-control card-body"
+      placeholder="Your comment"
+      i18n-placeholder="@@poll-your-comment"
+      [(ngModel)]="commentBody"
+    ></textarea>
     <div class="card-footer d-flex align-items-center">
-      <button class="btn btn-primary bi-send" [disabled]="!(commentName() && commentBody())" (click)="postComment()">
+      <button class="btn btn-primary bi-send" [disabled]="!(commentName() && commentBody())" (click)="postComment()" i18n="@@poll-send">
         Send
       </button>
-      <span class="ms-3 bi-info-circle">
+      <span class="ms-3 bi-info-circle" i18n="@@poll-comment-visible">
         Your comment will be visible to all participants.
       </span>
     </div>
   </div>
 } @else {
-  <div class="alert alert-info">
+  <div class="alert alert-info" i18n="@@poll-comments-disabled">
     Comments are disabled for this poll.
   </div>
 }
@@ -26,7 +37,7 @@
         <apollusia-poll-log-item [log]="log" icon="bi-chat-text" showUser="" [showTimestamp]="false">
           <div class="card">
             @let comment = $any(log.data);
-            <div class="card-header">
+            <div class="card-header" i18n="@@poll-commented">
               <b>{{ comment.name }}</b> commented
               <span class="text-muted">&bullet; {{ log.createdAt | date: 'short' }}</span>
             </div>
@@ -40,7 +51,8 @@
         <apollusia-poll-log-item
           [log]="log"
           icon="bi-check-circle"
-          [showUser]="$any(log.data)['name'] || 'An anonymous user'"
+          [showUser]="$any(log.data)['name'] || anonymousUserLabel"
+          i18n="@@poll-log-participant-created"
         >
           participated in the poll
         </apollusia-poll-log-item>
@@ -48,33 +60,41 @@
       @case ("events.changed") {
         <apollusia-poll-log-item [log]="log" icon="bi-pencil-square">
           @let data = $any(log.data);
-          @let total = data.created + data.updated + data.deleted;
           @if (data.created) {
-            added <b>{{ data.created }}</b>&#20;
+            <ng-container i18n="@@poll-log-events-added">
+              {data.created, plural, =1 {added one option} other {added {{ data.created }} options}}
+            </ng-container>
+          }
+          @if (data.created && (data.updated || data.deleted)) {
+            <ng-container i18n="@@poll-log-events-and">
+              and
+            </ng-container>
           }
           @if (data.updated) {
-            @if (data.created) {
+            <ng-container i18n="@@poll-log-events-updated">
+              {data.updated, plural, =1 {updated one option} other {updated {{ data.updated }} options}}
+            </ng-container>
+          }
+          @if (data.updated && data.deleted) {
+            <ng-container i18n="@@poll-log-events-and">
               and
-            }
-            modified <b>{{ data.updated }}</b>&#20;
+            </ng-container>
           }
           @if (data.deleted) {
-            @if (data.created || data.updated) {
-              and
-            }
-            removed <b>{{ data.deleted }}</b>&#20;
+            <ng-container i18n="@@poll-log-events-deleted">
+              {data.deleted, plural, =1 {removed one option} other {removed {{ data.deleted }} options}}
+            </ng-container>
           }
-          {total, plural, one {option} other {options}}
         </apollusia-poll-log-item>
       }
       @case ("poll.booked") {
-        <apollusia-poll-log-item [log]="log" icon="bi-calendar-event">
+        <apollusia-poll-log-item [log]="log" icon="bi-calendar-event" i18n="@@poll-log-booked">
           @let booked = $any(log.data).booked;
           booked <b>{{ booked }}</b> {booked, plural, =1 {appointment} other {appointments}}
         </apollusia-poll-log-item>
       }
       @case ("poll.changed") {
-        <apollusia-poll-log-item [log]="log" icon="bi-pencil">
+        <apollusia-poll-log-item [log]="log" icon="bi-pencil" i18n="@@poll-log-poll-changed">
           edited the poll with
           @let diff = $any(log.data).diff | keyvalue;
           <a routerLink="." [ngbPopover]="changes">
@@ -96,7 +116,7 @@
   }
   @if (showMore()) {
     <apollusia-poll-log-item icon="bi-three-dots-vertical" [showTimestamp]="false" showUser="">
-      <button class="btn btn-link m-0 p-0" (click)="loadMore()">
+      <button class="btn btn-link m-0 p-0" (click)="loadMore()" i18n="@@poll-load-older">
         Load older items...
       </button>
     </apollusia-poll-log-item>

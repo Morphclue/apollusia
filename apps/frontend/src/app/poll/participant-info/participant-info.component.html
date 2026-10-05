@@ -5,7 +5,7 @@
   </span>
 }
 @if (participant().updatedAt !== participant().createdAt) {
-  <span class="small text-muted" [ngbTooltip]="participant().updatedAt | date:'medium'">
+  <span class="small text-muted" [ngbTooltip]="participant().updatedAt | date:'medium'" i18n="@@poll-edited">
     &bull; edited
   </span>
 }

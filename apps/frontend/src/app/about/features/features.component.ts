@@ -1,28 +1,18 @@
-import {KeyValuePipe} from '@angular/common';
-import {Component, ChangeDetectionStrategy} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, LOCALE_ID} from '@angular/core';
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 
 import features from './features.json';
-
-const apps = ['Apollusia', 'Doodle', 'DuD-Poll', 'Calendly'] as const;
-type App = (typeof apps)[number];
-
-interface Feature {
-  icon?: string;
-  title: string;
-  description: string;
-  apollusiaIssue?: number;
-  support: Record<App, boolean | 'Always' | 'Paid option' | string>;
-}
 
 @Component({
   selector: 'app-features',
   templateUrl: './features.component.html',
   styleUrls: ['./features.component.scss'],
   changeDetection: ChangeDetectionStrategy.Eager,
-  imports: [NgbTooltip, KeyValuePipe],
+  imports: [NgbTooltip],
 })
 export class FeaturesComponent {
-  readonly apps = apps;
-  readonly features: Record<string, Feature[]> = features;
+  readonly locale = inject(LOCALE_ID) === 'de' ? 'de' : 'en';
+
+  readonly apps = ['Apollusia', 'Doodle', 'DuD-Poll', 'Calendly'] as const;
+  readonly features = features;
 }
