@@ -127,7 +127,7 @@
     "express": "5.2.1",
     "file-saver": "^2.0.5",
     "flatpickr": "^4.6.13",
-    "handlebars": "^4.7.9",
+    "handlebars": "^4.7.10",
     "http-proxy-middleware": "^4.2.0",
     "ical-generator": "^11.1.2",
     "keycloak-angular": "^22.0.0",

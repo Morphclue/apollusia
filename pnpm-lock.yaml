@@ -81,7 +81,7 @@ importers:
         version: 0.15.0(7d979c350a9692aa424ae5d4382f1a2b)
       '@nestjs-modules/mailer':
         specifier: ^3.0.2
-        version: 3.0.2(@nestjs/common@11.2.7(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@7.2.0))(@nestjs/core@11.2.7)(@nestjs/event-emitter@3.1.0(@nestjs/common@11.2.7(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@7.2.0))(@nestjs/core@11.2.7))(@types/ejs@3.1.5)(@types/mjml@4.7.4)(@types/pug@2.0.10)(ejs@5.0.2)(handlebars@4.7.9)(liquidjs@10.27.2)(mjml@5.4.0(relateurl@0.2.7)(svgo@4.1.0)(terser@5.49.0)(typescript@6.0.3))(nodemailer@9.1.1)(nunjucks@3.2.4(chokidar@3.6.0))(preview-email@3.2.0)(pug@3.0.4)
+        version: 3.0.2(@nestjs/common@11.2.7(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@7.2.0))(@nestjs/core@11.2.7)(@nestjs/event-emitter@3.1.0(@nestjs/common@11.2.7(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@7.2.0))(@nestjs/core@11.2.7))(@types/ejs@3.1.5)(@types/mjml@4.7.4)(@types/pug@2.0.10)(ejs@5.0.2)(handlebars@4.7.10)(liquidjs@10.27.2)(mjml@5.4.0(relateurl@0.2.7)(svgo@4.1.0)(terser@5.49.0)(typescript@6.0.3))(nodemailer@9.1.1)(nunjucks@3.2.4(chokidar@3.6.0))(preview-email@3.2.0)(pug@3.0.4)
       '@nestjs/common':
         specifier: ^11.2.7
         version: 11.2.7(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@7.2.0)
@@ -170,8 +170,8 @@ importers:
         specifier: ^4.6.13
         version: 4.6.13
       handlebars:
-        specifier: ^4.7.9
-        version: 4.7.9
+        specifier: ^4.7.10
+        version: 4.7.10
       http-proxy-middleware:
         specifier: ^4.2.0
         version: 4.2.0(supports-color@7.2.0)
@@ -7444,8 +7444,8 @@ packages:
   handle-thing@2.0.1:
     resolution: {integrity: sha512-9Qn4yBxelxoh2Ow62nP+Ka/kMnOXRi8BXnRaUwezLNhqelnN49xKz4F/dPP8OYLxLxq6JDtZb2i9XznUQbNPTg==}
 
-  handlebars@4.7.9:
-    resolution: {integrity: sha512-4E71E0rpOaQuJR2A3xDZ+GM1HyWYv1clR58tC8emQNeQe3RH7MAzSbat+V0wG78LQBo6m6bzSG/L4pBuCsgnUQ==}
+  handlebars@4.7.10:
+    resolution: {integrity: sha512-P5VJMVM7qgBn6vjXMw8WG9uVI+ncf2pi72j4de4yz5ZULLj2RGqLYaKOYGsgyrViQ0tePOVlN1tDCCXXtFqXKg==}
     engines: {node: '>=0.4.7'}
     hasBin: true
 
@@ -15167,7 +15167,7 @@ snapshots:
       '@tybys/wasm-util': 0.10.4
     optional: true
 
-  '@nestjs-modules/mailer@3.0.2(@nestjs/common@11.2.7(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@7.2.0))(@nestjs/core@11.2.7)(@nestjs/event-emitter@3.1.0(@nestjs/common@11.2.7(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@7.2.0))(@nestjs/core@11.2.7))(@types/ejs@3.1.5)(@types/mjml@4.7.4)(@types/pug@2.0.10)(ejs@5.0.2)(handlebars@4.7.9)(liquidjs@10.27.2)(mjml@5.4.0(relateurl@0.2.7)(svgo@4.1.0)(terser@5.49.0)(typescript@6.0.3))(nodemailer@9.1.1)(nunjucks@3.2.4(chokidar@3.6.0))(preview-email@3.2.0)(pug@3.0.4)':
+  '@nestjs-modules/mailer@3.0.2(@nestjs/common@11.2.7(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@7.2.0))(@nestjs/core@11.2.7)(@nestjs/event-emitter@3.1.0(@nestjs/common@11.2.7(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@7.2.0))(@nestjs/core@11.2.7))(@types/ejs@3.1.5)(@types/mjml@4.7.4)(@types/pug@2.0.10)(ejs@5.0.2)(handlebars@4.7.10)(liquidjs@10.27.2)(mjml@5.4.0(relateurl@0.2.7)(svgo@4.1.0)(terser@5.49.0)(typescript@6.0.3))(nodemailer@9.1.1)(nunjucks@3.2.4(chokidar@3.6.0))(preview-email@3.2.0)(pug@3.0.4)':
     dependencies:
       '@css-inline/css-inline': 0.22.0
       '@nestjs/common': 11.2.7(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@7.2.0)
@@ -15181,7 +15181,7 @@ snapshots:
       '@types/mjml': 4.7.4
       '@types/pug': 2.0.10
       ejs: 5.0.2
-      handlebars: 4.7.9
+      handlebars: 4.7.10
       liquidjs: 10.27.2
       mjml: 5.4.0(relateurl@0.2.7)(svgo@4.1.0)(terser@5.49.0)(typescript@6.0.3)
       nunjucks: 3.2.4(chokidar@3.6.0)
@@ -19871,7 +19871,7 @@ snapshots:
 
   handle-thing@2.0.1: {}
 
-  handlebars@4.7.9:
+  handlebars@4.7.10:
     dependencies:
       minimist: 1.2.8
       neo-async: 2.6.2
@@ -24713,7 +24713,7 @@ snapshots:
     dependencies:
       bs-logger: 0.2.6
       fast-json-stable-stringify: 2.1.0
-      handlebars: 4.7.9
+      handlebars: 4.7.10
       jest: 30.5.2(@types/node@26.6.4)(babel-plugin-macros@3.1.0)(supports-color@7.2.0)(ts-node@10.9.2(@swc/core@1.16.13(@swc/helpers@0.5.23))(@types/node@26.6.4)(typescript@6.0.3))
       json5: 2.2.3
       lodash.memoize: 4.1.2
