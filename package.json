@@ -97,7 +97,7 @@
     "@keycloak/keycloak-admin-client": "^26.8.0",
     "@mean-stream/nestx": "^0.15.0",
     "@mean-stream/ngbx": "^0.15.0",
-    "@nestjs-modules/mailer": "^2.3.7",
+    "@nestjs-modules/mailer": "^3.0.2",
     "@nestjs/common": "^11.2.7",
     "@nestjs/config": "^4.0.4",
     "@nestjs/core": "^11.2.7",
