@@ -29,35 +29,36 @@ export class PollLogComponent implements OnInit {
   readonly commentBody = signal('');
 
   readonly showMore = signal(false);
+  protected readonly anonymousUserLabel = $localize`:@@poll-anonymous-user:An anonymous user`;
 
   /** How many items to load initially, plus one to check if there are more items */
   private readonly limit = 11;
 
   /** A record of all fields and values and how they are displayed in "poll changed" events */
   protected readonly changeDisplayKey: Record<string | symbol, string> = {
-    title: 'Title',
-    description: 'Description',
-    location: 'Location',
-    timeZone: 'Timezone',
-    'settings.deadline': 'Deadline',
-    'settings.maxParticipants': 'Maximum number of participants',
-    'settings.maxParticipantEvents': 'Maximum number of choices per participant',
-    'settings.maxEventParticipants': 'Maximum number of participants per event',
-    'settings.allowMaybe': 'Allow Maybe option',
-    'settings.allowEdit': 'Allow editing',
-    'settings.anonymous': 'Anonymous participation',
-    'settings.allowComments': 'Allow Comments',
-    'settings.logHistory': 'Enable Change History',
-    'settings.showResult': 'Show results to participants',
+    title: $localize`:@@poll-field-title:Title`,
+    description: $localize`:@@poll-field-description:Description`,
+    location: $localize`:@@poll-field-location:Location`,
+    timeZone: $localize`:@@poll-field-timezone:Timezone`,
+    'settings.deadline': $localize`:@@poll-field-deadline:Deadline`,
+    'settings.maxParticipants': $localize`:@@poll-field-max-participants:Maximum number of participants`,
+    'settings.maxParticipantEvents': $localize`:@@poll-field-max-choices-per-participant:Maximum number of choices per participant`,
+    'settings.maxEventParticipants': $localize`:@@poll-field-max-participants-per-event:Maximum number of participants per event`,
+    'settings.allowMaybe': $localize`:@@poll-field-allow-maybe:Allow Maybe option`,
+    'settings.allowEdit': $localize`:@@poll-field-allow-edit:Allow editing`,
+    'settings.anonymous': $localize`:@@poll-field-anonymous:Anonymous participation`,
+    'settings.allowComments': $localize`:@@poll-field-allow-comments:Allow Comments`,
+    'settings.logHistory': $localize`:@@poll-field-history:Enable Change History`,
+    'settings.showResult': $localize`:@@poll-field-show-results:Show results to participants`,
   };
   protected readonly changeDisplayValues: Record<string | symbol, string> = {
     // values of showResult:
-    [ShowResultOptions.IMMEDIATELY]: 'Immediately',
-    [ShowResultOptions.AFTER_PARTICIPATING]: 'After participating',
-    [ShowResultOptions.AFTER_DEADLINE]: 'After deadline',
-    [ShowResultOptions.NEVER]: 'Never',
-    true: 'Yes',
-    false: 'No',
+    [ShowResultOptions.IMMEDIATELY]: $localize`:@@poll-field-immediately:Immediately`,
+    [ShowResultOptions.AFTER_PARTICIPATING]: $localize`:@@poll-field-after-participating:After participating`,
+    [ShowResultOptions.AFTER_DEADLINE]: $localize`:@@poll-field-after-deadline:After deadline`,
+    [ShowResultOptions.NEVER]: $localize`:@@poll-field-never:Never`,
+    true: $localize`:@@poll-yes:Yes`,
+    false: $localize`:@@poll-no:No`,
   };
 
   ngOnInit() {

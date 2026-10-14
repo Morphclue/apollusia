@@ -1,3 +1,4 @@
+import {DatePipe} from '@angular/common';
 import {Component, inject, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {ImprintDto} from '@apollusia/types';
 
@@ -8,6 +9,9 @@ import {ImprintService} from '../services/imprint.service';
   templateUrl: './legal.component.html',
   changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./legal.component.scss'],
+  imports: [
+    DatePipe,
+  ],
 })
 export class LegalComponent implements OnInit{
   private imprintService  = inject(ImprintService);

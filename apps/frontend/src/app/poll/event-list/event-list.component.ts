@@ -25,6 +25,8 @@ export class EventListComponent implements OnInit {
   readonly bestOption = input.required<number>();
 
   protected showNoVotes = false;
+  protected readonly bestOptionTooltip = $localize`:@@poll-best-option:Best Option`;
+  protected readonly voteCountTooltip = $localize`:@@poll-number-of-votes:Number of Votes`;
   eventsGroupedByDate: [Date, ReadPollEvent[]][] = [];
 
   ngOnInit() {

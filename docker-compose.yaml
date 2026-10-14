@@ -4,12 +4,18 @@ services:
       dockerfile: ./apps/frontend/Dockerfile
     ports:
       - "4000:4000"
+    environment:
+      NG_ALLOWED_HOSTS: localhost,127.0.0.1
 
   backend:
     build:
       dockerfile: ./apps/backend/Dockerfile
     ports:
       - "3000:3000"
+    environment:
+      MONGO_URI: mongodb://database:27017
+      EMAIL_HOST: maildev
+      KEYCLOAK_BASE_URL: http://keycloak:8080/auth
 
   database:
     image: mongo:7

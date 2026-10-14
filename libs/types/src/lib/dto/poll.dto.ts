@@ -1,6 +1,6 @@
 import {ApiProperty, ApiPropertyOptional, OmitType, PartialType} from '@nestjs/swagger';
 
-import {Poll, PollRole} from '../schema';
+import {Poll, type PollRole} from '../schema';
 
 export class CreatePollDto extends OmitType(Poll, [
   'id',

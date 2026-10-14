@@ -1,219 +1,360 @@
-{
-  "Participation": [
-    {
-      "icon": "incognito",
-      "title": "Anonymous participation",
-      "description": "Participants can vote without entering their name",
-      "support": {
-        "Apollusia": true,
-        "Doodle": true,
-        "DuD-Poll": true,
-        "Calendly": false
-      }
+[
+  {
+    "title": {
+      "en": "Participation",
+      "de": "Teilnahme"
     },
-    {
-      "icon": "pencil-square",
-      "title": "Editing participation",
-      "description": "Participants can edit their participation",
-      "support": {
-        "Apollusia": true,
-        "Doodle": true,
-        "DuD-Poll": true,
-        "Calendly": false
+    "features": [
+      {
+        "icon": "incognito",
+        "title": {
+          "en": "Anonymous participation",
+          "de": "Anonyme Teilnahme"
+        },
+        "description": {
+          "en": "Participants can vote without entering their name",
+          "de": "Teilnehmende können abstimmen, ohne ihren Namen anzugeben"
+        },
+        "support": {
+          "Apollusia": true,
+          "Doodle": true,
+          "DuD-Poll": true,
+          "Calendly": false
+        }
+      },
+      {
+        "icon": "pencil-square",
+        "title": {
+          "en": "Editing participation",
+          "de": "Teilnahme bearbeiten"
+        },
+        "description": {
+          "en": "Participants can edit their participation",
+          "de": "Teilnehmende können ihre Teilnahme bearbeiten"
+        },
+        "support": {
+          "Apollusia": true,
+          "Doodle": true,
+          "DuD-Poll": true,
+          "Calendly": false
+        }
+      },
+      {
+        "icon": "eye-slash",
+        "title": {
+          "en": "Blind participation",
+          "de": "Verdeckte Teilnahme"
+        },
+        "description": {
+          "en": "Participants can't see other participants until they participate",
+          "de": "Teilnehmende können die anderen Teilnehmenden erst sehen, wenn sie selbst teilgenommen haben"
+        },
+        "support": {
+          "Apollusia": true,
+          "Doodle": false,
+          "DuD-Poll": false,
+          "Calendly": true
+        }
+      },
+      {
+        "icon": "chat-dots",
+        "title": {
+          "en": "Comments",
+          "de": "Kommentare"
+        },
+        "description": {
+          "en": "Add comments to a poll",
+          "de": "Kommentare zu einer Umfrage hinzufügen"
+        },
+        "support": {
+          "Apollusia": true,
+          "Doodle": false,
+          "DuD-Poll": true,
+          "Calendly": false
+        }
       }
+    ]
+  },
+  {
+    "title": {
+      "en": "Poll Options",
+      "de": "Umfrageoptionen"
     },
-    {
-      "icon": "eye-slash",
-      "title": "Blind participation",
-      "description": "Participants can't see other participants until they participate",
-      "support": {
-        "Apollusia": true,
-        "Doodle": false,
-        "DuD-Poll": false,
-        "Calendly": true
+    "features": [
+      {
+        "icon": "1-square",
+        "title": {
+          "en": "Participation limit",
+          "de": "Teilnehmerbegrenzung"
+        },
+        "description": {
+          "en": "Limit the number of participants",
+          "de": "Die Anzahl der Teilnehmenden begrenzen"
+        },
+        "support": {
+          "Apollusia": true,
+          "Doodle": true,
+          "DuD-Poll": false,
+          "Calendly": false
+        }
+      },
+      {
+        "icon": "question-square",
+        "title": {
+          "en": "Maybe Option",
+          "de": "Vielleicht-Option"
+        },
+        "description": {
+          "en": "Friendlier event selection with a Maybe option",
+          "de": "Freie Terminauswahl mit einer Vielleicht-Option"
+        },
+        "support": {
+          "Apollusia": true,
+          "Doodle": "Always",
+          "DuD-Poll": "Always",
+          "Calendly": false
+        }
+      },
+      {
+        "icon": "calendar-day",
+        "title": {
+          "en": "Deadline",
+          "de": "Frist"
+        },
+        "description": {
+          "en": "Set a deadline for new participations",
+          "de": "Eine Frist für neue Teilnahmen festlegen"
+        },
+        "support": {
+          "Apollusia": true,
+          "Doodle": "Paid option",
+          "DuD-Poll": false,
+          "Calendly": false
+        }
+      },
+      {
+        "icon": "markdown",
+        "title": {
+          "en": "Rich Text and Links in Description",
+          "de": "Formatierter Text und Links in der Beschreibung"
+        },
+        "description": {
+          "en": "Add Markdown formatted text and links to the description",
+          "de": "Markdown-formatierte Texte und Links zur Beschreibung hinzufügen"
+        },
+        "support": {
+          "Apollusia": true,
+          "Doodle": false,
+          "DuD-Poll": false,
+          "Calendly": true
+        }
+      },
+      {
+        "icon": "calendar-week",
+        "title": {
+          "en": "Events of varying length",
+          "de": "Termine unterschiedlicher Länge"
+        },
+        "description": {
+          "en": "Every event can have its own length",
+          "de": "Jeder Termin kann eine eigene Länge haben"
+        },
+        "support": {
+          "Apollusia": true,
+          "Doodle": false,
+          "DuD-Poll": false,
+          "Calendly": false
+        }
+      },
+      {
+        "icon": "sticky",
+        "title": {
+          "en": "Event Notes",
+          "de": "Terminhinweise"
+        },
+        "description": {
+          "en": "Add notes to events to provide additional information",
+          "de": "Hinweise zu Terminen hinzufügen, um weitere Informationen bereitzustellen"
+        },
+        "support": {
+          "Apollusia": true,
+          "Doodle": false,
+          "DuD-Poll": false,
+          "Calendly": false
+        }
       }
+    ]
+  },
+  {
+    "title": {
+      "en": "Productivity",
+      "de": "Produktivität"
     },
-    {
-      "icon": "chat-dots",
-      "title": "Comments",
-      "description": "Add comments to a poll",
-      "support": {
-        "Apollusia": true,
-        "Doodle": false,
-        "DuD-Poll": true,
-        "Calendly": false
+    "features": [
+      {
+        "icon": "calendar-range",
+        "title": {
+          "en": "Autofill",
+          "de": "Automatisches Ausfüllen"
+        },
+        "description": {
+          "en": "Create many sequential events automatically, with breaks and on multiple days",
+          "de": "Viele aufeinanderfolgende Termine automatisch erstellen – mit Pausen und über mehrere Tage hinweg"
+        },
+        "support": {
+          "Apollusia": true,
+          "Doodle": false,
+          "DuD-Poll": {
+            "en": "Repeating the time for every day is possible",
+            "de": "Es ist möglich, die Uhrzeit für jeden Tag zu wiederholen"
+          },
+          "Calendly": false
+        }
+      },
+      {
+        "icon": "copy",
+        "title": {
+          "en": "Cloning polls",
+          "de": "Umfragen duplizieren"
+        },
+        "description": {
+          "en": "Clone polls to start off with the same options",
+          "de": "Umfragen duplizieren, um dieselben Optionen wiederzuverwenden"
+        },
+        "support": {
+          "Apollusia": true,
+          "Doodle": false,
+          "DuD-Poll": false,
+          "Calendly": false
+        }
+      },
+      {
+        "icon": "fast-forward",
+        "title": {
+          "en": "Postponing events",
+          "de": "Termine verschieben"
+        },
+        "description": {
+          "en": "Move all events to a later date",
+          "de": "Alle Termine auf ein späteres Datum verschieben"
+        },
+        "support": {
+          "Apollusia": true,
+          "Doodle": false,
+          "DuD-Poll": false,
+          "Calendly": false
+        }
+      },
+      {
+        "icon": "calendar2-week",
+        "title": {
+          "en": "iCal Export",
+          "de": "iCal-Export"
+        },
+        "description": {
+          "en": "Keep track of your polled events and 1-1 meetings using your favorite calendar app",
+          "de": "Behalte deine abgefragten Termine und Einzelgespräche mit deiner bevorzugten Kalender-App im Blick"
+        },
+        "support": {
+          "Apollusia": true,
+          "Doodle": "Paid option",
+          "DuD-Poll": false,
+          "Calendly": true
+        }
       }
-    }
-  ],
-  "Poll Options": [
-    {
-      "icon": "1-square",
-      "title": "Participation limit",
-      "description": "Limit the number of participants",
-      "support": {
-        "Apollusia": true,
-        "Doodle": true,
-        "DuD-Poll": false,
-        "Calendly": false
-      }
+    ]
+  },
+  {
+    "title": {
+      "en": "Poll Management",
+      "de": "Umfragen verwalten"
     },
-    {
-      "icon": "question-square",
-      "title": "Maybe Option",
-      "description": "Friendlier event selection with a Maybe option",
-      "support": {
-        "Apollusia": true,
-        "Doodle": "Always",
-        "DuD-Poll": "Always",
-        "Calendly": false
+    "features": [
+      {
+        "icon": "send",
+        "title": {
+          "en": "Invite Participants",
+          "de": "Teilnehmende einladen"
+        },
+        "description": {
+          "en": "Invite participants via email or other means",
+          "de": "Teilnehmende per E-Mail oder auf anderem Weg einladen"
+        },
+        "support": {
+          "Apollusia": true,
+          "Doodle": true,
+          "DuD-Poll": true,
+          "Calendly": true
+        }
+      },
+      {
+        "icon": "bell",
+        "title": {
+          "en": "Notifications",
+          "de": "Benachrichtigungen"
+        },
+        "description": {
+          "en": "Receive quick updates to polls and participations via Push Notifications on all your devices",
+          "de": "Erhalte auf all deinen Geräten schnelle Aktualisierungen zu Umfragen und Teilnahmen per Push-Benachrichtigung"
+        },
+        "support": {
+          "Apollusia": true,
+          "Doodle": true,
+          "DuD-Poll": false,
+          "Calendly": true
+        }
+      },
+      {
+        "icon": "envelope",
+        "title": {
+          "en": "Email Updates",
+          "de": "E-Mail-Aktualisierungen"
+        },
+        "description": {
+          "en": "Receive detailed updates to polls and participations via Email",
+          "de": "Erhalte detaillierte Aktualisierungen zu Umfragen und Teilnahmen per E-Mail"
+        },
+        "support": {
+          "Apollusia": true,
+          "Doodle": true,
+          "DuD-Poll": false,
+          "Calendly": true
+        }
+      },
+      {
+        "icon": "clock-history",
+        "title": {
+          "en": "History",
+          "de": "Verlauf"
+        },
+        "description": {
+          "en": "See all changes to a poll",
+          "de": "Alle Änderungen an einer Umfrage ansehen"
+        },
+        "support": {
+          "Apollusia": true,
+          "Doodle": false,
+          "DuD-Poll": true,
+          "Calendly": false
+        }
+      },
+      {
+        "icon": "universal-access-circle",
+        "title": {
+          "en": "Access Control",
+          "de": "Zugriffskontrolle"
+        },
+        "description": {
+          "en": "Restrict access to your poll",
+          "de": "Den Zugriff auf deine Umfrage einschränken"
+        },
+        "support": {
+          "Apollusia": true,
+          "Doodle": false,
+          "DuD-Poll": true,
+          "Calendly": false
+        }
       }
-    },
-    {
-      "icon": "calendar-day",
-      "title": "Deadline",
-      "description": "Set a deadline for new participations",
-      "support": {
-        "Apollusia": true,
-        "Doodle": "Paid option",
-        "DuD-Poll": false,
-        "Calendly": false
-      }
-    },
-    {
-      "icon": "markdown",
-      "title": "Rich Text and Links in Description",
-      "description": "Add Markdown formatted text and links to the description",
-      "support": {
-        "Apollusia": true,
-        "Doodle": false,
-        "DuD-Poll": false,
-        "Calendly": true
-      }
-    },
-    {
-      "icon": "calendar-week",
-      "title": "Events of varying length",
-      "description": "Every event can have its own length",
-      "support": {
-        "Apollusia": true,
-        "Doodle": false,
-        "DuD-Poll": false,
-        "Calendly": false
-      }
-    },
-    {
-      "icon": "sticky",
-      "title": "Event Notes",
-      "description": "Add notes to events to provide additional information",
-      "support": {
-        "Apollusia": true,
-        "Doodle": false,
-        "DuD-Poll": false,
-        "Calendly": false
-      }
-    }
-  ],
-  "Productivity": [
-    {
-      "icon": "calendar-range",
-      "title": "Autofill",
-      "description": "Create many sequential events automatically, with breaks and on multiple days",
-      "support": {
-        "Apollusia": true,
-        "Doodle": false,
-        "DuD-Poll": "Repeating the time for every day is possible",
-        "Calendly": false
-      }
-    },
-    {
-      "icon": "copy",
-      "title": "Cloning polls",
-      "description": "Clone polls to start off with the same options",
-      "support": {
-        "Apollusia": true,
-        "Doodle": false,
-        "DuD-Poll": false,
-        "Calendly": false
-      }
-    },
-    {
-      "icon": "fast-forward",
-      "title": "Postponing events",
-      "description": "Move all events to a later date",
-      "support": {
-        "Apollusia": true,
-        "Doodle": false,
-        "DuD-Poll": false,
-        "Calendly": false
-      }
-    },
-    {
-      "icon": "calendar2-week",
-      "title": "iCal Export",
-      "description": "Keep track of your polled events and 1-1 meetings using your favorite calendar app",
-      "support": {
-        "Apollusia": true,
-        "Doodle": "Paid option",
-        "DuD-Poll": false,
-        "Calendly": true
-      }
-    }
-  ],
-  "Poll Management": [
-    {
-      "icon": "send",
-      "title": "Invite Participants",
-      "description": "Invite participants via email or other means",
-      "support": {
-        "Apollusia": true,
-        "Doodle": true,
-        "DuD-Poll": true,
-        "Calendly": true
-      }
-    },
-    {
-      "icon": "bell",
-      "title": "Notifications",
-      "description": "Receive quick updates to polls and participations via Push Notifications on all your devices",
-      "support": {
-        "Apollusia": true,
-        "Doodle": true,
-        "DuD-Poll": false,
-        "Calendly": true
-      }
-    },
-    {
-      "icon": "envelope",
-      "title": "Email Updates",
-      "description": "Receive detailed updates to polls and participations via Email",
-      "support": {
-        "Apollusia": true,
-        "Doodle": true,
-        "DuD-Poll": false,
-        "Calendly": true
-      }
-    },
-    {
-      "icon": "clock-history",
-      "title": "History",
-      "description": "See all changes to a poll",
-      "support": {
-        "Apollusia": true,
-        "Doodle": false,
-        "DuD-Poll": true,
-        "Calendly": false
-      }
-    },
-    {
-      "icon": "universal-access-circle",
-      "title": "Access Control",
-      "description": "Restrict access to your poll",
-      "support": {
-        "Apollusia": true,
-        "Doodle": false,
-        "DuD-Poll": true,
-        "Calendly": false
-      }
-    }
-  ]
-}
+    ]
+  }
+]

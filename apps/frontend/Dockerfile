@@ -1,4 +1,4 @@
-FROM node:26-slim as builder
+FROM node:26-slim AS builder
 WORKDIR /app
 RUN npm install -g corepack && corepack enable
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./

@@ -40,8 +40,8 @@ export const environment = {
   },
   mail: {
     transport: {
-      host: process.env.EMAIL_HOST,
-      port: process.env.EMAIL_PORT,
+      host: process.env.EMAIL_HOST || 'localhost',
+      port: +(process.env.EMAIL_PORT || 1025),
       secure: process.env.EMAIL_SSL,
       opportunisticTLS: process.env.EMAIL_STARTTLS,
       auth: {

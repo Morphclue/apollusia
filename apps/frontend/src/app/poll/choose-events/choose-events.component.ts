@@ -30,6 +30,7 @@ import {PollService} from '../services/poll.service';
 import {TableComponent} from '../table/table.component';
 
 interface SortMethod {
+  id: string;
   name: string;
   description: string;
   defaultDirection: 1 | -1;
@@ -79,39 +80,44 @@ export class ChooseEventsComponent implements OnInit {
 
   readonly view$ = this.route.queryParams.pipe(map(({view}) => view ?? 'table'));
   readonly views = [
-    {id: 'table', name: 'Table', icon: 'bi-table'},
-    {id: 'events', name: 'List of Events', icon: 'bi-list-ol'},
+    {id: 'table', name: $localize`:@@poll-view-table:Table`, icon: 'bi-table'},
+    {id: 'events', name: $localize`:@@poll-view-event-list:List of Events`, icon: 'bi-list-ol'},
   ];
 
-  currentSort = 'Created';
+  currentSort = 'created';
   currentSortDirection: 1 | -1 = 1;
   sortMethods = [
     {
-      name: 'Created',
-      description: 'View the participants in the order they joined the poll.',
+      id: 'created',
+      name: $localize`:@@poll-sort-created:Created`,
+      description: $localize`:@@poll-sort-created-description:View the participants in the order they joined the poll.`,
       defaultDirection: 1,
       by: p => p.createdAt,
     },
     {
-      name: 'Updated',
-      description: 'View the participants in the order they last updated their vote.',
+      id: 'updated',
+      name: $localize`:@@poll-sort-updated:Updated`,
+      description: $localize`:@@poll-sort-updated-description:View the participants in the order they last updated their vote.`,
       defaultDirection: 1,
       by: p => p.updatedAt,
     },
     {
-      name: 'Name',
-      description: 'View the participants in alphabetical order.',
+      id: 'name',
+      name: $localize`:@@poll-sort-name:Name`,
+      description: $localize`:@@poll-sort-name-description:View the participants in alphabetical order.`,
       defaultDirection: 1,
       by: p => p.name,
     },
     {
-      name: 'Yes Votes',
-      description: 'View the participants with the most "yes" or "maybe" votes.',
+      id: 'yes-votes',
+      name: $localize`:@@poll-sort-yes-votes:Yes Votes`,
+      description: $localize`:@@poll-sort-yes-votes-description:View the participants with the most "yes" or "maybe" votes.`,
       defaultDirection: -1,
       by: p => Object.values(p.selection).filter(s => s === 'yes' || s === 'maybe').length},
     {
-      name: 'First Event',
-      description: 'View the participants in the order of the events they selected.',
+      id: 'first-event',
+      name: $localize`:@@poll-sort-first-event:First Event`,
+      description: $localize`:@@poll-sort-first-event-description:View the participants in the order of the events they selected.`,
       defaultDirection: 1,
       by: p => this.pollEvents?.findIndex(e => p.selection[e._id] === 'yes' || p.selection[e._id] === 'maybe'),
     },
@@ -148,11 +154,15 @@ export class ChooseEventsComponent implements OnInit {
       next: () => this.updateHelpers(),
       error: error => {
         if (error.status === 404) {
-          this.title.setTitle('Poll not found - Apollusia');
-          this.closedReason = 'This poll does not exist.';
+          this.title.setTitle($localize`:@@poll-not-found-title:Poll not found - Apollusia`);
+          this.closedReason = $localize`:@@poll-not-found:This poll does not exist.`;
           this.storageService.delete(`recentPolls/${this.route.snapshot.params['id']}`);
         } else {
-          this.toastService.error('Failed to load poll', 'Please try again later.', error);
+          this.toastService.error(
+            $localize`:@@poll-load-failed:Failed to load poll`,
+            $localize`:@@poll-load-failed-retry:Please try again later.`,
+            error,
+          );
         }
       },
     });
@@ -181,10 +191,10 @@ export class ChooseEventsComponent implements OnInit {
   // Primary Actions
 
   sort(sortMethod: SortMethod) {
-    if (this.currentSort === sortMethod.name) {
+    if (this.currentSort === sortMethod.id) {
       this.currentSortDirection *= -1;
     } else {
-      this.currentSort = sortMethod.name;
+      this.currentSort = sortMethod.id;
       this.currentSortDirection = sortMethod.defaultDirection;
     }
     this.participants?.sort((a, b) => {
@@ -212,9 +222,9 @@ export class ChooseEventsComponent implements OnInit {
     const deadline = this.poll?.settings.deadline;
     const maxParticipants = this.poll?.settings.maxParticipants;
     if (deadline && new Date(deadline) < new Date()) {
-      this.closedReason = 'This poll is over because the deadline has passed. You can no longer submit your vote.';
+      this.closedReason = $localize`:@@poll-closed-deadline:This poll is over because the deadline has passed. You can no longer submit your vote.`;
     } else if (maxParticipants && this.poll && this.poll.participants >= maxParticipants) {
-      this.closedReason = 'This poll has reached it\'s maximum number of participants. You can no longer submit your vote.';
+      this.closedReason = $localize`:@@poll-closed-participant-limit:This poll has reached its maximum number of participants. You can no longer submit your vote.`;
     } else {
       this.closedReason = undefined;
     }
@@ -223,17 +233,17 @@ export class ChooseEventsComponent implements OnInit {
   private updateHiddenReason() {
     switch (this.poll?.settings.showResult) {
       case ShowResultOptions.NEVER:
-        this.hiddenReason = this.poll?.adminRole ? undefined : 'The results of this poll are hidden. You will only be able to see your own votes.';
+        this.hiddenReason = this.poll?.adminRole ? undefined : $localize`:@@poll-results-hidden:Results of this poll are hidden. You will only be able to see your own votes.`;
         break;
       case ShowResultOptions.AFTER_PARTICIPATING:
-        this.hiddenReason = this.poll.adminRole || this.userVoted() ? undefined : 'This is a blind poll. You can\'t see results or other user\'s votes until you participate yourself.';
+        this.hiddenReason = this.poll.adminRole || this.userVoted() ? undefined : $localize`:@@poll-blind:This is a blind poll. You can't see results or other users' votes until you participate yourself.`;
         break;
       case ShowResultOptions.AFTER_DEADLINE: {
         const deadline = this.poll.settings.deadline;
         if (this.poll.adminRole || !deadline || new Date(deadline) < new Date()) {
           this.hiddenReason = undefined;
         } else {
-          this.hiddenReason = 'The results of this poll are hidden until the deadline is over. You can only see your own votes.';
+          this.hiddenReason = $localize`:@@poll-results-hidden-until-deadline:Results of this poll are hidden until the deadline is over. You can only see your own votes.`;
         }
         break;
       }
