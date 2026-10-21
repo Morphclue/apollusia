@@ -3,6 +3,7 @@ import {dirname} from 'path';
 import {fileURLToPath} from 'url';
 import js from '@eslint/js';
 import nxEslintPlugin from '@nx/eslint-plugin';
+import vitest from '@vitest/eslint-plugin';
 import importPlugin from 'eslint-plugin-import';
 import ts from '@typescript-eslint/eslint-plugin';
 import stylistic from '@stylistic/eslint-plugin';
@@ -57,19 +58,21 @@ export default [
         ...config.rules,
       },
     })),
-  ...compat
-    .config({
-      env: {
-        jest: true,
-      },
-    })
-    .map((config) => ({
-      ...config,
-      files: ['**/*.spec.ts', '**/*.spec.tsx', '**/*.spec.js', '**/*.spec.jsx'],
-      rules: {
-        ...config.rules,
-      },
-    })),
+  {
+    ...vitest.configs.recommended,
+    files: [
+      '**/*.spec.ts',
+      '**/*.spec.js',
+      '**/*.test.ts',
+      '**/*.test.js',
+    ],
+    languageOptions: {
+      globals: vitest.environments.env.globals,
+    },
+    rules: {
+      'vitest/valid-title': 'off',
+    },
+  },
   {
     rules: {
       '@typescript-eslint/no-explicit-any': 'off',

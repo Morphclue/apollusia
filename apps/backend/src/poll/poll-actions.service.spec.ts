@@ -3,6 +3,7 @@ import {NotFoundException} from '@nestjs/common';
 import {MongooseModule} from '@nestjs/mongoose';
 import {Test, TestingModule} from '@nestjs/testing';
 import {Document, Model, Types} from 'mongoose';
+import {afterAll, beforeAll, describe, expect, it} from 'vitest';
 
 import {ParticipantStub, PollEventStub, PollStub} from '../../test/stubs';
 import {PollActionsService} from './poll-actions.service';

@@ -41,21 +41,6 @@
           "buildTarget": "backend:build:production"
         }
       }
-    },
-    "test": {
-      "outputs": [
-        "{workspaceRoot}/coverage/{projectRoot}",
-        "{workspaceRoot}\\coverage\\apps\\backend"
-      ],
-      "options": {
-        "passWithNoTests": true
-      },
-      "configurations": {
-        "ci": {
-          "ci": true,
-          "coverage": true
-        }
-      }
     }
   }
 }

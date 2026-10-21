@@ -116,21 +116,6 @@
         "format": "json"
       }
     },
-    "test": {
-      "outputs": [
-        "{workspaceRoot}/coverage/{projectRoot}",
-        "{workspaceRoot}\\coverage\\apps\\frontend"
-      ],
-      "options": {
-        "passWithNoTests": true
-      },
-      "configurations": {
-        "ci": {
-          "ci": true,
-          "coverage": true
-        }
-      }
-    },
     "serve-static": {
       "executor": "@nx/web:file-server",
       "options": {

@@ -2,19 +2,21 @@ import {Participant, Poll, PollEvent} from '@apollusia/types';
 import {MongooseModule} from '@nestjs/mongoose';
 import {Test, TestingModule} from '@nestjs/testing';
 import {Model} from 'mongoose';
+import {afterAll, beforeAll, describe, expect, it} from 'vitest';
 
 import {StatisticsService} from './statistics.service';
 import {ParticipantStub, PollEventStub, PollStub} from '../../../test/stubs';
 import {StatisticsModule} from '../statistics.module';
 
-describe('StatisticsService', () => {
+describe(StatisticsService.name, () => {
   let service: StatisticsService;
   let pollModel: Model<Poll>;
   let pollEventModel: Model<PollEvent>;
   let participantModel: Model<Participant>;
+  let module: TestingModule;
 
   beforeAll(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    module = await Test.createTestingModule({
       imports: [
         MongooseModule.forRoot(process.env.MONGO_URI + 'StatisticsService'),
         StatisticsModule,
@@ -25,6 +27,10 @@ describe('StatisticsService', () => {
     pollEventModel = module.get('PollEventModel');
     participantModel = module.get('ParticipantModel');
     service = module.get<StatisticsService>(StatisticsService);
+  });
+
+  afterAll(async () => {
+    await module.close();
   });
 
   it('should get empty statistics', async () => {

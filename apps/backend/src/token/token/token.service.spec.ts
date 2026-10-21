@@ -2,17 +2,19 @@ import {Poll} from '@apollusia/types';
 import {MongooseModule} from '@nestjs/mongoose';
 import {Test, TestingModule} from '@nestjs/testing';
 import {Model} from 'mongoose';
+import {afterAll, beforeAll, describe, expect, it} from 'vitest';
 
 import {TokenService} from './token.service';
 import {PollStub} from '../../../test/stubs';
 import {TokenModule} from '../token.module';
 
-describe('TokenService', () => {
+describe(TokenService.name, () => {
   let service: TokenService;
   let pollModel: Model<Poll>;
+  let module: TestingModule;
 
   beforeAll(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    module = await Test.createTestingModule({
       imports: [
         MongooseModule.forRoot(process.env.MONGO_URI + 'TokenService'),
         TokenModule,
@@ -21,6 +23,10 @@ describe('TokenService', () => {
 
     pollModel = module.get('PollModel');
     service = module.get<TokenService>(TokenService);
+  });
+
+  afterAll(async () => {
+    await module.close();
   });
 
   it('should generate a token', async () => {
