@@ -92,7 +92,7 @@
     "@angular/localize": "22.1.8",
     "@angular/platform-browser": "22.1.8",
     "@angular/platform-browser-dynamic": "22.1.7",
-    "@angular/platform-server": "22.1.8",
+    "@angular/platform-server": "22.2.1",
     "@angular/pwa": "22.1.9",
     "@angular/router": "22.1.8",
     "@angular/service-worker": "22.1.8",
