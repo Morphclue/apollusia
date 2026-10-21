@@ -14,21 +14,6 @@
         "tsConfig": "libs/types/tsconfig.lib.json",
         "assets": ["libs/types/*.md"]
       }
-    },
-    "test": {
-      "outputs": [
-        "{workspaceRoot}/coverage/{projectRoot}",
-        "{workspaceRoot}\\coverage\\libs\\types"
-      ],
-      "options": {
-        "passWithNoTests": true
-      },
-      "configurations": {
-        "ci": {
-          "ci": true,
-          "coverage": true
-        }
-      }
     }
   }
 }

@@ -2,6 +2,7 @@ import {Poll} from '@apollusia/types';
 import {MongooseModule} from '@nestjs/mongoose';
 import {Test, TestingModule} from '@nestjs/testing';
 import {Types} from 'mongoose';
+import {afterAll, beforeAll, describe, expect, it} from 'vitest';
 
 import {ParticipantStub, PollStub} from '../../test/stubs';
 import {PollModule} from './poll.module';

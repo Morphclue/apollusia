@@ -1,8 +1,12 @@
 import {MongoMemoryServer} from 'mongodb-memory-server';
 
-export = async function globalSetup() {
-  // it's needed in global space, because we don't want to create a new instance every test-suite
+export default async function globalSetup() {
   const instance = await MongoMemoryServer.create();
-  (global as any).__MONGOINSTANCE = instance;
   process.env.MONGO_URI = instance.getUri();
-};
+  process.env.KEYCLOAK_CLIENT_SECRET ||= 'test-client-secret';
+  process.env.AUTH_PUBLIC_KEY ||= 'test-public-key';
+
+  return async () => {
+    await instance.stop();
+  };
+}
