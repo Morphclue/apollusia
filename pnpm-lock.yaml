@@ -80,8 +80,8 @@ importers:
         specifier: ^0.15.0
         version: 0.15.0(3da45fefd0fe76e3327d3dad1c739ecf)
       '@nestjs-modules/mailer':
-        specifier: ^3.0.2
-        version: 3.0.2(@nestjs/common@11.2.8(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@7.2.0))(@nestjs/core@11.2.8)(@nestjs/event-emitter@3.1.0(@nestjs/common@11.2.8(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@7.2.0))(@nestjs/core@11.2.8))(ejs@5.0.1)(handlebars@4.7.10)(nodemailer@9.1.1)
+        specifier: ^4.0.0
+        version: 4.0.0(@nestjs/common@11.2.8(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@7.2.0))(@nestjs/core@11.2.8)(@nestjs/event-emitter@3.1.0(@nestjs/common@11.2.8(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@7.2.0))(@nestjs/core@11.2.8))(ejs@5.0.1)(handlebars@4.7.10)(nodemailer@9.1.1)
       '@nestjs/common':
         specifier: ^11.2.8
         version: 11.2.8(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@7.2.0)
@@ -1987,78 +1987,78 @@ packages:
     resolution: {integrity: sha512-IchNf6dN4tHoMFIn/7OE8LWZ19Y6q/67Bmf6vnGREv8RSbBVb9LPJxEcnwrcwX6ixSvaiGoomAUvu4YSxXrVgw==}
     engines: {node: '>=12'}
 
-  '@css-inline/css-inline-android-arm-eabi@0.22.0':
-    resolution: {integrity: sha512-SAKnj3t5SpO5WOP6mSt+LQ+bANcXgx05oS/pEjWugfA5yM4Gcfsu6vqqZIljZSgfwxomGj9KJZvyUCvUzcL88w==}
+  '@css-inline/css-inline-android-arm-eabi@0.23.1':
+    resolution: {integrity: sha512-NBuf2IYPsmmNe5NmF4j6d66U52BxaboMBrHgemWi8c+r6VEggDRnW2YRrIqHBeyM4MGqvQGQDJUwldVtIX8caw==}
     engines: {node: '>= 10'}
     cpu: [arm]
     os: [android]
 
-  '@css-inline/css-inline-android-arm64@0.22.0':
-    resolution: {integrity: sha512-MGCtmZXsM1zqR16LLKYrCQHrrDLEMBPiFaImGFKHZpUgH7LF/wH94QjD0LyryPDbkbEz2qbJ8CCkIx1oQN1jAQ==}
+  '@css-inline/css-inline-android-arm64@0.23.1':
+    resolution: {integrity: sha512-YOY6aD1v2xSxretgEVflGk09f5NrDH98dNkXPJ63n23K8JC2mE6tgreoMpT/bQUM/fEGLHAXPSWED2fkTs71BQ==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [android]
 
-  '@css-inline/css-inline-darwin-arm64@0.22.0':
-    resolution: {integrity: sha512-/1536wbgC3ajWE/wQpQMrO+es+dCZ6ApYusjSTu+D4wA9c+WQTmc5wT1og09P8FTGzP0y/N2Mec9AsYB2yL1FA==}
+  '@css-inline/css-inline-darwin-arm64@0.23.1':
+    resolution: {integrity: sha512-kZatwX1dbqxznKQkfdgyWFRc8nZO99rqj7k8Ml7WaVkRv4hw7FT+NlMTrvgrEjRRF5NaOU/HZFNgsGKSlw5OQg==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [darwin]
 
-  '@css-inline/css-inline-darwin-x64@0.22.0':
-    resolution: {integrity: sha512-99PM7DCxDQ6yzmlM7BrsTJKauGx0D5WGm70DEIBlhI87it7rax0i2kyykV/xgojOihttR4EbzF1jv9opvKpn+A==}
+  '@css-inline/css-inline-darwin-x64@0.23.1':
+    resolution: {integrity: sha512-dBKFJU8Txq2XADfnGqDbIK4cudTBSr+EAlGZzuTZZcT6LyG3IWiasTw1wZBBscyLD8OE6/rPuFNqMXI6WZPeLw==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [darwin]
 
-  '@css-inline/css-inline-linux-arm-gnueabihf@0.22.0':
-    resolution: {integrity: sha512-5QBP5gunVeQvM2dcirBgSPgeS7hxN5fZO+VGtp1meVw8zArP40MFhnC0yPqt6kCVUjVgchBmYy8PmA/iLS4a+w==}
+  '@css-inline/css-inline-linux-arm-gnueabihf@0.23.1':
+    resolution: {integrity: sha512-9i/UnL9OQgAiy+XDR9kvyNkaRrxcOunU9kdk7RcbVNlNrmJxUFhsNa84DoDps8Loa0yipm7wmvdJjRvlcHLwPw==}
     engines: {node: '>= 10'}
     cpu: [arm]
     os: [linux]
 
-  '@css-inline/css-inline-linux-arm64-gnu@0.22.0':
-    resolution: {integrity: sha512-UMmZr5kJOZ67LbBZZsGdD2mPhCDGwfCj3/Aaw2srY3lc99HiGAqQ4qgjd9sOI7W85kmBmUEqnf/X60JOJsAhWw==}
+  '@css-inline/css-inline-linux-arm64-gnu@0.23.1':
+    resolution: {integrity: sha512-nLFA0w6VNME26XLpsgQbdw5sUnDWaiAlfejW8EZXdbD5hZ9Bke5T680LDBBH/m/EUsKmsAZOAOuU2psS9xgK0w==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [linux]
     libc: [glibc]
 
-  '@css-inline/css-inline-linux-arm64-musl@0.22.0':
-    resolution: {integrity: sha512-QgeTwJtVibEE4NN1vDu5xRPrQNWedUyfQyCHxlsh6vdXY8nZ9cd9iFa4aguqaAi7ljr6gkjAFuERHULSjynLJg==}
+  '@css-inline/css-inline-linux-arm64-musl@0.23.1':
+    resolution: {integrity: sha512-6//nmftLq/9fxIEh66Efw5m0I3hRy+L7bau8s1UwOcS/61DjGNHopMlW//eePUCt0a9XMCgtOif77GTm9uktcg==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [linux]
     libc: [musl]
 
-  '@css-inline/css-inline-linux-x64-gnu@0.22.0':
-    resolution: {integrity: sha512-l8QAh5/zEdYNlS1Ctqi/0D9tDXhEic9w9ou7FTxmQjMirAg2+oUmiraqWNnZr0YeYySPN500XHbCKDGq9ACYRg==}
+  '@css-inline/css-inline-linux-x64-gnu@0.23.1':
+    resolution: {integrity: sha512-ChCbuzw47KoLUZzcjQdDKKr04fJ0mQfAbck3uvl9qdmRLxMRvXBo8nW72f6ObiflduWn1Aehhhw/91zYMb/Ptw==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [linux]
     libc: [glibc]
 
-  '@css-inline/css-inline-linux-x64-musl@0.22.0':
-    resolution: {integrity: sha512-9LcUU2ZJl7VGfcCa6LGCeGQsnUomLgcxJvbnCWiSH7A8iP1O5tZ2HWIj9j8zpCEHciBwn9WklWewZ4gP0ZlB9A==}
+  '@css-inline/css-inline-linux-x64-musl@0.23.1':
+    resolution: {integrity: sha512-Oc1J2cO30AvEduYNqmclxCelNcTW9Z33JFYd0Z6X2D/mFnGoQ305hiw08+FbWm6BlqOEuIHkIMCIFPdPNCqjMw==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [linux]
     libc: [musl]
 
-  '@css-inline/css-inline-win32-arm64-msvc@0.22.0':
-    resolution: {integrity: sha512-Sn2F+N3NiMFkho6r4JGgdkiwGmjR9tzUY+pSQ3Jtosruos7rF0qtCBSycu2O3Kceuf/rWaKi3H0q0TnjrSYRVw==}
+  '@css-inline/css-inline-win32-arm64-msvc@0.23.1':
+    resolution: {integrity: sha512-Ow+uqReICLRQnYriJeROyzsgrn/uBEeVvtgTMpcGPEep/mYIIMnlcVvHuORbZCtqcyWzqJrfkAOEqyto+TN1pQ==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [win32]
 
-  '@css-inline/css-inline-win32-x64-msvc@0.22.0':
-    resolution: {integrity: sha512-3K87N3QCyznTOuU4gZA3kkVlDSp5niKHTVL/7GtlkSLJQYb6s0ZfKxxBD8AUrOyajd4iYWyWsr8HM/Rs+BdUlg==}
+  '@css-inline/css-inline-win32-x64-msvc@0.23.1':
+    resolution: {integrity: sha512-Kc77TUMv4pw5iYTN5Csr8RRQBwrox0NfK56wWoFqaMzgSF6TPmy06CzVa8s6OFsgKmQBGqdJnKSxf5zscRdYPg==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [win32]
 
-  '@css-inline/css-inline@0.22.0':
-    resolution: {integrity: sha512-C1vALHUS02Vv8dBoH07A1fQG7F0Mf/SG7cfQw2BX0eHmUgw+rjWrW/hedP1CGNoBLjGVvBDyjYfVOSjgLdm18w==}
+  '@css-inline/css-inline@0.23.1':
+    resolution: {integrity: sha512-N4ztyLPGDmFB/VZ/kuDsD/d+AAnxfgMVlhuzawZ7CM5ueidmgR2m4Qvi+ackgy2KXkXCAF/2Rzgb2yFOo++neQ==}
     engines: {node: '>= 10'}
 
   '@csstools/color-helpers@6.1.2':
@@ -3176,19 +3176,21 @@ packages:
       '@emnapi/core': ^1.7.1 || 2.0.0-beta.2
       '@emnapi/runtime': ^1.7.1 || 2.0.0-beta.2
 
-  '@nestjs-modules/mailer@3.0.2':
-    resolution: {integrity: sha512-029fQd7UrTGNr+WogAgTUw5UHYCSLpnbQW7y5Ueyp6LZtAZssOjwqGcDqfYijNdxNKI8wdcBUfhVoOh39L+Z5w==}
+  '@nestjs-modules/mailer@4.0.0':
+    resolution: {integrity: sha512-UYlF1HSz4Kozls2oAdIpf5Bt2Es5fgugQ8uzOaahLIkzVPxzradg17afCTIzjcw7sqSdefDcCnt9hi2AylPXag==}
     peerDependencies:
       '@nestjs/common': '>=7.0.9'
       '@nestjs/core': '>=7.0.9'
       '@nestjs/event-emitter': '>=2.0.0'
+      '@nestjs/mail': '>=0.0.1'
+      '@nestjs/outbox': '>=0.1.3'
       '@nestjs/terminus': '>=10.0.0'
       '@types/ejs': '>=3.0.3'
       '@types/mjml': '>=4.7.4'
       '@types/pug': '>=2.0.6'
       bullmq: '>=4.0.0'
       ejs: '>=3.1.10'
-      handlebars: '>=4.7.9'
+      handlebars: '>=4.7.10'
       liquidjs: '>=10.25.5'
       mjml: '>=4.15.3'
       nodemailer: ^9.1.0
@@ -3197,6 +3199,10 @@ packages:
       pug: '>=3.0.3'
     peerDependenciesMeta:
       '@nestjs/event-emitter':
+        optional: true
+      '@nestjs/mail':
+        optional: true
+      '@nestjs/outbox':
         optional: true
       '@nestjs/terminus':
         optional: true
@@ -13777,52 +13783,52 @@ snapshots:
     dependencies:
       '@jridgewell/trace-mapping': 0.3.9
 
-  '@css-inline/css-inline-android-arm-eabi@0.22.0':
+  '@css-inline/css-inline-android-arm-eabi@0.23.1':
     optional: true
 
-  '@css-inline/css-inline-android-arm64@0.22.0':
+  '@css-inline/css-inline-android-arm64@0.23.1':
     optional: true
 
-  '@css-inline/css-inline-darwin-arm64@0.22.0':
+  '@css-inline/css-inline-darwin-arm64@0.23.1':
     optional: true
 
-  '@css-inline/css-inline-darwin-x64@0.22.0':
+  '@css-inline/css-inline-darwin-x64@0.23.1':
     optional: true
 
-  '@css-inline/css-inline-linux-arm-gnueabihf@0.22.0':
+  '@css-inline/css-inline-linux-arm-gnueabihf@0.23.1':
     optional: true
 
-  '@css-inline/css-inline-linux-arm64-gnu@0.22.0':
+  '@css-inline/css-inline-linux-arm64-gnu@0.23.1':
     optional: true
 
-  '@css-inline/css-inline-linux-arm64-musl@0.22.0':
+  '@css-inline/css-inline-linux-arm64-musl@0.23.1':
     optional: true
 
-  '@css-inline/css-inline-linux-x64-gnu@0.22.0':
+  '@css-inline/css-inline-linux-x64-gnu@0.23.1':
     optional: true
 
-  '@css-inline/css-inline-linux-x64-musl@0.22.0':
+  '@css-inline/css-inline-linux-x64-musl@0.23.1':
     optional: true
 
-  '@css-inline/css-inline-win32-arm64-msvc@0.22.0':
+  '@css-inline/css-inline-win32-arm64-msvc@0.23.1':
     optional: true
 
-  '@css-inline/css-inline-win32-x64-msvc@0.22.0':
+  '@css-inline/css-inline-win32-x64-msvc@0.23.1':
     optional: true
 
-  '@css-inline/css-inline@0.22.0':
+  '@css-inline/css-inline@0.23.1':
     optionalDependencies:
-      '@css-inline/css-inline-android-arm-eabi': 0.22.0
-      '@css-inline/css-inline-android-arm64': 0.22.0
-      '@css-inline/css-inline-darwin-arm64': 0.22.0
-      '@css-inline/css-inline-darwin-x64': 0.22.0
-      '@css-inline/css-inline-linux-arm-gnueabihf': 0.22.0
-      '@css-inline/css-inline-linux-arm64-gnu': 0.22.0
-      '@css-inline/css-inline-linux-arm64-musl': 0.22.0
-      '@css-inline/css-inline-linux-x64-gnu': 0.22.0
-      '@css-inline/css-inline-linux-x64-musl': 0.22.0
-      '@css-inline/css-inline-win32-arm64-msvc': 0.22.0
-      '@css-inline/css-inline-win32-x64-msvc': 0.22.0
+      '@css-inline/css-inline-android-arm-eabi': 0.23.1
+      '@css-inline/css-inline-android-arm64': 0.23.1
+      '@css-inline/css-inline-darwin-arm64': 0.23.1
+      '@css-inline/css-inline-darwin-x64': 0.23.1
+      '@css-inline/css-inline-linux-arm-gnueabihf': 0.23.1
+      '@css-inline/css-inline-linux-arm64-gnu': 0.23.1
+      '@css-inline/css-inline-linux-arm64-musl': 0.23.1
+      '@css-inline/css-inline-linux-x64-gnu': 0.23.1
+      '@css-inline/css-inline-linux-x64-musl': 0.23.1
+      '@css-inline/css-inline-win32-arm64-msvc': 0.23.1
+      '@css-inline/css-inline-win32-x64-msvc': 0.23.1
 
   '@csstools/color-helpers@6.1.2': {}
 
@@ -14920,14 +14926,14 @@ snapshots:
       '@tybys/wasm-util': 0.10.4
     optional: true
 
-  '@nestjs-modules/mailer@3.0.2(@nestjs/common@11.2.8(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@7.2.0))(@nestjs/core@11.2.8)(@nestjs/event-emitter@3.1.0(@nestjs/common@11.2.8(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@7.2.0))(@nestjs/core@11.2.8))(ejs@5.0.1)(handlebars@4.7.10)(nodemailer@9.1.1)':
+  '@nestjs-modules/mailer@4.0.0(@nestjs/common@11.2.8(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@7.2.0))(@nestjs/core@11.2.8)(@nestjs/event-emitter@3.1.0(@nestjs/common@11.2.8(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@7.2.0))(@nestjs/core@11.2.8))(ejs@5.0.1)(handlebars@4.7.10)(nodemailer@9.1.1)':
     dependencies:
-      '@css-inline/css-inline': 0.22.0
+      '@css-inline/css-inline': 0.23.1
       '@nestjs/common': 11.2.8(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@7.2.0)
       '@nestjs/core': 11.2.8(@nestjs/common@11.2.8(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@7.2.0))(@nestjs/microservices@11.2.8)(@nestjs/platform-express@11.2.8)(@nestjs/websockets@11.2.8)(reflect-metadata@0.2.2)(rxjs@7.8.2)
       glob: 13.0.6
       nodemailer: 9.1.1
-      tslib: 2.8.1
+      tslib: 2.9.1
     optionalDependencies:
       '@nestjs/event-emitter': 3.1.0(@nestjs/common@11.2.8(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@7.2.0))(@nestjs/core@11.2.8)
       ejs: 5.0.1
