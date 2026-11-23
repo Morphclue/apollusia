@@ -71,7 +71,7 @@
     "prettier": "^3.10.1",
     "sass": "1.108.2",
     "stylelint": "18.0.0",
-    "stylelint-config-standard-scss": "17.0.0",
+    "stylelint-config-standard-scss": "18.0.0",
     "ts-node": "10.9.2",
     "typescript": "6.0.3",
     "unplugin-swc": "2.0.0",
